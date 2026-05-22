@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendar Quest – MathMunch</title>
+<style>
+:root{
+  --primary:#6C5CE7;--primary-light:#E8E4FF;
+  --g1:#4ECDC4;--g2:#2ECC71;
+  --accent:#FDCB6E;--bg:#F0F4FF;
+  --white:#FFFFFF;--text:#1E1E2E;--text2:#525270;
+  --green:#00B894;--red:#FF4757;
+  --radius:16px;--shadow:0 4px 20px rgba(78,205,196,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFF9EC;color:var(--text);min-height:100vh}
+
+.topbar{background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);position:sticky;top:0;z-index:50}
+.topbar-inner{max-width:800px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.back-btn{text-decoration:none;background:var(--bg);color:var(--text2);padding:7px 14px;border-radius:10px;font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:5px;transition:all 0.2s}
+.back-btn:hover{background:var(--primary-light);color:var(--primary)}
+.topbar-logo{font-size:1rem;font-weight:900;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:6px}
+.topbar-sep{color:#ccc}
+.topbar-title{font-size:0.95rem;font-weight:800;flex:1}
+.level-badge{background:#FFFBE0;color:#F0A500;font-size:0.75rem;font-weight:800;padding:4px 10px;border-radius:20px;border:1px solid #F0A500}
+.score-display{background:linear-gradient(135deg,var(--g1),var(--g2));color:white;padding:6px 14px;border-radius:20px;font-weight:800;font-size:0.85rem}
+
+.game-area{max-width:800px;margin:0 auto;padding:24px 20px 100px}
+.question-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+.question-text{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.5}
+
+/* CALENDAR */
+.cal-wrap{margin:0 0 20px;overflow-x:auto}
+.cal-title{text-align:center;font-size:1.1rem;font-weight:900;color:var(--text);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px}
+.calendar{width:100%;border-collapse:collapse;min-width:320px}
+.calendar th{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;font-size:0.78rem;font-weight:800;padding:8px 4px;text-align:center}
+.calendar td{text-align:center;padding:6px 4px;font-size:0.85rem;font-weight:600;border:1px solid #E8F5E9;position:relative;min-width:40px;height:42px;vertical-align:middle}
+.calendar td.empty{background:#FAFAFA}
+.calendar td.weekend{background:#FFF8E1}
+.calendar td.today-hl{background:#E8F5E9}
+.calendar .event-cell{background:#E0F7FA}
+.event-emoji{display:block;font-size:0.95rem;line-height:1}
+.date-num{display:block;font-size:0.78rem;line-height:1.2}
+
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.ans-btn{background:var(--bg);border:2px solid #E0E7FF;border-radius:12px;padding:14px 10px;font-size:0.92rem;font-weight:700;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:center}
+.ans-btn:hover:not(:disabled){border-color:var(--g1);background:#E0FFF8;transform:translateY(-1px)}
+.ans-btn.correct{background:#D4EDDA;border-color:var(--green);color:var(--green)}
+.ans-btn.wrong{background:#FFE0E3;border-color:var(--red);color:var(--red)}
+.ans-btn:disabled{cursor:default;opacity:0.85}
+
+.feedback-bar{padding:12px 16px;border-radius:12px;font-weight:700;font-size:0.95rem;margin-top:12px;display:none}
+.feedback-bar.show{display:block}
+.feedback-bar.correct{background:#D4EDDA;color:#155724}
+.feedback-bar.wrong{background:#FFE0E3;color:#721C24}
+
+.progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:40}
+.progress-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.progress-label{font-size:0.82rem;font-weight:700;color:var(--text2);white-space:nowrap}
+.progress-track{flex:1;height:10px;background:#E0E7FF;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:99px;transition:width 0.4s ease}
+.progress-pct{font-size:0.82rem;font-weight:800;color:var(--g1);white-space:nowrap}
+
+.end-overlay{position:fixed;inset:0;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
+.end-overlay.show{display:flex}
+.end-card{background:var(--white);border-radius:24px;padding:40px 32px;max-width:400px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes popIn{from{transform:scale(0.6);opacity:0}to{transform:scale(1);opacity:1}}
+.end-emoji{font-size:3rem;margin-bottom:12px}
+.end-title{font-size:1.5rem;font-weight:900;margin-bottom:8px}
+.end-score{font-size:2.5rem;font-weight:900;color:var(--primary);margin-bottom:8px}
+.end-stars{font-size:2rem;letter-spacing:4px;margin-bottom:12px}
+.end-msg{font-size:1rem;color:var(--text2);margin-bottom:24px;font-weight:600}
+.btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:1rem;transition:all 0.2s;text-decoration:none;display:inline-block}
+.btn-geo:hover{transform:translateY(-2px)}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-secondary{background:var(--bg);color:var(--text2);border:2px solid #E0E7FF;border-radius:12px;font-weight:800;padding:12px 24px;cursor:pointer;font-size:0.9rem;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="../../index.html" class="back-btn">← All Games</a>
+    <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
+    <span class="topbar-sep">|</span>
+    <span class="topbar-title">🧭 Calendar Quest</span>
+    <span class="level-badge">P2</span>
+    <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
+  </div>
+</div>
+
+<div class="game-area">
+  <div class="question-card" id="questionCard">
+    <div class="question-text" id="questionText">Loading...</div>
+    <div id="calendarArea"></div>
+    <div class="answers-grid" id="answersGrid"></div>
+    <div class="feedback-bar" id="feedbackBar"></div>
+  </div>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-inner">
+    <span class="progress-label" id="progressLabel">Question 1 of 10</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+</div>
+
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🏆</div>
+    <div class="end-title" id="endTitle">Brilliant!</div>
+    <div class="end-score" id="endScore">10/10</div>
+    <div class="end-stars" id="endStars">★★★</div>
+    <div class="end-msg" id="endMsg">Calendar Champion!</div>
+    <div class="end-btns">
+      <button class="btn-geo" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn-secondary">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// September 2025: Sept 1 = Monday (day index 1)
+// Events: 🎓 on 1st, 🎂 on 14th, ⭐ on 20th
+const SEP_EVENTS = {1:'🎓', 14:'🎂', 20:'⭐'};
+
+function buildCalendar(highlightDays){
+  // Sept 2025: starts Monday, 30 days
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let html = `<div class="cal-wrap">
+    <div class="cal-title">📅 September 2025</div>
+    <table class="calendar">
+    <tr>`;
+  days.forEach(d => html += `<th>${d}</th>`);
+  html += '</tr>';
+
+  let dayOfWeek = 0; // 0=Mon,6=Sun, Sept 1 is Monday (index 0)
+  let date = 1;
+  for(let row=0; row<5; row++){
+    html += '<tr>';
+    for(let col=0; col<7; col++){
+      if(row===0 && col<dayOfWeek || date>30){
+        html += '<td class="empty"></td>';
+      } else {
+        const isWeekend = col>=5;
+        const event = SEP_EVENTS[date];
+        const isHL = highlightDays && highlightDays.includes(date);
+        let cls = 'calendar-date';
+        if(isWeekend) cls += ' weekend';
+        if(event) cls += ' event-cell';
+        if(isHL) cls += ' today-hl';
+        html += `<td class="${cls}">`;
+        if(event) html += `<span class="event-emoji">${event}</span>`;
+        html += `<span class="date-num">${date}</span></td>`;
+        date++;
+      }
+    }
+    html += '</tr>';
+    if(date>30) break;
+  }
+  html += '</table></div>';
+  return html;
+}
+
+const questions = [
+  {
+    text:'How many days are in a week?',
+    showCal:false,
+    options:['5','6','7','8'],
+    answer:'7',
+    explanation:'There are 7 days in a week: Mon, Tue, Wed, Thu, Fri, Sat, Sun.'
+  },
+  {
+    text:'How many months are in a year?',
+    showCal:false,
+    options:['10','11','12','13'],
+    answer:'12',
+    explanation:'There are 12 months in a year, from January to December.'
+  },
+  {
+    text:'Look at the September calendar. How many Saturdays are in this month?',
+    showCal:true,
+    highlight:[6,13,20,27],
+    options:['3','4','5','6'],
+    answer:'4',
+    explanation:'September 2025 has Saturdays on the 6th, 13th, 20th, and 27th — that is 4 Saturdays.'
+  },
+  {
+    text:'Which month comes AFTER October?',
+    showCal:false,
+    options:['September','August','November','December'],
+    answer:'November',
+    explanation:'The months in order are: …September, October, November, December. November comes after October.'
+  },
+  {
+    text:'How many days are in November?',
+    showCal:false,
+    options:['28','29','30','31'],
+    answer:'30',
+    explanation:'November has 30 days. Remember: 30 days has September, April, June, and November!'
+  },
+  {
+    text:'The 🎂 birthday party is on the 14th. The party falls on which day of the week?',
+    showCal:true,
+    highlight:[14],
+    options:['Monday','Tuesday','Saturday','Sunday'],
+    answer:'Sunday',
+    explanation:'In September 2025, the 14th is a Sunday. Look at the calendar — the 14th is in the Sunday column.'
+  },
+  {
+    text:'How many weeks are in a year?',
+    showCal:false,
+    options:['48','50','52','54'],
+    answer:'52',
+    explanation:'There are 52 weeks in a year (plus one or two extra days).'
+  },
+  {
+    text:'A school trip is on Wednesday the 17th. What day of the week is 3 days later?',
+    showCal:true,
+    highlight:[17,18,19,20],
+    options:['Thursday','Friday','Saturday','Sunday'],
+    answer:'Saturday',
+    explanation:'Wednesday + 1 = Thursday (18th), + 2 = Friday (19th), + 3 = Saturday (20th).'
+  },
+  {
+    text:'Which month is the THIRD month of the year?',
+    showCal:false,
+    options:['February','April','May','March'],
+    answer:'March',
+    explanation:'January (1st), February (2nd), March (3rd). March is the third month.'
+  },
+  {
+    text:'How many days are there from the 5th to the 19th (not including those days)?',
+    showCal:true,
+    highlight:[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
+    options:['12','13','14','15'],
+    answer:'13',
+    explanation:'From the 6th to the 18th = 18 − 6 + 1 = 13 days (the days between 5th and 19th, not including either).'
+  }
+];
+
+let current=0, score=0, answered=false;
+
+function renderQuestion(){
+  const q=questions[current];
+  const pct=Math.round((current/10)*100);
+  document.getElementById('progressLabel').textContent=`Question ${current+1} of 10`;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
+  answered=false;
+  document.getElementById('questionText').textContent=q.text;
+
+  const calArea=document.getElementById('calendarArea');
+  if(q.showCal) calArea.innerHTML=buildCalendar(q.highlight||[]);
+  else calArea.innerHTML='';
+
+  const grid=document.getElementById('answersGrid');
+  grid.innerHTML='';
+  q.options.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='ans-btn';
+    btn.textContent=opt;
+    btn.onclick=()=>selectAnswer(opt,btn);
+    grid.appendChild(btn);
+  });
+
+  const fb=document.getElementById('feedbackBar');
+  fb.className='feedback-bar'; fb.textContent='';
+}
+
+function selectAnswer(opt,btn){
+  if(answered)return;
+  answered=true;
+  const q=questions[current];
+  const correct=opt===q.answer;
+  if(correct)score++;
+  document.getElementById('scoreDisplay').textContent=score;
+
+  document.querySelectorAll('.ans-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===q.answer)b.classList.add('correct');
+  });
+  if(!correct)btn.classList.add('wrong');
+
+  const fb=document.getElementById('feedbackBar');
+  fb.className='feedback-bar '+(correct?'correct':'wrong')+' show';
+  fb.textContent=(correct?'Correct! ':'Not quite. ')+q.explanation;
+
+  setTimeout(()=>{
+    current++;
+    if(current>=10) showEnd();
+    else renderQuestion();
+  },1400);
+}
+
+function showEnd(){
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('progressPct').textContent='100%';
+  let emoji,title,stars,msg;
+  if(score>=9){emoji='🏆';title='Brilliant!';stars='★★★';msg='You are a Calendar Quest champion!'}
+  else if(score>=7){emoji='🎉';title='Well Done!';stars='★★☆';msg='Great calendar skills!'}
+  else{emoji='💪';title='Keep Trying!';stars='★☆☆';msg='Keep exploring the calendar — you\'ll get it!'}
+  document.getElementById('endEmoji').textContent=emoji;
+  document.getElementById('endTitle').textContent=title;
+  document.getElementById('endScore').textContent=score+'/10';
+  document.getElementById('endStars').textContent=stars;
+  document.getElementById('endMsg').textContent=msg;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame(){
+  current=0;score=0;answered=false;
+  document.getElementById('scoreDisplay').textContent='0';
+  document.getElementById('endOverlay').classList.remove('show');
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

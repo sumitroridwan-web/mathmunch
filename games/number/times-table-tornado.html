@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Times Table Tornado – MathMunch</title>
+<style>
+:root {
+  --primary: #6C5CE7;
+  --primary-light: #E8E4FF;
+  --accent: #FDCB6E;
+  --n1: #FF6B6B;
+  --n2: #FF8E53;
+  --bg: #F0F4FF;
+  --white: #FFFFFF;
+  --text: #1E1E2E;
+  --text2: #525270;
+  --green: #00B894;
+  --red: #FF4757;
+  --radius: 16px;
+  --shadow: 0 4px 20px rgba(108,92,231,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.5s;
+}
+
+/* Animated swirl background */
+@keyframes hueShift {
+  0%   { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+body.playing {
+  background: linear-gradient(135deg, #1a0533, #0D1F6E, #2D0B5A, #0E2A5C);
+  background-size: 400% 400%;
+  animation: gradShift 4s ease infinite;
+}
+@keyframes gradShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Tornado speed lines */
+@keyframes speedLine {
+  0%   { opacity: 0.8; transform: scaleX(1) translateX(0); }
+  100% { opacity: 0; transform: scaleX(3) translateX(60px); }
+}
+.speed-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 40px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.speed-overlay.show { opacity: 1; animation: speedFade 0.6s ease forwards; }
+@keyframes speedFade { 0%{opacity:1;} 100%{opacity:0;} }
+.speed-line {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(253,203,110,0.7), transparent);
+  border-radius: 99px;
+  animation: speedLine 0.5s ease-out forwards;
+}
+
+/* SCREEN SHAKE */
+@keyframes shake {
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-8px);}
+  40%{transform:translateX(8px);}
+  60%{transform:translateX(-5px);}
+  80%{transform:translateX(5px);}
+}
+body.shake { animation: shake 0.4s ease; }
+
+/* TOP BAR */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 12px rgba(108,92,231,0.10);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 20px; height: 60px;
+}
+.topbar a.back-btn { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
+.topbar .brand { font-weight: 800; font-size: 1rem; color: var(--primary); white-space: nowrap; }
+.topbar .game-title { font-weight: 700; font-size: 1rem; color: var(--text); flex: 1; text-align: center; }
+.level-badge { background: #E0F7FF; color: #0090C0; font-weight: 700; font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+.score-display { display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 0.95rem; color: var(--text); white-space: nowrap; }
+
+/* SELECTION SCREEN */
+#selectionScreen {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 16px;
+  text-align: center;
+}
+.sel-title { font-size: 2rem; font-weight: 900; color: var(--primary); margin-bottom: 6px; }
+.sel-subtitle { font-size: 1rem; color: var(--text2); margin-bottom: 28px; }
+.table-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.table-btn {
+  background: var(--white);
+  border: 3px solid var(--primary-light);
+  border-radius: var(--radius);
+  padding: 20px 10px;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.table-btn:hover { transform: translateY(-4px) scale(1.04); border-color: var(--primary); background: var(--primary-light); }
+.table-btn .tbl-num { font-size: 1.6rem; color: var(--primary); }
+.table-btn .tbl-icon { font-size: 1.2rem; }
+
+/* GAME SCREEN */
+#gameScreen { display: none; max-width: 800px; margin: 0 auto 100px; padding: 0 16px; }
+
+/* TIMER BAR */
+.timer-track {
+  height: 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.timer-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #00B894, #FDCB6E);
+  transition: width 0.1s linear, background 0.5s;
+}
+.timer-fill.danger { background: linear-gradient(90deg, #FF4757, #FF6B6B); }
+
+/* QUESTION CARD */
+.question-card {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
+  padding: 32px 24px 28px;
+  text-align: center;
+  margin-bottom: 20px;
+  backdrop-filter: blur(6px);
+  position: relative;
+}
+.table-label {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.question-eq {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: 8px;
+  text-shadow: 0 0 20px rgba(253,203,110,0.3);
+}
+.question-mark {
+  color: var(--accent);
+}
+
+/* LIGHTNING BADGE */
+.lightning-badge {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  background: linear-gradient(135deg, #FDCB6E, #FF8E53);
+  color: var(--white);
+  font-weight: 900;
+  font-size: 0.85rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(253,203,110,0.4);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all 0.2s ease;
+}
+.lightning-badge.show { opacity: 1; transform: scale(1); }
+
+/* ANSWERS */
+.answers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ans-btn {
+  background: rgba(255,255,255,0.10);
+  border: 2px solid rgba(108,92,231,0.4);
+  border-radius: var(--radius);
+  padding: 18px 12px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.ans-btn:hover:not(:disabled) {
+  background: rgba(108,92,231,0.35);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108,92,231,0.3);
+}
+.ans-btn:disabled { cursor: default; }
+.ans-btn.correct { background: rgba(0,184,148,0.25); border-color: var(--green); color: #7EFFD8; animation: popIn 0.3s ease; }
+.ans-btn.wrong { background: rgba(255,71,87,0.25); border-color: var(--red); color: #FF8E9E; }
+.ans-btn.reveal { background: rgba(0,184,148,0.25); border-color: var(--green); color: #7EFFD8; }
+@keyframes popIn { 0%{transform:scale(0.9);} 60%{transform:scale(1.1);} 100%{transform:scale(1);} }
+
+/* SCORE BAR */
+.score-bar-wrap {
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.score-bar-label { font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.7); white-space: nowrap; }
+.score-bar-track { flex: 1; height: 10px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; }
+.score-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--n2)); border-radius: 99px; transition: width 0.4s ease; }
+.score-bar-num { font-size: 0.9rem; font-weight: 900; color: var(--accent); white-space: nowrap; }
+
+/* FEEDBACK */
+.feedback { border-radius: 12px; padding: 10px 16px; font-size: 0.95rem; font-weight: 700; text-align: center; margin-top: 10px; display: none; }
+.feedback.show { display: block; }
+.feedback.correct-fb { background: rgba(0,184,148,0.15); color: #7EFFD8; border: 1px solid rgba(0,184,148,0.25); }
+.feedback.wrong-fb { background: rgba(255,71,87,0.15); color: #FF8E9E; border: 1px solid rgba(255,71,87,0.25); }
+
+/* PROGRESS BAR */
+.progress-bar-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: rgba(15,15,45,0.95); border-top: 1px solid rgba(108,92,231,0.2); padding: 10px 20px 14px; display: none; }
+.progress-bar-wrap.visible { display: block; }
+.progress-info { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+.progress-track { height: 10px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #6C5CE7, #A855F7, #FF6B6B); border-radius: 99px; transition: width 0.4s ease; }
+
+/* END SCREEN */
+.end-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 300; align-items: center; justify-content: center; display: none; }
+.end-overlay.show { display: flex; }
+.end-card { background: var(--white); border-radius: 24px; padding: 40px 32px; text-align: center; max-width: 380px; width: 90%; box-shadow: 0 8px 60px rgba(0,0,0,0.6); }
+.end-emoji { font-size: 3.5rem; margin-bottom: 8px; }
+.end-title { font-size: 1.6rem; font-weight: 900; color: var(--primary); margin-bottom: 4px; }
+.end-score { font-size: 2rem; font-weight: 900; color: var(--text); margin: 10px 0; }
+.end-sub { font-size: 0.9rem; color: var(--text2); margin-bottom: 4px; }
+.end-stars { font-size: 2rem; margin: 8px 0 20px; }
+.end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: var(--primary); color: var(--white); border: none; border-radius: 12px; padding: 12px 24px; font-size: 1rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s; }
+.btn-primary:hover { transform: scale(1.05); }
+.btn-secondary { background: var(--primary-light); color: var(--primary); border: none; border-radius: 12px; padding: 12px 24px; font-size: 1rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s; }
+.btn-secondary:hover { transform: scale(1.05); }
+</style>
+</head>
+<body>
+
+<!-- Speed lines overlay -->
+<div class="speed-overlay" id="speedOverlay">
+  <div class="speed-line" style="width:70%;margin-left:auto;animation-delay:0s"></div>
+  <div class="speed-line" style="width:50%;animation-delay:0.05s"></div>
+  <div class="speed-line" style="width:80%;margin-left:auto;animation-delay:0.1s"></div>
+  <div class="speed-line" style="width:60%;animation-delay:0.08s"></div>
+  <div class="speed-line" style="width:75%;margin-left:20px;animation-delay:0.03s"></div>
+</div>
+
+<div class="topbar">
+  <a href="../../index.html" class="back-btn">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="game-title">Times Table Tornado 🌪️</span>
+  <span class="level-badge">P3</span>
+  <span class="score-display" id="scoreDisplay">⭐ 0 / 20</span>
+</div>
+
+<!-- SELECTION SCREEN -->
+<div id="selectionScreen">
+  <div style="text-align:center; padding: 20px 0 10px;">
+    <div style="font-size:3rem;margin-bottom:8px;">🌪️</div>
+    <div class="sel-title">Choose Your Times Table!</div>
+    <div class="sel-subtitle">Pick a table to practise. Answer fast for bonus points! ⚡</div>
+  </div>
+  <div class="table-grid" id="tableGrid"></div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen">
+  <div class="timer-track" style="margin-top:20px;">
+    <div class="timer-fill" id="timerFill"></div>
+  </div>
+
+  <div class="question-card" id="questionCard">
+    <div class="lightning-badge" id="lightningBadge">⚡ Speed Bonus!</div>
+    <div class="table-label" id="tableLabel">7× Table</div>
+    <div class="question-eq" id="questionEq">7 × 4 = <span class="question-mark">?</span></div>
+  </div>
+
+  <div class="answers-grid" id="answersGrid"></div>
+  <div class="feedback" id="feedback"></div>
+
+  <div class="score-bar-wrap">
+    <div class="score-bar-label">Score</div>
+    <div class="score-bar-track">
+      <div class="score-bar-fill" id="scoreFill" style="width:0%"></div>
+    </div>
+    <div class="score-bar-num" id="scoreBarNum">0 / 20</div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap" id="progressBarWrap">
+  <div class="progress-info">
+    <span id="progressLabel">Question 1 of 10</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🌪️</div>
+    <div class="end-title" id="endTitle">Brilliant!</div>
+    <div class="end-sub" id="endSub">7× Table</div>
+    <div class="end-score" id="endScore">20 / 20</div>
+    <div class="end-stars" id="endStars">★★★</div>
+    <div class="end-btns">
+      <button class="btn-primary" onclick="backToSelection()">Play Again</button>
+      <a href="../../index.html" class="btn-secondary">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const TABLE_COLORS = {
+  2:'#FF6B6B',3:'#FF8E53',4:'#FDCB6E',5:'#00B894',
+  6:'#6C5CE7',7:'#A855F7',8:'#0090C0',9:'#FF4757',10:'#2D3436'
+};
+const TABLE_ICONS = {
+  2:'🐦',3:'🌈',4:'🍀',5:'⭐',6:'🎯',7:'🌪️',8:'🚀',9:'💎',10:'🔥'
+};
+
+let selectedTable = 0;
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+let timerInterval = null;
+let questionStartTime = 0;
+let questions = [];
+const TOTAL = 10;
+const MAX_SCORE = 20;
+const TIMER_MS = 8000;
+
+function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){const j=rand(0,i);[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+
+// Build selection screen
+function buildSelectionScreen(){
+  const grid = document.getElementById('tableGrid');
+  grid.innerHTML='';
+  [2,3,4,5,6,7,8,9,10].forEach(n=>{
+    const btn = document.createElement('button');
+    btn.className='table-btn';
+    btn.style.borderColor=TABLE_COLORS[n]+'80';
+    btn.innerHTML=`<span class="tbl-num" style="color:${TABLE_COLORS[n]}">${n}×</span><span class="tbl-icon">${TABLE_ICONS[n]}</span>`;
+    btn.onclick=()=>startGame(n);
+    grid.appendChild(btn);
+  });
+}
+
+function generateQuestions(n){
+  // All 1-12 multipliers, pick 10 random
+  const mult = shuffle([1,2,3,4,5,6,7,8,9,10,11,12]).slice(0,10);
+  return mult.map(m=>{
+    const answer = n*m;
+    // Distractors: nearby multiples of n, not answer
+    const pool = new Set();
+    for(let d=1;d<=12;d++){
+      const v=n*d;
+      if(v!==answer) pool.add(v);
+    }
+    // Pick 3 close ones
+    const sorted = [...pool].sort((a,b)=>Math.abs(a-answer)-Math.abs(b-answer));
+    const opts = shuffle([answer, sorted[0], sorted[1], sorted[2]]);
+    return {n, m, answer, options:opts};
+  });
+}
+
+function startGame(n){
+  selectedTable=n;
+  currentQuestion=0;
+  score=0;
+  questions=generateQuestions(n);
+
+  document.getElementById('selectionScreen').style.display='none';
+  document.getElementById('gameScreen').style.display='block';
+  document.getElementById('progressBarWrap').classList.add('visible');
+  document.body.classList.add('playing');
+  document.getElementById('scoreDisplay').textContent='⭐ 0 / 20';
+
+  showQuestion();
+}
+
+function showQuestion(){
+  answered=false;
+  clearInterval(timerInterval);
+
+  const q = questions[currentQuestion];
+  const fb = document.getElementById('feedback');
+  fb.className='feedback'; fb.textContent='';
+
+  document.getElementById('tableLabel').textContent=`${q.n}× Table`;
+  document.getElementById('questionEq').innerHTML=`${q.n} × ${q.m} = <span class="question-mark">?</span>`;
+  document.getElementById('lightningBadge').classList.remove('show');
+
+  const grid = document.getElementById('answersGrid');
+  grid.innerHTML='';
+  q.options.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='ans-btn';
+    btn.textContent=opt;
+    btn.onclick=()=>handleAnswer(opt, btn, q);
+    grid.appendChild(btn);
+  });
+
+  updateProgress();
+  startTimer(q);
+}
+
+function startTimer(q){
+  const fill = document.getElementById('timerFill');
+  fill.style.transition='none';
+  fill.style.width='100%';
+  fill.classList.remove('danger');
+
+  const startTime = performance.now();
+  questionStartTime = startTime;
+
+  timerInterval = setInterval(()=>{
+    const elapsed = performance.now() - startTime;
+    const pct = Math.max(0, 100 - (elapsed/TIMER_MS)*100);
+    fill.style.transition='width 0.1s linear';
+    fill.style.width=pct+'%';
+    if(pct < 30) fill.classList.add('danger');
+    if(elapsed >= TIMER_MS){
+      clearInterval(timerInterval);
+      handleTimeout(q);
+    }
+  }, 80);
+}
+
+function handleTimeout(q){
+  if(answered) return;
+  answered=true;
+  const btns = document.querySelectorAll('#answersGrid .ans-btn');
+  btns.forEach(b=>b.disabled=true);
+  btns.forEach(b=>{ if(+b.textContent===q.answer) b.classList.add('reveal'); });
+  const fb=document.getElementById('feedback');
+  fb.textContent=`⏰ Time's up! ${q.n} × ${q.m} = ${q.answer}`;
+  fb.className='feedback show wrong-fb';
+  triggerShake();
+  setTimeout(nextQuestion, 1400);
+}
+
+function handleAnswer(chosen, btn, q){
+  if(answered) return;
+  answered=true;
+  clearInterval(timerInterval);
+
+  const elapsed = performance.now() - questionStartTime;
+  const btns=document.querySelectorAll('#answersGrid .ans-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedback');
+
+  if(chosen===q.answer){
+    const fast = elapsed < 3000;
+    const pts = fast ? 2 : 1;
+    score += pts;
+    updateScoreDisplay();
+    btn.classList.add('correct');
+    if(fast){
+      const badge=document.getElementById('lightningBadge');
+      badge.classList.add('show');
+      fb.textContent=`⚡ Lightning fast! +2 points!`;
+      fb.className='feedback show correct-fb';
+      triggerSpeedLines();
+    } else {
+      fb.textContent=`✅ Correct! +1 point`;
+      fb.className='feedback show correct-fb';
+    }
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b=>{ if(+b.textContent===q.answer) b.classList.add('reveal'); });
+    fb.textContent=`❌ ${q.n} × ${q.m} = ${q.answer}`;
+    fb.className='feedback show wrong-fb';
+    triggerShake();
+  }
+  setTimeout(nextQuestion, 1300);
+}
+
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion>=TOTAL){ showEnd(); return; }
+  showQuestion();
+}
+
+function updateScoreDisplay(){
+  document.getElementById('scoreDisplay').textContent=`⭐ ${score} / ${MAX_SCORE}`;
+  document.getElementById('scoreBarNum').textContent=`${score} / ${MAX_SCORE}`;
+  document.getElementById('scoreFill').style.width=(score/MAX_SCORE*100)+'%';
+}
+
+function updateProgress(){
+  const pct=Math.round((currentQuestion/TOTAL)*100);
+  document.getElementById('progressLabel').textContent=`Question ${currentQuestion+1} of ${TOTAL}`;
+  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressFill').style.width=pct+'%';
+}
+
+function triggerSpeedLines(){
+  const overlay=document.getElementById('speedOverlay');
+  overlay.classList.remove('show');
+  void overlay.offsetWidth; // reflow
+  overlay.classList.add('show');
+  setTimeout(()=>overlay.classList.remove('show'),600);
+}
+
+function triggerShake(){
+  document.body.classList.remove('shake');
+  void document.body.offsetWidth;
+  document.body.classList.add('shake');
+  setTimeout(()=>document.body.classList.remove('shake'),400);
+}
+
+function showEnd(){
+  clearInterval(timerInterval);
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('progressPct').textContent='100%';
+
+  let emoji='🌪️', title='Brilliant!', stars='★★★';
+  const pct = score/MAX_SCORE;
+  if(pct < 0.5){ emoji='💪'; title='Keep Trying!'; stars='★☆☆'; }
+  else if(pct < 0.8){ emoji='👍'; title='Well Done!'; stars='★★☆'; }
+
+  document.getElementById('endEmoji').textContent=emoji;
+  document.getElementById('endTitle').textContent=title;
+  document.getElementById('endSub').textContent=`${selectedTable}× Table`;
+  document.getElementById('endScore').textContent=`${score} / ${MAX_SCORE}`;
+  document.getElementById('endStars').textContent=stars;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function backToSelection(){
+  clearInterval(timerInterval);
+  document.body.classList.remove('playing','shake');
+  document.getElementById('endOverlay').classList.remove('show');
+  document.getElementById('gameScreen').style.display='none';
+  document.getElementById('progressBarWrap').classList.remove('visible');
+  document.getElementById('selectionScreen').style.display='block';
+  document.getElementById('scoreDisplay').textContent='⭐ 0 / 20';
+  score=0; currentQuestion=0;
+  updateScoreDisplay();
+}
+
+// Init
+buildSelectionScreen();
+</script>
+</body>
+</html>

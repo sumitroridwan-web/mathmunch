@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Negative Number Ninja – MathMunch</title>
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #E8E4FF;
+    --accent: #FDCB6E;
+    --n1: #FF6B6B;
+    --n2: #FF8E53;
+    --bg: #1A1A2E;
+    --white: #FFFFFF;
+    --text: #1E1E2E;
+    --text2: #525270;
+    --green: #00B894;
+    --red: #FF4757;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+    --cold: #4FC3F7;
+    --warm: #FF8E53;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #1A1A2E;
+    min-height: 100vh;
+    color: #E0E0FF;
+    overflow-x: hidden;
+  }
+
+  /* STARS BACKGROUND */
+  .stars-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0.2; }
+    50% { opacity: 1; }
+  }
+
+  /* TOP BAR */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: #12122A;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 20px; height: 56px;
+    border-bottom: 1px solid #2A2A5A;
+  }
+  .topbar a { text-decoration: none; color: #A78BFA; font-weight: 600; font-size: 14px; }
+  .topbar .brand { font-weight: 700; font-size: 18px; color: #A78BFA; }
+  .topbar .title { font-weight: 600; font-size: 16px; color: #E0E0FF; }
+  .topbar .badge { background: #EEE8FF; color: #5F27CD; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .topbar .score { margin-left: auto; font-weight: 700; font-size: 16px; color: var(--accent); display: flex; align-items: center; gap: 4px; }
+
+  .game-area {
+    position: relative; z-index: 1;
+    max-width: 800px;
+    margin: 24px auto 100px;
+    padding: 0 16px;
+  }
+
+  /* NINJA HEADER */
+  .ninja-header {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-bottom: 16px;
+    font-size: 14px; color: #8080C0;
+  }
+  .ninja-char { font-size: 32px; }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: #1E2050;
+    border-radius: var(--radius);
+    border: 1px solid #3A3A6A;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .question-text {
+    font-size: 20px; font-weight: 700; color: #E0E0FF;
+    text-align: center; margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .question-highlight {
+    color: var(--accent);
+  }
+
+  /* THERMOMETER + NUMBER LINE ROW */
+  .visuals-row {
+    display: flex; gap: 16px; align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  /* THERMOMETER */
+  .thermometer-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    flex-shrink: 0;
+  }
+  .thermo-label { font-size: 11px; color: #8080C0; margin-bottom: 6px; font-weight: 600; }
+  .thermo-svg-wrap {
+    width: 44px; position: relative;
+  }
+  .thermo-scale {
+    position: absolute; right: -28px; top: 0;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+    font-size: 10px; color: #6060A0;
+  }
+
+  /* NUMBER LINE */
+  .number-line-section { flex: 1; }
+  .nl-label { font-size: 12px; color: #8080C0; font-weight: 600; margin-bottom: 8px; }
+  .nl-wrap {
+    position: relative;
+    height: 60px;
+    background: transparent;
+  }
+  .nl-track {
+    position: absolute;
+    top: 20px;
+    left: 0; right: 0;
+    height: 6px;
+    border-radius: 3px;
+    overflow: visible;
+  }
+  .nl-negative { background: linear-gradient(90deg, #1565C0, #42A5F5); }
+  .nl-positive { background: linear-gradient(90deg, #E65100, #FF8E53); }
+  .nl-zero {
+    position: absolute; top: -7px; width: 4px; height: 20px;
+    background: white; border-radius: 2px;
+    transform: translateX(-50%);
+  }
+  .nl-tick {
+    position: absolute; top: -5px; width: 2px; height: 16px;
+    background: rgba(255,255,255,0.5); border-radius: 1px;
+    transform: translateX(-50%);
+  }
+  .nl-tick-label {
+    position: absolute; top: 18px;
+    font-size: 10px; color: #6060A0; font-weight: 600;
+    transform: translateX(-50%); white-space: nowrap;
+  }
+  .nl-marker {
+    position: absolute; top: -9px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: #A78BFA;
+    border: 3px solid white;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 8px rgba(167,139,250,0.6);
+    transition: left 0.6s cubic-bezier(0.34,1.56,0.64,1), background 0.3s;
+    display: none;
+  }
+  .nl-marker.show { display: block; }
+
+  /* ANSWERS GRID */
+  .answers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .ans-btn {
+    padding: 18px 10px;
+    border-radius: var(--radius);
+    border: 2px solid #3A3A6A;
+    font-size: 22px; font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .ans-btn.negative { background: #1A2545; color: var(--cold); border-color: #2A3A6A; }
+  .ans-btn.positive { background: #2A1A10; color: var(--warm); border-color: #4A3A2A; }
+  .ans-btn.zero { background: #1E2050; color: #E0E0FF; }
+  .ans-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+  .ans-btn.correct { border-color: var(--green) !important; background: #0D2B22 !important; color: var(--green) !important; }
+  .ans-btn.wrong { border-color: var(--red) !important; background: #2B0D0D !important; color: var(--red) !important; }
+  .ans-btn:disabled { cursor: default; transform: none; }
+
+  /* FEEDBACK */
+  .feedback {
+    font-size: 16px; font-weight: 700;
+    text-align: center; padding: 10px; border-radius: 10px;
+    opacity: 0; transition: opacity 0.3s; min-height: 40px; margin-top: 12px;
+  }
+  .feedback.show { opacity: 1; }
+  .feedback.correct { color: var(--green); background: #0D2B22; }
+  .feedback.wrong { color: var(--red); background: #2B0D0D; }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #12122A;
+    padding: 10px 20px;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.4);
+    display: flex; align-items: center; gap: 16px; z-index: 100;
+    border-top: 1px solid #2A2A5A;
+  }
+  .progress-label { font-size: 14px; color: #6060A0; font-weight: 600; white-space: nowrap; }
+  .progress-track { flex: 1; height: 12px; background: #2A2A4A; border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--n1), var(--n2)); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-pct { font-size: 14px; font-weight: 700; color: var(--n2); white-space: nowrap; }
+
+  /* END SCREEN */
+  .end-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center; z-index: 200;
+  }
+  .end-card {
+    background: #1E2050; border: 1px solid #3A3A6A;
+    border-radius: 24px; padding: 40px;
+    text-align: center; max-width: 420px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .end-emoji { font-size: 64px; margin-bottom: 10px; }
+  .end-title { font-size: 28px; font-weight: 800; color: #E0E0FF; margin-bottom: 6px; }
+  .end-score { font-size: 20px; color: #8080C0; margin-bottom: 16px; }
+  .end-stars { font-size: 36px; margin-bottom: 24px; }
+  .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { padding: 14px 28px; border-radius: var(--radius); background: linear-gradient(135deg, var(--primary), #a855f7); color: white; font-size: 16px; font-weight: 700; border: none; cursor: pointer; }
+  .btn-secondary { padding: 14px 28px; border-radius: var(--radius); background: transparent; color: #A78BFA; font-size: 16px; font-weight: 700; border: 2px solid #A78BFA; cursor: pointer; text-decoration: none; display: inline-block; }
+</style>
+</head>
+<body>
+
+<!-- STARS BACKGROUND -->
+<div class="stars-bg" id="starsBg"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="title">Negative Number Ninja</span>
+  <span class="badge">P5</span>
+  <div class="score">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="ninja-header">
+    <span class="ninja-char">🥷</span>
+    <span>Master the number line — positive and negative!</span>
+    <span class="ninja-char">🥷</span>
+  </div>
+
+  <div class="question-card">
+    <div class="question-text" id="questionText">Loading...</div>
+
+    <div class="visuals-row">
+      <!-- THERMOMETER -->
+      <div class="thermometer-wrap">
+        <div class="thermo-label">Temp</div>
+        <div class="thermo-svg-wrap">
+          <svg width="44" height="200" viewBox="0 0 44 200">
+            <!-- Tube -->
+            <rect x="18" y="10" width="8" height="150" rx="4" fill="#2A2A5A" stroke="#4A4A8A" stroke-width="1"/>
+            <!-- Bulb -->
+            <circle cx="22" cy="170" r="14" fill="#2A2A5A" stroke="#4A4A8A" stroke-width="1"/>
+            <!-- Fill -->
+            <rect id="thermoFill" x="20" y="85" width="4" height="75" rx="2" fill="#FF4757"/>
+            <circle cx="22" cy="170" r="11" fill="#FF4757" id="thermoBulb"/>
+            <!-- Scale lines -->
+            <line x1="15" y1="20" x2="18" y2="20" stroke="#4A4A8A" stroke-width="1"/>
+            <line x1="15" y1="57" x2="18" y2="57" stroke="#4A4A8A" stroke-width="1"/>
+            <line x1="15" y1="95" x2="18" y2="95" stroke="#4A4A8A" stroke-width="1"/>
+            <line x1="15" y1="132" x2="18" y2="132" stroke="#4A4A8A" stroke-width="1"/>
+            <text x="5" y="22" font-size="8" fill="#6060A0">+</text>
+            <text x="5" y="130" font-size="8" fill="#6060A0">−</text>
+          </svg>
+          <div class="thermo-scale">
+            <span>+</span>
+            <span>0</span>
+            <span>−</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NUMBER LINE -->
+      <div class="number-line-section">
+        <div class="nl-label">Number Line: −20 to +20</div>
+        <div class="nl-wrap" id="nlWrap">
+          <!-- Built by JS -->
+        </div>
+      </div>
+    </div>
+
+    <div class="answers-grid" id="answersGrid"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-label" id="progressLabel">Question 1 of 10</div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-pct" id="progressPct">0%</div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score" id="endScore"></div>
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-btns">
+      <button class="btn-primary" onclick="restartGame()">Play Again</button>
+      <a class="btn-secondary" href="../../index.html">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  { text: "The temperature is 5°C. It drops 8 degrees. What is the new temperature?", answer: -3 },
+  { text: "Start at −4. Add 6. Where do you end up?", answer: 2 },
+  { text: "The temperature is −7°C. It rises 10 degrees. What is the new temperature?", answer: 3 },
+  { text: "What is −3 + (−5)?", answer: -8 },
+  { text: "Start at 8. Subtract 12. What do you get?", answer: -4 },
+  { text: "What is the difference between −2 and 6?", answer: 8 },
+  { text: "What number is 5 less than −1?", answer: -6 },
+  { text: "−10 + 15 = ?", answer: 5 },
+  { text: "Temperature: −12°C rises by 7 degrees. What is the new temperature?", answer: -5 },
+  { text: "What is halfway between −6 and 4?", answer: -1 },
+];
+
+let currentRound = 0;
+let score = 0;
+let answered = false;
+
+// Generate stars
+(function() {
+  const bg = document.getElementById('starsBg');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = Math.random() * 3 + 's';
+    s.style.animationDuration = (2 + Math.random() * 3) + 's';
+    s.style.width = s.style.height = (1 + Math.random() * 2) + 'px';
+    bg.appendChild(s);
+  }
+})();
+
+// Build number line
+function buildNumberLine() {
+  const wrap = document.getElementById('nlWrap');
+  wrap.innerHTML = '';
+
+  // Negative half
+  const negTrack = document.createElement('div');
+  negTrack.className = 'nl-track nl-negative';
+  negTrack.style.cssText = 'position:absolute; top:20px; left:0; right:50%; height:6px; border-radius:3px 0 0 3px;';
+  wrap.appendChild(negTrack);
+
+  // Positive half
+  const posTrack = document.createElement('div');
+  posTrack.className = 'nl-track nl-positive';
+  posTrack.style.cssText = 'position:absolute; top:20px; left:50%; right:0; height:6px; border-radius:0 3px 3px 0;';
+  wrap.appendChild(posTrack);
+
+  // Zero marker
+  const zero = document.createElement('div');
+  zero.style.cssText = 'position:absolute; top:13px; left:50%; width:4px; height:20px; background:white; border-radius:2px; transform:translateX(-50%); z-index:2;';
+  wrap.appendChild(zero);
+
+  // Ticks at -20,-15,-10,-5,0,5,10,15,20
+  const ticks = [-20,-15,-10,-5,0,5,10,15,20];
+  ticks.forEach(val => {
+    const pct = ((val + 20) / 40) * 100;
+    const tick = document.createElement('div');
+    tick.style.cssText = `position:absolute; top:15px; left:${pct}%; width:2px; height:16px; background:rgba(255,255,255,0.4); border-radius:1px; transform:translateX(-50%); z-index:2;`;
+    wrap.appendChild(tick);
+
+    const label = document.createElement('div');
+    label.style.cssText = `position:absolute; top:36px; left:${pct}%; font-size:10px; color:#6060A0; font-weight:700; transform:translateX(-50%); white-space:nowrap;`;
+    label.textContent = val;
+    wrap.appendChild(label);
+  });
+
+  // Marker
+  const marker = document.createElement('div');
+  marker.className = 'nl-marker';
+  marker.id = 'nlMarker';
+  marker.style.cssText = 'position:absolute; top:9px; width:24px; height:24px; border-radius:50%; background:#A78BFA; border:3px solid white; transform:translateX(-50%); box-shadow:0 2px 8px rgba(167,139,250,0.6); transition:left 0.6s cubic-bezier(0.34,1.56,0.64,1),background 0.3s; display:none; z-index:5;';
+  wrap.appendChild(marker);
+}
+
+function setThermometer(val) {
+  // val from -20 to +20
+  // Tube: y=10 to y=160 (height=150). Center (0°C) at y=85.
+  // Each unit = 150/40 = 3.75px
+  const px = 85 - val * 3.75; // y position for top of fill
+  const fillHeight = 85 - px + (val >= 0 ? 0 : 0); // height of fill from center
+  const fill = document.getElementById('thermoFill');
+  const bulb = document.getElementById('thermoBulb');
+  if (!fill || !bulb) return;
+
+  if (val >= 0) {
+    // Fill from center upward
+    const h = val * 3.75;
+    fill.setAttribute('y', 85 - h);
+    fill.setAttribute('height', h + 85); // from top to bottom of tube area
+    // Actually: from y to 160
+    fill.setAttribute('y', 85 - h);
+    fill.setAttribute('height', 85 - (85 - h) + 75); // fill down to bulb too
+    fill.setAttribute('fill', '#FF8E53');
+    bulb.setAttribute('fill', '#FF8E53');
+  } else {
+    // Fill stays low
+    const h = Math.abs(val) * 3.75;
+    fill.setAttribute('y', 85);
+    fill.setAttribute('height', h + 75);
+    fill.setAttribute('fill', '#4FC3F7');
+    bulb.setAttribute('fill', '#4FC3F7');
+  }
+}
+
+function animateMarker(val) {
+  const marker = document.getElementById('nlMarker');
+  if (!marker) return;
+  marker.style.display = 'block';
+  const pct = ((val + 20) / 40) * 100;
+  marker.style.left = pct + '%';
+  if (val < 0) {
+    marker.style.background = '#4FC3F7';
+    marker.style.boxShadow = '0 2px 8px rgba(79,195,247,0.6)';
+  } else {
+    marker.style.background = '#FF8E53';
+    marker.style.boxShadow = '0 2px 8px rgba(255,142,83,0.6)';
+  }
+}
+
+function shuffle(arr) {
+  for (let i = arr.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function generateOptions(correct) {
+  const set = new Set([correct]);
+  const opts = [correct];
+  const deltas = shuffle([-4,-3,-2,-1,1,2,3,4,5,-5,-6,6]);
+  for (const d of deltas) {
+    const v = correct + d;
+    if (!set.has(v) && v >= -20 && v <= 20) {
+      set.add(v); opts.push(v);
+      if (opts.length === 4) break;
+    }
+  }
+  // Ensure 4 options
+  let extra = -20;
+  while (opts.length < 4) {
+    if (!set.has(extra)) { set.add(extra); opts.push(extra); }
+    extra++;
+  }
+  return shuffle(opts);
+}
+
+function loadRound() {
+  answered = false;
+  const q = QUESTIONS[currentRound];
+
+  document.getElementById('progressLabel').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round((currentRound / 10) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('questionText').textContent = q.text;
+
+  buildNumberLine();
+  setThermometer(0);
+
+  // Hide marker
+  const marker = document.getElementById('nlMarker');
+  if (marker) marker.style.display = 'none';
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback'; fb.textContent = '';
+
+  const options = generateOptions(q.answer);
+  const grid = document.getElementById('answersGrid');
+  grid.innerHTML = '';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    if (opt < 0) btn.className = 'ans-btn negative';
+    else if (opt > 0) btn.className = 'ans-btn positive';
+    else btn.className = 'ans-btn zero';
+    btn.textContent = opt > 0 ? '+' + opt : opt;
+    btn.onclick = () => checkAnswer(btn, opt, q);
+    grid.appendChild(btn);
+  });
+}
+
+function checkAnswer(btn, selected, q) {
+  if (answered) return;
+  answered = true;
+  disableButtons();
+
+  const fb = document.getElementById('feedback');
+  const isCorrect = selected === q.answer;
+
+  if (isCorrect) {
+    btn.className = 'ans-btn correct';
+    fb.className = 'feedback correct show';
+    fb.textContent = `✓ Correct! The answer is ${q.answer > 0 ? '+' : ''}${q.answer}`;
+    score++;
+  } else {
+    btn.className = 'ans-btn wrong';
+    fb.className = 'feedback wrong show';
+    fb.textContent = `✗ The answer is ${q.answer > 0 ? '+' : ''}${q.answer}`;
+    highlightCorrect(q.answer);
+  }
+
+  document.getElementById('scoreDisplay').textContent = score;
+  setThermometer(q.answer);
+  setTimeout(() => animateMarker(q.answer), 200);
+  setTimeout(nextRound, 1600);
+}
+
+function disableButtons() {
+  document.querySelectorAll('.ans-btn').forEach(b => b.disabled = true);
+}
+
+function highlightCorrect(correct) {
+  document.querySelectorAll('.ans-btn').forEach(b => {
+    const raw = b.textContent.replace('+', '');
+    if (parseInt(raw) === correct && !b.classList.contains('wrong')) {
+      b.className = 'ans-btn correct';
+    }
+  });
+}
+
+function nextRound() {
+  currentRound++;
+  if (currentRound >= 10) showEnd();
+  else loadRound();
+}
+
+function showEnd() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressPct').textContent = '100%';
+
+  let emoji, title, stars;
+  if (score >= 9) { emoji='🥷'; title='Brilliant!'; stars='★★★'; }
+  else if (score >= 7) { emoji='⭐'; title='Well Done!'; stars='★★☆'; }
+  else { emoji='🌙'; title='Keep Trying!'; stars='★☆☆'; }
+
+  document.getElementById('endEmoji').textContent = emoji;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = `${score}/10 correct`;
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endOverlay').style.display = 'flex';
+}
+
+function restartGame() {
+  currentRound = 0; score = 0;
+  document.getElementById('endOverlay').style.display = 'none';
+  loadRound();
+}
+
+loadRound();
+</script>
+</body>
+</html>

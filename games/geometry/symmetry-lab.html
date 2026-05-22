@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symmetry Lab – MathMunch</title>
+<style>
+  :root {
+    --primary:#6C5CE7; --primary-light:#E8E4FF;
+    --g1:#4ECDC4; --g2:#2ECC71;
+    --accent:#FDCB6E; --bg:#F0F4FF;
+    --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
+    --green:#00B894; --red:#FF4757;
+    --radius:16px; --shadow:0 4px 20px rgba(78,205,196,0.15);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+  /* TOP BAR */
+  .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
+  .topbar a.back{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .topbar .brand{font-weight:900;font-size:18px;color:var(--primary)}
+  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
+  .badge-p3{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#E0F7FF;color:#0090C0}
+  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:var(--text)}
+
+  /* GAME AREA */
+  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+
+  /* QUESTION CARD */
+  .question-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;text-align:center}
+  .question-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .question-text{font-size:22px;font-weight:800;color:var(--text);margin-bottom:20px}
+
+  /* SHAPE DISPLAY */
+  .shape-display{display:flex;justify-content:center;align-items:center;padding:20px;min-height:180px;position:relative}
+
+  /* ANSWERS */
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:18px;cursor:pointer;border:2px solid #E8E4FF;background:var(--white);color:var(--text);transition:all 0.2s}
+  .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
+  .btn-answer.correct{background:#E8FFF3;border-color:var(--green);color:var(--green)}
+  .btn-answer.wrong{background:#FFE8EC;border-color:var(--red);color:var(--red)}
+  .btn-answer:disabled{cursor:not-allowed;opacity:0.7}
+
+  /* GRID MODE */
+  .grid-container{display:flex;justify-content:center;align-items:flex-start;gap:0;position:relative;margin:0 auto 20px}
+  .grid-half{display:grid;grid-template-columns:repeat(4,36px);grid-template-rows:repeat(8,36px);gap:2px}
+  .grid-cell{width:36px;height:36px;background:#F0F8FF;border:1px solid #C8E0F4;border-radius:4px;cursor:default;transition:all 0.15s}
+  .grid-cell.filled-left{background:var(--g1);border-color:#2EB8B0}
+  .grid-cell.right-clickable{cursor:pointer}
+  .grid-cell.right-clickable:hover{background:#C8F0EE;border-color:var(--g1)}
+  .grid-cell.player-filled{background:#9B8FF5;border-color:var(--primary)}
+  .grid-cell.check-correct{background:var(--green)!important;border-color:#00956C!important}
+  .grid-cell.check-wrong{background:var(--red)!important;border-color:#CC2233!important}
+  .grid-cell.check-missed{background:#FFD700!important;border-color:#B8A000!important}
+  .mirror-line{width:6px;background:linear-gradient(180deg,var(--primary),#9B8FF5);border-radius:3px;margin:0 4px;align-self:stretch;box-shadow:0 0 8px rgba(108,92,231,0.4)}
+  .check-btn{margin-top:16px}
+
+  /* FEEDBACK */
+  .feedback-bar{padding:12px 20px;border-radius:12px;font-weight:800;font-size:16px;text-align:center;margin-top:12px;display:none}
+  .feedback-bar.show{display:block}
+  .feedback-bar.correct-fb{background:#E8FFF3;color:var(--green);border:2px solid var(--green)}
+  .feedback-bar.wrong-fb{background:#FFE8EC;color:var(--red);border:2px solid var(--red)}
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;z-index:99;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px}
+  .progress-info{display:flex;justify-content:space-between;align-items:center;max-width:800px;margin:0 auto 6px}
+  .progress-track{max-width:800px;margin:0 auto;height:10px;background:#E0E8FF;border-radius:10px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:10px;transition:width 0.4s ease}
+
+  /* END SCREEN */
+  .end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:200;display:none}
+  .end-overlay.show{display:flex}
+  .end-card{background:var(--white);border-radius:24px;padding:40px 32px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+  .end-stars{font-size:48px;margin-bottom:16px;letter-spacing:4px}
+  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:8px}
+  .end-score{font-size:18px;color:var(--text2);margin-bottom:28px}
+  .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px}
+  .btn-back{background:var(--primary-light);color:var(--primary);border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-flex;align-items:center}
+
+  /* MODE TAG */
+  .mode-tag{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:0.5px}
+  .mode-a-tag{background:#E0FAF8;color:#0090A0}
+  .mode-b-tag{background:#F0EAFF;color:#6C5CE7}
+
+  /* SVG SHAPES */
+  .shape-svg-wrap{display:flex;justify-content:center;align-items:center}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html" class="back">← All Games</a>
+  <div class="brand">🧮 MathMunch</div>
+  <div class="game-title">🔬 Symmetry Lab</div>
+  <span class="badge-p3">P3</span>
+  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="question-card" id="questionCard">
+    <div class="question-label" id="roundLabel">Round 1 of 10</div>
+    <div id="modeTag"></div>
+    <div class="question-text" id="questionText"></div>
+    <div id="gameContent"></div>
+    <div class="feedback-bar" id="feedbackBar"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-info">
+    <span id="progressLabel" style="font-size:13px;font-weight:700;color:var(--text2)">Question 1 of 10</span>
+    <span id="progressPct" style="font-size:13px;font-weight:700;color:var(--g1)">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score" id="endScore"></div>
+    <div class="end-btns">
+      <button class="btn-geo" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn-back">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── GAME DATA ───────────────────────────────────────────────────────────────
+
+const modeARounds = [
+  {
+    shape: 'square', label: 'Square', answer: 4,
+    options: [1,2,4,6], svgFn: drawSquare,
+    symmetryLines: ['h','v','d1','d2']
+  },
+  {
+    shape: 'rectangle', label: 'Rectangle', answer: 2,
+    options: [1,2,3,4], svgFn: drawRectangle,
+    symmetryLines: ['h','v']
+  },
+  {
+    shape: 'eq-triangle', label: 'Equilateral Triangle', answer: 3,
+    options: [1,2,3,4], svgFn: drawEqTriangle,
+    symmetryLines: ['m1','m2','m3']
+  },
+  {
+    shape: 'iso-triangle', label: 'Isosceles Triangle', answer: 1,
+    options: [0,1,2,3], svgFn: drawIsoTriangle,
+    symmetryLines: ['v']
+  },
+  {
+    shape: 'letterH', label: 'Letter H Shape', answer: 2,
+    options: [0,1,2,4], svgFn: drawLetterH,
+    symmetryLines: ['h','v']
+  }
+];
+
+const modeBRounds = [
+  {
+    label: 'Simple L-shape',
+    leftCells: [[0,0],[1,0],[2,0],[3,0],[3,1],[3,2],[3,3]],
+    correctRight: [[0,3],[1,3],[2,3],[3,3],[3,2],[3,1],[3,0]]
+  },
+  {
+    label: 'T-shape',
+    leftCells: [[0,0],[0,1],[0,2],[0,3],[2,2],[3,2],[4,2]],
+    correctRight: [[0,3],[0,2],[0,1],[0,0],[2,1],[3,1],[4,1]]
+  },
+  {
+    label: 'Corner shape',
+    leftCells: [[1,0],[1,1],[2,0],[3,0],[4,0],[4,1],[4,2],[4,3]],
+    correctRight: [[1,3],[1,2],[2,3],[3,3],[4,3],[4,2],[4,1],[4,0]]
+  },
+  {
+    label: 'Cross half',
+    leftCells: [[0,2],[1,2],[2,0],[2,1],[2,2],[3,2],[4,2]],
+    correctRight: [[0,1],[1,1],[2,3],[2,2],[2,1],[3,1],[4,1]]
+  },
+  {
+    label: 'Arrow shape',
+    leftCells: [[2,0],[1,1],[2,1],[3,1],[0,2],[2,2],[4,2]],
+    correctRight: [[2,3],[1,2],[2,2],[3,2],[0,1],[2,1],[4,1]]
+  }
+];
+
+// Build 10 rounds: A,B,A,B,A,B,A,B,A,B
+const rounds = [];
+for(let i=0;i<5;i++){
+  rounds.push({mode:'A', data:modeARounds[i]});
+  rounds.push({mode:'B', data:modeBRounds[i]});
+}
+
+let currentRound = 0;
+let score = 0;
+let answered = false;
+let playerCells = new Set();
+
+// ─── SVG DRAWING FUNCTIONS ────────────────────────────────────────────────────
+
+function svgWrap(content, w=200, h=200){
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
+function drawSquare(showLines){
+  const x=40, y=40, s=120;
+  let lines = '';
+  if(showLines){
+    lines = `
+      <line x1="${x+s/2}" y1="${y-15}" x2="${x+s/2}" y2="${y+s+15}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${x-15}" y1="${y+s/2}" x2="${x+s+15}" y2="${y+s/2}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${x-10}" y1="${y-10}" x2="${x+s+10}" y2="${y+s+10}" stroke="#FDCB6E" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${x+s+10}" y1="${y-10}" x2="${x-10}" y2="${y+s+10}" stroke="#FDCB6E" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
+  }
+  return svgWrap(`<rect x="${x}" y="${y}" width="${s}" height="${s}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3" rx="4"/>${lines}`);
+}
+
+function drawRectangle(showLines){
+  const x=25, y=60, w=150, h=80;
+  let lines = '';
+  if(showLines){
+    lines = `
+      <line x1="${x+w/2}" y1="${y-15}" x2="${x+w/2}" y2="${y+h+15}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${x-15}" y1="${y+h/2}" x2="${x+w+15}" y2="${y+h/2}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
+  }
+  return svgWrap(`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3" rx="4"/>${lines}`);
+}
+
+function drawEqTriangle(showLines){
+  const cx=100, cy=20, r=90;
+  const pts = [
+    [cx, cy],
+    [cx - r*Math.sin(2*Math.PI/3), cy - r*Math.cos(2*Math.PI/3) + 90],
+    [cx + r*Math.sin(2*Math.PI/3), cy - r*Math.cos(2*Math.PI/3) + 90]
+  ];
+  // Simple equilateral triangle
+  const ax=100,ay=20, bx=20,by=170, cx2=180,cy2=170;
+  let lines = '';
+  if(showLines){
+    // 3 medians = lines of symmetry
+    lines = `
+      <line x1="${ax}" y1="${ay-10}" x2="${(bx+cx2)/2}" y2="${(by+cy2)/2+5}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${bx-10}" y1="${by+5}" x2="${(ax+cx2)/2}" y2="${(ay+cy2)/2-5}" stroke="#FDCB6E" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${cx2+10}" y1="${cy2+5}" x2="${(ax+bx)/2}" y2="${(ay+by)/2-5}" stroke="#00B894" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
+  }
+  return svgWrap(`<polygon points="${ax},${ay} ${bx},${by} ${cx2},${cy2}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3"/>${lines}`);
+}
+
+function drawIsoTriangle(showLines){
+  const ax=100,ay=20, bx=30,by=175, cx=170,cy=175;
+  let lines = '';
+  if(showLines){
+    lines = `<line x1="100" y1="${ay-12}" x2="100" y2="${by+8}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
+  }
+  return svgWrap(`<polygon points="${ax},${ay} ${bx},${by} ${cx},${cy}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3"/>${lines}`);
+}
+
+function drawLetterH(showLines){
+  // H shape using path
+  const path = 'M 40 30 L 40 90 M 40 100 L 40 170 M 40 95 L 100 95 M 100 30 L 100 95 M 100 100 L 100 170 M 160 30 L 160 170';
+  // Actually draw H as filled rects
+  let lines = '';
+  if(showLines){
+    lines = `
+      <line x1="100" y1="15" x2="100" y2="185" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="15" y1="100" x2="185" y2="100" stroke="#FDCB6E" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
+  }
+  const h = `
+    <rect x="35" y="25" width="30" height="150" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="2"/>
+    <rect x="135" y="25" width="30" height="150" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="2"/>
+    <rect x="65" y="82" width="70" height="36" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="2"/>
+    ${lines}`;
+  return svgWrap(h);
+}
+
+// ─── RENDER ROUND ─────────────────────────────────────────────────────────────
+
+function renderRound(){
+  const r = rounds[currentRound];
+  answered = false;
+  playerCells = new Set();
+
+  document.getElementById('roundLabel').textContent = `Round ${currentRound+1} of 10`;
+  document.getElementById('progressLabel').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round(currentRound/10*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressFill').style.width = pct+'%';
+
+  const fb = document.getElementById('feedbackBar');
+  fb.className = 'feedback-bar';
+  fb.textContent = '';
+
+  if(r.mode === 'A'){
+    renderModeA(r.data);
+  } else {
+    renderModeB(r.data);
+  }
+}
+
+function renderModeA(data){
+  document.getElementById('modeTag').innerHTML = '<span class="mode-tag mode-a-tag">🔍 Count Lines of Symmetry</span>';
+  document.getElementById('questionText').textContent = `How many lines of symmetry does this ${data.label} have?`;
+
+  const content = document.getElementById('gameContent');
+  content.innerHTML = `
+    <div class="shape-display shape-svg-wrap" id="shapeDisplay">
+      ${data.svgFn(false)}
+    </div>
+    <div class="answers-grid">
+      ${data.options.map(o=>`<button class="btn-answer" onclick="answerModeA(${o},${data.answer},${JSON.stringify(data)})">${o}</button>`).join('')}
+    </div>`;
+}
+
+function answerModeA(chosen, correct, data){
+  if(answered) return;
+  answered = true;
+
+  const btns = document.querySelectorAll('.btn-answer');
+  btns.forEach(b=>{
+    const val = parseInt(b.textContent);
+    b.disabled = true;
+    if(val === correct) b.classList.add('correct');
+    else if(val === chosen) b.classList.add('wrong');
+  });
+
+  // Show symmetry lines
+  document.getElementById('shapeDisplay').innerHTML = data.svgFn(true);
+
+  const fb = document.getElementById('feedbackBar');
+  if(chosen === correct){
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.textContent = `✓ Correct! ${data.label} has ${correct} line${correct!==1?'s':''} of symmetry.`;
+    fb.className = 'feedback-bar show correct-fb';
+  } else {
+    fb.textContent = `✗ Not quite! The correct answer is ${correct}. See the dashed lines above.`;
+    fb.className = 'feedback-bar show wrong-fb';
+  }
+
+  setTimeout(nextRound, 1800);
+}
+
+function renderModeB(data){
+  document.getElementById('modeTag').innerHTML = '<span class="mode-tag mode-b-tag">🪞 Complete the Reflection</span>';
+  document.getElementById('questionText').textContent = 'Click the cells on the RIGHT side to complete the mirror reflection!';
+
+  const leftSet = new Set(data.leftCells.map(([r,c])=>`${r},${c}`));
+  const correctSet = new Set(data.correctRight.map(([r,c])=>`${r},${c}`));
+
+  let leftHTML = '', rightHTML = '';
+  for(let r=0;r<8;r++){
+    for(let c=0;c<4;c++){
+      const filled = leftSet.has(`${r},${c}`) ? ' filled-left' : '';
+      leftHTML += `<div class="grid-cell${filled}" id="L${r}_${c}"></div>`;
+    }
+  }
+  // Right half: columns 0-3 of right side correspond to mirror of cols 3-0 of left
+  for(let r=0;r<8;r++){
+    for(let c=0;c<4;c++){
+      rightHTML += `<div class="grid-cell right-clickable" id="R${r}_${c}" onclick="toggleCell(${r},${c})"></div>`;
+    }
+  }
+
+  const content = document.getElementById('gameContent');
+  content.innerHTML = `
+    <div style="overflow-x:auto">
+    <div class="grid-container">
+      <div class="grid-half" id="gridLeft">${leftHTML}</div>
+      <div class="mirror-line" id="mirrorLine"></div>
+      <div class="grid-half" id="gridRight">${rightHTML}</div>
+    </div>
+    </div>
+    <div style="text-align:center">
+      <button class="btn-geo check-btn" onclick="checkReflection(${JSON.stringify(data).replace(/"/g,'&quot;')})">Check My Answer ✓</button>
+    </div>`;
+
+  // Store correct set for check
+  window._correctRight = correctSet;
+}
+
+function toggleCell(r,c){
+  if(answered) return;
+  const key = `${r},${c}`;
+  const cell = document.getElementById(`R${r}_${c}`);
+  if(playerCells.has(key)){
+    playerCells.delete(key);
+    cell.classList.remove('player-filled');
+  } else {
+    playerCells.add(key);
+    cell.classList.add('player-filled');
+  }
+}
+
+function checkReflection(data){
+  if(answered) return;
+  answered = true;
+
+  const correctSet = window._correctRight;
+  let allCorrect = true;
+
+  // Check each right cell
+  for(let r=0;r<8;r++){
+    for(let c=0;c<4;c++){
+      const key = `${r},${c}`;
+      const cell = document.getElementById(`R${r}_${c}`);
+      const shouldBeFilled = correctSet.has(key);
+      const isFilled = playerCells.has(key);
+
+      cell.classList.remove('right-clickable','player-filled');
+      if(shouldBeFilled && isFilled){
+        cell.classList.add('check-correct');
+      } else if(!shouldBeFilled && isFilled){
+        cell.classList.add('check-wrong');
+        allCorrect = false;
+      } else if(shouldBeFilled && !isFilled){
+        cell.classList.add('check-missed');
+        allCorrect = false;
+      }
+    }
+  }
+
+  const fb = document.getElementById('feedbackBar');
+  if(allCorrect){
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.textContent = '✓ Perfect reflection! All cells match!';
+    fb.className = 'feedback-bar show correct-fb';
+  } else {
+    fb.textContent = '✗ Not quite! Green = correct, Yellow = missed, Red = wrong.';
+    fb.className = 'feedback-bar show wrong-fb';
+  }
+
+  document.querySelector('.check-btn').disabled = true;
+  setTimeout(nextRound, 2200);
+}
+
+function nextRound(){
+  currentRound++;
+  if(currentRound >= 10){
+    showEndScreen();
+  } else {
+    renderRound();
+  }
+}
+
+function showEndScreen(){
+  document.getElementById('progressLabel').textContent = 'Question 10 of 10';
+  document.getElementById('progressPct').textContent = '100%';
+  document.getElementById('progressFill').style.width = '100%';
+
+  let stars, title;
+  if(score >= 9){ stars = '★★★'; title = 'Brilliant!'; }
+  else if(score >= 7){ stars = '★★☆'; title = 'Well Done!'; }
+  else { stars = '★☆☆'; title = 'Keep Trying!'; }
+
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = `You scored ${score} out of 10`;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame(){
+  currentRound = 0;
+  score = 0;
+  document.getElementById('scoreDisplay').textContent = '0';
+  document.getElementById('endOverlay').classList.remove('show');
+  renderRound();
+}
+
+// ─── START ────────────────────────────────────────────────────────────────────
+renderRound();
+</script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Market – MathMunch</title>
+<style>
+:root{
+  --primary:#6C5CE7;--primary-light:#E8E4FF;
+  --g1:#4ECDC4;--g2:#2ECC71;
+  --accent:#FDCB6E;--bg:#F0F4FF;
+  --white:#FFFFFF;--text:#1E1E2E;--text2:#525270;
+  --green:#00B894;--red:#FF4757;
+  --radius:16px;--shadow:0 4px 20px rgba(78,205,196,0.15);
+  --copper:#B87333;--silver:#C0C0C0;--gold:#FFD700;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFF8F0;color:var(--text);min-height:100vh}
+
+.topbar{background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);position:sticky;top:0;z-index:50}
+.topbar-inner{max-width:800px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.back-btn{text-decoration:none;background:var(--bg);color:var(--text2);padding:7px 14px;border-radius:10px;font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:5px;transition:all 0.2s}
+.back-btn:hover{background:var(--primary-light);color:var(--primary)}
+.topbar-logo{font-size:1rem;font-weight:900;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:6px}
+.topbar-sep{color:#ccc}
+.topbar-title{font-size:0.95rem;font-weight:800;flex:1}
+.level-badge{background:#FFFBE0;color:#F0A500;font-size:0.75rem;font-weight:800;padding:4px 10px;border-radius:20px;border:1px solid #F0A500}
+.score-display{background:linear-gradient(135deg,var(--g1),var(--g2));color:white;padding:6px 14px;border-radius:20px;font-weight:800;font-size:0.85rem}
+
+.game-area{max-width:800px;margin:0 auto;padding:24px 20px 100px}
+.question-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+.mode-badge{padding:5px 14px;border-radius:20px;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;display:inline-block}
+.mode-total{background:#E0F7FA;color:#00838F}
+.mode-change{background:#FFF3E0;color:#E65100}
+.question-text{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.5}
+
+/* COINS */
+.coins-area{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;padding:16px;background:#FFF8F0;border-radius:12px;border:2px dashed #FFD700;min-height:70px}
+.coin{display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:900;color:var(--text);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 3px 8px rgba(0,0,0,0.18);transition:transform 0.15s}
+.coin::after{content:'';position:absolute;top:0;left:0;right:0;height:45%;background:linear-gradient(180deg,rgba(255,255,255,0.35),transparent);border-radius:50% 50% 0 0}
+.coin-1p {width:32px;height:32px;background:radial-gradient(circle at 35% 30%,#D4956A,var(--copper));font-size:0.58rem}
+.coin-2p {width:36px;height:36px;background:radial-gradient(circle at 35% 30%,#D4956A,var(--copper));font-size:0.6rem}
+.coin-5p {width:38px;height:38px;background:radial-gradient(circle at 35% 30%,#E8E8E8,var(--silver));font-size:0.6rem}
+.coin-10p{width:42px;height:42px;background:radial-gradient(circle at 35% 30%,#E8E8E8,var(--silver));font-size:0.62rem}
+.coin-20p{width:44px;height:44px;background:radial-gradient(circle at 35% 30%,#E8E8E8,var(--silver));font-size:0.62rem}
+.coin-50p{width:48px;height:48px;background:radial-gradient(circle at 35% 30%,#E8E8E8,var(--silver));font-size:0.63rem}
+.coin-1{width:50px;height:50px;background:radial-gradient(circle at 35% 30%,#FFE87A,var(--gold));font-size:0.65rem}
+.coin-2{width:52px;height:52px;background:radial-gradient(circle at 35% 30%,#FFE87A,#C8A800);font-size:0.65rem;border:4px solid var(--silver)}
+
+.total-box{background:#1E1E2E;color:#4ECDC4;font-size:1.4rem;font-weight:900;padding:12px 24px;border-radius:10px;display:inline-block;font-family:'Courier New',monospace;letter-spacing:2px;margin-bottom:16px}
+.total-label{font-size:0.7rem;letter-spacing:3px;opacity:0.6;display:block;margin-bottom:2px;text-transform:uppercase}
+
+/* PRICE TAG */
+.price-scene{display:flex;align-items:center;gap:20px;margin-bottom:16px;flex-wrap:wrap}
+.price-tag{position:relative;background:linear-gradient(135deg,#FF6B6B,#FF4757);color:white;padding:14px 20px 14px 24px;border-radius:8px;font-size:1.2rem;font-weight:900;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(255,71,87,0.35)}
+.price-tag::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);border-right:10px solid #FF4757;border-top:14px solid transparent;border-bottom:14px solid transparent}
+.price-tag .tag-hole{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.7);margin-right:4px}
+.paid-box{background:var(--white);border:2px solid #4ECDC4;border-radius:10px;padding:10px 18px;font-size:1rem;font-weight:700;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:2px}
+.paid-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:1px;color:var(--text2);font-weight:700}
+.paid-amount{font-size:1.3rem;font-weight:900;color:var(--green);font-family:'Courier New',monospace}
+.change-arrow{font-size:1.5rem;color:var(--text2)}
+
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.ans-btn{background:var(--bg);border:2px solid #E0E7FF;border-radius:12px;padding:14px 10px;font-size:1rem;font-weight:800;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:center;font-family:'Courier New',monospace}
+.ans-btn:hover:not(:disabled){border-color:var(--g1);background:#E0FFF8;transform:translateY(-1px)}
+.ans-btn.correct{background:#D4EDDA;border-color:var(--green);color:var(--green)}
+.ans-btn.wrong{background:#FFE0E3;border-color:var(--red);color:var(--red)}
+.ans-btn:disabled{cursor:default;opacity:0.85}
+
+.feedback-bar{padding:12px 16px;border-radius:12px;font-weight:700;font-size:0.95rem;margin-top:12px;display:none}
+.feedback-bar.show{display:block}
+.feedback-bar.correct{background:#D4EDDA;color:#155724}
+.feedback-bar.wrong{background:#FFE0E3;color:#721C24}
+
+.progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:40}
+.progress-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.progress-label{font-size:0.82rem;font-weight:700;color:var(--text2);white-space:nowrap}
+.progress-track{flex:1;height:10px;background:#E0E7FF;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:99px;transition:width 0.4s ease}
+.progress-pct{font-size:0.82rem;font-weight:800;color:var(--g1);white-space:nowrap}
+
+.end-overlay{position:fixed;inset:0;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
+.end-overlay.show{display:flex}
+.end-card{background:var(--white);border-radius:24px;padding:40px 32px;max-width:400px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes popIn{from{transform:scale(0.6);opacity:0}to{transform:scale(1);opacity:1}}
+.end-emoji{font-size:3rem;margin-bottom:12px}
+.end-title{font-size:1.5rem;font-weight:900;margin-bottom:8px}
+.end-score{font-size:2.5rem;font-weight:900;color:var(--primary);margin-bottom:8px}
+.end-stars{font-size:2rem;letter-spacing:4px;margin-bottom:12px}
+.end-msg{font-size:1rem;color:var(--text2);margin-bottom:24px;font-weight:600}
+.btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:1rem;transition:all 0.2s;text-decoration:none;display:inline-block}
+.btn-geo:hover{transform:translateY(-2px)}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-secondary{background:var(--bg);color:var(--text2);border:2px solid #E0E7FF;border-radius:12px;font-weight:800;padding:12px 24px;cursor:pointer;font-size:0.9rem;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="../../index.html" class="back-btn">← All Games</a>
+    <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
+    <span class="topbar-sep">|</span>
+    <span class="topbar-title">🛒 Money Market</span>
+    <span class="level-badge">P2</span>
+    <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
+  </div>
+</div>
+
+<div class="game-area">
+  <div class="question-card" id="questionCard">
+    <span class="mode-badge" id="modeBadge">Total Up</span>
+    <div class="question-text" id="questionText">Loading...</div>
+    <div id="visualArea"></div>
+    <div class="answers-grid" id="answersGrid"></div>
+    <div class="feedback-bar" id="feedbackBar"></div>
+  </div>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-inner">
+    <span class="progress-label" id="progressLabel">Question 1 of 10</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+</div>
+
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🏆</div>
+    <div class="end-title" id="endTitle">Brilliant!</div>
+    <div class="end-score" id="endScore">10/10</div>
+    <div class="end-stars" id="endStars">★★★</div>
+    <div class="end-msg" id="endMsg">You are a Money Market master!</div>
+    <div class="end-btns">
+      <button class="btn-geo" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn-secondary">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function coin(cls, label){
+  return `<div class="coin ${cls}" title="${label}">${label}</div>`;
+}
+
+const questions = [
+  // R1 Mode A
+  {
+    mode:'total',
+    text:'Add up all the coins. What is the total?',
+    coins: ['coin-10p','coin-5p','coin-2p','coin-1p'],
+    coinLabels: ['10p','5p','2p','1p'],
+    options:['17p','18p','19p','20p'],
+    answer:'18p',
+    explanation:'10 + 5 + 2 + 1 = 18p'
+  },
+  // R2 Mode A
+  {
+    mode:'total',
+    text:'Add up all the coins. What is the total?',
+    coins:['coin-50p','coin-20p','coin-10p'],
+    coinLabels:['50p','20p','10p'],
+    options:['70p','75p','80p','85p'],
+    answer:'80p',
+    explanation:'50 + 20 + 10 = 80p'
+  },
+  // R3 Mode A
+  {
+    mode:'total',
+    text:'Add up all the coins. What is the total?',
+    coins:['coin-1','coin-20p','coin-5p'],
+    coinLabels:['£1','20p','5p'],
+    options:['£1.15','£1.20','£1.25','£1.30'],
+    answer:'£1.25',
+    explanation:'£1.00 + 20p + 5p = £1.25'
+  },
+  // R4 Mode B
+  {
+    mode:'change',
+    text:'You buy something for 35p. You pay with a 50p coin. How much change should you get?',
+    price:'35p',
+    paid:'50p',
+    options:['10p','15p','20p','25p'],
+    answer:'15p',
+    explanation:'50p − 35p = 15p change'
+  },
+  // R5 Mode A
+  {
+    mode:'total',
+    text:'Add up all the coins. What is the total?',
+    coins:['coin-50p','coin-50p','coin-10p'],
+    coinLabels:['50p','50p','10p'],
+    options:['£1.00','£1.05','£1.10','£1.15'],
+    answer:'£1.10',
+    explanation:'50p + 50p + 10p = £1.10'
+  },
+  // R6 Mode B
+  {
+    mode:'change',
+    text:'The item costs £1.40. You pay with £2.00. How much change should you receive?',
+    price:'£1.40',
+    paid:'£2.00',
+    options:['40p','50p','60p','70p'],
+    answer:'60p',
+    explanation:'£2.00 − £1.40 = 60p change'
+  },
+  // R7 Mode A
+  {
+    mode:'total',
+    text:'Add up all the coins. What is the total?',
+    coins:['coin-2','coin-50p','coin-20p','coin-2p'],
+    coinLabels:['£2','50p','20p','2p'],
+    options:['£2.62','£2.70','£2.72','£2.80'],
+    answer:'£2.72',
+    explanation:'£2.00 + 50p + 20p + 2p = £2.72'
+  },
+  // R8 Mode B
+  {
+    mode:'change',
+    text:'You buy something for 85p. You pay with £1.00. How much change should you get?',
+    price:'85p',
+    paid:'£1.00',
+    options:['10p','12p','15p','20p'],
+    answer:'15p',
+    explanation:'£1.00 − 85p = 15p change'
+  },
+  // R9 Mode B
+  {
+    mode:'change',
+    text:'The item costs £2.30. You pay with £5.00. How much change should you receive?',
+    price:'£2.30',
+    paid:'£5.00',
+    options:['£2.50','£2.60','£2.70','£2.80'],
+    answer:'£2.70',
+    explanation:'£5.00 − £2.30 = £2.70 change'
+  },
+  // R10 Mode B
+  {
+    mode:'change',
+    text:'The sweet costs 67p. You pay with £1.00. How much change should you get?',
+    price:'67p',
+    paid:'£1.00',
+    options:['27p','30p','33p','37p'],
+    answer:'33p',
+    explanation:'£1.00 − 67p = 33p change'
+  }
+];
+
+let current=0, score=0, answered=false;
+
+function buildCoins(q){
+  let html='<div class="coins-area">';
+  for(let i=0;i<q.coins.length;i++){
+    html+=`<div class="coin ${q.coins[i]}">${q.coinLabels[i]}</div>`;
+  }
+  html+='</div>';
+  html+=`<div class="total-box"><span class="total-label">TOTAL</span>?</div>`;
+  return html;
+}
+
+function buildChange(q){
+  return `<div class="price-scene">
+    <div class="price-tag"><span class="tag-hole"></span>🏷️ ${q.price}</div>
+    <span class="change-arrow">←</span>
+    <div class="paid-box">
+      <span class="paid-label">You Paid</span>
+      <span class="paid-amount">${q.paid}</span>
+    </div>
+  </div>
+  <div style="font-size:0.9rem;color:var(--text2);font-weight:600;margin-bottom:4px">Change = Paid − Price = ?</div>`;
+}
+
+function renderQuestion(){
+  const q=questions[current];
+  const pct=Math.round((current/10)*100);
+  document.getElementById('progressLabel').textContent=`Question ${current+1} of 10`;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
+  answered=false;
+
+  const badge=document.getElementById('modeBadge');
+  if(q.mode==='total'){
+    badge.className='mode-badge mode-total';
+    badge.textContent='Total Up 🪙';
+  } else {
+    badge.className='mode-badge mode-change';
+    badge.textContent='Make Change 💰';
+  }
+  document.getElementById('questionText').textContent=q.text;
+  document.getElementById('visualArea').innerHTML=q.mode==='total'?buildCoins(q):buildChange(q);
+
+  const grid=document.getElementById('answersGrid');
+  grid.innerHTML='';
+  q.options.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='ans-btn';
+    btn.textContent=opt;
+    btn.onclick=()=>selectAnswer(opt,btn);
+    grid.appendChild(btn);
+  });
+
+  const fb=document.getElementById('feedbackBar');
+  fb.className='feedback-bar'; fb.textContent='';
+}
+
+function selectAnswer(opt,btn){
+  if(answered)return;
+  answered=true;
+  const q=questions[current];
+  const correct=opt===q.answer;
+  if(correct)score++;
+  document.getElementById('scoreDisplay').textContent=score;
+
+  document.querySelectorAll('.ans-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===q.answer)b.classList.add('correct');
+  });
+  if(!correct)btn.classList.add('wrong');
+
+  // Update total box if mode A
+  if(q.mode==='total'){
+    const box=document.querySelector('.total-box');
+    if(box) box.innerHTML=`<span class="total-label">TOTAL</span>${q.answer}`;
+  }
+
+  const fb=document.getElementById('feedbackBar');
+  fb.className='feedback-bar '+(correct?'correct':'wrong')+' show';
+  fb.textContent=(correct?'Correct! ':'Not quite. ')+q.explanation;
+
+  setTimeout(()=>{
+    current++;
+    if(current>=10) showEnd();
+    else renderQuestion();
+  },1400);
+}
+
+function showEnd(){
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('progressPct').textContent='100%';
+  let emoji,title,stars,msg;
+  if(score>=9){emoji='🏆';title='Brilliant!';stars='★★★';msg='You are a Money Market master!'}
+  else if(score>=7){emoji='🎉';title='Well Done!';stars='★★☆';msg='Great money skills — almost perfect!'}
+  else{emoji='💪';title='Keep Trying!';stars='★☆☆';msg='Keep practising those coins!'}
+  document.getElementById('endEmoji').textContent=emoji;
+  document.getElementById('endTitle').textContent=title;
+  document.getElementById('endScore').textContent=score+'/10';
+  document.getElementById('endStars').textContent=stars;
+  document.getElementById('endMsg').textContent=msg;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame(){
+  current=0;score=0;answered=false;
+  document.getElementById('scoreDisplay').textContent='0';
+  document.getElementById('endOverlay').classList.remove('show');
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Area Arena – MathMunch</title>
+<style>
+  :root {
+    --primary:#6C5CE7; --primary-light:#E8E4FF;
+    --g1:#4ECDC4; --g2:#2ECC71;
+    --accent:#FDCB6E; --bg:#1A1A2E;
+    --white:#FFFFFF; --text:#E8EFF7; --text2:#6B7A99;
+    --green:#00B894; --red:#FF4757;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#1A1A2E;color:var(--text);min-height:100vh}
+
+  /* TOP BAR */
+  .topbar{position:sticky;top:0;z-index:100;background:#12122A;box-shadow:0 2px 20px rgba(0,0,0,0.5);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
+  .topbar a.back{text-decoration:none;color:#4ECDC4;font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .topbar .brand{font-weight:900;font-size:18px;color:#4ECDC4}
+  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
+  .badge-p4{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#E0FFF5;color:#00A878}
+  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:#FDCB6E}
+
+  /* GAME AREA */
+  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+
+  /* QUESTION CARD */
+  .question-card{background:#16213E;border-radius:20px;box-shadow:0 4px 30px rgba(0,0,0,0.4);padding:28px 24px;margin-bottom:20px;text-align:center;border:1px solid #243460}
+  .question-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .question-text{font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px}
+
+  /* MODE TAGS */
+  .mode-tag{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:0.5px}
+  .tag-count{background:#0D2E30;color:#4ECDC4;border:1px solid #4ECDC4}
+  .tag-formula{background:#2E2A0D;color:#FDCB6E;border:1px solid #FDCB6E}
+
+  /* GRID */
+  .arena-grid-wrap{display:flex;justify-content:center;overflow-x:auto;margin-bottom:20px}
+  .arena-grid{display:inline-grid;gap:2px;background:#0A0A1A;border:2px solid #243460;border-radius:8px;padding:4px;position:relative}
+  .arena-cell{width:40px;height:40px;background:#1E1E3A;border-radius:4px;border:1px solid #2A2A4A;transition:background 0.15s}
+  .arena-cell.filled{background:rgba(78,205,196,0.7);border-color:#4ECDC4;box-shadow:0 0 8px rgba(78,205,196,0.3)}
+  .arena-cell.filled:hover{background:rgba(78,205,196,0.9);box-shadow:0 0 14px rgba(78,205,196,0.5)}
+  .arena-cell.hover-highlight{background:#2A3A4A}
+  .count-badge{background:#1A2A3A;border:2px solid #4ECDC4;border-radius:10px;padding:8px 16px;display:inline-flex;align-items:center;gap:8px;margin-bottom:16px}
+  .count-num{font-size:28px;font-weight:900;color:#4ECDC4}
+
+  /* FORMULA MODE */
+  .rect-wrap{display:flex;justify-content:center;margin-bottom:20px}
+  .rect-shape{position:relative;display:inline-block;padding:40px 60px}
+  .rect-inner{background:rgba(78,205,196,0.15);border:3px solid #4ECDC4;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#8BAABB}
+  .dim-label{position:absolute;font-size:14px;font-weight:900;color:#FDCB6E}
+  .dim-top{top:14px;left:50%;transform:translateX(-50%)}
+  .dim-bottom{bottom:14px;left:50%;transform:translateX(-50%)}
+  .dim-left{left:8px;top:50%;transform:translateY(-50%) rotate(-90deg)}
+  .dim-right{right:8px;top:50%;transform:translateY(-50%) rotate(90deg)}
+
+  /* TROPHY FORMULA */
+  .formula-trophy{background:linear-gradient(135deg,#2A2A0A,#3A3A0A);border:2px solid #FDCB6E;border-radius:12px;padding:12px 20px;margin-bottom:16px;font-size:15px;font-weight:800;color:#FDCB6E;display:flex;align-items:center;justify-content:center;gap:8px}
+
+  /* ANSWERS */
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:18px;cursor:pointer;border:2px solid #243460;background:#12122A;color:var(--text);transition:all 0.2s}
+  .btn-answer:hover:not(:disabled){background:#243460;border-color:#4ECDC4;transform:translateY(-2px)}
+  .btn-answer.correct{background:#0D2E20;border-color:var(--green);color:var(--green)}
+  .btn-answer.wrong{background:#2E0D15;border-color:var(--red);color:var(--red)}
+  .btn-answer:disabled{cursor:not-allowed;opacity:0.7}
+
+  /* FEEDBACK */
+  .feedback-bar{padding:12px 20px;border-radius:12px;font-weight:800;font-size:15px;text-align:center;margin-top:12px;display:none}
+  .feedback-bar.show{display:block}
+  .feedback-bar.correct-fb{background:#0D2E20;color:var(--green);border:2px solid var(--green)}
+  .feedback-bar.wrong-fb{background:#2E0D15;color:var(--red);border:2px solid var(--red)}
+
+  /* CHEER ANIMATION */
+  .cheer{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:48px;pointer-events:none;z-index:300;animation:cheerPop 1.2s ease forwards}
+  @keyframes cheerPop{0%{opacity:0;transform:translate(-50%,-50%) scale(0.5)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.3)}80%{opacity:1;transform:translate(-50%,-60%) scale(1)}100%{opacity:0;transform:translate(-50%,-80%) scale(0.8)}}
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;z-index:99;background:#12122A;box-shadow:0 -2px 15px rgba(0,0,0,0.4);padding:12px 20px}
+  .progress-info{display:flex;justify-content:space-between;align-items:center;max-width:800px;margin:0 auto 6px}
+  .progress-track{max-width:800px;margin:0 auto;height:10px;background:#1E1E3A;border-radius:10px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:10px;transition:width 0.4s ease}
+
+  /* END SCREEN */
+  .end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;z-index:200;display:none}
+  .end-overlay.show{display:flex}
+  .end-card{background:#16213E;border:1px solid #243460;border-radius:24px;padding:40px 32px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+  .end-stars{font-size:48px;margin-bottom:16px;letter-spacing:4px}
+  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:8px}
+  .end-score{font-size:18px;color:var(--text2);margin-bottom:28px}
+  .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px}
+  .btn-back{background:#1A1A2E;color:#4ECDC4;border:2px solid #4ECDC4;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-flex;align-items:center}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html" class="back">← All Games</a>
+  <div class="brand">🧮 MathMunch</div>
+  <div class="game-title">🏆 Area Arena</div>
+  <span class="badge-p4">P4</span>
+  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="question-card" id="questionCard">
+    <div class="question-label" id="roundLabel">Round 1 of 10</div>
+    <div id="modeTag"></div>
+    <div class="question-text" id="questionText"></div>
+    <div id="gameContent"></div>
+    <div class="feedback-bar" id="feedbackBar"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-info">
+    <span id="progressLabel" style="font-size:13px;font-weight:700;color:var(--text2)">Question 1 of 10</span>
+    <span id="progressPct" style="font-size:13px;font-weight:700;color:#4ECDC4">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score" id="endScore"></div>
+    <div class="end-btns">
+      <button class="btn-geo" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn-back">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── ROUND DATA ────────────────────────────────────────────────────────────────
+
+const rounds = [
+  { // R1 Mode A: Rectangle 4×3 = 12
+    mode:'A', answer:12, options:[10,11,12,14],
+    question:'Count the coloured squares to find the area.',
+    shapeName:'Rectangle 4×3',
+    cells:[[1,1],[1,2],[1,3],[1,4],[2,1],[2,2],[2,3],[2,4],[3,1],[3,2],[3,3],[3,4]],
+    gridSize:7
+  },
+  { // R2 Mode A: L-shape = 8
+    mode:'A', answer:8, options:[6,7,8,10],
+    question:'Count the coloured squares to find the area.',
+    shapeName:'L-shape',
+    cells:[[1,1],[2,1],[3,1],[4,1],[4,2],[4,3],[4,4],[4,5]],
+    gridSize:8
+  },
+  { // R3 Mode B: 6×4 = 24
+    mode:'B', answer:24, options:[20,22,24,26],
+    question:'What is the area of this rectangle?',
+    w:6, h:4, wLabel:'6 cm', hLabel:'4 cm',
+    formula:'Area = length × width',
+    rectPx:{w:180,h:120}
+  },
+  { // R4 Mode A: T-shape = 9
+    mode:'A', answer:9, options:[7,8,9,11],
+    question:'Count the coloured squares to find the area.',
+    shapeName:'T-shape',
+    cells:[[1,2],[1,3],[1,4],[1,5],[1,6],[2,4],[3,4],[4,4],[5,4]],
+    gridSize:9
+  },
+  { // R5 Mode B: Square 5×5 = 25
+    mode:'B', answer:25, options:[20,25,30,35],
+    question:'What is the area of this square?',
+    w:5, h:5, wLabel:'5 cm', hLabel:'5 cm',
+    formula:'Area = side × side',
+    rectPx:{w:150,h:150}
+  },
+  { // R6 Mode A: Staircase = 6
+    mode:'A', answer:6, options:[5,6,7,8],
+    question:'Count the coloured squares to find the area.',
+    shapeName:'Staircase shape',
+    cells:[[3,1],[4,1],[4,2],[5,1],[5,2],[5,3]],
+    gridSize:8
+  },
+  { // R7 Mode B: 8×3 = 24
+    mode:'B', answer:24, options:[22,24,26,28],
+    question:'What is the area of this rectangle?',
+    w:8, h:3, wLabel:'8 cm', hLabel:'3 cm',
+    formula:'Area = length × width',
+    rectPx:{w:200,h:90}
+  },
+  { // R8 Mode A: Plus/cross = 5
+    mode:'A', answer:5, options:[4,5,6,8],
+    question:'Count the coloured squares to find the area.',
+    shapeName:'Plus/cross shape',
+    cells:[[2,3],[3,2],[3,3],[3,4],[4,3]],
+    gridSize:7
+  },
+  { // R9 Mode B: 7×6 = 42
+    mode:'B', answer:42, options:[36,40,42,46],
+    question:'What is the area of this rectangle?',
+    w:7, h:6, wLabel:'7 cm', hLabel:'6 cm',
+    formula:'Area = length × width',
+    rectPx:{w:175,h:150}
+  },
+  { // R10 Mode A: Irregular L = 11
+    mode:'A', answer:11, options:[9,10,11,13],
+    question:'Count the coloured squares to find the area.',
+    shapeName:'Irregular L-shape',
+    cells:[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[4,1],[5,1],[5,2],[5,3]],
+    gridSize:7
+  }
+];
+
+// ─── GAME STATE ────────────────────────────────────────────────────────────────
+let currentRound = 0;
+let score = 0;
+let answered = false;
+
+function renderRound(){
+  const r = rounds[currentRound];
+  answered = false;
+
+  document.getElementById('roundLabel').textContent = `Round ${currentRound+1} of 10`;
+  document.getElementById('progressLabel').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round(currentRound/10*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressFill').style.width = pct+'%';
+
+  document.getElementById('questionText').textContent = r.question;
+
+  const fb = document.getElementById('feedbackBar');
+  fb.className = 'feedback-bar';
+
+  if(r.mode === 'A'){
+    renderModeA(r);
+  } else {
+    renderModeB(r);
+  }
+}
+
+function renderModeA(r){
+  document.getElementById('modeTag').innerHTML = '<span class="mode-tag tag-count">🟦 Count the Squares</span>';
+
+  const gridN = r.gridSize;
+  const filled = new Set(r.cells.map(([row,col])=>`${row},${col}`));
+
+  let gridHTML = `<div class="arena-grid" style="grid-template-columns:repeat(${gridN},40px);grid-template-rows:repeat(${gridN},40px)">`;
+  for(let row=0;row<gridN;row++){
+    for(let col=0;col<gridN;col++){
+      const isFilled = filled.has(`${row},${col}`);
+      gridHTML += `<div class="arena-cell${isFilled?' filled':''}" onmouseenter="hoverCell(this,${isFilled})" onmouseleave="unhoverCell(this,${isFilled})"></div>`;
+    }
+  }
+  gridHTML += '</div>';
+
+  const content = document.getElementById('gameContent');
+  content.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px">
+      <div class="count-badge">
+        <span style="font-size:14px;font-weight:700;color:var(--text2)">Squares:</span>
+        <span class="count-num">${r.cells.length}</span>
+        <span style="font-size:14px;font-weight:700;color:var(--text2)">sq cm</span>
+      </div>
+    </div>
+    <div class="arena-grid-wrap">${gridHTML}</div>
+    <div class="answers-grid">
+      ${r.options.map(o=>`<button class="btn-answer" onclick="answer(${o})">${o} cm²</button>`).join('')}
+    </div>`;
+}
+
+function hoverCell(el, isFilled){
+  if(!isFilled) el.classList.add('hover-highlight');
+}
+function unhoverCell(el, isFilled){
+  if(!isFilled) el.classList.remove('hover-highlight');
+}
+
+function renderModeB(r){
+  document.getElementById('modeTag').innerHTML = '<span class="mode-tag tag-formula">🏆 Use the Formula</span>';
+
+  const content = document.getElementById('gameContent');
+  content.innerHTML = `
+    <div class="formula-trophy">🏆 ${r.formula}</div>
+    <div class="rect-wrap">
+      <div class="rect-shape">
+        <div class="rect-inner" style="width:${r.rectPx.w}px;height:${r.rectPx.h}px">
+          ${r.w} × ${r.h}
+        </div>
+        <span class="dim-label dim-top">${r.wLabel}</span>
+        <span class="dim-label dim-bottom">${r.wLabel}</span>
+        <span class="dim-label dim-left">${r.hLabel}</span>
+        <span class="dim-label dim-right">${r.hLabel}</span>
+      </div>
+    </div>
+    <div class="answers-grid">
+      ${r.options.map(o=>`<button class="btn-answer" onclick="answer(${o})">${o} cm²</button>`).join('')}
+    </div>`;
+}
+
+function answer(chosen){
+  if(answered) return;
+  answered = true;
+  const r = rounds[currentRound];
+
+  const btns = document.querySelectorAll('.btn-answer');
+  btns.forEach(b=>{
+    b.disabled = true;
+    const val = parseInt(b.textContent);
+    if(val === r.answer) b.classList.add('correct');
+    else if(val === chosen) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedbackBar');
+  if(chosen === r.answer){
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.textContent = `✓ Correct! The area is ${r.answer} cm². ${r.mode==='A'?'Great counting!':''}`;
+    fb.className = 'feedback-bar show correct-fb';
+    showCheer();
+  } else {
+    fb.textContent = `✗ Not quite! The area is ${r.answer} cm².${r.mode==='B'?' Try: '+r.w+' × '+r.h+' = '+r.answer:''}`;
+    fb.className = 'feedback-bar show wrong-fb';
+  }
+
+  setTimeout(nextRound, 1800);
+}
+
+function showCheer(){
+  const emojis = ['🎉','🏆','⭐','🎊','✨'];
+  for(let i=0;i<3;i++){
+    setTimeout(()=>{
+      const el = document.createElement('div');
+      el.className = 'cheer';
+      el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      el.style.left = (30 + Math.random()*40) + '%';
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(), 1200);
+    }, i*200);
+  }
+}
+
+function nextRound(){
+  currentRound++;
+  if(currentRound >= 10) showEndScreen();
+  else renderRound();
+}
+
+function showEndScreen(){
+  document.getElementById('progressLabel').textContent = 'Question 10 of 10';
+  document.getElementById('progressPct').textContent = '100%';
+  document.getElementById('progressFill').style.width = '100%';
+
+  let stars, title;
+  if(score >= 9){ stars = '★★★'; title = 'Brilliant!'; }
+  else if(score >= 7){ stars = '★★☆'; title = 'Well Done!'; }
+  else { stars = '★☆☆'; title = 'Keep Trying!'; }
+
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = `You scored ${score} out of 10`;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame(){
+  currentRound = 0; score = 0;
+  document.getElementById('scoreDisplay').textContent = '0';
+  document.getElementById('endOverlay').classList.remove('show');
+  renderRound();
+}
+
+renderRound();
+</script>
+</body>
+</html>

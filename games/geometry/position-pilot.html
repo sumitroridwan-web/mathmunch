@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Position Pilot – MathMunch</title>
+<style>
+  :root {
+    --primary:#6C5CE7; --primary-light:#E8E4FF;
+    --g1:#4ECDC4; --g2:#2ECC71;
+    --accent:#FDCB6E; --accent-dark:#E17055;
+    --bg:#F0F4FF; --white:#FFFFFF;
+    --text:#1E1E2E; --text2:#525270;
+    --green:#00B894; --red:#FF4757;
+    --radius:16px; --shadow:0 4px 20px rgba(78,205,196,0.15);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+  .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
+  .topbar a.back{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;white-space:nowrap}
+  .topbar .brand{font-weight:900;font-size:18px;color:var(--primary)}
+  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
+  .badge{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#FFF0E0;color:#FF7043}
+  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:var(--text)}
+
+  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+
+  /* Header decoration */
+  .game-header{text-align:center;margin-bottom:16px;font-size:28px;line-height:1}
+
+  .question-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:24px;margin-bottom:20px;text-align:center}
+  .q-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .q-text{font-size:19px;font-weight:800;color:var(--text);margin-bottom:20px;line-height:1.4}
+
+  /* GRID */
+  .grid-container{display:flex;justify-content:center;margin-bottom:20px}
+  .grid-3x3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#E8F0E8;border-radius:14px;padding:10px;max-width:340px;width:100%}
+  .grid-cell{aspect-ratio:1;background:var(--white);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:all 0.2s;border:2px solid transparent;min-height:80px;position:relative}
+  .grid-cell:hover{border-color:var(--accent);transform:scale(1.04)}
+  .grid-cell.empty{background:#F0F7F0;cursor:default}
+  .grid-cell.empty:hover{border-color:transparent;transform:none}
+  .grid-cell.clickable:hover{border-color:var(--primary);background:var(--primary-light);cursor:pointer}
+  .grid-cell.correct-cell{border-color:var(--green)!important;background:#D4F8EA!important;animation:cellBounce 0.4s ease}
+  .grid-cell.wrong-cell{border-color:var(--red)!important;background:#FFE8EC!important}
+  .grid-cell.highlight-correct{border-color:var(--green)!important;background:#D4F8EA!important}
+  @keyframes cellBounce{0%{transform:scale(1)}40%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+  /* Target/question highlight */
+  .grid-cell.target{background:#FFF9E0;border-color:var(--accent);}
+  .grid-cell .checkmark{position:absolute;top:2px;right:4px;font-size:14px;color:var(--green)}
+
+  /* Direction indicator */
+  .direction-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;background:var(--primary-light);color:var(--primary);font-weight:800;font-size:14px;margin-bottom:16px}
+
+  /* Answer buttons */
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:20px;cursor:pointer;border:2px solid #E8E4FF;background:var(--white);color:var(--text);transition:all 0.2s;min-height:60px}
+  .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
+  .btn-answer.correct{background:#E8FFF3;border-color:var(--green)}
+  .btn-answer.wrong{background:#FFE8EC;border-color:var(--red)}
+  .btn-answer:disabled{cursor:not-allowed}
+
+  .instruction-note{font-size:14px;color:var(--text2);margin-top:8px;font-style:italic}
+
+  /* Feedback */
+  .feedback{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;padding:18px 36px;border-radius:20px;font-size:22px;font-weight:800;color:white;pointer-events:none}
+  .feedback.show-correct{display:block;background:var(--green)}
+  .feedback.show-wrong{display:block;background:var(--red)}
+
+  /* Progress */
+  .progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:100}
+  .progress-info{display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:var(--text2);margin-bottom:6px}
+  .progress-track{height:8px;background:#E8E4FF;border-radius:4px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:4px;transition:width 0.4s ease}
+
+  /* End screen */
+  .end-screen{display:none;position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
+  .end-screen.show{display:flex}
+  .end-card{background:var(--white);border-radius:24px;padding:40px 36px;text-align:center;max-width:420px;width:90%;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes popIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+  .end-emoji{font-size:56px;margin-bottom:10px}
+  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:6px}
+  .end-score-text{font-size:18px;color:var(--text2);margin-bottom:14px}
+  .end-stars{font-size:32px;margin-bottom:6px}
+  .end-verdict{font-size:20px;font-weight:800;color:var(--primary);margin-bottom:24px}
+  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
+  .btn-geo:hover{transform:translateY(-2px)}
+  .btn-secondary{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:2px solid var(--primary);background:transparent;color:var(--primary);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
+  .btn-secondary:hover{background:var(--primary-light)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="../../index.html">← All Games</a>
+  <div class="brand">🧮 MathMunch</div>
+  <div class="game-title">Position Pilot</div>
+  <div class="badge">P1</div>
+  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<div class="game-area">
+  <div class="game-header">🤖 ✈️</div>
+  <div class="question-card">
+    <div class="q-label" id="qLabel">Question 1 of 10</div>
+    <div class="q-text" id="qText"></div>
+    <div id="directionBadge"></div>
+    <div class="grid-container">
+      <div class="grid-3x3" id="mainGrid"></div>
+    </div>
+    <div class="instruction-note" id="instrNote"></div>
+  </div>
+  <div id="answersArea"></div>
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="progress-bar">
+  <div class="progress-info">
+    <span id="progressText">Question 1 of 10</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<div class="end-screen" id="endScreen">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score-text" id="endScoreText"></div>
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-verdict" id="endVerdict"></div>
+    <button class="btn-geo" onclick="restartGame()">Play Again</button>
+    <a class="btn-secondary" href="../../index.html">← Back to All Games</a>
+  </div>
+</div>
+
+<script>
+const ITEMS = ['🌟','🎈','🎁','🏠','🌸','🐱','🦋','⭐','🎀'];
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
+function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+// Grid: 3x3, positions 0-8, row/col from 0
+function pos(row,col){ return row*3+col; }
+function rowOf(p){ return Math.floor(p/3); }
+function colOf(p){ return p%3; }
+
+let currentRound = 0;
+let score = 0;
+let rounds = [];
+
+// Generate a question round
+function generateRound(roundIdx){
+  // Pick 4 items, place them in random distinct positions
+  const items = shuffle(ITEMS).slice(0,4);
+  const positions = shuffle([0,1,2,3,4,5,6,7,8]).slice(0,4);
+  const placement = {}; // pos -> item emoji
+  positions.forEach((p,i) => placement[p] = items[i]);
+
+  const qType = [0,0,0,0,1,1,1,2,2,2][roundIdx] || (roundIdx%3===0?0:roundIdx%3===1?1:2);
+
+  // Type A: "Which cell is to the RIGHT of X?" — player clicks cell
+  // Type B: "What is ABOVE X?" — 4 answer buttons (emoji or 'nothing')
+  // Type C: "What is BETWEEN X and Y in the same row?" — 4 answer buttons
+
+  let question, correctAnswer, distractors, mode, targetPos, highlightPos;
+
+  if(qType === 0){
+    // Type A: directional cell click
+    const directions = ['right','left','above','below'];
+    const dir = rand(directions);
+    // Find an item that has a valid neighbour in that direction
+    let chosen = null, answerPos = -1;
+    for(let attempt=0; attempt<50; attempt++){
+      const p = rand(positions);
+      const r = rowOf(p), c = colOf(p);
+      let nr=-1,nc=-1;
+      if(dir==='right'){nr=r;nc=c+1;}
+      else if(dir==='left'){nr=r;nc=c-1;}
+      else if(dir==='above'){nr=r-1;nc=c;}
+      else{nr=r+1;nc=c;}
+      if(nr>=0&&nr<3&&nc>=0&&nc<3){
+        chosen=p; answerPos=pos(nr,nc); break;
+      }
+    }
+    if(chosen===null){ return generateRound(roundIdx); }
+    const emoji = placement[chosen];
+    question = `Which cell is to the ${dir.toUpperCase()} of the ${emoji}?`;
+    correctAnswer = answerPos;
+    highlightPos = chosen;
+    mode = 'click';
+
+    return { placement, question, mode, correctAnswer, highlightPos,
+             dirLabel: dir==='right'?'→ Right':dir==='left'?'← Left':dir==='above'?'↑ Above':'↓ Below' };
+
+  } else if(qType === 1){
+    // Type B: "What is ABOVE/BELOW/LEFT/RIGHT of X?"
+    const directions = ['above','below','left of','right of'];
+    const dir = rand(directions);
+    let chosen=null, neighbourPos=-1;
+    for(let attempt=0;attempt<50;attempt++){
+      const p = rand(positions);
+      const r=rowOf(p),c=colOf(p);
+      let nr=-1,nc=-1;
+      if(dir==='above'){nr=r-1;nc=c;}
+      else if(dir==='below'){nr=r+1;nc=c;}
+      else if(dir==='left of'){nr=r;nc=c-1;}
+      else{nr=r;nc=c+1;}
+      if(nr>=0&&nr<3&&nc>=0&&nc<3){chosen=p;neighbourPos=pos(nr,nc);break;}
+    }
+    if(chosen===null){return generateRound(roundIdx);}
+    const emoji=placement[chosen];
+    const dirLabel=dir==='above'?'↑ Above':dir==='below'?'↓ Below':dir==='left of'?'← Left of':'→ Right of';
+    const correctEmoji = placement[neighbourPos] || '⬜ Empty';
+    // Distractors: other items + 'Empty'
+    const otherItems = items.filter(it=>it!==correctEmoji && it!==emoji);
+    const dists = shuffle([...otherItems,'⬜ Empty']).slice(0,3);
+    question = `What is ${dir.toUpperCase()} the ${emoji}?`;
+    mode = 'buttons';
+    return { placement, question, mode, correctAnswer:correctEmoji, distractors:dists,
+             highlightPos:chosen, dirLabel };
+
+  } else {
+    // Type C: Between in same row
+    // Find two items in same row with one empty cell between them
+    const rowGroups = [[0,1,2],[3,4,5],[6,7,8]];
+    let found=null;
+    for(let attempt=0;attempt<50;attempt++){
+      const row = rand(rowGroups);
+      // check if positions 0 and 2 of a row both have items and middle empty
+      const left=row[0],mid=row[1],right=row[2];
+      if(placement[left] && placement[right] && !placement[mid]){
+        found={left,mid,right}; break;
+      }
+      // or left and mid with right being the target
+      if(placement[left]&&placement[mid]){
+        // "between left and mid" — but there's no cell between them directly
+        // try the reverse: items at 0 and 2
+      }
+    }
+    if(!found){
+      // fallback to Type B
+      return generateRound(roundIdx);
+    }
+    const leftEmoji=placement[found.left], rightEmoji=placement[found.right];
+    const correctEmoji = placement[found.mid] || '⬜ Empty';
+    const otherItems=items.filter(it=>it!==leftEmoji&&it!==rightEmoji);
+    const dists=shuffle([...otherItems,'⬜ Empty']).slice(0,3);
+    question=`What is BETWEEN the ${leftEmoji} and the ${rightEmoji}?`;
+    mode='buttons';
+    return {placement, question, mode, correctAnswer:correctEmoji, distractors:dists,
+            highlightPos:found.left, highlightPos2:found.right, dirLabel:'↔ Between'};
+  }
+}
+
+function buildRounds(){
+  rounds=[];
+  for(let i=0;i<10;i++){
+    let r=generateRound(i);
+    rounds.push(r);
+  }
+}
+
+function renderRound(){
+  const r=rounds[currentRound];
+  document.getElementById('qLabel').textContent=`Question ${currentRound+1} of 10`;
+  document.getElementById('progressText').textContent=`Question ${currentRound+1} of 10`;
+  const pct=Math.round((currentRound/10)*100);
+  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('qText').textContent=r.question;
+  document.getElementById('answersArea').innerHTML='';
+
+  // Direction badge
+  const db=document.getElementById('directionBadge');
+  if(r.dirLabel){
+    db.innerHTML=`<div class="direction-badge">${r.dirLabel}</div>`;
+  } else { db.innerHTML=''; }
+
+  // Build grid
+  const grid=document.getElementById('mainGrid');
+  grid.innerHTML='';
+  for(let i=0;i<9;i++){
+    const cell=document.createElement('div');
+    cell.className='grid-cell';
+    const emoji=r.placement[i];
+    if(emoji){
+      cell.textContent=emoji;
+      if(i===r.highlightPos || i===r.highlightPos2) cell.classList.add('target');
+    } else {
+      cell.classList.add('empty');
+      cell.textContent='';
+    }
+    if(r.mode==='click'){
+      cell.classList.add('clickable');
+      cell.addEventListener('click',()=>handleCellClick(i===r.correctAnswer, cell, r.correctAnswer));
+    }
+    grid.appendChild(cell);
+  }
+
+  if(r.mode==='click'){
+    document.getElementById('instrNote').textContent='Tap the correct cell on the grid!';
+  } else {
+    document.getElementById('instrNote').textContent='';
+    // Build answer buttons
+    const options=shuffle([r.correctAnswer,...r.distractors]);
+    const answGrid=document.createElement('div');
+    answGrid.className='answers-grid';
+    options.forEach(opt=>{
+      const btn=document.createElement('button');
+      btn.className='btn-answer';
+      btn.textContent=opt;
+      btn.onclick=()=>handleButtonAnswer(opt===r.correctAnswer, btn, answGrid, r.correctAnswer);
+      answGrid.appendChild(btn);
+    });
+    document.getElementById('answersArea').appendChild(answGrid);
+  }
+}
+
+function handleCellClick(isCorrect, cell, correctPos){
+  const grid=document.getElementById('mainGrid');
+  const cells=grid.children;
+  Array.from(cells).forEach(c=>{
+    c.classList.remove('clickable');
+    c.replaceWith(c.cloneNode(true));
+  });
+  if(isCorrect){
+    score++;
+    document.getElementById('scoreDisplay').textContent=score;
+    cell.classList.add('correct-cell');
+    const check=document.createElement('span');
+    check.className='checkmark';
+    check.textContent='✓';
+    cell.appendChild(check);
+    showFeedback(true);
+  } else {
+    cell.classList.add('wrong-cell');
+    // highlight correct
+    grid.children[correctPos].classList.add('highlight-correct');
+    showFeedback(false);
+  }
+  setTimeout(nextRound,1200);
+}
+
+function handleButtonAnswer(isCorrect, btn, grid, correctAnswer){
+  if(isCorrect) score++;
+  document.getElementById('scoreDisplay').textContent=score;
+  Array.from(grid.children).forEach(b=>{b.disabled=true;});
+  if(isCorrect){
+    btn.classList.add('correct');
+    showFeedback(true);
+  } else {
+    btn.classList.add('wrong');
+    Array.from(grid.children).forEach(b=>{
+      if(b.textContent===correctAnswer) b.classList.add('correct');
+    });
+    showFeedback(false);
+  }
+  setTimeout(nextRound,1200);
+}
+
+function showFeedback(correct){
+  const fb=document.getElementById('feedback');
+  fb.textContent=correct?'✓ Correct!':'✗ Not quite!';
+  fb.className='feedback '+(correct?'show-correct':'show-wrong');
+  setTimeout(()=>fb.className='feedback',1100);
+}
+
+function nextRound(){
+  currentRound++;
+  if(currentRound>=10) showEndScreen();
+  else renderRound();
+}
+
+function showEndScreen(){
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('progressPct').textContent='100%';
+  document.getElementById('endScreen').classList.add('show');
+  let emoji,title,stars,verdict;
+  if(score>=9){emoji='🌟';title='Brilliant!';stars='★★★';verdict='Amazing work!';}
+  else if(score>=7){emoji='😊';title='Well Done!';stars='★★☆';verdict='Great job!';}
+  else{emoji='💪';title='Keep Trying!';stars='★☆☆';verdict='You can do it!';}
+  document.getElementById('endEmoji').textContent=emoji;
+  document.getElementById('endTitle').textContent=title;
+  document.getElementById('endScoreText').textContent=`You scored ${score} out of 10`;
+  document.getElementById('endStars').textContent=stars;
+  document.getElementById('endVerdict').textContent=verdict;
+}
+
+function restartGame(){
+  score=0;currentRound=0;
+  document.getElementById('scoreDisplay').textContent='0';
+  document.getElementById('endScreen').classList.remove('show');
+  buildRounds();
+  renderRound();
+}
+
+buildRounds();
+renderRound();
+</script>
+</body>
+</html>

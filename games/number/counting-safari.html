@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Counting Safari – MathMunch</title>
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #E8E4FF;
+    --accent: #FDCB6E;
+    --n1: #FF6B6B;
+    --n2: #FF8E53;
+    --bg: #F0F4FF;
+    --white: #FFFFFF;
+    --text: #1E1E2E;
+    --text2: #525270;
+    --green: #00B894;
+    --red: #FF4757;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* TOP BAR */
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--white); box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 20px; height: 60px;
+  }
+  .top-bar a { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+  .top-bar a:hover { text-decoration: underline; }
+  .top-bar .brand { font-weight: 800; font-size: 1rem; color: var(--text); }
+  .top-bar .game-title { font-weight: 700; font-size: 0.95rem; color: var(--text2); flex: 1; }
+  .level-badge { background: #FFE0F0; color: #FF4785; font-weight: 800; font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .score-display { font-weight: 800; font-size: 1rem; color: var(--text); white-space: nowrap; }
+
+  /* GAME AREA */
+  .game-area {
+    max-width: 800px; margin: 0 auto; padding: 80px 16px 100px;
+  }
+
+  /* SAFARI HEADER */
+  .safari-header {
+    text-align: center; margin-bottom: 20px;
+    font-size: 2rem; letter-spacing: 4px;
+  }
+
+  /* GAME CARD */
+  .game-card {
+    background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(255,107,107,0.15);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+  }
+  .question-text {
+    text-align: center; font-size: 1.3rem; font-weight: 700;
+    color: var(--text); margin-bottom: 20px;
+  }
+  .animal-grid {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px; margin-bottom: 24px; min-height: 80px;
+    background: rgba(255,255,255,0.5); border-radius: 16px; padding: 16px;
+  }
+  .animal-emoji {
+    font-size: 2.4rem; display: inline-block;
+    transition: transform 0.2s;
+  }
+
+  /* ANSWER BUTTONS */
+  .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn-answer {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white; border: none; border-radius: 12px;
+    font-weight: 800; font-size: 1.5rem; padding: 16px 28px;
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(255,107,107,0.3);
+    font-family: inherit;
+  }
+  .btn-answer:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,107,107,0.4); }
+  .btn-answer:disabled { cursor: default; opacity: 0.7; }
+  .btn-answer.correct { background: #D4EDDA !important; color: #155724 !important; box-shadow: 0 4px 14px rgba(0,184,148,0.3); }
+  .btn-answer.wrong { background: #F8D7DA !important; color: #721C24 !important; box-shadow: none; }
+
+  /* FEEDBACK */
+  .feedback-box {
+    border-radius: 12px; padding: 12px 20px; text-align: center;
+    font-weight: 700; font-size: 1rem; margin-top: 16px; display: none;
+  }
+  .feedback-box.correct { background: #D4EDDA; color: #155724; display: block; }
+  .feedback-box.wrong { background: #F8D7DA; color: #721C24; display: block; }
+
+  /* PROGRESS BAR */
+  .progress-bar-container {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--white); box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    padding: 12px 20px; z-index: 100;
+  }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+  .progress-track { background: #e0e0e0; border-radius: 99px; height: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); transition: width 0.4s ease; }
+
+  /* CONFETTI */
+  .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 200; overflow: hidden; }
+  .confetti-piece {
+    position: absolute; font-size: 1.5rem;
+    animation: confettiFly 1.2s ease-out forwards;
+    top: 50%; opacity: 1;
+  }
+  @keyframes confettiFly {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-220px) rotate(720deg); opacity: 0; }
+  }
+
+  /* END SCREEN */
+  .end-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(10,10,30,0.65); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+  }
+  .end-overlay.show { display: flex; }
+  .end-card {
+    background: var(--white); border-radius: 24px;
+    padding: 40px 36px; text-align: center; max-width: 420px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+  }
+  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .end-emoji { font-size: 4rem; margin-bottom: 12px; }
+  .end-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+  .end-score { font-size: 3rem; font-weight: 800; color: var(--primary); margin: 12px 0; }
+  .end-stars { font-size: 2rem; margin: 8px 0; }
+  .end-label { font-size: 1rem; color: var(--text2); margin-bottom: 24px; font-weight: 600; }
+  .btn-play-again {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white; border: none; border-radius: 12px;
+    font-weight: 800; font-size: 1.1rem; padding: 14px 36px;
+    cursor: pointer; font-family: inherit; margin-bottom: 14px;
+    display: block; width: 100%;
+    transition: transform 0.15s;
+  }
+  .btn-play-again:hover { transform: translateY(-2px); }
+  .back-link { display: block; color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+  .back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="../../index.html">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="game-title">Counting Safari</span>
+  <span class="level-badge">EY</span>
+  <span class="score-display">⭐ <span id="scoreVal">0</span></span>
+</div>
+
+<!-- SAFARI HEADER -->
+<div class="game-area">
+  <div class="safari-header">🌴 ☀️ 🌴</div>
+
+  <!-- GAME CARD -->
+  <div class="game-card" id="gameCard">
+    <div class="question-text" id="questionText">Loading...</div>
+    <div class="animal-grid" id="animalGrid"></div>
+    <div class="answers-grid" id="answersGrid"></div>
+    <div class="feedback-box" id="feedbackBox"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-container">
+  <div class="progress-labels">
+    <span id="progressLabel">Question 1 of 10</span>
+    <span id="progressPercent">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- CONFETTI CONTAINER -->
+<div class="confetti-container" id="confettiContainer"></div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🦁</div>
+    <div class="end-title" id="endTitle">Safari Complete!</div>
+    <div class="end-score" id="endScore">0 / 10</div>
+    <div class="end-stars" id="endStars">⭐⭐⭐</div>
+    <div class="end-label" id="endLabel">Brilliant!</div>
+    <button class="btn-play-again" onclick="restartGame()">Play Again</button>
+    <a class="back-link" href="../../index.html">← Back to All Games</a>
+  </div>
+</div>
+
+<script>
+const ANIMALS = ['🦁','🐘','🦒','🦓','🦏','🦛','🐆','🦍','🦅','🦜'];
+const CONFETTI = ['⭐','🌟','✨','🎉','🏆','🌈'];
+
+let rounds = [];
+let currentRound = 0;
+let score = 0;
+let answered = false;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generateRounds() {
+  rounds = [];
+  for (let i = 0; i < 10; i++) {
+    const animal = ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
+    const count = Math.floor(Math.random() * 10) + 1;
+    const distractors = new Set();
+    while (distractors.size < 3) {
+      let d = count + (Math.random() < 0.5 ? 1 : -1) * (Math.floor(Math.random() * 3) + 1);
+      d = Math.max(1, Math.min(10, d));
+      if (d !== count) distractors.add(d);
+    }
+    const options = shuffle([count, ...distractors]);
+    rounds.push({ animal, count, options });
+  }
+}
+
+function renderRound() {
+  answered = false;
+  const r = rounds[currentRound];
+
+  // Question text
+  document.getElementById('questionText').textContent =
+    `How many ${r.animal}s can you see?`;
+
+  // Animal grid
+  const grid = document.getElementById('animalGrid');
+  grid.innerHTML = '';
+  for (let i = 0; i < r.count; i++) {
+    const span = document.createElement('span');
+    span.className = 'animal-emoji';
+    span.textContent = r.animal;
+    const rot = (Math.random() * 16 - 8).toFixed(1);
+    const scale = (0.9 + Math.random() * 0.2).toFixed(2);
+    span.style.transform = `rotate(${rot}deg) scale(${scale})`;
+    span.style.animationDelay = `${i * 0.05}s`;
+    grid.appendChild(span);
+  }
+
+  // Answer buttons
+  const grid2 = document.getElementById('answersGrid');
+  grid2.innerHTML = '';
+  r.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-answer';
+    btn.textContent = opt;
+    btn.onclick = () => handleAnswer(btn, opt, r.count);
+    grid2.appendChild(btn);
+  });
+
+  // Feedback
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback-box';
+  fb.textContent = '';
+
+  updateProgress();
+}
+
+function handleAnswer(btn, chosen, correct) {
+  if (answered) return;
+  answered = true;
+
+  const allBtns = document.querySelectorAll('.btn-answer');
+  allBtns.forEach(b => b.disabled = true);
+
+  const fb = document.getElementById('feedbackBox');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback-box correct';
+    fb.textContent = '✓ Correct! Great job!';
+    score++;
+    document.getElementById('scoreVal').textContent = score;
+    launchConfetti();
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback-box wrong';
+    fb.textContent = `✗ Not quite! The answer was ${correct}.`;
+    allBtns.forEach(b => {
+      if (parseInt(b.textContent) === correct) b.classList.add('correct');
+    });
+  }
+
+  setTimeout(() => {
+    currentRound++;
+    if (currentRound < 10) {
+      renderRound();
+    } else {
+      showEndScreen();
+    }
+  }, 1200);
+}
+
+function updateProgress() {
+  const pct = Math.round((currentRound / 10) * 100);
+  document.getElementById('progressLabel').textContent = `Question ${currentRound + 1} of 10`;
+  document.getElementById('progressPercent').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = `${pct}%`;
+}
+
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  for (let i = 0; i < 8; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    piece.textContent = CONFETTI[Math.floor(Math.random() * CONFETTI.length)];
+    piece.style.left = (20 + Math.random() * 60) + '%';
+    piece.style.animationDelay = (Math.random() * 0.3) + 's';
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), 1500);
+  }
+}
+
+function showEndScreen() {
+  const overlay = document.getElementById('endOverlay');
+  document.getElementById('endScore').textContent = `${score} / 10`;
+
+  let stars, label, emoji;
+  if (score >= 9) { stars = '★★★'; label = 'Brilliant!'; emoji = '🏆'; }
+  else if (score >= 7) { stars = '★★☆'; label = 'Well Done!'; emoji = '🌟'; }
+  else { stars = '★☆☆'; label = 'Keep Trying!'; emoji = '🦁'; }
+
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endLabel').textContent = label;
+  document.getElementById('endEmoji').textContent = emoji;
+  overlay.classList.add('show');
+}
+
+function restartGame() {
+  currentRound = 0;
+  score = 0;
+  document.getElementById('scoreVal').textContent = 0;
+  document.getElementById('endOverlay').classList.remove('show');
+  generateRounds();
+  renderRound();
+}
+
+// INIT
+generateRounds();
+renderRound();
+</script>
+</body>
+</html>

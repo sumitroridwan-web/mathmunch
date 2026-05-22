@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coordinate Commander – MathMunch</title>
+<style>
+:root {
+  --primary:#6C5CE7; --primary-light:#E8E4FF;
+  --g1:#4ECDC4; --g2:#2ECC71;
+  --accent:#FDCB6E; --bg:#F0F4FF;
+  --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
+  --green:#00B894; --red:#FF4757;
+  --radius:16px; --shadow:0 4px 20px rgba(78,205,196,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#1B3A2D;color:#E8F5E9;min-height:100vh;}
+
+/* TOP BAR */
+.topbar{position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px;}
+.topbar a{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;white-space:nowrap;}
+.topbar a:hover{opacity:0.8;}
+.topbar-brand{font-weight:900;font-size:16px;color:var(--primary);}
+.topbar-title{font-weight:800;font-size:15px;color:var(--text);display:flex;align-items:center;gap:6px;}
+.badge-p4{background:#E0FFF5;color:#00A878;border-radius:8px;padding:3px 10px;font-size:12px;font-weight:800;}
+.score-display{background:var(--primary-light);color:var(--primary);border-radius:10px;padding:4px 14px;font-weight:800;font-size:14px;white-space:nowrap;}
+
+/* GAME AREA */
+.game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px;}
+
+.game-card{background:#243B2F;border-radius:var(--radius);padding:28px;margin-bottom:20px;box-shadow:0 8px 32px rgba(0,0,0,0.3);border:1px solid rgba(78,205,196,0.2);}
+
+.header-decoration{text-align:center;font-size:28px;margin-bottom:8px;}
+.question-text{font-size:18px;font-weight:700;color:#A8E6CF;text-align:center;margin-bottom:20px;line-height:1.4;}
+.round-label{font-size:12px;color:#78A898;text-align:center;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
+
+/* GRID CONTAINER */
+.grid-wrapper{display:flex;justify-content:center;margin:20px 0;}
+svg.coord-grid{border:2px solid rgba(78,205,196,0.3);border-radius:8px;background:#1a2f23;}
+
+/* ANSWER OPTIONS */
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.option-btn{background:#1B3A2D;border:2px solid rgba(78,205,196,0.3);border-radius:12px;padding:14px 20px;color:#A8E6CF;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;}
+.option-btn:hover{background:#2E5040;border-color:#4ECDC4;transform:translateY(-1px);}
+.option-btn.correct{background:#00B89422;border-color:#00B894;color:#00B894;}
+.option-btn.wrong{background:#FF475722;border-color:#FF4757;color:#FF4757;}
+.option-btn:disabled{cursor:not-allowed;}
+
+/* FEEDBACK */
+.feedback{text-align:center;font-size:16px;font-weight:700;padding:10px;border-radius:10px;margin-top:12px;min-height:36px;}
+.feedback.correct{background:#00B89422;color:#00B894;}
+.feedback.wrong{background:#FF475722;color:#FF4757;}
+
+/* MODE LABEL */
+.mode-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:14px;}
+.mode-a{background:#FDCB6E33;color:#FDCB6E;}
+.mode-b{background:#6C5CE733;color:#A29BFE;}
+
+/* CLICK INSTRUCTION */
+.click-instruction{text-align:center;color:#78A898;font-size:14px;font-style:italic;margin-bottom:8px;}
+
+/* PROGRESS BAR */
+.progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:10px 20px;display:flex;align-items:center;gap:16px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,0.08);}
+.progress-label{font-size:13px;font-weight:700;color:var(--text2);white-space:nowrap;}
+.progress-track{flex:1;background:#eee;border-radius:99px;height:12px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:99px;transition:width 0.4s;}
+.progress-pct{font-size:13px;font-weight:700;color:var(--g2);min-width:36px;text-align:right;}
+
+/* END SCREEN */
+.end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:200;display:none;}
+.end-overlay.show{display:flex;}
+.end-card{background:#fff;border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes popIn{from{transform:scale(0.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+.end-stars{font-size:36px;margin-bottom:12px;}
+.end-title{font-size:26px;font-weight:900;color:var(--text);margin-bottom:8px;}
+.end-subtitle{font-size:15px;color:var(--text2);margin-bottom:8px;}
+.end-score{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:24px;}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;transition:opacity 0.2s;}
+.btn-geo:hover{opacity:0.88;}
+.btn-back{background:#f0f0f0;color:var(--text);border:none;border-radius:12px;font-weight:700;padding:12px 24px;cursor:pointer;font-size:15px;}
+.btn-back:hover{background:#e0e0e0;}
+
+/* CROSSHAIR animation */
+@keyframes crosshairPop{0%{r:0;opacity:1;}100%{r:20;opacity:0;}}
+.crosshair-ring{animation:crosshairPop 0.6s ease-out forwards;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html">← All Games</a>
+  <span class="topbar-brand">🧮 MathMunch</span>
+  <span class="topbar-title">🎯 Coordinate Commander <span class="badge-p4">P4</span></span>
+  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="game-card" id="gameCard">
+    <div class="header-decoration">🎯 🗺️ 🎖️</div>
+    <div class="round-label">MISSION <span id="roundLabel">1</span> OF 10</div>
+
+    <div style="text-align:center;margin-bottom:10px;">
+      <span class="mode-badge mode-a" id="modeBadge">READ COORDINATES</span>
+    </div>
+
+    <div class="question-text" id="questionText">Loading mission...</div>
+    <div class="click-instruction" id="clickInstruction" style="display:none;">Click the correct point on the grid</div>
+
+    <div class="grid-wrapper">
+      <svg id="coordGrid" class="coord-grid" width="360" height="360" viewBox="-30 -10 360 360"></svg>
+    </div>
+
+    <div class="options-grid" id="optionsGrid"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <span class="progress-label">Question <span id="progQ">1</span> of 10</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <span class="progress-pct" id="progPct">0%</span>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-subtitle">You scored</div>
+    <div class="end-score" id="endScore"></div>
+    <div class="end-btns">
+      <button class="btn-geo" onclick="restartGame()">Play Again</button>
+      <button class="btn-back" onclick="window.location.href='../../index.html'">Back</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────
+const COORDS = [
+  {x:2,y:3},{x:5,y:7},{x:8,y:2},{x:4,y:6},{x:1,y:9},
+  {x:7,y:4},{x:3,y:8},{x:6,y:1},{x:9,y:5},{x:2,y:7}
+];
+
+// Each round: index maps to COORDS, mode alternates A(odd=1,3,5...) B(even=2,4,6...)
+// Round 1 = index 0 = Mode A, Round 2 = index 1 = Mode B, etc.
+
+const CELL = 30; // px per unit
+const GRID_ORIGIN_X = 20; // SVG x offset for (0,0)
+const GRID_ORIGIN_Y = 310; // SVG y offset for (0,0) — y grows upward
+
+let currentRound = 0;
+let score = 0;
+let answeredThisRound = false;
+let clickHandlerAttached = false;
+
+// ─── GRID DRAWING ────────────────────────────────────────────────────
+function drawGrid(svg, pointX = null, pointY = null, showClick = false) {
+  svg.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+
+  // Background tint
+  const bg = document.createElementNS(ns,'rect');
+  bg.setAttribute('x', GRID_ORIGIN_X - 5);
+  bg.setAttribute('y', GRID_ORIGIN_Y - 10 * CELL - 5);
+  bg.setAttribute('width', 10 * CELL + 10);
+  bg.setAttribute('height', 10 * CELL + 10);
+  bg.setAttribute('fill','#0d2218');
+  bg.setAttribute('rx','4');
+  svg.appendChild(bg);
+
+  // Grid lines
+  for (let i = 0; i <= 10; i++) {
+    // vertical
+    const vl = document.createElementNS(ns,'line');
+    vl.setAttribute('x1', GRID_ORIGIN_X + i*CELL);
+    vl.setAttribute('y1', GRID_ORIGIN_Y - 0);
+    vl.setAttribute('x2', GRID_ORIGIN_X + i*CELL);
+    vl.setAttribute('y2', GRID_ORIGIN_Y - 10*CELL);
+    vl.setAttribute('stroke', i===0?'#B8D4C8':'rgba(255,255,255,0.12)');
+    vl.setAttribute('stroke-width', i===0?'2':'1');
+    svg.appendChild(vl);
+
+    // horizontal
+    const hl = document.createElementNS(ns,'line');
+    hl.setAttribute('x1', GRID_ORIGIN_X);
+    hl.setAttribute('y1', GRID_ORIGIN_Y - i*CELL);
+    hl.setAttribute('x2', GRID_ORIGIN_X + 10*CELL);
+    hl.setAttribute('y2', GRID_ORIGIN_Y - i*CELL);
+    hl.setAttribute('stroke', i===0?'#B8D4C8':'rgba(255,255,255,0.12)');
+    hl.setAttribute('stroke-width', i===0?'2':'1');
+    svg.appendChild(hl);
+
+    // Labels
+    if (i > 0) {
+      // x-axis numbers
+      const tx = document.createElementNS(ns,'text');
+      tx.setAttribute('x', GRID_ORIGIN_X + i*CELL);
+      tx.setAttribute('y', GRID_ORIGIN_Y + 14);
+      tx.setAttribute('text-anchor','middle');
+      tx.setAttribute('font-size','10');
+      tx.setAttribute('fill','#78A898');
+      tx.textContent = i;
+      svg.appendChild(tx);
+
+      // y-axis numbers
+      const ty = document.createElementNS(ns,'text');
+      ty.setAttribute('x', GRID_ORIGIN_X - 12);
+      ty.setAttribute('y', GRID_ORIGIN_Y - i*CELL + 4);
+      ty.setAttribute('text-anchor','middle');
+      ty.setAttribute('font-size','10');
+      ty.setAttribute('fill','#78A898');
+      ty.textContent = i;
+      svg.appendChild(ty);
+    }
+
+    // 0 label
+    if (i===0) {
+      const tz = document.createElementNS(ns,'text');
+      tz.setAttribute('x', GRID_ORIGIN_X - 10);
+      tz.setAttribute('y', GRID_ORIGIN_Y + 12);
+      tz.setAttribute('font-size','10');
+      tz.setAttribute('fill','#78A898');
+      tz.textContent = '0';
+      svg.appendChild(tz);
+    }
+  }
+
+  // Axis labels
+  const lx = document.createElementNS(ns,'text');
+  lx.setAttribute('x', GRID_ORIGIN_X + 10*CELL + 10);
+  lx.setAttribute('y', GRID_ORIGIN_Y + 4);
+  lx.setAttribute('font-size','11');
+  lx.setAttribute('fill','#A8E6CF');
+  lx.setAttribute('font-weight','700');
+  lx.textContent = 'x →';
+  svg.appendChild(lx);
+
+  const ly = document.createElementNS(ns,'text');
+  ly.setAttribute('x', GRID_ORIGIN_X - 10);
+  ly.setAttribute('y', GRID_ORIGIN_Y - 10*CELL - 8);
+  ly.setAttribute('font-size','11');
+  ly.setAttribute('fill','#A8E6CF');
+  ly.setAttribute('font-weight','700');
+  ly.textContent = '↑ y';
+  svg.appendChild(ly);
+
+  // Clickable hover targets (Mode B)
+  if (showClick) {
+    for (let cx = 1; cx <= 10; cx++) {
+      for (let cy = 1; cy <= 10; cy++) {
+        const svgX = GRID_ORIGIN_X + cx * CELL;
+        const svgY = GRID_ORIGIN_Y - cy * CELL;
+        const hitArea = document.createElementNS(ns,'circle');
+        hitArea.setAttribute('cx', svgX);
+        hitArea.setAttribute('cy', svgY);
+        hitArea.setAttribute('r', '14');
+        hitArea.setAttribute('fill','transparent');
+        hitArea.setAttribute('data-cx', cx);
+        hitArea.setAttribute('data-cy', cy);
+        hitArea.setAttribute('class','grid-hit');
+        hitArea.style.cursor = 'crosshair';
+        svg.appendChild(hitArea);
+      }
+    }
+  }
+
+  // Plot the point (Mode A)
+  if (pointX !== null && pointY !== null) {
+    const px = GRID_ORIGIN_X + pointX * CELL;
+    const py = GRID_ORIGIN_Y - pointY * CELL;
+
+    // Glow ring
+    const glow = document.createElementNS(ns,'circle');
+    glow.setAttribute('cx', px);
+    glow.setAttribute('cy', py);
+    glow.setAttribute('r','10');
+    glow.setAttribute('fill','rgba(253,203,110,0.25)');
+    svg.appendChild(glow);
+
+    // Point
+    const pt = document.createElementNS(ns,'circle');
+    pt.setAttribute('cx', px);
+    pt.setAttribute('cy', py);
+    pt.setAttribute('r','7');
+    pt.setAttribute('fill','#FDCB6E');
+    pt.setAttribute('stroke','white');
+    pt.setAttribute('stroke-width','2');
+    svg.appendChild(pt);
+
+    // crosshair lines
+    for (const [dx,dy] of [[-18,0],[18,0],[0,-18],[0,18]]) {
+      const ln = document.createElementNS(ns,'line');
+      ln.setAttribute('x1', px + dx * 0.3);
+      ln.setAttribute('y1', py + dy * 0.3);
+      ln.setAttribute('x2', px + dx);
+      ln.setAttribute('y2', py + dy);
+      ln.setAttribute('stroke','#FDCB6E');
+      ln.setAttribute('stroke-width','1.5');
+      svg.appendChild(ln);
+    }
+  }
+}
+
+// ─── WRONG OPTIONS ───────────────────────────────────────────────────
+function generateWrongOptions(x, y) {
+  const wrongs = new Set();
+  wrongs.add(`(${y},${x})`); // swapped
+  wrongs.add(`(${x+1},${y})`);
+  wrongs.add(`(${x},${y+1})`);
+  wrongs.add(`(${x-1},${y})`);
+  wrongs.add(`(${x},${y-1})`);
+  wrongs.add(`(${x+1},${y+1})`);
+  wrongs.add(`(${x-1},${y-1})`);
+  const correct = `(${x},${y})`;
+  const filtered = [...wrongs].filter(w => {
+    if (w === correct) return false;
+    const m = w.match(/\((\d+),(\d+)\)/);
+    if (!m) return false;
+    const wx = parseInt(m[1]), wy = parseInt(m[2]);
+    return wx >= 0 && wx <= 10 && wy >= 0 && wy <= 10;
+  });
+  return filtered.slice(0, 3);
+}
+
+// ─── RENDER ROUND ────────────────────────────────────────────────────
+function renderRound() {
+  answeredThisRound = false;
+  const roundIdx = currentRound;
+  const coord = COORDS[roundIdx];
+  const modeA = (roundIdx % 2 === 0); // 0,2,4,6,8 = Mode A; 1,3,5,7,9 = Mode B
+
+  document.getElementById('roundLabel').textContent = roundIdx + 1;
+  document.getElementById('progQ').textContent = roundIdx + 1;
+  const pct = Math.round((roundIdx / 10) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+
+  const modeBadge = document.getElementById('modeBadge');
+  const svg = document.getElementById('coordGrid');
+  const optionsGrid = document.getElementById('optionsGrid');
+  const clickInstruction = document.getElementById('clickInstruction');
+
+  // Clear old click listeners by replacing SVG
+  const newSvg = svg.cloneNode(false);
+  svg.parentNode.replaceChild(newSvg, svg);
+  const activeSvg = document.getElementById('coordGrid');
+
+  if (modeA) {
+    // Mode A: Show point, ask for coordinates
+    modeBadge.textContent = 'READ COORDINATES';
+    modeBadge.className = 'mode-badge mode-a';
+    document.getElementById('questionText').textContent = `What are the coordinates of the point shown on the grid?`;
+    clickInstruction.style.display = 'none';
+
+    drawGrid(activeSvg, coord.x, coord.y, false);
+    optionsGrid.style.display = 'grid';
+
+    const correct = `(${coord.x},${coord.y})`;
+    const wrongs = generateWrongOptions(coord.x, coord.y);
+    const options = [correct, ...wrongs].sort(() => Math.random() - 0.5);
+
+    optionsGrid.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = opt;
+      btn.onclick = () => handleAnswer(btn, opt === correct, correct);
+      optionsGrid.appendChild(btn);
+    });
+
+  } else {
+    // Mode B: Give coordinates, player clicks grid
+    modeBadge.textContent = 'PLOT THE POINT';
+    modeBadge.className = 'mode-badge mode-b';
+    document.getElementById('questionText').textContent = `Click the point at coordinates (${coord.x}, ${coord.y}) on the grid.`;
+    clickInstruction.style.display = 'block';
+    optionsGrid.style.display = 'none';
+    optionsGrid.innerHTML = '';
+
+    drawGrid(activeSvg, null, null, true);
+
+    // Add hover effect
+    activeSvg.addEventListener('mousemove', function(e) {
+      if (answeredThisRound) return;
+      const rect = activeSvg.getBoundingClientRect();
+      const scaleX = 330 / rect.width;
+      const scaleY = 330 / rect.height;
+      const svgX = (e.clientX - rect.left) * scaleX;
+      const svgY = (e.clientY - rect.top) * scaleY;
+      const nx = Math.round((svgX - GRID_ORIGIN_X) / CELL);
+      const ny = Math.round((GRID_ORIGIN_Y - svgY) / CELL);
+      if (nx >= 1 && nx <= 10 && ny >= 1 && ny <= 10) {
+        activeSvg.style.cursor = 'crosshair';
+        // Remove old hover dot
+        const old = activeSvg.querySelector('.hover-dot');
+        if (old) old.remove();
+        const ns2 = 'http://www.w3.org/2000/svg';
+        const hd = document.createElementNS(ns2,'circle');
+        hd.setAttribute('cx', GRID_ORIGIN_X + nx*CELL);
+        hd.setAttribute('cy', GRID_ORIGIN_Y - ny*CELL);
+        hd.setAttribute('r','8');
+        hd.setAttribute('fill','rgba(253,203,110,0.4)');
+        hd.setAttribute('stroke','#FDCB6E');
+        hd.setAttribute('stroke-width','1');
+        hd.setAttribute('class','hover-dot');
+        hd.style.pointerEvents = 'none';
+        activeSvg.appendChild(hd);
+      }
+    });
+
+    activeSvg.addEventListener('mouseleave', function() {
+      const old = activeSvg.querySelector('.hover-dot');
+      if (old) old.remove();
+    });
+
+    activeSvg.addEventListener('click', function gridClick(e) {
+      if (answeredThisRound) return;
+      const rect = activeSvg.getBoundingClientRect();
+      const scaleX = 330 / rect.width;
+      const scaleY = 330 / rect.height;
+      const svgX = (e.clientX - rect.left) * scaleX;
+      const svgY = (e.clientY - rect.top) * scaleY;
+      const nx = Math.round((svgX - GRID_ORIGIN_X) / CELL);
+      const ny = Math.round((GRID_ORIGIN_Y - svgY) / CELL);
+
+      if (nx < 0 || nx > 10 || ny < 0 || ny > 10) return;
+
+      const isCorrect = (nx === coord.x && ny === coord.y);
+
+      // Draw clicked point
+      const ns2 = 'http://www.w3.org/2000/svg';
+      const old = activeSvg.querySelector('.hover-dot');
+      if (old) old.remove();
+
+      const px = GRID_ORIGIN_X + nx*CELL;
+      const py = GRID_ORIGIN_Y - ny*CELL;
+
+      // Crosshair ring animation
+      const ring = document.createElementNS(ns2,'circle');
+      ring.setAttribute('cx', px);
+      ring.setAttribute('cy', py);
+      ring.setAttribute('r','0');
+      ring.setAttribute('fill','none');
+      ring.setAttribute('stroke', isCorrect ? '#00B894' : '#FF4757');
+      ring.setAttribute('stroke-width','2');
+      ring.setAttribute('class','crosshair-ring');
+      activeSvg.appendChild(ring);
+
+      const dot = document.createElementNS(ns2,'circle');
+      dot.setAttribute('cx', px);
+      dot.setAttribute('cy', py);
+      dot.setAttribute('r','7');
+      dot.setAttribute('fill', isCorrect ? '#00B894' : '#FF4757');
+      dot.setAttribute('stroke','white');
+      dot.setAttribute('stroke-width','2');
+      activeSvg.appendChild(dot);
+
+      if (!isCorrect) {
+        // Show correct point
+        const cpx = GRID_ORIGIN_X + coord.x*CELL;
+        const cpy = GRID_ORIGIN_Y - coord.y*CELL;
+        const cdot = document.createElementNS(ns2,'circle');
+        cdot.setAttribute('cx', cpx);
+        cdot.setAttribute('cy', cpy);
+        cdot.setAttribute('r','7');
+        cdot.setAttribute('fill','#FDCB6E');
+        cdot.setAttribute('stroke','white');
+        cdot.setAttribute('stroke-width','2');
+        activeSvg.appendChild(cdot);
+        const cLabel = document.createElementNS(ns2,'text');
+        cLabel.setAttribute('x', cpx + 10);
+        cLabel.setAttribute('y', cpy - 8);
+        cLabel.setAttribute('font-size','10');
+        cLabel.setAttribute('fill','#FDCB6E');
+        cLabel.textContent = `(${coord.x},${coord.y})`;
+        activeSvg.appendChild(cLabel);
+      }
+
+      handleGridClick(isCorrect, `(${coord.x},${coord.y})`);
+    });
+  }
+}
+
+function handleAnswer(btn, isCorrect, correctAnswer) {
+  if (answeredThisRound) return;
+  answeredThisRound = true;
+
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => { b.disabled = true; });
+
+  const fb = document.getElementById('feedback');
+  if (isCorrect) {
+    score++;
+    btn.classList.add('correct');
+    fb.textContent = '✅ Correct! Well done, Commander!';
+    fb.className = 'feedback correct';
+    document.getElementById('scoreDisplay').textContent = score;
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b => { if (b.textContent === correctAnswer) b.classList.add('correct'); });
+    fb.textContent = `❌ The correct coordinates are ${correctAnswer}.`;
+    fb.className = 'feedback wrong';
+  }
+
+  setTimeout(advanceRound, 1300);
+}
+
+function handleGridClick(isCorrect, correctAnswer) {
+  if (answeredThisRound) return;
+  answeredThisRound = true;
+
+  const fb = document.getElementById('feedback');
+  if (isCorrect) {
+    score++;
+    fb.textContent = '✅ Direct hit! Perfect aim!';
+    fb.className = 'feedback correct';
+    document.getElementById('scoreDisplay').textContent = score;
+  } else {
+    fb.textContent = `❌ Missed! The correct point was ${correctAnswer}.`;
+    fb.className = 'feedback wrong';
+  }
+
+  setTimeout(advanceRound, 1300);
+}
+
+function advanceRound() {
+  currentRound++;
+  if (currentRound >= 10) {
+    showEndScreen();
+  } else {
+    renderRound();
+  }
+}
+
+function showEndScreen() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progPct').textContent = '100%';
+  document.getElementById('progQ').textContent = '10';
+
+  const overlay = document.getElementById('endOverlay');
+  const stars = score >= 9 ? '★★★' : score >= 7 ? '★★☆' : '★☆☆';
+  const title = score >= 9 ? 'Brilliant!' : score >= 7 ? 'Well Done!' : 'Keep Trying!';
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = `${score} / 10 correct`;
+  overlay.classList.add('show');
+}
+
+function restartGame() {
+  currentRound = 0;
+  score = 0;
+  document.getElementById('scoreDisplay').textContent = '0';
+  document.getElementById('endOverlay').classList.remove('show');
+  renderRound();
+}
+
+// Start
+renderRound();
+</script>
+</body>
+</html>

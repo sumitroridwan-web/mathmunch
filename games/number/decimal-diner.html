@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decimal Diner – MathMunch</title>
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #E8E4FF;
+    --accent: #FDCB6E;
+    --n1: #FF6B6B;
+    --n2: #FF8E53;
+    --bg: #FFF8F0;
+    --white: #FFFFFF;
+    --text: #1E1E2E;
+    --text2: #525270;
+    --green: #00B894;
+    --red: #FF4757;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+    --brown: #8B5E3C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #FFF8F0;
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* TOP BAR */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--white);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 20px; height: 56px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .topbar a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 14px; }
+  .topbar .brand { font-weight: 700; font-size: 18px; color: var(--primary); }
+  .topbar .title { font-weight: 600; font-size: 16px; color: var(--text); }
+  .topbar .badge { background: #E0FFF5; color: #00A878; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .topbar .score { margin-left: auto; font-weight: 700; font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 4px; }
+
+  .game-area {
+    max-width: 800px;
+    margin: 24px auto 100px;
+    padding: 0 16px;
+  }
+
+  /* DINER HEADER */
+  .diner-header {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    border: 2px solid #FFE4B5;
+  }
+  .diner-header .deco { font-size: 28px; }
+  .diner-header .menu-title {
+    font-size: 16px; font-weight: 800; color: var(--brown);
+    letter-spacing: 1px;
+  }
+
+  /* MODE CARD */
+  .mode-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    border: 2px solid #FFE4B5;
+  }
+  .mode-label {
+    display: inline-block;
+    font-size: 12px; font-weight: 700;
+    background: var(--accent);
+    color: #4A3000;
+    padding: 3px 12px; border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .question-text {
+    font-size: 18px; font-weight: 700; color: var(--text);
+    margin-bottom: 16px; line-height: 1.4;
+  }
+
+  /* MODE A: SORTING */
+  .sort-instruction {
+    font-size: 14px; color: var(--text2); margin-bottom: 12px; font-style: italic;
+  }
+  .decimals-pool {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 16px; min-height: 60px;
+    padding: 12px;
+    background: #FFF3E0;
+    border-radius: 12px;
+    border: 2px dashed #FFD180;
+    align-items: center;
+  }
+  .decimal-card {
+    background: var(--white);
+    border: 2px solid #FFD180;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 22px; font-weight: 800; color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+  }
+  .decimal-card:hover:not(.placed):not(.disabled) {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    transform: translateY(-3px);
+  }
+  .decimal-card.selected-next {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(108,92,231,0.25);
+  }
+  .decimal-card.placed {
+    opacity: 0.35; cursor: default; transform: none;
+  }
+
+  .sorted-row-label {
+    font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px;
+  }
+  .sorted-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    min-height: 60px;
+    padding: 10px;
+    background: #E8FFF5;
+    border-radius: 12px;
+    border: 2px solid #A0E0C0;
+    align-items: center; margin-bottom: 16px;
+  }
+  .sorted-card {
+    background: var(--green);
+    color: white;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 18px; font-weight: 800;
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .order-num {
+    display: inline-block; font-size: 11px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 4px; padding: 1px 5px;
+    margin-left: 4px;
+  }
+
+  .check-sort-btn {
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--primary), #a855f7);
+    color: white; font-size: 16px; font-weight: 700;
+    border: none; cursor: pointer;
+    transition: all 0.2s;
+    display: block; width: 100%;
+    box-shadow: 0 4px 16px rgba(108,92,231,0.3);
+  }
+  .check-sort-btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .check-sort-btn:disabled { opacity: 0.5; cursor: default; }
+
+  /* MODE B: NUMBER LINE */
+  .number-to-place {
+    font-size: 52px; font-weight: 900; color: var(--primary);
+    text-align: center; margin-bottom: 8px;
+  }
+  .place-instruction {
+    font-size: 14px; color: var(--text2); text-align: center; margin-bottom: 20px;
+  }
+  .number-line-wrap {
+    padding: 20px 16px;
+    background: #FFF3E0;
+    border-radius: 12px;
+    border: 2px solid #FFD180;
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .number-line-track {
+    position: relative;
+    height: 20px;
+    background: #8B5E3C;
+    border-radius: 10px;
+    cursor: crosshair;
+    margin: 0 20px;
+  }
+  .tick {
+    position: absolute;
+    top: -8px;
+    width: 2px;
+    height: 36px;
+    background: #5A3C1F;
+    transform: translateX(-50%);
+  }
+  .tick-label {
+    position: absolute;
+    top: 32px;
+    transform: translateX(-50%);
+    font-size: 12px; font-weight: 700; color: #5A3C1F;
+    white-space: nowrap;
+  }
+  .nl-marker {
+    position: absolute;
+    top: -14px;
+    width: 24px; height: 24px;
+    background: var(--primary);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(108,92,231,0.5);
+    cursor: grab;
+    display: none;
+    transition: left 0.2s;
+  }
+  .nl-marker.show { display: block; }
+  .nl-correct { background: var(--green) !important; }
+  .nl-wrong { background: var(--red) !important; }
+  .correct-marker {
+    position: absolute; top: -14px;
+    width: 24px; height: 24px;
+    background: var(--green);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,184,148,0.5);
+    display: none;
+  }
+  .correct-marker.show { display: block; }
+
+  /* FEEDBACK */
+  .feedback {
+    font-size: 16px; font-weight: 700;
+    text-align: center; padding: 12px; border-radius: 10px;
+    opacity: 0; transition: opacity 0.3s; min-height: 42px;
+  }
+  .feedback.show { opacity: 1; }
+  .feedback.correct { color: var(--green); background: #E8FFF5; }
+  .feedback.wrong { color: var(--red); background: #FFF0F0; }
+
+  .next-btn {
+    display: none; width: 100%;
+    padding: 14px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--green), #00CEC9);
+    color: white; font-size: 16px; font-weight: 700;
+    border: none; cursor: pointer;
+    margin-top: 12px; transition: all 0.2s;
+  }
+  .next-btn.show { display: block; }
+  .next-btn:hover { transform: translateY(-2px); }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--white);
+    padding: 10px 20px;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    display: flex; align-items: center; gap: 16px; z-index: 100;
+    border-top: 3px solid var(--accent);
+  }
+  .progress-label { font-size: 14px; color: var(--text2); font-weight: 600; white-space: nowrap; }
+  .progress-track { flex: 1; height: 12px; background: #E0E0F0; border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--n1), var(--n2)); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-pct { font-size: 14px; font-weight: 700; color: var(--n2); white-space: nowrap; }
+
+  /* END SCREEN */
+  .end-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center; z-index: 200;
+  }
+  .end-card {
+    background: var(--white); border-radius: 24px; padding: 40px;
+    text-align: center; max-width: 420px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .end-emoji { font-size: 64px; margin-bottom: 10px; }
+  .end-title { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .end-score { font-size: 20px; color: var(--text2); margin-bottom: 16px; }
+  .end-stars { font-size: 36px; margin-bottom: 24px; }
+  .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { padding: 14px 28px; border-radius: var(--radius); background: linear-gradient(135deg, var(--primary), #a855f7); color: white; font-size: 16px; font-weight: 700; border: none; cursor: pointer; }
+  .btn-secondary { padding: 14px 28px; border-radius: var(--radius); background: var(--white); color: var(--primary); font-size: 16px; font-weight: 700; border: 2px solid var(--primary); cursor: pointer; text-decoration: none; display: inline-block; }
+  .btn-secondary:hover { background: var(--primary-light); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="title">Decimal Diner</span>
+  <span class="badge">P4</span>
+  <div class="score">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="diner-header">
+    <span class="deco">🍽️</span>
+    <span class="menu-title">DECIMAL DINER — Today's Menu</span>
+    <span class="deco">🧁</span>
+  </div>
+
+  <div class="mode-card" id="modeCard">
+    <div class="mode-label" id="modeLabel">ORDER MENU</div>
+    <div class="question-text" id="questionText">Loading...</div>
+    <div id="gameContent"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn" onclick="nextRound()">Next →</button>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-label" id="progressLabel">Question 1 of 10</div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-pct" id="progressPct">0%</div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score" id="endScore"></div>
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-btns">
+      <button class="btn-primary" onclick="restartGame()">Play Again</button>
+      <a class="btn-secondary" href="../../index.html">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ROUNDS: 10 total – alternating Mode A (sort) and Mode B (place)
+// Rounds 0,2,4,6,8 = Mode A; rounds 1,3,5,7,9 = Mode B
+const ROUNDS = [
+  { mode: 'A', decimals: [0.1, 0.5, 0.3, 0.8, 0.2] },
+  { mode: 'B', value: 0.5, min: 0, max: 1, step: 0.1, label: '0 to 1' },
+  { mode: 'A', decimals: [1.2, 0.9, 1.5, 0.4, 1.1] },
+  { mode: 'B', value: 1.7, min: 0, max: 2, step: 0.1, label: '0 to 2' },
+  { mode: 'A', decimals: [2.25, 2.5, 2.75, 2.1, 2.9] },
+  { mode: 'B', value: 0.25, min: 0, max: 1, step: 0.25, label: '0 to 1' },
+  { mode: 'A', decimals: [0.05, 0.15, 0.12, 0.08, 0.20] },
+  { mode: 'B', value: 4.5, min: 0, max: 5, step: 0.5, label: '0 to 5' },
+  { mode: 'A', decimals: [3.4, 3.04, 3.14, 3.40, 3.1] },
+  { mode: 'B', value: 7.3, min: 0, max: 10, step: 1, label: '0 to 10' },
+];
+
+let currentRound = 0;
+let score = 0;
+let sortedOrder = [];
+let sortDone = false;
+let nlAnswered = false;
+let placedValue = null;
+
+function numDisplay(n) {
+  return parseFloat(n.toPrecision(10)).toString();
+}
+
+function updateProgress() {
+  document.getElementById('progressLabel').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round((currentRound / 10) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('scoreDisplay').textContent = score;
+}
+
+function clearFeedback() {
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback'; fb.textContent = '';
+  document.getElementById('nextBtn').classList.remove('show');
+}
+
+function loadRound() {
+  sortedOrder = []; sortDone = false; nlAnswered = false; placedValue = null;
+  updateProgress();
+  clearFeedback();
+
+  const q = ROUNDS[currentRound];
+  if (q.mode === 'A') loadModeA(q);
+  else loadModeB(q);
+}
+
+/* ---- MODE A: SORT ---- */
+function loadModeA(q) {
+  document.getElementById('modeLabel').textContent = '🍽️ ORDER FROM SMALLEST';
+  document.getElementById('questionText').textContent = 'Click the numbers from smallest to largest to arrange your order!';
+
+  const decimals = [...q.decimals];
+  const pool = document.createElement('div');
+  pool.className = 'decimals-pool';
+  pool.id = 'decimalsPool';
+
+  decimals.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'decimal-card';
+    card.textContent = numDisplay(d);
+    card.dataset.val = d;
+    card.onclick = () => clickDecimal(card, d, q);
+    pool.appendChild(card);
+  });
+
+  const sortedLabel = document.createElement('div');
+  sortedLabel.className = 'sorted-row-label';
+  sortedLabel.textContent = 'Your order (smallest → largest):';
+
+  const sortedRow = document.createElement('div');
+  sortedRow.className = 'sorted-row';
+  sortedRow.id = 'sortedRow';
+
+  const checkBtn = document.createElement('button');
+  checkBtn.className = 'check-sort-btn';
+  checkBtn.id = 'checkSortBtn';
+  checkBtn.textContent = 'Check Order ✓';
+  checkBtn.disabled = true;
+  checkBtn.onclick = () => checkSortAnswer(q);
+
+  const content = document.getElementById('gameContent');
+  content.innerHTML = '';
+  content.appendChild(pool);
+  content.appendChild(sortedLabel);
+  content.appendChild(sortedRow);
+  content.appendChild(checkBtn);
+}
+
+function clickDecimal(card, val, q) {
+  if (sortDone) return;
+  if (card.classList.contains('placed')) return;
+  card.classList.add('placed');
+  sortedOrder.push(parseFloat(val));
+
+  const sortedRow = document.getElementById('sortedRow');
+  const sc = document.createElement('div');
+  sc.className = 'sorted-card';
+  sc.innerHTML = numDisplay(val) + `<span class="order-num">${sortedOrder.length}</span>`;
+  sortedRow.appendChild(sc);
+
+  const checkBtn = document.getElementById('checkSortBtn');
+  if (sortedOrder.length === q.decimals.length) {
+    checkBtn.disabled = false;
+  }
+}
+
+function checkSortAnswer(q) {
+  if (sortDone) return;
+  sortDone = true;
+  document.getElementById('checkSortBtn').disabled = true;
+
+  const correct = [...q.decimals].sort((a,b) => a-b);
+  let isCorrect = sortedOrder.every((v,i) => Math.abs(v - correct[i]) < 0.0001);
+
+  const fb = document.getElementById('feedback');
+  if (isCorrect) {
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.className = 'feedback correct show';
+    fb.textContent = `✓ Correct order! ${correct.map(numDisplay).join(' < ')}`;
+  } else {
+    fb.className = 'feedback wrong show';
+    fb.textContent = `✗ Correct order: ${correct.map(numDisplay).join(' < ')}`;
+  }
+  document.getElementById('nextBtn').classList.add('show');
+}
+
+/* ---- MODE B: NUMBER LINE ---- */
+function loadModeB(q) {
+  document.getElementById('modeLabel').textContent = '📍 PLACE ON NUMBER LINE';
+  document.getElementById('questionText').textContent = `Where does ${numDisplay(q.value)} go on the number line?`;
+
+  const content = document.getElementById('gameContent');
+  content.innerHTML = '';
+
+  const numDisplay2 = document.createElement('div');
+  numDisplay2.className = 'number-to-place';
+  numDisplay2.textContent = numDisplay(q.value);
+  content.appendChild(numDisplay2);
+
+  const placeInstr = document.createElement('div');
+  placeInstr.className = 'place-instruction';
+  placeInstr.textContent = `Tap on the number line (${q.label}) to place the number`;
+  content.appendChild(placeInstr);
+
+  // Build number line
+  const wrap = document.createElement('div');
+  wrap.className = 'number-line-wrap';
+  wrap.style.paddingBottom = '40px';
+
+  const track = document.createElement('div');
+  track.className = 'number-line-track';
+  track.id = 'nlTrack';
+
+  // Ticks
+  const range = q.max - q.min;
+  const tickCount = Math.round(range / q.step);
+  for (let i = 0; i <= tickCount; i++) {
+    const val = q.min + i * q.step;
+    const pct = (i / tickCount) * 100;
+    const tick = document.createElement('div');
+    tick.className = 'tick';
+    tick.style.left = pct + '%';
+    const label = document.createElement('div');
+    label.className = 'tick-label';
+    label.style.left = pct + '%';
+    label.textContent = numDisplay(val);
+    track.appendChild(tick);
+    track.appendChild(label);
+  }
+
+  // Marker
+  const marker = document.createElement('div');
+  marker.className = 'nl-marker';
+  marker.id = 'nlMarker';
+  track.appendChild(marker);
+
+  // Correct marker
+  const correctMarker = document.createElement('div');
+  correctMarker.className = 'correct-marker';
+  correctMarker.id = 'correctMarker';
+  track.appendChild(correctMarker);
+
+  wrap.appendChild(track);
+  content.appendChild(wrap);
+
+  track.addEventListener('click', (e) => placeOnLine(e, q, track));
+  track.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    const touch = e.changedTouches[0];
+    placeOnLine(touch, q, track);
+  });
+}
+
+function placeOnLine(e, q, track) {
+  if (nlAnswered) return;
+  const rect = track.getBoundingClientRect();
+  const x = (e.clientX || e.pageX) - rect.left;
+  const pct = Math.max(0, Math.min(1, x / rect.width));
+  const clickedVal = q.min + pct * (q.max - q.min);
+
+  // Snap to nearest step
+  const steps = Math.round((clickedVal - q.min) / q.step);
+  const snappedVal = q.min + steps * q.step;
+  const snappedPct = ((snappedVal - q.min) / (q.max - q.min)) * 100;
+
+  // Show marker
+  const marker = document.getElementById('nlMarker');
+  marker.classList.add('show');
+  marker.style.left = snappedPct + '%';
+  placedValue = snappedVal;
+
+  // Check answer with tolerance
+  const tolerance = 0.15;
+  const isCorrect = Math.abs(snappedVal - q.value) <= tolerance + 0.0001;
+
+  nlAnswered = true;
+  const fb = document.getElementById('feedback');
+
+  if (isCorrect) {
+    marker.classList.add('nl-correct');
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.className = 'feedback correct show';
+    fb.textContent = `✓ Correct! ${numDisplay(q.value)} is in the right place!`;
+  } else {
+    marker.classList.add('nl-wrong');
+    // Show correct position
+    const correctPct = ((q.value - q.min) / (q.max - q.min)) * 100;
+    const cm = document.getElementById('correctMarker');
+    cm.classList.add('show');
+    cm.style.left = correctPct + '%';
+    fb.className = 'feedback wrong show';
+    fb.textContent = `✗ ${numDisplay(q.value)} goes at the green dot. You were off by ${Math.abs(snappedVal - q.value).toFixed(2)}`;
+  }
+  document.getElementById('nextBtn').classList.add('show');
+}
+
+function nextRound() {
+  currentRound++;
+  if (currentRound >= 10) showEnd();
+  else loadRound();
+}
+
+function showEnd() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressPct').textContent = '100%';
+
+  let emoji, title, stars;
+  if (score >= 9) { emoji='🍽️'; title='Brilliant!'; stars='★★★'; }
+  else if (score >= 7) { emoji='🧁'; title='Well Done!'; stars='★★☆'; }
+  else { emoji='🥗'; title='Keep Trying!'; stars='★☆☆'; }
+
+  document.getElementById('endEmoji').textContent = emoji;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = `${score}/10 correct`;
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endOverlay').style.display = 'flex';
+}
+
+function restartGame() {
+  currentRound = 0; score = 0;
+  document.getElementById('endOverlay').style.display = 'none';
+  loadRound();
+}
+
+loadRound();
+</script>
+</body>
+</html>

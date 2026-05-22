@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Shape Safari – MathMunch</title>
+<style>
+  :root {
+    --primary:#6C5CE7; --primary-light:#E8E4FF;
+    --g1:#4ECDC4; --g2:#2ECC71;
+    --accent:#FDCB6E; --accent-dark:#E17055;
+    --bg:#F0F4FF; --white:#FFFFFF;
+    --text:#1E1E2E; --text2:#525270;
+    --green:#00B894; --red:#FF4757;
+    --radius:16px; --shadow:0 4px 20px rgba(78,205,196,0.15);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFF9F0;color:var(--text);min-height:100vh}
+
+  .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
+  .topbar a.back{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;white-space:nowrap}
+  .topbar .brand{font-weight:900;font-size:18px;color:var(--primary)}
+  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
+  .badge{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#FFFBE0;color:#F0A500}
+  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:var(--text)}
+
+  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+
+  /* Safari header decoration */
+  .safari-header{text-align:center;font-size:26px;margin-bottom:14px}
+
+  .question-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;text-align:center}
+  .q-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .q-text{font-size:19px;font-weight:800;color:var(--text);margin-bottom:20px;line-height:1.4}
+
+  /* Shape illustration container */
+  .shape-display{display:flex;justify-content:center;align-items:center;margin:10px 0 20px;min-height:160px}
+
+  /* CSS 3D shape illustrations */
+  .shape-3d-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center}
+
+  /* Cube illusion */
+  .css-cube{width:90px;height:90px;background:#4ECDC4;border-radius:6px;position:relative;box-shadow:8px -8px 0 #2BB5AD, 8px -8px 0 1px #1A8E89;transform:perspective(200px) rotateY(-10deg) rotateX(5deg)}
+
+  /* Cuboid */
+  .css-cuboid{width:130px;height:80px;background:#A29BFE;border-radius:6px;position:relative;box-shadow:10px -10px 0 #7C6FE0, 10px -10px 0 1px #5D4FCC;transform:perspective(250px) rotateY(-10deg) rotateX(5deg)}
+
+  /* Cylinder: rectangle + oval top */
+  .css-cylinder-wrap{display:flex;flex-direction:column;align-items:center}
+  .css-cylinder-top{width:80px;height:22px;background:#FFD93D;border-radius:50%;border:3px solid #E6C500;z-index:2;position:relative}
+  .css-cylinder-body{width:80px;height:90px;background:linear-gradient(135deg,#FFD93D 60%,#E6C500);border-radius:0 0 8px 8px;margin-top:-2px;border:3px solid #E6C500;border-top:none}
+  .css-cylinder-bottom{width:80px;height:22px;background:#E6C500;border-radius:50%;margin-top:-4px;}
+
+  /* Cone: triangle above oval */
+  .css-cone-wrap{display:flex;flex-direction:column;align-items:center}
+  .css-cone-tri{width:0;height:0;border-left:55px solid transparent;border-right:55px solid transparent;border-bottom:110px solid #FF8E53;filter:drop-shadow(2px 2px 3px rgba(0,0,0,0.2))}
+  .css-cone-bottom{width:90px;height:24px;background:#E07040;border-radius:50%;margin-top:-6px;}
+
+  /* Sphere: circle with radial gradient */
+  .css-sphere{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #FF6B9D 0%, #E0507A 60%, #B03060 100%);box-shadow:4px 8px 20px rgba(176,48,96,0.3)}
+
+  /* Triangular prism */
+  .css-prism-wrap{display:inline-block;position:relative;width:120px;height:100px}
+  .css-prism-face{position:absolute;width:0;height:0;border-left:55px solid transparent;border-right:55px solid transparent;border-bottom:95px solid #2ECC71;top:0;left:5px;filter:drop-shadow(4px 4px 0 #27AE60)}
+  .css-prism-base{position:absolute;bottom:0;left:0;width:120px;height:18px;background:#27AE60;border-radius:3px}
+
+  /* Properties chips */
+  .props-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0 8px}
+  .prop-chip{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800;background:#F0F4FF;color:var(--primary);border:2px solid var(--primary-light)}
+
+  /* Real object display */
+  .real-object{font-size:80px;display:block;margin:8px auto;line-height:1}
+
+  /* Type B: show properties, ask name */
+  .props-display{background:#F8F4FF;border-radius:14px;padding:16px 20px;margin-bottom:8px;text-align:center}
+  .props-display .prop-title{font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+
+  /* Answer buttons */
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;border:2px solid #E8E4FF;background:var(--white);color:var(--text);transition:all 0.2s;min-height:54px}
+  .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
+  .btn-answer.correct{background:#E8FFF3;border-color:var(--green);color:var(--green)}
+  .btn-answer.wrong{background:#FFE8EC;border-color:var(--red);color:var(--red)}
+  .btn-answer:disabled{cursor:not-allowed}
+
+  /* Number buttons */
+  .btn-number{font-size:24px;padding:16px;font-weight:900}
+
+  /* Feedback */
+  .feedback{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;padding:18px 36px;border-radius:20px;font-size:22px;font-weight:800;color:white;pointer-events:none}
+  .feedback.show-correct{display:block;background:var(--green)}
+  .feedback.show-wrong{display:block;background:var(--red)}
+
+  /* Progress */
+  .progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:100}
+  .progress-info{display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:var(--text2);margin-bottom:6px}
+  .progress-track{height:8px;background:#E8E4FF;border-radius:4px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:4px;transition:width 0.4s ease}
+
+  /* End screen */
+  .end-screen{display:none;position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
+  .end-screen.show{display:flex}
+  .end-card{background:var(--white);border-radius:24px;padding:40px 36px;text-align:center;max-width:420px;width:90%;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes popIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+  .end-emoji{font-size:56px;margin-bottom:10px}
+  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:6px}
+  .end-score-text{font-size:18px;color:var(--text2);margin-bottom:14px}
+  .end-stars{font-size:32px;margin-bottom:6px}
+  .end-verdict{font-size:20px;font-weight:800;color:var(--primary);margin-bottom:24px}
+  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
+  .btn-geo:hover{transform:translateY(-2px)}
+  .btn-secondary{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:2px solid var(--primary);background:transparent;color:var(--primary);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
+  .btn-secondary:hover{background:var(--primary-light)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="../../index.html">← All Games</a>
+  <div class="brand">🧮 MathMunch</div>
+  <div class="game-title">3D Shape Safari</div>
+  <div class="badge">P2</div>
+  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<div class="game-area">
+  <div class="safari-header">🦒 🌴 3D Shape Safari 🌴 🦒</div>
+  <div class="question-card">
+    <div class="q-label" id="qLabel">Question 1 of 10</div>
+    <div class="q-text" id="qText"></div>
+    <div class="shape-display" id="shapeDisplay"></div>
+    <div id="propsArea"></div>
+  </div>
+  <div id="answersArea"></div>
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="progress-bar">
+  <div class="progress-info">
+    <span id="progressText">Question 1 of 10</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<div class="end-screen" id="endScreen">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score-text" id="endScoreText"></div>
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-verdict" id="endVerdict"></div>
+    <button class="btn-geo" onclick="restartGame()">Play Again</button>
+    <a class="btn-secondary" href="../../index.html">← Back to All Games</a>
+  </div>
+</div>
+
+<script>
+const SHAPES_3D = [
+  { id:'cube',     name:'Cube',              faces:6, edges:12, vertices:8, obj:'🎲', objLabel:'dice' },
+  { id:'cuboid',   name:'Cuboid',            faces:6, edges:12, vertices:8, obj:'📦', objLabel:'box' },
+  { id:'cylinder', name:'Cylinder',          faces:3, edges:2,  vertices:0, obj:'🥫', objLabel:'can' },
+  { id:'cone',     name:'Cone',              faces:2, edges:1,  vertices:1, obj:'🍦', objLabel:'ice cream' },
+  { id:'sphere',   name:'Sphere',            faces:1, edges:0,  vertices:0, obj:'⚽', objLabel:'football' },
+  { id:'prism',    name:'Triangular Prism',  faces:5, edges:9,  vertices:6, obj:'🔺', objLabel:'Toblerone' },
+];
+
+// CSS illustration builder
+function buildShapeIllustration(shapeId){
+  const d = document.createElement('div');
+  d.className = 'shape-3d-wrap';
+  let inner = '';
+  if(shapeId === 'cube'){
+    inner = '<div class="css-cube"></div>';
+  } else if(shapeId === 'cuboid'){
+    inner = '<div class="css-cuboid"></div>';
+  } else if(shapeId === 'cylinder'){
+    inner = '<div class="css-cylinder-wrap"><div class="css-cylinder-top"></div><div class="css-cylinder-body"></div><div class="css-cylinder-bottom"></div></div>';
+  } else if(shapeId === 'cone'){
+    inner = '<div class="css-cone-wrap"><div class="css-cone-tri"></div><div class="css-cone-bottom"></div></div>';
+  } else if(shapeId === 'sphere'){
+    inner = '<div class="css-sphere"></div>';
+  } else if(shapeId === 'prism'){
+    inner = '<div class="css-prism-wrap"><div class="css-prism-face"></div><div class="css-prism-base"></div></div>';
+  }
+  d.innerHTML = inner;
+  return d;
+}
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
+
+// Round plan: 10 rounds
+// type A (faces count): rounds 1,4,7 (indices 0,3,6)
+// type C (real object → name): rounds 2,5,8 (indices 1,4,7)
+// type B (properties → name): rounds 3,6,9,10 (indices 2,5,8,9)
+
+const ROUND_TYPES = ['A','C','B','A','C','B','A','C','B','B'];
+
+let currentRound = 0;
+let score = 0;
+let rounds = [];
+
+function buildRounds(){
+  rounds = [];
+  let lastShape = null;
+  for(let i=0;i<10;i++){
+    const type = ROUND_TYPES[i];
+    // Pick a shape different from last
+    let available = SHAPES_3D.filter(s => s !== lastShape);
+    const shape = available[Math.floor(Math.random()*available.length)];
+    lastShape = shape;
+    rounds.push({ type, shape });
+  }
+}
+
+function renderRound(){
+  const r = rounds[currentRound];
+  document.getElementById('qLabel').textContent = `Question ${currentRound+1} of 10`;
+  document.getElementById('progressText').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round((currentRound/10)*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('propsArea').innerHTML = '';
+  document.getElementById('answersArea').innerHTML = '';
+
+  const shapeDisplay = document.getElementById('shapeDisplay');
+  shapeDisplay.innerHTML = '';
+
+  if(r.type === 'A'){
+    // Show shape illustration + ask faces count
+    const qParts = ['faces','edges','vertices'];
+    const which = qParts[currentRound % 3];
+    const correctNum = r.shape[which];
+    document.getElementById('qText').textContent = `How many ${which.toUpperCase()} does a ${r.shape.name} have?`;
+    shapeDisplay.appendChild(buildShapeIllustration(r.shape.id));
+
+    // Props hint chips
+    const propsArea = document.getElementById('propsArea');
+    const row = document.createElement('div');
+    row.className = 'props-row';
+    if(which !== 'faces'){
+      const c = document.createElement('div'); c.className='prop-chip'; c.textContent=`Faces: ${r.shape.faces}`; row.appendChild(c);
+    }
+    if(which !== 'edges'){
+      const c = document.createElement('div'); c.className='prop-chip'; c.textContent=`Edges: ${r.shape.edges}`; row.appendChild(c);
+    }
+    if(which !== 'vertices'){
+      const c = document.createElement('div'); c.className='prop-chip'; c.textContent=`Vertices: ${r.shape.vertices}`; row.appendChild(c);
+    }
+    propsArea.appendChild(row);
+
+    // 4 number answer buttons (correct + 3 wrong distinct numbers)
+    const wrongNums = new Set();
+    while(wrongNums.size < 3){
+      const n = Math.floor(Math.random()*13)+1;
+      if(n !== correctNum) wrongNums.add(n);
+    }
+    const options = shuffle([correctNum, ...wrongNums]);
+    const grid = document.createElement('div');
+    grid.className = 'answers-grid';
+    options.forEach(num => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-answer btn-number';
+      btn.textContent = num;
+      btn.onclick = () => handleAnswer(num === correctNum, btn, grid, correctNum.toString());
+      grid.appendChild(btn);
+    });
+    document.getElementById('answersArea').appendChild(grid);
+
+  } else if(r.type === 'C'){
+    // Show real world object → ask shape name
+    document.getElementById('qText').textContent = `What 3D shape is this?`;
+    const objEl = document.createElement('span');
+    objEl.className = 'real-object';
+    objEl.textContent = r.shape.obj;
+    shapeDisplay.appendChild(objEl);
+
+    // Label hint
+    const propsArea = document.getElementById('propsArea');
+    const hint = document.createElement('div');
+    hint.style.cssText = 'font-size:14px;color:var(--text2);margin-bottom:8px;';
+    hint.textContent = `(${r.shape.objLabel})`;
+    propsArea.appendChild(hint);
+
+    // 4 name buttons
+    const wrongShapes = shuffle(SHAPES_3D.filter(s=>s.id!==r.shape.id)).slice(0,3);
+    const options = shuffle([r.shape,...wrongShapes]);
+    const grid = document.createElement('div');
+    grid.className = 'answers-grid';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-answer';
+      btn.textContent = opt.name;
+      btn.onclick = () => handleAnswer(opt.id === r.shape.id, btn, grid, r.shape.name);
+      grid.appendChild(btn);
+    });
+    document.getElementById('answersArea').appendChild(grid);
+
+  } else {
+    // Type B: Show properties → ask shape name
+    document.getElementById('qText').textContent = `Which 3D shape has these properties?`;
+    shapeDisplay.style.minHeight = '20px';
+
+    const propsArea = document.getElementById('propsArea');
+    const propsBox = document.createElement('div');
+    propsBox.className = 'props-display';
+    propsBox.innerHTML = `<div class="prop-title">Properties</div>`;
+    const row = document.createElement('div');
+    row.className = 'props-row';
+    row.style.marginTop = '0';
+    [{label:'Faces',val:r.shape.faces},{label:'Edges',val:r.shape.edges},{label:'Vertices',val:r.shape.vertices}].forEach(p=>{
+      const chip = document.createElement('div');
+      chip.className = 'prop-chip';
+      chip.textContent = `${p.label}: ${p.val}`;
+      row.appendChild(chip);
+    });
+    propsBox.appendChild(row);
+    propsArea.appendChild(propsBox);
+
+    // Show illustration too
+    shapeDisplay.appendChild(buildShapeIllustration(r.shape.id));
+
+    // 4 name buttons
+    const wrongShapes = shuffle(SHAPES_3D.filter(s=>s.id!==r.shape.id)).slice(0,3);
+    const options = shuffle([r.shape,...wrongShapes]);
+    const grid = document.createElement('div');
+    grid.className = 'answers-grid';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-answer';
+      btn.textContent = opt.name;
+      btn.onclick = () => handleAnswer(opt.id === r.shape.id, btn, grid, r.shape.name);
+      grid.appendChild(btn);
+    });
+    document.getElementById('answersArea').appendChild(grid);
+  }
+}
+
+function handleAnswer(isCorrect, btn, grid, correctLabel){
+  if(isCorrect) score++;
+  document.getElementById('scoreDisplay').textContent = score;
+  Array.from(grid.children).forEach(b => b.disabled = true);
+  if(isCorrect){
+    btn.classList.add('correct');
+    showFeedback(true);
+  } else {
+    btn.classList.add('wrong');
+    Array.from(grid.children).forEach(b => {
+      if(b.textContent.trim() === correctLabel.trim()) b.classList.add('correct');
+    });
+    showFeedback(false);
+  }
+  setTimeout(nextRound, 1200);
+}
+
+function showFeedback(correct){
+  const fb = document.getElementById('feedback');
+  fb.textContent = correct ? '✓ Correct!' : '✗ Not quite!';
+  fb.className = 'feedback '+(correct?'show-correct':'show-wrong');
+  setTimeout(()=>fb.className='feedback', 1100);
+}
+
+function nextRound(){
+  currentRound++;
+  if(currentRound >= 10) showEndScreen();
+  else renderRound();
+}
+
+function showEndScreen(){
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('progressPct').textContent='100%';
+  document.getElementById('endScreen').classList.add('show');
+  let emoji,title,stars,verdict;
+  if(score>=9){emoji='🌟';title='Brilliant!';stars='★★★';verdict='Amazing work!';}
+  else if(score>=7){emoji='😊';title='Well Done!';stars='★★☆';verdict='Great job!';}
+  else{emoji='💪';title='Keep Trying!';stars='★☆☆';verdict='You can do it!';}
+  document.getElementById('endEmoji').textContent=emoji;
+  document.getElementById('endTitle').textContent=title;
+  document.getElementById('endScoreText').textContent=`You scored ${score} out of 10`;
+  document.getElementById('endStars').textContent=stars;
+  document.getElementById('endVerdict').textContent=verdict;
+}
+
+function restartGame(){
+  score=0; currentRound=0;
+  document.getElementById('scoreDisplay').textContent='0';
+  document.getElementById('endScreen').classList.remove('show');
+  buildRounds();
+  renderRound();
+}
+
+buildRounds();
+renderRound();
+</script>
+</body>
+</html>

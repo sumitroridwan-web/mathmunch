@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Tracker – MathMunch</title>
+<style>
+:root{
+  --primary:#6C5CE7;--primary-light:#E8E4FF;
+  --g1:#4ECDC4;--g2:#2ECC71;
+  --accent:#FDCB6E;--bg:#F0F4FF;
+  --white:#FFFFFF;--text:#1E1E2E;--text2:#525270;
+  --green:#00B894;--red:#FF4757;
+  --radius:16px;--shadow:0 4px 20px rgba(78,205,196,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFF8F0;color:var(--text);min-height:100vh}
+
+.topbar{background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);position:sticky;top:0;z-index:50}
+.topbar-inner{max-width:800px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.back-btn{text-decoration:none;background:var(--bg);color:var(--text2);padding:7px 14px;border-radius:10px;font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:5px;transition:all 0.2s}
+.back-btn:hover{background:var(--primary-light);color:var(--primary)}
+.topbar-logo{font-size:1rem;font-weight:900;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:6px}
+.topbar-sep{color:#ccc}
+.topbar-title{font-size:0.95rem;font-weight:800;flex:1}
+.level-badge{background:#FFFBE0;color:#F0A500;font-size:0.75rem;font-weight:800;padding:4px 10px;border-radius:20px;border:1px solid #F0A500}
+.score-display{background:linear-gradient(135deg,var(--g1),var(--g2));color:white;padding:6px 14px;border-radius:20px;font-weight:800;font-size:0.85rem}
+
+.game-area{max-width:800px;margin:0 auto;padding:24px 20px 100px}
+.question-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px}
+.mode-badge{padding:5px 14px;border-radius:20px;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;display:inline-block}
+.mode-read{background:#E0F7FA;color:#00838F}
+.mode-set{background:#FFF3E0;color:#E65100}
+.question-text{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:24px;line-height:1.5}
+
+/* Digital display */
+.digital-time{font-size:3rem;font-weight:900;color:var(--text);font-family:'Courier New',monospace;background:#1E1E2E;color:#4ECDC4;padding:16px 32px;border-radius:12px;display:inline-block;letter-spacing:4px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+
+/* Single large clock */
+.clock-center{display:flex;justify-content:center;margin-bottom:20px}
+
+/* Four clocks grid for Mode B */
+.clocks-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:400px;margin:0 auto 20px}
+.clock-option{background:var(--bg);border:3px solid #E0E7FF;border-radius:16px;padding:16px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:8px}
+.clock-option:hover:not(.disabled){border-color:var(--g1);background:#E0FFF8;transform:translateY(-2px)}
+.clock-option.correct{border-color:var(--green);background:#D4EDDA}
+.clock-option.wrong{border-color:var(--red);background:#FFE0E3}
+.clock-option.disabled{cursor:default}
+.clock-option-label{font-size:0.8rem;font-weight:700;color:var(--text2)}
+
+/* Text answers for Mode A */
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.ans-btn{background:var(--bg);border:2px solid #E0E7FF;border-radius:12px;padding:14px 10px;font-size:1.05rem;font-weight:800;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:center;font-family:'Courier New',monospace}
+.ans-btn:hover:not(:disabled){border-color:var(--g1);background:#E0FFF8;transform:translateY(-1px)}
+.ans-btn.correct{background:#D4EDDA;border-color:var(--green);color:var(--green)}
+.ans-btn.wrong{background:#FFE0E3;border-color:var(--red);color:var(--red)}
+.ans-btn:disabled{cursor:default;opacity:0.85}
+
+.feedback-bar{padding:12px 16px;border-radius:12px;font-weight:700;font-size:0.95rem;margin-top:12px;display:none}
+.feedback-bar.show{display:block}
+.feedback-bar.correct{background:#D4EDDA;color:#155724}
+.feedback-bar.wrong{background:#FFE0E3;color:#721C24}
+
+.progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:40}
+.progress-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.progress-label{font-size:0.82rem;font-weight:700;color:var(--text2);white-space:nowrap}
+.progress-track{flex:1;height:10px;background:#E0E7FF;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:99px;transition:width 0.4s ease}
+.progress-pct{font-size:0.82rem;font-weight:800;color:var(--g1);white-space:nowrap}
+
+.end-overlay{position:fixed;inset:0;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
+.end-overlay.show{display:flex}
+.end-card{background:var(--white);border-radius:24px;padding:40px 32px;max-width:400px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+@keyframes popIn{from{transform:scale(0.6);opacity:0}to{transform:scale(1);opacity:1}}
+.end-emoji{font-size:3rem;margin-bottom:12px}
+.end-title{font-size:1.5rem;font-weight:900;margin-bottom:8px}
+.end-score{font-size:2.5rem;font-weight:900;color:var(--primary);margin-bottom:8px}
+.end-stars{font-size:2rem;letter-spacing:4px;margin-bottom:12px}
+.end-msg{font-size:1rem;color:var(--text2);margin-bottom:24px;font-weight:600}
+.btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:1rem;transition:all 0.2s;text-decoration:none;display:inline-block}
+.btn-geo:hover{transform:translateY(-2px)}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-secondary{background:var(--bg);color:var(--text2);border:2px solid #E0E7FF;border-radius:12px;font-weight:800;padding:12px 24px;cursor:pointer;font-size:0.9rem;text-decoration:none;display:inline-block;transition:all 0.2s}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="../../index.html" class="back-btn">← All Games</a>
+    <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
+    <span class="topbar-sep">|</span>
+    <span class="topbar-title">🕐 Time Tracker</span>
+    <span class="level-badge">P2</span>
+    <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
+  </div>
+</div>
+
+<div class="game-area">
+  <div class="question-card" id="questionCard">
+    <span class="mode-badge" id="modeBadge">Read the Clock</span>
+    <div class="question-text" id="questionText">What time does this clock show?</div>
+    <div id="visualArea"></div>
+    <div id="answersArea"></div>
+    <div class="feedback-bar" id="feedbackBar"></div>
+  </div>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-inner">
+    <span class="progress-label" id="progressLabel">Question 1 of 10</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+</div>
+
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🏆</div>
+    <div class="end-title" id="endTitle">Brilliant!</div>
+    <div class="end-score" id="endScore">10/10</div>
+    <div class="end-stars" id="endStars">★★★</div>
+    <div class="end-msg" id="endMsg">Amazing time skills!</div>
+    <div class="end-btns">
+      <button class="btn-geo" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn-secondary">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// rounds: [hours, minutes, mode] mode: 'read'|'set'
+const rounds = [
+  {h:3,  m:0,  mode:'read'},
+  {h:7,  m:30, mode:'set'},
+  {h:2,  m:15, mode:'read'},
+  {h:9,  m:45, mode:'set'},
+  {h:12, m:0,  mode:'read'},
+  {h:5,  m:20, mode:'set'},
+  {h:10, m:55, mode:'read'},
+  {h:1,  m:35, mode:'set'},
+  {h:8,  m:10, mode:'read'},
+  {h:4,  m:50, mode:'set'}
+];
+
+let current=0, score=0, answered=false;
+
+function fmtTime(h,m){
+  const hh = h===12?12:h%12||12;
+  return hh+':'+(m<10?'0'+m:m);
+}
+
+function drawClock(h, m, size){
+  const r=size/2;
+  const cx=r, cy=r;
+  const PI=Math.PI;
+
+  // Hour hand: account for minute fraction
+  const hourAngle = ((h%12 + m/60)/12)*2*PI - PI/2;
+  const hourLen = r*0.5;
+  const hx = cx + hourLen*Math.cos(hourAngle);
+  const hy = cy + hourLen*Math.sin(hourAngle);
+
+  // Minute hand
+  const minAngle = (m/60)*2*PI - PI/2;
+  const minLen = r*0.7;
+  const mx2 = cx + minLen*Math.cos(minAngle);
+  const my2 = cy + minLen*Math.sin(minAngle);
+
+  // Hour markers & numbers
+  let markers='', nums='';
+  const numLabels = {0:'12',1:'1',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',8:'8',9:'9',10:'10',11:'11'};
+  for(let i=0;i<12;i++){
+    const a = (i/12)*2*PI - PI/2;
+    const x1=cx+(r-6)*Math.cos(a), y1=cy+(r-6)*Math.sin(a);
+    const x2=cx+(r-12)*Math.cos(a), y2=cy+(r-12)*Math.sin(a);
+    markers+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#555" stroke-width="${i%3===0?2:1}"/>`;
+    if(i%3===0){
+      const nx=cx+(r-22)*Math.cos(a), ny=cy+(r-22)*Math.sin(a);
+      const fs=size>100?11:7;
+      nums+=`<text x="${nx.toFixed(1)}" y="${(ny+fs*0.35).toFixed(1)}" text-anchor="middle" font-size="${fs}" font-weight="700" fill="#333">${numLabels[i]}</text>`;
+    }
+  }
+
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+    <circle cx="${cx}" cy="${cy}" r="${r-2}" fill="white" stroke="#4ECDC4" stroke-width="3"/>
+    ${markers}${nums}
+    <line x1="${cx}" y1="${cy}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}" stroke="#1E1E2E" stroke-width="${size>100?4:2.5}" stroke-linecap="round"/>
+    <line x1="${cx}" y1="${cy}" x2="${mx2.toFixed(1)}" y2="${my2.toFixed(1)}" stroke="#4ECDC4" stroke-width="${size>100?2.5:1.5}" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="${size>100?5:3}" fill="#1E1E2E"/>
+  </svg>`;
+}
+
+function genWrongTimes(h,m){
+  const wrongs=[];
+  const offsets=[-30,-15,15,30,45,-45,60,-60];
+  const used=new Set([fmtTime(h,m)]);
+  for(const off of offsets){
+    let total=h*60+m+off;
+    total=((total%720)+720)%720;
+    const wh=Math.floor(total/60)%12||12;
+    const wm=total%60;
+    const t=fmtTime(wh,wm);
+    if(!used.has(t)){used.add(t);wrongs.push({h:wh,m:wm,label:t});}
+    if(wrongs.length>=3)break;
+  }
+  // fallback
+  const fallbacks=[{h:1,m:0},{h:6,m:0},{h:3,m:30},{h:9,m:15}];
+  for(const fb of fallbacks){
+    const t=fmtTime(fb.h,fb.m);
+    if(!used.has(t)){used.add(t);wrongs.push({h:fb.h,m:fb.m,label:t});}
+    if(wrongs.length>=3)break;
+  }
+  return wrongs;
+}
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function renderQuestion(){
+  const round=rounds[current];
+  const pct=Math.round((current/10)*100);
+  document.getElementById('progressLabel').textContent=`Question ${current+1} of 10`;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
+  answered=false;
+
+  const fb=document.getElementById('feedbackBar');
+  fb.className='feedback-bar'; fb.textContent='';
+
+  const badge=document.getElementById('modeBadge');
+  if(round.mode==='read'){
+    badge.className='mode-badge mode-read';
+    badge.textContent='Read the Clock 🕐';
+    document.getElementById('questionText').textContent='What time does this clock show?';
+    document.getElementById('visualArea').innerHTML=`<div class="clock-center">${drawClock(round.h,round.m,160)}</div>`;
+
+    const correctLabel=fmtTime(round.h,round.m);
+    const wrongs=genWrongTimes(round.h,round.m);
+    const opts=shuffle([{label:correctLabel,correct:true},...wrongs.slice(0,3).map(w=>({label:w.label,correct:false}))]);
+    const grid=document.createElement('div');
+    grid.className='answers-grid';
+    opts.forEach(opt=>{
+      const btn=document.createElement('button');
+      btn.className='ans-btn';
+      btn.textContent=opt.label;
+      btn.onclick=()=>handleReadAnswer(opt.correct,btn,grid,correctLabel);
+      grid.appendChild(btn);
+    });
+    document.getElementById('answersArea').innerHTML='';
+    document.getElementById('answersArea').appendChild(grid);
+  } else {
+    badge.className='mode-badge mode-set';
+    badge.textContent='Set the Clock 🕰️';
+    const displayTime=fmtTime(round.h,round.m);
+    document.getElementById('questionText').textContent=`The time is ${displayTime}. Which clock shows this time?`;
+    document.getElementById('visualArea').innerHTML=`<div style="text-align:center"><div class="digital-time">${displayTime}</div></div>`;
+
+    const correctIdx=Math.floor(Math.random()*4);
+    const wrongs=genWrongTimes(round.h,round.m);
+    const clocks=[];
+    let wi=0;
+    for(let i=0;i<4;i++){
+      if(i===correctIdx) clocks.push({h:round.h,m:round.m,correct:true});
+      else{const w=wrongs[wi++]||{h:1,m:0};clocks.push({h:w.h,m:w.m,correct:false});}
+    }
+    const gridEl=document.createElement('div');
+    gridEl.className='clocks-grid';
+    clocks.forEach((cl,i)=>{
+      const div=document.createElement('div');
+      div.className='clock-option';
+      div.innerHTML=drawClock(cl.h,cl.m,80)+`<span class="clock-option-label">${String.fromCharCode(65+i)}</span>`;
+      div.onclick=()=>handleSetAnswer(cl.correct,div,gridEl,fmtTime(round.h,round.m));
+      gridEl.appendChild(div);
+    });
+    document.getElementById('answersArea').innerHTML='';
+    document.getElementById('answersArea').appendChild(gridEl);
+  }
+}
+
+function handleReadAnswer(correct,btn,grid,correctLabel){
+  if(answered)return;
+  answered=true;
+  if(correct)score++;
+  document.getElementById('scoreDisplay').textContent=score;
+  grid.querySelectorAll('.ans-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===correctLabel)b.classList.add('correct');
+  });
+  if(!correct)btn.classList.add('wrong');
+  showFeedback(correct,correctLabel);
+  setTimeout(advance,1400);
+}
+
+function handleSetAnswer(correct,div,grid,correctLabel){
+  if(answered)return;
+  answered=true;
+  if(correct)score++;
+  document.getElementById('scoreDisplay').textContent=score;
+  grid.querySelectorAll('.clock-option').forEach(el=>{
+    el.classList.add('disabled');
+    el.onclick=null;
+  });
+  div.classList.add(correct?'correct':'wrong');
+  if(!correct){
+    // highlight correct
+    const children=[...grid.children];
+    children.forEach(el=>{
+      const svgs=el.querySelectorAll('svg');
+      // find the correct one by re-rendering — just mark all non-wrong as potentially correct
+    });
+  }
+  showFeedback(correct,`The correct time is ${correctLabel}`);
+  setTimeout(advance,1400);
+}
+
+function showFeedback(correct,msg){
+  const fb=document.getElementById('feedbackBar');
+  fb.className='feedback-bar '+(correct?'correct':'wrong')+' show';
+  fb.textContent=correct?'Correct! Well done!':'Not quite. '+msg;
+}
+
+function advance(){
+  current++;
+  if(current>=10) showEnd();
+  else renderQuestion();
+}
+
+function showEnd(){
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('progressPct').textContent='100%';
+  let emoji,title,stars,msg;
+  if(score>=9){emoji='🏆';title='Brilliant!';stars='★★★';msg='You are a clock-reading champion!'}
+  else if(score>=7){emoji='🎉';title='Well Done!';stars='★★☆';msg='Great time-reading skills!'}
+  else{emoji='💪';title='Keep Trying!';stars='★☆☆';msg='Keep practising — you\'ll get there!'}
+  document.getElementById('endEmoji').textContent=emoji;
+  document.getElementById('endTitle').textContent=title;
+  document.getElementById('endScore').textContent=score+'/10';
+  document.getElementById('endStars').textContent=stars;
+  document.getElementById('endMsg').textContent=msg;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame(){
+  current=0;score=0;answered=false;
+  document.getElementById('scoreDisplay').textContent='0';
+  document.getElementById('endOverlay').classList.remove('show');
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

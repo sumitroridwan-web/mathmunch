@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics &amp; Probability Games – MathMunch</title>
+    <style>
+        :root {
+            --primary:#6C5CE7; --primary-light:#E8E4FF;
+            --s1:#A29BFE; --s2:#6C5CE7;
+            --accent:#FDCB6E; --bg:#F0F4FF;
+            --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
+            --radius:16px; --shadow:0 4px 20px rgba(162,155,254,0.15);
+            --shadow-h:0 8px 30px rgba(162,155,254,0.28);
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+        .topbar{background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);position:sticky;top:0;z-index:50}
+        .topbar-inner{max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+        .back-btn{text-decoration:none;background:var(--bg);color:var(--text2);padding:8px 16px;border-radius:10px;font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:6px;transition:all .2s}
+        .back-btn:hover{background:var(--primary-light);color:var(--primary)}
+        .topbar-logo{font-size:1.1rem;font-weight:900;color:var(--primary);text-decoration:none}
+        .topbar-sep{color:#ccc;font-size:1.2rem}
+        .topbar-title{font-size:1rem;font-weight:800}
+
+        .strand-hero{background:linear-gradient(135deg,#A29BFE,#6C5CE7,#FD79A8);padding:48px 24px 60px;color:white;text-align:center;position:relative;overflow:hidden}
+        .strand-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(255,255,255,.12) 0%,transparent 60%)}
+        .hero-content{position:relative;max-width:640px;margin:0 auto}
+        .hero-icon{width:80px;height:80px;background:rgba(255,255,255,.25);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 20px}
+        .strand-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:12px}
+        .strand-hero p{font-size:1rem;opacity:.9;margin-bottom:24px}
+        .hero-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+        .hero-chip{background:rgba(255,255,255,.25);padding:6px 16px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid rgba(255,255,255,.35)}
+
+        .filter-bar{background:var(--white);padding:18px 24px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+        .filter-bar-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+        .filter-label{font-size:.8rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
+        .filter-tabs{display:flex;gap:8px;flex-wrap:wrap}
+        .filter-tab{padding:8px 18px;border-radius:50px;font-size:.84rem;font-weight:700;cursor:pointer;border:2px solid transparent;background:var(--bg);color:var(--text2);transition:all .2s;white-space:nowrap}
+        .filter-tab:hover{border-color:var(--s1);color:var(--s1)}
+        .filter-tab.active{background:linear-gradient(135deg,var(--s1),var(--s2));color:white;border-color:transparent;box-shadow:0 4px 12px rgba(162,155,254,.35)}
+
+        .games-section{max-width:1280px;margin:36px auto 64px;padding:0 24px}
+        .section-label{font-size:1.1rem;font-weight:800;margin-bottom:20px;color:var(--text2);display:flex;align-items:center;gap:10px}
+        .section-label span{background:linear-gradient(135deg,var(--s1),var(--s2));color:white;padding:3px 10px;border-radius:20px;font-size:.75rem}
+
+        .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-bottom:48px}
+
+        .game-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all .3s cubic-bezier(.34,1.56,.64,1);cursor:pointer;text-decoration:none;color:inherit;display:flex;flex-direction:column;position:relative}
+        .game-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:var(--shadow-h)}
+        .game-card.featured::before{content:'⭐ Featured';position:absolute;top:10px;right:10px;background:var(--accent);color:#333;font-size:.62rem;font-weight:800;padding:4px 10px;border-radius:20px;z-index:2}
+
+        .card-thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:3.2rem;position:relative;overflow:hidden}
+        .card-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.08))}
+        .card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+        .card-title{font-size:.95rem;font-weight:800;margin-bottom:3px}
+        .card-skill{font-size:.73rem;color:var(--text2);margin-bottom:10px;flex:1}
+        .card-meta{display:flex;align-items:center;justify-content:space-between}
+
+        .dtag{padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+        .d-ey{background:#FFE0F0;color:#FF4785}
+        .d-p1{background:#FFF0E0;color:#FF7043}
+        .d-p2{background:#FFFBE0;color:#F0A500}
+        .d-p3{background:#E0F7FF;color:#0090C0}
+        .d-p4{background:#E0FFF5;color:#00A878}
+        .d-p5{background:#EEE8FF;color:#5F27CD}
+
+        .play-chip{background:linear-gradient(135deg,var(--s1),var(--s2));color:white;border:none;width:32px;height:32px;border-radius:50%;font-size:.8rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
+        .play-chip:hover{transform:scale(1.15)}
+
+        .t-s1{background:linear-gradient(135deg,#A18CD1,#FBC2EB,#A29BFE)}
+        .t-s2{background:linear-gradient(135deg,#6C5CE7,#A29BFE,#C3B1E1)}
+        .t-s3{background:linear-gradient(135deg,#FD79A8,#E84393,#A29BFE)}
+        .t-s4{background:linear-gradient(135deg,#5F27CD,#A29BFE,#C44DFF)}
+        .t-s5{background:linear-gradient(135deg,#667EEA,#764BA2,#A29BFE)}
+        .t-s6{background:linear-gradient(135deg,#F953C6,#B91D73)}
+        .t-s7{background:linear-gradient(135deg,#4776E6,#8E54E9)}
+        .t-s8{background:linear-gradient(135deg,#a18cd1,#fbc2eb)}
+        .t-s9{background:linear-gradient(135deg,#c471f5,#fa71cd)}
+        .t-s10{background:linear-gradient(135deg,#12c2e9,#c471ed,#f64f59)}
+        .t-s11{background:linear-gradient(135deg,#8360c3,#2ebf91)}
+        .t-s12{background:linear-gradient(135deg,#7F7FD5,#86A8E7,#91EAE4)}
+
+        .info-banner{background:white;border-radius:var(--radius);padding:24px 28px;box-shadow:var(--shadow);margin-bottom:40px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+        .info-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--s1),var(--s2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0}
+        .info-text h3{font-size:1rem;font-weight:800;margin-bottom:4px}
+        .info-text p{font-size:.84rem;color:var(--text2)}
+        .curriculum-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+        .c-chip{background:var(--bg);padding:4px 12px;border-radius:20px;font-size:.73rem;font-weight:700;color:var(--text2);border:1px solid #ddd8ff}
+
+        @media(max-width:600px){.games-grid{grid-template-columns:repeat(2,1fr)}}
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="topbar-inner">
+        <a href="../../index.html" class="back-btn">← Home</a>
+        <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
+        <span class="topbar-sep">/</span>
+        <span class="topbar-title">📊 Statistics &amp; Probability</span>
+    </div>
+</div>
+
+<section class="strand-hero">
+    <div class="hero-content">
+        <div class="hero-icon">📊</div>
+        <h1>Statistics &amp; Probability Games</h1>
+        <p>12 games covering sorting, charts, graphs, Venn diagrams, probability and data analysis — Cambridge Primary aligned.</p>
+        <div class="hero-chips">
+            <span class="hero-chip">🌱 Early Years</span>
+            <span class="hero-chip">🌟 Primary 1–2</span>
+            <span class="hero-chip">🚀 Primary 3–4</span>
+            <span class="hero-chip">🏆 Primary 5</span>
+        </div>
+    </div>
+</section>
+
+<div class="filter-bar">
+    <div class="filter-bar-inner">
+        <span class="filter-label">🎯 Filter:</span>
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-f="all">All Levels</button>
+            <button class="filter-tab" data-f="ey">🌱 EY</button>
+            <button class="filter-tab" data-f="p2">P2</button>
+            <button class="filter-tab" data-f="p3">P3</button>
+            <button class="filter-tab" data-f="p4">P4</button>
+            <button class="filter-tab" data-f="p5">P5</button>
+        </div>
+    </div>
+</div>
+
+<main class="games-section">
+    <div class="info-banner">
+        <div class="info-icon">📚</div>
+        <div class="info-text">
+            <h3>Cambridge Primary Mathematics — Statistics &amp; Probability Strand</h3>
+            <p>All 12 games are mapped to the Cambridge Primary curriculum from Early Years through Stage 5.</p>
+            <div class="curriculum-chips">
+                <span class="c-chip">Sorting &amp; Classifying</span>
+                <span class="c-chip">Tally Charts</span>
+                <span class="c-chip">Pictograms</span>
+                <span class="c-chip">Bar Charts</span>
+                <span class="c-chip">Carroll &amp; Venn Diagrams</span>
+                <span class="c-chip">Line Graphs</span>
+                <span class="c-chip">Pie Charts</span>
+                <span class="c-chip">Probability</span>
+                <span class="c-chip">Mean, Median &amp; Mode</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-label">All Statistics &amp; Probability Games <span id="visibleCount">12 games</span></div>
+
+    <div class="games-grid" id="gamesGrid">
+
+        <a class="game-card featured" href="spin-sort.html" data-level="ey">
+            <div class="card-thumb t-s3">🎡</div>
+            <div class="card-body">
+                <div class="card-title">Spin &amp; Sort</div>
+                <div class="card-skill">Sort objects by colour, shape &amp; size</div>
+                <div class="card-meta"><span class="dtag d-ey">EY</span><button class="play-chip" onclick="event.preventDefault();window.location.href='spin-sort.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card featured" href="tally-town.html" data-level="p2">
+            <div class="card-thumb t-s2">🏙️</div>
+            <div class="card-body">
+                <div class="card-title">Tally Town</div>
+                <div class="card-skill">Read &amp; create tally charts</div>
+                <div class="card-meta"><span class="dtag d-p2">P2</span><button class="play-chip" onclick="event.preventDefault();window.location.href='tally-town.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card featured" href="graph-garden.html" data-level="p2">
+            <div class="card-thumb t-s1">🌻</div>
+            <div class="card-body">
+                <div class="card-title">Graph Garden</div>
+                <div class="card-skill">Read pictograms &amp; bar charts</div>
+                <div class="card-meta"><span class="dtag d-p2">P2</span><button class="play-chip" onclick="event.preventDefault();window.location.href='graph-garden.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card" href="carroll-diagram.html" data-level="p3">
+            <div class="card-thumb t-s7">🟦</div>
+            <div class="card-body">
+                <div class="card-title">Carroll Diagram Challenge</div>
+                <div class="card-skill">Sort numbers into Carroll diagrams</div>
+                <div class="card-meta"><span class="dtag d-p3">P3</span><button class="play-chip" onclick="event.preventDefault();window.location.href='carroll-diagram.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card" href="venn-voyage.html" data-level="p3">
+            <div class="card-thumb t-s8">🔵</div>
+            <div class="card-body">
+                <div class="card-title">Venn Voyage</div>
+                <div class="card-skill">Sort into overlapping Venn diagrams</div>
+                <div class="card-meta"><span class="dtag d-p3">P3</span><button class="play-chip" onclick="event.preventDefault();window.location.href='venn-voyage.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card" href="frequency-forest.html" data-level="p3">
+            <div class="card-thumb t-s6">🌲</div>
+            <div class="card-body">
+                <div class="card-title">Frequency Forest</div>
+                <div class="card-skill">Read &amp; interpret frequency tables</div>
+                <div class="card-meta"><span class="dtag d-p3">P3</span><button class="play-chip" onclick="event.preventDefault();window.location.href='frequency-forest.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card" href="bar-chart-builder.html" data-level="p3">
+            <div class="card-thumb t-s5">📊</div>
+            <div class="card-body">
+                <div class="card-title">Bar Chart Builder</div>
+                <div class="card-skill">Read &amp; answer questions from bar charts</div>
+                <div class="card-meta"><span class="dtag d-p3">P3</span><button class="play-chip" onclick="event.preventDefault();window.location.href='bar-chart-builder.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card" href="line-graph-lab.html" data-level="p4">
+            <div class="card-thumb t-s9">📈</div>
+            <div class="card-body">
+                <div class="card-title">Line Graph Lab</div>
+                <div class="card-skill">Read &amp; interpret line graphs</div>
+                <div class="card-meta"><span class="dtag d-p4">P4</span><button class="play-chip" onclick="event.preventDefault();window.location.href='line-graph-lab.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card featured" href="chance-castle.html" data-level="p4">
+            <div class="card-thumb t-s4">🏰</div>
+            <div class="card-body">
+                <div class="card-title">Chance Castle</div>
+                <div class="card-skill">Impossible → unlikely → likely → certain</div>
+                <div class="card-meta"><span class="dtag d-p4">P4</span><button class="play-chip" onclick="event.preventDefault();window.location.href='chance-castle.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card" href="pie-chart-party.html" data-level="p4">
+            <div class="card-thumb t-s10">🥧</div>
+            <div class="card-body">
+                <div class="card-title">Pie Chart Party</div>
+                <div class="card-skill">Read &amp; interpret pie charts</div>
+                <div class="card-meta"><span class="dtag d-p4">P4</span><button class="play-chip" onclick="event.preventDefault();window.location.href='pie-chart-party.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card" href="mean-machine.html" data-level="p5">
+            <div class="card-thumb t-s11">⚙️</div>
+            <div class="card-body">
+                <div class="card-title">Mean Machine</div>
+                <div class="card-skill">Mean, median, mode &amp; range</div>
+                <div class="card-meta"><span class="dtag d-p5">P5</span><button class="play-chip" onclick="event.preventDefault();window.location.href='mean-machine.html'">▶</button></div>
+            </div>
+        </a>
+
+        <a class="game-card featured" href="data-detective.html" data-level="p5">
+            <div class="card-thumb t-s12">🔍</div>
+            <div class="card-body">
+                <div class="card-title">Data Detective</div>
+                <div class="card-skill">Interpret charts, graphs &amp; tables</div>
+                <div class="card-meta"><span class="dtag d-p5">P5</span><button class="play-chip" onclick="event.preventDefault();window.location.href='data-detective.html'">▶</button></div>
+            </div>
+        </a>
+
+    </div>
+</main>
+
+<script>
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const f = this.dataset.f;
+            let visible = 0;
+            document.querySelectorAll('.game-card').forEach(card => {
+                const show = f === 'all' || card.dataset.level === f;
+                card.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+            document.getElementById('visibleCount').textContent = visible + ' game' + (visible !== 1 ? 's' : '');
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Graph Garden – MathMunch</title>
+  <style>
+    :root {
+      --s1: #A29BFE; --s2: #6C5CE7;
+      --bg: #F5F3FF; --white: #FFFFFF;
+      --dark: #1E1E2E; --mid: #525270;
+      --radius: 16px;
+      --shadow: 0 4px 20px rgba(108,92,231,0.15);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(108,92,231,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
+    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
+    .back-btn:hover{background:var(--s1);color:white}
+    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
+    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
+    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
+    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
+    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:8px;background:#E8E4FF;z-index:200}
+    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#A29BFE,#6C5CE7);transition:width .4s ease;border-radius:0 4px 4px 0}
+    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
+    .end-screen.show{display:flex}
+    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+    .end-stars{font-size:2.5rem;margin-bottom:12px}
+    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
+    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
+    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
+    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
+    .btn-home{background:#F0F4FF;color:var(--s2);margin:0 6px}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,92,231,0.3)}
+    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+
+    /* Round info */
+    .round-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+    .round-label{font-size:.9rem;font-weight:700;color:var(--mid)}
+    .type-badge{padding:4px 12px;border-radius:20px;font-size:.78rem;font-weight:700;color:white}
+    .type-badge.pictogram{background:linear-gradient(135deg,#fdcb6e,#e17055)}
+    .type-badge.barchart{background:linear-gradient(135deg,#74b9ff,#0984e3)}
+
+    /* Round dots */
+    .round-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+    .rdot{width:24px;height:24px;border-radius:50%;background:#E8E4FF;border:2px solid #c8c0ff;transition:.3s}
+    .rdot.correct{background:linear-gradient(135deg,#55efc4,#00b894);border-color:#00b894}
+    .rdot.wrong{background:linear-gradient(135deg,#fd79a8,#e84393);border-color:#e84393}
+    .rdot.active{background:var(--s1);border-color:var(--s2);transform:scale(1.3)}
+
+    /* Chart card */
+    .chart-card{background:white;border-radius:20px;padding:24px;margin-bottom:24px;box-shadow:var(--shadow);border:2px solid #E8E4FF}
+    .chart-title{font-size:.85rem;font-weight:700;color:var(--mid);text-align:center;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+
+    /* Pictogram styles */
+    .pictogram-table{width:100%;border-collapse:separate;border-spacing:0 6px}
+    .pictogram-table td{padding:6px 8px;vertical-align:middle}
+    .picto-label{font-weight:700;font-size:.95rem;color:var(--dark);min-width:80px}
+    .picto-icons{font-size:1.6rem;line-height:1.4;word-spacing:2px;letter-spacing:2px}
+    .picto-count{font-weight:800;font-size:.9rem;color:var(--mid);padding-left:8px}
+
+    /* Bar chart SVG */
+    .bar-chart-wrap{overflow-x:auto}
+    .bar-chart-wrap svg{display:block;margin:0 auto}
+
+    /* Question */
+    .question-text{text-align:center;font-size:1.15rem;font-weight:700;color:var(--dark);margin-bottom:22px;line-height:1.5}
+
+    /* Answers */
+    .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:420px;margin:0 auto}
+    .ans-btn{padding:16px 10px;border-radius:16px;border:3px solid #E8E4FF;background:white;font-size:1.2rem;font-weight:800;color:var(--dark);cursor:pointer;transition:.2s;box-shadow:0 2px 10px rgba(108,92,231,0.08);text-align:center;min-height:60px}
+    .ans-btn:hover:not(:disabled){background:var(--s1);color:white;border-color:var(--s1);transform:translateY(-2px)}
+    .ans-btn.correct{background:linear-gradient(135deg,#55efc4,#00b894);border-color:#00b894;color:white;animation:correctPop .4s ease}
+    .ans-btn.wrong{background:linear-gradient(135deg,#fd79a8,#d63031);border-color:#d63031;color:white;animation:wrongShake .4s ease}
+    .ans-btn.reveal{background:linear-gradient(135deg,#55efc4,#00b894);border-color:#00b894;color:white}
+    @keyframes correctPop{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    @keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+    .ans-btn:disabled{cursor:not-allowed;opacity:.7}
+
+    .feedback-strip{text-align:center;font-size:1.05rem;font-weight:700;min-height:36px;margin-top:16px;padding:8px 20px;border-radius:12px;transition:all .3s}
+    .feedback-strip.good{background:#d4f5e9;color:#00b894}
+    .feedback-strip.bad{background:#ffe4f0;color:#e84393}
+
+    /* Garden decoration */
+    .garden-footer{text-align:center;font-size:1.4rem;margin-top:12px;opacity:.5}
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <a href="../../index.html" class="back-btn">← All Games</a>
+  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
+  <span class="game-title">Graph Garden</span>
+  <span class="level-badge">P2</span>
+  <span class="score-display">⭐ <span id="score">0</span></span>
+</div>
+<div class="game-area">
+  <div class="round-info">
+    <span class="round-label" id="roundLabel">Question 1 of 10</span>
+    <span class="type-badge" id="typeBadge">Pictogram</span>
+  </div>
+  <div class="round-dots" id="roundDots"></div>
+  <div class="chart-card" id="chartCard">
+    <div class="chart-title" id="chartTitle">Garden Survey</div>
+    <div id="chartArea"></div>
+  </div>
+  <div class="question-text" id="questionText"></div>
+  <div class="answers-grid" id="answersGrid"></div>
+  <div class="feedback-strip" id="feedbackStrip"></div>
+  <div class="garden-footer">🌸 🌿 🌼 🌱 🌺</div>
+</div>
+<div class="end-screen" id="endScreen">
+  <div class="end-card">
+    <div class="end-stars" id="endStars">⭐⭐⭐</div>
+    <div class="end-title" id="endTitle">Amazing!</div>
+    <div class="end-score" id="endScore">You scored 10/10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a href="../../index.html" class="btn btn-home">Home</a>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<script>
+  let score = 0, total = 10, current = 0;
+  let locked = false;
+  let questions = [];
+
+  function updateScore(pts){ score += pts; document.getElementById('score').textContent = score; }
+  function updateProgress(){ document.getElementById('progressBar').style.width = (current/total*100)+'%'; }
+
+  function showEnd(){
+    const pct = score/total;
+    document.getElementById('endStars').textContent = pct>=0.8?'⭐⭐⭐':pct>=0.5?'⭐⭐':'⭐';
+    document.getElementById('endTitle').textContent = pct>=0.8?'Brilliant!':pct>=0.5?'Good job!':'Keep trying!';
+    document.getElementById('endScore').textContent = 'You scored '+score+' / '+total;
+    document.getElementById('endScreen').classList.add('show');
+  }
+
+  function restartGame(){
+    document.getElementById('endScreen').classList.remove('show');
+    initGame();
+  }
+
+  function shuffle(arr){
+    const a=[...arr];
+    for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+    return a;
+  }
+
+  // ─── Pictogram question generators ────────────────────────────────────────
+  const PICTO_DATASETS = [
+    { title:"Flowers in the Garden", rows:[
+      {label:"Sunflowers",emoji:"🌻",count:4},
+      {label:"Roses",emoji:"🌹",count:6},
+      {label:"Daisies",emoji:"🌼",count:3},
+      {label:"Tulips",emoji:"🌷",count:5}
+    ]},
+    { title:"Vegetables Grown", rows:[
+      {label:"Carrots",emoji:"🥕",count:7},
+      {label:"Tomatoes",emoji:"🍅",count:5},
+      {label:"Peas",emoji:"🫛",count:2},
+      {label:"Lettuce",emoji:"🥬",count:4}
+    ]},
+    { title:"Garden Visitors", rows:[
+      {label:"Butterflies",emoji:"🦋",count:3},
+      {label:"Bees",emoji:"🐝",count:8},
+      {label:"Ladybirds",emoji:"🐞",count:5},
+      {label:"Beetles",emoji:"🪲",count:2}
+    ]},
+    { title:"Fruit on Trees", rows:[
+      {label:"Apples",emoji:"🍎",count:6},
+      {label:"Pears",emoji:"🍐",count:4},
+      {label:"Lemons",emoji:"🍋",count:3},
+      {label:"Cherries",emoji:"🍒",count:7}
+    ]},
+    { title:"Birds Seen Today", rows:[
+      {label:"Robins",emoji:"🐦",count:5},
+      {label:"Sparrows",emoji:"🐤",count:8},
+      {label:"Owls",emoji:"🦉",count:2},
+      {label:"Ducks",emoji:"🦆",count:6}
+    ]}
+  ];
+
+  function makePictoQuestion(dataset){
+    const type = Math.random()<0.5?'count':'most';
+    if(type==='count'){
+      const row = dataset.rows[Math.floor(Math.random()*dataset.rows.length)];
+      const correct = row.count;
+      const wrongs = new Set();
+      while(wrongs.size<3){
+        const v=correct+Math.floor(Math.random()*5)-2;
+        if(v!==correct&&v>=1&&v<=12) wrongs.add(v);
+      }
+      return {
+        kind:'pictogram',
+        dataset,
+        questionText:'How many '+row.label.toLowerCase()+' are there?',
+        correct,
+        answers: shuffle([correct,...wrongs])
+      };
+    } else {
+      const maxRow = dataset.rows.reduce((a,b)=>a.count>b.count?a:b);
+      const correct = maxRow.label;
+      const others = dataset.rows.filter(r=>r.label!==correct).map(r=>r.label);
+      const wrongs = shuffle(others).slice(0,3);
+      return {
+        kind:'pictogram',
+        dataset,
+        questionText:'Which '+dataset.title.toLowerCase().replace(' grown','').replace(' in the garden','').replace(' on trees','').replace(' seen today','').replace('garden visitors','creature')+' has the most?',
+        correct,
+        answers: shuffle([correct,...wrongs])
+      };
+    }
+  }
+
+  // ─── Bar chart question generators ────────────────────────────────────────
+  const BAR_DATASETS = [
+    { title:"Favourite Garden Colours", labels:["Red","Yellow","Purple","Pink"], values:[5,3,7,4], colors:["#ff7675","#fdcb6e","#a29bfe","#fd79a8"] },
+    { title:"Seeds Planted", labels:["Beans","Peas","Carrots","Corn"], values:[6,2,8,4], colors:["#55efc4","#00b894","#e17055","#fdcb6e"] },
+    { title:"Tools in the Shed", labels:["Spades","Rakes","Forks","Trowels"], values:[4,7,3,6], colors:["#74b9ff","#0984e3","#a29bfe","#6c5ce7"] },
+    { title:"Rain This Week (mm)", labels:["Mon","Tue","Wed","Thu"], values:[3,7,5,2], colors:["#74b9ff","#a29bfe","#55efc4","#fdcb6e"] },
+    { title:"Snails Found", labels:["Bed A","Bed B","Bed C","Bed D"], values:[8,5,1,6], colors:["#e17055","#fdcb6e","#55efc4","#fd79a8"] }
+  ];
+
+  function makeBarQuestion(dataset){
+    const type = Math.random()<0.5?'count':'most';
+    if(type==='count'){
+      const idx = Math.floor(Math.random()*dataset.labels.length);
+      const correct = dataset.values[idx];
+      const label = dataset.labels[idx];
+      const wrongs = new Set();
+      while(wrongs.size<3){
+        const v=correct+Math.floor(Math.random()*5)-2;
+        if(v!==correct&&v>=1&&v<=10) wrongs.add(v);
+      }
+      return {
+        kind:'barchart',
+        dataset,
+        questionText:'How many '+label.toLowerCase()+'?',
+        correct,
+        answers: shuffle([correct,...wrongs])
+      };
+    } else {
+      const maxVal = Math.max(...dataset.values);
+      const maxIdx = dataset.values.indexOf(maxVal);
+      const correct = dataset.labels[maxIdx];
+      const others = dataset.labels.filter(l=>l!==correct);
+      const wrongs = shuffle(others).slice(0,3);
+      return {
+        kind:'barchart',
+        dataset,
+        questionText:'Which bar is the tallest?',
+        correct,
+        answers: shuffle([correct,...wrongs])
+      };
+    }
+  }
+
+  function buildRoundDots(){
+    const c=document.getElementById('roundDots'); c.innerHTML='';
+    for(let i=0;i<total;i++){
+      const d=document.createElement('div');
+      d.className='rdot'+(i===0?' active':'');
+      d.id='rdot-'+i; c.appendChild(d);
+    }
+  }
+
+  function markDot(idx, ok){
+    const d=document.getElementById('rdot-'+idx);
+    if(!d) return;
+    d.classList.remove('active');
+    d.classList.add(ok?'correct':'wrong');
+  }
+
+  function generateQuestions(){
+    const qs=[];
+    const pictoDatasets=shuffle([...PICTO_DATASETS]);
+    const barDatasets=shuffle([...BAR_DATASETS]);
+    // 5 pictogram, 5 bar chart, interleaved
+    for(let i=0;i<5;i++){
+      qs.push(makePictoQuestion(pictoDatasets[i%pictoDatasets.length]));
+      qs.push(makeBarQuestion(barDatasets[i%barDatasets.length]));
+    }
+    return shuffle(qs).slice(0,10);
+  }
+
+  // ─── Pictogram rendering ──────────────────────────────────────────────────
+  function renderPictogram(dataset){
+    let html='<table class="pictogram-table">';
+    dataset.rows.forEach(row=>{
+      html+='<tr><td class="picto-label">'+row.label+'</td>';
+      html+='<td class="picto-icons">';
+      for(let i=0;i<row.count;i++) html+=row.emoji+' ';
+      html+='</td>';
+      html+='<td class="picto-count">='+row.count+'</td></tr>';
+    });
+    html+='</table>';
+    return html;
+  }
+
+  // ─── Bar chart SVG rendering ──────────────────────────────────────────────
+  function renderBarChart(dataset){
+    const W=340, H=200, padL=36, padB=40, padT=16, padR=10;
+    const chartW=W-padL-padR, chartH=H-padB-padT;
+    const maxVal=Math.max(...dataset.values);
+    const barW=Math.floor(chartW/dataset.values.length)-12;
+    const barGap=Math.floor(chartW/dataset.values.length);
+    const yScale = chartH/maxVal;
+
+    let svg=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+    // Grid lines
+    for(let y=0;y<=maxVal;y++){
+      const cy=padT+chartH - y*yScale;
+      svg+=`<line x1="${padL}" y1="${cy}" x2="${W-padR}" y2="${cy}" stroke="#e8e4ff" stroke-width="1"/>`;
+      if(y>0||y===0) svg+=`<text x="${padL-4}" y="${cy+4}" font-size="11" fill="#888" text-anchor="end">${y}</text>`;
+    }
+    // X axis
+    svg+=`<line x1="${padL}" y1="${padT+chartH}" x2="${W-padR}" y2="${padT+chartH}" stroke="#525270" stroke-width="2"/>`;
+    // Y axis
+    svg+=`<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+chartH}" stroke="#525270" stroke-width="2"/>`;
+    // Bars
+    dataset.values.forEach((v,i)=>{
+      const x=padL+i*barGap+8;
+      const barH=v*yScale;
+      const y=padT+chartH-barH;
+      svg+=`<rect x="${x}" y="${y}" width="${barW}" height="${barH}" fill="${dataset.colors[i]}" rx="4"/>`;
+      svg+=`<text x="${x+barW/2}" y="${y-5}" font-size="12" font-weight="bold" fill="${dataset.colors[i]}" text-anchor="middle">${v}</text>`;
+      // X label
+      const label=dataset.labels[i];
+      if(label.length>5){
+        svg+=`<text x="${x+barW/2}" y="${padT+chartH+16}" font-size="9" fill="#525270" text-anchor="middle">${label.slice(0,5)}</text>`;
+        svg+=`<text x="${x+barW/2}" y="${padT+chartH+28}" font-size="9" fill="#525270" text-anchor="middle">${label.slice(5)}</text>`;
+      } else {
+        svg+=`<text x="${x+barW/2}" y="${padT+chartH+18}" font-size="11" fill="#525270" text-anchor="middle">${label}</text>`;
+      }
+    });
+    svg+='</svg>';
+    return '<div class="bar-chart-wrap">'+svg+'</div>';
+  }
+
+  function initGame(){
+    score=0; current=0; locked=false;
+    document.getElementById('score').textContent='0';
+    document.getElementById('progressBar').style.width='0%';
+    document.getElementById('feedbackStrip').textContent='';
+    document.getElementById('feedbackStrip').className='feedback-strip';
+    questions=generateQuestions();
+    buildRoundDots();
+    loadQuestion();
+  }
+
+  function loadQuestion(){
+    if(current>=total){ showEnd(); return; }
+    locked=false;
+    updateProgress();
+    const q=questions[current];
+    document.getElementById('roundLabel').textContent='Question '+(current+1)+' of '+total;
+
+    const badge=document.getElementById('typeBadge');
+    if(q.kind==='pictogram'){
+      badge.textContent='Pictogram';
+      badge.className='type-badge pictogram';
+      document.getElementById('chartTitle').textContent=q.dataset.title;
+      document.getElementById('chartArea').innerHTML=renderPictogram(q.dataset);
+    } else {
+      badge.textContent='Bar Chart';
+      badge.className='type-badge barchart';
+      document.getElementById('chartTitle').textContent=q.dataset.title;
+      document.getElementById('chartArea').innerHTML=renderBarChart(q.dataset);
+    }
+
+    document.getElementById('questionText').textContent=q.questionText;
+    document.getElementById('feedbackStrip').textContent='';
+    document.getElementById('feedbackStrip').className='feedback-strip';
+
+    const grid=document.getElementById('answersGrid');
+    grid.innerHTML='';
+    q.answers.forEach(ans=>{
+      const btn=document.createElement('button');
+      btn.className='ans-btn';
+      btn.textContent=ans;
+      btn.onclick=()=>handleAnswer(ans, q.correct, btn);
+      grid.appendChild(btn);
+    });
+
+    // Update dots
+    for(let i=0;i<total;i++){
+      const d=document.getElementById('rdot-'+i);
+      if(d) d.classList.toggle('active',i===current);
+    }
+  }
+
+  function handleAnswer(chosen, correct, btn){
+    if(locked) return;
+    locked=true;
+    const allBtns=document.querySelectorAll('.ans-btn');
+    allBtns.forEach(b=>b.disabled=true);
+
+    const isCorrect = String(chosen)===String(correct);
+    if(isCorrect){
+      btn.classList.add('correct');
+      updateScore(1);
+      document.getElementById('feedbackStrip').textContent='✅ Correct!';
+      document.getElementById('feedbackStrip').className='feedback-strip good';
+      markDot(current,true);
+    } else {
+      btn.classList.add('wrong');
+      allBtns.forEach(b=>{ if(String(b.textContent)===String(correct)) b.classList.add('reveal'); });
+      document.getElementById('feedbackStrip').textContent='❌ The answer is '+correct+'.';
+      document.getElementById('feedbackStrip').className='feedback-strip bad';
+      markDot(current,false);
+    }
+    current++;
+    setTimeout(loadQuestion, 1400);
+  }
+
+  initGame();
+</script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ten Frame Treasure – MathMunch</title>
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #E8E4FF;
+    --accent: #FDCB6E;
+    --n1: #FF6B6B;
+    --n2: #FF8E53;
+    --bg: #F0F4FF;
+    --white: #FFFFFF;
+    --text: #1E1E2E;
+    --text2: #525270;
+    --green: #00B894;
+    --red: #FF4757;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* TOP BAR */
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--white); box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 20px; height: 60px;
+  }
+  .top-bar a { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+  .top-bar a:hover { text-decoration: underline; }
+  .top-bar .brand { font-weight: 800; font-size: 1rem; color: var(--text); }
+  .top-bar .game-title { font-weight: 700; font-size: 0.95rem; color: var(--text2); flex: 1; }
+  .level-badge { background: #FFF0E0; color: #FF7043; font-weight: 800; font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .score-display { font-weight: 800; font-size: 1rem; color: var(--text); white-space: nowrap; }
+
+  /* GAME AREA */
+  .game-area { max-width: 800px; margin: 0 auto; padding: 80px 16px 100px; }
+
+  .pirate-header { text-align: center; margin-bottom: 20px; font-size: 2rem; letter-spacing: 4px; }
+
+  /* MODE LABEL */
+  .mode-label {
+    text-align: center; font-size: 0.85rem; font-weight: 700;
+    color: var(--text2); text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.6); border-radius: 8px; padding: 4px 12px;
+    display: inline-block; position: relative; left: 50%; transform: translateX(-50%);
+  }
+
+  /* GAME CARD */
+  .game-card {
+    background: linear-gradient(135deg, #FFF8E1, #FFF3CD);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(255,160,0,0.15);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .question-text { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 20px; }
+
+  /* TEN FRAME */
+  .ten-frame {
+    display: grid; grid-template-columns: repeat(5, 56px);
+    gap: 8px; margin: 0 auto 24px; width: fit-content;
+    background: #D4A017; border-radius: 12px; padding: 10px;
+    box-shadow: 0 4px 16px rgba(212,160,23,0.3);
+  }
+  .tf-cell {
+    width: 56px; height: 56px; border-radius: 8px;
+    border: 2px solid #D4A017;
+    background: #FFF8E8;
+    display: flex; align-items: center; justify-content: center;
+    cursor: default; transition: transform 0.15s;
+    position: relative; overflow: hidden;
+  }
+  .tf-cell.filled { background: #FFD700; cursor: pointer; }
+  .tf-cell.clickable { cursor: pointer; }
+  .tf-cell.clickable:hover { transform: scale(1.05); }
+  .coin {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #FFE566, #D4A017);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.5);
+    animation: coinShine 2s ease-in-out infinite;
+  }
+  @keyframes coinShine {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.5); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.8), 0 0 12px rgba(255,215,0,0.6); }
+  }
+  .coin-glow { animation: coinGlow 0.4s ease-out; }
+  @keyframes coinGlow {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* ANSWER BUTTONS (MODE A) */
+  .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn-answer {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white; border: none; border-radius: 12px;
+    font-weight: 800; font-size: 1.5rem; padding: 16px 28px;
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(255,107,107,0.3);
+    font-family: inherit;
+  }
+  .btn-answer:hover:not(:disabled) { transform: translateY(-2px); }
+  .btn-answer:disabled { cursor: default; opacity: 0.7; }
+  .btn-answer.correct { background: #D4EDDA !important; color: #155724 !important; }
+  .btn-answer.wrong { background: #F8D7DA !important; color: #721C24 !important; }
+
+  /* CHECK BUTTON (MODE B) */
+  .btn-check {
+    background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+    color: white; border: none; border-radius: 12px;
+    font-weight: 800; font-size: 1.1rem; padding: 14px 36px;
+    cursor: pointer; font-family: inherit; margin-top: 4px;
+    transition: transform 0.15s; box-shadow: 0 4px 14px rgba(108,92,231,0.3);
+  }
+  .btn-check:hover { transform: translateY(-2px); }
+  .btn-check:disabled { opacity: 0.6; cursor: default; }
+
+  .mode-b-hint { font-size: 0.9rem; color: var(--text2); margin-bottom: 16px; font-weight: 600; }
+  .target-number {
+    font-size: 4rem; font-weight: 900; color: var(--primary);
+    margin: 0 auto 8px; display: block;
+  }
+
+  /* FEEDBACK */
+  .feedback-box {
+    border-radius: 12px; padding: 12px 20px; text-align: center;
+    font-weight: 700; font-size: 1rem; margin-top: 16px; display: none;
+  }
+  .feedback-box.correct { background: #D4EDDA; color: #155724; display: block; }
+  .feedback-box.wrong { background: #F8D7DA; color: #721C24; display: block; }
+
+  /* PROGRESS BAR */
+  .progress-bar-container {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--white); box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    padding: 12px 20px; z-index: 100;
+  }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+  .progress-track { background: #e0e0e0; border-radius: 99px; height: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); transition: width 0.4s ease; }
+
+  /* CONFETTI */
+  .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 200; overflow: hidden; }
+  .confetti-piece {
+    position: absolute; font-size: 1.5rem;
+    animation: confettiFly 1.2s ease-out forwards;
+    top: 50%; opacity: 1;
+  }
+  @keyframes confettiFly {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-220px) rotate(720deg); opacity: 0; }
+  }
+
+  /* END SCREEN */
+  .end-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(10,10,30,0.65); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+  }
+  .end-overlay.show { display: flex; }
+  .end-card {
+    background: var(--white); border-radius: 24px;
+    padding: 40px 36px; text-align: center; max-width: 420px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+  }
+  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .end-emoji { font-size: 4rem; margin-bottom: 12px; }
+  .end-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+  .end-score { font-size: 3rem; font-weight: 800; color: var(--primary); margin: 12px 0; }
+  .end-stars { font-size: 2rem; margin: 8px 0; }
+  .end-label { font-size: 1rem; color: var(--text2); margin-bottom: 24px; font-weight: 600; }
+  .btn-play-again {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white; border: none; border-radius: 12px;
+    font-weight: 800; font-size: 1.1rem; padding: 14px 36px;
+    cursor: pointer; font-family: inherit; margin-bottom: 14px;
+    display: block; width: 100%; transition: transform 0.15s;
+  }
+  .btn-play-again:hover { transform: translateY(-2px); }
+  .back-link { display: block; color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+  .back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="../../index.html">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="game-title">Ten Frame Treasure</span>
+  <span class="level-badge">P1</span>
+  <span class="score-display">⭐ <span id="scoreVal">0</span></span>
+</div>
+
+<div class="game-area">
+  <div class="pirate-header">🏴‍☠️ 💎 🪙 💎 🏴‍☠️</div>
+
+  <div class="mode-label" id="modeLabel">READ MODE</div>
+
+  <div class="game-card" id="gameCard">
+    <div class="question-text" id="questionText">Loading...</div>
+    <div id="targetDisplay"></div>
+    <div class="ten-frame" id="tenFrame"></div>
+    <div id="modeHint" class="mode-b-hint"></div>
+    <div id="answersArea"></div>
+    <div class="feedback-box" id="feedbackBox"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-container">
+  <div class="progress-labels">
+    <span id="progressLabel">Question 1 of 10</span>
+    <span id="progressPercent">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<div class="confetti-container" id="confettiContainer"></div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🏆</div>
+    <div class="end-title">Treasure Found!</div>
+    <div class="end-score" id="endScore">0 / 10</div>
+    <div class="end-stars" id="endStars">★★★</div>
+    <div class="end-label" id="endLabel">Brilliant!</div>
+    <button class="btn-play-again" onclick="restartGame()">Play Again</button>
+    <a class="back-link" href="../../index.html">← Back to All Games</a>
+  </div>
+</div>
+
+<script>
+const CONFETTI = ['💎','🪙','⭐','✨','🌟','🎉'];
+
+let rounds = [];
+let currentRound = 0;
+let score = 0;
+let answered = false;
+let userFilled = new Array(10).fill(false);
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generateRounds() {
+  rounds = [];
+  const nums = shuffle([1,2,3,4,5,6,7,8,9,10]);
+  for (let i = 0; i < 10; i++) {
+    const n = nums[i];
+    const mode = (i % 2 === 0) ? 'A' : 'B'; // A=read, B=fill
+    let options = [];
+    if (mode === 'A') {
+      const dists = new Set();
+      while (dists.size < 3) {
+        let d = n + (Math.random() < 0.5 ? 1 : -1) * (Math.floor(Math.random() * 3) + 1);
+        d = Math.max(1, Math.min(10, d));
+        if (d !== n) dists.add(d);
+      }
+      options = shuffle([n, ...dists]);
+    }
+    rounds.push({ number: n, mode, options });
+  }
+}
+
+function buildTenFrame(filledCount, clickable) {
+  const frame = document.getElementById('tenFrame');
+  frame.innerHTML = '';
+  userFilled = new Array(10).fill(false);
+  for (let i = 0; i < 10; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'tf-cell';
+    const shouldFill = (filledCount !== null) ? (i < filledCount) : false;
+    if (shouldFill) {
+      cell.classList.add('filled');
+      const coin = document.createElement('div');
+      coin.className = 'coin';
+      cell.appendChild(coin);
+    }
+    if (clickable) {
+      cell.classList.add('clickable');
+      const idx = i;
+      cell.addEventListener('click', () => toggleCell(cell, idx));
+    }
+    frame.appendChild(cell);
+  }
+}
+
+function toggleCell(cell, idx) {
+  if (answered) return;
+  userFilled[idx] = !userFilled[idx];
+  if (userFilled[idx]) {
+    cell.classList.add('filled');
+    const coin = document.createElement('div');
+    coin.className = 'coin coin-glow';
+    cell.appendChild(coin);
+  } else {
+    cell.classList.remove('filled');
+    cell.innerHTML = '';
+  }
+}
+
+function renderRound() {
+  answered = false;
+  const r = rounds[currentRound];
+  const isA = r.mode === 'A';
+
+  document.getElementById('modeLabel').textContent = isA ? '👁 READ MODE' : '✏️ FILL MODE';
+  document.getElementById('feedbackBox').className = 'feedback-box';
+  document.getElementById('feedbackBox').textContent = '';
+  document.getElementById('targetDisplay').innerHTML = '';
+  document.getElementById('modeHint').textContent = '';
+
+  if (isA) {
+    // Mode A: show filled ten frame, ask the number
+    document.getElementById('questionText').textContent = 'What number does the ten frame show?';
+    buildTenFrame(r.number, false);
+
+    const area = document.getElementById('answersArea');
+    area.innerHTML = '';
+    const grid = document.createElement('div');
+    grid.className = 'answers-grid';
+    r.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-answer';
+      btn.textContent = opt;
+      btn.onclick = () => handleAnswerA(btn, opt, r.number);
+      grid.appendChild(btn);
+    });
+    area.appendChild(grid);
+  } else {
+    // Mode B: show target number, empty ten frame, click to fill
+    document.getElementById('questionText').textContent = 'Fill the ten frame to match this number:';
+    const target = document.createElement('span');
+    target.className = 'target-number';
+    target.textContent = r.number;
+    document.getElementById('targetDisplay').appendChild(target);
+
+    buildTenFrame(null, true);
+    document.getElementById('modeHint').textContent = 'Click the cells to add coins, then press Check!';
+
+    const area = document.getElementById('answersArea');
+    area.innerHTML = '';
+    const btn = document.createElement('button');
+    btn.className = 'btn-check';
+    btn.textContent = '✓ Check My Answer';
+    btn.onclick = () => handleAnswerB(r.number);
+    area.appendChild(btn);
+  }
+
+  updateProgress();
+}
+
+function handleAnswerA(btn, chosen, correct) {
+  if (answered) return;
+  answered = true;
+  document.querySelectorAll('.btn-answer').forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedbackBox');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback-box correct';
+    fb.textContent = '✓ Correct! Great job!';
+    score++;
+    document.getElementById('scoreVal').textContent = score;
+    launchConfetti();
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback-box wrong';
+    fb.textContent = `✗ Not quite! The ten frame showed ${correct}.`;
+    document.querySelectorAll('.btn-answer').forEach(b => {
+      if (parseInt(b.textContent) === correct) b.classList.add('correct');
+    });
+  }
+  setTimeout(advance, 1200);
+}
+
+function handleAnswerB(correct) {
+  if (answered) return;
+  answered = true;
+  const userCount = userFilled.filter(Boolean).length;
+  const btn = document.querySelector('.btn-check');
+  if (btn) btn.disabled = true;
+
+  const fb = document.getElementById('feedbackBox');
+  if (userCount === correct) {
+    fb.className = 'feedback-box correct';
+    fb.textContent = '✓ Correct! Great job!';
+    score++;
+    document.getElementById('scoreVal').textContent = score;
+    // Gold glow on filled cells
+    document.querySelectorAll('.tf-cell.filled').forEach(c => {
+      c.style.boxShadow = '0 0 14px rgba(255,215,0,0.8)';
+    });
+    launchConfetti();
+  } else {
+    fb.className = 'feedback-box wrong';
+    fb.textContent = `✗ Not quite! You filled ${userCount}, but it should be ${correct}.`;
+    // Show correct answer
+    const cells = document.querySelectorAll('.tf-cell');
+    cells.forEach((c, i) => {
+      c.innerHTML = '';
+      c.classList.remove('filled');
+      if (i < correct) {
+        c.classList.add('filled');
+        const coin = document.createElement('div');
+        coin.className = 'coin';
+        c.appendChild(coin);
+        c.style.boxShadow = '0 0 10px rgba(255,215,0,0.6)';
+      }
+    });
+  }
+  setTimeout(advance, 1400);
+}
+
+function advance() {
+  currentRound++;
+  if (currentRound < 10) renderRound();
+  else showEndScreen();
+}
+
+function updateProgress() {
+  const pct = Math.round((currentRound / 10) * 100);
+  document.getElementById('progressLabel').textContent = `Question ${currentRound + 1} of 10`;
+  document.getElementById('progressPercent').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = `${pct}%`;
+}
+
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  for (let i = 0; i < 8; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    piece.textContent = CONFETTI[Math.floor(Math.random() * CONFETTI.length)];
+    piece.style.left = (20 + Math.random() * 60) + '%';
+    piece.style.animationDelay = (Math.random() * 0.3) + 's';
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), 1500);
+  }
+}
+
+function showEndScreen() {
+  document.getElementById('endScore').textContent = `${score} / 10`;
+  let stars, label, emoji;
+  if (score >= 9) { stars = '★★★'; label = 'Brilliant!'; emoji = '🏆'; }
+  else if (score >= 7) { stars = '★★☆'; label = 'Well Done!'; emoji = '💎'; }
+  else { stars = '★☆☆'; label = 'Keep Trying!'; emoji = '🪙'; }
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endLabel').textContent = label;
+  document.getElementById('endEmoji').textContent = emoji;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame() {
+  currentRound = 0; score = 0;
+  document.getElementById('scoreVal').textContent = 0;
+  document.getElementById('endOverlay').classList.remove('show');
+  generateRounds(); renderRound();
+}
+
+generateRounds();
+renderRound();
+</script>
+</body>
+</html>

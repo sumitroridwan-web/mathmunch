@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Place Value Party – MathMunch</title>
+<style>
+:root {
+  --primary: #6C5CE7;
+  --primary-light: #E8E4FF;
+  --accent: #FDCB6E;
+  --n1: #FF6B6B;
+  --n2: #FF8E53;
+  --bg: #FFF9C4;
+  --white: #FFFFFF;
+  --text: #1E1E2E;
+  --text2: #525270;
+  --green: #00B894;
+  --red: #FF4757;
+  --radius: 16px;
+  --shadow: 0 4px 20px rgba(108,92,231,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Confetti background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, #FF6B6B 2px, transparent 2px),
+    radial-gradient(circle, #6C5CE7 2px, transparent 2px),
+    radial-gradient(circle, #FDCB6E 2px, transparent 2px),
+    radial-gradient(circle, #00B894 2px, transparent 2px),
+    radial-gradient(circle, #FF8E53 2px, transparent 2px);
+  background-size: 120px 120px, 80px 80px, 100px 100px, 90px 90px, 70px 70px;
+  background-position: 10px 10px, 40px 40px, 70px 20px, 20px 70px, 60px 60px;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* TOP BAR */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  box-shadow: 0 2px 12px rgba(108,92,231,0.10);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  height: 60px;
+}
+.topbar a.back-btn {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.topbar .brand {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--primary);
+  white-space: nowrap;
+}
+.topbar .game-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  flex: 1;
+  text-align: center;
+}
+.level-badge {
+  background: #E0F7FF;
+  color: #0090C0;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* MAIN */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 30px auto 100px;
+  padding: 0 16px;
+}
+
+/* QUESTION CARD */
+.question-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.question-card::before {
+  content: '🎈';
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  font-size: 1.6rem;
+  opacity: 0.5;
+}
+.question-card::after {
+  content: '🎈';
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 1.6rem;
+  opacity: 0.5;
+}
+.question-label {
+  font-size: 0.95rem;
+  color: var(--text2);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.question-number {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--primary);
+  letter-spacing: 4px;
+  margin: 8px 0;
+}
+.question-ask {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 8px;
+}
+
+/* BLOCKS DISPLAY */
+.blocks-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 80px;
+  padding: 16px;
+  background: #FFF9E3;
+  border-radius: 12px;
+  margin: 12px 0;
+  border: 2px dashed #FDCB6E;
+}
+.block-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.block-group-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+}
+.blocks-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  justify-content: center;
+  max-width: 200px;
+}
+.block-thousand {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #2C3E7A, #4A5FAD);
+  border-radius: 6px;
+  border: 2px solid #1A2860;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+.block-hundred {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #3D8EF0, #5B9CF6);
+  border-radius: 5px;
+  border: 2px solid #1A6FD4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+.block-ten {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #FF8E53, #FDCB6E);
+  border-radius: 4px;
+  border: 2px solid #E07020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+}
+.block-one {
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #FFE066, #FDCB6E);
+  border-radius: 3px;
+  border: 2px solid #C8A000;
+}
+
+/* ANSWERS */
+.answers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+.ans-btn {
+  background: var(--white);
+  border: 3px solid var(--primary-light);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 2px 8px rgba(108,92,231,0.08);
+}
+.ans-btn:hover:not(:disabled) {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(108,92,231,0.18);
+}
+.ans-btn:disabled { cursor: default; }
+.ans-btn.correct {
+  background: #D4F5E9;
+  border-color: var(--green);
+  color: #007A5A;
+  animation: popIn 0.3s ease;
+}
+.ans-btn.wrong {
+  background: #FFE5E8;
+  border-color: var(--red);
+  color: var(--red);
+}
+.ans-btn.reveal {
+  background: #D4F5E9;
+  border-color: var(--green);
+  color: #007A5A;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.9); }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* FEEDBACK BANNER */
+.feedback {
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 12px;
+  display: none;
+}
+.feedback.show { display: block; }
+.feedback.correct-fb { background: #D4F5E9; color: #007A5A; }
+.feedback.wrong-fb { background: #FFE5E8; color: var(--red); }
+
+/* FLOATING BALLOONS ANIMATION */
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-160px) scale(1.3); opacity: 0; }
+}
+.float-balloon {
+  position: fixed;
+  font-size: 2rem;
+  pointer-events: none;
+  z-index: 200;
+  animation: floatUp 1.2s ease-out forwards;
+}
+
+/* PROGRESS BAR */
+.progress-bar-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--white);
+  box-shadow: 0 -2px 12px rgba(108,92,231,0.10);
+  padding: 10px 20px 14px;
+}
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 6px;
+}
+.progress-track {
+  height: 10px;
+  background: #EEE;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* END SCREEN */
+.end-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30,30,46,0.80);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+.end-overlay.show { display: flex; }
+.end-card {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 40px 32px;
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+}
+.end-emoji { font-size: 3.5rem; margin-bottom: 8px; }
+.end-title { font-size: 1.6rem; font-weight: 900; color: var(--primary); margin-bottom: 4px; }
+.end-score { font-size: 2.2rem; font-weight: 900; color: var(--text); margin: 12px 0; }
+.end-stars { font-size: 2rem; margin: 8px 0 20px; }
+.end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.15s;
+}
+.btn-primary:hover { transform: scale(1.05); }
+.btn-secondary {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.15s;
+}
+.btn-secondary:hover { transform: scale(1.05); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html" class="back-btn">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="game-title">Place Value Party 🎉</span>
+  <span class="level-badge">P3</span>
+  <span class="score-display" id="scoreDisplay">⭐ 0</span>
+</div>
+
+<!-- MAIN GAME AREA -->
+<main id="gameArea">
+  <div class="question-card" id="questionCard">
+    <div class="question-label" id="qLabel">What number is shown by the blocks?</div>
+    <div class="blocks-area" id="blocksArea" style="display:none"></div>
+    <div class="question-number" id="qNumber" style="display:none"></div>
+    <div class="question-ask" id="qAsk"></div>
+  </div>
+  <div class="answers-grid" id="answersGrid"></div>
+  <div class="feedback" id="feedback"></div>
+</main>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-info">
+    <span id="progressLabel">Question 1 of 10</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🎉</div>
+    <div class="end-title" id="endTitle">Brilliant!</div>
+    <div class="end-score" id="endScore">10 / 10</div>
+    <div class="end-stars" id="endStars">★★★</div>
+    <div class="end-btns">
+      <button class="btn-primary" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn-secondary">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Game State ──────────────────────────────────────────────
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+const TOTAL = 10;
+
+// Round definitions: {mode, digits, place?}
+// mode A = read blocks → number, mode B = number → identify place digit
+const ROUND_DEFS = [
+  {mode:'A', range:[10,99]},
+  {mode:'A', range:[10,99]},
+  {mode:'A', range:[10,99]},
+  {mode:'B', range:[10,99]},
+  {mode:'B', range:[10,99]},
+  {mode:'A', range:[100,999]},
+  {mode:'A', range:[100,999]},
+  {mode:'B', range:[100,999]},
+  {mode:'B', range:[100,999]},
+  {mode:'A', range:[1000,3999]},
+];
+
+let questions = [];
+
+function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){const j=rand(0,i);[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+
+function decompose(n){
+  const thousands = Math.floor(n/1000);
+  const hundreds = Math.floor((n%1000)/100);
+  const tens = Math.floor((n%100)/10);
+  const ones = n%10;
+  return {thousands, hundreds, tens, ones};
+}
+
+function generateQuestions(){
+  questions = [];
+  for(let i=0;i<TOTAL;i++){
+    const def = ROUND_DEFS[i];
+    const num = rand(def.range[0], def.range[1]);
+    const d = decompose(num);
+    let q = {mode: def.mode, num, d};
+    if(def.mode==='B'){
+      const places = [];
+      if(num>=1000) places.push('thousands');
+      if(num>=100) places.push('hundreds');
+      places.push('tens','ones');
+      q.place = places[rand(0, places.length-1)];
+      q.answer = d[q.place];
+      // 4 options: correct + 3 unique randoms 0-9
+      const opts = new Set([q.answer]);
+      while(opts.size<4){ opts.add(rand(0,9)); }
+      q.options = shuffle([...opts]);
+    } else {
+      // Mode A: correct + 3 nearby numbers
+      const opts = new Set([num]);
+      while(opts.size<4){
+        let v = num + rand(-30,30);
+        if(v>=def.range[0]&&v<=def.range[1]&&v!==num) opts.add(v);
+      }
+      // If stuck, just offset
+      while(opts.size<4) opts.add(num + opts.size*10);
+      q.answer = num;
+      q.options = shuffle([...opts]);
+    }
+    questions.push(q);
+  }
+}
+
+function renderBlocks(d){
+  const area = document.getElementById('blocksArea');
+  area.innerHTML = '';
+  const groups = [
+    {key:'thousands', label:'Thousands', cls:'block-thousand', emoji:'🟦'},
+    {key:'hundreds', label:'Hundreds', cls:'block-hundred', emoji:'🟦'},
+    {key:'tens', label:'Tens', cls:'block-ten', emoji:'🟧'},
+    {key:'ones', label:'Ones', cls:'block-one', emoji:''},
+  ];
+  let hasAny = false;
+  groups.forEach(g=>{
+    const count = d[g.key];
+    if(count===0) return;
+    hasAny = true;
+    const grp = document.createElement('div');
+    grp.className='block-group';
+    const row = document.createElement('div');
+    row.className='blocks-row';
+    for(let i=0;i<count;i++){
+      const b = document.createElement('div');
+      b.className=g.cls;
+      row.appendChild(b);
+    }
+    const lbl = document.createElement('div');
+    lbl.className='block-group-label';
+    lbl.textContent=g.label;
+    grp.appendChild(row);
+    grp.appendChild(lbl);
+    area.appendChild(grp);
+  });
+  if(!hasAny){
+    area.textContent='0';
+  }
+}
+
+function showQuestion(){
+  answered = false;
+  const q = questions[currentQuestion];
+  const label = document.getElementById('qLabel');
+  const blocksArea = document.getElementById('blocksArea');
+  const qNumber = document.getElementById('qNumber');
+  const qAsk = document.getElementById('qAsk');
+  const grid = document.getElementById('answersGrid');
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.textContent = '';
+
+  if(q.mode==='A'){
+    label.textContent = 'What number is shown by the blocks?';
+    blocksArea.style.display = 'flex';
+    qNumber.style.display = 'none';
+    renderBlocks(q.d);
+    qAsk.textContent = 'Choose the correct number:';
+  } else {
+    const placeNames = {thousands:'thousands', hundreds:'hundreds', tens:'tens', ones:'ones'};
+    label.textContent = `Look at this number:`;
+    blocksArea.style.display = 'none';
+    qNumber.style.display = 'block';
+    qNumber.textContent = q.num;
+    qAsk.textContent = `How many ${placeNames[q.place]} are there?`;
+  }
+
+  grid.innerHTML = '';
+  q.options.forEach(opt=>{
+    const btn = document.createElement('button');
+    btn.className = 'ans-btn';
+    btn.textContent = opt;
+    btn.onclick = () => handleAnswer(opt, btn, q);
+    grid.appendChild(btn);
+  });
+
+  updateProgress();
+}
+
+function handleAnswer(chosen, btn, q){
+  if(answered) return;
+  answered = true;
+  const btns = document.querySelectorAll('.ans-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb = document.getElementById('feedback');
+  if(chosen===q.answer){
+    score++;
+    document.getElementById('scoreDisplay').textContent='⭐ '+score;
+    btn.classList.add('correct');
+    fb.textContent='🎉 Correct! Well done!';
+    fb.className='feedback show correct-fb';
+    launchBalloons();
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b=>{ if(+b.textContent===q.answer||b.textContent==q.answer) b.classList.add('reveal'); });
+    fb.textContent=`❌ Not quite! The answer is ${q.answer}.`;
+    fb.className='feedback show wrong-fb';
+  }
+  setTimeout(nextQuestion, 1300);
+}
+
+function nextQuestion(){
+  currentQuestion++;
+  if(currentQuestion>=TOTAL){ showEnd(); return; }
+  showQuestion();
+}
+
+function updateProgress(){
+  const done = currentQuestion;
+  const pct = Math.round((done/TOTAL)*100);
+  document.getElementById('progressLabel').textContent=`Question ${done+1} of ${TOTAL}`;
+  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressFill').style.width=pct+'%';
+}
+
+function launchBalloons(){
+  const emojis=['🎈','🎈','🎉','🎈','✨'];
+  for(let i=0;i<5;i++){
+    setTimeout(()=>{
+      const b=document.createElement('div');
+      b.className='float-balloon';
+      b.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+      b.style.left=rand(10,90)+'vw';
+      b.style.bottom='80px';
+      document.body.appendChild(b);
+      setTimeout(()=>b.remove(), 1300);
+    }, i*120);
+  }
+}
+
+function showEnd(){
+  document.getElementById('progressLabel').textContent=`Question ${TOTAL} of ${TOTAL}`;
+  document.getElementById('progressPct').textContent='100%';
+  document.getElementById('progressFill').style.width='100%';
+
+  let emoji='🎉', title='Brilliant!', stars='★★★';
+  if(score<7){ emoji='💪'; title='Keep Trying!'; stars='★☆☆'; }
+  else if(score<9){ emoji='👍'; title='Well Done!'; stars='★★☆'; }
+
+  document.getElementById('endEmoji').textContent=emoji;
+  document.getElementById('endTitle').textContent=title;
+  document.getElementById('endScore').textContent=score+' / '+TOTAL;
+  document.getElementById('endStars').textContent=stars;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame(){
+  currentQuestion=0;
+  score=0;
+  document.getElementById('scoreDisplay').textContent='⭐ 0';
+  document.getElementById('endOverlay').classList.remove('show');
+  generateQuestions();
+  showQuestion();
+}
+
+// ── Init ────────────────────────────────────────────────────
+generateQuestions();
+showQuestion();
+</script>
+</body>
+</html>

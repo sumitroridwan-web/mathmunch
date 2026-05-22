@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Bar Chart Builder – MathMunch</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --s1:#A29BFE;--s2:#6C5CE7;
+      --bg:#F5F3FF;--white:#FFFFFF;
+      --dark:#1E1E2E;--mid:#525270;
+      --radius:16px;
+      --shadow:0 4px 20px rgba(108,92,231,0.15);
+    }
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(108,92,231,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
+    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
+    .back-btn:hover{background:var(--s1);color:white}
+    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
+    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
+    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
+    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
+    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:8px;background:#E8E4FF;z-index:200}
+    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#A29BFE,#6C5CE7);transition:width .4s ease;border-radius:0 4px 4px 0}
+    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
+    .end-screen.show{display:flex}
+    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+    .end-stars{font-size:2.5rem;margin-bottom:12px}
+    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
+    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
+    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
+    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
+    .btn-home{background:#F0F4FF;color:var(--s2);margin:0 6px}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,92,231,0.3)}
+    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+
+    .question-counter{text-align:center;font-size:.85rem;color:var(--mid);margin-bottom:10px;font-weight:600}
+    .mode-badge{display:inline-block;font-size:.8rem;font-weight:700;padding:4px 12px;border-radius:12px;margin-bottom:10px}
+    .mode-build{background:#FEF9C3;color:#92400E}
+    .mode-read{background:#EDE9FE;color:var(--s2)}
+    .mode-wrap{text-align:center;margin-bottom:4px}
+
+    .question-text{text-align:center;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:16px;background:white;border-radius:14px;padding:12px 20px;box-shadow:var(--shadow);line-height:1.4}
+
+    /* Data table */
+    .data-table-wrap{background:white;border-radius:12px;border:2px solid var(--s1);overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow)}
+    .data-table-wrap table{width:100%;border-collapse:collapse}
+    .data-table-wrap th{background:var(--s2);color:white;padding:8px 16px;font-size:.9rem;font-weight:700;text-align:center}
+    .data-table-wrap td{padding:8px 16px;text-align:center;border-bottom:1px solid #E8E4FF;font-size:.95rem;font-weight:600;color:var(--dark)}
+    .data-table-wrap tr:last-child td{border-bottom:none}
+    .data-table-wrap tr:nth-child(even) td{background:#F9F8FF}
+
+    /* Chart area */
+    .chart-container{background:white;border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden}
+    .chart-title{text-align:center;font-size:.95rem;font-weight:700;color:var(--mid);margin-bottom:8px}
+    .chart-svg-wrap{display:flex;justify-content:center}
+    svg.chart{display:block;overflow:visible}
+
+    /* Build mode instruction */
+    .build-hint{text-align:center;font-size:.85rem;color:var(--mid);margin-bottom:14px;font-style:italic}
+    .build-status{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+    .bar-status{display:flex;align-items:center;gap:6px;font-size:.85rem;font-weight:700}
+    .status-dot{width:12px;height:12px;border-radius:50%;background:#E8E4FF;border:2px solid var(--s1)}
+    .status-dot.set{background:var(--s2)}
+    .status-dot.correct{background:#22C55E}
+    .status-dot.wrong{background:#EF4444}
+
+    /* MC choices */
+    .choices{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:20px}
+    .choice-btn{padding:12px 24px;border-radius:20px;border:2.5px solid var(--s1);background:white;color:var(--dark);font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;min-width:70px}
+    .choice-btn:hover:not(:disabled){background:var(--s1);color:white;transform:translateY(-2px)}
+    .choice-btn.correct{background:#DCFCE7;border-color:#22C55E;color:#166534}
+    .choice-btn.wrong{background:#FEE2E2;border-color:#EF4444;color:#991B1B}
+    .choice-btn:disabled{cursor:default}
+
+    .feedback-box{text-align:center;min-height:48px;margin-bottom:8px}
+    .feedback-msg{font-size:1.05rem;font-weight:700;padding:10px 24px;border-radius:24px;display:inline-block;opacity:0;transition:opacity .3s}
+    .feedback-msg.show{opacity:1}
+    .feedback-msg.correct{background:#DCFCE7;color:#166534}
+    .feedback-msg.wrong{background:#FEE2E2;color:#991B1B}
+
+    .check-btn{display:block;margin:0 auto 12px;padding:12px 36px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;background:var(--s2);color:white;transition:.2s}
+    .check-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,92,231,.3)}
+    .check-btn:disabled{opacity:.5;cursor:default}
+
+    .next-btn{display:block;margin:0 auto;padding:12px 36px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;transition:.2s;opacity:0;pointer-events:none}
+    .next-btn.visible{opacity:1;pointer-events:all}
+    .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,92,231,.3)}
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <a href="../../index.html" class="back-btn">← All Games</a>
+  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
+  <span class="game-title">Bar Chart Builder</span>
+  <span class="level-badge">P3</span>
+  <span class="score-display">⭐ <span id="score">0</span></span>
+</div>
+
+<div class="game-area">
+  <div class="question-counter" id="questionCounter">Question 1 of 10</div>
+  <div class="mode-wrap"><span class="mode-badge mode-build" id="modeBadge">🔨 Build Mode</span></div>
+  <div class="question-text" id="questionText">Click on the bars to set the correct heights!</div>
+
+  <div id="dataTableWrap" class="data-table-wrap">
+    <table id="dataTable"></table>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-title" id="chartTitle">Bar Chart</div>
+    <div class="chart-svg-wrap">
+      <svg class="chart" id="chartSvg" viewBox="0 0 480 300" width="480" height="300"></svg>
+    </div>
+  </div>
+
+  <div id="buildHintWrap">
+    <div class="build-hint" id="buildHint">Click anywhere on each bar column to set its height (1–8). Set all 4 bars correctly!</div>
+    <div class="build-status" id="buildStatus"></div>
+    <button class="check-btn" id="checkBtn" onclick="checkBuild()" disabled>Check My Chart</button>
+  </div>
+
+  <div id="mcArea" class="choices" style="display:none"></div>
+
+  <div class="feedback-box"><div class="feedback-msg" id="feedbackMsg"></div></div>
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+</div>
+
+<div class="end-screen" id="endScreen">
+  <div class="end-card">
+    <div class="end-stars" id="endStars">⭐⭐⭐</div>
+    <div class="end-title" id="endTitle">Amazing!</div>
+    <div class="end-score" id="endScore">You scored 10/10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a href="../../index.html" class="btn btn-home">Home</a>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+<script>
+  let score = 0, total = 10, current = 0;
+  let answered = false;
+  let correctAnswer = null;
+  let currentBuild = [0,0,0,0]; // player-set bar values
+  let currentData = null;
+
+  // SVG chart dimensions
+  const SVG_W = 480, SVG_H = 300;
+  const PAD_L = 48, PAD_R = 20, PAD_T = 20, PAD_B = 50;
+  const CHART_W = SVG_W - PAD_L - PAD_R;
+  const CHART_H = SVG_H - PAD_T - PAD_B;
+  const MAX_VAL = 8;
+  const BAR_COUNT = 4;
+  const BAR_GAP = 14;
+  const BAR_W = (CHART_W - BAR_GAP * (BAR_COUNT + 1)) / BAR_COUNT;
+
+  const buildDatasets = [
+    { title: 'Favourite Sports', cats: ['Football','Tennis','Swimming','Cycling'], vals: [7,4,6,3] },
+    { title: 'Pets at School', cats: ['Dogs','Cats','Birds','Fish'], vals: [5,8,2,6] },
+    { title: 'Fruit Sold', cats: ['Apples','Bananas','Grapes','Oranges'], vals: [4,7,3,8] },
+    { title: 'Books Read', cats: ['Mon','Tue','Wed','Thu'], vals: [3,6,5,7] },
+    { title: 'Steps Walked (×100)', cats: ['Mon','Tue','Wed','Thu'], vals: [8,5,7,4] }
+  ];
+
+  const readDatasets = [
+    { title: 'Favourite Colours', cats: ['Red','Blue','Green','Yellow'], vals: [5,8,3,6] },
+    { title: 'Goals Scored', cats: ['Week1','Week2','Week3','Week4'], vals: [2,6,4,7] },
+    { title: 'Flowers in Garden', cats: ['Roses','Tulips','Daisies','Lilies'], vals: [7,3,5,4] },
+    { title: 'Minutes of Rain', cats: ['Mon','Tue','Wed','Thu'], vals: [4,8,1,6] },
+    { title: 'Sandwiches Sold', cats: ['Mon','Tue','Wed','Thu'], vals: [6,3,7,5] }
+  ];
+
+  // Question plan: first 5 = build, next 5 = read
+  // read question types: tallest, value, total, shortest, difference
+  const readQTypes = ['tallest','value','total','shortest','difference'];
+
+  function yForVal(v) { return PAD_T + CHART_H - (v / MAX_VAL) * CHART_H; }
+  function barX(i) { return PAD_L + BAR_GAP + i * (BAR_W + BAR_GAP); }
+
+  function drawChart(data, mode, playerVals) {
+    const svg = document.getElementById('chartSvg');
+    let html = '';
+
+    // Grid lines and y-axis labels
+    for (let v = 0; v <= MAX_VAL; v++) {
+      const y = yForVal(v);
+      html += `<line x1="${PAD_L}" y1="${y}" x2="${SVG_W - PAD_R}" y2="${y}" stroke="${v===0?'#525270':'#E8E4FF'}" stroke-width="${v===0?1.5:.8}"/>`;
+      html += `<text x="${PAD_L - 6}" y="${y + 4}" text-anchor="end" font-size="11" fill="#525270" font-weight="600">${v}</text>`;
+    }
+
+    // Bars
+    for (let i = 0; i < BAR_COUNT; i++) {
+      const x = barX(i);
+      const val = mode === 'build' ? (playerVals[i] || 0) : data.vals[i];
+      const barH = (val / MAX_VAL) * CHART_H;
+      const y = PAD_T + CHART_H - barH;
+
+      if (mode === 'build') {
+        // Clickable hit area (full column height)
+        html += `<rect data-bar="${i}" class="bar-hit" x="${x}" y="${PAD_T}" width="${BAR_W}" height="${CHART_H}" fill="rgba(108,92,231,0.05)" rx="4" style="cursor:pointer"/>`;
+        // Actual bar
+        const barColour = val > 0 ? '#C4B5FD' : '#E8E4FF';
+        if (val > 0) {
+          html += `<rect class="bar-rect" data-bar="${i}" x="${x}" y="${y}" width="${BAR_W}" height="${barH}" fill="${barColour}" rx="4" style="pointer-events:none"/>`;
+          html += `<text x="${x + BAR_W/2}" y="${y - 5}" text-anchor="middle" font-size="12" fill="#6C5CE7" font-weight="800" style="pointer-events:none">${val}</text>`;
+        }
+      } else {
+        // Read mode: coloured gradient bar
+        const gradId = 'bgrad' + i;
+        html += `<defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#A29BFE"/>
+          <stop offset="100%" stop-color="#6C5CE7"/>
+        </linearGradient></defs>`;
+        html += `<rect x="${x}" y="${y}" width="${BAR_W}" height="${barH}" fill="url(#${gradId})" rx="4"/>`;
+        html += `<text x="${x + BAR_W/2}" y="${y - 5}" text-anchor="middle" font-size="12" fill="#6C5CE7" font-weight="800">${val}</text>`;
+      }
+
+      // X-axis label
+      const labelY = PAD_T + CHART_H + 18;
+      const labelLines = data.cats[i].split('');
+      // For longer labels, wrap
+      if (data.cats[i].length <= 6) {
+        html += `<text x="${x + BAR_W/2}" y="${labelY}" text-anchor="middle" font-size="11" fill="#525270" font-weight="600">${data.cats[i]}</text>`;
+      } else {
+        // Split at space
+        const parts = data.cats[i].split(' ');
+        if (parts.length > 1) {
+          html += `<text x="${x + BAR_W/2}" y="${labelY}" text-anchor="middle" font-size="10" fill="#525270" font-weight="600">${parts[0]}</text>`;
+          html += `<text x="${x + BAR_W/2}" y="${labelY + 12}" text-anchor="middle" font-size="10" fill="#525270" font-weight="600">${parts.slice(1).join(' ')}</text>`;
+        } else {
+          html += `<text x="${x + BAR_W/2}" y="${labelY}" text-anchor="middle" font-size="10" fill="#525270" font-weight="600">${data.cats[i]}</text>`;
+        }
+      }
+    }
+
+    // Axes
+    html += `<line x1="${PAD_L}" y1="${PAD_T}" x2="${PAD_L}" y2="${PAD_T + CHART_H}" stroke="#525270" stroke-width="1.5"/>`;
+    html += `<line x1="${PAD_L}" y1="${PAD_T + CHART_H}" x2="${SVG_W - PAD_R}" y2="${PAD_T + CHART_H}" stroke="#525270" stroke-width="1.5"/>`;
+
+    svg.innerHTML = html;
+
+    // Attach click events for build mode
+    if (mode === 'build') {
+      svg.querySelectorAll('.bar-hit').forEach(rect => {
+        rect.addEventListener('click', handleBarClick);
+      });
+    }
+  }
+
+  function handleBarClick(e) {
+    if (answered) return;
+    const svg = document.getElementById('chartSvg');
+    const rect = svg.getBoundingClientRect();
+    const barIdx = parseInt(e.target.getAttribute('data-bar'));
+    // Calculate y position relative to chart area
+    const clickY = e.clientY - rect.top;
+    // Map to value
+    const relY = clickY - PAD_T * (rect.height / SVG_H);
+    const chartHpx = CHART_H * (rect.height / SVG_H);
+    const fraction = 1 - Math.max(0, Math.min(1, relY / chartHpx));
+    const val = Math.round(fraction * MAX_VAL);
+    const clamped = Math.max(1, Math.min(MAX_VAL, val));
+    currentBuild[barIdx] = clamped;
+    drawChart(currentData, 'build', currentBuild);
+    // Re-attach events
+    svg.querySelectorAll('.bar-hit').forEach(r => r.addEventListener('click', handleBarClick));
+    updateBuildStatus();
+    // Enable check if all bars set
+    const allSet = currentBuild.every(v => v > 0);
+    document.getElementById('checkBtn').disabled = !allSet;
+  }
+
+  function updateBuildStatus() {
+    const statusDiv = document.getElementById('buildStatus');
+    let html = '';
+    currentData.cats.forEach((cat, i) => {
+      const v = currentBuild[i];
+      html += `<div class="bar-status"><div class="status-dot ${v > 0 ? 'set' : ''}" id="dot${i}"></div><span>${cat}: ${v > 0 ? v : '?'}</span></div>`;
+    });
+    statusDiv.innerHTML = html;
+  }
+
+  function checkBuild() {
+    if (answered) return;
+    answered = true;
+    document.getElementById('checkBtn').disabled = true;
+    const correct = currentData.vals;
+    let allCorrect = true;
+    const statusDiv = document.getElementById('buildStatus');
+    currentData.cats.forEach((cat, i) => {
+      const dot = document.getElementById('dot' + i);
+      if (dot) dot.className = 'status-dot ' + (currentBuild[i] === correct[i] ? 'correct' : 'wrong');
+      if (currentBuild[i] !== correct[i]) allCorrect = false;
+    });
+    // Redraw with correct bars shown
+    drawChart(currentData, 'read', null);
+    const fb = document.getElementById('feedbackMsg');
+    if (allCorrect) {
+      updateScore(1);
+      fb.textContent = '✅ Perfect chart! All bars are correct!';
+      fb.className = 'feedback-msg correct show';
+    } else {
+      fb.textContent = '❌ Not quite — the correct bars are shown now.';
+      fb.className = 'feedback-msg wrong show';
+    }
+    advance();
+  }
+
+  function shuffleArray(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function makeDistractors(correct, options, count) {
+    const all = options.filter(v => v !== correct);
+    const chosen = shuffleArray(all).slice(0, count);
+    return shuffleArray([correct, ...chosen]);
+  }
+
+  function loadQuestion() {
+    answered = false;
+    currentBuild = [0, 0, 0, 0];
+    const fb = document.getElementById('feedbackMsg');
+    fb.textContent = ''; fb.className = 'feedback-msg';
+    document.getElementById('nextBtn').className = 'next-btn';
+    document.getElementById('mcArea').style.display = 'none';
+    document.getElementById('mcArea').innerHTML = '';
+    document.getElementById('checkBtn').disabled = true;
+
+    document.getElementById('questionCounter').textContent = 'Question ' + (current + 1) + ' of ' + total;
+
+    if (current < 5) {
+      // Build mode
+      const data = buildDatasets[current];
+      currentData = data;
+      document.getElementById('modeBadge').textContent = '🔨 Build Mode';
+      document.getElementById('modeBadge').className = 'mode-badge mode-build';
+      document.getElementById('questionText').textContent = 'Build the bar chart using the data in the table. Click each bar column to set the correct height!';
+      document.getElementById('chartTitle').textContent = data.title;
+      document.getElementById('buildHintWrap').style.display = 'block';
+      document.getElementById('dataTableWrap').style.display = 'block';
+
+      // Render data table
+      let thtml = '<tr><th>Category</th><th>Value</th></tr>';
+      data.cats.forEach((cat, i) => {
+        thtml += `<tr><td>${cat}</td><td>${data.vals[i]}</td></tr>`;
+      });
+      document.getElementById('dataTable').innerHTML = thtml;
+
+      updateBuildStatus();
+      drawChart(data, 'build', currentBuild);
+    } else {
+      // Read mode
+      const data = readDatasets[current - 5];
+      currentData = data;
+      const qType = readQTypes[current - 5];
+      document.getElementById('modeBadge').textContent = '📖 Read Mode';
+      document.getElementById('modeBadge').className = 'mode-badge mode-read';
+      document.getElementById('buildHintWrap').style.display = 'none';
+      document.getElementById('dataTableWrap').style.display = 'none';
+      document.getElementById('chartTitle').textContent = data.title;
+      drawChart(data, 'read', null);
+
+      let qText = '';
+      let options = [];
+
+      if (qType === 'tallest') {
+        const maxVal = Math.max(...data.vals);
+        const maxIdx = data.vals.indexOf(maxVal);
+        correctAnswer = data.cats[maxIdx];
+        qText = 'Which bar is the tallest?';
+        options = shuffleArray(data.cats.slice());
+        showMCStrings(options);
+      } else if (qType === 'value') {
+        const idx = 1; // second bar
+        correctAnswer = data.vals[idx];
+        qText = 'What is the value of "' + data.cats[idx] + '"?';
+        options = makeDistractors(correctAnswer, [1,2,3,4,5,6,7,8], 3);
+        showMCNums(options);
+      } else if (qType === 'total') {
+        correctAnswer = data.vals.reduce((a, b) => a + b, 0);
+        qText = 'What is the total of all bars added together?';
+        const base = correctAnswer;
+        options = shuffleArray([base, base-2, base+2, base-4].filter(v => v > 0));
+        showMCNums(options.slice(0, 4));
+      } else if (qType === 'shortest') {
+        const minVal = Math.min(...data.vals);
+        const minIdx = data.vals.indexOf(minVal);
+        correctAnswer = data.cats[minIdx];
+        qText = 'Which bar is the shortest?';
+        options = shuffleArray(data.cats.slice());
+        showMCStrings(options);
+      } else if (qType === 'difference') {
+        const v0 = data.vals[0], v1 = data.vals[1];
+        correctAnswer = Math.abs(v0 - v1);
+        qText = 'What is the difference between "' + data.cats[0] + '" (' + v0 + ') and "' + data.cats[1] + '" (' + v1 + ')?';
+        options = makeDistractors(correctAnswer, [1,2,3,4,5,6,7,8], 3);
+        showMCNums(options);
+      }
+
+      document.getElementById('questionText').textContent = qText;
+    }
+  }
+
+  function showMCNums(options) {
+    const area = document.getElementById('mcArea');
+    area.style.display = 'flex';
+    area.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => checkMC(opt, btn, area));
+      area.appendChild(btn);
+    });
+  }
+
+  function showMCStrings(options) {
+    const area = document.getElementById('mcArea');
+    area.style.display = 'flex';
+    area.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => checkMC(opt, btn, area));
+      area.appendChild(btn);
+    });
+  }
+
+  function checkMC(val, btn, area) {
+    if (answered) return;
+    answered = true;
+    area.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+    const fb = document.getElementById('feedbackMsg');
+    if (val == correctAnswer) {
+      btn.classList.add('correct');
+      fb.textContent = '✅ Correct! The answer is ' + correctAnswer;
+      fb.className = 'feedback-msg correct show';
+      updateScore(1);
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '❌ The correct answer was ' + correctAnswer;
+      fb.className = 'feedback-msg wrong show';
+      area.querySelectorAll('.choice-btn').forEach(b => {
+        if (b.textContent == correctAnswer) b.classList.add('correct');
+      });
+    }
+    advance();
+  }
+
+  function advance() {
+    current++;
+    updateProgress();
+    if (current >= total) {
+      setTimeout(() => showEnd(), 1200);
+    } else {
+      document.getElementById('nextBtn').className = 'next-btn visible';
+    }
+  }
+
+  function updateScore(pts) { score += pts; document.getElementById('score').textContent = score; }
+  function updateProgress() { document.getElementById('progressBar').style.width = (current / total * 100) + '%'; }
+  function showEnd() {
+    const pct = score / total;
+    document.getElementById('endStars').textContent = pct >= 0.8 ? '⭐⭐⭐' : pct >= 0.5 ? '⭐⭐' : '⭐';
+    document.getElementById('endTitle').textContent = pct >= 0.8 ? 'Brilliant!' : pct >= 0.5 ? 'Good job!' : 'Keep trying!';
+    document.getElementById('endScore').textContent = 'You scored ' + score + ' / ' + total;
+    document.getElementById('endScreen').classList.add('show');
+  }
+  function restartGame() { document.getElementById('endScreen').classList.remove('show'); initGame(); }
+
+  function nextQuestion() { loadQuestion(); }
+
+  function initGame() {
+    score = 0; current = 0; answered = false; currentBuild = [0,0,0,0];
+    document.getElementById('score').textContent = '0';
+    document.getElementById('progressBar').style.width = '0%';
+    loadQuestion();
+  }
+
+  initGame();
+</script>
+</body>
+</html>

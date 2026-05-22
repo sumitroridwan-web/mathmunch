@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perimeter Patrol – MathMunch</title>
+<style>
+  :root {
+    --primary:#6C5CE7; --primary-light:#E8E4FF;
+    --g1:#4ECDC4; --g2:#2ECC71;
+    --accent:#FDCB6E; --bg:#F0F4FF;
+    --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
+    --green:#00B894; --red:#FF4757;
+    --radius:16px; --shadow:0 4px 20px rgba(78,205,196,0.15);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F5F5F5;background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);background-size:30px 30px;color:var(--text);min-height:100vh}
+
+  /* TOP BAR */
+  .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
+  .topbar a.back{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .topbar .brand{font-weight:900;font-size:18px;color:var(--primary)}
+  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
+  .badge-p3{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#E0F7FF;color:#0090C0}
+  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:var(--text)}
+
+  /* GAME AREA */
+  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+
+  /* QUESTION CARD */
+  .question-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;text-align:center}
+  .question-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .question-text{font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px}
+
+  /* GRID */
+  .grid-wrap{display:flex;justify-content:center;margin:0 auto 20px;overflow-x:auto}
+  .shape-grid{display:inline-grid;background:#F8FFF8;border:2px solid #D0E8D0;border-radius:8px;position:relative}
+  .grid-row{display:contents}
+  .gcell{width:30px;height:30px;border:1px solid #D8ECD8;position:relative}
+  .gcell.shape-fill{background:rgba(78,205,196,0.25);border-color:#4ECDC4}
+  .gcell.shape-border-top{border-top:3px solid #2ECC71}
+  .gcell.shape-border-bottom{border-bottom:3px solid #2ECC71}
+  .gcell.shape-border-left{border-left:3px solid #2ECC71}
+  .gcell.shape-border-right{border-right:3px solid #2ECC71}
+
+  /* LABEL DISPLAY */
+  .shape-label-display{position:relative;display:inline-block;margin:0 auto 20px}
+  .rect-visual{background:#E0FAF8;border:3px solid #4ECDC4;border-radius:6px;position:relative;display:inline-flex;align-items:center;justify-content:center}
+  .side-label{position:absolute;font-size:13px;font-weight:800;color:var(--text2)}
+  .side-top{top:-22px;left:50%;transform:translateX(-50%)}
+  .side-bottom{bottom:-22px;left:50%;transform:translateX(-50%)}
+  .side-left{left:-28px;top:50%;transform:translateY(-50%)}
+  .side-right{right:-28px;top:50%;transform:translateY(-50%)}
+
+  /* ANSWERS */
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:18px;cursor:pointer;border:2px solid #E8E4FF;background:var(--white);color:var(--text);transition:all 0.2s}
+  .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
+  .btn-answer.correct{background:#E8FFF3;border-color:var(--green);color:var(--green)}
+  .btn-answer.wrong{background:#FFE8EC;border-color:var(--red);color:var(--red)}
+  .btn-answer:disabled{cursor:not-allowed;opacity:0.7}
+
+  /* FEEDBACK */
+  .feedback-bar{padding:12px 20px;border-radius:12px;font-weight:800;font-size:15px;text-align:center;margin-top:12px;display:none}
+  .feedback-bar.show{display:block}
+  .feedback-bar.correct-fb{background:#E8FFF3;color:var(--green);border:2px solid var(--green)}
+  .feedback-bar.wrong-fb{background:#FFE8EC;color:var(--red);border:2px solid var(--red)}
+
+  /* TAPE MEASURE */
+  .tape-wrap{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px}
+  .tape{background:linear-gradient(90deg,#FDCB6E,#F0A500);border-radius:6px;padding:6px 16px;font-weight:900;font-size:15px;color:#1E1E2E;display:flex;align-items:center;gap:6px}
+
+  /* PATROL THEME */
+  .patrol-badge{font-size:32px;margin-bottom:6px}
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;z-index:99;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px}
+  .progress-info{display:flex;justify-content:space-between;align-items:center;max-width:800px;margin:0 auto 6px}
+  .progress-track{max-width:800px;margin:0 auto;height:10px;background:#E0E8FF;border-radius:10px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:10px;transition:width 0.4s ease}
+
+  /* END SCREEN */
+  .end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:200;display:none}
+  .end-overlay.show{display:flex}
+  .end-card{background:var(--white);border-radius:24px;padding:40px 32px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+  .end-stars{font-size:48px;margin-bottom:16px;letter-spacing:4px}
+  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:8px}
+  .end-score{font-size:18px;color:var(--text2);margin-bottom:28px}
+  .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px}
+  .btn-back{background:var(--primary-light);color:var(--primary);border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-flex;align-items:center}
+
+  /* HEXAGON SVG */
+  .hex-display{display:flex;justify-content:center;margin-bottom:16px}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html" class="back">← All Games</a>
+  <div class="brand">🧮 MathMunch</div>
+  <div class="game-title">🚔 Perimeter Patrol</div>
+  <span class="badge-p3">P3</span>
+  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="question-card" id="questionCard">
+    <div class="question-label" id="roundLabel">Round 1 of 10</div>
+    <div class="patrol-badge">🏅</div>
+    <div class="question-text" id="questionText"></div>
+    <div id="gameContent"></div>
+    <div class="feedback-bar" id="feedbackBar"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-info">
+    <span id="progressLabel" style="font-size:13px;font-weight:700;color:var(--text2)">Question 1 of 10</span>
+    <span id="progressPct" style="font-size:13px;font-weight:700;color:var(--g1)">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score" id="endScore"></div>
+    <div class="end-btns">
+      <button class="btn-geo" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn-back">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── ROUND DATA ───────────────────────────────────────────────────────────────
+
+/*
+  Each round: { type, question, answer, options, renderFn }
+  Grid shapes use 10x10 grid (cells 0-9), 30px each
+  Border cells mark the outline of the shape
+*/
+
+function buildGridShape(cells, labels, cols=10, rows=6){
+  // cells: array of [r,c] that are FILLED (inside shape)
+  // We compute borders automatically
+  const filled = new Set(cells.map(([r,c])=>`${r},${c}`));
+  let html = `<div class="shape-grid" style="grid-template-columns:repeat(${cols},30px);grid-template-rows:repeat(${rows},30px)">`;
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const k = `${r},${c}`;
+      if(filled.has(k)){
+        let cls = 'gcell shape-fill';
+        if(!filled.has(`${r-1},${c}`)) cls += ' shape-border-top';
+        if(!filled.has(`${r+1},${c}`)) cls += ' shape-border-bottom';
+        if(!filled.has(`${r},${c-1}`)) cls += ' shape-border-left';
+        if(!filled.has(`${r},${c+1}`)) cls += ' shape-border-right';
+        html += `<div class="${cls}"></div>`;
+      } else {
+        html += `<div class="gcell"></div>`;
+      }
+    }
+  }
+  html += '</div>';
+
+  // Wrap with labels if provided
+  if(labels){
+    html = `<div style="position:relative;display:inline-block;padding:30px">
+      ${html}
+      ${labels}
+    </div>`;
+  }
+  return html;
+}
+
+function rectLabel(cells, cols, rows, wLabel, hLabel){
+  // Position labels around the grid
+  const gridW = cols*30, gridH = rows*30;
+  return `<div style="position:relative;display:inline-block;padding:30px">
+    <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);font-weight:800;font-size:13px;color:var(--text2)">${wLabel}</div>
+    <div style="position:absolute;left:4px;top:50%;transform:translateY(-50%) rotate(-90deg);font-weight:800;font-size:13px;color:var(--text2)">${hLabel}</div>
+    ${buildGridShape(cells,'',cols,rows)}
+  </div>`;
+}
+
+// Generate filled cell arrays for shapes
+function rect(startR, startC, w, h){
+  const cells=[];
+  for(let r=startR;r<startR+h;r++) for(let c=startC;c<startC+w;c++) cells.push([r,c]);
+  return cells;
+}
+
+const rounds = [
+  { // R1: 3×2 rectangle, P=10
+    question:'What is the perimeter of this rectangle? (Each square = 1 cm)',
+    hint:'Count all 4 sides!',
+    answer:10, options:[8,10,12,14],
+    render(){
+      const cells = rect(1,1,3,2);
+      return `<div class="tape-wrap"><div class="tape">📏 Each square = 1 cm</div></div>
+        <div class="grid-wrap">${rectLabel(cells,7,5,'3 cm','2 cm')}</div>`;
+    }
+  },
+  { // R2: 4×4 square, P=16
+    question:'What is the perimeter of this square? (Each square = 1 cm)',
+    hint:'All sides are equal!',
+    answer:16, options:[12,14,16,20],
+    render(){
+      const cells = rect(0,1,4,4);
+      return `<div class="tape-wrap"><div class="tape">📏 Each square = 1 cm</div></div>
+        <div class="grid-wrap">${rectLabel(cells,7,5,'4 cm','4 cm')}</div>`;
+    }
+  },
+  { // R3: L-shape, P=14
+    question:'What is the perimeter of this L-shape? (Each square = 1 cm)',
+    hint:'Walk all the way around!',
+    answer:14, options:[12,14,16,18],
+    render(){
+      const cells = [
+        [0,0],[0,1],[0,2],[0,3],
+        [1,0],
+        [2,0],
+        [3,0],[3,1],[3,2]
+      ];
+      // 4+3+2+1+2+2 = 14
+      return `<div class="tape-wrap"><div class="tape">📏 Each square = 1 cm</div></div>
+        <div class="grid-wrap">${buildGridShape(cells,'',6,5)}</div>`;
+    }
+  },
+  { // R4: 5×3, P=16
+    question:'What is the perimeter of this rectangle? (Each square = 1 cm)',
+    hint:'Add up all 4 sides!',
+    answer:16, options:[14,15,16,18],
+    render(){
+      const cells = rect(1,0,5,3);
+      return `<div class="tape-wrap"><div class="tape">📏 Each square = 1 cm</div></div>
+        <div class="grid-wrap">${rectLabel(cells,7,6,'5 cm','3 cm')}</div>`;
+    }
+  },
+  { // R5: 3×3, P=12
+    question:'What is the perimeter of this square? (Each square = 1 cm)',
+    hint:'Perimeter = 4 × side!',
+    answer:12, options:[9,10,12,15],
+    render(){
+      const cells = rect(1,1,3,3);
+      return `<div class="tape-wrap"><div class="tape">📏 Each square = 1 cm</div></div>
+        <div class="grid-wrap">${rectLabel(cells,6,6,'3 cm','3 cm')}</div>`;
+    }
+  },
+  { // R6: T-shape, P=16
+    question:'What is the perimeter of this T-shape? (Each square = 1 cm)',
+    hint:'Count every outside edge!',
+    answer:16, options:[14,16,18,20],
+    render(){
+      const cells = [
+        [0,0],[0,1],[0,2],[0,3],[0,4],
+        [1,2],[2,2],[3,2]
+      ];
+      return `<div class="tape-wrap"><div class="tape">📏 Each square = 1 cm</div></div>
+        <div class="grid-wrap">${buildGridShape(cells,'',7,5)}</div>`;
+    }
+  },
+  { // R7: Rectangle l=7, w=4, P=22 (no grid)
+    question:'A rectangle has a length of 7 cm and width of 4 cm. What is its perimeter?',
+    hint:'Perimeter = 2 × (length + width)',
+    answer:22, options:[20,21,22,24],
+    render(){
+      return `<div style="display:flex;justify-content:center;margin-bottom:20px">
+        <div style="position:relative;padding:36px 50px">
+          <div class="rect-visual" style="width:175px;height:100px;font-size:13px;color:var(--text2);font-weight:700">Rectangle</div>
+          <span class="side-label side-top">7 cm</span>
+          <span class="side-label side-bottom">7 cm</span>
+          <span class="side-label side-left">4 cm</span>
+          <span class="side-label side-right">4 cm</span>
+        </div>
+      </div>
+      <div style="background:#FFF8E0;border:2px solid var(--accent);border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;color:#8B6914;margin-bottom:16px">
+        📐 Formula: P = 2 × (l + w)
+      </div>`;
+    }
+  },
+  { // R8: Regular hexagon, side=3, P=18
+    question:'A regular hexagon has all sides equal to 3 cm. What is its perimeter?',
+    hint:'A hexagon has 6 equal sides!',
+    answer:18, options:[15,16,18,21],
+    render(){
+      const pts = [];
+      for(let i=0;i<6;i++){
+        const a = Math.PI/2 + i*Math.PI/3;
+        pts.push([100+70*Math.cos(a), 105+70*Math.sin(a)]);
+      }
+      const ptStr = pts.map(p=>p.join(',')).join(' ');
+      // Side labels between first two points
+      const midX = (pts[0][0]+pts[1][0])/2;
+      const midY = (pts[0][1]+pts[1][1])/2;
+      return `<div class="hex-display">
+        <svg width="200" height="210" viewBox="0 0 200 210" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="${ptStr}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3"/>
+          <text x="138" y="68" font-size="12" font-weight="800" fill="#525270" text-anchor="middle">3 cm</text>
+          <text x="163" y="105" font-size="12" font-weight="800" fill="#525270" text-anchor="start">3 cm</text>
+        </svg>
+      </div>
+      <div style="background:#FFF8E0;border:2px solid var(--accent);border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;color:#8B6914;margin-bottom:16px">
+        💡 All 6 sides = 3 cm each
+      </div>`;
+    }
+  },
+  { // R9: L-shape on grid, P=18
+    question:'What is the perimeter of this shape? (Each square = 1 cm)',
+    hint:'Follow every edge on the outside!',
+    answer:18, options:[14,16,18,20],
+    render(){
+      const cells = [
+        [0,0],[0,1],[0,2],[0,3],[0,4],
+        [1,0],[1,1],
+        [2,0],[2,1],
+        [3,0],[3,1],
+        [4,0],[4,1],[4,2],[4,3],[4,4]
+      ];
+      return `<div class="tape-wrap"><div class="tape">📏 Each square = 1 cm</div></div>
+        <div class="grid-wrap">${buildGridShape(cells,'',8,6)}</div>`;
+    }
+  },
+  { // R10: Area→Perimeter reasoning
+    question:'A rectangle has one side = 2 cm and area = 12 cm². What is its perimeter?',
+    hint:'First find the missing side: Area = length × width',
+    answer:16, options:[12,14,16,20],
+    render(){
+      return `<div style="display:flex;justify-content:center;margin-bottom:20px">
+        <div style="position:relative;padding:36px 50px">
+          <div class="rect-visual" style="width:180px;height:60px;font-size:13px;color:var(--text2);font-weight:700">Area = 12 cm²</div>
+          <span class="side-label side-top">? cm</span>
+          <span class="side-label side-bottom">? cm</span>
+          <span class="side-label side-left">2 cm</span>
+          <span class="side-label side-right">2 cm</span>
+        </div>
+      </div>
+      <div style="background:#FFF8E0;border:2px solid var(--accent);border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;color:#8B6914;margin-bottom:16px">
+        💡 Hint: Area = l × w, then P = 2 × (l + w)
+      </div>`;
+    }
+  }
+];
+
+// ─── GAME STATE ────────────────────────────────────────────────────────────────
+let currentRound = 0;
+let score = 0;
+let answered = false;
+
+function renderRound(){
+  const r = rounds[currentRound];
+  answered = false;
+
+  document.getElementById('roundLabel').textContent = `Round ${currentRound+1} of 10`;
+  document.getElementById('progressLabel').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round(currentRound/10*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressFill').style.width = pct+'%';
+
+  document.getElementById('questionText').textContent = r.question;
+
+  const fb = document.getElementById('feedbackBar');
+  fb.className = 'feedback-bar';
+
+  const content = document.getElementById('gameContent');
+  content.innerHTML = `
+    ${r.render()}
+    <div class="answers-grid">
+      ${r.options.map(o=>`<button class="btn-answer" onclick="answer(${o})">${o} cm</button>`).join('')}
+    </div>`;
+}
+
+function answer(chosen){
+  if(answered) return;
+  answered = true;
+  const r = rounds[currentRound];
+
+  const btns = document.querySelectorAll('.btn-answer');
+  btns.forEach(b=>{
+    const val = parseInt(b.textContent);
+    b.disabled = true;
+    if(val === r.answer) b.classList.add('correct');
+    else if(val === chosen) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedbackBar');
+  if(chosen === r.answer){
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.textContent = `✓ Correct! The perimeter is ${r.answer} cm. ${r.hint}`;
+    fb.className = 'feedback-bar show correct-fb';
+  } else {
+    fb.textContent = `✗ Not quite! The answer is ${r.answer} cm. ${r.hint}`;
+    fb.className = 'feedback-bar show wrong-fb';
+  }
+
+  setTimeout(nextRound, 1800);
+}
+
+function nextRound(){
+  currentRound++;
+  if(currentRound >= 10) showEndScreen();
+  else renderRound();
+}
+
+function showEndScreen(){
+  document.getElementById('progressLabel').textContent = 'Question 10 of 10';
+  document.getElementById('progressPct').textContent = '100%';
+  document.getElementById('progressFill').style.width = '100%';
+
+  let stars, title;
+  if(score >= 9){ stars = '★★★'; title = 'Brilliant!'; }
+  else if(score >= 7){ stars = '★★☆'; title = 'Well Done!'; }
+  else { stars = '★☆☆'; title = 'Keep Trying!'; }
+
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = `You scored ${score} out of 10`;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame(){
+  currentRound = 0; score = 0;
+  document.getElementById('scoreDisplay').textContent = '0';
+  document.getElementById('endOverlay').classList.remove('show');
+  renderRound();
+}
+
+renderRound();
+</script>
+</body>
+</html>

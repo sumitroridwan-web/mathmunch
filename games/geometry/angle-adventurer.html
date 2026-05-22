@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angle Adventurer – MathMunch</title>
+<style>
+  :root {
+    --primary:#6C5CE7; --primary-light:#E8E4FF;
+    --g1:#4ECDC4; --g2:#2ECC71;
+    --accent:#FDCB6E; --bg:#1A2A3A;
+    --white:#FFFFFF; --text:#E8EFF7; --text2:#8BAABB;
+    --green:#00B894; --red:#FF4757;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#1A2A3A;color:var(--text);min-height:100vh}
+
+  /* TOP BAR */
+  .topbar{position:sticky;top:0;z-index:100;background:#0F1E2D;box-shadow:0 2px 20px rgba(0,0,0,0.4);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
+  .topbar a.back{text-decoration:none;color:#4ECDC4;font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .topbar .brand{font-weight:900;font-size:18px;color:#4ECDC4}
+  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
+  .badge-p4{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#E0FFF5;color:#00A878}
+  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:#FDCB6E}
+
+  /* GAME AREA */
+  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+
+  /* QUESTION CARD */
+  .question-card{background:#243447;border-radius:20px;box-shadow:0 4px 30px rgba(0,0,0,0.3);padding:28px 24px;margin-bottom:20px;text-align:center;border:1px solid #2E4460}
+  .question-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .question-text{font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px}
+
+  /* TYPE TAGS */
+  .type-tag{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:0.5px}
+  .tag-acute{background:#1A3A2A;color:#2ECC71;border:1px solid #2ECC71}
+  .tag-right{background:#1A2A4A;color:#4ECDC4;border:1px solid #4ECDC4}
+  .tag-obtuse{background:#3A2A1A;color:#FDCB6E;border:1px solid #FDCB6E}
+  .tag-reflex{background:#2A1A3A;color:#A78BFA;border:1px solid #A78BFA}
+  .tag-name{background:#1A2A3A;color:#8BAABB;border:1px solid #2E4460}
+  .tag-estimate{background:#1A3A3A;color:#4ECDC4;border:1px solid #4ECDC4}
+  .tag-compare{background:#3A2A1A;color:#FDCB6E;border:1px solid #FDCB6E}
+
+  /* ANSWERS */
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:460px;margin:0 auto}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer;border:2px solid #2E4460;background:#1A2A3A;color:var(--text);transition:all 0.2s}
+  .btn-answer:hover:not(:disabled){background:#2E4460;border-color:#4ECDC4;transform:translateY(-2px)}
+  .btn-answer.correct{background:#0D2E20;border-color:var(--green);color:var(--green)}
+  .btn-answer.wrong{background:#2E0D15;border-color:var(--red);color:var(--red)}
+  .btn-answer:disabled{cursor:not-allowed;opacity:0.7}
+  .btn-answer.selected{background:#2E4460;border-color:#4ECDC4}
+
+  /* COMPARE MODE */
+  .compare-wrap{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+  .angle-choice{background:#1A2A3A;border:2px solid #2E4460;border-radius:16px;padding:16px;cursor:pointer;transition:all 0.2s;text-align:center}
+  .angle-choice:hover:not(.disabled){border-color:#4ECDC4;background:#1F3040;transform:translateY(-2px)}
+  .angle-choice.correct{border-color:var(--green);background:#0D2E20}
+  .angle-choice.wrong{border-color:var(--red);background:#2E0D15}
+  .angle-choice.disabled{cursor:not-allowed}
+  .angle-choice-label{font-size:14px;font-weight:800;color:var(--text2);margin-top:8px}
+
+  /* FEEDBACK */
+  .feedback-bar{padding:12px 20px;border-radius:12px;font-weight:800;font-size:15px;text-align:center;margin-top:12px;display:none}
+  .feedback-bar.show{display:block}
+  .feedback-bar.correct-fb{background:#0D2E20;color:var(--green);border:2px solid var(--green)}
+  .feedback-bar.wrong-fb{background:#2E0D15;color:var(--red);border:2px solid var(--red)}
+
+  /* ANGLE TYPE LEGEND */
+  .type-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;z-index:99;background:#0F1E2D;box-shadow:0 -2px 15px rgba(0,0,0,0.3);padding:12px 20px}
+  .progress-info{display:flex;justify-content:space-between;align-items:center;max-width:800px;margin:0 auto 6px}
+  .progress-track{max-width:800px;margin:0 auto;height:10px;background:#1A2A3A;border-radius:10px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:10px;transition:width 0.4s ease}
+
+  /* END SCREEN */
+  .end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);align-items:center;justify-content:center;z-index:200;display:none}
+  .end-overlay.show{display:flex}
+  .end-card{background:#243447;border:1px solid #2E4460;border-radius:24px;padding:40px 32px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+  .end-stars{font-size:48px;margin-bottom:16px;letter-spacing:4px}
+  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:8px}
+  .end-score{font-size:18px;color:var(--text2);margin-bottom:28px}
+  .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px}
+  .btn-back{background:#1A2A3A;color:#4ECDC4;border:2px solid #4ECDC4;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-flex;align-items:center}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html" class="back">← All Games</a>
+  <div class="brand">🧮 MathMunch</div>
+  <div class="game-title">🧭 Angle Adventurer</div>
+  <span class="badge-p4">P4</span>
+  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="question-card" id="questionCard">
+    <div class="question-label" id="roundLabel">Round 1 of 10</div>
+    <div id="typeTag"></div>
+    <div class="question-text" id="questionText"></div>
+    <div id="gameContent"></div>
+    <div class="feedback-bar" id="feedbackBar"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-info">
+    <span id="progressLabel" style="font-size:13px;font-weight:700;color:var(--text2)">Question 1 of 10</span>
+    <span id="progressPct" style="font-size:13px;font-weight:700;color:#4ECDC4">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score" id="endScore"></div>
+    <div class="end-btns">
+      <button class="btn-geo" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn-back">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── SVG ANGLE DRAWING ────────────────────────────────────────────────────────
+
+function drawAngleSVG(deg, showArc=true, size=200){
+  const cx=100, cy=110, len=110;
+  const rad = deg * Math.PI / 180;
+  // Ray 1: horizontal right
+  const x1 = cx + len;
+  const y1 = cy;
+  // Ray 2: at deg (measured counter-clockwise from right)
+  const x2 = cx + len * Math.cos(-rad);
+  const y2 = cy + len * Math.sin(-rad);
+
+  let arcPath = '';
+  let rightAngleBox = '';
+
+  if(deg === 90){
+    // Right angle box
+    const bSize = 18;
+    rightAngleBox = `<rect x="${cx}" y="${cy-bSize}" width="${bSize}" height="${bSize}" fill="none" stroke="#FDCB6E" stroke-width="2.5"/>`;
+  } else if(showArc){
+    // Draw arc
+    const r = 38;
+    const arcX = cx + r * Math.cos(-rad);
+    const arcY = cy + r * Math.sin(-rad);
+    const largeArc = deg > 180 ? 1 : 0;
+    const sweep = 0; // counter-clockwise
+    arcPath = `<path d="M ${cx+r},${cy} A ${r},${r} 0 ${largeArc},${sweep} ${arcX},${arcY}" fill="none" stroke="#FDCB6E" stroke-width="2.5" stroke-linecap="round"/>`;
+
+    // Degree label near arc midpoint
+    const midDeg = deg/2;
+    const labelR = r + 16;
+    const lx = cx + labelR * Math.cos(-midDeg*Math.PI/180);
+    const ly = cy + labelR * Math.sin(-midDeg*Math.PI/180);
+    arcPath += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="800" fill="#FDCB6E">?°</text>`;
+  }
+
+  return `<svg width="${size}" height="${size}" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Ray 1: horizontal -->
+    <line x1="${cx}" y1="${cy}" x2="${x1}" y2="${y1}" stroke="#4ECDC4" stroke-width="3" stroke-linecap="round"/>
+    <!-- Ray 2: at angle -->
+    <line x1="${cx}" y1="${cy}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="#4ECDC4" stroke-width="3" stroke-linecap="round"/>
+    <!-- Center dot -->
+    <circle cx="${cx}" cy="${cy}" r="4" fill="#4ECDC4"/>
+    ${rightAngleBox}
+    ${arcPath}
+  </svg>`;
+}
+
+function getAngleType(deg){
+  if(deg > 0 && deg < 90) return 'Acute';
+  if(deg === 90) return 'Right';
+  if(deg > 90 && deg < 180) return 'Obtuse';
+  return 'Reflex';
+}
+
+function angleTypeTag(type){
+  const map = {Acute:'tag-acute',Right:'tag-right',Obtuse:'tag-obtuse',Reflex:'tag-reflex'};
+  const icons = {Acute:'↗',Right:'⊾',Obtuse:'↖',Reflex:'↩'};
+  return `<span class="type-tag ${map[type]}">${icons[type]} ${type}</span>`;
+}
+
+// ─── ROUND DATA ───────────────────────────────────────────────────────────────
+
+const rounds = [
+  { // R1: Type A — 45° acute
+    type:'A', deg:45,
+    question:'What type of angle is this?',
+    answer:'Acute', options:['Acute','Right','Obtuse','Reflex'],
+    tagHtml:'<span class="type-tag tag-name">🔍 Name the Angle</span>'
+  },
+  { // R2: Type A — 90° right
+    type:'A', deg:90,
+    question:'What type of angle is this?',
+    answer:'Right', options:['Acute','Right','Obtuse','Reflex'],
+    tagHtml:'<span class="type-tag tag-name">🔍 Name the Angle</span>'
+  },
+  { // R3: Type A — 120° obtuse
+    type:'A', deg:120,
+    question:'What type of angle is this?',
+    answer:'Obtuse', options:['Acute','Right','Obtuse','Reflex'],
+    tagHtml:'<span class="type-tag tag-name">🔍 Name the Angle</span>'
+  },
+  { // R4: Type B — Show 65°, estimate
+    type:'B', deg:65,
+    question:'Which of these is closest to the angle shown?',
+    answer:'65°', options:['30°','45°','65°','80°'],
+    tagHtml:'<span class="type-tag tag-estimate">📐 Estimate the Angle</span>'
+  },
+  { // R5: Type A — 270° reflex
+    type:'A', deg:270,
+    question:'What type of angle is this?',
+    answer:'Reflex', options:['Acute','Right','Obtuse','Reflex'],
+    tagHtml:'<span class="type-tag tag-name">🔍 Name the Angle</span>'
+  },
+  { // R6: Type C — Compare 40° vs 130°
+    type:'C',
+    question:'Which angle is LARGER?',
+    angleA:{deg:40, label:'Angle A'},
+    angleB:{deg:130, label:'Angle B'},
+    answer:'B',
+    tagHtml:'<span class="type-tag tag-compare">⚖️ Compare Angles</span>'
+  },
+  { // R7: Type B — Show 150°, estimate
+    type:'B', deg:150,
+    question:'Which of these is closest to the angle shown?',
+    answer:'150°', options:['90°','120°','150°','180°'],
+    tagHtml:'<span class="type-tag tag-estimate">📐 Estimate the Angle</span>'
+  },
+  { // R8: Type A — 30° acute
+    type:'A', deg:30,
+    question:'What type of angle is this?',
+    answer:'Acute', options:['Acute','Right','Obtuse','Reflex'],
+    tagHtml:'<span class="type-tag tag-name">🔍 Name the Angle</span>'
+  },
+  { // R9: Type C — Compare 90° vs 89°
+    type:'C',
+    question:'Which angle is LARGER?',
+    angleA:{deg:90, label:'Angle A (90°)'},
+    angleB:{deg:89, label:'Angle B (89°)'},
+    answer:'A',
+    tagHtml:'<span class="type-tag tag-compare">⚖️ Compare Angles</span>'
+  },
+  { // R10: Type B — Show 210° reflex, estimate
+    type:'B', deg:210,
+    question:'Which of these is closest to the angle shown?',
+    answer:'210°', options:['90°','180°','210°','360°'],
+    tagHtml:'<span class="type-tag tag-estimate">📐 Estimate the Angle</span>'
+  }
+];
+
+// ─── GAME STATE ────────────────────────────────────────────────────────────────
+let currentRound = 0;
+let score = 0;
+let answered = false;
+
+function renderRound(){
+  const r = rounds[currentRound];
+  answered = false;
+
+  document.getElementById('roundLabel').textContent = `Round ${currentRound+1} of 10`;
+  document.getElementById('progressLabel').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round(currentRound/10*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressFill').style.width = pct+'%';
+
+  document.getElementById('typeTag').innerHTML = r.tagHtml;
+  document.getElementById('questionText').textContent = r.question;
+
+  const fb = document.getElementById('feedbackBar');
+  fb.className = 'feedback-bar';
+
+  if(r.type === 'A' || r.type === 'B'){
+    renderTypeAB(r);
+  } else {
+    renderTypeC(r);
+  }
+}
+
+function renderTypeAB(r){
+  const content = document.getElementById('gameContent');
+
+  // Type legend for Type A
+  let legend = '';
+  if(r.type === 'A'){
+    legend = `<div class="type-legend">
+      <span class="type-tag tag-acute">↗ Acute (0–90°)</span>
+      <span class="type-tag tag-right">⊾ Right (90°)</span>
+      <span class="type-tag tag-obtuse">↖ Obtuse (90–180°)</span>
+      <span class="type-tag tag-reflex">↩ Reflex (180–360°)</span>
+    </div>`;
+  }
+
+  content.innerHTML = `
+    ${legend}
+    <div style="display:flex;justify-content:center;margin-bottom:16px">
+      ${drawAngleSVG(r.deg)}
+    </div>
+    <div class="answers-grid">
+      ${r.options.map(o=>`<button class="btn-answer" onclick="answerAB('${o}')">${o}</button>`).join('')}
+    </div>`;
+}
+
+function answerAB(chosen){
+  if(answered) return;
+  answered = true;
+  const r = rounds[currentRound];
+
+  const btns = document.querySelectorAll('.btn-answer');
+  btns.forEach(b=>{
+    b.disabled = true;
+    const val = b.textContent.trim();
+    if(val === r.answer) b.classList.add('correct');
+    else if(val === chosen) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedbackBar');
+  if(chosen === r.answer){
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    const typeLabel = r.type === 'A' ? angleTypeTag(r.answer) : '';
+    fb.innerHTML = `✓ Correct! ${r.type==='A'?'It is a '+r.answer+' angle. '+typeLabel:r.deg+'° is closest to '+r.answer}`;
+    fb.className = 'feedback-bar show correct-fb';
+  } else {
+    fb.innerHTML = `✗ Not quite! The answer is <strong>${r.answer}</strong>.${r.type==='A'?' '+r.deg+'° is '+r.answer.toLowerCase()+'.' : ''}`;
+    fb.className = 'feedback-bar show wrong-fb';
+  }
+
+  setTimeout(nextRound, 1800);
+}
+
+function renderTypeC(r){
+  const content = document.getElementById('gameContent');
+  content.innerHTML = `
+    <div class="compare-wrap">
+      <div class="angle-choice" id="choiceA" onclick="answerC('A')">
+        ${drawAngleSVG(r.angleA.deg, true, 170)}
+        <div class="angle-choice-label">${r.angleA.label}</div>
+      </div>
+      <div style="font-size:24px;font-weight:900;color:var(--text2)">vs</div>
+      <div class="angle-choice" id="choiceB" onclick="answerC('B')">
+        ${drawAngleSVG(r.angleB.deg, true, 170)}
+        <div class="angle-choice-label">${r.angleB.label}</div>
+      </div>
+    </div>`;
+}
+
+function answerC(chosen){
+  if(answered) return;
+  answered = true;
+  const r = rounds[currentRound];
+
+  const a = document.getElementById('choiceA');
+  const b = document.getElementById('choiceB');
+  a.classList.add('disabled');
+  b.classList.add('disabled');
+  a.onclick = null; b.onclick = null;
+
+  if(r.answer === 'A') a.classList.add('correct');
+  else a.classList.add('wrong');
+  if(r.answer === 'B') b.classList.add('correct');
+  else if(chosen === 'B') b.classList.add('wrong');
+
+  const fb = document.getElementById('feedbackBar');
+  const winner = r.answer === 'A' ? r.angleA : r.angleB;
+  if(chosen === r.answer){
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.textContent = `✓ Correct! ${winner.label} is the larger angle.`;
+    fb.className = 'feedback-bar show correct-fb';
+  } else {
+    fb.textContent = `✗ Not quite! ${winner.label} (${r.answer==='A'?r.angleA.deg:r.angleB.deg}°) is larger.`;
+    fb.className = 'feedback-bar show wrong-fb';
+  }
+
+  setTimeout(nextRound, 1800);
+}
+
+function nextRound(){
+  currentRound++;
+  if(currentRound >= 10) showEndScreen();
+  else renderRound();
+}
+
+function showEndScreen(){
+  document.getElementById('progressLabel').textContent = 'Question 10 of 10';
+  document.getElementById('progressPct').textContent = '100%';
+  document.getElementById('progressFill').style.width = '100%';
+
+  let stars, title;
+  if(score >= 9){ stars = '★★★'; title = 'Brilliant!'; }
+  else if(score >= 7){ stars = '★★☆'; title = 'Well Done!'; }
+  else { stars = '★☆☆'; title = 'Keep Trying!'; }
+
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = `You scored ${score} out of 10`;
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame(){
+  currentRound = 0; score = 0;
+  document.getElementById('scoreDisplay').textContent = '0';
+  document.getElementById('endOverlay').classList.remove('show');
+  renderRound();
+}
+
+renderRound();
+</script>
+</body>
+</html>

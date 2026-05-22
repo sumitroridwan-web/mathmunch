@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Spin & Sort – MathMunch</title>
+  <style>
+    :root {
+      --s1: #A29BFE; --s2: #6C5CE7;
+      --bg: #F5F3FF; --white: #FFFFFF;
+      --dark: #1E1E2E; --mid: #525270;
+      --radius: 16px;
+      --shadow: 0 4px 20px rgba(108,92,231,0.15);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(108,92,231,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
+    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
+    .back-btn:hover{background:var(--s1);color:white}
+    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
+    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
+    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
+    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
+    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:8px;background:#E8E4FF;z-index:200}
+    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#A29BFE,#6C5CE7);transition:width .4s ease;border-radius:0 4px 4px 0}
+    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
+    .end-screen.show{display:flex}
+    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+    .end-stars{font-size:2.5rem;margin-bottom:12px}
+    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
+    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
+    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
+    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
+    .btn-home{background:#F0F4FF;color:var(--s2);margin:0 6px}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,92,231,0.3)}
+    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+
+    /* Spinner section */
+    .spinner-section{text-align:center;margin-bottom:28px}
+    .spinner-wheel{width:120px;height:120px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:white;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(108,92,231,0.35)}
+    .spinner-wheel.spinning{animation:spinWheel 1.2s cubic-bezier(.17,.67,.38,1) forwards}
+    @keyframes spinWheel{0%{transform:rotate(0deg)}60%{transform:rotate(740deg)}80%{transform:rotate(700deg)}100%{transform:rotate(720deg)}}
+    .spinner-label{font-size:1.1rem;font-weight:700;color:var(--s2);margin-top:8px;min-height:28px}
+    .rule-reveal{font-size:1rem;font-weight:600;color:var(--mid);margin-top:4px;min-height:24px}
+
+    /* Object display */
+    .object-section{text-align:center;margin-bottom:32px}
+    .object-display{font-size:4rem;line-height:1;min-height:72px;transition:transform .2s;user-select:none;animation:objPop .3s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes objPop{from{opacity:0;transform:scale(0.4)}to{opacity:1;transform:scale(1)}}
+    .object-hint{font-size:.95rem;color:var(--mid);margin-top:8px;font-weight:600}
+
+    /* Round tracker */
+    .round-tracker{display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+    .round-dot{width:28px;height:28px;border-radius:50%;background:#E8E4FF;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--mid);transition:.3s}
+    .round-dot.correct{background:linear-gradient(135deg,#55efc4,#00b894);color:white}
+    .round-dot.wrong{background:linear-gradient(135deg,#fd79a8,#e84393);color:white}
+    .round-dot.current{background:var(--s1);color:white;transform:scale(1.2)}
+
+    /* Bins */
+    .bins-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+    .bin{flex:1;min-width:140px;max-width:220px;min-height:160px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:1.3rem;font-weight:800;color:white;box-shadow:var(--shadow);transition:transform .18s, box-shadow .18s;position:relative;overflow:hidden;border:4px solid transparent;user-select:none}
+    .bin:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 8px 28px rgba(108,92,231,0.28)}
+    .bin:active{transform:scale(0.97)}
+    .bin .bin-icon{font-size:2.8rem;margin-bottom:8px}
+    .bin .bin-label{font-size:1.2rem;letter-spacing:.5px}
+    .bin.flash-correct{animation:correctFlash .5s ease}
+    .bin.flash-wrong{animation:wrongFlash .5s ease}
+    .bin.jiggle{animation:jiggle .4s ease}
+    @keyframes correctFlash{0%,100%{filter:brightness(1)}50%{filter:brightness(1.4) saturate(1.8)}}
+    @keyframes wrongFlash{0%,100%{filter:brightness(1)}25%,75%{filter:brightness(0.6) saturate(0) hue-rotate(0deg)}}
+    @keyframes jiggle{0%,100%{transform:translateY(-4px) scale(1.03) rotate(0deg)}25%{transform:translateY(-4px) scale(1.03) rotate(-5deg)}75%{transform:translateY(-4px) scale(1.03) rotate(5deg)}}
+
+    .feedback-text{text-align:center;font-size:1.1rem;font-weight:700;min-height:32px;margin-top:16px;transition:opacity .3s}
+    .feedback-text.good{color:#00b894}
+    .feedback-text.bad{color:#e84393}
+
+    /* Spinner button */
+    .spin-btn-wrap{text-align:center;margin-bottom:24px}
+    .spin-btn{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;border:none;padding:14px 36px;border-radius:30px;font-size:1.1rem;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(108,92,231,0.3);transition:.2s;letter-spacing:.3px}
+    .spin-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(108,92,231,0.4)}
+    .spin-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+    .waiting-message{text-align:center;font-size:1.15rem;color:var(--mid);font-weight:600;padding:24px}
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <a href="../../index.html" class="back-btn">← All Games</a>
+  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
+  <span class="game-title">Spin &amp; Sort</span>
+  <span class="level-badge">EY</span>
+  <span class="score-display">⭐ <span id="score">0</span></span>
+</div>
+<div class="game-area">
+  <div class="spinner-section">
+    <div class="spinner-wheel" id="spinnerWheel">🎡</div>
+    <div class="spinner-label" id="spinnerLabel">Press Spin to start!</div>
+    <div class="rule-reveal" id="ruleReveal"></div>
+  </div>
+
+  <div class="spin-btn-wrap">
+    <button class="spin-btn" id="spinBtn" onclick="doSpin()">🎲 Spin!</button>
+  </div>
+
+  <div id="gameContent" style="display:none">
+    <div class="round-tracker" id="roundTracker"></div>
+    <div class="object-section">
+      <div class="object-display" id="objectDisplay">?</div>
+      <div class="object-hint" id="objectHint">Click the correct bin!</div>
+    </div>
+    <div class="bins-row" id="binsRow"></div>
+    <div class="feedback-text" id="feedbackText"></div>
+  </div>
+  <div id="waitMessage" class="waiting-message" style="display:none">Great! Next object coming up…</div>
+</div>
+<div class="end-screen" id="endScreen">
+  <div class="end-card">
+    <div class="end-stars" id="endStars">⭐⭐⭐</div>
+    <div class="end-title" id="endTitle">Amazing!</div>
+    <div class="end-score" id="endScore">You scored 8/8</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a href="../../index.html" class="btn btn-home">Home</a>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<script>
+  let score = 0, total = 8, current = 0;
+  let currentRule = null;
+  let objects = [];
+  let objectIndex = 0;
+  let canClick = false;
+  let roundResults = [];
+
+  // Sorting rules: each has two bins, and objects with their correct bin index
+  const RULES = [
+    {
+      name: "Sort by Colour: Red vs Blue",
+      bins: [
+        { label: "Red", icon: "🔴", color: "linear-gradient(135deg,#ff7675,#d63031)" },
+        { label: "Blue", icon: "🔵", color: "linear-gradient(135deg,#74b9ff,#0984e3)" }
+      ],
+      objects: [
+        { emoji: "🔴", label: "Red circle", correct: 0 },
+        { emoji: "🟥", label: "Red square", correct: 0 },
+        { emoji: "🔵", label: "Blue circle", correct: 1 },
+        { emoji: "🟦", label: "Blue square", correct: 1 },
+        { emoji: "❤️", label: "Red heart", correct: 0 },
+        { emoji: "💙", label: "Blue heart", correct: 1 },
+        { emoji: "🔴", label: "Red circle", correct: 0 },
+        { emoji: "🔵", label: "Blue circle", correct: 1 }
+      ]
+    },
+    {
+      name: "Sort by Colour: Yellow vs Green",
+      bins: [
+        { label: "Yellow", icon: "🟡", color: "linear-gradient(135deg,#ffeaa7,#fdcb6e)" },
+        { label: "Green", icon: "🟢", color: "linear-gradient(135deg,#55efc4,#00b894)" }
+      ],
+      objects: [
+        { emoji: "🟡", label: "Yellow circle", correct: 0 },
+        { emoji: "🟢", label: "Green circle", correct: 1 },
+        { emoji: "🟨", label: "Yellow square", correct: 0 },
+        { emoji: "🟩", label: "Green square", correct: 1 },
+        { emoji: "⭐", label: "Yellow star", correct: 0 },
+        { emoji: "🍀", label: "Green clover", correct: 1 },
+        { emoji: "🌟", label: "Yellow glow star", correct: 0 },
+        { emoji: "🐢", label: "Green turtle", correct: 1 }
+      ]
+    },
+    {
+      name: "Sort by Shape: Circle vs Square",
+      bins: [
+        { label: "Circle", icon: "⭕", color: "linear-gradient(135deg,#fd79a8,#e84393)" },
+        { label: "Square", icon: "🟧", color: "linear-gradient(135deg,#fdb88a,#e17055)" }
+      ],
+      objects: [
+        { emoji: "🔴", label: "Red circle", correct: 0 },
+        { emoji: "🟥", label: "Red square", correct: 1 },
+        { emoji: "🔵", label: "Blue circle", correct: 0 },
+        { emoji: "🟦", label: "Blue square", correct: 1 },
+        { emoji: "🟢", label: "Green circle", correct: 0 },
+        { emoji: "🟩", label: "Green square", correct: 1 },
+        { emoji: "🟡", label: "Yellow circle", correct: 0 },
+        { emoji: "🟨", label: "Yellow square", correct: 1 }
+      ]
+    },
+    {
+      name: "Sort by Size: Big vs Small",
+      bins: [
+        { label: "Big", icon: "🐘", color: "linear-gradient(135deg,#a29bfe,#6c5ce7)" },
+        { label: "Small", icon: "🐭", color: "linear-gradient(135deg,#fd79a8,#e84393)" }
+      ],
+      objects: [
+        { emoji: "🐘", label: "Elephant (big)", correct: 0 },
+        { emoji: "🐭", label: "Mouse (small)", correct: 1 },
+        { emoji: "🦁", label: "Lion (big)", correct: 0 },
+        { emoji: "🐝", label: "Bee (small)", correct: 1 },
+        { emoji: "🐋", label: "Whale (big)", correct: 0 },
+        { emoji: "🐛", label: "Caterpillar (small)", correct: 1 },
+        { emoji: "🦒", label: "Giraffe (big)", correct: 0 },
+        { emoji: "🐞", label: "Ladybird (small)", correct: 1 }
+      ]
+    }
+  ];
+
+  function updateScore(pts){ score += pts; document.getElementById('score').textContent = score; }
+  function updateProgress(){ document.getElementById('progressBar').style.width = (objectIndex/total*100)+'%'; }
+
+  function showEnd(){
+    const pct = score/total;
+    document.getElementById('endStars').textContent = pct>=0.875?'⭐⭐⭐':pct>=0.5?'⭐⭐':'⭐';
+    document.getElementById('endTitle').textContent = pct>=0.875?'Brilliant!':pct>=0.5?'Good job!':'Keep trying!';
+    document.getElementById('endScore').textContent = 'You sorted '+score+' out of '+total+'!';
+    document.getElementById('endScreen').classList.add('show');
+  }
+
+  function restartGame(){
+    document.getElementById('endScreen').classList.remove('show');
+    score = 0;
+    document.getElementById('score').textContent = '0';
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('gameContent').style.display = 'none';
+    document.getElementById('spinBtn').disabled = false;
+    document.getElementById('spinnerLabel').textContent = 'Press Spin to start!';
+    document.getElementById('ruleReveal').textContent = '';
+    const wheel = document.getElementById('spinnerWheel');
+    wheel.style.background = 'linear-gradient(135deg,#A29BFE,#6C5CE7)';
+    wheel.textContent = '🎡';
+    wheel.classList.remove('spinning');
+    initGame();
+  }
+
+  function initGame(){
+    score = 0;
+    objectIndex = 0;
+    roundResults = [];
+    canClick = false;
+    document.getElementById('score').textContent = '0';
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('gameContent').style.display = 'none';
+    document.getElementById('spinBtn').disabled = false;
+    document.getElementById('spinnerLabel').textContent = 'Press Spin to start!';
+    document.getElementById('ruleReveal').textContent = '';
+    document.getElementById('feedbackText').textContent = '';
+    document.getElementById('objectDisplay').textContent = '?';
+    const wheel = document.getElementById('spinnerWheel');
+    wheel.style.background = 'linear-gradient(135deg,#A29BFE,#6C5CE7)';
+    wheel.textContent = '🎡';
+    wheel.classList.remove('spinning');
+  }
+
+  function doSpin(){
+    const btn = document.getElementById('spinBtn');
+    btn.disabled = true;
+    const wheel = document.getElementById('spinnerWheel');
+    wheel.classList.remove('spinning');
+    void wheel.offsetWidth; // reflow to restart animation
+    wheel.classList.add('spinning');
+    wheel.textContent = '🎲';
+    wheel.style.background = 'linear-gradient(135deg,#fdcb6e,#e17055)';
+    document.getElementById('spinnerLabel').textContent = 'Spinning…';
+    document.getElementById('ruleReveal').textContent = '';
+
+    setTimeout(()=>{
+      currentRule = RULES[Math.floor(Math.random()*RULES.length)];
+      objects = [...currentRule.objects];
+      objectIndex = 0;
+      score = 0;
+      roundResults = [];
+      document.getElementById('score').textContent = '0';
+      document.getElementById('progressBar').style.width = '0%';
+
+      wheel.textContent = '🎯';
+      wheel.style.background = 'linear-gradient(135deg,#55efc4,#00b894)';
+      document.getElementById('spinnerLabel').textContent = currentRule.name;
+      document.getElementById('ruleReveal').textContent = 'Sort each object into the right bin!';
+
+      buildBins();
+      buildRoundTracker();
+      document.getElementById('gameContent').style.display = 'block';
+      document.getElementById('feedbackText').textContent = '';
+      loadObject();
+    }, 1300);
+  }
+
+  function buildBins(){
+    const row = document.getElementById('binsRow');
+    row.innerHTML = '';
+    currentRule.bins.forEach((bin, idx)=>{
+      const el = document.createElement('div');
+      el.className = 'bin';
+      el.style.background = bin.color;
+      el.innerHTML = `<span class="bin-icon">${bin.icon}</span><span class="bin-label">${bin.label}</span>`;
+      el.addEventListener('click', ()=> handleBinClick(idx, el));
+      row.appendChild(el);
+    });
+  }
+
+  function buildRoundTracker(){
+    const tracker = document.getElementById('roundTracker');
+    tracker.innerHTML = '';
+    for(let i=0;i<total;i++){
+      const dot = document.createElement('div');
+      dot.className = 'round-dot' + (i===0?' current':'');
+      dot.textContent = i+1;
+      dot.id = 'dot-'+i;
+      tracker.appendChild(dot);
+    }
+  }
+
+  function loadObject(){
+    if(objectIndex >= objects.length){
+      updateProgress();
+      setTimeout(showEnd, 600);
+      return;
+    }
+    const obj = objects[objectIndex];
+    const display = document.getElementById('objectDisplay');
+    display.style.animation = 'none';
+    void display.offsetWidth;
+    display.style.animation = 'objPop .3s cubic-bezier(.34,1.56,.64,1)';
+    display.textContent = obj.emoji;
+    document.getElementById('objectHint').textContent = obj.label;
+    document.getElementById('feedbackText').textContent = '';
+    document.getElementById('feedbackText').className = 'feedback-text';
+    canClick = true;
+    updateProgress();
+    // Update dot
+    if(objectIndex > 0){
+      const prevDot = document.getElementById('dot-'+(objectIndex-1));
+      if(prevDot) prevDot.classList.remove('current');
+    }
+    const curDot = document.getElementById('dot-'+objectIndex);
+    if(curDot) curDot.classList.add('current');
+  }
+
+  function handleBinClick(binIdx, binEl){
+    if(!canClick) return;
+    canClick = false;
+    const obj = objects[objectIndex];
+    const isCorrect = binIdx === obj.correct;
+    const bins = document.querySelectorAll('.bin');
+
+    if(isCorrect){
+      binEl.classList.add('flash-correct','jiggle');
+      setTimeout(()=>{ binEl.classList.remove('flash-correct','jiggle'); },500);
+      updateScore(1);
+      document.getElementById('feedbackText').textContent = '✅ Correct! Well done!';
+      document.getElementById('feedbackText').className = 'feedback-text good';
+      markDot(objectIndex, true);
+      objectIndex++;
+      setTimeout(loadObject, 800);
+    } else {
+      binEl.classList.add('flash-wrong');
+      setTimeout(()=>{ binEl.classList.remove('flash-wrong'); },500);
+      document.getElementById('feedbackText').textContent = '❌ Oops! Try the other bin!';
+      document.getElementById('feedbackText').className = 'feedback-text bad';
+      // Highlight correct bin briefly
+      const correctBin = bins[obj.correct];
+      correctBin.style.outline = '4px solid #55efc4';
+      setTimeout(()=>{
+        correctBin.style.outline = '';
+        canClick = true;
+      }, 900);
+    }
+  }
+
+  function markDot(idx, correct){
+    const dot = document.getElementById('dot-'+idx);
+    if(!dot) return;
+    dot.classList.remove('current');
+    dot.classList.add(correct?'correct':'wrong');
+  }
+
+  initGame();
+</script>
+</body>
+</html>

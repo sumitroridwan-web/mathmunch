@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Factor Finder – MathMunch</title>
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #E8E4FF;
+    --accent: #FDCB6E;
+    --n1: #FF6B6B;
+    --n2: #FF8E53;
+    --bg: #F0F4FF;
+    --white: #FFFFFF;
+    --text: #1E1E2E;
+    --text2: #525270;
+    --green: #00B894;
+    --red: #FF4757;
+    --orange: #FF9800;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #FDF6E3;
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* TOP BAR */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--white);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 20px; height: 56px;
+  }
+  .topbar a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 14px; }
+  .topbar .brand { font-weight: 700; font-size: 18px; color: var(--primary); }
+  .topbar .title { font-weight: 600; font-size: 16px; color: var(--text); }
+  .topbar .badge { background: #E0FFF5; color: #00A878; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .topbar .score { margin-left: auto; font-weight: 700; font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 4px; }
+
+  .game-area {
+    max-width: 800px;
+    margin: 24px auto 100px;
+    padding: 0 16px;
+  }
+
+  /* DETECTIVE HEADER */
+  .detective-header {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin-bottom: 16px;
+    font-size: 15px; color: #6B5B3E; font-style: italic;
+  }
+
+  /* TARGET NUMBER CARD */
+  .target-card {
+    background: #2D2416;
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .target-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 10px,
+      rgba(255,255,255,0.02) 10px, rgba(255,255,255,0.02) 20px
+    );
+  }
+  .target-label {
+    font-size: 13px; font-weight: 700; color: #A0875A;
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .target-number {
+    font-size: 72px; font-weight: 900; color: #FDCB6E;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(253,203,110,0.4);
+  }
+  .target-instruction {
+    font-size: 14px; color: #C0A878; margin-top: 8px;
+  }
+
+  /* FACTOR GRID */
+  .factor-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .factor-btn {
+    padding: 16px 8px;
+    border-radius: 12px;
+    border: 2px solid #D4C5A9;
+    background: var(--white);
+    font-size: 20px; font-weight: 800; color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .factor-btn:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
+  .factor-btn.selected {
+    border-color: var(--green);
+    background: linear-gradient(135deg, #E8FFF5, #C8FFE8);
+    color: #007A55;
+  }
+  .factor-btn.selected::after { content: '✓'; position: absolute; top: 4px; right: 8px; font-size: 12px; color: var(--green); }
+  .factor-btn.wrong-flash {
+    border-color: var(--red);
+    background: #FFF0F0;
+    color: var(--red);
+  }
+  .factor-btn.missed {
+    border-color: var(--orange);
+    background: #FFF3E0;
+    color: var(--orange);
+  }
+  .factor-btn:disabled { cursor: default; }
+
+  /* STATUS ROW */
+  .status-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+    flex-wrap: wrap; gap: 8px;
+  }
+  .selection-info {
+    font-size: 14px; color: var(--text2); font-weight: 600;
+  }
+  .check-btn {
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--primary), #a855f7);
+    color: white; font-size: 16px; font-weight: 700;
+    border: none; cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(108,92,231,0.3);
+  }
+  .check-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,92,231,0.4); }
+  .check-btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+  /* FEEDBACK */
+  .feedback {
+    font-size: 16px; font-weight: 700;
+    text-align: center; padding: 12px;
+    border-radius: 10px;
+    opacity: 0; transition: opacity 0.3s; min-height: 42px;
+  }
+  .feedback.show { opacity: 1; }
+  .feedback.correct { color: var(--green); background: #E8FFF5; }
+  .feedback.partial { color: var(--orange); background: #FFF3E0; }
+  .feedback.wrong { color: var(--red); background: #FFF0F0; }
+
+  /* HINT */
+  .hint-text {
+    font-size: 13px; color: var(--text2);
+    text-align: center; margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--white);
+    padding: 10px 20px;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    display: flex; align-items: center; gap: 16px; z-index: 100;
+  }
+  .progress-label { font-size: 14px; color: var(--text2); font-weight: 600; white-space: nowrap; }
+  .progress-track { flex: 1; height: 12px; background: #E0E0F0; border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--n1), var(--n2)); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-pct { font-size: 14px; font-weight: 700; color: var(--n2); white-space: nowrap; }
+
+  /* END SCREEN */
+  .end-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 200;
+  }
+  .end-card {
+    background: var(--white);
+    border-radius: 24px; padding: 40px;
+    text-align: center; max-width: 420px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .end-emoji { font-size: 64px; margin-bottom: 10px; }
+  .end-title { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .end-score { font-size: 20px; color: var(--text2); margin-bottom: 16px; }
+  .end-stars { font-size: 36px; margin-bottom: 24px; }
+  .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { padding: 14px 28px; border-radius: var(--radius); background: linear-gradient(135deg, var(--primary), #a855f7); color: white; font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: transform 0.2s; }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-secondary { padding: 14px 28px; border-radius: var(--radius); background: var(--white); color: var(--primary); font-size: 16px; font-weight: 700; border: 2px solid var(--primary); cursor: pointer; text-decoration: none; display: inline-block; }
+  .btn-secondary:hover { background: var(--primary-light); }
+
+  .next-btn {
+    display: block; width: 100%;
+    padding: 14px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--green), #00CEC9);
+    color: white; font-size: 16px; font-weight: 700;
+    border: none; cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.2s;
+    display: none;
+  }
+  .next-btn.show { display: block; }
+  .next-btn:hover { transform: translateY(-2px); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="title">Factor Finder</span>
+  <span class="badge">P4</span>
+  <div class="score">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="detective-header">
+    <span>🔍</span>
+    <span>Find ALL the factors of the mystery number!</span>
+    <span>🔍</span>
+  </div>
+
+  <div class="target-card">
+    <div class="target-label">Mystery Number</div>
+    <div class="target-number" id="targetNumber">–</div>
+    <div class="target-instruction">Click all numbers that divide evenly into this number</div>
+  </div>
+
+  <div class="status-row">
+    <div class="selection-info" id="selectionInfo">0 factors selected</div>
+    <button class="check-btn" id="checkBtn" onclick="checkAnswer()">🔍 Check Answer</button>
+  </div>
+
+  <div class="factor-grid" id="factorGrid"></div>
+
+  <div class="feedback" id="feedback"></div>
+  <div class="hint-text" id="hintText"></div>
+  <button class="next-btn" id="nextBtn" onclick="nextRound()">Next Question →</button>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-label" id="progressLabel">Question 1 of 10</div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-pct" id="progressPct">0%</div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score" id="endScore"></div>
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-btns">
+      <button class="btn-primary" onclick="restartGame()">Play Again</button>
+      <a class="btn-secondary" href="../../index.html">← Back</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const ROUNDS = [
+  { target: 10,  factors: [1,2,5,10] },
+  { target: 12,  factors: [1,2,3,4,6,12] },
+  { target: 15,  factors: [1,3,5,15] },
+  { target: 18,  factors: [1,2,3,6,9,18] },
+  { target: 20,  factors: [1,2,4,5,10,20] },
+  { target: 24,  factors: [1,2,3,4,6,8,12,24] },
+  { target: 36,  factors: [1,2,3,4,6,9,12,18,36] },
+  { target: 28,  factors: [1,2,4,7,14,28] },
+  { target: 30,  factors: [1,2,3,5,6,10,15,30] },
+  { target: 48,  factors: [1,2,3,4,6,8,12,16,24,48] },
+];
+
+let currentRound = 0;
+let score = 0;
+let selectedFactors = new Set();
+let wrongClicks = 0;
+let roundDone = false;
+
+function shuffle(arr) {
+  for (let i = arr.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function generateGridNumbers(factors, target) {
+  const factorSet = new Set(factors);
+  const nonFactors = [];
+  const used = new Set(factors);
+  for (let n = 1; n <= target+10; n++) {
+    if (!factorSet.has(n) && !used.has(n)) {
+      nonFactors.push(n); used.add(n);
+    }
+    if (nonFactors.length >= 20) break;
+  }
+  shuffle(nonFactors);
+  const fillCount = Math.min(12 - factors.length, nonFactors.length);
+  const grid = [...factors, ...nonFactors.slice(0, fillCount)];
+  return shuffle(grid);
+}
+
+function loadRound() {
+  selectedFactors = new Set();
+  wrongClicks = 0;
+  roundDone = false;
+
+  const q = ROUNDS[currentRound];
+  document.getElementById('progressLabel').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round((currentRound / 10) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('targetNumber').textContent = q.target;
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback'; fb.textContent = '';
+  document.getElementById('hintText').textContent = '';
+  document.getElementById('checkBtn').disabled = false;
+  const nb = document.getElementById('nextBtn');
+  nb.classList.remove('show');
+
+  const gridNums = generateGridNumbers(q.factors, q.target);
+  const grid = document.getElementById('factorGrid');
+  grid.innerHTML = '';
+
+  gridNums.forEach(num => {
+    const btn = document.createElement('button');
+    btn.className = 'factor-btn';
+    btn.textContent = num;
+    btn.dataset.num = num;
+    btn.onclick = () => toggleFactor(btn, num, q);
+    grid.appendChild(btn);
+  });
+
+  updateSelectionInfo();
+}
+
+function toggleFactor(btn, num, q) {
+  if (roundDone) return;
+  const factorSet = new Set(q.factors);
+
+  if (!factorSet.has(num)) {
+    // Wrong: flash red then reset
+    btn.classList.add('wrong-flash');
+    wrongClicks++;
+    setTimeout(() => btn.classList.remove('wrong-flash'), 600);
+    return;
+  }
+
+  if (selectedFactors.has(num)) {
+    selectedFactors.delete(num);
+    btn.classList.remove('selected');
+  } else {
+    selectedFactors.add(num);
+    btn.classList.add('selected');
+  }
+  updateSelectionInfo();
+}
+
+function updateSelectionInfo() {
+  const n = selectedFactors.size;
+  document.getElementById('selectionInfo').textContent = `${n} factor${n!==1?'s':''} selected`;
+}
+
+function checkAnswer() {
+  if (roundDone) return;
+  roundDone = true;
+  document.getElementById('checkBtn').disabled = true;
+
+  const q = ROUNDS[currentRound];
+  const factorSet = new Set(q.factors);
+  const missing = q.factors.filter(f => !selectedFactors.has(f));
+  const fb = document.getElementById('feedback');
+
+  // Disable all factor buttons
+  document.querySelectorAll('.factor-btn').forEach(b => b.disabled = true);
+
+  if (missing.length === 0 && wrongClicks === 0) {
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.className = 'feedback correct show';
+    fb.textContent = `✓ Brilliant! You found all ${q.factors.length} factors of ${q.target}!`;
+    document.getElementById('hintText').textContent = `All factors: ${q.factors.join(', ')}`;
+  } else if (missing.length === 0) {
+    score++;
+    document.getElementById('scoreDisplay').textContent = score;
+    fb.className = 'feedback correct show';
+    fb.textContent = `✓ All factors found! (${wrongClicks} wrong click${wrongClicks!==1?'s':''})`;
+    document.getElementById('hintText').textContent = `Factors of ${q.target}: ${q.factors.join(', ')}`;
+  } else {
+    fb.className = 'feedback partial show';
+    fb.textContent = `You missed ${missing.length} factor${missing.length!==1?'s':''}. Highlighted in orange.`;
+    document.getElementById('hintText').textContent = `All factors of ${q.target}: ${q.factors.join(', ')}`;
+    // Highlight missing
+    document.querySelectorAll('.factor-btn').forEach(b => {
+      const num = parseInt(b.dataset.num);
+      if (missing.includes(num)) b.classList.add('missed');
+    });
+  }
+
+  const nb = document.getElementById('nextBtn');
+  nb.classList.add('show');
+}
+
+function nextRound() {
+  currentRound++;
+  if (currentRound >= 10) showEnd();
+  else loadRound();
+}
+
+function showEnd() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressPct').textContent = '100%';
+
+  let emoji, title, stars;
+  if (score >= 9) { emoji='🔍'; title='Brilliant!'; stars='★★★'; }
+  else if (score >= 7) { emoji='🕵️'; title='Well Done!'; stars='★★☆'; }
+  else { emoji='📋'; title='Keep Trying!'; stars='★☆☆'; }
+
+  document.getElementById('endEmoji').textContent = emoji;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScore').textContent = `${score}/10 correct`;
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endOverlay').style.display = 'flex';
+}
+
+function restartGame() {
+  currentRound = 0; score = 0;
+  document.getElementById('endOverlay').style.display = 'none';
+  loadRound();
+}
+
+loadRound();
+</script>
+</body>
+</html>

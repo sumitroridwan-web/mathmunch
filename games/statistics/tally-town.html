@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Tally Town – MathMunch</title>
+  <style>
+    :root {
+      --s1: #A29BFE; --s2: #6C5CE7;
+      --bg: #F5F3FF; --white: #FFFFFF;
+      --dark: #1E1E2E; --mid: #525270;
+      --radius: 16px;
+      --shadow: 0 4px 20px rgba(108,92,231,0.15);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(108,92,231,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
+    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
+    .back-btn:hover{background:var(--s1);color:white}
+    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
+    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
+    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
+    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
+    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:8px;background:#E8E4FF;z-index:200}
+    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#A29BFE,#6C5CE7);transition:width .4s ease;border-radius:0 4px 4px 0}
+    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
+    .end-screen.show{display:flex}
+    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+    .end-stars{font-size:2.5rem;margin-bottom:12px}
+    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
+    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
+    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
+    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
+    .btn-home{background:#F0F4FF;color:var(--s2);margin:0 6px}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,92,231,0.3)}
+    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+
+    /* Question counter */
+    .q-counter{text-align:center;font-size:.95rem;font-weight:700;color:var(--mid);margin-bottom:20px}
+
+    /* Chalkboard card */
+    .chalkboard{background:#2d4a2d;border-radius:20px;padding:32px 24px;margin-bottom:28px;box-shadow:inset 0 2px 12px rgba(0,0,0,0.4), 0 6px 24px rgba(0,0,0,0.2);border:6px solid #5a3a1a;position:relative;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .chalkboard::before{content:'';position:absolute;inset:6px;border:2px dashed rgba(255,255,255,0.08);border-radius:14px;pointer-events:none}
+    .chalk-label{color:rgba(255,255,255,0.55);font-size:.85rem;font-weight:600;margin-bottom:16px;letter-spacing:1px;text-transform:uppercase;font-family:'Segoe UI',monospace}
+    .tally-container{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;justify-content:center;padding:8px 0}
+    .tally-group{display:flex;align-items:flex-end;position:relative}
+    .tally-group svg{display:block}
+
+    /* Question text */
+    .question-text{text-align:center;font-size:1.2rem;font-weight:700;color:var(--dark);margin-bottom:24px;min-height:32px}
+
+    /* Answer buttons 2x2 grid */
+    .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:400px;margin:0 auto}
+    .ans-btn{padding:18px 12px;border-radius:16px;border:3px solid #E8E4FF;background:white;font-size:1.4rem;font-weight:800;color:var(--dark);cursor:pointer;transition:.2s;box-shadow:0 2px 10px rgba(108,92,231,0.1)}
+    .ans-btn:hover:not(:disabled){background:var(--s1);color:white;border-color:var(--s1);transform:translateY(-2px)}
+    .ans-btn.correct{background:linear-gradient(135deg,#55efc4,#00b894);border-color:#00b894;color:white;animation:correctPop .4s ease}
+    .ans-btn.wrong{background:linear-gradient(135deg,#fd79a8,#d63031);border-color:#d63031;color:white;animation:wrongShake .4s ease}
+    .ans-btn.reveal{background:linear-gradient(135deg,#55efc4,#00b894);border-color:#00b894;color:white}
+    @keyframes correctPop{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+    @keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+    .ans-btn:disabled{cursor:not-allowed;opacity:.7}
+
+    /* Feedback */
+    .feedback-strip{text-align:center;font-size:1.1rem;font-weight:700;min-height:36px;margin-top:18px;padding:8px 20px;border-radius:12px;transition:all .3s}
+    .feedback-strip.good{background:#d4f5e9;color:#00b894}
+    .feedback-strip.bad{background:#ffe4f0;color:#e84393}
+
+    /* Round dots */
+    .round-dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+    .rdot{width:24px;height:24px;border-radius:50%;background:#E8E4FF;border:2px solid #c8c0ff;transition:.3s}
+    .rdot.correct{background:linear-gradient(135deg,#55efc4,#00b894);border-color:#00b894}
+    .rdot.wrong{background:linear-gradient(135deg,#fd79a8,#e84393);border-color:#e84393}
+    .rdot.active{background:var(--s1);border-color:var(--s2);transform:scale(1.3)}
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <a href="../../index.html" class="back-btn">← All Games</a>
+  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
+  <span class="game-title">Tally Town</span>
+  <span class="level-badge">P2</span>
+  <span class="score-display">⭐ <span id="score">0</span></span>
+</div>
+<div class="game-area">
+  <div class="q-counter" id="qCounter">Question 1 of 10</div>
+  <div class="round-dots" id="roundDots"></div>
+  <div class="chalkboard" id="chalkboard">
+    <div class="chalk-label">Count the tally marks</div>
+    <div class="tally-container" id="tallyContainer"></div>
+  </div>
+  <div class="question-text" id="questionText">How many tally marks are there?</div>
+  <div class="answers-grid" id="answersGrid"></div>
+  <div class="feedback-strip" id="feedbackStrip"></div>
+</div>
+<div class="end-screen" id="endScreen">
+  <div class="end-card">
+    <div class="end-stars" id="endStars">⭐⭐⭐</div>
+    <div class="end-title" id="endTitle">Amazing!</div>
+    <div class="end-score" id="endScore">You scored 10/10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a href="../../index.html" class="btn btn-home">Home</a>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<script>
+  let score = 0, total = 10, current = 0;
+  let locked = false;
+  let questions = [];
+
+  function updateScore(pts){ score += pts; document.getElementById('score').textContent = score; }
+  function updateProgress(){ document.getElementById('progressBar').style.width = ((current)/total*100)+'%'; }
+
+  function showEnd(){
+    const pct = score/total;
+    document.getElementById('endStars').textContent = pct>=0.8?'⭐⭐⭐':pct>=0.5?'⭐⭐':'⭐';
+    document.getElementById('endTitle').textContent = pct>=0.8?'Brilliant!':pct>=0.5?'Good job!':'Keep trying!';
+    document.getElementById('endScore').textContent = 'You scored '+score+' / '+total;
+    document.getElementById('endScreen').classList.add('show');
+  }
+
+  function restartGame(){
+    document.getElementById('endScreen').classList.remove('show');
+    initGame();
+  }
+
+  // Generate SVG tally marks for a given count
+  function buildTallySVG(count){
+    const groups = Math.floor(count/5);
+    const remainder = count % 5;
+    const svgs = [];
+
+    for(let g=0;g<groups;g++){
+      svgs.push(makeTallyGroupSVG(5, true));
+    }
+    if(remainder > 0){
+      svgs.push(makeTallyGroupSVG(remainder, false));
+    }
+    return svgs.join('');
+  }
+
+  function makeTallyGroupSVG(count, withDiagonal){
+    // Each group: 4 vertical lines + 1 diagonal
+    const W = withDiagonal ? 60 : (count * 14);
+    const H = 60;
+    const lineColor = '#e8f5e9';
+    const strokeW = 4;
+    let lines = '';
+    for(let i=0;i<Math.min(count, withDiagonal?4:count);i++){
+      const x = 8 + i*12;
+      lines += `<line x1="${x}" y1="8" x2="${x}" y2="${H-8}" stroke="${lineColor}" stroke-width="${strokeW}" stroke-linecap="round"/>`;
+    }
+    if(withDiagonal && count===5){
+      lines += `<line x1="3" y1="${H-8}" x2="${W-3}" y2="8" stroke="${lineColor}" stroke-width="${strokeW}" stroke-linecap="round"/>`;
+    }
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:inline-block;margin:0 6px">${lines}</svg>`;
+  }
+
+  function shuffle(arr){
+    const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;
+  }
+
+  function makeWrongAnswers(correct){
+    const pool = new Set();
+    while(pool.size < 3){
+      const offset = (Math.floor(Math.random()*7)-3);
+      const v = correct + offset;
+      if(v !== correct && v >= 1 && v <= 20) pool.add(v);
+    }
+    return [...pool];
+  }
+
+  function generateQuestions(){
+    const values = [];
+    // Use specific values for a good spread 1-20
+    const nums = shuffle([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20]);
+    for(let i=0;i<10;i++) values.push(nums[i]);
+    return values.map(v=>({
+      value: v,
+      answers: shuffle([v, ...makeWrongAnswers(v)]),
+      correct: v
+    }));
+  }
+
+  function buildRoundDots(){
+    const container = document.getElementById('roundDots');
+    container.innerHTML = '';
+    for(let i=0;i<total;i++){
+      const d = document.createElement('div');
+      d.className = 'rdot' + (i===0?' active':'');
+      d.id = 'rdot-'+i;
+      container.appendChild(d);
+    }
+  }
+
+  function initGame(){
+    score = 0; current = 0; locked = false;
+    document.getElementById('score').textContent = '0';
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('feedbackStrip').textContent = '';
+    document.getElementById('feedbackStrip').className = 'feedback-strip';
+    questions = generateQuestions();
+    buildRoundDots();
+    loadQuestion();
+  }
+
+  function loadQuestion(){
+    if(current >= total){ showEnd(); return; }
+    locked = false;
+    updateProgress();
+    const q = questions[current];
+
+    document.getElementById('qCounter').textContent = 'Question '+(current+1)+' of '+total;
+
+    // Draw tally
+    const container = document.getElementById('tallyContainer');
+    container.innerHTML = buildTallySVG(q.value);
+
+    document.getElementById('questionText').textContent = 'How many tally marks are there?';
+    document.getElementById('feedbackStrip').textContent = '';
+    document.getElementById('feedbackStrip').className = 'feedback-strip';
+
+    // Build answer buttons
+    const grid = document.getElementById('answersGrid');
+    grid.innerHTML = '';
+    q.answers.forEach(ans=>{
+      const btn = document.createElement('button');
+      btn.className = 'ans-btn';
+      btn.textContent = ans;
+      btn.onclick = ()=>handleAnswer(ans, q.correct, btn);
+      grid.appendChild(btn);
+    });
+
+    // Update dots
+    for(let i=0;i<total;i++){
+      const d = document.getElementById('rdot-'+i);
+      if(d) d.classList.toggle('active', i===current);
+    }
+  }
+
+  function handleAnswer(chosen, correct, btn){
+    if(locked) return;
+    locked = true;
+    const allBtns = document.querySelectorAll('.ans-btn');
+    allBtns.forEach(b=>b.disabled=true);
+
+    if(chosen===correct){
+      btn.classList.add('correct');
+      updateScore(1);
+      document.getElementById('feedbackStrip').textContent = '✅ Correct! That is '+correct+'.';
+      document.getElementById('feedbackStrip').className = 'feedback-strip good';
+      markDot(current, true);
+    } else {
+      btn.classList.add('wrong');
+      // Reveal correct
+      allBtns.forEach(b=>{ if(parseInt(b.textContent)===correct) b.classList.add('reveal'); });
+      document.getElementById('feedbackStrip').textContent = '❌ The answer is '+correct+'. Keep counting!';
+      document.getElementById('feedbackStrip').className = 'feedback-strip bad';
+      markDot(current, false);
+    }
+
+    current++;
+    setTimeout(loadQuestion, 1400);
+  }
+
+  function markDot(idx, correct){
+    const d = document.getElementById('rdot-'+idx);
+    if(!d) return;
+    d.classList.remove('active');
+    d.classList.add(correct?'correct':'wrong');
+  }
+
+  initGame();
+</script>
+</body>
+</html>

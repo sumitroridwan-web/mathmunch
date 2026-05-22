@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathMunch – Where Math Is a Tasty Adventure</title>
+    <style>
+        :root {
+            --primary: #6C5CE7;
+            --primary-light: #E8E4FF;
+            --secondary: #00B894;
+            --accent: #FDCB6E;
+            --accent-dark: #F39C12;
+            --bg-main: #F0F4FF;
+            --bg-white: #FFFFFF;
+            --text-dark: #1E1E2E;
+            --text-medium: #525270;
+            --text-light: #8888A8;
+            --number-1: #FF6B6B;
+            --number-2: #FF8E53;
+            --geo-1: #4ECDC4;
+            --geo-2: #2ECC71;
+            --stats-1: #A29BFE;
+            --stats-2: #6C5CE7;
+            --border-radius: 20px;
+            --card-radius: 16px;
+            --shadow: 0 4px 20px rgba(108,92,231,0.12);
+            --shadow-hover: 0 8px 30px rgba(108,92,231,0.25);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+        .section-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-bottom: 32px;
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: var(--bg-white);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 24px;
+            max-width: 1280px;
+            margin: 0 auto;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, var(--primary), #A29BFE);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .logo-text {
+            font-size: 1.4rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--number-1));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        .logo-tagline {
+            font-size: 0.6rem; color: var(--text-light);
+            display: block; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px;
+            -webkit-text-fill-color: var(--text-light);
+        }
+
+        .mascot-wrap {
+            display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+        }
+
+        .mascot {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, #FDCB6E, #E17055);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            cursor: pointer;
+            animation: bob 2.5s ease-in-out infinite;
+        }
+
+        @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+        .mascot-bubble {
+            background: var(--primary); color: white;
+            padding: 6px 12px; border-radius: 20px;
+            font-size: 0.72rem; font-weight: 700;
+            position: relative; display: none; white-space: nowrap;
+        }
+
+        .mascot-bubble::before {
+            content: ''; position: absolute;
+            left: -7px; top: 50%; transform: translateY(-50%);
+            border: 5px solid transparent;
+            border-right-color: var(--primary);
+        }
+
+        nav {
+            display: flex; align-items: center; gap: 2px;
+            overflow-x: auto; scrollbar-width: none;
+        }
+        nav::-webkit-scrollbar { display: none; }
+
+        nav a {
+            text-decoration: none; color: var(--text-medium);
+            font-weight: 600; font-size: 0.88rem;
+            padding: 8px 14px; border-radius: 10px;
+            transition: all 0.2s; white-space: nowrap;
+        }
+
+        nav a:hover, nav a.active { background: var(--primary-light); color: var(--primary); }
+
+        .header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+        .btn {
+            padding: 10px 20px; border-radius: 12px;
+            font-weight: 700; font-size: 0.88rem;
+            cursor: pointer; border: none;
+            transition: all 0.2s; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary-light); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #A29BFE);
+            color: white; box-shadow: 0 4px 15px rgba(108,92,231,0.4);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(108,92,231,0.5); }
+
+        .btn-accent {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white; box-shadow: 0 4px 15px rgba(255,107,107,0.35);
+        }
+        .btn-accent:hover { transform: translateY(-2px); }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6C5CE7 100%);
+            padding: 64px 24px 80px;
+            text-align: center; color: white;
+            position: relative; overflow: hidden;
+        }
+
+        .hero-shapes { position: absolute; inset: 0; pointer-events: none; }
+
+        .shape {
+            position: absolute; opacity: 0.12;
+            animation: floatShape 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) { font-size:2.5rem; top:12%; left:6%; animation-delay:0s; }
+        .shape:nth-child(2) { font-size:1.8rem; top:20%; right:8%; animation-delay:1s; }
+        .shape:nth-child(3) { font-size:2rem;   bottom:18%; left:12%; animation-delay:2s; }
+        .shape:nth-child(4) { font-size:2.2rem; bottom:25%; right:6%; animation-delay:0.5s; }
+        .shape:nth-child(5) { font-size:1.5rem; top:55%; left:48%; animation-delay:1.5s; }
+        .shape:nth-child(6) { font-size:2rem;   top:35%; left:25%; animation-delay:3s; }
+
+        @keyframes floatShape {
+            0%,100%{transform:translateY(0) rotate(0deg)}
+            33%{transform:translateY(-14px) rotate(5deg)}
+            66%{transform:translateY(7px) rotate(-3deg)}
+        }
+
+        .hero-content { position: relative; max-width: 720px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(8px);
+            padding: 6px 20px; border-radius: 20px;
+            font-size: 0.78rem; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            font-weight: 900; line-height: 1.2;
+            margin-bottom: 18px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 em { color: var(--accent); font-style: normal; }
+
+        .hero p {
+            font-size: 1.1rem; opacity: 0.9;
+            margin-bottom: 34px;
+            max-width: 520px; margin-left: auto; margin-right: auto;
+        }
+
+        .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+        .btn-hero-main {
+            background: linear-gradient(135deg, var(--accent), #E17055);
+            color: white; font-size: 1rem; padding: 14px 30px;
+            border-radius: 14px; font-weight: 800;
+            box-shadow: 0 6px 20px rgba(253,203,110,0.4);
+        }
+        .btn-hero-main:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(253,203,110,0.5); }
+
+        .btn-hero-ghost {
+            background: rgba(255,255,255,0.18);
+            color: white; font-size: 1rem; padding: 14px 28px;
+            border-radius: 14px; font-weight: 700;
+            border: 2px solid rgba(255,255,255,0.35);
+        }
+        .btn-hero-ghost:hover { background: rgba(255,255,255,0.28); }
+
+        .hero-stats {
+            display: flex; gap: 48px; justify-content: center;
+            margin-top: 52px; flex-wrap: wrap;
+        }
+
+        .hero-stat-num { font-size: 2rem; font-weight: 900; display: block; }
+        .hero-stat-lbl { font-size: 0.75rem; opacity: 0.75; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ── GRADE SELECTOR ── */
+        .grade-bar {
+            background: var(--bg-white);
+            padding: 20px 24px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+        }
+
+        .grade-bar-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+        }
+
+        .grade-label {
+            font-weight: 700; font-size: 0.82rem;
+            color: var(--text-medium);
+            text-transform: uppercase; letter-spacing: 1px; white-space: nowrap;
+        }
+
+        .grade-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .grade-tab {
+            padding: 10px 22px; border-radius: 50px;
+            font-weight: 700; font-size: 0.88rem;
+            cursor: pointer; border: 2px solid transparent;
+            transition: all 0.25s; background: var(--bg-main);
+            color: var(--text-medium); white-space: nowrap;
+        }
+
+        .grade-tab:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .grade-tab.active { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(108,92,231,0.35); }
+        .grade-tab[data-g="ey"].active    { background: linear-gradient(135deg,#FF6B9D,#FF4757); box-shadow:0 4px 15px rgba(255,107,157,0.4); }
+        .grade-tab[data-g="lower"].active { background: linear-gradient(135deg,#FF9F43,#FF6B6B); box-shadow:0 4px 15px rgba(255,159,67,0.4); }
+        .grade-tab[data-g="mid"].active   { background: linear-gradient(135deg,#48DBFB,#0ABDE3); box-shadow:0 4px 15px rgba(72,219,251,0.4); }
+        .grade-tab[data-g="upper"].active { background: linear-gradient(135deg,#1DD1A1,#10AC84); box-shadow:0 4px 15px rgba(29,209,161,0.4); }
+
+        /* ── STRANDS ── */
+        .strands-section { padding: 64px 24px; }
+
+        .strands-header { text-align: center; margin-bottom: 56px; }
+
+        .strand { margin-bottom: 72px; }
+
+        .strand-header {
+            display: flex; align-items: center; gap: 20px;
+            margin-bottom: 28px; padding: 24px 32px;
+            border-radius: var(--border-radius); color: white;
+            position: relative; overflow: hidden;
+        }
+
+        .strand-header::after {
+            content: ''; position: absolute;
+            right: -30px; top: -30px;
+            width: 180px; height: 180px;
+            background: rgba(255,255,255,0.1); border-radius: 50%;
+        }
+
+        .strand-number .strand-header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
+        .strand-geo    .strand-header { background: linear-gradient(135deg, #4ECDC4, #2ECC71); }
+        .strand-stats  .strand-header { background: linear-gradient(135deg, #A29BFE, #6C5CE7); }
+
+        .strand-icon {
+            width: 64px; height: 64px;
+            background: rgba(255,255,255,0.25); border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; flex-shrink: 0;
+        }
+
+        .strand-title { font-size: 1.6rem; font-weight: 900; }
+        .strand-desc  { opacity: 0.88; font-size: 0.88rem; margin-top: 4px; }
+
+        .strand-count {
+            margin-left: auto; background: rgba(255,255,255,0.25);
+            padding: 8px 20px; border-radius: 50px;
+            font-weight: 700; font-size: 0.85rem;
+            white-space: nowrap; position: relative; z-index: 1;
+        }
+
+        /* ── GAME CARDS ── */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background: var(--bg-white);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            cursor: pointer; position: relative;
+        }
+
+        .game-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-hover); }
+
+        .game-card.is-featured::before {
+            content: '⭐ Featured';
+            position: absolute; top: 10px; right: 10px;
+            background: var(--accent); color: #333;
+            font-size: 0.62rem; font-weight: 800;
+            padding: 4px 10px; border-radius: 20px; z-index: 2;
+        }
+
+        .game-card.is-locked { opacity: 0.65; }
+
+        .game-card.is-locked .card-thumb::after {
+            content: '🔒';
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,0.35);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; border-radius: 0;
+        }
+
+        .card-thumb {
+            height: 130px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; position: relative; overflow: hidden;
+        }
+
+        .card-thumb::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.08));
+        }
+
+        /* Number thumbnails */
+        .t-n1 { background: linear-gradient(135deg,#FF6B6B,#FFA500,#FFD93D); }
+        .t-n2 { background: linear-gradient(135deg,#FF8E53,#FF6B6B,#C0392B); }
+        .t-n3 { background: linear-gradient(135deg,#F093FB,#F5576C,#FF6B6B); }
+        .t-n4 { background: linear-gradient(135deg,#4481EB,#04BEFE,#FF6B6B); }
+        .t-n5 { background: linear-gradient(135deg,#FF9A9E,#FAD0C4,#FFD1FF); }
+
+        /* Geometry thumbnails */
+        .t-g1 { background: linear-gradient(135deg,#4ECDC4,#44CF6C,#2ECC71); }
+        .t-g2 { background: linear-gradient(135deg,#0ED2F7,#B2FEFA,#4ECDC4); }
+        .t-g3 { background: linear-gradient(135deg,#11998E,#38EF7D,#4ECDC4); }
+        .t-g4 { background: linear-gradient(135deg,#1FA2FF,#12D8FA,#4ECDC4); }
+        .t-g5 { background: linear-gradient(135deg,#A8EDEA,#FED6E3,#4ECDC4); }
+
+        /* Stats thumbnails */
+        .t-s1 { background: linear-gradient(135deg,#A18CD1,#FBC2EB,#A29BFE); }
+        .t-s2 { background: linear-gradient(135deg,#6C5CE7,#A29BFE,#C3B1E1); }
+        .t-s3 { background: linear-gradient(135deg,#FD79A8,#E84393,#A29BFE); }
+        .t-s4 { background: linear-gradient(135deg,#5F27CD,#A29BFE,#C44DFF); }
+        .t-s5 { background: linear-gradient(135deg,#667EEA,#764BA2,#A29BFE); }
+
+        .card-body { padding: 14px 16px 16px; }
+        .card-title { font-size: 0.95rem; font-weight: 800; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+        .card-skill { font-size: 0.73rem; color: var(--text-medium); margin-bottom: 10px; }
+        .card-meta  { display: flex; align-items: center; justify-content: space-between; }
+
+        .dtag {
+            padding: 3px 10px; border-radius: 20px;
+            font-size: 0.68rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .d-ey { background:#FFE0F0; color:#FF4785; }
+        .d-p1 { background:#FFF0E0; color:#FF7043; }
+        .d-p2 { background:#FFFBE0; color:#F0A500; }
+        .d-p3 { background:#E0F7FF; color:#0090C0; }
+        .d-p4 { background:#E0FFF5; color:#00A878; }
+        .d-p5 { background:#EEE8FF; color:#5F27CD; }
+
+        .play-btn {
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; cursor: pointer; border: none;
+            transition: transform 0.2s; color: white;
+        }
+
+        .strand-number .play-btn { background: var(--number-1); }
+        .strand-geo    .play-btn { background: var(--geo-1); }
+        .strand-stats  .play-btn { background: var(--stats-1); }
+        .play-btn:hover { transform: scale(1.18); }
+
+        .strand-cta { text-align: center; margin-top: 28px; }
+
+        .btn-num   { background: linear-gradient(135deg,#FF6B6B,#FF8E53); color:white; box-shadow:0 4px 15px rgba(255,107,107,0.35); }
+        .btn-geo   { background: linear-gradient(135deg,#4ECDC4,#2ECC71); color:white; box-shadow:0 4px 15px rgba(78,205,196,0.35); }
+        .btn-stats { background: linear-gradient(135deg,#A29BFE,#6C5CE7); color:white; box-shadow:0 4px 15px rgba(162,155,254,0.35); }
+        .btn-num:hover,.btn-geo:hover,.btn-stats:hover { transform:translateY(-2px); }
+
+        /* ── FEATURED SECTION ── */
+        .featured-section { background: var(--bg-white); padding: 64px 24px; }
+
+        .featured-head {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .feat-card {
+            background: var(--bg-main); border-radius: var(--border-radius);
+            overflow: hidden; box-shadow: var(--shadow);
+            transition: all 0.3s; cursor: pointer;
+            display: flex; flex-direction: column;
+        }
+
+        .feat-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+
+        .feat-thumb {
+            height: 165px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; position: relative; overflow: hidden;
+        }
+
+        .feat-label {
+            position: absolute; top: 12px; left: 12px;
+            background: rgba(0,0,0,0.5); color: white;
+            font-size: 0.62rem; font-weight: 700;
+            padding: 4px 10px; border-radius: 20px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .feat-progress-track {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 5px; background: rgba(255,255,255,0.3);
+        }
+
+        .feat-progress-fill { height: 100%; background: white; border-radius: 0 2px 2px 0; }
+
+        .feat-body { padding: 18px 20px; flex: 1; display: flex; flex-direction: column; }
+        .feat-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
+        .feat-desc  { font-size: 0.82rem; color: var(--text-medium); margin-bottom: 14px; flex: 1; }
+
+        .feat-footer { display: flex; align-items: center; justify-content: space-between; }
+        .stars   { color: var(--accent-dark); font-size: 0.85rem; }
+        .players { font-size: 0.73rem; color: var(--text-light); }
+
+        /* ── HOW IT WORKS ── */
+        .how-section {
+            padding: 80px 24px;
+            background: linear-gradient(135deg,rgba(108,92,231,0.06),rgba(78,205,196,0.06));
+        }
+
+        .how-section .section-title,
+        .how-section .section-subtitle { text-align: center; }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px; margin-top: 48px; position: relative;
+        }
+
+        .steps-grid::before {
+            content: ''; position: absolute;
+            top: 58px; left: 14%; right: 14%;
+            height: 3px;
+            background: linear-gradient(to right,#FF6B6B,#6C5CE7,#4ECDC4,#FDCB6E);
+            border-radius: 3px; z-index: 0;
+        }
+
+        .step-card { text-align: center; position: relative; z-index: 1; }
+
+        .step-icon {
+            width: 80px; height: 80px; border-radius: 24px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem; margin: 0 auto 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .step-1 .step-icon { background: linear-gradient(135deg,#FF6B6B,#FF8E53); }
+        .step-2 .step-icon { background: linear-gradient(135deg,#6C5CE7,#A29BFE); }
+        .step-3 .step-icon { background: linear-gradient(135deg,#4ECDC4,#2ECC71); }
+        .step-4 .step-icon { background: linear-gradient(135deg,#FDCB6E,#E17055); }
+
+        .step-num {
+            position: absolute; top: -10px; right: -4px;
+            width: 26px; height: 26px;
+            background: var(--text-dark); color: white;
+            border-radius: 50%; font-size: 0.72rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .step-title { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+        .step-desc  { font-size: 0.84rem; color: var(--text-medium); line-height: 1.55; }
+
+        /* ── BADGES ── */
+        .badges-section { background: var(--bg-white); padding: 64px 24px; }
+
+        .badges-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 56px; align-items: center;
+        }
+
+        .badges-text h2 { font-size: clamp(1.5rem,3vw,2rem); font-weight: 900; margin-bottom: 16px; }
+        .badges-text p  { color: var(--text-medium); margin-bottom: 16px; line-height: 1.7; }
+
+        .badges-grid {
+            display: grid; grid-template-columns: repeat(4,1fr);
+            gap: 20px;
+        }
+
+        .badge-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+        .badge-circle {
+            width: 66px; height: 66px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .badge-name { font-size: 0.68rem; font-weight: 700; text-align: center; color: var(--text-medium); }
+        .badge-locked .badge-circle { background: #e8e8e8 !important; filter: grayscale(1); opacity: 0.5; }
+
+        /* ── TEACHER SECTION ── */
+        .teacher-section {
+            padding: 72px 24px;
+            background: linear-gradient(135deg,#1E1E3F,#2D3461);
+            color: white;
+        }
+
+        .teacher-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 64px; align-items: center;
+        }
+
+        .teacher-text h2 { font-size: clamp(1.5rem,3vw,2rem); font-weight: 900; margin-bottom: 16px; }
+        .teacher-text p  { opacity: 0.8; margin-bottom: 20px; line-height: 1.7; }
+
+        .feature-list { list-style: none; margin-bottom: 32px; }
+        .feature-list li {
+            padding: 8px 0; display: flex; align-items: center;
+            gap: 10px; font-size: 0.9rem; opacity: 0.9;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .feature-list li:last-child { border-bottom: none; }
+
+        .teacher-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        .btn-ghost-white {
+            background: rgba(255,255,255,0.12); color: white;
+            border: 2px solid rgba(255,255,255,0.28);
+        }
+        .btn-ghost-white:hover { background: rgba(255,255,255,0.2); }
+
+        .dashboard-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--border-radius); padding: 28px;
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .dashboard-title { font-size: 1rem; font-weight: 800; margin-bottom: 20px; opacity: 0.85; }
+
+        .stat-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 14px; margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.1);
+            padding: 16px; border-radius: 12px; text-align: center;
+        }
+
+        .stat-val { font-size: 1.5rem; font-weight: 900; display: block; color: var(--accent); }
+        .stat-lbl { font-size: 0.7rem; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .progress-row { margin-bottom: 14px; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; opacity: 0.8; margin-bottom: 5px; }
+        .progress-track { background: rgba(255,255,255,0.12); height: 8px; border-radius: 4px; overflow: hidden; }
+        .progress-fill  { height: 100%; border-radius: 4px; }
+
+        /* ── FOOTER ── */
+        footer { background: #0F0F1E; color: white; padding: 56px 24px 24px; }
+
+        .footer-inner { max-width: 1280px; margin: 0 auto; }
+
+        .footer-top {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px; margin-bottom: 48px;
+        }
+
+        .footer-brand-col { max-width: 280px; }
+
+        .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+
+        .footer-logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg,var(--primary),#A29BFE);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .footer-logo-text {
+            font-size: 1.3rem; font-weight: 900;
+            background: linear-gradient(135deg,#A29BFE,var(--geo-1));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        .footer-desc { opacity: 0.55; font-size: 0.84rem; line-height: 1.7; margin-bottom: 20px; }
+
+        .social-row { display: flex; gap: 10px; }
+
+        .social-btn {
+            width: 36px; height: 36px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; cursor: pointer;
+            transition: all 0.2s; text-decoration: none;
+        }
+
+        .social-btn:hover { background: var(--primary); transform: translateY(-3px); }
+
+        .footer-col h4 {
+            font-size: 0.78rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-bottom: 16px; opacity: 0.45;
+        }
+
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+        .footer-links a {
+            text-decoration: none; color: white;
+            opacity: 0.65; font-size: 0.87rem;
+            transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+        }
+
+        .footer-links a:hover { opacity: 1; color: var(--accent); transform: translateX(4px); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 16px;
+        }
+
+        .footer-bottom p { opacity: 0.4; font-size: 0.78rem; }
+
+        .footer-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .chip {
+            background: rgba(255,255,255,0.08);
+            padding: 5px 13px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700; opacity: 0.75;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+            .badges-inner, .teacher-inner { grid-template-columns: 1fr; gap: 36px; }
+            .steps-grid::before { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .header-inner { flex-wrap: wrap; padding: 12px 16px; }
+            nav { order: 3; width: 100%; }
+            .mascot-wrap { display: none; }
+            .hero { padding: 40px 16px 56px; }
+            .hero-stats { gap: 24px; }
+            .strand-header { flex-wrap: wrap; }
+            .strand-count { margin-left: 0; }
+            .games-grid { grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); }
+            .badges-grid { grid-template-columns: repeat(4,1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .grade-bar-inner { flex-direction: column; align-items: flex-start; }
+            .hero h1 { font-size: 1.8rem; }
+            .games-grid { grid-template-columns: repeat(2,1fr); }
+            .featured-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .header-actions .btn-outline { display: none; }
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes slideUp {
+            from { opacity:0; transform:translateY(24px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        .game-card, .feat-card, .step-card {
+            animation: slideUp 0.5s ease both;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════ -->
+<header>
+    <div class="header-inner">
+
+        <a href="#" class="logo">
+            <div class="logo-icon">🧮</div>
+            <div>
+                <span class="logo-text">MathMunch</span>
+                <span class="logo-tagline">Cambridge Primary Aligned</span>
+            </div>
+        </a>
+
+        <div class="mascot-wrap">
+            <div class="mascot-bubble" id="mascotBubble">Hi! Let's play! 🎮</div>
+            <div class="mascot" id="mascot">🦊</div>
+        </div>
+
+        <nav>
+            <a href="#" class="active">🏠 Home</a>
+            <a href="#games">🎮 Games</a>
+            <a href="#teachers">👩‍🏫 Teachers</a>
+            <a href="#">👨‍👩‍👧 Parents</a>
+            <a href="#">🏆 Leaderboard</a>
+        </nav>
+
+        <div class="header-actions">
+            <a href="#" class="btn btn-outline">Sign In</a>
+            <a href="#" class="btn btn-primary">✨ Join Free</a>
+        </div>
+
+    </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="hero">
+    <div class="hero-shapes" aria-hidden="true">
+        <span class="shape">➕</span>
+        <span class="shape">✖️</span>
+        <span class="shape">🔺</span>
+        <span class="shape">⭕</span>
+        <span class="shape">🔢</span>
+        <span class="shape">📐</span>
+    </div>
+
+    <div class="hero-content">
+        <div class="hero-badge">🌍 Cambridge Primary · Ages 3–12 · Ad-Free</div>
+        <h1>Where Math Is a<br><em>Tasty Adventure!</em></h1>
+        <p>Explore 50+ curriculum-aligned games across Number, Geometry &amp; Measure, and Statistics. Play solo, in class, or at home!</p>
+        <div class="hero-buttons">
+            <a href="#games" class="btn btn-hero-main">🎮 Start Playing – It's Free!</a>
+            <a href="#teachers" class="btn btn-hero-ghost">👩‍🏫 For Teachers</a>
+        </div>
+        <div class="hero-stats">
+            <div>
+                <span class="hero-stat-num">50+</span>
+                <span class="hero-stat-lbl">Games</span>
+            </div>
+            <div>
+                <span class="hero-stat-num">3</span>
+                <span class="hero-stat-lbl">Maths Strands</span>
+            </div>
+            <div>
+                <span class="hero-stat-num">6</span>
+                <span class="hero-stat-lbl">Grade Levels</span>
+            </div>
+            <div>
+                <span class="hero-stat-num">100%</span>
+                <span class="hero-stat-lbl">Cambridge Aligned</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     GRADE SELECTOR
+═══════════════════════════════════════════ -->
+<div class="grade-bar">
+    <div class="grade-bar-inner">
+        <span class="grade-label">🎯 Filter by Level:</span>
+        <div class="grade-tabs">
+            <button class="grade-tab active" data-g="all">⭐ All Levels</button>
+            <button class="grade-tab" data-g="ey">🌱 Early Years (3–5)</button>
+            <button class="grade-tab" data-g="lower">🌟 Lower Primary (P1–P2)</button>
+            <button class="grade-tab" data-g="mid">🚀 Middle Primary (P3–P4)</button>
+            <button class="grade-tab" data-g="upper">🏆 Upper Primary (P5–P6)</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     THREE STRANDS
+═══════════════════════════════════════════ -->
+<section class="strands-section" id="games">
+    <div class="container">
+
+        <div class="strands-header">
+            <h2 class="section-title">Explore the Three Maths Worlds</h2>
+            <p class="section-subtitle">Every game is mapped to the Cambridge Primary curriculum — pick a world and start your adventure.</p>
+        </div>
+
+        <!-- ── NUMBER ── -->
+        <div class="strand strand-number">
+            <div class="strand-header">
+                <div class="strand-icon">🔢</div>
+                <div>
+                    <div class="strand-title">Number</div>
+                    <div class="strand-desc">Counting · Place Value · Addition · Subtraction · Multiplication · Division · Fractions</div>
+                </div>
+                <div class="strand-count">17 Games →</div>
+            </div>
+
+            <div class="games-grid">
+                <div class="game-card is-featured" data-grade="ey" data-href="games/number/counting-safari.html">
+                    <div class="card-thumb t-n1">🦁</div>
+                    <div class="card-body">
+                        <div class="card-title">Counting Safari</div>
+                        <div class="card-skill">Counting objects up to 20</div>
+                        <div class="card-meta">
+                            <span class="dtag d-ey">EY</span>
+                            <button class="play-btn" aria-label="Play Counting Safari">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="lower" data-href="games/number/number-quest.html">
+                    <div class="card-thumb t-n2">⚔️</div>
+                    <div class="card-body">
+                        <div class="card-title">Number Quest</div>
+                        <div class="card-skill">Number recognition &amp; ordering</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p1">P1</span>
+                            <button class="play-btn" aria-label="Play Number Quest">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="lower" data-href="games/number/ten-frame-treasure.html">
+                    <div class="card-thumb t-n3">💎</div>
+                    <div class="card-body">
+                        <div class="card-title">Ten Frame Treasure</div>
+                        <div class="card-skill">Ten frames &amp; number bonds</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p1">P1</span>
+                            <button class="play-btn" aria-label="Play Ten Frame Treasure">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="mid" data-href="games/number/place-value-party.html">
+                    <div class="card-thumb t-n4">🎉</div>
+                    <div class="card-body">
+                        <div class="card-title">Place Value Party</div>
+                        <div class="card-skill">Hundreds, tens &amp; ones</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p3">P3</span>
+                            <button class="play-btn" aria-label="Play Place Value Party">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="lower" data-href="games/number/add-subtract-adventure.html">
+                    <div class="card-thumb t-n5">🚀</div>
+                    <div class="card-body">
+                        <div class="card-title">Add &amp; Subtract Adventure</div>
+                        <div class="card-skill">Addition &amp; subtraction strategies</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p2">P2</span>
+                            <button class="play-btn" aria-label="Play Add and Subtract Adventure">▶</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="strand-cta">
+                <a href="games/number/index.html" class="btn btn-num">View All 17 Number Games →</a>
+            </div>
+        </div>
+
+        <!-- ── GEOMETRY & MEASURE ── -->
+        <div class="strand strand-geo">
+            <div class="strand-header">
+                <div class="strand-icon">📐</div>
+                <div>
+                    <div class="strand-title">Geometry &amp; Measure</div>
+                    <div class="strand-desc">2D &amp; 3D Shapes · Position &amp; Direction · Measurement · Time · Angles · Symmetry · Patterns</div>
+                </div>
+                <div class="strand-count">16 Games →</div>
+            </div>
+
+            <div class="games-grid">
+                <div class="game-card is-featured" data-grade="ey" data-href="games/geometry/shape-explorer.html">
+                    <div class="card-thumb t-g1">🔷</div>
+                    <div class="card-body">
+                        <div class="card-title">Shape Explorer</div>
+                        <div class="card-skill">2D and 3D shapes</div>
+                        <div class="card-meta">
+                            <span class="dtag d-ey">EY</span>
+                            <button class="play-btn" aria-label="Play Shape Explorer">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="mid" data-href="games/geometry/symmetry-lab.html">
+                    <div class="card-thumb t-g2">🪞</div>
+                    <div class="card-body">
+                        <div class="card-title">Symmetry Lab</div>
+                        <div class="card-skill">Lines of symmetry</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p3">P3</span>
+                            <button class="play-btn" aria-label="Play Symmetry Lab">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="lower" data-href="games/geometry/measure-mission.html">
+                    <div class="card-thumb t-g3">📏</div>
+                    <div class="card-body">
+                        <div class="card-title">Measure Mission</div>
+                        <div class="card-skill">Length, mass &amp; capacity</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p2">P2</span>
+                            <button class="play-btn" aria-label="Play Measure Mission">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="lower" data-href="games/geometry/time-tracker.html">
+                    <div class="card-thumb t-g4">⏰</div>
+                    <div class="card-body">
+                        <div class="card-title">Time Tracker</div>
+                        <div class="card-skill">Reading clocks &amp; calendars</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p2">P2</span>
+                            <button class="play-btn" aria-label="Play Time Tracker">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="lower" data-href="games/geometry/pattern-builder.html">
+                    <div class="card-thumb t-g5">🎨</div>
+                    <div class="card-body">
+                        <div class="card-title">Pattern Builder</div>
+                        <div class="card-skill">Repeating &amp; growing patterns</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p1">P1</span>
+                            <button class="play-btn" aria-label="Play Pattern Builder">▶</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="strand-cta">
+                <a href="games/geometry/index.html" class="btn btn-geo">View All 16 Geometry Games →</a>
+            </div>
+        </div>
+
+        <!-- ── STATISTICS & PROBABILITY ── -->
+        <div class="strand strand-stats">
+            <div class="strand-header">
+                <div class="strand-icon">📊</div>
+                <div>
+                    <div class="strand-title">Statistics &amp; Probability</div>
+                    <div class="strand-desc">Sorting &amp; Classifying · Pictograms · Bar Charts · Tally Charts · Probability · Data Analysis</div>
+                </div>
+                <div class="strand-count">12 Games →</div>
+            </div>
+
+            <div class="games-grid">
+                <div class="game-card is-featured" data-grade="lower" data-href="games/statistics/graph-garden.html">
+                    <div class="card-thumb t-s1">🌻</div>
+                    <div class="card-body">
+                        <div class="card-title">Graph Garden</div>
+                        <div class="card-skill">Pictograms &amp; bar charts</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p2">P2</span>
+                            <button class="play-btn" aria-label="Play Graph Garden">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="lower" data-href="games/statistics/tally-town.html">
+                    <div class="card-thumb t-s2">🏙️</div>
+                    <div class="card-body">
+                        <div class="card-title">Tally Town</div>
+                        <div class="card-skill">Tally charts &amp; frequency</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p2">P2</span>
+                            <button class="play-btn" aria-label="Play Tally Town">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="ey" data-href="games/statistics/spin-sort.html">
+                    <div class="card-thumb t-s3">🎡</div>
+                    <div class="card-body">
+                        <div class="card-title">Spin &amp; Sort</div>
+                        <div class="card-skill">Sorting &amp; classifying data</div>
+                        <div class="card-meta">
+                            <span class="dtag d-ey">EY</span>
+                            <button class="play-btn" aria-label="Play Spin and Sort">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="mid" data-href="games/statistics/chance-castle.html">
+                    <div class="card-thumb t-s4">🏰</div>
+                    <div class="card-body">
+                        <div class="card-title">Chance Castle</div>
+                        <div class="card-skill">Likelihood &amp; probability</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p4">P4</span>
+                            <button class="play-btn" aria-label="Play Chance Castle">▶</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-card" data-grade="upper" data-href="games/statistics/data-detective.html">
+                    <div class="card-thumb t-s5">🔍</div>
+                    <div class="card-body">
+                        <div class="card-title">Data Detective</div>
+                        <div class="card-skill">Interpreting data &amp; graphs</div>
+                        <div class="card-meta">
+                            <span class="dtag d-p5">P5</span>
+                            <button class="play-btn" aria-label="Play Data Detective">▶</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="strand-cta">
+                <a href="games/statistics/index.html" class="btn btn-stats">View All 12 Statistics Games →</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED GAMES
+═══════════════════════════════════════════ -->
+<section class="featured-section">
+    <div class="container">
+        <div class="featured-head">
+            <div>
+                <h2 class="section-title">⭐ Featured Games This Week</h2>
+                <p class="section-subtitle">Handpicked by our teachers — top-rated for engagement and learning impact.</p>
+            </div>
+            <a href="#" class="btn btn-outline">View All Games →</a>
+        </div>
+
+        <div class="featured-grid">
+
+            <div class="feat-card">
+                <div class="feat-thumb t-n1">
+                    <span>🦁</span>
+                    <span class="feat-label">⭐ Top Rated</span>
+                    <div class="feat-progress-track"><div class="feat-progress-fill" style="width:72%"></div></div>
+                </div>
+                <div class="feat-body">
+                    <div class="feat-title">Counting Safari</div>
+                    <div class="feat-desc">Join Leo the lion counting animals across the savanna! Count up to 20 with animations and sound effects.</div>
+                    <div class="feat-footer">
+                        <div>
+                            <div class="stars">★★★★★</div>
+                            <div class="players">2,340 players this week</div>
+                        </div>
+                        <span class="dtag d-ey">EY</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feat-card">
+                <div class="feat-thumb t-g1">
+                    <span>🔷</span>
+                    <span class="feat-label">🆕 New Game</span>
+                    <div class="feat-progress-track"><div class="feat-progress-fill" style="width:45%"></div></div>
+                </div>
+                <div class="feat-body">
+                    <div class="feat-title">Shape Explorer</div>
+                    <div class="feat-desc">Discover 2D and 3D shapes in a magical world! Sort, match, and build with circles, squares, triangles, and more.</div>
+                    <div class="feat-footer">
+                        <div>
+                            <div class="stars">★★★★☆</div>
+                            <div class="players">1,876 players this week</div>
+                        </div>
+                        <span class="dtag d-ey">EY</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feat-card">
+                <div class="feat-thumb t-s5">
+                    <span>🔍</span>
+                    <span class="feat-label">🔥 Trending</span>
+                    <div class="feat-progress-track"><div class="feat-progress-fill" style="width:88%"></div></div>
+                </div>
+                <div class="feat-body">
+                    <div class="feat-title">Data Detective</div>
+                    <div class="feat-desc">Solve data mysteries by reading charts, tables, and graphs. Builds analytical thinking for upper primary learners.</div>
+                    <div class="feat-footer">
+                        <div>
+                            <div class="stars">★★★★★</div>
+                            <div class="players">3,102 players this week</div>
+                        </div>
+                        <span class="dtag d-p5">P5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feat-card">
+                <div class="feat-thumb t-n4">
+                    <span>🎉</span>
+                    <span class="feat-label">👩‍🏫 Teacher's Pick</span>
+                    <div class="feat-progress-track"><div class="feat-progress-fill" style="width:60%"></div></div>
+                </div>
+                <div class="feat-body">
+                    <div class="feat-title">Place Value Party</div>
+                    <div class="feat-desc">A celebration of hundreds, tens, and ones! Use base-10 blocks to build and compare 3-digit numbers.</div>
+                    <div class="feat-footer">
+                        <div>
+                            <div class="stars">★★★★★</div>
+                            <div class="players">1,654 players this week</div>
+                        </div>
+                        <span class="dtag d-p3">P3</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════════════ -->
+<section class="how-section">
+    <div class="container">
+        <h2 class="section-title">🎯 Where Math Is a Tasty Adventure</h2>
+        <p class="section-subtitle">Four simple steps to start your maths adventure</p>
+
+        <div class="steps-grid">
+            <div class="step-card step-1">
+                <div class="step-icon">
+                    <span>🎯</span>
+                    <div class="step-num">1</div>
+                </div>
+                <div class="step-title">Pick Your Level</div>
+                <div class="step-desc">Choose Early Years, Lower, Middle, or Upper Primary to see games perfectly matched to your age.</div>
+            </div>
+
+            <div class="step-card step-2">
+                <div class="step-icon">
+                    <span>🗺️</span>
+                    <div class="step-num">2</div>
+                </div>
+                <div class="step-title">Choose a World</div>
+                <div class="step-desc">Pick Number, Geometry &amp; Measure, or Statistics &amp; Probability — your maths universe awaits!</div>
+            </div>
+
+            <div class="step-card step-3">
+                <div class="step-icon">
+                    <span>🎮</span>
+                    <div class="step-num">3</div>
+                </div>
+                <div class="step-title">Play a Game</div>
+                <div class="step-desc">Jump into a fun, curriculum-aligned challenge. Complete levels, earn stars, and unlock new adventures!</div>
+            </div>
+
+            <div class="step-card step-4">
+                <div class="step-icon">
+                    <span>🏆</span>
+                    <div class="step-num">4</div>
+                </div>
+                <div class="step-title">Collect Badges</div>
+                <div class="step-desc">Earn achievement badges and track progress across all three strands. Show your teacher your collection!</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BADGES / PROGRESS
+═══════════════════════════════════════════ -->
+<section class="badges-section">
+    <div class="badges-inner">
+
+        <div class="badges-text">
+            <h2>🏅 Track Progress &amp; Earn Badges</h2>
+            <p>Every game played earns stars and unlocks achievement badges. Teachers and parents can view real-time progress reports aligned to Cambridge Primary learning objectives.</p>
+            <p>Children stay motivated through visible milestones, streaks, and a growing badge collection that celebrates every step of their maths journey.</p>
+            <a href="#" class="btn btn-primary" style="margin-top:8px;">📊 View Progress Dashboard</a>
+        </div>
+
+        <div>
+            <div class="badges-grid">
+                <div class="badge-item">
+                    <div class="badge-circle" style="background:linear-gradient(135deg,#FFD700,#FF8C00)">🦁</div>
+                    <div class="badge-name">Counting Champion</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-circle" style="background:linear-gradient(135deg,#FF6B6B,#FF4757)">🔢</div>
+                    <div class="badge-name">Number Master</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-circle" style="background:linear-gradient(135deg,#4ECDC4,#2ECC71)">📐</div>
+                    <div class="badge-name">Shape Wizard</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-circle" style="background:linear-gradient(135deg,#A29BFE,#6C5CE7)">📊</div>
+                    <div class="badge-name">Data Star</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-circle" style="background:linear-gradient(135deg,#FDCB6E,#E17055)">⚡</div>
+                    <div class="badge-name">Speed Solver</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-circle" style="background:linear-gradient(135deg,#74B9FF,#0984E3)">🌊</div>
+                    <div class="badge-name">7-Day Streak</div>
+                </div>
+                <div class="badge-item badge-locked">
+                    <div class="badge-circle" style="background:#ddd">🔒</div>
+                    <div class="badge-name">Fraction Hero</div>
+                </div>
+                <div class="badge-item badge-locked">
+                    <div class="badge-circle" style="background:#ddd">🔒</div>
+                    <div class="badge-name">Probability Pro</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TEACHER SECTION
+═══════════════════════════════════════════ -->
+<section class="teacher-section" id="teachers">
+    <div class="teacher-inner">
+
+        <div class="teacher-text">
+            <h2>Built for Classrooms 👩‍🏫</h2>
+            <p>MathMunch is designed to support teachers, not replace them. Assign specific games, track class progress, and align every activity to your Cambridge Primary scheme of work — all from one simple dashboard.</p>
+            <ul class="feature-list">
+                <li>✅ &nbsp;Curriculum-mapped to Cambridge Primary Mathematics (Stages 1–6)</li>
+                <li>✅ &nbsp;Real-time class progress dashboard with strand breakdown</li>
+                <li>✅ &nbsp;Assign games to individual students or whole groups</li>
+                <li>✅ &nbsp;Printable progress reports and certificates</li>
+                <li>✅ &nbsp;No student logins required for Early Years learners</li>
+                <li>✅ &nbsp;Works on tablets, laptops, and interactive whiteboards</li>
+            </ul>
+            <div class="teacher-btns">
+                <a href="#" class="btn btn-accent">🚀 Request Free School Trial</a>
+                <a href="#" class="btn btn-ghost-white">📋 View Curriculum Map</a>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="dashboard-title">📊 Class Dashboard — Year 3 Maths</div>
+
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <span class="stat-val">28</span>
+                    <span class="stat-lbl">Students Active</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val">342</span>
+                    <span class="stat-lbl">Games Played</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val">87%</span>
+                    <span class="stat-lbl">Avg. Accuracy</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val">14h</span>
+                    <span class="stat-lbl">Total Play Time</span>
+                </div>
+            </div>
+
+            <div class="progress-row">
+                <div class="progress-label"><span>🔢 Number</span><span>78%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:78%;background:linear-gradient(90deg,#FF6B6B,#FF8E53)"></div></div>
+            </div>
+            <div class="progress-row">
+                <div class="progress-label"><span>📐 Geometry &amp; Measure</span><span>65%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:65%;background:linear-gradient(90deg,#4ECDC4,#2ECC71)"></div></div>
+            </div>
+            <div class="progress-row" style="margin-bottom:24px">
+                <div class="progress-label"><span>📊 Statistics &amp; Probability</span><span>52%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:52%;background:linear-gradient(90deg,#A29BFE,#6C5CE7)"></div></div>
+            </div>
+
+            <a href="#" class="btn btn-accent" style="width:100%;justify-content:center;">View Full Dashboard →</a>
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer>
+    <div class="footer-inner">
+
+        <div class="footer-top">
+
+            <div class="footer-brand-col">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">🧮</div>
+                    <span class="footer-logo-text">MathMunch</span>
+                </div>
+                <p class="footer-desc">An interactive maths games platform for Early Years and Primary students, fully aligned to the Cambridge Primary Mathematics curriculum. Making maths joyful, one game at a time.</p>
+                <div class="social-row">
+                    <a class="social-btn" title="Twitter/X" aria-label="Follow us on Twitter">🐦</a>
+                    <a class="social-btn" title="Facebook" aria-label="Follow us on Facebook">📘</a>
+                    <a class="social-btn" title="YouTube" aria-label="Visit our YouTube channel">▶️</a>
+                    <a class="social-btn" title="Instagram" aria-label="Follow us on Instagram">📸</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Games</h4>
+                <ul class="footer-links">
+                    <li><a href="#">🔢 Number Games</a></li>
+                    <li><a href="#">📐 Geometry Games</a></li>
+                    <li><a href="#">📊 Statistics Games</a></li>
+                    <li><a href="#">⭐ Featured Games</a></li>
+                    <li><a href="#">🆕 New Arrivals</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">👩‍🏫 Teacher Hub</a></li>
+                    <li><a href="#">📋 Curriculum Map</a></li>
+                    <li><a href="#">📄 Lesson Plans</a></li>
+                    <li><a href="#">🖨️ Printables</a></li>
+                    <li><a href="#">👨‍👩‍👧 For Parents</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>About</h4>
+                <ul class="footer-links">
+                    <li><a href="#">🏫 About Us</a></li>
+                    <li><a href="#">📧 Contact</a></li>
+                    <li><a href="#">🔒 Privacy Policy</a></li>
+                    <li><a href="#">📜 Terms of Use</a></li>
+                    <li><a href="#">💼 Schools Portal</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Eduversal. All rights reserved. Cambridge Mathematics curriculum aligned.</p>
+            <div class="footer-chips">
+                <span class="chip">🔒 COPPA Safe</span>
+                <span class="chip">📚 Cambridge Aligned</span>
+                <span class="chip">✅ Ad-Free</span>
+                <span class="chip">🌍 International Schools</span>
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+    /* Grade tab active state */
+    document.querySelectorAll('.grade-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.grade-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            const grade = this.dataset.g;
+
+            /* Filter game cards */
+            document.querySelectorAll('.game-card[data-grade]').forEach(card => {
+                if (grade === 'all' || card.dataset.grade === grade) {
+                    card.style.display = '';
+                    card.style.opacity = '1';
+                } else {
+                    card.style.opacity = '0.25';
+                    card.style.transform = 'scale(0.97)';
+                }
+            });
+
+            /* Reset dimmed cards when returning to All */
+            if (grade === 'all') {
+                document.querySelectorAll('.game-card').forEach(c => {
+                    c.style.opacity = '';
+                    c.style.transform = '';
+                });
+            }
+        });
+    });
+
+    /* Play button + card click — navigate to game */
+    document.querySelectorAll('.game-card').forEach(card => {
+        const href = card.dataset.href;
+        if (!href) return;
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function (e) {
+            if (e.target.closest('.play-btn') || !e.target.closest('.game-card.is-locked') === false) {
+                window.location.href = href;
+            } else {
+                window.location.href = href;
+            }
+        });
+    });
+
+    document.querySelectorAll('.play-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const card = this.closest('.game-card');
+            const href = card && card.dataset.href;
+            if (href) {
+                window.location.href = href;
+            } else {
+                this.textContent = '✓';
+                this.style.transform = 'scale(1.3)';
+                setTimeout(() => { this.textContent = '▶'; this.style.transform = ''; }, 900);
+            }
+        });
+    });
+
+    /* Mascot speech bubble */
+    const mascot = document.getElementById('mascot');
+    const bubble  = document.getElementById('mascotBubble');
+    const messages = ['Hi! Let\'s play! 🎮', 'Ready to learn? 📚', 'Maths is fun! 🔢', 'Pick a game! ⭐', 'You\'ve got this! 💪'];
+    let mIdx = 0;
+
+    if (mascot && bubble) {
+        mascot.addEventListener('mouseenter', () => {
+            bubble.textContent = messages[mIdx % messages.length];
+            bubble.style.display = 'block';
+            mIdx++;
+        });
+        mascot.addEventListener('mouseleave', () => {
+            bubble.style.display = 'none';
+        });
+    }
+
+    /* Scroll-triggered fade-in for cards */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.game-card, .feat-card, .step-card, .badge-item').forEach((el, i) => {
+        el.style.animationDelay = `${(i % 5) * 0.08}s`;
+        el.style.animationPlayState = 'paused';
+        observer.observe(el);
+    });
+</script>
+
+</body>
+</html>

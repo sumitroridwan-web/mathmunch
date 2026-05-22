@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odd or Even Explorer – MathMunch</title>
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #E8E4FF;
+    --accent: #FDCB6E;
+    --n1: #FF6B6B;
+    --n2: #FF8E53;
+    --bg: #F0F4FF;
+    --white: #FFFFFF;
+    --text: #1E1E2E;
+    --text2: #525270;
+    --green: #00B894;
+    --red: #FF4757;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(160deg, #0F0C29, #302B63, #24243E);
+    color: var(--white); min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* STARS BACKGROUND */
+  .stars-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .star {
+    position: absolute; width: 3px; height: 3px; border-radius: 50%;
+    background: white; animation: twinkle var(--dur, 3s) ease-in-out infinite;
+    opacity: 0.7;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 0.2; transform: scale(0.5); }
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.1); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 20px; height: 60px;
+  }
+  .top-bar a { text-decoration: none; color: #A29BFE; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+  .top-bar a:hover { text-decoration: underline; }
+  .top-bar .brand { font-weight: 800; font-size: 1rem; color: var(--white); }
+  .top-bar .game-title { font-weight: 700; font-size: 0.95rem; color: rgba(255,255,255,0.7); flex: 1; }
+  .level-badge { background: #FFF0E0; color: #FF7043; font-weight: 800; font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .score-display { font-weight: 800; font-size: 1rem; color: var(--white); white-space: nowrap; }
+
+  /* GAME AREA */
+  .game-area { max-width: 800px; margin: 0 auto; padding: 80px 16px 100px; position: relative; z-index: 1; }
+
+  /* GAME CARD */
+  .game-card {
+    background: rgba(255,255,255,0.08); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 24px; padding: 32px 24px; margin-bottom: 20px; text-align: center;
+  }
+  .question-label { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 2px; }
+
+  /* NUMBER DISPLAY */
+  .number-planet {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: var(--white); margin: 0 auto 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem; font-weight: 900; color: var(--text);
+    box-shadow: 0 0 40px rgba(162,155,254,0.5), 0 8px 32px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+    position: relative;
+  }
+  .number-planet.bounce { animation: numBounce 0.4s ease; }
+  @keyframes numBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+  }
+
+  /* TIMER BAR */
+  .timer-wrap { margin: 16px auto 24px; max-width: 300px; }
+  .timer-bar-track { background: rgba(255,255,255,0.2); border-radius: 99px; height: 8px; overflow: hidden; }
+  .timer-bar-fill {
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, #A29BFE, #6C5CE7);
+    transition: width 0.1s linear;
+  }
+  .timer-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 4px; font-weight: 600; }
+
+  /* ANSWER CARDS */
+  .answer-cards { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .answer-card {
+    flex: 1; min-width: 140px; max-width: 220px;
+    border-radius: 20px; padding: 24px 16px; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: none; font-family: inherit; color: white;
+    font-size: 1.3rem; font-weight: 900;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .answer-card:hover:not(:disabled) { transform: translateY(-4px) scale(1.03); }
+  .answer-card:disabled { cursor: default; opacity: 0.7; }
+  .answer-card.odd-card { background: linear-gradient(135deg, #FF6B6B, #FF8E53); box-shadow: 0 8px 24px rgba(255,107,107,0.4); }
+  .answer-card.even-card { background: linear-gradient(135deg, #6C5CE7, #A29BFE); box-shadow: 0 8px 24px rgba(108,92,231,0.4); }
+  .card-planet { font-size: 2.4rem; }
+  .card-label { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; }
+  .card-sub { font-size: 0.8rem; opacity: 0.85; font-weight: 600; }
+  .answer-card.correct { box-shadow: 0 0 0 4px #00B894, 0 8px 24px rgba(0,184,148,0.4) !important; }
+  .answer-card.wrong { opacity: 0.5; transform: scale(0.95); }
+
+  /* SPEED BONUS */
+  .speed-bonus {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--accent); color: var(--text);
+    font-weight: 800; font-size: 0.85rem; padding: 4px 10px; border-radius: 20px;
+    animation: popIn 0.3s ease;
+    display: none;
+  }
+  .speed-bonus.show { display: block; }
+
+  /* FEEDBACK */
+  .feedback-box {
+    border-radius: 12px; padding: 12px 20px; text-align: center;
+    font-weight: 700; font-size: 1rem; margin-top: 16px;
+    display: none;
+  }
+  .feedback-box.correct { background: rgba(0,184,148,0.2); color: #00B894; display: block; border: 1px solid rgba(0,184,148,0.4); }
+  .feedback-box.wrong { background: rgba(255,71,87,0.2); color: #FF6B6B; display: block; border: 1px solid rgba(255,71,87,0.3); }
+
+  /* PROGRESS BAR */
+  .progress-bar-container {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(15,12,41,0.9); backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 20px; z-index: 100;
+  }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+  .progress-track { background: rgba(255,255,255,0.15); border-radius: 99px; height: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); transition: width 0.4s ease; }
+
+  /* CONFETTI */
+  .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 200; overflow: hidden; }
+  .confetti-piece {
+    position: absolute; font-size: 1.5rem;
+    animation: confettiFly 1.2s ease-out forwards;
+    top: 50%; opacity: 1;
+  }
+  @keyframes confettiFly {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-220px) rotate(720deg); opacity: 0; }
+  }
+
+  /* BONUS STARS TRAIL */
+  @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  /* END SCREEN */
+  .end-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(10,10,30,0.8); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center;
+  }
+  .end-overlay.show { display: flex; }
+  .end-card {
+    background: linear-gradient(135deg, #1a1a3e, #2d2b55);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 24px; padding: 40px 36px; text-align: center; max-width: 420px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+  }
+  .end-emoji { font-size: 4rem; margin-bottom: 12px; }
+  .end-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: var(--white); }
+  .end-score { font-size: 3rem; font-weight: 800; color: #A29BFE; margin: 12px 0; }
+  .end-stars { font-size: 2rem; margin: 8px 0; }
+  .end-label { font-size: 1rem; color: rgba(255,255,255,0.6); margin-bottom: 24px; font-weight: 600; }
+  .end-bonus { font-size: 0.9rem; color: var(--accent); font-weight: 700; margin-bottom: 16px; }
+  .btn-play-again {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white; border: none; border-radius: 12px;
+    font-weight: 800; font-size: 1.1rem; padding: 14px 36px;
+    cursor: pointer; font-family: inherit; margin-bottom: 14px;
+    display: block; width: 100%; transition: transform 0.15s;
+  }
+  .btn-play-again:hover { transform: translateY(-2px); }
+  .back-link { display: block; color: #A29BFE; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+  .back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- STARFIELD BACKGROUND -->
+<div class="stars-bg" id="starsBg"></div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="../../index.html">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="game-title">Odd or Even Explorer</span>
+  <span class="level-badge">P1</span>
+  <span class="score-display">⭐ <span id="scoreVal">0</span> <span id="bonusStars" style="color:#FDCB6E;font-size:0.85rem;"></span></span>
+</div>
+
+<div class="game-area">
+  <div class="game-card" id="gameCard" style="position:relative;">
+    <div class="speed-bonus" id="speedBonus">⚡ Speed Bonus!</div>
+    <div class="question-label">Is this number ODD or EVEN?</div>
+    <div class="number-planet" id="numberDisplay">?</div>
+    <div class="timer-wrap">
+      <div class="timer-bar-track">
+        <div class="timer-bar-fill" id="timerBar" style="width:100%"></div>
+      </div>
+      <div class="timer-label" id="timerLabel">5 seconds</div>
+    </div>
+    <div class="answer-cards">
+      <button class="answer-card odd-card" id="btnOdd" onclick="handleAnswer('odd')">
+        <span class="card-planet">🌕</span>
+        <span class="card-label">ODD</span>
+        <span class="card-sub">1, 3, 5, 7, 9…</span>
+      </button>
+      <button class="answer-card even-card" id="btnEven" onclick="handleAnswer('even')">
+        <span class="card-planet">🌍</span>
+        <span class="card-label">EVEN</span>
+        <span class="card-sub">2, 4, 6, 8, 10…</span>
+      </button>
+    </div>
+    <div class="feedback-box" id="feedbackBox"></div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-container">
+  <div class="progress-labels">
+    <span id="progressLabel">Question 1 of 10</span>
+    <span id="progressPercent">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<div class="confetti-container" id="confettiContainer"></div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🚀</div>
+    <div class="end-title">Mission Complete!</div>
+    <div class="end-score" id="endScore">0 / 10</div>
+    <div class="end-stars" id="endStars">★★★</div>
+    <div class="end-label" id="endLabel">Brilliant!</div>
+    <div class="end-bonus" id="endBonus"></div>
+    <button class="btn-play-again" onclick="restartGame()">Play Again</button>
+    <a class="back-link" href="../../index.html">← Back to All Games</a>
+  </div>
+</div>
+
+<script>
+const CONFETTI = ['⭐','🌟','✨','🚀','🌕','🌍'];
+
+let rounds = [];
+let currentRound = 0;
+let score = 0;
+let bonusStarCount = 0;
+let answered = false;
+let timerInterval = null;
+let timerStart = 0;
+const TIMER_DURATION = 5000;
+
+// Generate starfield
+(function() {
+  const bg = document.getElementById('starsBg');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    const dur = (2 + Math.random() * 4).toFixed(1);
+    s.style.setProperty('--dur', dur + 's');
+    s.style.animationDelay = (Math.random() * 4).toFixed(1) + 's';
+    s.style.width = s.style.height = (1 + Math.random() * 3).toFixed(1) + 'px';
+    bg.appendChild(s);
+  }
+})();
+
+function shuffle(arr) {
+  const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a;
+}
+
+function generateRounds() {
+  rounds = [];
+  // ~5 odd, ~5 even from 1-20
+  const odds = shuffle([1,3,5,7,9,11,13,15,17,19]).slice(0,5);
+  const evens = shuffle([2,4,6,8,10,12,14,16,18,20]).slice(0,5);
+  const all = shuffle([...odds, ...evens]);
+  rounds = all.map(n => ({ number: n, correct: n % 2 === 0 ? 'even' : 'odd' }));
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerStart = Date.now();
+  const bar = document.getElementById('timerBar');
+  const label = document.getElementById('timerLabel');
+  bar.style.transition = 'none';
+  bar.style.width = '100%';
+  // Force reflow
+  bar.offsetWidth;
+  bar.style.transition = 'width 0.1s linear';
+
+  timerInterval = setInterval(() => {
+    const elapsed = Date.now() - timerStart;
+    const remaining = Math.max(0, TIMER_DURATION - elapsed);
+    const pct = (remaining / TIMER_DURATION) * 100;
+    bar.style.width = pct + '%';
+
+    const secs = Math.ceil(remaining / 1000);
+    label.textContent = secs + (secs === 1 ? ' second' : ' seconds');
+
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      if (!answered) timeUp();
+    }
+  }, 100);
+}
+
+function timeUp() {
+  answered = true;
+  document.getElementById('btnOdd').disabled = true;
+  document.getElementById('btnEven').disabled = true;
+  const r = rounds[currentRound];
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback-box wrong';
+  fb.textContent = `⏰ Time's up! It was ${r.correct.toUpperCase()}.`;
+  // Highlight correct
+  if (r.correct === 'odd') document.getElementById('btnOdd').classList.add('correct');
+  else document.getElementById('btnEven').classList.add('correct');
+  setTimeout(advance, 1200);
+}
+
+function renderRound() {
+  answered = false;
+  const r = rounds[currentRound];
+
+  const numEl = document.getElementById('numberDisplay');
+  numEl.textContent = r.number;
+  numEl.classList.remove('bounce');
+  void numEl.offsetWidth;
+  numEl.classList.add('bounce');
+
+  document.getElementById('btnOdd').disabled = false;
+  document.getElementById('btnEven').disabled = false;
+  document.getElementById('btnOdd').classList.remove('correct','wrong');
+  document.getElementById('btnEven').classList.remove('correct','wrong');
+
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback-box';
+  fb.textContent = '';
+
+  const sb = document.getElementById('speedBonus');
+  sb.classList.remove('show');
+
+  updateProgress();
+  startTimer();
+}
+
+function handleAnswer(choice) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+
+  const elapsed = Date.now() - timerStart;
+  const fast = elapsed < 3000;
+  const r = rounds[currentRound];
+  const correct = choice === r.correct;
+
+  const fb = document.getElementById('feedbackBox');
+  const oddBtn = document.getElementById('btnOdd');
+  const evenBtn = document.getElementById('btnEven');
+  oddBtn.disabled = true;
+  evenBtn.disabled = true;
+
+  if (correct) {
+    score++;
+    document.getElementById('scoreVal').textContent = score;
+    fb.className = 'feedback-box correct';
+    const msg = fast ? '✓ Correct! Great job! ⚡ Speed bonus!' : '✓ Correct! Great job!';
+    fb.textContent = msg;
+    if (fast) {
+      bonusStarCount++;
+      const sb = document.getElementById('speedBonus');
+      sb.classList.add('show');
+      document.getElementById('bonusStars').textContent = `(+${bonusStarCount} ⚡)`;
+    }
+    launchConfetti();
+  } else {
+    fb.className = 'feedback-box wrong';
+    fb.textContent = `✗ Not quite! ${r.number} is ${r.correct.toUpperCase()}.`;
+  }
+
+  if (choice === 'odd') { oddBtn.classList.add(correct ? 'correct' : 'wrong'); }
+  else { evenBtn.classList.add(correct ? 'correct' : 'wrong'); }
+  if (r.correct === 'odd') oddBtn.classList.add('correct');
+  else evenBtn.classList.add('correct');
+
+  setTimeout(advance, 1200);
+}
+
+function advance() {
+  currentRound++;
+  if (currentRound < 10) renderRound();
+  else showEndScreen();
+}
+
+function updateProgress() {
+  const pct = Math.round((currentRound / 10) * 100);
+  document.getElementById('progressLabel').textContent = `Question ${currentRound + 1} of 10`;
+  document.getElementById('progressPercent').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = `${pct}%`;
+}
+
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  for (let i = 0; i < 8; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    piece.textContent = CONFETTI[Math.floor(Math.random() * CONFETTI.length)];
+    piece.style.left = (20 + Math.random() * 60) + '%';
+    piece.style.animationDelay = (Math.random() * 0.3) + 's';
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), 1500);
+  }
+}
+
+function showEndScreen() {
+  document.getElementById('endScore').textContent = `${score} / 10`;
+  let stars, label, emoji;
+  if (score >= 9) { stars = '★★★'; label = 'Brilliant!'; emoji = '🏆'; }
+  else if (score >= 7) { stars = '★★☆'; label = 'Well Done!'; emoji = '🚀'; }
+  else { stars = '★☆☆'; label = 'Keep Trying!'; emoji = '🌕'; }
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endLabel').textContent = label;
+  document.getElementById('endEmoji').textContent = emoji;
+  if (bonusStarCount > 0) {
+    document.getElementById('endBonus').textContent = `⚡ ${bonusStarCount} speed bonus${bonusStarCount > 1 ? 'es' : ''} earned!`;
+  }
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame() {
+  currentRound = 0; score = 0; bonusStarCount = 0;
+  document.getElementById('scoreVal').textContent = 0;
+  document.getElementById('bonusStars').textContent = '';
+  document.getElementById('endBonus').textContent = '';
+  document.getElementById('endOverlay').classList.remove('show');
+  generateRounds(); renderRound();
+}
+
+generateRounds();
+renderRound();
+</script>
+</body>
+</html>

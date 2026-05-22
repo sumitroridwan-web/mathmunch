@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shape Explorer – MathMunch</title>
+<style>
+  :root {
+    --primary:#6C5CE7; --primary-light:#E8E4FF;
+    --g1:#4ECDC4; --g2:#2ECC71;
+    --accent:#FDCB6E; --accent-dark:#E17055;
+    --bg:#F0F4FF; --white:#FFFFFF;
+    --text:#1E1E2E; --text2:#525270;
+    --green:#00B894; --red:#FF4757;
+    --radius:16px; --shadow:0 4px 20px rgba(78,205,196,0.15);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+  /* TOP BAR */
+  .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
+  .topbar a.back{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .topbar .brand{font-weight:900;font-size:18px;color:var(--primary);display:flex;align-items:center;gap:5px}
+  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
+  .badge{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#FFE0F0;color:#FF4785}
+  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:var(--text)}
+
+  /* GAME AREA */
+  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+
+  /* QUESTION CARD */
+  .question-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;text-align:center}
+  .question-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+  .question-text{font-size:24px;font-weight:800;color:var(--text);margin-bottom:8px}
+
+  /* SHAPE DISPLAY */
+  .shape-display{display:flex;justify-content:center;align-items:center;padding:30px;min-height:180px}
+  .shape-wrapper{display:flex;justify-content:center;align-items:center;transition:transform 0.3s}
+  .shape-wrapper.pulse{animation:pulse 0.4s ease}
+  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+  .css-circle{border-radius:50%;width:120px;height:120px}
+  .css-square{border-radius:8px;width:110px;height:110px}
+  .css-triangle{width:0;height:0}
+  .css-rectangle{border-radius:8px;width:160px;height:90px}
+  .css-pentagon{clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%);width:110px;height:110px}
+  .css-hexagon{clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);width:110px;height:110px}
+  .css-oval{border-radius:50%;width:150px;height:90px}
+  .css-star{clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);width:110px;height:110px}
+
+  /* ANSWER BUTTONS MODE A */
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer;border:2px solid #E8E4FF;background:var(--white);color:var(--text);transition:all 0.2s}
+  .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
+  .btn-answer.correct{background:#E8FFF3;border-color:var(--green);color:var(--green)}
+  .btn-answer.wrong{background:#FFE8EC;border-color:var(--red);color:var(--red)}
+  .btn-answer:disabled{cursor:not-allowed}
+
+  /* SHAPE CARDS MODE B */
+  .shape-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto}
+  .shape-card{background:var(--white);border:2px solid #E8E4FF;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;cursor:pointer;transition:all 0.2s}
+  .shape-card:hover:not(:disabled){border-color:var(--primary);transform:translateY(-3px);box-shadow:0 6px 20px rgba(108,92,231,0.18)}
+  .shape-card.correct{border-color:var(--green);background:#E8FFF3}
+  .shape-card.wrong{border-color:var(--red);background:#FFE8EC}
+
+  /* MODE B question text */
+  .find-shape-name{font-size:40px;font-weight:900;color:var(--primary);margin-bottom:8px}
+  .find-instruction{font-size:16px;color:var(--text2);font-weight:600}
+
+  /* FEEDBACK OVERLAY */
+  .feedback{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;padding:18px 36px;border-radius:20px;font-size:22px;font-weight:800;color:white;pointer-events:none}
+  .feedback.show-correct{display:block;background:var(--green)}
+  .feedback.show-wrong{display:block;background:var(--red)}
+
+  /* PROGRESS BAR */
+  .progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:100}
+  .progress-info{display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:var(--text2);margin-bottom:6px}
+  .progress-track{height:8px;background:#E8E4FF;border-radius:4px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:4px;transition:width 0.4s ease}
+
+  /* END SCREEN */
+  .end-screen{display:none;position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
+  .end-screen.show{display:flex}
+  .end-card{background:var(--white);border-radius:24px;padding:40px 36px;text-align:center;max-width:420px;width:90%;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes popIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+  .end-emoji{font-size:56px;margin-bottom:10px}
+  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:6px}
+  .end-score-text{font-size:18px;color:var(--text2);margin-bottom:14px}
+  .end-stars{font-size:32px;margin-bottom:6px}
+  .end-verdict{font-size:20px;font-weight:800;color:var(--primary);margin-bottom:24px}
+  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
+  .btn-geo:hover{transform:translateY(-2px)}
+  .btn-secondary{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:2px solid var(--primary);background:transparent;color:var(--primary);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
+  .btn-secondary:hover{background:var(--primary-light)}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a class="back" href="../../index.html">← All Games</a>
+  <div class="brand">🧮 MathMunch</div>
+  <div class="game-title">Shape Explorer</div>
+  <div class="badge">EY</div>
+  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="question-card" id="questionCard">
+    <div class="question-label" id="questionLabel">Question 1 of 10</div>
+    <div id="questionContent"></div>
+  </div>
+  <div id="answersArea"></div>
+</div>
+
+<!-- FEEDBACK -->
+<div class="feedback" id="feedback"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar">
+  <div class="progress-info">
+    <span id="progressText">Question 1 of 10</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-screen" id="endScreen">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji"></div>
+    <div class="end-title" id="endTitle"></div>
+    <div class="end-score-text" id="endScoreText"></div>
+    <div class="end-stars" id="endStars"></div>
+    <div class="end-verdict" id="endVerdict"></div>
+    <button class="btn-geo" onclick="restartGame()">Play Again</button>
+    <a class="btn-secondary" href="../../index.html">← Back to All Games</a>
+  </div>
+</div>
+
+<script>
+const SHAPES = [
+  { id:'circle',    name:'Circle',    cls:'css-circle' },
+  { id:'square',    name:'Square',    cls:'css-square' },
+  { id:'triangle',  name:'Triangle',  cls:'css-triangle' },
+  { id:'rectangle', name:'Rectangle', cls:'css-rectangle' },
+  { id:'pentagon',  name:'Pentagon',  cls:'css-pentagon' },
+  { id:'hexagon',   name:'Hexagon',   cls:'css-hexagon' },
+  { id:'oval',      name:'Oval',      cls:'css-oval' },
+  { id:'star',      name:'Star',      cls:'css-star' },
+];
+const COLORS = ['#FF6B6B','#4ECDC4','#FFD93D','#A29BFE','#FF8E53','#2ECC71','#74B9FF','#FF6B9D'];
+
+let currentRound = 0;
+let score = 0;
+let rounds = [];
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
+function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function buildRounds(){
+  rounds = [];
+  const shapePool = shuffle(SHAPES);
+  for(let i=0;i<10;i++){
+    const shape = shapePool[i % shapePool.length];
+    const mode = (i % 2 === 0) ? 'A' : 'B'; // odd rounds 1,3,5,7,9 = mode A; even = mode B
+    const color = COLORS[i % COLORS.length];
+    rounds.push({ shape, mode, color });
+  }
+}
+
+function buildShapeEl(shape, color, small=false){
+  const wrapper = document.createElement('div');
+  wrapper.className = 'shape-wrapper';
+  if(shape.id === 'triangle'){
+    const el = document.createElement('div');
+    el.className = 'css-triangle';
+    const size = small ? 40 : 55;
+    el.style.cssText = `border-left:${size}px solid transparent;border-right:${size}px solid transparent;border-bottom:${size*2}px solid ${color};`;
+    wrapper.appendChild(el);
+  } else {
+    const el = document.createElement('div');
+    el.className = shape.cls;
+    el.style.background = color;
+    if(small){
+      el.style.transform = 'scale(0.55)';
+      el.style.transformOrigin = 'center';
+    }
+    wrapper.appendChild(el);
+  }
+  return wrapper;
+}
+
+function renderRound(){
+  const r = rounds[currentRound];
+  document.getElementById('questionLabel').textContent = `Question ${currentRound+1} of 10`;
+  document.getElementById('progressText').textContent = `Question ${currentRound+1} of 10`;
+  const pct = Math.round((currentRound/10)*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressFill').style.width = pct+'%';
+
+  const content = document.getElementById('questionContent');
+  const answersArea = document.getElementById('answersArea');
+  content.innerHTML = '';
+  answersArea.innerHTML = '';
+
+  if(r.mode === 'A'){
+    // Show shape, ask name
+    const q = document.createElement('div');
+    q.style.cssText = 'font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px;';
+    q.textContent = 'What shape is this?';
+    content.appendChild(q);
+
+    const display = document.createElement('div');
+    display.className = 'shape-display';
+    const shapeEl = buildShapeEl(r.shape, r.color);
+    shapeEl.id = 'mainShape';
+    display.appendChild(shapeEl);
+    content.appendChild(display);
+
+    // 4 answer buttons
+    const wrongShapes = shuffle(SHAPES.filter(s=>s.id!==r.shape.id)).slice(0,3);
+    const options = shuffle([r.shape, ...wrongShapes]);
+    const grid = document.createElement('div');
+    grid.className = 'answers-grid';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-answer';
+      btn.textContent = opt.name;
+      btn.onclick = () => handleAnswer(opt.id === r.shape.id, btn, grid);
+      grid.appendChild(btn);
+    });
+    answersArea.appendChild(grid);
+
+  } else {
+    // Show name, find shape
+    const nameDiv = document.createElement('div');
+    nameDiv.style.cssText = 'margin-bottom:8px;';
+    const bigName = document.createElement('div');
+    bigName.className = 'find-shape-name';
+    bigName.textContent = r.shape.name;
+    const instr = document.createElement('div');
+    instr.className = 'find-instruction';
+    instr.textContent = 'Tap the matching shape!';
+    nameDiv.appendChild(bigName);
+    nameDiv.appendChild(instr);
+    content.appendChild(nameDiv);
+
+    const wrongShapes = shuffle(SHAPES.filter(s=>s.id!==r.shape.id)).slice(0,3);
+    const options = shuffle([r.shape, ...wrongShapes]);
+    const grid = document.createElement('div');
+    grid.className = 'shape-cards-grid';
+    options.forEach((opt,idx) => {
+      const card = document.createElement('div');
+      card.className = 'shape-card';
+      const cardColor = COLORS[idx % COLORS.length];
+      const shapeEl = buildShapeEl(opt, cardColor, true);
+      card.appendChild(shapeEl);
+      card.onclick = () => handleCardAnswer(opt.id === r.shape.id, card, grid, r.shape, options, cardColor);
+      grid.appendChild(card);
+    });
+    answersArea.appendChild(grid);
+  }
+}
+
+function handleAnswer(isCorrect, clickedBtn, grid){
+  if(isCorrect) score++;
+  document.getElementById('scoreDisplay').textContent = score;
+  Array.from(grid.children).forEach(b => b.disabled = true);
+
+  if(isCorrect){
+    clickedBtn.classList.add('correct');
+    const shapeEl = document.getElementById('mainShape');
+    if(shapeEl) shapeEl.classList.add('pulse');
+    showFeedback(true);
+  } else {
+    clickedBtn.classList.add('wrong');
+    // find correct button and highlight
+    const r = rounds[currentRound];
+    Array.from(grid.children).forEach(b => {
+      if(b.textContent === r.shape.name) b.classList.add('correct');
+    });
+    showFeedback(false);
+  }
+  setTimeout(nextRound, 1200);
+}
+
+function handleCardAnswer(isCorrect, clickedCard, grid, correctShape, options, cardColor){
+  if(isCorrect) score++;
+  document.getElementById('scoreDisplay').textContent = score;
+  Array.from(grid.children).forEach(c => {
+    c.onclick = null;
+    c.style.cursor = 'default';
+  });
+
+  if(isCorrect){
+    clickedCard.classList.add('correct');
+    clickedCard.querySelector('.shape-wrapper').classList.add('pulse');
+    showFeedback(true);
+  } else {
+    clickedCard.classList.add('wrong');
+    // find correct card
+    Array.from(grid.children).forEach(c => {
+      const wrapper = c.querySelector('.shape-wrapper');
+      const el = wrapper ? wrapper.firstChild : null;
+      if(el){
+        const hasCorrectCls = el.className && (el.className.includes(correctShape.cls) || el.className.includes('css-triangle'));
+        if(hasCorrectCls) c.classList.add('correct');
+      }
+    });
+    showFeedback(false);
+  }
+  setTimeout(nextRound, 1200);
+}
+
+function showFeedback(correct){
+  const fb = document.getElementById('feedback');
+  fb.textContent = correct ? '✓ Correct!' : '✗ Try again!';
+  fb.className = 'feedback ' + (correct ? 'show-correct' : 'show-wrong');
+  setTimeout(()=>{ fb.className='feedback'; }, 1100);
+}
+
+function nextRound(){
+  currentRound++;
+  if(currentRound >= 10){
+    showEndScreen();
+  } else {
+    renderRound();
+  }
+}
+
+function showEndScreen(){
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressPct').textContent = '100%';
+  const screen = document.getElementById('endScreen');
+  screen.classList.add('show');
+  let emoji, title, stars, verdict;
+  if(score >= 9){ emoji='🌟'; title='Brilliant!'; stars='★★★'; verdict='Amazing work!'; }
+  else if(score >= 7){ emoji='😊'; title='Well Done!'; stars='★★☆'; verdict='Great job!'; }
+  else { emoji='💪'; title='Keep Trying!'; stars='★☆☆'; verdict='You can do it!'; }
+  document.getElementById('endEmoji').textContent = emoji;
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endScoreText').textContent = `You scored ${score} out of 10`;
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endVerdict').textContent = verdict;
+}
+
+function restartGame(){
+  score = 0;
+  currentRound = 0;
+  document.getElementById('scoreDisplay').textContent = '0';
+  document.getElementById('endScreen').classList.remove('show');
+  buildRounds();
+  renderRound();
+}
+
+buildRounds();
+renderRound();
+</script>
+</body>
+</html>

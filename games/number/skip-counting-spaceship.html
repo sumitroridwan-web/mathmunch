@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skip Counting Spaceship – MathMunch</title>
+<style>
+  :root {
+    --primary: #6C5CE7;
+    --primary-light: #E8E4FF;
+    --accent: #FDCB6E;
+    --n1: #FF6B6B;
+    --n2: #FF8E53;
+    --bg: #F0F4FF;
+    --white: #FFFFFF;
+    --text: #1E1E2E;
+    --text2: #525270;
+    --green: #00B894;
+    --red: #FF4757;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0A0A2E;
+    color: var(--white);
+    min-height: 100vh;
+    padding-bottom: 80px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* STARS */
+  .stars-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute; background: white; border-radius: 50%;
+    animation: twinkle 2s infinite ease-in-out;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+
+  /* TOP BAR */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,10,50,0.95);
+    box-shadow: 0 2px 12px rgba(108,92,231,0.25);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; gap: 12px;
+    padding: 0 20px; height: 60px;
+  }
+  .topbar a {
+    text-decoration: none; color: #A29BFE;
+    font-weight: 600; font-size: 14px;
+    display: flex; align-items: center; gap: 4px;
+    padding: 6px 10px; border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .topbar a:hover { background: rgba(162,155,254,0.15); }
+  .topbar .brand {
+    font-weight: 800; font-size: 18px;
+    background: linear-gradient(135deg,#A29BFE,var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .topbar .game-title {
+    font-weight: 700; font-size: 16px; color: var(--white);
+    margin-left: 4px;
+  }
+  .topbar .spacer { flex: 1; }
+  .level-badge {
+    background: #FFFBE0; color: #F0A500;
+    font-weight: 700; font-size: 12px;
+    padding: 4px 10px; border-radius: 20px;
+  }
+  .score-display {
+    font-weight: 700; font-size: 15px; color: var(--white);
+    display: flex; align-items: center; gap: 4px;
+  }
+
+  /* GAME AREA */
+  .game-area {
+    max-width: 800px; margin: 0 auto; padding: 24px 16px;
+    position: relative; z-index: 1;
+  }
+
+  /* HEADER */
+  .game-header {
+    text-align: center; margin-bottom: 24px;
+    position: relative;
+  }
+  .round-label {
+    font-size: 14px; color: #A29BFE; font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .skip-rule {
+    font-size: 22px; font-weight: 800;
+    background: linear-gradient(135deg,#A29BFE,var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+  }
+  .rocket-container {
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    font-size: 48px;
+    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
+  }
+  .rocket-container.zooming {
+    animation: rocketZoom 0.8s ease forwards;
+  }
+  @keyframes rocketZoom {
+    0% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+    50% { transform: translateY(-80%) translateX(80px) rotate(-20deg) scale(1.4); }
+    100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+  }
+
+  /* SEQUENCE CARDS */
+  .sequence-wrap {
+    display: flex; gap: 10px; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 28px;
+  }
+  .seq-card {
+    width: 80px; height: 80px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800;
+    position: relative;
+  }
+  .seq-card.known {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    color: white;
+  }
+  .seq-card.blank {
+    background: transparent;
+    border: 3px dashed #A29BFE;
+    color: #A29BFE;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .seq-card.blank.filled-correct {
+    background: rgba(0,184,148,0.2);
+    border: 3px solid var(--green);
+    color: var(--green);
+    animation: none;
+  }
+  .seq-card.blank.filled-wrong {
+    background: rgba(255,71,87,0.2);
+    border: 3px solid var(--red);
+    color: var(--red);
+    animation: none;
+  }
+  @keyframes pulse {
+    0%,100% { border-color: #A29BFE; box-shadow: 0 0 0 0 rgba(162,155,254,0.4); }
+    50% { border-color: #FDCB6E; box-shadow: 0 0 0 8px rgba(253,203,110,0.15); }
+  }
+
+  /* ANSWER BUTTONS */
+  .answers-label {
+    text-align: center; font-size: 14px; color: #A29BFE;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .answers-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; max-width: 400px; margin: 0 auto;
+  }
+  .ans-btn {
+    padding: 18px; border-radius: 14px;
+    background: rgba(162,155,254,0.12);
+    border: 2px solid rgba(162,155,254,0.3);
+    color: white; font-size: 22px; font-weight: 800;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s, border-color 0.15s, box-shadow 0.15s;
+    text-align: center;
+  }
+  .ans-btn:hover:not(:disabled) {
+    background: rgba(162,155,254,0.25);
+    border-color: #A29BFE;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(162,155,254,0.3);
+  }
+  .ans-btn:disabled { cursor: default; opacity: 0.6; }
+  .ans-btn.correct { background: rgba(0,184,148,0.3); border-color: var(--green); color: var(--green); }
+  .ans-btn.wrong { background: rgba(255,71,87,0.3); border-color: var(--red); color: var(--red); }
+
+  /* FEEDBACK */
+  .feedback-msg {
+    text-align: center; padding: 14px;
+    border-radius: 12px; margin-top: 16px;
+    font-weight: 700; font-size: 16px;
+    display: none;
+  }
+  .feedback-msg.show { display: block; }
+  .feedback-msg.correct { background: rgba(0,184,148,0.2); color: #4ECDC4; }
+  .feedback-msg.wrong { background: rgba(255,71,87,0.2); color: #FF6B6B; }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,10,50,0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 -2px 12px rgba(108,92,231,0.25);
+    padding: 10px 20px;
+  }
+  .progress-info {
+    display: flex; justify-content: space-between;
+    font-size: 13px; font-weight: 600; color: #A29BFE;
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 10px; border-radius: 100px;
+    background: rgba(255,255,255,0.1); overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 100px;
+    background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+    transition: width 0.4s ease;
+  }
+
+  /* END SCREEN */
+  .end-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    background: rgba(10,10,46,0.85);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.4s;
+  }
+  .end-overlay.show { opacity: 1; pointer-events: all; }
+  .end-card {
+    background: #16163A; border: 2px solid rgba(162,155,254,0.3);
+    border-radius: 24px; padding: 40px 48px; text-align: center;
+    box-shadow: 0 20px 60px rgba(108,92,231,0.4);
+    max-width: 420px; width: 90%;
+    transform: scale(0.85); transition: transform 0.4s;
+  }
+  .end-overlay.show .end-card { transform: scale(1); }
+  .end-emoji { font-size: 60px; margin-bottom: 12px; }
+  .end-title { font-size: 28px; font-weight: 800; color: white; margin-bottom: 6px; }
+  .end-score { font-size: 20px; color: #A29BFE; margin-bottom: 16px; }
+  .end-stars { font-size: 36px; margin-bottom: 8px; letter-spacing: 4px; color: var(--accent); }
+  .end-verdict { font-size: 18px; font-weight: 700; color: #A29BFE; margin-bottom: 24px; }
+  .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg,var(--primary),#8e78ff);
+    color: white; border: none; border-radius: 12px;
+    padding: 12px 28px; font-size: 16px; font-weight: 700;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
+    box-shadow: 0 4px 14px rgba(108,92,231,0.4);
+    transition: transform 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-secondary {
+    background: rgba(162,155,254,0.15); color: #A29BFE;
+    border: 2px solid rgba(162,155,254,0.3); border-radius: 12px;
+    padding: 12px 28px; font-size: 16px; font-weight: 700;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: rgba(162,155,254,0.25); }
+</style>
+</head>
+<body>
+
+<!-- STARS BACKGROUND -->
+<div class="stars-bg" id="starsBg"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="../../index.html">← Games</a>
+  <span class="brand">🧮 MathMunch</span>
+  <span class="game-title">🚀 Skip Counting Spaceship</span>
+  <div class="spacer"></div>
+  <span class="level-badge">P2</span>
+  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
+</div>
+
+<!-- GAME AREA -->
+<div class="game-area">
+  <div class="game-header">
+    <div class="round-label">Round <span id="roundNum">1</span> of 10</div>
+    <div class="skip-rule" id="skipRule">Count in 2s</div>
+    <div class="rocket-container" id="rocket">🚀</div>
+  </div>
+
+  <!-- SEQUENCE -->
+  <div class="sequence-wrap" id="sequenceWrap"></div>
+
+  <!-- ANSWERS -->
+  <div class="answers-label">Choose the missing number:</div>
+  <div class="answers-grid" id="answersGrid"></div>
+
+  <!-- FEEDBACK -->
+  <div class="feedback-msg" id="feedbackMsg"></div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-info">
+    <span>Question <span id="qNum">1</span> of 10</span>
+    <span id="pct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- END SCREEN -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🏆</div>
+    <div class="end-title" id="endTitle">Brilliant!</div>
+    <div class="end-score" id="endScore">10 / 10</div>
+    <div class="end-stars" id="endStars">★★★</div>
+    <div class="end-verdict" id="endVerdict">Blast off!</div>
+    <div class="end-btns">
+      <button class="btn-primary" onclick="initGame()">Play Again</button>
+      <a href="../../index.html" class="btn-secondary">← All Games</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Generate stars
+  (function() {
+    const bg = document.getElementById('starsBg');
+    const sizes = [2, 3, 2, 4, 2, 3, 2, 2, 3, 2];
+    for (let i = 0; i < 70; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = sizes[i % sizes.length];
+      s.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${Math.random()*100}%;
+        top:${Math.random()*100}%;
+        animation-delay:${(Math.random()*3).toFixed(2)}s;
+        animation-duration:${(1.5+Math.random()*2).toFixed(2)}s;
+      `;
+      bg.appendChild(s);
+    }
+  })();
+
+  const RULES = [
+    { step: 2, label: 'Count in 2s', rounds: [0,1] },
+    { step: 5, label: 'Count in 5s', rounds: [2,3] },
+    { step: 10, label: 'Count in 10s', rounds: [4,5] },
+    { step: 3, label: 'Count in 3s', rounds: [6,7] },
+    { step: 25, label: 'Count in 25s', rounds: [8,9] },
+  ];
+
+  let round = 0;
+  let score = 0;
+  let busy = false;
+  let currentAnswer = 0;
+  let blankIndex = 0;
+
+  function getRule(r) {
+    return RULES.find(rule => rule.rounds.includes(r)) || RULES[0];
+  }
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function generateSequence(rule) {
+    const starts = {
+      2: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
+      5: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+      10: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+      3: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
+      25: [25, 50, 75, 100, 125, 150, 175, 200, 225, 250],
+    };
+    const allStarts = starts[rule.step];
+    const startIdx = Math.floor(Math.random() * (allStarts.length - 4));
+    const seq = [];
+    for (let i = 0; i < 5; i++) seq.push(allStarts[startIdx] + i * rule.step);
+    // Pick a random blank (not first or last to keep it interesting)
+    const bi = 1 + Math.floor(Math.random() * 3);
+    return { seq, blankIdx: bi };
+  }
+
+  function generateOptions(correct, step) {
+    const opts = new Set([correct]);
+    const distractors = [
+      correct - step, correct + step,
+      correct - step * 2, correct + step * 2,
+      correct + 1, correct - 1,
+    ];
+    for (const d of distractors) {
+      if (opts.size >= 4) break;
+      if (d > 0 && d !== correct) opts.add(d);
+    }
+    while (opts.size < 4) {
+      const r = correct + (Math.floor(Math.random() * 5) - 2) * step;
+      if (r > 0 && r !== correct) opts.add(r);
+    }
+    return shuffle([...opts].slice(0, 4));
+  }
+
+  function renderRound() {
+    if (round >= 10) { showEnd(); return; }
+    const rule = getRule(round);
+    const { seq, blankIdx } = generateSequence(rule);
+    currentAnswer = seq[blankIdx];
+    blankIndex = blankIdx;
+    busy = false;
+
+    document.getElementById('roundNum').textContent = round + 1;
+    document.getElementById('skipRule').textContent = rule.label;
+    document.getElementById('feedbackMsg').className = 'feedback-msg';
+
+    // Render sequence
+    const wrap = document.getElementById('sequenceWrap');
+    wrap.innerHTML = '';
+    seq.forEach((n, i) => {
+      const card = document.createElement('div');
+      card.className = 'seq-card ' + (i === blankIdx ? 'blank' : 'known');
+      card.id = i === blankIdx ? 'blankCard' : '';
+      card.textContent = i === blankIdx ? '?' : n;
+      wrap.appendChild(card);
+    });
+
+    // Render answer buttons
+    const opts = generateOptions(currentAnswer, rule.step);
+    const grid = document.getElementById('answersGrid');
+    grid.innerHTML = '';
+    opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'ans-btn';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => handleAnswer(opt, btn));
+      grid.appendChild(btn);
+    });
+
+    updateProgress();
+  }
+
+  function handleAnswer(val, btnEl) {
+    if (busy) return;
+    busy = true;
+
+    const allBtns = document.querySelectorAll('.ans-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    const correct = val === currentAnswer;
+    const blankCard = document.getElementById('blankCard');
+
+    if (correct) {
+      btnEl.classList.add('correct');
+      blankCard.classList.add('filled-correct');
+      blankCard.textContent = currentAnswer;
+      score++;
+      document.getElementById('scoreDisplay').textContent = score;
+      showFeedback(true, currentAnswer);
+      // Rocket zoom
+      const rocket = document.getElementById('rocket');
+      rocket.classList.remove('zooming');
+      void rocket.offsetWidth;
+      rocket.classList.add('zooming');
+    } else {
+      btnEl.classList.add('wrong');
+      blankCard.classList.add('filled-wrong');
+      blankCard.textContent = '✗';
+      // Show correct
+      allBtns.forEach(b => {
+        if (parseInt(b.textContent) === currentAnswer) b.classList.add('correct');
+      });
+      showFeedback(false, currentAnswer);
+    }
+
+    round++;
+    setTimeout(() => {
+      document.getElementById('feedbackMsg').className = 'feedback-msg';
+      renderRound();
+    }, 1300);
+  }
+
+  function showFeedback(correct, answer) {
+    const el = document.getElementById('feedbackMsg');
+    el.textContent = correct ? '🚀 Correct! Blasting off!' : `❌ The answer was ${answer}. Keep going!`;
+    el.className = 'feedback-msg show ' + (correct ? 'correct' : 'wrong');
+  }
+
+  function updateProgress() {
+    const pct = Math.round((round / 10) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('pct').textContent = pct + '%';
+    document.getElementById('qNum').textContent = Math.min(round + 1, 10);
+  }
+
+  function showEnd() {
+    const overlay = document.getElementById('endOverlay');
+    let emoji, title, verdict;
+    if (score >= 9) { emoji = '🚀'; title = 'Brilliant!'; verdict = 'Interstellar counting!'; }
+    else if (score >= 7) { emoji = '🌟'; title = 'Well Done!'; verdict = 'Great space explorer!'; }
+    else { emoji = '🛸'; title = 'Keep Trying!'; verdict = 'Launch again and improve!'; }
+
+    const stars = score >= 9 ? '★★★' : score >= 7 ? '★★☆' : '★☆☆';
+    document.getElementById('endEmoji').textContent = emoji;
+    document.getElementById('endTitle').textContent = title;
+    document.getElementById('endScore').textContent = score + ' / 10';
+    document.getElementById('endStars').textContent = stars;
+    document.getElementById('endVerdict').textContent = verdict;
+    overlay.classList.add('show');
+  }
+
+  function initGame() {
+    round = 0; score = 0; busy = false;
+    document.getElementById('scoreDisplay').textContent = 0;
+    document.getElementById('endOverlay').classList.remove('show');
+    renderRound();
+  }
+
+  initGame();
+</script>
+</body>
+</html>
