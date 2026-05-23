@@ -882,6 +882,11 @@
         <a href="#games" class="btn btn-primary">🎮 Start Playing — It's Free!</a>
         <a href="#teachers" class="btn btn-outline">👩‍🏫 For Teachers</a>
       </div>
+      <div style="margin-bottom:24px;">
+        <button onclick="playDemo()" style="background:none;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:.88rem;font-weight:600;color:#3B82F6;text-decoration:underline;padding:0;">
+          🎮 Try a demo game — no account needed
+        </button>
+      </div>
       <div class="hero-stats">
         <div>
           <span class="hero-stat-num">50+</span>
@@ -1452,6 +1457,17 @@
 </footer>
 
 <script>
+  /* Demo / guest access */
+  function playDemo() {
+    localStorage.setItem('mm_user', JSON.stringify({
+      name: 'Guest Player',
+      email: 'guest@mathmunch.com',
+      role: 'student',
+      isGuest: true
+    }));
+    window.location.href = 'games/number/counting-safari.html';
+  }
+
   /* Grade tab filtering */
   document.querySelectorAll('.grade-tab').forEach(tab => {
     tab.addEventListener('click', function () {

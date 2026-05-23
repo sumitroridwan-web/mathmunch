@@ -443,6 +443,15 @@
 
       </form>
 
+      <div style="position:relative;margin:20px 0;text-align:center;">
+        <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border);"></div>
+        <span style="position:relative;background:white;padding:0 12px;font-size:.82rem;color:var(--text-light);">or try without signing up</span>
+      </div>
+
+      <button class="btn-submit" id="demoBtn" style="background:linear-gradient(135deg,#FDCB6E,#F39C12);margin-bottom:20px;" onclick="playAsGuest()">
+        🎮 Play as Guest — No Account Needed
+      </button>
+
       <div class="form-footer">
         Don't have an account? <a href="signup.html">Join Free</a>
       </div>
@@ -526,6 +535,21 @@
   function handleGoogle(e) {
     e.preventDefault();
     showToast('Google sign-in coming soon!');
+  }
+
+  function playAsGuest() {
+    localStorage.setItem('mm_user', JSON.stringify({
+      name: 'Guest Player',
+      email: 'guest@mathmunch.com',
+      role: 'student',
+      isGuest: true
+    }));
+    showToast('Welcome, Guest! Enjoy the games 🎮', 'success');
+    setTimeout(() => {
+      const redir = sessionStorage.getItem('mm_redir');
+      sessionStorage.removeItem('mm_redir');
+      window.location.href = redir || 'index.html';
+    }, 1000);
   }
 
   emailInput.addEventListener('input', () => setError(emailInput, document.getElementById('emailError'), false));
