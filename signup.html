@@ -619,8 +619,14 @@
     submitBtn.classList.remove('loading');
     submitBtn.textContent = 'Create Account →';
 
+    const role = document.querySelector('input[name="role"]:checked').value;
+    localStorage.setItem('mm_user', JSON.stringify({name: firstName + ' ' + lastName, email, role}));
     showToast('Account created! Welcome to MathMunch 🎉', 'success');
-    setTimeout(() => { window.location.href = 'index.html'; }, 1800);
+    setTimeout(() => {
+      const redir = sessionStorage.getItem('mm_redir');
+      sessionStorage.removeItem('mm_redir');
+      window.location.href = redir || 'index.html';
+    }, 1800);
   });
 
   function handleGoogle(e) {

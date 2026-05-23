@@ -266,7 +266,7 @@
   .btn-secondary:hover { background: rgba(162,155,254,0.25); }
 </style>
 </head>
-<body>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
 <!-- STARS BACKGROUND -->
 <div class="stars-bg" id="starsBg"></div>

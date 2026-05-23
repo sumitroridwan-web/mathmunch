@@ -191,7 +191,7 @@
   .back-link:hover { text-decoration: underline; }
 </style>
 </head>
-<body>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
 <!-- STARFIELD BACKGROUND -->
 <div class="stars-bg" id="starsBg"></div>

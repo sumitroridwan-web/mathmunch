@@ -514,8 +514,13 @@
     submitBtn.classList.remove('loading');
     submitBtn.textContent = 'Sign In →';
 
+    localStorage.setItem('mm_user', JSON.stringify({email}));
     showToast('Welcome back! Redirecting…', 'success');
-    setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+    setTimeout(() => {
+      const redir = sessionStorage.getItem('mm_redir');
+      sessionStorage.removeItem('mm_redir');
+      window.location.href = redir || 'index.html';
+    }, 1500);
   });
 
   function handleGoogle(e) {

@@ -95,7 +95,7 @@
   .hex-display{display:flex;justify-content:center;margin-bottom:16px}
 </style>
 </head>
-<body>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
 <!-- TOP BAR -->
 <div class="topbar">

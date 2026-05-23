@@ -93,7 +93,7 @@
         @media(max-width:600px){.games-grid{grid-template-columns:repeat(2,1fr)}}
     </style>
 </head>
-<body>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
 <div class="topbar">
     <div class="topbar-inner">

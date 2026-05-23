@@ -80,7 +80,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#2C2C5
 .btn-back:hover{background:#e0e0e0;}
 </style>
 </head>
-<body>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
 <div class="rail-line rail-left"></div>
 <div class="rail-line rail-right"></div>

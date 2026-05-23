@@ -113,7 +113,7 @@
   .btn-secondary:hover{background:var(--primary-light)}
 </style>
 </head>
-<body>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
 <div class="topbar">
   <a class="back" href="../../index.html">← All Games</a>

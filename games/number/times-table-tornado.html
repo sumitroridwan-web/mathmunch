@@ -274,7 +274,7 @@ body.shake { animation: shake 0.4s ease; }
 .btn-secondary:hover { transform: scale(1.05); }
 </style>
 </head>
-<body>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
 <!-- Speed lines overlay -->
 <div class="speed-overlay" id="speedOverlay">
