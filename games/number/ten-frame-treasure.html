@@ -3,243 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Ten Frame Treasure – MathMunch</title>
 <style>
   :root {
-    --primary: #3B82F6;
-    --primary-light: #EFF6FF;
-    --accent: #FDCB6E;
-    --n1: #FF6B6B;
-    --n2: #FF8E53;
-    --bg: #F0F4FF;
-    --white: #FFFFFF;
-    --text: #1E1E2E;
-    --text2: #525270;
-    --green: #00B894;
-    --red: #FF4757;
-    --radius: 16px;
-    --shadow: 0 4px 20px rgba(59,130,246,0.12);
+    --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+    --green:#10B981;--orange:#F97316;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#DBEAFE;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Lexend', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--blue-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--blue);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--blue-light);color:var(--blue);}
+  .btn-play-now{background:var(--blue);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--blue-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--blue);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.8rem;font-weight:700;color:var(--blue);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--green);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--blue);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(59,130,246,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
 
-  /* TOP BAR */
-  .top-bar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: var(--white); box-shadow: var(--shadow);
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 20px; height: 60px;
-  }
-  .top-bar a { text-decoration: none; color: var(--primary); font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
-  .top-bar a:hover { text-decoration: underline; }
-  .top-bar .brand { font-weight: 800; font-size: 1rem; color: var(--text); }
-  .top-bar .game-title { font-weight: 700; font-size: 0.95rem; color: var(--text2); flex: 1; }
-  .level-badge { background: #FFF0E0; color: #FF7043; font-weight: 800; font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
-  .score-display { font-weight: 800; font-size: 1rem; color: var(--text); white-space: nowrap; }
-
-  /* GAME AREA */
-  .game-area { max-width: 800px; margin: 0 auto; padding: 80px 16px 100px; }
-
-  .pirate-header { text-align: center; margin-bottom: 20px; font-size: 2rem; letter-spacing: 4px; }
-
-  /* MODE LABEL */
-  .mode-label {
-    text-align: center; font-size: 0.85rem; font-weight: 700;
-    color: var(--text2); text-transform: uppercase; letter-spacing: 2px;
-    margin-bottom: 8px;
-    background: rgba(255,255,255,0.6); border-radius: 8px; padding: 4px 12px;
-    display: inline-block; position: relative; left: 50%; transform: translateX(-50%);
-  }
-
-  /* GAME CARD */
-  .game-card {
-    background: linear-gradient(135deg, #FFF8E1, #FFF3CD);
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(255,160,0,0.15);
-    padding: 28px 24px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  .question-text { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 20px; }
-
-  /* TEN FRAME */
-  .ten-frame {
-    display: grid; grid-template-columns: repeat(5, 56px);
-    gap: 8px; margin: 0 auto 24px; width: fit-content;
-    background: #D4A017; border-radius: 12px; padding: 10px;
-    box-shadow: 0 4px 16px rgba(212,160,23,0.3);
-  }
-  .tf-cell {
-    width: 56px; height: 56px; border-radius: 8px;
-    border: 2px solid #D4A017;
-    background: #FFF8E8;
-    display: flex; align-items: center; justify-content: center;
-    cursor: default; transition: transform 0.15s;
-    position: relative; overflow: hidden;
-  }
-  .tf-cell.filled { background: #FFD700; cursor: pointer; }
-  .tf-cell.clickable { cursor: pointer; }
-  .tf-cell.clickable:hover { transform: scale(1.05); }
-  .coin {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #FFE566, #D4A017);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.5);
-    animation: coinShine 2s ease-in-out infinite;
-  }
-  @keyframes coinShine {
-    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.5); }
-    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.8), 0 0 12px rgba(255,215,0,0.6); }
-  }
-  .coin-glow { animation: coinGlow 0.4s ease-out; }
-  @keyframes coinGlow {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.2); }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  /* ANSWER BUTTONS (MODE A) */
-  .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .btn-answer {
-    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-    color: white; border: none; border-radius: 12px;
-    font-weight: 800; font-size: 1.5rem; padding: 16px 28px;
-    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 14px rgba(255,107,107,0.3);
-    font-family: inherit;
-  }
-  .btn-answer:hover:not(:disabled) { transform: translateY(-2px); }
-  .btn-answer:disabled { cursor: default; opacity: 0.7; }
-  .btn-answer.correct { background: #D4EDDA !important; color: #155724 !important; }
-  .btn-answer.wrong { background: #F8D7DA !important; color: #721C24 !important; }
-
-  /* CHECK BUTTON (MODE B) */
-  .btn-check {
-    background: linear-gradient(135deg, #3B82F6, #93C5FD);
-    color: white; border: none; border-radius: 12px;
-    font-weight: 800; font-size: 1.1rem; padding: 14px 36px;
-    cursor: pointer; font-family: inherit; margin-top: 4px;
-    transition: transform 0.15s; box-shadow: 0 4px 14px rgba(59,130,246,0.3);
-  }
-  .btn-check:hover { transform: translateY(-2px); }
-  .btn-check:disabled { opacity: 0.6; cursor: default; }
-
-  .mode-b-hint { font-size: 0.9rem; color: var(--text2); margin-bottom: 16px; font-weight: 600; }
-  .target-number {
-    font-size: 4rem; font-weight: 900; color: var(--primary);
-    margin: 0 auto 8px; display: block;
-  }
-
-  /* FEEDBACK */
-  .feedback-box {
-    border-radius: 12px; padding: 12px 20px; text-align: center;
-    font-weight: 700; font-size: 1rem; margin-top: 16px; display: none;
-  }
-  .feedback-box.correct { background: #D4EDDA; color: #155724; display: block; }
-  .feedback-box.wrong { background: #F8D7DA; color: #721C24; display: block; }
-
-  /* PROGRESS BAR */
-  .progress-bar-container {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--white); box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
-    padding: 12px 20px; z-index: 100;
-  }
-  .progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
-  .progress-track { background: #e0e0e0; border-radius: 99px; height: 10px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); transition: width 0.4s ease; }
-
-  /* CONFETTI */
-  .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 200; overflow: hidden; }
-  .confetti-piece {
-    position: absolute; font-size: 1.5rem;
-    animation: confettiFly 1.2s ease-out forwards;
-    top: 50%; opacity: 1;
-  }
-  @keyframes confettiFly {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-220px) rotate(720deg); opacity: 0; }
-  }
-
-  /* END SCREEN */
-  .end-overlay {
-    display: none; position: fixed; inset: 0; z-index: 300;
-    background: rgba(10,10,30,0.65); backdrop-filter: blur(6px);
-    align-items: center; justify-content: center;
-  }
-  .end-overlay.show { display: flex; }
-  .end-card {
-    background: var(--white); border-radius: 24px;
-    padding: 40px 36px; text-align: center; max-width: 420px; width: 90%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
-  }
-  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .end-emoji { font-size: 4rem; margin-bottom: 12px; }
-  .end-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: var(--text); }
-  .end-score { font-size: 3rem; font-weight: 800; color: var(--primary); margin: 12px 0; }
-  .end-stars { font-size: 2rem; margin: 8px 0; }
-  .end-label { font-size: 1rem; color: var(--text2); margin-bottom: 24px; font-weight: 600; }
-  .btn-play-again {
-    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-    color: white; border: none; border-radius: 12px;
-    font-weight: 800; font-size: 1.1rem; padding: 14px 36px;
-    cursor: pointer; font-family: inherit; margin-bottom: 14px;
-    display: block; width: 100%; transition: transform 0.15s;
-  }
-  .btn-play-again:hover { transform: translateY(-2px); }
-  .back-link { display: block; color: var(--primary); font-weight: 700; text-decoration: none; font-size: 0.95rem; }
-  .back-link:hover { text-decoration: underline; }
+  /* GAME-SPECIFIC */
+  .pirate-header{text-align:center;margin-bottom:20px;font-size:2rem;letter-spacing:4px;}
+  .mode-label{text-align:center;font-size:0.85rem;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;background:rgba(255,255,255,0.7);border-radius:8px;padding:4px 12px;display:inline-block;position:relative;left:50%;transform:translateX(-50%);}
+  .game-card{background:linear-gradient(135deg,#FFF8E1,#FFF3CD);border-radius:24px;box-shadow:0 8px 32px rgba(255,160,0,0.15);padding:28px 24px;margin-bottom:20px;text-align:center;}
+  .question-text{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:20px;}
+  .ten-frame{display:grid;grid-template-columns:repeat(5,56px);gap:8px;margin:0 auto 24px;width:fit-content;background:#D4A017;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(212,160,23,0.3);}
+  .tf-cell{width:56px;height:56px;border-radius:8px;border:2px solid #D4A017;background:#FFF8E8;display:flex;align-items:center;justify-content:center;cursor:default;transition:transform 0.15s;position:relative;overflow:hidden;}
+  .tf-cell.filled{background:#FFD700;cursor:pointer;}
+  .tf-cell.clickable{cursor:pointer;}
+  .tf-cell.clickable:hover{transform:scale(1.05);}
+  .coin{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFE566,#D4A017);box-shadow:0 2px 8px rgba(0,0,0,0.2),inset 0 1px 3px rgba(255,255,255,0.5);animation:coinShine 2s ease-in-out infinite;}
+  @keyframes coinShine{0%,100%{box-shadow:0 2px 8px rgba(0,0,0,0.2),inset 0 1px 3px rgba(255,255,255,0.5);}50%{box-shadow:0 2px 8px rgba(0,0,0,0.2),inset 0 1px 3px rgba(255,255,255,0.8),0 0 12px rgba(255,215,0,0.6);}}
+  .coin-glow{animation:coinGlow 0.4s ease-out;}
+  @keyframes coinGlow{0%{transform:scale(0);opacity:0;}60%{transform:scale(1.2);}100%{transform:scale(1);opacity:1;}}
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .btn-answer{background:linear-gradient(135deg,#FF6B6B,#FF8E53);color:white;border:none;border-radius:12px;font-weight:800;font-size:1.5rem;padding:16px 28px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 4px 14px rgba(255,107,107,0.3);font-family:inherit;}
+  .btn-answer:hover:not(:disabled){transform:translateY(-2px);}
+  .btn-answer:disabled{cursor:default;opacity:0.7;}
+  .btn-answer.correct{background:#D4EDDA!important;color:#155724!important;}
+  .btn-answer.wrong{background:#F8D7DA!important;color:#721C24!important;}
+  .btn-check{background:linear-gradient(135deg,#3B82F6,#93C5FD);color:white;border:none;border-radius:12px;font-weight:800;font-size:1.1rem;padding:14px 36px;cursor:pointer;font-family:inherit;margin-top:4px;transition:transform 0.15s;box-shadow:0 4px 14px rgba(59,130,246,0.3);}
+  .btn-check:hover{transform:translateY(-2px);}
+  .btn-check:disabled{opacity:0.6;cursor:default;}
+  .mode-b-hint{font-size:0.9rem;color:var(--text-mid);margin-bottom:16px;font-weight:600;}
+  .target-number{font-size:4rem;font-weight:900;color:var(--blue);margin:0 auto 8px;display:block;}
+  .feedback-box{border-radius:12px;padding:12px 20px;text-align:center;font-weight:700;font-size:1rem;margin-top:16px;display:none;}
+  .feedback-box.correct{background:#D4EDDA;color:#155724;display:block;}
+  .feedback-box.wrong{background:#F8D7DA;color:#721C24;display:block;}
+  .confetti-container{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:200;overflow:hidden;}
+  .confetti-piece{position:absolute;font-size:1.5rem;animation:confettiFly 1.2s ease-out forwards;top:50%;opacity:1;}
+  @keyframes confettiFly{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(-220px) rotate(720deg);opacity:0;}}
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;}
+  .btn-play{background:var(--blue);color:white;box-shadow:0 3px 0 var(--blue-dark);margin:0 6px;}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);margin:0 6px;}
+  @media(max-width:768px){.game-layout{grid-template-columns:1fr;padding:16px;}.sidebar{flex-direction:row;flex-wrap:wrap;}.stat-card{flex:1;min-width:140px;}.site-nav{display:none;}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <a href="../../index.html">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="game-title">Ten Frame Treasure</span>
-  <span class="level-badge">P1</span>
-  <span class="score-display">⭐ <span id="scoreVal">0</span></span>
-</div>
-
-<div class="game-area">
-  <div class="pirate-header">🏴‍☠️ 💎 🪙 💎 🏴‍☠️</div>
-
-  <div class="mode-label" id="modeLabel">READ MODE</div>
-
-  <div class="game-card" id="gameCard">
-    <div class="question-text" id="questionText">Loading...</div>
-    <div id="targetDisplay"></div>
-    <div class="ten-frame" id="tenFrame"></div>
-    <div id="modeHint" class="mode-b-hint"></div>
-    <div id="answersArea"></div>
-    <div class="feedback-box" id="feedbackBox"></div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">🧮</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
   </div>
-</div>
+</header>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar-container">
-  <div class="progress-labels">
-    <span id="progressLabel">Question 1 of 10</span>
-    <span id="progressPercent">0%</span>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 1</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Ten Frame Treasure</div>
+      <span class="level-pill">P1</span>
+    </div>
   </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+
+  <div class="game-canvas">
+    <div class="pirate-header">🏴‍☠️ 💎 🪙 💎 🏴‍☠️</div>
+    <div class="mode-label" id="modeLabel">READ MODE</div>
+    <div class="game-card" id="gameCard">
+      <div class="question-text" id="questionText">Loading...</div>
+      <div id="targetDisplay"></div>
+      <div class="ten-frame" id="tenFrame"></div>
+      <div id="modeHint" class="mode-b-hint"></div>
+      <div id="answersArea"></div>
+      <div class="feedback-box" id="feedbackBox"></div>
+    </div>
   </div>
 </div>
 
 <div class="confetti-container" id="confettiContainer"></div>
 
-<!-- END SCREEN -->
-<div class="end-overlay" id="endOverlay">
+<div class="end-screen" id="endOverlay">
   <div class="end-card">
-    <div class="end-emoji" id="endEmoji">🏆</div>
-    <div class="end-title">Treasure Found!</div>
-    <div class="end-score" id="endScore">0 / 10</div>
-    <div class="end-stars" id="endStars">★★★</div>
-    <div class="end-label" id="endLabel">Brilliant!</div>
-    <button class="btn-play-again" onclick="restartGame()">Play Again</button>
-    <a class="back-link" href="../../index.html">← Back to All Games</a>
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🏆</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Treasure Found!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:8px;" id="endScore">0 / 10</div>
+    <div style="font-size:2rem;margin-bottom:8px;" id="endStars">★★★</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:20px;" id="endLabel">Brilliant!</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
   </div>
 </div>
 
@@ -266,7 +184,7 @@ function generateRounds() {
   const nums = shuffle([1,2,3,4,5,6,7,8,9,10]);
   for (let i = 0; i < 10; i++) {
     const n = nums[i];
-    const mode = (i % 2 === 0) ? 'A' : 'B'; // A=read, B=fill
+    const mode = (i % 2 === 0) ? 'A' : 'B';
     let options = [];
     if (mode === 'A') {
       const dists = new Set();
@@ -330,10 +248,8 @@ function renderRound() {
   document.getElementById('modeHint').textContent = '';
 
   if (isA) {
-    // Mode A: show filled ten frame, ask the number
     document.getElementById('questionText').textContent = 'What number does the ten frame show?';
     buildTenFrame(r.number, false);
-
     const area = document.getElementById('answersArea');
     area.innerHTML = '';
     const grid = document.createElement('div');
@@ -347,16 +263,13 @@ function renderRound() {
     });
     area.appendChild(grid);
   } else {
-    // Mode B: show target number, empty ten frame, click to fill
     document.getElementById('questionText').textContent = 'Fill the ten frame to match this number:';
     const target = document.createElement('span');
     target.className = 'target-number';
     target.textContent = r.number;
     document.getElementById('targetDisplay').appendChild(target);
-
     buildTenFrame(null, true);
     document.getElementById('modeHint').textContent = 'Click the cells to add coins, then press Check!';
-
     const area = document.getElementById('answersArea');
     area.innerHTML = '';
     const btn = document.createElement('button');
@@ -379,7 +292,7 @@ function handleAnswerA(btn, chosen, correct) {
     fb.className = 'feedback-box correct';
     fb.textContent = '✓ Correct! Great job!';
     score++;
-    document.getElementById('scoreVal').textContent = score;
+    document.getElementById('score').textContent = score;
     launchConfetti();
   } else {
     btn.classList.add('wrong');
@@ -398,14 +311,12 @@ function handleAnswerB(correct) {
   const userCount = userFilled.filter(Boolean).length;
   const btn = document.querySelector('.btn-check');
   if (btn) btn.disabled = true;
-
   const fb = document.getElementById('feedbackBox');
   if (userCount === correct) {
     fb.className = 'feedback-box correct';
     fb.textContent = '✓ Correct! Great job!';
     score++;
-    document.getElementById('scoreVal').textContent = score;
-    // Gold glow on filled cells
+    document.getElementById('score').textContent = score;
     document.querySelectorAll('.tf-cell.filled').forEach(c => {
       c.style.boxShadow = '0 0 14px rgba(255,215,0,0.8)';
     });
@@ -413,7 +324,6 @@ function handleAnswerB(correct) {
   } else {
     fb.className = 'feedback-box wrong';
     fb.textContent = `✗ Not quite! You filled ${userCount}, but it should be ${correct}.`;
-    // Show correct answer
     const cells = document.querySelectorAll('.tf-cell');
     cells.forEach((c, i) => {
       c.innerHTML = '';
@@ -438,9 +348,7 @@ function advance() {
 
 function updateProgress() {
   const pct = Math.round((currentRound / 10) * 100);
-  document.getElementById('progressLabel').textContent = `Question ${currentRound + 1} of 10`;
-  document.getElementById('progressPercent').textContent = `${pct}%`;
-  document.getElementById('progressFill').style.width = `${pct}%`;
+  document.getElementById('progressBar').style.width = `${pct}%`;
 }
 
 function launchConfetti() {
@@ -470,7 +378,7 @@ function showEndScreen() {
 
 function restartGame() {
   currentRound = 0; score = 0;
-  document.getElementById('scoreVal').textContent = 0;
+  document.getElementById('score').textContent = 0;
   document.getElementById('endOverlay').classList.remove('show');
   generateRounds(); renderRound();
 }

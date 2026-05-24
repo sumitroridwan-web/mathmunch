@@ -3,57 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
   <title>Venn Voyage – MathMunch</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --s1:#FB923C;--s2:#F97316;
-      --bg:#F5F3FF;--white:#FFFFFF;
-      --dark:#1E1E2E;--mid:#525270;
+      --orange:#F97316;
+      --orange-dark:#EA580C;
+      --orange-light:#FFF7ED;
+      --bg:#F9FAFB;
+      --white:#FFFFFF;
+      --outline:#E5E7EB;
+      --text:#1F2937;
+      --text-mid:#6B7280;
+      --text-soft:#9CA3AF;
+      --canvas:#FFEDD5;
       --radius:16px;
-      --shadow:0 4px 20px rgba(249,115,22,0.15);
+      --shadow:0 4px 20px rgba(249,115,22,0.12);
     }
-    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(249,115,22,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
-    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
-    .back-btn:hover{background:var(--s1);color:white}
-    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
-    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
-    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
-    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
-    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:12px;background:#FFF7ED;z-index:200}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FB923C,#F97316);transition:width .4s ease;border-radius:0 4px 4px 0}
-    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
+    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+    /* ── Site header ── */
+    .site-header{position:sticky;top:0;z-index:50;background:var(--white);border-bottom:1px solid var(--outline);display:flex;align-items:center;gap:16px;padding:0 24px;height:56px}
+    .site-logo{text-decoration:none;font-family:'Quicksand',sans-serif;font-weight:700;font-size:1.2rem;color:var(--orange);display:flex;align-items:center;gap:6px}
+    .site-nav{display:flex;align-items:center;gap:8px;margin-left:auto}
+    .nav-link{text-decoration:none;font-size:.85rem;font-weight:600;color:var(--text-mid);padding:4px 10px;border-radius:8px;transition:.15s}
+    .nav-link:hover{color:var(--orange);background:var(--orange-light)}
+    .btn-play{background:var(--orange);color:#fff;font-size:.85rem;font-weight:700;padding:8px 18px;border-radius:20px;border:none;cursor:pointer;transition:.15s;text-decoration:none;display:inline-block}
+    .btn-play:hover{background:var(--orange-dark)}
+
+    /* ── Two-column layout ── */
+    .game-layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 56px)}
+
+    /* ── Sidebar ── */
+    .sidebar{background:var(--white);border-right:1px solid var(--outline);padding:20px 16px;display:flex;flex-direction:column;gap:14px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+    .sidebar-exit{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text-mid);font-size:.85rem;font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid var(--outline);transition:.15s}
+    .sidebar-exit:hover{color:var(--orange);border-color:var(--orange);background:var(--orange-light)}
+    .sidebar-card{background:var(--orange-light);border:1px solid #FED7AA;border-radius:var(--radius);padding:16px}
+    .sidebar-card-label{font-size:.7rem;font-weight:700;color:var(--orange-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .sidebar-score{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--orange)}
+    .sidebar-level-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .sidebar-level-name{font-size:.85rem;font-weight:600;color:var(--text)}
+    .level-badge{background:var(--orange);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px}
+    .progress-track{background:#FED7AA;border-radius:999px;height:8px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--orange);border-radius:999px;transition:width .4s ease;width:0%}
+    .lives-row{display:flex;gap:6px;font-size:1.3rem}
+    .info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:4px}
+    .info-desc{font-size:.78rem;color:var(--text-mid);line-height:1.5}
+
+    /* ── Game canvas ── */
+    .game-canvas{background:var(--canvas);padding:32px 28px;position:relative;overflow-y:auto}
+    .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(249,115,22,.08) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+
+    /* ── End screen ── */
+    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
     .end-screen.show{display:flex}
     .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
     @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-    .end-stars{font-size:2.5rem;margin-bottom:12px}
-    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
-    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
+    .end-emoji{font-size:2.5rem;margin-bottom:12px}
+    .end-title{font-family:'Quicksand',sans-serif;font-size:1.8rem;font-weight:700;color:var(--text);margin-bottom:8px}
+    .end-score{font-size:1.1rem;color:var(--text-mid);margin-bottom:24px}
+    .end-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
     .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
-    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
-    .btn-home{background:#FFF7ED;color:var(--s2);margin:0 6px}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
-    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+    .btn-home{background:var(--orange-light);color:var(--orange);border:1px solid #FED7AA}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,.3)}
 
-    /* Game-specific */
-    .question-counter{text-align:center;font-size:.85rem;color:var(--mid);margin-bottom:8px;font-weight:600}
-    .number-display{text-align:center;margin-bottom:20px}
-    .number-badge{display:inline-block;background:white;border:3px solid var(--s2);border-radius:20px;padding:12px 40px;font-size:2.4rem;font-weight:900;color:var(--dark);box-shadow:var(--shadow);min-width:120px}
-    .question-text{text-align:center;font-size:1.05rem;font-weight:600;color:var(--mid);margin-bottom:16px}
-    .venn-container{position:relative;margin:0 auto;max-width:600px}
+    /* ── Game-specific ── */
+    .question-counter{text-align:center;font-size:.85rem;color:var(--text-mid);margin-bottom:8px;font-weight:600;position:relative;z-index:1}
+    .number-display{text-align:center;margin-bottom:20px;position:relative;z-index:1}
+    .number-badge{display:inline-block;background:white;border:3px solid var(--orange);border-radius:20px;padding:12px 40px;font-size:2.4rem;font-weight:900;color:var(--text);box-shadow:var(--shadow);min-width:120px}
+    .question-text{text-align:center;font-size:1.05rem;font-weight:600;color:var(--text-mid);margin-bottom:16px;position:relative;z-index:1}
+    .venn-container{position:relative;margin:0 auto;max-width:600px;z-index:1}
     .venn-container svg{width:100%;height:auto;cursor:pointer}
 
-    .region-label{font-size:.78rem;font-weight:700;fill:var(--dark);pointer-events:none}
-    .circle-label{font-size:.85rem;font-weight:800;fill:var(--s2)}
+    .region-label{font-size:.78rem;font-weight:700;fill:var(--text);pointer-events:none}
+    .circle-label{font-size:.85rem;font-weight:800;fill:var(--orange-dark)}
 
-    .feedback-box{text-align:center;margin-top:16px;min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;flex-direction:column}
+    .feedback-box{text-align:center;margin-top:16px;min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;flex-direction:column;position:relative;z-index:1}
     .feedback-msg{font-size:1.1rem;font-weight:700;padding:10px 28px;border-radius:30px;display:inline-block;opacity:0;transition:opacity .3s}
     .feedback-msg.show{opacity:1}
     .feedback-msg.correct{background:#DCFCE7;color:#166534}
     .feedback-msg.wrong{background:#FEE2E2;color:#991B1B}
-    .hint-text{font-size:.85rem;color:var(--mid);font-style:italic}
+    .hint-text{font-size:.85rem;color:var(--text-mid);font-style:italic}
 
     @keyframes pulseGreen{0%,100%{filter:brightness(1)}50%{filter:brightness(1.4) saturate(2)}}
     @keyframes flashRed{0%,100%{filter:brightness(1)}50%{filter:brightness(.7) sepia(1) hue-rotate(-30deg)}}
@@ -63,83 +96,127 @@
     .region-clickable{cursor:pointer;transition:opacity .2s}
     .region-clickable:hover{opacity:.7}
 
-    .next-btn{display:block;margin:18px auto 0;padding:12px 36px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;transition:.2s;opacity:0;pointer-events:none}
+    .next-btn{display:block;margin:18px auto 0;padding:12px 36px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;background:var(--orange);color:white;transition:.2s;opacity:0;pointer-events:none;position:relative;z-index:1}
     .next-btn.visible{opacity:1;pointer-events:all}
-    .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
+    .next-btn:hover{background:var(--orange-dark);transform:translateY(-2px)}
 
-    .criteria-box{text-align:center;margin-bottom:10px;background:white;border-radius:12px;padding:10px 20px;box-shadow:var(--shadow);display:inline-flex;gap:16px;left:50%;position:relative;transform:translateX(-50%)}
+    .criteria-box{text-align:center;margin-bottom:10px;background:white;border-radius:12px;padding:10px 20px;box-shadow:var(--shadow);display:inline-flex;gap:16px;left:50%;position:relative;transform:translateX(-50%);z-index:1}
     .criteria-item{display:flex;align-items:center;gap:6px;font-size:.9rem;font-weight:700}
     .criteria-dot{width:14px;height:14px;border-radius:50%;display:inline-block}
+
+    @media(max-width:768px){
+      .game-layout{grid-template-columns:1fr}
+      .sidebar{position:static;height:auto;flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--outline)}
+    }
   </style>
 </head>
-<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
-<div class="topbar">
-  <a href="../../index.html" class="back-btn">← All Games</a>
-  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
-  <span class="game-title">Venn Voyage</span>
-  <span class="level-badge">P3</span>
-  <span class="score-display">⭐ <span id="score">0</span></span>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
+
+<!-- Site Header -->
+<header class="site-header">
+  <a href="../../index.html" class="site-logo">🧮 MathMunch</a>
+  <nav class="site-nav">
+    <a href="../../index.html" class="nav-link">Home</a>
+    <a href="../../index.html" class="nav-link">Games</a>
+    <a href="../../index.html" class="btn-play">Play Now</a>
+  </nav>
+</header>
+
+<div class="game-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a href="../../index.html" class="sidebar-exit">← Exit Game</a>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-label">Score</div>
+      <div class="sidebar-score" id="score">0</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-level-row">
+        <span class="sidebar-level-name">Progress</span>
+        <span class="level-badge">P3</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-label">Lives</div>
+      <div class="lives-row">❤️❤️❤️</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="info-title">🔵 Venn Voyage</div>
+      <div class="info-desc">Click the correct region of the Venn diagram to sort numbers by their properties.</div>
+    </div>
+  </aside>
+
+  <!-- Game Canvas -->
+  <main class="game-canvas">
+    <div class="question-counter" id="questionCounter">Question 1 of 10</div>
+    <div class="number-display">
+      <div class="number-badge" id="numberBadge">?</div>
+    </div>
+    <div class="question-text" id="questionText">Where does this number belong?</div>
+
+    <div class="criteria-box" id="criteriaBox">
+      <div class="criteria-item"><span class="criteria-dot" style="background:#A29BFE80;border:2px solid #A29BFE"></span><span id="leftLabel">Left</span></div>
+      <div class="criteria-item"><span class="criteria-dot" style="background:#6C5CE780;border:2px solid #6C5CE7"></span><span id="rightLabel">Right</span></div>
+    </div>
+
+    <div class="venn-container">
+      <svg id="vennSvg" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer boundary (neither region) -->
+        <rect x="0" y="0" width="560" height="260" rx="16" fill="#FFF7ED" stroke="#FED7AA" stroke-width="2"/>
+        <text x="40" y="240" class="region-label" id="neitherHint" opacity=".5">Neither</text>
+
+        <!-- Left circle -->
+        <circle id="leftCircle" cx="210" cy="130" r="105" fill="#A29BFE" fill-opacity=".25" stroke="#A29BFE" stroke-width="2.5"/>
+        <!-- Right circle -->
+        <circle id="rightCircle" cx="350" cy="130" r="105" fill="#6C5CE7" fill-opacity=".25" stroke="#6C5CE7" stroke-width="2.5"/>
+
+        <!-- Clickable hit regions (transparent polygons over approximate areas) -->
+        <!-- Left only region -->
+        <path id="regionLeft" class="region-clickable" d="M105,130 A105,105 0 0,1 280,50 A105,105 0 0,0 280,210 A105,105 0 0,1 105,130 Z" fill="transparent" stroke="none"/>
+        <!-- Overlap region -->
+        <path id="regionOverlap" class="region-clickable" d="M280,50 A105,105 0 0,1 280,210 A105,105 0 0,1 280,50 Z" fill="transparent" stroke="none"/>
+        <!-- Right only region -->
+        <path id="regionRight" class="region-clickable" d="M280,50 A105,105 0 0,0 280,210 A105,105 0 0,1 455,130 A105,105 0 0,1 280,50 Z" fill="transparent" stroke="none"/>
+        <!-- Neither / outside region -->
+        <path id="regionNeither" class="region-clickable" d="M0,0 L560,0 L560,260 L0,260 Z M105,130 A105,105 0 1,1 315,130 A105,105 0 0,0 245,130 A105,105 0 1,0 105,130 Z" fill="transparent" stroke="none" fill-rule="evenodd"/>
+
+        <!-- Labels -->
+        <text x="140" y="32" class="circle-label" text-anchor="middle" id="svgLeftLabel">Multiples of 2</text>
+        <text x="420" y="32" class="circle-label" text-anchor="middle" id="svgRightLabel">Multiples of 3</text>
+        <text x="170" y="135" class="region-label" text-anchor="middle" id="labelLeft" opacity=".6">Only left</text>
+        <text x="280" y="135" class="region-label" text-anchor="middle" id="labelBoth" opacity=".6">Both</text>
+        <text x="390" y="135" class="region-label" text-anchor="middle" id="labelRight" opacity=".6">Only right</text>
+      </svg>
+    </div>
+
+    <div class="feedback-box">
+      <div class="feedback-msg" id="feedbackMsg"></div>
+      <div class="hint-text" id="hintText"></div>
+    </div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+  </main>
 </div>
 
-<div class="game-area">
-  <div class="question-counter" id="questionCounter">Question 1 of 10</div>
-  <div class="number-display">
-    <div class="number-badge" id="numberBadge">?</div>
-  </div>
-  <div class="question-text" id="questionText">Where does this number belong?</div>
-
-  <div class="criteria-box" id="criteriaBox">
-    <div class="criteria-item"><span class="criteria-dot" style="background:#A29BFE80;border:2px solid #A29BFE"></span><span id="leftLabel">Left</span></div>
-    <div class="criteria-item"><span class="criteria-dot" style="background:#6C5CE780;border:2px solid #6C5CE7"></span><span id="rightLabel">Right</span></div>
-  </div>
-
-  <div class="venn-container">
-    <svg id="vennSvg" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg">
-      <!-- Outer boundary (neither region) -->
-      <rect x="0" y="0" width="560" height="260" rx="16" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="2"/>
-      <text x="40" y="240" class="region-label" id="neitherHint" opacity=".5">Neither</text>
-
-      <!-- Left circle -->
-      <circle id="leftCircle" cx="210" cy="130" r="105" fill="#A29BFE" fill-opacity=".25" stroke="#A29BFE" stroke-width="2.5"/>
-      <!-- Right circle -->
-      <circle id="rightCircle" cx="350" cy="130" r="105" fill="#6C5CE7" fill-opacity=".25" stroke="#6C5CE7" stroke-width="2.5"/>
-
-      <!-- Clickable hit regions (transparent polygons over approximate areas) -->
-      <!-- Left only region -->
-      <path id="regionLeft" class="region-clickable" d="M105,130 A105,105 0 0,1 280,50 A105,105 0 0,0 280,210 A105,105 0 0,1 105,130 Z" fill="transparent" stroke="none"/>
-      <!-- Overlap region -->
-      <path id="regionOverlap" class="region-clickable" d="M280,50 A105,105 0 0,1 280,210 A105,105 0 0,1 280,50 Z" fill="transparent" stroke="none"/>
-      <!-- Right only region -->
-      <path id="regionRight" class="region-clickable" d="M280,50 A105,105 0 0,0 280,210 A105,105 0 0,1 455,130 A105,105 0 0,1 280,50 Z" fill="transparent" stroke="none"/>
-      <!-- Neither / outside region — four corners around circles -->
-      <path id="regionNeither" class="region-clickable" d="M0,0 L560,0 L560,260 L0,260 Z M105,130 A105,105 0 1,1 315,130 A105,105 0 0,0 245,130 A105,105 0 1,0 105,130 Z" fill="transparent" stroke="none" fill-rule="evenodd"/>
-
-      <!-- Labels -->
-      <text x="140" y="32" class="circle-label" text-anchor="middle" id="svgLeftLabel">Multiples of 2</text>
-      <text x="420" y="32" class="circle-label" text-anchor="middle" id="svgRightLabel">Multiples of 3</text>
-      <text x="170" y="135" class="region-label" text-anchor="middle" id="labelLeft" opacity=".6">Only left</text>
-      <text x="280" y="135" class="region-label" text-anchor="middle" id="labelBoth" opacity=".6">Both</text>
-      <text x="390" y="135" class="region-label" text-anchor="middle" id="labelRight" opacity=".6">Only right</text>
-    </svg>
-  </div>
-
-  <div class="feedback-box">
-    <div class="feedback-msg" id="feedbackMsg"></div>
-    <div class="hint-text" id="hintText"></div>
-  </div>
-  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
-</div>
-
+<!-- End Screen -->
 <div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars">⭐⭐⭐</div>
+    <div class="end-emoji" id="endEmoji">🌟</div>
     <div class="end-title" id="endTitle">Amazing!</div>
     <div class="end-score" id="endScore">You scored 10/10</div>
-    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
-    <a href="../../index.html" class="btn btn-home">Home</a>
+    <div class="end-actions">
+      <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+      <a href="../../index.html" class="btn btn-home">Home</a>
+    </div>
   </div>
 </div>
-<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
 
 <script>
   let score = 0, total = 10, current = 0;
@@ -149,14 +226,13 @@
   function updateProgress() { document.getElementById('progressBar').style.width = (current / total * 100) + '%'; }
   function showEnd() {
     const pct = score / total;
-    document.getElementById('endStars').textContent = pct >= 0.8 ? '⭐⭐⭐' : pct >= 0.5 ? '⭐⭐' : '⭐';
+    document.getElementById('endEmoji').textContent = pct >= 0.8 ? '🌟' : pct >= 0.5 ? '👍' : '💪';
     document.getElementById('endTitle').textContent = pct >= 0.8 ? 'Brilliant!' : pct >= 0.5 ? 'Good job!' : 'Keep trying!';
     document.getElementById('endScore').textContent = 'You scored ' + score + ' / ' + total;
     document.getElementById('endScreen').classList.add('show');
   }
   function restartGame() { document.getElementById('endScreen').classList.remove('show'); initGame(); }
 
-  // Criteria sets
   const criteriaSets = [
     {
       left: 'Multiples of 2',
@@ -181,7 +257,6 @@
     }
   ];
 
-  // Build 10 questions: criteria set 0 → q1-3, set1 → q4-6, set2 → q7-10
   const questionPlan = [
     {setIdx:0,numIdx:0},{setIdx:0,numIdx:1},{setIdx:0,numIdx:2},
     {setIdx:1,numIdx:0},{setIdx:1,numIdx:1},{setIdx:1,numIdx:2},
@@ -218,7 +293,6 @@
     document.getElementById('hintText').textContent = '';
     document.getElementById('nextBtn').className = 'next-btn';
 
-    // Reset circle colours
     document.getElementById('leftCircle').style.filter = '';
     document.getElementById('rightCircle').style.filter = '';
 
@@ -235,10 +309,8 @@
     document.getElementById('labelLeft').textContent = 'Only ' + cs.left.split(' ')[0] + '...';
     document.getElementById('labelRight').textContent = 'Only ' + cs.right.split(' ')[0] + '...';
 
-    // Reset fill highlights
     highlightRegion(null);
 
-    // Store current answer
     window._correctRegion = getRegion(cs, n);
     window._cs = cs;
     window._n = n;
@@ -267,7 +339,6 @@
       fb.textContent = '✅ Correct! ' + n + ' → ' + getRegionLabel(correct, cs);
       fb.className = 'feedback-msg correct show';
       highlightRegion(correct);
-      // Pulse animation
       if (correct === 'left' || correct === 'overlap') document.getElementById('leftCircle').classList.add('pulse-green');
       if (correct === 'right' || correct === 'overlap') document.getElementById('rightCircle').classList.add('pulse-green');
     } else {
@@ -287,7 +358,6 @@
   }
 
   function nextQuestion() {
-    // Clean up animation classes
     document.getElementById('leftCircle').classList.remove('pulse-green','flash-red');
     document.getElementById('rightCircle').classList.remove('pulse-green','flash-red');
     loadQuestion();

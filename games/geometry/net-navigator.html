@@ -3,163 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Net Navigator – MathMunch</title>
 <style>
 :root {
-  --primary:#10B981; --primary-light:#ECFDF5;
-  --g1:#34D399; --g2:#10B981;
-  --accent:#FDCB6E; --bg:#F0F4FF;
-  --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
-  --green:#00B894; --red:#FF4757;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --canvas:#D1FAE5; --bg:#F8FAFC; --white:#FFFFFF;
+  --text:#1E293B; --text2:#64748B; --shadow:0 4px 20px rgba(16,185,129,0.12);
   --radius:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#1A2744;color:#C8D8F0;min-height:100vh;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
 
-/* BLUEPRINT GRID BACKGROUND */
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(78,205,196,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(78,205,196,0.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.site-header{background:var(--white);box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.header-nav{display:flex;align-items:center;gap:16px;}
+.header-nav a{color:var(--text2);text-decoration:none;font-size:14px;font-weight:600;}
+.header-nav a:hover{color:var(--green);}
+.header-cta{background:var(--green);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none;}
 
-/* TOP BAR */
-.topbar{position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px;}
-.topbar a{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;white-space:nowrap;}
-.topbar-brand{font-weight:900;font-size:16px;color:var(--primary);}
-.topbar-title{font-weight:800;font-size:15px;color:var(--text);display:flex;align-items:center;gap:6px;}
-.badge-p5{background:#EEE8FF;color:#5F27CD;border-radius:8px;padding:3px 10px;font-size:12px;font-weight:800;}
-.score-display{background:var(--primary-light);color:var(--primary);border-radius:10px;padding:4px 14px;font-weight:800;font-size:14px;white-space:nowrap;}
+.game-layout{display:grid;grid-template-columns:280px 1fr;flex:1;min-height:0;}
 
-/* GAME AREA */
-.game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px;position:relative;z-index:1;}
+.sidebar{background:var(--white);border-right:1px solid #E2E8F0;padding:24px 20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--green-light);color:var(--green-dark);border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;}
+.exit-btn:hover{background:#D1FAE5;}
+.stat-card{background:var(--bg);border-radius:12px;padding:16px;border:1px solid #E2E8F0;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:var(--green);}
+.level-progress-track{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;margin-top:8px;}
+.level-progress-fill{height:100%;background:linear-gradient(90deg,#34D399,var(--green));border-radius:99px;transition:width 0.4s ease;width:0%;}
 
-.game-card{background:#1F3460;border-radius:var(--radius);padding:28px;margin-bottom:20px;box-shadow:0 8px 40px rgba(0,0,0,0.4);border:1px solid rgba(78,205,196,0.15);}
+.game-canvas{background:var(--canvas);position:relative;overflow-y:auto;padding:32px 28px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#6EE7B7 1px,transparent 1px);background-size:24px 24px;opacity:0.4;pointer-events:none;}
+.canvas-inner{position:relative;z-index:1;}
 
-.header-deco{text-align:center;font-size:28px;margin-bottom:8px;}
-.round-label{font-size:12px;color:#7090C0;text-align:center;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
-.mode-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:12px;}
-.mode-a-badge{background:#34D39933;color:#34D399;}
-.mode-b-badge{background:#FDCB6E33;color:#FDCB6E;}
-.question-text{font-size:18px;font-weight:700;color:#A8C8EA;text-align:center;margin-bottom:18px;line-height:1.5;}
-
-/* NET DISPLAY (Mode A - large) */
-.net-display{display:flex;justify-content:center;align-items:center;margin:16px 0;background:#142038;border-radius:12px;padding:20px;border:1px solid rgba(78,205,196,0.15);min-height:180px;}
-
-/* SHAPE NAME DISPLAY (Mode B) */
+/* Game-specific CSS */
+.game-card{background:var(--white);border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:var(--shadow);}
+.round-label{font-size:12px;color:var(--text2);text-align:center;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;}
+.mode-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:12px;}
+.mode-a-badge{background:var(--green-light);color:var(--green-dark);}
+.mode-b-badge{background:#FEF9C3;color:#92400E;}
+.question-text{font-size:17px;font-weight:600;color:var(--text);text-align:center;margin-bottom:18px;line-height:1.5;}
+.net-display{display:flex;justify-content:center;align-items:center;margin:16px 0;background:#F0FDF4;border-radius:12px;padding:20px;border:1px solid #A7F3D0;min-height:180px;}
 .shape-name-display{text-align:center;margin:16px 0 24px;}
-.shape-name-big{font-size:32px;font-weight:900;color:#34D399;letter-spacing:1px;}
+.shape-name-big{font-size:30px;font-weight:700;color:var(--green-dark);letter-spacing:1px;font-family:'Quicksand',sans-serif;}
 .shape-3d-icon{font-size:48px;margin-bottom:8px;}
-
-/* MODE A OPTIONS - text buttons */
 .name-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:500px;margin:0 auto;}
-.name-btn{background:#142038;border:2px solid rgba(78,205,196,0.25);border-radius:12px;padding:14px 18px;color:#A8C8EA;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;}
-.name-btn:hover{background:#1D3A5A;border-color:#34D399;transform:translateY(-2px);}
-.name-btn.correct{background:#00B89422;border-color:#00B894;color:#00B894;}
-.name-btn.wrong{background:#FF475722;border-color:#FF4757;color:#FF4757;}
+.name-btn{background:var(--green-light);border:2px solid #A7F3D0;border-radius:12px;padding:14px 18px;color:var(--text);font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;text-align:center;}
+.name-btn:hover{background:#D1FAE5;border-color:var(--green);transform:translateY(-2px);}
+.name-btn.correct{background:#D1FAE5;border-color:var(--green-dark);color:var(--green-dark);}
+.name-btn.wrong{background:#FEE2E2;border-color:#DC2626;color:#DC2626;}
 .name-btn:disabled{cursor:not-allowed;}
-
-/* MODE B OPTIONS - net thumbnails */
 .net-thumb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto;}
-.net-thumb-option{background:#142038;border:3px solid rgba(78,205,196,0.2);border-radius:12px;padding:10px;cursor:pointer;transition:all 0.2s;text-align:center;}
-.net-thumb-option:hover{border-color:#34D399;background:#1A3050;transform:translateY(-2px);}
-.net-thumb-option.correct{border-color:#00B894;background:#00B89415;}
-.net-thumb-option.wrong{border-color:#FF4757;background:#FF475715;}
+.net-thumb-option{background:#F0FDF4;border:3px solid #A7F3D0;border-radius:12px;padding:10px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.net-thumb-option:hover{border-color:var(--green);background:#D1FAE5;transform:translateY(-2px);}
+.net-thumb-option.correct{border-color:var(--green-dark);background:#D1FAE5;}
+.net-thumb-option.wrong{border-color:#DC2626;background:#FEE2E2;}
 .net-thumb-option.disabled{cursor:not-allowed;pointer-events:none;}
-.net-thumb-label{font-size:11px;color:#6080A0;font-weight:700;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
-
+.net-thumb-label{font-size:11px;color:var(--text2);font-weight:700;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
 .feedback{text-align:center;font-size:15px;font-weight:700;padding:10px;border-radius:10px;margin-top:14px;min-height:36px;}
-.feedback.correct{background:#00B89422;color:#00B894;}
-.feedback.wrong{background:#FF475722;color:#FF4757;}
+.feedback.correct{background:#D1FAE5;color:var(--green-dark);}
+.feedback.wrong{background:#FEE2E2;color:#DC2626;}
 
-/* PROGRESS */
-.progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:10px 20px;display:flex;align-items:center;gap:16px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,0.08);}
-.progress-label{font-size:13px;font-weight:700;color:var(--text2);white-space:nowrap;}
-.progress-track{flex:1;background:#eee;border-radius:99px;height:12px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s;}
-.progress-pct{font-size:13px;font-weight:700;color:var(--g2);min-width:36px;text-align:right;}
-
-/* END */
-.end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;}
-.end-overlay.show{display:flex;}
-.end-card{background:#fff;border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+.end-screen{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;}
+.end-screen.show{display:flex;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
 @keyframes popIn{from{transform:scale(0.7);opacity:0;}to{transform:scale(1);opacity:1;}}
-.end-stars{font-size:36px;margin-bottom:12px;}
-.end-title{font-size:26px;font-weight:900;color:var(--text);margin-bottom:8px;}
-.end-subtitle{font-size:15px;color:var(--text2);margin-bottom:8px;}
-.end-score{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:24px;}
-.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;}
-.btn-geo:hover{opacity:0.88;}
-.btn-back{background:#f0f0f0;color:var(--text);border:none;border-radius:12px;font-weight:700;padding:12px 24px;cursor:pointer;font-size:15px;}
-.btn-back:hover{background:#e0e0e0;}
+#endEmoji{font-size:48px;margin-bottom:12px;}
+#endTitle{font-size:26px;font-weight:700;color:var(--text);margin-bottom:8px;font-family:'Quicksand',sans-serif;}
+#endScore{font-size:18px;font-weight:700;color:var(--green);margin-bottom:24px;}
+.btn{display:inline-block;padding:12px 28px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:none;margin:4px;text-decoration:none;}
+.btn-play{background:linear-gradient(135deg,#34D399,var(--green));color:white;}
+.btn-home{background:var(--green-light);color:var(--green-dark);}
+
+@media(max-width:768px){
+  .game-layout{grid-template-columns:1fr;}
+  .sidebar{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid #E2E8F0;padding:12px;}
+  .header-nav{display:none;}
+}
 </style>
 </head>
-<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="../../index.html">← All Games</a>
-  <span class="topbar-brand">🧮 MathMunch</span>
-  <span class="topbar-title">🔧 Net Navigator <span class="badge-p5">P5</span></span>
-  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
-</div>
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">All Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="../../index.html" class="header-cta">Play Now</a>
+  </nav>
+</header>
 
-<!-- GAME AREA -->
-<div class="game-area">
-  <div class="game-card">
-    <div class="header-deco">🔧 📐 📏</div>
-    <div class="round-label">BLUEPRINT <span id="roundLabel">1</span> OF 10</div>
-    <div style="text-align:center;margin-bottom:10px;">
-      <span class="mode-badge mode-a-badge" id="modeBadge">NET → SHAPE</span>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">&#8617; Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
     </div>
-    <div class="question-text" id="questionText"></div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-value" style="font-size:18px;">Navigator</div>
+      <div class="level-progress-track"><div class="level-progress-fill" id="progressBar"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Grade</div>
+      <div class="stat-value" style="font-size:18px;color:var(--text);">P5</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Topic</div>
+      <div style="font-size:13px;color:var(--text2);font-weight:600;line-height:1.5;">Nets of 3D Shapes</div>
+    </div>
+  </div>
 
-    <!-- Mode A: show net, ask shape name -->
-    <div id="modeASection">
-      <div class="net-display" id="netDisplay">
-        <svg id="mainNetSvg" width="240" height="160"></svg>
+  <div class="game-canvas">
+    <div class="canvas-inner">
+      <div class="game-card">
+        <div class="round-label">BLUEPRINT <span id="roundLabel">1</span> OF 10</div>
+        <div style="text-align:center;margin-bottom:10px;">
+          <span class="mode-badge mode-a-badge" id="modeBadge">NET → SHAPE</span>
+        </div>
+        <div class="question-text" id="questionText"></div>
+
+        <div id="modeASection">
+          <div class="net-display" id="netDisplay">
+            <svg id="mainNetSvg" width="240" height="160"></svg>
+          </div>
+          <div class="name-options" id="nameOptions"></div>
+        </div>
+
+        <div id="modeBSection" style="display:none;">
+          <div class="shape-name-display">
+            <div class="shape-3d-icon" id="shapeIcon"></div>
+            <div class="shape-name-big" id="shapeName"></div>
+          </div>
+          <div class="net-thumb-grid" id="netThumbGrid"></div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
       </div>
-      <div class="name-options" id="nameOptions"></div>
     </div>
-
-    <!-- Mode B: show shape name, ask which net -->
-    <div id="modeBSection" style="display:none;">
-      <div class="shape-name-display">
-        <div class="shape-3d-icon" id="shapeIcon"></div>
-        <div class="shape-name-big" id="shapeName"></div>
-      </div>
-      <div class="net-thumb-grid" id="netThumbGrid"></div>
-    </div>
-
-    <div class="feedback" id="feedback"></div>
   </div>
 </div>
 
-<!-- PROGRESS -->
-<div class="progress-bar-wrap">
-  <span class="progress-label">Question <span id="progQ">1</span> of 10</span>
-  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  <span class="progress-pct" id="progPct">0%</span>
-</div>
-
-<!-- END SCREEN -->
-<div class="end-overlay" id="endOverlay">
+<div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars"></div>
-    <div class="end-title" id="endTitle"></div>
-    <div class="end-subtitle">You scored</div>
-    <div class="end-score" id="endScore"></div>
-    <div class="end-btns">
-      <button class="btn-geo" onclick="restartGame()">Play Again</button>
-      <button class="btn-back" onclick="window.location.href='../../index.html'">Back</button>
-    </div>
+    <div id="endEmoji">🎉</div>
+    <div id="endTitle">Game Over!</div>
+    <div id="endScore">0 / 10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">&#8592; All Games</a>
   </div>
 </div>
 
 <script>
 const ns = 'http://www.w3.org/2000/svg';
-
-// ─── NET DRAWING FUNCTIONS ────────────────────────────────────────────
-// Each function draws into an SVG element with given width/height
-// fill: main face fill, stroke: outline colour
 
 function svgEl(tag, attrs) {
   const el = document.createElementNS(ns, tag);
@@ -168,19 +169,14 @@ function svgEl(tag, attrs) {
 }
 
 function drawNetCube(svg, scale) {
-  // Cross arrangement: each square = S
   const S = 44 * scale;
   svg.innerHTML = '';
   const W = S * 4 + 4, H = S * 3 + 4;
   svg.setAttribute('width', W); svg.setAttribute('height', H);
-  // Squares: (col,row) in cross pattern
   const squares = [[1,0],[0,1],[1,1],[2,1],[3,1],[1,2]];
   squares.forEach(([c,r]) => {
-    const rect = svgEl('rect',{x:c*S+2,y:r*S+2,width:S-1,height:S-1,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2',rx:'2'});
+    const rect = svgEl('rect',{x:c*S+2,y:r*S+2,width:S-1,height:S-1,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2',rx:'2'});
     svg.appendChild(rect);
-    // Blueprint annotation
-    const ann = svgEl('line',{x1:c*S+6,y1:r*S+6,x2:c*S+S-6,y2:r*S+6,stroke:'rgba(78,205,196,0.2)','stroke-width':'0.5'});
-    svg.appendChild(ann);
   });
 }
 
@@ -191,19 +187,16 @@ function drawNetCuboid(svg, scale) {
   const totalH = Sh + H + Sh + 4;
   svg.setAttribute('width', Math.max(totalW, 200*scale));
   svg.setAttribute('height', totalH + 10);
-
-  // Layout: [top-Lw×Sh] row then [Sw×H][Lw×H][Sw×H][Lw×H] then [bottom-Lw×Sh]
-  const startX = 2, midY = Sh + H/2;
   const rects = [
-    {x: Sw+2, y:2, w:Lw, h:Sh},     // top
-    {x:2, y:Sh+2, w:Sw, h:H},       // left
-    {x:Sw+2, y:Sh+2, w:Lw, h:H},    // front
-    {x:Sw+Lw+2, y:Sh+2, w:Sw, h:H}, // right
-    {x:Sw+Lw+Sw+2, y:Sh+2, w:Lw, h:H}, // back
-    {x:Sw+2, y:Sh+H+2, w:Lw, h:Sh},  // bottom
+    {x: Sw+2, y:2, w:Lw, h:Sh},
+    {x:2, y:Sh+2, w:Sw, h:H},
+    {x:Sw+2, y:Sh+2, w:Lw, h:H},
+    {x:Sw+Lw+2, y:Sh+2, w:Sw, h:H},
+    {x:Sw+Lw+Sw+2, y:Sh+2, w:Lw, h:H},
+    {x:Sw+2, y:Sh+H+2, w:Lw, h:Sh},
   ];
   rects.forEach(r => {
-    const rect = svgEl('rect',{x:r.x,y:r.y,width:r.w,height:r.h,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'1.5',rx:'2'});
+    const rect = svgEl('rect',{x:r.x,y:r.y,width:r.w,height:r.h,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'1.5',rx:'2'});
     svg.appendChild(rect);
   });
 }
@@ -213,18 +206,12 @@ function drawNetCylinder(svg, scale) {
   const R = 22*scale, RW=100*scale, RH=55*scale, cx1=R+2, cy=R+2, cx2=R+2+RW+R+8;
   const totalW = cx2+R+2, totalH = Math.max(RH+4, 2*R+4)+8;
   svg.setAttribute('width', totalW); svg.setAttribute('height', totalH);
-  // Rectangle (label)
-  const rect = svgEl('rect',{x:cx1+R+4,y:(totalH-RH)/2,width:RW,height:RH,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2',rx:'4'});
+  const rect = svgEl('rect',{x:cx1+R+4,y:(totalH-RH)/2,width:RW,height:RH,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2',rx:'4'});
   svg.appendChild(rect);
-  // Circles
   const midY = totalH/2;
   [cx1, cx2].forEach(cx => {
-    const c = svgEl('circle',{cx,cy:midY,r:R,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'});
+    const c = svgEl('circle',{cx,cy:midY,r:R,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2'});
     svg.appendChild(c);
-    // Cross detail
-    const ln1 = svgEl('line',{x1:cx-R+4,y1:midY,x2:cx+R-4,y2:midY,stroke:'rgba(78,205,196,0.3)','stroke-width':'0.8'});
-    const ln2 = svgEl('line',{x1:cx,y1:midY-R+4,x2:cx,y2:midY+R-4,stroke:'rgba(78,205,196,0.3)','stroke-width':'0.8'});
-    svg.appendChild(ln1); svg.appendChild(ln2);
   });
 }
 
@@ -232,77 +219,52 @@ function drawNetCone(svg, scale) {
   svg.innerHTML = '';
   const R=25*scale, W=230*scale, H=140*scale;
   svg.setAttribute('width', W); svg.setAttribute('height', H);
-  // Sector (fan) - big arc
-  const cx=W*0.62, cy=H*0.85, angle=260;
+  const cx=W*0.62, cy=H*0.85;
   const r1=100*scale;
   const rad0 = (-130)*Math.PI/180, rad1 = (130)*Math.PI/180;
   const x0=cx+r1*Math.cos(rad0), y0=cy+r1*Math.sin(rad0);
   const x1=cx+r1*Math.cos(rad1), y1=cy+r1*Math.sin(rad1);
   const sector = svgEl('path',{
     d:`M${cx},${cy} L${x0},${y0} A${r1},${r1} 0 1,1 ${x1},${y1} Z`,
-    fill:'#E0FAF8', stroke:'#34D399','stroke-width':'2'
+    fill:'#D1FAE5', stroke:'#10B981','stroke-width':'2'
   });
   svg.appendChild(sector);
-  // Circle (base)
   const circX = R+4, circY = H/2;
-  const c = svgEl('circle',{cx:circX,cy:circY,r:R,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'});
+  const c = svgEl('circle',{cx:circX,cy:circY,r:R,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2'});
   svg.appendChild(c);
 }
 
 function drawNetTriPrism(svg, scale) {
   svg.innerHTML = '';
-  // 2 triangles + 3 rectangles in a row
   const RW=45*scale, RH=65*scale, TW=56*scale;
   const totalW = TW + RW*3 + TW + 10, totalH = RH + 20;
   svg.setAttribute('width', Math.min(totalW, 280*scale)); svg.setAttribute('height', totalH);
-  const y0=10, midY=y0+RH/2;
+  const y0=10;
   let cx=4;
-  // Triangle 1
   const t1pts = `${cx},${y0+RH} ${cx+TW/2},${y0} ${cx+TW},${y0+RH}`;
-  svg.appendChild(svgEl('polygon',{points:t1pts,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'}));
+  svg.appendChild(svgEl('polygon',{points:t1pts,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2'}));
   cx += TW;
-  // 3 rectangles
   for(let i=0;i<3;i++){
-    svg.appendChild(svgEl('rect',{x:cx,y:y0,width:RW,height:RH,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2',rx:'2'}));
+    svg.appendChild(svgEl('rect',{x:cx,y:y0,width:RW,height:RH,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2',rx:'2'}));
     cx += RW;
   }
-  // Triangle 2
   const t2pts = `${cx},${y0+RH} ${cx+TW/2},${y0} ${cx+TW},${y0+RH}`;
-  svg.appendChild(svgEl('polygon',{points:t2pts,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'}));
+  svg.appendChild(svgEl('polygon',{points:t2pts,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2'}));
 }
 
 function drawNetSquarePyramid(svg, scale) {
   svg.innerHTML = '';
-  // Square center + 4 triangles on each side
   const S=52*scale, TH=42*scale;
   const totalW=S+TH*2+8, totalH=S+TH*2+8;
   svg.setAttribute('width', totalW); svg.setAttribute('height', totalH);
   const cx=TH+4, cy=TH+4;
-  // Center square
-  svg.appendChild(svgEl('rect',{x:cx,y:cy,width:S,height:S,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2',rx:'2'}));
-  // Top triangle
-  svg.appendChild(svgEl('polygon',{
-    points:`${cx},${cy} ${cx+S},${cy} ${cx+S/2},${cy-TH}`,
-    fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'
-  }));
-  // Bottom triangle
-  svg.appendChild(svgEl('polygon',{
-    points:`${cx},${cy+S} ${cx+S},${cy+S} ${cx+S/2},${cy+S+TH}`,
-    fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'
-  }));
-  // Left triangle
-  svg.appendChild(svgEl('polygon',{
-    points:`${cx},${cy} ${cx},${cy+S} ${cx-TH},${cy+S/2}`,
-    fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'
-  }));
-  // Right triangle
-  svg.appendChild(svgEl('polygon',{
-    points:`${cx+S},${cy} ${cx+S},${cy+S} ${cx+S+TH},${cy+S/2}`,
-    fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'
-  }));
+  svg.appendChild(svgEl('rect',{x:cx,y:cy,width:S,height:S,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2',rx:'2'}));
+  svg.appendChild(svgEl('polygon',{points:`${cx},${cy} ${cx+S},${cy} ${cx+S/2},${cy-TH}`,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2'}));
+  svg.appendChild(svgEl('polygon',{points:`${cx},${cy+S} ${cx+S},${cy+S} ${cx+S/2},${cy+S+TH}`,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2'}));
+  svg.appendChild(svgEl('polygon',{points:`${cx},${cy} ${cx},${cy+S} ${cx-TH},${cy+S/2}`,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2'}));
+  svg.appendChild(svgEl('polygon',{points:`${cx+S},${cy} ${cx+S},${cy+S} ${cx+S+TH},${cy+S/2}`,fill:'#D1FAE5',stroke:'#10B981','stroke-width':'2'}));
 }
 
-// Net drawing function map
 const NET_DRAW_FNS = {
   cube: drawNetCube,
   cuboid: drawNetCuboid,
@@ -313,41 +275,25 @@ const NET_DRAW_FNS = {
 };
 
 const SHAPE_NAMES = {
-  cube: 'Cube',
-  cuboid: 'Cuboid',
-  cylinder: 'Cylinder',
-  cone: 'Cone',
-  tri_prism: 'Triangular Prism',
-  sq_pyramid: 'Square Pyramid'
+  cube: 'Cube', cuboid: 'Cuboid', cylinder: 'Cylinder',
+  cone: 'Cone', tri_prism: 'Triangular Prism', sq_pyramid: 'Square Pyramid'
 };
 
 const SHAPE_ICONS = {
   cube:'🧊', cuboid:'📦', cylinder:'🥫', cone:'🍦', tri_prism:'🔷', sq_pyramid:'🔺'
 };
 
-// ─── ROUND DEFINITIONS ────────────────────────────────────────────────
-// mode: 'A' = show net, identify shape; 'B' = show shape name, pick net
 const ROUNDS = [
-  {mode:'A', netKey:'cube',     q:'Which 3D shape does this net fold into?',
-   wrongShapes:['cuboid','tri_prism','sq_pyramid']},
-  {mode:'B', netKey:'cylinder', q:'Which net belongs to a Cylinder?',
-   wrongNets:['cone','cube','cuboid']},
-  {mode:'A', netKey:'tri_prism',q:'Which 3D shape does this net make?',
-   wrongShapes:['cube','sq_pyramid','cuboid']},
-  {mode:'B', netKey:'cube',     q:'Which net folds up to make a Cube?',
-   wrongNets:['cuboid','tri_prism','sq_pyramid']},
-  {mode:'A', netKey:'cone',     q:'Which 3D shape does this net create?',
-   wrongShapes:['cylinder','sq_pyramid','tri_prism']},
-  {mode:'B', netKey:'sq_pyramid',q:'Which net belongs to a Square Pyramid?',
-   wrongNets:['cone','tri_prism','cube']},
-  {mode:'A', netKey:'cuboid',   q:'What 3D shape does this net produce?',
-   wrongShapes:['cube','cylinder','tri_prism']},
-  {mode:'B', netKey:'tri_prism',q:'Which net folds to make a Triangular Prism?',
-   wrongNets:['sq_pyramid','cuboid','cylinder']},
-  {mode:'A', netKey:'sq_pyramid',q:'What shape does this net fold into?',
-   wrongShapes:['cone','cube','tri_prism']},
-  {mode:'B', netKey:'cone',     q:'Which net belongs to a Cone?',
-   wrongNets:['cylinder','sq_pyramid','tri_prism']}
+  {mode:'A', netKey:'cube',      q:'Which 3D shape does this net fold into?', wrongShapes:['cuboid','tri_prism','sq_pyramid']},
+  {mode:'B', netKey:'cylinder',  q:'Which net belongs to a Cylinder?', wrongNets:['cone','cube','cuboid']},
+  {mode:'A', netKey:'tri_prism', q:'Which 3D shape does this net make?', wrongShapes:['cube','sq_pyramid','cuboid']},
+  {mode:'B', netKey:'cube',      q:'Which net folds up to make a Cube?', wrongNets:['cuboid','tri_prism','sq_pyramid']},
+  {mode:'A', netKey:'cone',      q:'Which 3D shape does this net create?', wrongShapes:['cylinder','sq_pyramid','tri_prism']},
+  {mode:'B', netKey:'sq_pyramid',q:'Which net belongs to a Square Pyramid?', wrongNets:['cone','tri_prism','cube']},
+  {mode:'A', netKey:'cuboid',    q:'What 3D shape does this net produce?', wrongShapes:['cube','cylinder','tri_prism']},
+  {mode:'B', netKey:'tri_prism', q:'Which net folds to make a Triangular Prism?', wrongNets:['sq_pyramid','cuboid','cylinder']},
+  {mode:'A', netKey:'sq_pyramid',q:'What shape does this net fold into?', wrongShapes:['cone','cube','tri_prism']},
+  {mode:'B', netKey:'cone',      q:'Which net belongs to a Cone?', wrongNets:['cylinder','sq_pyramid','tri_prism']}
 ];
 
 let currentRound = 0;
@@ -359,10 +305,8 @@ function renderRound() {
   const rd = ROUNDS[currentRound];
 
   document.getElementById('roundLabel').textContent = currentRound + 1;
-  document.getElementById('progQ').textContent = currentRound + 1;
   const pct = Math.round((currentRound / 10) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('feedback').textContent = '';
   document.getElementById('feedback').className = 'feedback';
   document.getElementById('questionText').textContent = rd.q;
@@ -377,11 +321,9 @@ function renderRound() {
     modeASection.style.display = 'block';
     modeBSection.style.display = 'none';
 
-    // Draw the net
     const mainSvg = document.getElementById('mainNetSvg');
     NET_DRAW_FNS[rd.netKey](mainSvg, 1);
 
-    // Shape name options
     const nameOptions = document.getElementById('nameOptions');
     nameOptions.innerHTML = '';
     const correctName = SHAPE_NAMES[rd.netKey];
@@ -402,7 +344,7 @@ function renderRound() {
           btn.classList.add('correct');
           fb.textContent = `✅ Correct! It makes a ${correctName}.`;
           fb.className = 'feedback correct';
-          document.getElementById('scoreDisplay').textContent = score;
+          document.getElementById('score').textContent = score;
         } else {
           btn.classList.add('wrong');
           allBtns.forEach(b => { if (b.textContent === correctName) b.classList.add('correct'); });
@@ -415,7 +357,6 @@ function renderRound() {
     });
 
   } else {
-    // Mode B
     modeBadge.textContent = 'SHAPE → NET';
     modeBadge.className = 'mode-badge mode-b-badge';
     modeASection.style.display = 'none';
@@ -447,10 +388,7 @@ function renderRound() {
       thumbSvg.setAttribute('width','120');
       thumbSvg.setAttribute('height','100');
       thumbSvg.style.overflow = 'visible';
-
-      // Draw net scaled to fit ~120x90
       NET_DRAW_FNS[opt.key](thumbSvg, 0.55);
-
       div.appendChild(thumbSvg);
 
       div.onclick = () => {
@@ -464,7 +402,7 @@ function renderRound() {
           div.classList.add('correct');
           fb.textContent = `✅ Correct! That's the ${SHAPE_NAMES[rd.netKey]} net!`;
           fb.className = 'feedback correct';
-          document.getElementById('scoreDisplay').textContent = score;
+          document.getElementById('score').textContent = score;
         } else {
           div.classList.add('wrong');
           allDivs.forEach(d => { if (d.dataset.correct === '1') d.classList.add('correct'); });
@@ -485,20 +423,19 @@ function advanceRound() {
 }
 
 function showEndScreen() {
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('progPct').textContent = '100%';
-  const stars = score >= 9 ? '★★★' : score >= 7 ? '★★☆' : '★☆☆';
+  document.getElementById('progressBar').style.width = '100%';
+  const emoji = score >= 9 ? '🌟' : score >= 7 ? '😊' : '💪';
   const title = score >= 9 ? 'Brilliant!' : score >= 7 ? 'Well Done!' : 'Keep Trying!';
-  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endEmoji').textContent = emoji;
   document.getElementById('endTitle').textContent = title;
-  document.getElementById('endScore').textContent = `${score} / 10 correct`;
-  document.getElementById('endOverlay').classList.add('show');
+  document.getElementById('endScore').textContent = score + ' / 10 correct';
+  document.getElementById('endScreen').classList.add('show');
 }
 
 function restartGame() {
   currentRound = 0; score = 0;
-  document.getElementById('scoreDisplay').textContent = '0';
-  document.getElementById('endOverlay').classList.remove('show');
+  document.getElementById('score').textContent = '0';
+  document.getElementById('endScreen').classList.remove('show');
   renderRound();
 }
 

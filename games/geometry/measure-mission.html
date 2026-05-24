@@ -3,302 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Measure Mission – MathMunch</title>
 <style>
-:root{
-  --primary:#10B981;--primary-light:#ECFDF5;
-  --g1:#34D399;--g2:#10B981;
-  --accent:#FDCB6E;--bg:#F0F4FF;
-  --white:#FFFFFF;--text:#1E1E2E;--text2:#525270;
-  --green:#00B894;--red:#FF4757;
-  --radius:16px;--shadow:0 4px 20px rgba(78,205,196,0.15);
+:root {
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --canvas:#D1FAE5; --bg:#F8FAFC; --white:#FFFFFF;
+  --text:#1E293B; --text2:#64748B; --shadow:0 4px 20px rgba(16,185,129,0.12);
+  --radius:16px;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F1F8E9;color:var(--text);min-height:100vh}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
 
-/* TOP BAR */
-.topbar{background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);position:sticky;top:0;z-index:50}
-.topbar-inner{max-width:800px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.back-btn{text-decoration:none;background:var(--bg);color:var(--text2);padding:7px 14px;border-radius:10px;font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:5px;transition:all 0.2s}
-.back-btn:hover{background:var(--primary-light);color:var(--primary)}
-.topbar-logo{font-size:1rem;font-weight:900;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:6px}
-.topbar-sep{color:#ccc}
-.topbar-title{font-size:0.95rem;font-weight:800;flex:1}
-.level-badge{background:#FFFBE0;color:#F0A500;font-size:0.75rem;font-weight:800;padding:4px 10px;border-radius:20px;border:1px solid #F0A500}
-.score-display{background:linear-gradient(135deg,var(--g1),var(--g2));color:white;padding:6px 14px;border-radius:20px;font-weight:800;font-size:0.85rem}
+.site-header{background:var(--white);box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.header-nav{display:flex;align-items:center;gap:16px;}
+.header-nav a{color:var(--text2);text-decoration:none;font-size:14px;font-weight:600;}
+.header-nav a:hover{color:var(--green);}
+.header-cta{background:var(--green);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none;}
 
-/* GAME AREA */
-.game-area{max-width:800px;margin:0 auto;padding:24px 20px 100px}
-.question-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px}
-.question-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
-.cat-badge{padding:5px 14px;border-radius:20px;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px}
-.cat-length{background:#E0F7FA;color:#00838F}
-.cat-mass{background:#FFF3E0;color:#E65100}
-.cat-capacity{background:#E8F5E9;color:#2E7D32}
-.question-text{font-size:1.15rem;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:20px}
+.game-layout{display:grid;grid-template-columns:280px 1fr;flex:1;min-height:0;}
 
-/* RULER */
-.ruler-wrap{margin:16px 0;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
-.ruler-obj-label{font-size:0.8rem;font-weight:700;color:var(--text2);margin-bottom:2px}
-.ruler-obj-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.ruler-obj-bar{height:18px;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:0.7rem;font-weight:800;color:white}
-.ruler{position:relative;width:320px;height:36px;background:var(--white);border:2px solid #34D399;border-radius:4px;overflow:visible;margin-top:4px}
-.ruler-tick{position:absolute;bottom:0;width:1px;background:#34D399}
-.ruler-tick.major{height:14px}
-.ruler-tick.minor{height:12px}
-.ruler-label{position:absolute;bottom:-18px;font-size:0.62rem;color:var(--text2);transform:translateX(-50%)}
+.sidebar{background:var(--white);border-right:1px solid #E2E8F0;padding:24px 20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--green-light);color:var(--green-dark);border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;}
+.exit-btn:hover{background:#D1FAE5;}
+.stat-card{background:var(--bg);border-radius:12px;padding:16px;border:1px solid #E2E8F0;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:var(--green);}
+.level-progress-track{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;margin-top:8px;}
+.level-progress-fill{height:100%;background:linear-gradient(90deg,#34D399,var(--green));border-radius:99px;transition:width 0.4s ease;width:0%;}
 
-/* BALANCE SCALE */
-.scale-wrap{display:flex;justify-content:center;margin:16px 0}
+.game-canvas{background:var(--canvas);position:relative;overflow-y:auto;padding:32px 28px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#6EE7B7 1px,transparent 1px);background-size:24px 24px;opacity:0.4;pointer-events:none;}
+.canvas-inner{position:relative;z-index:1;}
 
-/* BEAKERS */
-.beakers-row{display:flex;gap:24px;justify-content:center;margin:16px 0;flex-wrap:wrap}
-.beaker-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
-.beaker-label{font-size:0.8rem;font-weight:800;color:var(--text2)}
-.beaker{width:60px;height:100px;border:3px solid #78909C;border-top:none;border-radius:0 0 10px 10px;position:relative;overflow:hidden;background:#ECEFF1}
-.beaker-liquid{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(78,205,196,0.6),rgba(46,204,113,0.8));border-radius:0 0 7px 7px}
-.beaker-pct{font-size:0.72rem;font-weight:700;color:#00838F}
-.beaker-ml{font-size:0.7rem;color:var(--text2)}
+/* Game-specific CSS */
+.question-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px;}
+.question-header{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.cat-badge{padding:5px 14px;border-radius:20px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.cat-length{background:#D1FAE5;color:var(--green-dark);}
+.cat-mass{background:#FEF9C3;color:#92400E;}
+.cat-capacity{background:#DBEAFE;color:#1E40AF;}
+.question-text{font-size:1.1rem;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:20px;}
+.ruler-wrap{margin:16px 0;display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+.ruler-obj-label{font-size:0.8rem;font-weight:700;color:var(--text2);margin-bottom:2px;}
+.ruler-obj-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.ruler-obj-bar{height:18px;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:0.7rem;font-weight:700;color:white;}
+.ruler{position:relative;width:320px;height:36px;background:var(--white);border:2px solid #34D399;border-radius:4px;overflow:visible;margin-top:4px;}
+.ruler-tick{position:absolute;bottom:0;width:1px;background:#34D399;}
+.ruler-tick.major{height:14px;}
+.ruler-tick.minor{height:12px;}
+.ruler-label{position:absolute;bottom:-18px;font-size:0.62rem;color:var(--text2);transform:translateX(-50%);}
+.scale-wrap{display:flex;justify-content:center;margin:16px 0;}
+.beakers-row{display:flex;gap:24px;justify-content:center;margin:16px 0;flex-wrap:wrap;}
+.beaker-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.beaker-label{font-size:0.8rem;font-weight:700;color:var(--text2);}
+.beaker{width:60px;height:100px;border:3px solid #78909C;border-top:none;border-radius:0 0 10px 10px;position:relative;overflow:hidden;background:#F1F5F9;}
+.beaker-liquid{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,rgba(78,205,196,0.6),rgba(16,185,129,0.8));border-radius:0 0 7px 7px;}
+.beaker-pct{font-size:0.72rem;font-weight:700;color:var(--green-dark);}
+.beaker-ml{font-size:0.7rem;color:var(--text2);}
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.ans-btn{background:var(--green-light);border:2px solid #A7F3D0;border-radius:12px;padding:14px 10px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:center;}
+.ans-btn:hover:not(:disabled){border-color:var(--green);background:#D1FAE5;transform:translateY(-1px);}
+.ans-btn.correct{background:#D1FAE5;border-color:var(--green-dark);color:var(--green-dark);}
+.ans-btn.wrong{background:#FEE2E2;border-color:#DC2626;color:#DC2626;}
+.ans-btn:disabled{cursor:default;opacity:0.85;}
+.feedback-bar{padding:12px 16px;border-radius:12px;font-weight:700;font-size:0.95rem;margin-top:12px;display:none;}
+.feedback-bar.show{display:block;}
+.feedback-bar.correct{background:#D1FAE5;color:var(--green-dark);border:1px solid #A7F3D0;}
+.feedback-bar.wrong{background:#FEE2E2;color:#DC2626;border:1px solid #FCA5A5;}
+.deco{font-size:1.5rem;opacity:0.6;}
 
-/* ANSWER BUTTONS */
-.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
-.ans-btn{background:var(--bg);border:2px solid #E0E7FF;border-radius:12px;padding:14px 10px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:center}
-.ans-btn:hover:not(:disabled){border-color:var(--g1);background:#E0FFF8;transform:translateY(-1px)}
-.ans-btn.correct{background:#D4EDDA;border-color:var(--green);color:var(--green)}
-.ans-btn.wrong{background:#FFE0E3;border-color:var(--red);color:var(--red)}
-.ans-btn:disabled{cursor:default;opacity:0.85}
+.end-screen{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;}
+.end-screen.show{display:flex;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes popIn{from{transform:scale(0.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+#endEmoji{font-size:48px;margin-bottom:12px;}
+#endTitle{font-size:26px;font-weight:700;color:var(--text);margin-bottom:8px;font-family:'Quicksand',sans-serif;}
+#endScore{font-size:18px;font-weight:700;color:var(--green);margin-bottom:24px;}
+.btn{display:inline-block;padding:12px 28px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:none;margin:4px;text-decoration:none;}
+.btn-play{background:linear-gradient(135deg,#34D399,var(--green));color:white;}
+.btn-home{background:var(--green-light);color:var(--green-dark);}
 
-/* FEEDBACK */
-.feedback-bar{padding:12px 16px;border-radius:12px;font-weight:700;font-size:0.95rem;margin-top:12px;display:none}
-.feedback-bar.show{display:block}
-.feedback-bar.correct{background:#D4EDDA;color:#155724;border:1px solid #C3E6CB}
-.feedback-bar.wrong{background:#FFE0E3;color:#721C24;border:1px solid #F5C6CB}
-
-/* PROGRESS BAR */
-.progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:40}
-.progress-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:12px}
-.progress-label{font-size:0.82rem;font-weight:700;color:var(--text2);white-space:nowrap}
-.progress-track{flex:1;height:10px;background:#E0E7FF;border-radius:99px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s ease}
-.progress-pct{font-size:0.82rem;font-weight:800;color:var(--g1);white-space:nowrap}
-
-/* END SCREEN */
-.end-overlay{position:fixed;inset:0;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
-.end-overlay.show{display:flex}
-.end-card{background:var(--white);border-radius:24px;padding:40px 32px;max-width:400px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
-@keyframes popIn{from{transform:scale(0.6);opacity:0}to{transform:scale(1);opacity:1}}
-.end-emoji{font-size:3rem;margin-bottom:12px}
-.end-title{font-size:1.5rem;font-weight:900;margin-bottom:8px;color:var(--text)}
-.end-score{font-size:2.5rem;font-weight:900;color:var(--primary);margin-bottom:8px}
-.end-stars{font-size:2rem;letter-spacing:4px;margin-bottom:12px}
-.end-msg{font-size:1rem;color:var(--text2);margin-bottom:24px;font-weight:600}
-.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:1rem;transition:all 0.2s;text-decoration:none;display:inline-block}
-.btn-geo:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(78,205,196,0.4)}
-.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-secondary{background:var(--bg);color:var(--text2);border:2px solid #E0E7FF;border-radius:12px;font-weight:800;padding:12px 24px;cursor:pointer;font-size:0.9rem;text-decoration:none;display:inline-block;transition:all 0.2s}
-.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
-
-.deco{font-size:1.5rem;opacity:0.6}
+@media(max-width:768px){
+  .game-layout{grid-template-columns:1fr;}
+  .sidebar{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid #E2E8F0;padding:12px;}
+  .header-nav{display:none;}
+}
 </style>
 </head>
-<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="topbar-inner">
-    <a href="../../index.html" class="back-btn">← All Games</a>
-    <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
-    <span class="topbar-sep">|</span>
-    <span class="topbar-title">🧭 Measure Mission</span>
-    <span class="level-badge">P2</span>
-    <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
-  </div>
-</div>
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">All Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="../../index.html" class="header-cta">Play Now</a>
+  </nav>
+</header>
 
-<!-- GAME AREA -->
-<div class="game-area">
-  <div class="question-card" id="questionCard">
-    <div class="question-header">
-      <span class="cat-badge" id="catBadge">Length</span>
-      <span class="deco" id="decoIcon">🌿</span>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">&#8617; Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
     </div>
-    <div class="question-text" id="questionText">Loading...</div>
-    <div id="visualArea"></div>
-    <div class="answers-grid" id="answersGrid"></div>
-    <div class="feedback-bar" id="feedbackBar"></div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-value" style="font-size:18px;">Agent</div>
+      <div class="level-progress-track"><div class="level-progress-fill" id="progressBar"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Grade</div>
+      <div class="stat-value" style="font-size:18px;color:var(--text);">P2</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Topic</div>
+      <div style="font-size:13px;color:var(--text2);font-weight:600;line-height:1.5;">Length, Mass &amp; Capacity</div>
+    </div>
+  </div>
+
+  <div class="game-canvas">
+    <div class="canvas-inner">
+      <div class="question-card" id="questionCard">
+        <div class="question-header">
+          <span class="cat-badge" id="catBadge">Length</span>
+          <span class="deco" id="decoIcon">🌿</span>
+        </div>
+        <div class="question-text" id="questionText">Loading...</div>
+        <div id="visualArea"></div>
+        <div class="answers-grid" id="answersGrid"></div>
+        <div class="feedback-bar" id="feedbackBar"></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar">
-  <div class="progress-inner">
-    <span class="progress-label" id="progressLabel">Question 1 of 10</span>
-    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    <span class="progress-pct" id="progressPct">0%</span>
-  </div>
-</div>
-
-<!-- END SCREEN -->
-<div class="end-overlay" id="endOverlay">
+<div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-emoji" id="endEmoji">🏆</div>
-    <div class="end-title" id="endTitle">Brilliant!</div>
-    <div class="end-score" id="endScore">10/10</div>
-    <div class="end-stars" id="endStars">★★★</div>
-    <div class="end-msg" id="endMsg">You're a measurement expert!</div>
-    <div class="end-btns">
-      <button class="btn-geo" onclick="restartGame()">Play Again</button>
-      <a href="../../index.html" class="btn-secondary">← Back</a>
-    </div>
+    <div id="endEmoji">🎉</div>
+    <div id="endTitle">Game Over!</div>
+    <div id="endScore">0 / 10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">&#8592; All Games</a>
   </div>
 </div>
 
 <script>
 const questions = [
-  // Cat A: LENGTH (4)
-  {
-    cat:'length', catLabel:'Length 📏', deco:'🌿',
-    type:'compare',
+  { cat:'length', catLabel:'Length 📏', deco:'🌿', type:'compare',
     text:'Which object is longer?',
-    items:[
-      {label:'Pencil',cm:8,color:'#FF7675'},
-      {label:'Crayon',cm:5,color:'#FDCB6E'}
-    ],
-    options:['Pencil','Crayon','They are equal','Cannot tell'],
-    answer:'Pencil',
-    explanation:'The pencil is 8cm and the crayon is 5cm, so the pencil is longer.'
-  },
-  {
-    cat:'length', catLabel:'Length 📏', deco:'🌿',
-    type:'read',
+    items:[{label:'Pencil',cm:8,color:'#FF7675'},{label:'Crayon',cm:5,color:'#FDCB6E'}],
+    options:['Pencil','Crayon','They are equal','Cannot tell'], answer:'Pencil',
+    explanation:'The pencil is 8cm and the crayon is 5cm, so the pencil is longer.' },
+  { cat:'length', catLabel:'Length 📏', deco:'🌿', type:'read',
     text:'How long is the eraser?',
-    items:[
-      {label:'Eraser',cm:4,color:'#74B9FF'}
-    ],
-    options:['2cm','3cm','4cm','5cm'],
-    answer:'4cm',
-    explanation:'The eraser reaches the 4cm mark on the ruler.'
-  },
-  {
-    cat:'length', catLabel:'Length 📏', deco:'🌿',
-    type:'diff',
+    items:[{label:'Eraser',cm:4,color:'#74B9FF'}],
+    options:['2cm','3cm','4cm','5cm'], answer:'4cm',
+    explanation:'The eraser reaches the 4cm mark on the ruler.' },
+  { cat:'length', catLabel:'Length 📏', deco:'🌿', type:'diff',
     text:'How much longer is the snake than the worm?',
-    items:[
-      {label:'Snake',cm:12,color:'#55EFC4'},
-      {label:'Worm',cm:3,color:'#FDCB6E'}
-    ],
-    options:['7cm','8cm','9cm','10cm'],
-    answer:'9cm',
-    explanation:'Snake is 12cm, worm is 3cm. 12 − 3 = 9cm longer.'
-  },
-  {
-    cat:'length', catLabel:'Length 📏', deco:'🌿',
-    type:'compare',
+    items:[{label:'Snake',cm:12,color:'#55EFC4'},{label:'Worm',cm:3,color:'#FDCB6E'}],
+    options:['7cm','8cm','9cm','10cm'], answer:'9cm',
+    explanation:'Snake is 12cm, worm is 3cm. 12 − 3 = 9cm longer.' },
+  { cat:'length', catLabel:'Length 📏', deco:'🌿', type:'compare',
     text:'Which ribbon is shorter?',
-    items:[
-      {label:'Ribbon A',cm:7,color:'#E17055'},
-      {label:'Ribbon B',cm:11,color:'#10B981'}
-    ],
-    options:['Ribbon A','Ribbon B','They are equal','Cannot tell'],
-    answer:'Ribbon A',
-    explanation:'Ribbon A is 7cm and Ribbon B is 11cm, so Ribbon A is shorter.'
-  },
-  // Cat B: MASS (3)
-  {
-    cat:'mass', catLabel:'Mass ⚖️', deco:'🧭',
-    type:'scale',
+    items:[{label:'Ribbon A',cm:7,color:'#E17055'},{label:'Ribbon B',cm:11,color:'#10B981'}],
+    options:['Ribbon A','Ribbon B','They are equal','Cannot tell'], answer:'Ribbon A',
+    explanation:'Ribbon A is 7cm and Ribbon B is 11cm, so Ribbon A is shorter.' },
+  { cat:'mass', catLabel:'Mass ⚖️', deco:'🧭', type:'scale',
     text:'Which side of the scale is heavier?',
-    left:{emoji:'🐘',label:'Elephant',kg:'5kg'},
-    right:{emoji:'🐇',label:'Rabbit',kg:'1kg'},
-    leftHeavy:true,
-    options:['Left side (🐘)','Right side (🐇)','They are equal','Cannot tell'],
-    answer:'Left side (🐘)',
-    explanation:'The elephant weighs 5kg and the rabbit weighs 1kg. The left side is heavier.'
-  },
-  {
-    cat:'mass', catLabel:'Mass ⚖️', deco:'🧭',
-    type:'scale',
+    left:{emoji:'🐘',label:'Elephant',kg:'5kg'}, right:{emoji:'🐇',label:'Rabbit',kg:'1kg'}, leftHeavy:true,
+    options:['Left side (🐘)','Right side (🐇)','They are equal','Cannot tell'], answer:'Left side (🐘)',
+    explanation:'The elephant weighs 5kg and the rabbit weighs 1kg. The left side is heavier.' },
+  { cat:'mass', catLabel:'Mass ⚖️', deco:'🧭', type:'scale',
     text:'Left pan has 3kg + 2kg. Right pan has 6kg. Which side is heavier?',
-    left:{emoji:'🏋️',label:'3kg + 2kg',kg:'5kg total'},
-    right:{emoji:'🏋️',label:'6kg',kg:'6kg total'},
-    leftHeavy:false,
-    options:['Left side (5kg)','Right side (6kg)','They are equal','Cannot tell'],
-    answer:'Right side (6kg)',
-    explanation:'Left: 3+2 = 5kg. Right: 6kg. The right side is heavier.'
-  },
-  {
-    cat:'mass', catLabel:'Mass ⚖️', deco:'🧭',
-    type:'scale',
+    left:{emoji:'🏋️',label:'3kg + 2kg',kg:'5kg total'}, right:{emoji:'🏋️',label:'6kg',kg:'6kg total'}, leftHeavy:false,
+    options:['Left side (5kg)','Right side (6kg)','They are equal','Cannot tell'], answer:'Right side (6kg)',
+    explanation:'Left: 3+2 = 5kg. Right: 6kg. The right side is heavier.' },
+  { cat:'mass', catLabel:'Mass ⚖️', deco:'🧭', type:'scale',
     text:'Left has an apple (200g) + banana (150g). Right has an orange (300g). Which side is heavier?',
-    left:{emoji:'🍎🍌',label:'Apple + Banana',kg:'350g total'},
-    right:{emoji:'🍊',label:'Orange',kg:'300g total'},
-    leftHeavy:true,
-    options:['Left side (350g)','Right side (300g)','They are equal','Cannot tell'],
-    answer:'Left side (350g)',
-    explanation:'Left: 200+150 = 350g. Right: 300g. The left side is heavier.'
-  },
-  // Cat C: CAPACITY (3)
-  {
-    cat:'capacity', catLabel:'Capacity 🧪', deco:'💧',
-    type:'beakers',
+    left:{emoji:'🍎🍌',label:'Apple + Banana',kg:'350g total'}, right:{emoji:'🍊',label:'Orange',kg:'300g total'}, leftHeavy:true,
+    options:['Left side (350g)','Right side (300g)','They are equal','Cannot tell'], answer:'Left side (350g)',
+    explanation:'Left: 200+150 = 350g. Right: 300g. The left side is heavier.' },
+  { cat:'capacity', catLabel:'Capacity 🧪', deco:'💧', type:'beakers',
     text:'Which beaker has the most water in it right now?',
-    beakers:[
-      {label:'Beaker A',pct:25,ml:''},
-      {label:'Beaker B',pct:75,ml:''},
-      {label:'Beaker C',pct:50,ml:''}
-    ],
-    options:['Beaker A','Beaker B','Beaker C','They are equal'],
-    answer:'Beaker B',
-    explanation:'Beaker B is 75% full, which is the most water.'
-  },
-  {
-    cat:'capacity', catLabel:'Capacity 🧪', deco:'💧',
-    type:'halfFull',
+    beakers:[{label:'Beaker A',pct:25,ml:''},{label:'Beaker B',pct:75,ml:''},{label:'Beaker C',pct:50,ml:''}],
+    options:['Beaker A','Beaker B','Beaker C','They are equal'], answer:'Beaker B',
+    explanation:'Beaker B is 75% full, which is the most water.' },
+  { cat:'capacity', catLabel:'Capacity 🧪', deco:'💧', type:'halfFull',
     text:'Is this beaker more or less than half full?',
-    beakers:[
-      {label:'Beaker',pct:70,ml:''}
-    ],
-    options:['More than half','Less than half','Exactly half','Cannot tell'],
-    answer:'More than half',
-    explanation:'The beaker is 70% full, which is more than half (50%).'
-  },
-  {
-    cat:'capacity', catLabel:'Capacity 🧪', deco:'💧',
-    type:'beakers',
+    beakers:[{label:'Beaker',pct:70,ml:''}],
+    options:['More than half','Less than half','Exactly half','Cannot tell'], answer:'More than half',
+    explanation:'The beaker is 70% full, which is more than half (50%).' },
+  { cat:'capacity', catLabel:'Capacity 🧪', deco:'💧', type:'beakers',
     text:'Which beaker contains more liquid?',
-    beakers:[
-      {label:'Beaker A',pct:80,ml:'400ml'},
-      {label:'Beaker B',pct:50,ml:'250ml'}
-    ],
-    options:['Beaker A (400ml)','Beaker B (250ml)','They are equal','Cannot tell'],
-    answer:'Beaker A (400ml)',
-    explanation:'400ml is more than 250ml, so Beaker A has more.'
-  }
+    beakers:[{label:'Beaker A',pct:80,ml:'400ml'},{label:'Beaker B',pct:50,ml:'250ml'}],
+    options:['Beaker A (400ml)','Beaker B (250ml)','They are equal','Cannot tell'], answer:'Beaker A (400ml)',
+    explanation:'400ml is more than 250ml, so Beaker A has more.' }
 ];
 
-let current=0,score=0,answered=false;
+let current=0, score=0, answered=false;
 
 function buildRuler(items){
-  const scale=20; // px per cm
+  const scale=20;
   let html='<div class="ruler-wrap">';
   for(const it of items){
     const w=it.cm*scale;
     html+=`<div class="ruler-obj-label">${it.label}</div>
-    <div class="ruler-obj-row">
-      <div class="ruler-obj-bar" style="width:${w}px;background:${it.color}">${it.cm}cm</div>
-    </div>`;
+    <div class="ruler-obj-row"><div class="ruler-obj-bar" style="width:${w}px;background:${it.color}">${it.cm}cm</div></div>`;
   }
-  // Draw ruler 15cm = 300px
   html+='<div style="margin-top:8px;position:relative;padding-bottom:22px">';
   html+='<div class="ruler" style="width:300px">';
   for(let i=0;i<=15;i++){
     const x=i*scale;
     html+=`<div class="ruler-tick major" style="left:${x}px"></div>`;
     html+=`<div class="ruler-label" style="left:${x}px">${i}</div>`;
-    if(i<15){
-      html+=`<div class="ruler-tick minor" style="left:${x+10}px"></div>`;
-    }
+    if(i<15) html+=`<div class="ruler-tick minor" style="left:${x+10}px"></div>`;
   }
   html+='</div></div></div>';
   return html;
@@ -308,27 +234,20 @@ function buildScale(q){
   const tilt=q.leftHeavy?8:-8;
   return `<div class="scale-wrap">
     <svg width="260" height="160" viewBox="0 0 260 160">
-      <!-- base -->
       <polygon points="130,155 110,145 150,145" fill="#A0522D"/>
       <rect x="126" y="100" width="8" height="46" fill="#A0522D"/>
-      <!-- arm tilted -->
       <g transform="rotate(${tilt},130,100)">
         <rect x="30" y="97" width="200" height="6" rx="3" fill="#5D4037"/>
-        <!-- left plate -->
         <line x1="50" y1="103" x2="40" y2="128" stroke="#8D6E63" stroke-width="2"/>
         <line x1="70" y1="103" x2="80" y2="128" stroke="#8D6E63" stroke-width="2"/>
         <ellipse cx="60" cy="130" rx="28" ry="8" fill="#BCAAA4" stroke="#8D6E63" stroke-width="1.5"/>
-        <!-- right plate -->
         <line x1="190" y1="103" x2="180" y2="128" stroke="#8D6E63" stroke-width="2"/>
         <line x1="210" y1="103" x2="220" y2="128" stroke="#8D6E63" stroke-width="1.5"/>
         <ellipse cx="200" cy="130" rx="28" ry="8" fill="#BCAAA4" stroke="#8D6E63" stroke-width="1.5"/>
       </g>
-      <!-- pivot -->
       <circle cx="130" cy="100" r="6" fill="#5D4037"/>
-      <!-- left content -->
       <text x="60" y="84" text-anchor="middle" font-size="20">${q.left.emoji}</text>
       <text x="60" y="98" text-anchor="middle" font-size="9" fill="#5D4037" font-weight="700">${q.left.kg}</text>
-      <!-- right content -->
       <text x="200" y="84" text-anchor="middle" font-size="20">${q.right.emoji}</text>
       <text x="200" y="98" text-anchor="middle" font-size="9" fill="#5D4037" font-weight="700">${q.right.kg}</text>
     </svg>
@@ -341,9 +260,7 @@ function buildBeakers(beakers){
     const fillH=Math.round(b.pct*0.94);
     html+=`<div class="beaker-wrap">
       <div class="beaker-label">${b.label}</div>
-      <div class="beaker">
-        <div class="beaker-liquid" style="height:${fillH}%"></div>
-      </div>
+      <div class="beaker"><div class="beaker-liquid" style="height:${fillH}%"></div></div>
       <div class="beaker-pct">${b.pct}%</div>
       ${b.ml?`<div class="beaker-ml">${b.ml}</div>`:''}
     </div>`;
@@ -355,22 +272,18 @@ function buildBeakers(beakers){
 function renderQuestion(){
   const q=questions[current];
   const pct=Math.round((current/10)*100);
-  document.getElementById('progressLabel').textContent=`Question ${current+1} of 10`;
-  document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressBar').style.width=pct+'%';
   document.getElementById('catBadge').textContent=q.catLabel;
   document.getElementById('catBadge').className='cat-badge cat-'+q.cat;
   document.getElementById('decoIcon').textContent=q.deco;
   document.getElementById('questionText').textContent=q.text;
 
-  // Visual
   let vis='';
   if(q.cat==='length') vis=buildRuler(q.items||[]);
   else if(q.cat==='mass') vis=buildScale(q);
   else if(q.cat==='capacity') vis=buildBeakers(q.beakers||[]);
   document.getElementById('visualArea').innerHTML=vis;
 
-  // Answers
   const grid=document.getElementById('answersGrid');
   grid.innerHTML='';
   q.options.forEach(opt=>{
@@ -393,7 +306,7 @@ function selectAnswer(opt,btn){
   const q=questions[current];
   const correct=opt===q.answer;
   if(correct)score++;
-  document.getElementById('scoreDisplay').textContent=score;
+  document.getElementById('score').textContent=score;
 
   const btns=document.querySelectorAll('.ans-btn');
   btns.forEach(b=>{
@@ -413,31 +326,25 @@ function selectAnswer(opt,btn){
 
   setTimeout(()=>{
     current++;
-    if(current>=10) showEnd();
+    if(current>=10) showEndScreen();
     else renderQuestion();
   },1400);
 }
 
-function showEnd(){
-  const pct=100;
-  document.getElementById('progressFill').style.width='100%';
-  document.getElementById('progressPct').textContent='100%';
-  let emoji,title,stars,msg;
-  if(score>=9){emoji='🏆';title='Brilliant!';stars='★★★';msg="You're a measurement expert, Explorer!"}
-  else if(score>=7){emoji='🎉';title='Well Done!';stars='★★☆';msg='Great measuring skills!'}
-  else{emoji='💪';title='Keep Trying!';stars='★☆☆';msg='Practice makes perfect — keep going!'}
+function showEndScreen(){
+  document.getElementById('progressBar').style.width='100%';
+  document.getElementById('endScreen').classList.add('show');
+  const emoji = score>=9?'🌟':score>=7?'😊':'💪';
+  const title = score>=9?'Brilliant!':score>=7?'Well Done!':'Keep Trying!';
   document.getElementById('endEmoji').textContent=emoji;
   document.getElementById('endTitle').textContent=title;
-  document.getElementById('endScore').textContent=score+'/10';
-  document.getElementById('endStars').textContent=stars;
-  document.getElementById('endMsg').textContent=msg;
-  document.getElementById('endOverlay').classList.add('show');
+  document.getElementById('endScore').textContent=`${score} / 10 correct`;
 }
 
 function restartGame(){
   current=0;score=0;answered=false;
-  document.getElementById('scoreDisplay').textContent='0';
-  document.getElementById('endOverlay').classList.remove('show');
+  document.getElementById('score').textContent='0';
+  document.getElementById('endScreen').classList.remove('show');
   renderQuestion();
 }
 

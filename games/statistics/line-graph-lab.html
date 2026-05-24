@@ -1,125 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
-  <title>Line Graph Lab – MathMunch</title>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --s1:#FB923C;--s2:#F97316;
-      --bg:#F5F3FF;--white:#FFFFFF;
-      --dark:#1E1E2E;--mid:#525270;
-      --radius:16px;
-      --shadow:0 4px 20px rgba(249,115,22,0.15);
-    }
-    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(249,115,22,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
-    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
-    .back-btn:hover{background:var(--s1);color:white}
-    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
-    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
-    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
-    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
-    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:12px;background:#FFF7ED;z-index:200}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FB923C,#F97316);transition:width .4s ease;border-radius:0 4px 4px 0}
-    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
-    .end-screen.show{display:flex}
-    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-    .end-stars{font-size:2.5rem;margin-bottom:12px}
-    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
-    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
-    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
-    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
-    .btn-home{background:#FFF7ED;color:var(--s2);margin:0 6px}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
-    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<title>Line Graph Lab – MathMunch</title>
+<style>
+  :root {
+    --orange:#F97316;--orange-dark:#EA580C;--orange-light:#FFF7ED;
+    --blue:#3B82F6;--green:#10B981;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#FFEDD5;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
 
-    .question-counter{text-align:center;font-size:.85rem;color:var(--mid);margin-bottom:10px;font-weight:600}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--orange-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--orange);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--orange-light);color:var(--orange);}
+  .btn-play-now{background:var(--orange);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--orange-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .btn-play-now:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
 
-    /* Chart container */
-    .chart-container{background:white;border-radius:16px;padding:16px 16px 8px;box-shadow:var(--shadow);margin-bottom:20px}
-    .chart-dataset-label{text-align:center;font-size:.95rem;font-weight:700;color:var(--s2);margin-bottom:10px;letter-spacing:.3px}
-    .chart-svg-wrap{display:flex;justify-content:center;overflow:hidden}
-    svg.line-chart{display:block;overflow:visible}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
 
-    /* Question */
-    .question-text{text-align:center;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:18px;background:#F5F3FF;border-radius:14px;padding:14px 20px;line-height:1.4;border:2px solid var(--s1)}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--orange);color:var(--orange);}
+  .exit-btn:active{transform:translateY(1px);box-shadow:none;}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--orange);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.4rem;font-weight:700;color:var(--orange);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--orange);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--orange);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
 
-    /* Choices */
-    .choices{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:18px}
-    .choice-btn{padding:12px 22px;border-radius:20px;border:2.5px solid var(--s1);background:white;color:var(--dark);font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;min-width:72px}
-    .choice-btn:hover:not(:disabled){background:var(--s1);color:white;transform:translateY(-2px)}
-    .choice-btn.correct{background:#DCFCE7;border-color:#22C55E;color:#166534}
-    .choice-btn.wrong{background:#FEE2E2;border-color:#EF4444;color:#991B1B}
-    .choice-btn:disabled{cursor:default}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(249,115,22,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
 
-    .feedback-box{text-align:center;min-height:48px;margin-bottom:8px}
-    .feedback-msg{font-size:1.05rem;font-weight:700;padding:10px 24px;border-radius:24px;display:inline-block;opacity:0;transition:opacity .3s}
-    .feedback-msg.show{opacity:1}
-    .feedback-msg.correct{background:#DCFCE7;color:#166534}
-    .feedback-msg.wrong{background:#FEE2E2;color:#991B1B}
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;margin:0 6px;}
+  .btn-play{background:var(--orange);color:white;box-shadow:0 3px 0 var(--orange-dark);}
+  .btn-play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);}
 
-    .next-btn{display:block;margin:0 auto;padding:12px 36px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;transition:.2s;opacity:0;pointer-events:none}
-    .next-btn.visible{opacity:1;pointer-events:all}
-    .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,.3)}
+  @media(max-width:768px){
+    .game-layout{grid-template-columns:1fr;padding:16px;}
+    .sidebar{flex-direction:row;flex-wrap:wrap;}
+    .stat-card{flex:1;min-width:140px;}
+    .site-nav{display:none;}
+  }
 
-    /* Animated dot pulse */
-    @keyframes dotPop{0%{r:5}50%{r:9}100%{r:6}}
-    .dot-highlight{animation:dotPop .5s ease}
-  </style>
+  /* Game-specific CSS */
+  .question-counter{text-align:center;font-size:.85rem;color:#525270;margin-bottom:10px;font-weight:600}
+  .chart-container{background:white;border-radius:16px;padding:16px 16px 8px;box-shadow:0 4px 20px rgba(249,115,22,0.15);margin-bottom:20px}
+  .chart-dataset-label{text-align:center;font-size:.95rem;font-weight:700;color:#F97316;margin-bottom:10px;letter-spacing:.3px}
+  .chart-svg-wrap{display:flex;justify-content:center;overflow:hidden}
+  svg.line-chart{display:block;overflow:visible}
+  .question-text{text-align:center;font-size:1.05rem;font-weight:700;color:#1E1E2E;margin-bottom:18px;background:#FFF7ED;border-radius:14px;padding:14px 20px;line-height:1.4;border:2px solid #FB923C}
+  .choices{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:18px}
+  .choice-btn{padding:12px 22px;border-radius:20px;border:2.5px solid #FB923C;background:white;color:#1E1E2E;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;min-width:72px}
+  .choice-btn:hover:not(:disabled){background:#FB923C;color:white;transform:translateY(-2px)}
+  .choice-btn.correct{background:#DCFCE7;border-color:#22C55E;color:#166534}
+  .choice-btn.wrong{background:#FEE2E2;border-color:#EF4444;color:#991B1B}
+  .choice-btn:disabled{cursor:default}
+  .feedback-box{text-align:center;min-height:48px;margin-bottom:8px}
+  .feedback-msg{font-size:1.05rem;font-weight:700;padding:10px 24px;border-radius:24px;display:inline-block;opacity:0;transition:opacity .3s}
+  .feedback-msg.show{opacity:1}
+  .feedback-msg.correct{background:#DCFCE7;color:#166534}
+  .feedback-msg.wrong{background:#FEE2E2;color:#991B1B}
+  .next-btn{display:block;margin:0 auto;padding:12px 36px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;transition:.2s;opacity:0;pointer-events:none}
+  .next-btn.visible{opacity:1;pointer-events:all}
+  .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,.3)}
+  @keyframes dotPop{0%{r:5}50%{r:9}100%{r:6}}
+  .dot-highlight{animation:dotPop .5s ease}
+</style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
-<div class="topbar">
-  <a href="../../index.html" class="back-btn">← All Games</a>
-  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
-  <span class="game-title">Line Graph Lab</span>
-  <span class="level-badge">P4</span>
-  <span class="score-display">⭐ <span id="score">0</span></span>
-</div>
 
-<div class="game-area">
-  <div class="question-counter" id="questionCounter">Question 1 of 10</div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">📊</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
+  </div>
+</header>
 
-  <div class="chart-container">
-    <div class="chart-dataset-label" id="datasetLabel">Dataset</div>
-    <div class="chart-svg-wrap">
-      <svg class="line-chart" id="lineSvg" viewBox="0 0 540 280" width="540" height="280"></svg>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Analyst</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Line Graph Lab</div>
+      <span class="level-pill">P4</span>
     </div>
   </div>
 
-  <div class="question-text" id="questionText">Loading question...</div>
-  <div class="choices" id="mcArea"></div>
+  <div class="game-canvas">
+    <div class="question-counter" id="questionCounter">Question 1 of 10</div>
 
-  <div class="feedback-box"><div class="feedback-msg" id="feedbackMsg"></div></div>
-  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+    <div class="chart-container">
+      <div class="chart-dataset-label" id="datasetLabel">Dataset</div>
+      <div class="chart-svg-wrap">
+        <svg class="line-chart" id="lineSvg" viewBox="0 0 540 280" width="540" height="280"></svg>
+      </div>
+    </div>
+
+    <div class="question-text" id="questionText">Loading question...</div>
+    <div class="choices" id="mcArea"></div>
+
+    <div class="feedback-box"><div class="feedback-msg" id="feedbackMsg"></div></div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+  </div>
 </div>
 
 <div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars">⭐⭐⭐</div>
-    <div class="end-title" id="endTitle">Amazing!</div>
-    <div class="end-score" id="endScore">You scored 10/10</div>
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🎉</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;" id="endTitle">Game Over!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:28px;" id="endScore">0 / 10</div>
     <button class="btn btn-play" onclick="restartGame()">Play Again</button>
-    <a href="../../index.html" class="btn btn-home">Home</a>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
   </div>
 </div>
-<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
 
 <script>
   let score = 0, total = 10, current = 0;
   let answered = false;
   let correctAnswer = null;
 
-  // SVG dimensions
   const SVG_W = 540, SVG_H = 280;
   const PAD_L = 52, PAD_R = 24, PAD_T = 24, PAD_B = 50;
   const CHART_W = SVG_W - PAD_L - PAD_R;
   const CHART_H = SVG_H - PAD_T - PAD_B;
 
-  // 4 datasets, each used for 2-3 questions
   const datasets = [
     {
       title: 'Daily Temperature (°C) – Week 1',
@@ -155,31 +216,21 @@
     }
   ];
 
-  // Question plan: dsIdx, questionType
-  // Types: 'value-at', 'highest', 'lowest', 'biggest-rise', 'difference'
   const questionPlan = [
-    // Dataset 0 – temperature – 3 questions
-    { dsIdx: 0, type: 'value-at',    pointIdx: 0 },  // Mon
+    { dsIdx: 0, type: 'value-at',    pointIdx: 0 },
     { dsIdx: 0, type: 'highest',     pointIdx: null },
-    { dsIdx: 0, type: 'difference',  ptA: 1, ptB: 3 }, // Tue vs Thu
-    // Dataset 1 – plant – 3 questions
-    { dsIdx: 1, type: 'value-at',    pointIdx: 3 },  // Wk4
+    { dsIdx: 0, type: 'difference',  ptA: 1, ptB: 3 },
+    { dsIdx: 1, type: 'value-at',    pointIdx: 3 },
     { dsIdx: 1, type: 'biggest-rise',pointIdx: null },
     { dsIdx: 1, type: 'lowest',      pointIdx: null },
-    // Dataset 2 – steps – 2 questions
-    { dsIdx: 2, type: 'value-at',    pointIdx: 2 },  // Wed
-    { dsIdx: 2, type: 'difference',  ptA: 0, ptB: 1 }, // Mon vs Tue
-    // Dataset 3 – books – 2 questions
+    { dsIdx: 2, type: 'value-at',    pointIdx: 2 },
+    { dsIdx: 2, type: 'difference',  ptA: 0, ptB: 1 },
     { dsIdx: 3, type: 'highest',     pointIdx: null },
     { dsIdx: 3, type: 'biggest-rise',pointIdx: null }
   ];
 
-  function xPos(i, n) {
-    return PAD_L + (i / (n - 1)) * CHART_W;
-  }
-  function yPos(v, yMin, yMax) {
-    return PAD_T + CHART_H - ((v - yMin) / (yMax - yMin)) * CHART_H;
-  }
+  function xPos(i, n) { return PAD_L + (i / (n - 1)) * CHART_W; }
+  function yPos(v, yMin, yMax) { return PAD_T + CHART_H - ((v - yMin) / (yMax - yMin)) * CHART_H; }
 
   function niceGridStep(range) {
     const rough = range / 5;
@@ -194,7 +245,6 @@
     const { yMin, yMax, values, xTicks } = ds;
     let html = '';
 
-    // Grid lines
     const step = niceGridStep(yMax - yMin);
     let gridV = yMin + (step - (yMin % step === 0 ? step : yMin % step));
     if (yMin % step === 0) gridV = yMin;
@@ -203,25 +253,19 @@
       html += `<line x1="${PAD_L}" y1="${y}" x2="${SVG_W - PAD_R}" y2="${y}" stroke="#E8E4FF" stroke-width="1"/>`;
       html += `<text x="${PAD_L - 6}" y="${y + 4}" text-anchor="end" font-size="11" fill="#525270" font-weight="600">${v}</text>`;
     }
-    // Axis min label
     html += `<text x="${PAD_L - 6}" y="${yPos(yMin,yMin,yMax) + 4}" text-anchor="end" font-size="11" fill="#525270" font-weight="600">${yMin}</text>`;
 
-    // Axes
     html += `<line x1="${PAD_L}" y1="${PAD_T}" x2="${PAD_L}" y2="${PAD_T + CHART_H}" stroke="#525270" stroke-width="1.5"/>`;
     html += `<line x1="${PAD_L}" y1="${PAD_T + CHART_H}" x2="${SVG_W - PAD_R}" y2="${PAD_T + CHART_H}" stroke="#525270" stroke-width="1.5"/>`;
 
-    // X tick labels
     for (let i = 0; i < n; i++) {
       const x = xPos(i, n);
       html += `<text x="${x}" y="${PAD_T + CHART_H + 18}" text-anchor="middle" font-size="11" fill="#525270" font-weight="600">${xTicks[i]}</text>`;
-      // small tick on x-axis
       html += `<line x1="${x}" y1="${PAD_T + CHART_H}" x2="${x}" y2="${PAD_T + CHART_H + 5}" stroke="#525270" stroke-width="1"/>`;
     }
 
-    // Y-axis label (rotated)
-    html += `<text transform="rotate(-90)" x="${-(PAD_T + CHART_H/2)}" y="14" text-anchor="middle" font-size="11" fill="${'var(--s2)'}" font-weight="700">${ds.yLabel}</text>`;
+    html += `<text transform="rotate(-90)" x="${-(PAD_T + CHART_H/2)}" y="14" text-anchor="middle" font-size="11" fill="#F97316" font-weight="700">${ds.yLabel}</text>`;
 
-    // Line path
     let d = '';
     for (let i = 0; i < n; i++) {
       const x = xPos(i, n);
@@ -234,7 +278,6 @@
       <stop offset="100%" stop-color="#6C5CE7"/>
     </linearGradient></defs>`;
 
-    // Shaded area under line
     const botY = PAD_T + CHART_H;
     const firstX = xPos(0, n), lastX = xPos(n-1, n);
     let areaPath = d + `L${lastX},${botY} L${firstX},${botY} Z`;
@@ -244,13 +287,11 @@
       <stop offset="100%" stop-color="#A29BFE" stop-opacity="0"/>
     </linearGradient></defs>`;
 
-    // Data points
     for (let i = 0; i < n; i++) {
       const x = xPos(i, n);
       const y = yPos(values[i], yMin, yMax);
       const isHighlight = highlightIdx !== null && (Array.isArray(highlightIdx) ? highlightIdx.includes(i) : highlightIdx === i);
       html += `<circle cx="${x}" cy="${y}" r="${isHighlight ? 8 : 6}" fill="${isHighlight ? '#6C5CE7' : 'white'}" stroke="${isHighlight ? '#A29BFE' : '#6C5CE7'}" stroke-width="2.5" ${isHighlight ? 'class="dot-highlight"' : ''}/>`;
-      // Value label above dot
       html += `<text x="${x}" y="${y - 12}" text-anchor="middle" font-size="11" fill="#6C5CE7" font-weight="800">${values[i]}</text>`;
     }
 
@@ -314,7 +355,6 @@
       options = makeNumDistractors(correctAnswer, candidates, 3);
     }
     else if (q.type === 'biggest-rise') {
-      // Find biggest consecutive increase
       let biggestRise = -Infinity, riseStart = 0;
       for (let i = 0; i < ds.values.length - 1; i++) {
         const diff = ds.values[i+1] - ds.values[i];
@@ -323,7 +363,6 @@
       correctAnswer = ds.xTicks[riseStart] + ' to ' + ds.xTicks[riseStart + 1];
       qText = 'Between which two points did the value increase the most?';
       highlightIdx = [riseStart, riseStart + 1];
-      // Build distractor pairs
       const pairs = [];
       for (let i = 0; i < ds.values.length - 1; i++) {
         if (i !== riseStart) pairs.push(ds.xTicks[i] + ' to ' + ds.xTicks[i+1]);
@@ -390,7 +429,7 @@
   function updateProgress() { document.getElementById('progressBar').style.width = (current / total * 100) + '%'; }
   function showEnd() {
     const pct = score / total;
-    document.getElementById('endStars').textContent = pct >= 0.8 ? '⭐⭐⭐' : pct >= 0.5 ? '⭐⭐' : '⭐';
+    document.getElementById('endEmoji').textContent = pct >= 0.8 ? '🌟' : pct >= 0.5 ? '👍' : '💪';
     document.getElementById('endTitle').textContent = pct >= 0.8 ? 'Brilliant!' : pct >= 0.5 ? 'Good job!' : 'Keep trying!';
     document.getElementById('endScore').textContent = 'You scored ' + score + ' / ' + total;
     document.getElementById('endScreen').classList.add('show');

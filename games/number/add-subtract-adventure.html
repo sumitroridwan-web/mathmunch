@@ -3,326 +3,187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
-<title>Add & Subtract Adventure – MathMunch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<title>Add &amp; Subtract Adventure – MathMunch</title>
 <style>
-  :root {
-    --primary: #3B82F6;
-    --primary-light: #EFF6FF;
-    --accent: #FDCB6E;
-    --n1: #FF6B6B;
-    --n2: #FF8E53;
-    --bg: #E8F5E9;
-    --white: #FFFFFF;
-    --text: #1E1E2E;
-    --text2: #525270;
-    --green: #00B894;
-    --red: #FF4757;
-    --jungle: #2E7D32;
-    --jungle-light: #81C784;
-    --radius: 16px;
-    --shadow: 0 4px 20px rgba(59,130,246,0.12);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Lexend', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 80px;
-  }
+:root {
+  --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+  --green:#10B981;--orange:#F97316;
+  --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+  --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+  --canvas:#DBEAFE;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-  /* TOP BAR */
-  .topbar {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--white);
-    box-shadow: 0 2px 12px rgba(46,125,50,0.15);
-    display: flex; align-items: center; gap: 12px;
-    padding: 0 20px; height: 60px;
-  }
-  .topbar a {
-    text-decoration: none; color: var(--jungle);
-    font-weight: 600; font-size: 14px;
-    display: flex; align-items: center; gap: 4px;
-    padding: 6px 10px; border-radius: 8px;
-    transition: background 0.2s;
-  }
-  .topbar a:hover { background: #E8F5E9; }
-  .topbar .brand {
-    font-weight: 800; font-size: 18px;
-    background: linear-gradient(135deg,var(--primary),var(--n1));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .topbar .game-title {
-    font-weight: 700; font-size: 16px; color: var(--text);
-    margin-left: 4px; display: flex; align-items: center; gap: 6px;
-  }
-  .topbar .spacer { flex: 1; }
-  .level-badge {
-    background: #FFFBE0; color: #F0A500;
-    font-weight: 700; font-size: 12px;
-    padding: 4px 10px; border-radius: 20px;
-  }
-  .score-display {
-    font-weight: 700; font-size: 15px; color: var(--text);
-    display: flex; align-items: center; gap: 4px;
-  }
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--blue);text-decoration:none;}
+.header-nav{display:flex;gap:24px;}
+.header-nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--text-mid);}
+.header-nav a:hover{color:var(--blue);}
+.header-cta{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Lexend',sans-serif;}
+.header-cta:hover{background:var(--blue-dark);}
 
-  /* GAME AREA */
-  .game-area {
-    max-width: 800px; margin: 0 auto; padding: 24px 16px;
-  }
+/* LAYOUT */
+.game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;max-width:1200px;margin:0 auto;padding:24px 20px;}
 
-  /* JUNGLE HEADER */
-  .jungle-header {
-    background: linear-gradient(135deg,#1B5E20,#2E7D32,#388E3C);
-    border-radius: var(--radius); padding: 16px 24px;
-    margin-bottom: 20px;
-    display: flex; align-items: center; gap: 16px;
-    box-shadow: 0 6px 24px rgba(46,125,50,0.3);
-  }
-  .jungle-header .deco { font-size: 36px; }
-  .jungle-header .info { flex: 1; }
-  .jungle-header .qlabel {
-    font-size: 12px; color: #A5D6A7; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .jungle-header .op-type {
-    font-size: 20px; font-weight: 800; color: white; margin-top: 4px;
-  }
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--outline);border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;color:var(--text-mid);cursor:pointer;font-family:'Lexend',sans-serif;transition:background .2s;}
+.exit-btn:hover{background:#F1F5F9;}
+.stat-card{background:var(--white);border:1px solid var(--outline);border-radius:16px;padding:16px 18px;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:32px;font-weight:700;color:var(--text);}
+.stat-level-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.level-icon{font-size:20px;}
+.stat-value-sm{font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.level-progress{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;}
+.level-progress-fill{height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width .4s ease;}
+.hearts{font-size:22px;letter-spacing:4px;margin-top:4px;}
+.game-info-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.level-pill{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;}
 
-  /* QUESTION CARD */
-  .question-card {
-    background: var(--white); border-radius: var(--radius);
-    padding: 28px 24px; box-shadow: var(--shadow);
-    margin-bottom: 20px;
-  }
-  .word-problem {
-    font-size: 18px; font-weight: 600; color: var(--text);
-    line-height: 1.6; margin-bottom: 20px; text-align: center;
-  }
-  .op-badge {
-    display: inline-block;
-    font-size: 20px; font-weight: 800;
-    padding: 4px 14px; border-radius: 8px;
-    margin: 0 4px;
-  }
-  .op-badge.add { background: #E8F5E9; color: var(--green); }
-  .op-badge.sub { background: #FFEBEE; color: var(--red); }
+/* GAME CANVAS */
+.game-canvas{background:var(--canvas);border-radius:24px;padding:28px;position:relative;overflow:hidden;min-height:560px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.game-canvas > *{position:relative;z-index:1;}
 
-  /* EMOJI DISPLAY */
-  .emoji-display {
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 20px;
-    display: flex; flex-direction: column; gap: 10px;
-  }
-  .emoji-display.add-display { background: #F1F8E9; border: 2px solid #C5E1A5; }
-  .emoji-display.sub-display { background: #FFF3E0; border: 2px solid #FFE0B2; }
+/* GAME AREA */
+.game-area{width:100%;}
 
-  .emoji-row {
-    display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
-    min-height: 36px;
-  }
-  .emoji-row-label {
-    font-size: 11px; font-weight: 700; color: var(--text2);
-    text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
-  .emoji-item {
-    font-size: 24px; line-height: 1;
-    display: inline-block;
-    transition: opacity 0.3s;
-  }
-  .emoji-item.crossed {
-    opacity: 0.3;
-    text-decoration: line-through;
-    filter: grayscale(100%);
-  }
-  .emoji-divider {
-    font-size: 28px; font-weight: 900;
-    padding: 4px 8px;
-    border-radius: 8px;
-    margin: 4px 0;
-  }
-  .emoji-divider.plus { color: var(--green); background: #E8F5E9; }
-  .emoji-divider.minus { color: var(--red); background: #FFEBEE; }
+/* CONFETTI */
+.confetti-container{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden;}
+.conf-piece{position:absolute;font-size:20px;animation:confFall 1.2s ease-out forwards;opacity:0;}
+@keyframes confFall{0%{opacity:1;transform:translateY(-20px) rotate(0deg) scale(1);}100%{opacity:0;transform:translateY(300px) rotate(720deg) scale(0.5);}}
 
-  .ellipsis-note {
-    font-size: 13px; color: var(--text2); font-style: italic;
-    margin-top: 4px; text-align: center;
-  }
+/* JUNGLE HEADER */
+.jungle-header{background:linear-gradient(135deg,#1B5E20,#2E7D32,#388E3C);border-radius:16px;padding:16px 24px;margin-bottom:20px;display:flex;align-items:center;gap:16px;box-shadow:0 6px 24px rgba(46,125,50,0.3);}
+.jungle-header .deco{font-size:36px;}
+.jungle-header .info{flex:1;}
+.jungle-header .qlabel{font-size:12px;color:#A5D6A7;font-weight:600;text-transform:uppercase;letter-spacing:1px;}
+.jungle-header .op-type{font-size:20px;font-weight:800;color:white;margin-top:4px;}
 
-  /* ANSWER BUTTONS */
-  .answers-label {
-    font-size: 14px; font-weight: 700; color: var(--text2);
-    text-align: center; margin-bottom: 12px;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .answers-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .ans-btn {
-    padding: 20px; border-radius: 14px;
-    background: var(--white); border: 2px solid #E0E0E0;
-    font-size: 26px; font-weight: 800; color: var(--text);
-    cursor: pointer;
-    transition: background 0.15s, transform 0.1s, border-color 0.15s, box-shadow 0.15s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  }
-  .ans-btn:hover:not(:disabled) {
-    border-color: var(--primary);
-    background: var(--primary-light);
-    color: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(59,130,246,0.2);
-  }
-  .ans-btn:disabled { cursor: default; }
-  .ans-btn.correct {
-    background: #E8F5E9; border-color: var(--green); color: var(--green);
-    box-shadow: 0 4px 16px rgba(0,184,148,0.3);
-  }
-  .ans-btn.wrong {
-    background: #FFEBEE; border-color: var(--red); color: var(--red);
-  }
+/* QUESTION CARD */
+.question-card{background:var(--white);border-radius:16px;padding:28px 24px;box-shadow:0 4px 20px rgba(59,130,246,0.12);margin-bottom:20px;}
+.word-problem{font-size:18px;font-weight:600;color:var(--text);line-height:1.6;margin-bottom:20px;text-align:center;}
+.op-badge{display:inline-block;font-size:20px;font-weight:800;padding:4px 14px;border-radius:8px;margin:0 4px;}
+.op-badge.add{background:#E8F5E9;color:#00B894;}
+.op-badge.sub{background:#FFEBEE;color:#FF4757;}
 
-  /* FEEDBACK */
-  .feedback-strip {
-    display: none; margin-top: 16px;
-    padding: 14px 20px; border-radius: 12px;
-    font-size: 16px; font-weight: 700; text-align: center;
-    align-items: center; gap: 10px; justify-content: center;
-  }
-  .feedback-strip.show { display: flex; }
-  .feedback-strip.correct { background: #E8F5E9; color: #2E7D32; }
-  .feedback-strip.wrong { background: #FFEBEE; color: #C62828; }
+/* EMOJI DISPLAY */
+.emoji-display{border-radius:14px;padding:16px;margin-bottom:20px;display:flex;flex-direction:column;gap:10px;}
+.emoji-display.add-display{background:#F1F8E9;border:2px solid #C5E1A5;}
+.emoji-display.sub-display{background:#FFF3E0;border:2px solid #FFE0B2;}
+.emoji-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-height:36px;}
+.emoji-row-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.emoji-item{font-size:24px;line-height:1;display:inline-block;transition:opacity .3s;}
+.emoji-item.crossed{opacity:0.3;text-decoration:line-through;filter:grayscale(100%);}
+.emoji-divider{font-size:28px;font-weight:900;padding:4px 8px;border-radius:8px;margin:4px 0;}
+.emoji-divider.plus{color:#00B894;background:#E8F5E9;}
+.emoji-divider.minus{color:#FF4757;background:#FFEBEE;}
+.ellipsis-note{font-size:13px;color:var(--text-soft);font-style:italic;margin-top:4px;text-align:center;}
 
-  /* CONFETTI */
-  .confetti-container {
-    position: fixed; inset: 0; pointer-events: none; z-index: 200;
-    overflow: hidden;
-  }
-  .conf-piece {
-    position: absolute; font-size: 20px;
-    animation: confFall 1.2s ease-out forwards;
-    opacity: 0;
-  }
-  @keyframes confFall {
-    0% { opacity: 1; transform: translateY(-20px) rotate(0deg) scale(1); }
-    100% { opacity: 0; transform: translateY(300px) rotate(720deg) scale(0.5); }
-  }
+/* ANSWER BUTTONS */
+.answers-label{font-size:14px;font-weight:700;color:var(--text-soft);text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;}
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ans-btn{padding:20px;border-radius:14px;background:var(--white);border:2px solid var(--outline);font-size:26px;font-weight:800;color:var(--text);cursor:pointer;transition:background .15s,transform .1s,border-color .15s,box-shadow .15s;box-shadow:0 2px 8px rgba(0,0,0,0.05);font-family:'Lexend',sans-serif;}
+.ans-btn:hover:not(:disabled){border-color:var(--blue);background:var(--blue-light);color:var(--blue);transform:translateY(-3px);box-shadow:0 6px 20px rgba(59,130,246,0.2);}
+.ans-btn:disabled{cursor:default;}
+.ans-btn.correct{background:#E8F5E9;border-color:#00B894;color:#00B894;box-shadow:0 4px 16px rgba(0,184,148,0.3);}
+.ans-btn.wrong{background:#FFEBEE;border-color:#FF4757;color:#FF4757;}
 
-  /* PROGRESS BAR */
-  .progress-bar-wrap {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    background: var(--white);
-    box-shadow: 0 -2px 12px rgba(46,125,50,0.12);
-    padding: 10px 20px;
-  }
-  .progress-info {
-    display: flex; justify-content: space-between;
-    font-size: 13px; font-weight: 600; color: var(--text2);
-    margin-bottom: 6px;
-  }
-  .progress-track {
-    height: 10px; border-radius: 100px;
-    background: #eee; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; border-radius: 100px;
-    background: linear-gradient(90deg,#60A5FA,#3B82F6);
-    transition: width 0.4s ease;
-  }
+/* FEEDBACK */
+.feedback-strip{display:none;margin-top:16px;padding:14px 20px;border-radius:12px;font-size:16px;font-weight:700;text-align:center;align-items:center;gap:10px;justify-content:center;}
+.feedback-strip.show{display:flex;}
+.feedback-strip.correct{background:#E8F5E9;color:#2E7D32;}
+.feedback-strip.wrong{background:#FFEBEE;color:#C62828;}
 
-  /* END SCREEN */
-  .end-overlay {
-    position: fixed; inset: 0; z-index: 300;
-    background: rgba(30,46,30,0.75);
-    backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity 0.4s;
-  }
-  .end-overlay.show { opacity: 1; pointer-events: all; }
-  .end-card {
-    background: var(--white); border-radius: 24px;
-    padding: 40px 48px; text-align: center;
-    box-shadow: 0 20px 60px rgba(46,125,50,0.25);
-    max-width: 420px; width: 90%;
-    transform: scale(0.85); transition: transform 0.4s;
-  }
-  .end-overlay.show .end-card { transform: scale(1); }
-  .end-emoji { font-size: 60px; margin-bottom: 12px; }
-  .end-title { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
-  .end-score { font-size: 20px; color: var(--text2); margin-bottom: 16px; }
-  .end-stars { font-size: 36px; margin-bottom: 8px; letter-spacing: 4px; color: #F0A500; }
-  .end-verdict { font-size: 18px; font-weight: 700; color: var(--jungle); margin-bottom: 24px; }
-  .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: linear-gradient(135deg,#2E7D32,#4CAF50);
-    color: white; border: none; border-radius: 12px;
-    padding: 12px 28px; font-size: 16px; font-weight: 700;
-    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
-    box-shadow: 0 4px 14px rgba(46,125,50,0.35);
-    transition: transform 0.15s;
-  }
-  .btn-primary:hover { transform: translateY(-2px); }
-  .btn-secondary {
-    background: #E8F5E9; color: var(--jungle);
-    border: none; border-radius: 12px;
-    padding: 12px 28px; font-size: 16px; font-weight: 700;
-    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
-    transition: background 0.2s;
-  }
-  .btn-secondary:hover { background: #C8E6C9; }
+/* END SCREEN */
+.end-overlay{position:fixed;inset:0;z-index:300;background:rgba(30,46,30,0.75);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;}
+.end-overlay.show{opacity:1;pointer-events:all;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 48px;text-align:center;box-shadow:0 20px 60px rgba(46,125,50,0.25);max-width:420px;width:90%;transform:scale(0.85);transition:transform .4s;}
+.end-overlay.show .end-card{transform:scale(1);}
+.end-emoji{font-size:60px;margin-bottom:12px;}
+.end-title{font-size:28px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.end-score{font-size:20px;color:#525270;margin-bottom:16px;}
+.end-stars{font-size:36px;margin-bottom:8px;letter-spacing:4px;color:#F0A500;}
+.end-verdict{font-size:18px;font-weight:700;color:#2E7D32;margin-bottom:24px;}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:linear-gradient(135deg,#2E7D32,#4CAF50);color:white;border:none;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;box-shadow:0 4px 14px rgba(46,125,50,0.35);transition:transform .15s;font-family:'Lexend',sans-serif;}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{background:#E8F5E9;color:#2E7D32;border:none;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;transition:background .2s;font-family:'Lexend',sans-serif;}
+.btn-secondary:hover{background:#C8E6C9;}
+
+@media(max-width:768px){.game-layout{grid-template-columns:1fr;}.site-header .header-nav{display:none;}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="../../index.html">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="game-title">🧭 Add &amp; Subtract Adventure</span>
-  <div class="spacer"></div>
-  <span class="level-badge">P2</span>
-  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
-</div>
-
 <!-- CONFETTI -->
 <div class="confetti-container" id="confettiContainer"></div>
 
-<!-- GAME AREA -->
-<div class="game-area">
+<!-- HEADER -->
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Progress</a>
+  </nav>
+  <button class="header-cta" onclick="window.location.href='../../index.html'">Play Now</button>
+</header>
 
-  <div class="jungle-header">
-    <div class="deco">🧭</div>
-    <div class="info">
-      <div class="qlabel">Question <span id="qLabel">1</span> of 10</div>
-      <div class="op-type" id="opType">Addition</div>
+<!-- LAYOUT -->
+<div class="game-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
     </div>
-    <div class="deco">🌿</div>
-  </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 2</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Add &amp; Subtract Adventure</div>
+      <span class="level-pill">P2</span>
+    </div>
+  </aside>
 
-  <div class="question-card">
-    <div class="word-problem" id="wordProblem">Loading…</div>
-    <div class="emoji-display" id="emojiDisplay"></div>
-    <div class="answers-label">What is the answer?</div>
-    <div class="answers-grid" id="answersGrid"></div>
-    <div class="feedback-strip" id="feedbackStrip"></div>
-  </div>
+  <!-- GAME CANVAS -->
+  <div class="game-canvas">
+    <div class="game-area">
+      <div class="jungle-header">
+        <div class="deco">🧭</div>
+        <div class="info">
+          <div class="qlabel">Question <span id="qLabel">1</span> of 10</div>
+          <div class="op-type" id="opType">Addition</div>
+        </div>
+        <div class="deco">🌿</div>
+      </div>
 
-</div>
-
-<!-- PROGRESS BAR -->
-<div class="progress-bar-wrap">
-  <div class="progress-info">
-    <span>Question <span id="qNum">1</span> of 10</span>
-    <span id="pct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      <div class="question-card">
+        <div class="word-problem" id="wordProblem">Loading…</div>
+        <div class="emoji-display" id="emojiDisplay"></div>
+        <div class="answers-label">What is the answer?</div>
+        <div class="answers-grid" id="answersGrid"></div>
+        <div class="feedback-strip" id="feedbackStrip"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -343,66 +204,16 @@
 
 <script>
   const PROBLEMS = [
-    {
-      type: 'add',
-      text: 'The explorer found <strong>5 💎 gems</strong>. He found <strong>3 more</strong>. How many gems in total?',
-      emoji: '💎', a: 5, b: 3, answer: 8,
-      display: 'Explorer had 5 gems, then found 3 more.'
-    },
-    {
-      type: 'add',
-      text: 'There are <strong>7 🐦 birds</strong> in a tree. <strong>4 more</strong> land. How many birds now?',
-      emoji: '🐦', a: 7, b: 4, answer: 11,
-      display: '7 birds in tree, 4 more arrive.'
-    },
-    {
-      type: 'add',
-      text: 'Mia has <strong>12 🌺 flowers</strong>. She picks <strong>6 more</strong>. How many does she have?',
-      emoji: '🌺', a: 12, b: 6, answer: 18,
-      display: 'Mia had 12 flowers, picked 6 more.'
-    },
-    {
-      type: 'add',
-      text: 'A basket has <strong>9 🍎 apples</strong>. <strong>7 are added</strong>. How many now?',
-      emoji: '🍎', a: 9, b: 7, answer: 16,
-      display: '9 apples in basket, 7 more added.'
-    },
-    {
-      type: 'add',
-      text: 'The explorer had <strong>15 🗺️ maps</strong> and found <strong>8 more</strong>. Total maps?',
-      emoji: '🗺️', a: 15, b: 8, answer: 23,
-      display: 'Explorer had 15 maps, found 8 more.'
-    },
-    {
-      type: 'sub',
-      text: 'There were <strong>10 🦋 butterflies</strong>. <strong>4 flew away</strong>. How many remain?',
-      emoji: '🦋', a: 10, b: 4, answer: 6,
-      display: '10 butterflies, 4 flew away.'
-    },
-    {
-      type: 'sub',
-      text: 'Sam had <strong>14 ⭐ stars</strong>. He gave away <strong>5</strong>. How many left?',
-      emoji: '⭐', a: 14, b: 5, answer: 9,
-      display: 'Sam had 14 stars, gave away 5.'
-    },
-    {
-      type: 'sub',
-      text: 'A tree had <strong>20 🍃 leaves</strong>. <strong>7 fell</strong>. How many leaves left?',
-      emoji: '🍃', a: 20, b: 7, answer: 13,
-      display: 'Tree had 20 leaves, 7 fell off.'
-    },
-    {
-      type: 'sub',
-      text: 'The explorer had <strong>18 💰 coins</strong>. Spent <strong>9</strong>. How many left?',
-      emoji: '💰', a: 18, b: 9, answer: 9,
-      display: 'Explorer had 18 coins, spent 9.'
-    },
-    {
-      type: 'sub',
-      text: 'There were <strong>25 🐝 bees</strong> in a hive. <strong>12 flew out</strong>. How many inside?',
-      emoji: '🐝', a: 25, b: 12, answer: 13,
-      display: '25 bees in hive, 12 flew out.'
-    },
+    { type:'add', text:'The explorer found <strong>5 💎 gems</strong>. He found <strong>3 more</strong>. How many gems in total?', emoji:'💎', a:5, b:3, answer:8, display:'Explorer had 5 gems, then found 3 more.' },
+    { type:'add', text:'There are <strong>7 🐦 birds</strong> in a tree. <strong>4 more</strong> land. How many birds now?', emoji:'🐦', a:7, b:4, answer:11, display:'7 birds in tree, 4 more arrive.' },
+    { type:'add', text:'Mia has <strong>12 🌺 flowers</strong>. She picks <strong>6 more</strong>. How many does she have?', emoji:'🌺', a:12, b:6, answer:18, display:'Mia had 12 flowers, picked 6 more.' },
+    { type:'add', text:'A basket has <strong>9 🍎 apples</strong>. <strong>7 are added</strong>. How many now?', emoji:'🍎', a:9, b:7, answer:16, display:'9 apples in basket, 7 more added.' },
+    { type:'add', text:'The explorer had <strong>15 🗺️ maps</strong> and found <strong>8 more</strong>. Total maps?', emoji:'🗺️', a:15, b:8, answer:23, display:'Explorer had 15 maps, found 8 more.' },
+    { type:'sub', text:'There were <strong>10 🦋 butterflies</strong>. <strong>4 flew away</strong>. How many remain?', emoji:'🦋', a:10, b:4, answer:6, display:'10 butterflies, 4 flew away.' },
+    { type:'sub', text:'Sam had <strong>14 ⭐ stars</strong>. He gave away <strong>5</strong>. How many left?', emoji:'⭐', a:14, b:5, answer:9, display:'Sam had 14 stars, gave away 5.' },
+    { type:'sub', text:'A tree had <strong>20 🍃 leaves</strong>. <strong>7 fell</strong>. How many leaves left?', emoji:'🍃', a:20, b:7, answer:13, display:'Tree had 20 leaves, 7 fell off.' },
+    { type:'sub', text:'The explorer had <strong>18 💰 coins</strong>. Spent <strong>9</strong>. How many left?', emoji:'💰', a:18, b:9, answer:9, display:'Explorer had 18 coins, spent 9.' },
+    { type:'sub', text:'There were <strong>25 🐝 bees</strong> in a hive. <strong>12 flew out</strong>. How many inside?', emoji:'🐝', a:25, b:12, answer:13, display:'25 bees in hive, 12 flew out.' },
   ];
 
   let round = 0;
@@ -420,10 +231,7 @@
 
   function generateOptions(correct) {
     const opts = new Set([correct]);
-    const candidates = [
-      correct + 1, correct - 1, correct + 2, correct - 2,
-      correct + 3, correct - 3, correct + 5, correct - 5
-    ];
+    const candidates = [correct+1,correct-1,correct+2,correct-2,correct+3,correct-3,correct+5,correct-5];
     for (const c of candidates) {
       if (opts.size >= 4) break;
       if (c > 0 && c !== correct) opts.add(c);
@@ -435,16 +243,12 @@
     const display = document.getElementById('emojiDisplay');
     const isAdd = prob.type === 'add';
     display.className = 'emoji-display ' + (isAdd ? 'add-display' : 'sub-display');
-
     const MAX_SHOW = 25;
     const total = prob.a;
     const change = prob.b;
 
     if (isAdd) {
-      // Show original group + new group
       const showA = Math.min(prob.a, MAX_SHOW);
-      const showB = Math.min(prob.b, MAX_SHOW - showA > 0 ? prob.b : 0);
-
       display.innerHTML = `
         <div class="emoji-row-label">Original group:</div>
         <div class="emoji-row" id="groupA"></div>
@@ -453,49 +257,24 @@
         <div class="emoji-row" id="groupB"></div>
         ${prob.a > MAX_SHOW ? `<div class="ellipsis-note">Showing first ${MAX_SHOW} of ${prob.a}</div>` : ''}
       `;
-
       const groupA = document.getElementById('groupA');
-      for (let i = 0; i < showA; i++) {
-        const s = document.createElement('span');
-        s.className = 'emoji-item';
-        s.textContent = prob.emoji;
-        groupA.appendChild(s);
-      }
-      if (prob.a > MAX_SHOW) {
-        const s = document.createElement('span');
-        s.className = 'emoji-item';
-        s.textContent = '…';
-        groupA.appendChild(s);
-      }
-
+      for (let i = 0; i < showA; i++) { const s = document.createElement('span'); s.className='emoji-item'; s.textContent=prob.emoji; groupA.appendChild(s); }
+      if (prob.a > MAX_SHOW) { const s=document.createElement('span'); s.className='emoji-item'; s.textContent='…'; groupA.appendChild(s); }
       const groupB = document.getElementById('groupB');
       const showBCount = Math.min(prob.b, MAX_SHOW);
-      for (let i = 0; i < showBCount; i++) {
-        const s = document.createElement('span');
-        s.className = 'emoji-item';
-        s.textContent = prob.emoji;
-        groupB.appendChild(s);
-      }
-
+      for (let i = 0; i < showBCount; i++) { const s=document.createElement('span'); s.className='emoji-item'; s.textContent=prob.emoji; groupB.appendChild(s); }
     } else {
-      // Show all items, cross out the ones removed
       const showTotal = Math.min(total, MAX_SHOW);
       const keepCount = Math.min(prob.answer, showTotal);
-      const crossCount = Math.min(change, showTotal - keepCount);
-
       display.innerHTML = `
         <div class="emoji-row-label">Total items (crossed out ones flew away):</div>
         <div class="emoji-row" id="groupAll"></div>
         <div class="emoji-divider minus">− ${prob.b}</div>
         ${total > MAX_SHOW ? `<div class="ellipsis-note">Showing first ${MAX_SHOW} of ${total}</div>` : ''}
       `;
-
       const groupAll = document.getElementById('groupAll');
       for (let i = 0; i < showTotal; i++) {
-        const s = document.createElement('span');
-        s.className = 'emoji-item' + (i < keepCount ? '' : ' crossed');
-        s.textContent = prob.emoji;
-        groupAll.appendChild(s);
+        const s=document.createElement('span'); s.className='emoji-item'+(i<keepCount?'':' crossed'); s.textContent=prob.emoji; groupAll.appendChild(s);
       }
     }
   }
@@ -504,15 +283,11 @@
     if (round >= 10) { showEnd(); return; }
     const prob = PROBLEMS[round];
     busy = false;
-
     document.getElementById('qLabel').textContent = round + 1;
-    document.getElementById('qNum').textContent = round + 1;
-    document.getElementById('opType').textContent = prob.type === 'add' ? '➕ Addition' : '➖ Subtraction';
+    document.getElementById('opType').textContent = prob.type==='add' ? '➕ Addition' : '➖ Subtraction';
     document.getElementById('wordProblem').innerHTML = prob.text;
     document.getElementById('feedbackStrip').className = 'feedback-strip';
-
     renderEmojiDisplay(prob);
-
     const opts = generateOptions(prob.answer);
     const grid = document.getElementById('answersGrid');
     grid.innerHTML = '';
@@ -523,46 +298,36 @@
       btn.addEventListener('click', () => handleAnswer(opt, btn, prob));
       grid.appendChild(btn);
     });
-
     updateProgress();
   }
 
   function handleAnswer(val, btnEl, prob) {
     if (busy) return;
     busy = true;
-
     const allBtns = document.querySelectorAll('.ans-btn');
     allBtns.forEach(b => b.disabled = true);
-
     const correct = val === prob.answer;
     const fb = document.getElementById('feedbackStrip');
-
     if (correct) {
       btnEl.classList.add('correct');
       score++;
-      document.getElementById('scoreDisplay').textContent = score;
+      document.getElementById('score').textContent = score;
       fb.innerHTML = '🎉 Correct! Well done, explorer!';
       fb.className = 'feedback-strip show correct';
       launchConfetti();
     } else {
       btnEl.classList.add('wrong');
-      allBtns.forEach(b => {
-        if (parseInt(b.textContent) === prob.answer) b.classList.add('correct');
-      });
+      allBtns.forEach(b => { if (parseInt(b.textContent) === prob.answer) b.classList.add('correct'); });
       fb.innerHTML = `❌ The answer is <strong>${prob.answer}</strong>. Keep exploring!`;
       fb.className = 'feedback-strip show wrong';
     }
-
     round++;
-    setTimeout(() => {
-      fb.className = 'feedback-strip';
-      renderRound();
-    }, 1400);
+    setTimeout(() => { fb.className = 'feedback-strip'; renderRound(); }, 1400);
   }
 
   function launchConfetti() {
     const container = document.getElementById('confettiContainer');
-    const confEmojis = ['🎉', '⭐', '💎', '🌟', '✨', '🏆', '🎊'];
+    const confEmojis = ['🎉','⭐','💎','🌟','✨','🏆','🎊'];
     for (let i = 0; i < 12; i++) {
       setTimeout(() => {
         const el = document.createElement('div');
@@ -580,17 +345,15 @@
 
   function updateProgress() {
     const pct = Math.round((round / 10) * 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('pct').textContent = pct + '%';
+    document.getElementById('progressBar').style.width = pct + '%';
   }
 
   function showEnd() {
     const overlay = document.getElementById('endOverlay');
     let emoji, title, verdict;
-    if (score >= 9) { emoji = '🏆'; title = 'Brilliant!'; verdict = 'You\'re a master adventurer!'; }
-    else if (score >= 7) { emoji = '🎉'; title = 'Well Done!'; verdict = 'Great jungle explorer!'; }
-    else { emoji = '🧭'; title = 'Keep Trying!'; verdict = 'The jungle awaits your return!'; }
-
+    if (score >= 9) { emoji='🏆'; title='Brilliant!'; verdict='You\'re a master adventurer!'; }
+    else if (score >= 7) { emoji='🎉'; title='Well Done!'; verdict='Great jungle explorer!'; }
+    else { emoji='🧭'; title='Keep Trying!'; verdict='The jungle awaits your return!'; }
     const stars = score >= 9 ? '★★★' : score >= 7 ? '★★☆' : '★☆☆';
     document.getElementById('endEmoji').textContent = emoji;
     document.getElementById('endTitle').textContent = title;
@@ -602,7 +365,7 @@
 
   function initGame() {
     round = 0; score = 0; busy = false;
-    document.getElementById('scoreDisplay').textContent = 0;
+    document.getElementById('score').textContent = 0;
     document.getElementById('endOverlay').classList.remove('show');
     renderRound();
   }

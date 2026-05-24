@@ -3,322 +3,199 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Number Quest – MathMunch</title>
 <style>
-  :root {
-    --primary: #3B82F6;
-    --primary-light: #EFF6FF;
-    --accent: #FDCB6E;
-    --n1: #FF6B6B;
-    --n2: #FF8E53;
-    --bg: #F0F4FF;
-    --white: #FFFFFF;
-    --text: #1E1E2E;
-    --text2: #525270;
-    --green: #00B894;
-    --red: #FF4757;
-    --radius: 16px;
-    --shadow: 0 4px 20px rgba(59,130,246,0.12);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Lexend', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 80px;
-  }
+:root {
+  --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+  --green:#10B981;--orange:#F97316;
+  --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+  --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+  --canvas:#DBEAFE;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-  /* TOP BAR */
-  .topbar {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--white);
-    box-shadow: 0 2px 12px rgba(59,130,246,0.10);
-    display: flex; align-items: center; gap: 12px;
-    padding: 0 20px; height: 60px;
-  }
-  .topbar a {
-    text-decoration: none; color: var(--primary);
-    font-weight: 600; font-size: 14px;
-    display: flex; align-items: center; gap: 4px;
-    padding: 6px 10px; border-radius: 8px;
-    transition: background 0.2s;
-  }
-  .topbar a:hover { background: var(--primary-light); }
-  .topbar .brand {
-    font-weight: 800; font-size: 18px;
-    background: linear-gradient(135deg,var(--primary),var(--n1));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .topbar .game-title {
-    font-weight: 700; font-size: 16px; color: var(--text);
-    margin-left: 4px; display: flex; align-items: center; gap: 6px;
-  }
-  .topbar .spacer { flex: 1; }
-  .level-badge {
-    background: #FFF0E0; color: #FF7043;
-    font-weight: 700; font-size: 12px;
-    padding: 4px 10px; border-radius: 20px;
-  }
-  .score-display {
-    font-weight: 700; font-size: 15px; color: var(--text);
-    display: flex; align-items: center; gap: 4px;
-  }
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--blue);text-decoration:none;}
+.header-nav{display:flex;gap:24px;}
+.header-nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--text-mid);}
+.header-nav a:hover{color:var(--blue);}
+.header-cta{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Lexend',sans-serif;}
+.header-cta:hover{background:var(--blue-dark);}
 
-  /* GAME AREA */
-  .game-area {
-    max-width: 800px; margin: 0 auto; padding: 24px 16px;
-  }
+/* LAYOUT */
+.game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;max-width:1200px;margin:0 auto;padding:24px 20px;}
 
-  /* QUEST HEADER */
-  .quest-header {
-    background: linear-gradient(135deg,#FFF8DC,#FFF3C0);
-    border-radius: var(--radius); padding: 20px 24px;
-    margin-bottom: 24px;
-    box-shadow: var(--shadow);
-    display: flex; align-items: center; gap: 16px;
-  }
-  .quest-header .deco { font-size: 32px; }
-  .quest-header .instruction {
-    font-size: 16px; font-weight: 600; color: var(--text);
-    line-height: 1.4;
-  }
-  .quest-header .sub {
-    font-size: 13px; color: var(--text2); margin-top: 4px;
-  }
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--outline);border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;color:var(--text-mid);cursor:pointer;font-family:'Lexend',sans-serif;transition:background .2s;}
+.exit-btn:hover{background:#F1F5F9;}
+.stat-card{background:var(--white);border:1px solid var(--outline);border-radius:16px;padding:16px 18px;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:32px;font-weight:700;color:var(--text);}
+.stat-level-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.level-icon{font-size:20px;}
+.stat-value-sm{font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.level-progress{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;}
+.level-progress-fill{height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width .4s ease;}
+.hearts{font-size:22px;letter-spacing:4px;margin-top:4px;}
+.game-info-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.level-pill{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;}
 
-  /* SORTED AREA */
-  .sorted-section {
-    background: linear-gradient(135deg,#E8FFF5,#D0FFE8);
-    border: 2px dashed var(--green);
-    border-radius: var(--radius); padding: 16px 20px;
-    margin-bottom: 20px; min-height: 110px;
-  }
-  .sorted-label {
-    font-size: 12px; font-weight: 700; color: var(--green);
-    text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
-  .sorted-cards {
-    display: flex; flex-wrap: wrap; gap: 12px; min-height: 72px;
-    align-items: center;
-  }
-  .sorted-cards .empty-hint {
-    color: #aaa; font-size: 14px; font-style: italic;
-  }
+/* GAME CANVAS */
+.game-canvas{background:var(--canvas);border-radius:24px;padding:28px;position:relative;overflow:hidden;min-height:560px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.game-canvas > *{position:relative;z-index:1;}
 
-  /* UNSORTED AREA */
-  .unsorted-section {
-    background: linear-gradient(135deg,#FFF8DC,#FFF3C0);
-    border-radius: var(--radius); padding: 16px 20px;
-    margin-bottom: 20px; min-height: 120px;
-    box-shadow: var(--shadow);
-  }
-  .unsorted-label {
-    font-size: 12px; font-weight: 700; color: #FF7043;
-    text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
-  .unsorted-cards {
-    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
-  }
+/* GAME AREA */
+.game-area{width:100%;}
 
-  /* NUMBER CARD */
-  .num-card {
-    width: 72px; height: 72px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px; font-weight: 800; color: white;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: transform 0.15s, box-shadow 0.15s;
-    user-select: none; position: relative;
-    border: 3px solid transparent;
-  }
-  .num-card:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-  .num-card.sorted {
-    border: 3px solid var(--green);
-    box-shadow: 0 0 16px rgba(0,184,148,0.4);
-    cursor: default;
-    animation: sortGlow 0.4s ease;
-  }
-  .num-card.sorted:hover { transform: none; }
-  .num-card.shake {
-    animation: shake 0.4s ease;
-    border: 3px solid var(--red);
-    box-shadow: 0 0 12px rgba(255,71,87,0.5);
-  }
-  @keyframes sortGlow {
-    0% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-  @keyframes shake {
-    0%,100% { transform: translateX(0); }
-    20% { transform: translateX(-8px); }
-    40% { transform: translateX(8px); }
-    60% { transform: translateX(-6px); }
-    80% { transform: translateX(6px); }
-  }
+/* QUEST HEADER */
+.quest-header{background:linear-gradient(135deg,#FFF8DC,#FFF3C0);border-radius:16px;padding:20px 24px;margin-bottom:24px;box-shadow:0 4px 20px rgba(59,130,246,0.12);display:flex;align-items:center;gap:16px;}
+.quest-header .deco{font-size:32px;}
+.quest-header .instruction{font-size:16px;font-weight:600;color:#191C1E;line-height:1.4;}
+.quest-header .sub{font-size:13px;color:#525270;margin-top:4px;}
 
-  /* MISTAKE COUNTER */
-  .mistake-row {
-    text-align: center; margin-bottom: 16px;
-    font-size: 14px; color: var(--text2);
-  }
-  .mistake-dots { display: inline-flex; gap: 6px; margin-left: 8px; }
-  .mdot {
-    width: 12px; height: 12px; border-radius: 50%;
-    background: #ddd; display: inline-block;
-    transition: background 0.3s;
-  }
-  .mdot.used { background: var(--red); }
+/* SORTED AREA */
+.sorted-section{background:linear-gradient(135deg,#E8FFF5,#D0FFE8);border:2px dashed #00B894;border-radius:16px;padding:16px 20px;margin-bottom:20px;min-height:110px;}
+.sorted-label{font-size:12px;font-weight:700;color:#00B894;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.sorted-cards{display:flex;flex-wrap:wrap;gap:12px;min-height:72px;align-items:center;}
+.sorted-cards .empty-hint{color:#aaa;font-size:14px;font-style:italic;}
 
-  /* FEEDBACK FLASH */
-  .feedback-overlay {
-    position: fixed; inset: 0; pointer-events: none; z-index: 200;
-    transition: background 0.2s;
-  }
-  .feedback-overlay.correct { background: rgba(0,184,148,0.18); }
-  .feedback-overlay.wrong { background: rgba(255,71,87,0.18); }
+/* UNSORTED AREA */
+.unsorted-section{background:linear-gradient(135deg,#FFF8DC,#FFF3C0);border-radius:16px;padding:16px 20px;margin-bottom:20px;min-height:120px;box-shadow:0 4px 20px rgba(59,130,246,0.12);}
+.unsorted-label{font-size:12px;font-weight:700;color:#FF7043;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.unsorted-cards{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
 
-  /* PROGRESS BAR */
-  .progress-bar-wrap {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    background: var(--white);
-    box-shadow: 0 -2px 12px rgba(59,130,246,0.10);
-    padding: 10px 20px;
-  }
-  .progress-info {
-    display: flex; justify-content: space-between;
-    font-size: 13px; font-weight: 600; color: var(--text2);
-    margin-bottom: 6px;
-  }
-  .progress-track {
-    height: 10px; border-radius: 100px;
-    background: #eee; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; border-radius: 100px;
-    background: linear-gradient(90deg,#60A5FA,#3B82F6);
-    transition: width 0.4s ease;
-  }
+/* NUMBER CARD */
+.num-card{width:72px;height:72px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:white;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:transform .15s,box-shadow .15s;user-select:none;position:relative;border:3px solid transparent;}
+.num-card:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 20px rgba(0,0,0,0.2);}
+.num-card.sorted{border:3px solid #00B894;box-shadow:0 0 16px rgba(0,184,148,0.4);cursor:default;animation:sortGlow .4s ease;}
+.num-card.sorted:hover{transform:none;}
+.num-card.shake{animation:shake .4s ease;border:3px solid #FF4757;box-shadow:0 0 12px rgba(255,71,87,0.5);}
+@keyframes sortGlow{0%{transform:scale(1.2);}100%{transform:scale(1);}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
 
-  /* END SCREEN */
-  .end-overlay {
-    position: fixed; inset: 0; z-index: 300;
-    background: rgba(30,30,46,0.7);
-    backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.4s;
-  }
-  .end-overlay.show { opacity: 1; pointer-events: all; }
-  .end-card {
-    background: var(--white); border-radius: 24px;
-    padding: 40px 48px; text-align: center;
-    box-shadow: 0 20px 60px rgba(59,130,246,0.25);
-    max-width: 420px; width: 90%;
-    transform: scale(0.85);
-    transition: transform 0.4s;
-  }
-  .end-overlay.show .end-card { transform: scale(1); }
-  .end-emoji { font-size: 60px; margin-bottom: 12px; }
-  .end-title { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
-  .end-score { font-size: 20px; color: var(--text2); margin-bottom: 16px; }
-  .end-stars { font-size: 36px; margin-bottom: 8px; letter-spacing: 4px; }
-  .end-verdict { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 24px; }
-  .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: linear-gradient(135deg,var(--primary),#8e78ff);
-    color: white; border: none; border-radius: 12px;
-    padding: 12px 28px; font-size: 16px; font-weight: 700;
-    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 14px rgba(59,130,246,0.3);
-    text-decoration: none; display: inline-flex; align-items: center;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59,130,246,0.4); }
-  .btn-secondary {
-    background: var(--primary-light); color: var(--primary);
-    border: none; border-radius: 12px;
-    padding: 12px 28px; font-size: 16px; font-weight: 700;
-    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
-    transition: background 0.2s;
-  }
-  .btn-secondary:hover { background: #d5ceff; }
+/* MISTAKE COUNTER */
+.mistake-row{text-align:center;margin-bottom:16px;font-size:14px;color:#525270;}
+.mistake-dots{display:inline-flex;gap:6px;margin-left:8px;}
+.mdot{width:12px;height:12px;border-radius:50%;background:#ddd;display:inline-block;transition:background .3s;}
+.mdot.used{background:#FF4757;}
 
-  /* ROUND FEEDBACK */
-  .round-feedback {
-    text-align: center; padding: 12px;
-    border-radius: 12px; margin-bottom: 16px;
-    font-weight: 700; font-size: 16px;
-    display: none;
-  }
-  .round-feedback.correct { background: #D4EDDA; color: #155724; display: block; }
-  .round-feedback.wrong { background: #F8D7DA; color: #721c24; display: block; }
+/* FEEDBACK FLASH */
+.feedback-overlay{position:fixed;inset:0;pointer-events:none;z-index:200;transition:background .2s;}
+.feedback-overlay.correct{background:rgba(0,184,148,0.18);}
+.feedback-overlay.wrong{background:rgba(255,71,87,0.18);}
+
+/* ROUND FEEDBACK */
+.round-feedback{text-align:center;padding:12px;border-radius:12px;margin-bottom:16px;font-weight:700;font-size:16px;display:none;}
+.round-feedback.correct{background:#D4EDDA;color:#155724;display:block;}
+.round-feedback.wrong{background:#F8D7DA;color:#721c24;display:block;}
+
+/* END SCREEN */
+.end-overlay{position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;}
+.end-overlay.show{opacity:1;pointer-events:all;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 48px;text-align:center;box-shadow:0 20px 60px rgba(59,130,246,0.25);max-width:420px;width:90%;transform:scale(0.85);transition:transform .4s;}
+.end-overlay.show .end-card{transform:scale(1);}
+.end-emoji{font-size:60px;margin-bottom:12px;}
+.end-title{font-size:28px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.end-score{font-size:20px;color:#525270;margin-bottom:16px;}
+.end-stars{font-size:36px;margin-bottom:8px;letter-spacing:4px;}
+.end-verdict{font-size:18px;font-weight:700;color:var(--blue);margin-bottom:24px;}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:linear-gradient(135deg,var(--blue),#8e78ff);color:white;border:none;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 14px rgba(59,130,246,0.3);text-decoration:none;display:inline-flex;align-items:center;font-family:'Lexend',sans-serif;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(59,130,246,0.4);}
+.btn-secondary{background:var(--blue-light);color:var(--blue);border:none;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;transition:background .2s;font-family:'Lexend',sans-serif;}
+.btn-secondary:hover{background:#d5ceff;}
+
+@media(max-width:768px){.game-layout{grid-template-columns:1fr;}.site-header .header-nav{display:none;}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="../../index.html">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="game-title">🗺️ Number Quest <span style="font-size:12px;margin-left:2px;">⚔️</span></span>
-  <div class="spacer"></div>
-  <span class="level-badge">P1</span>
-  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
-</div>
-
 <!-- FEEDBACK OVERLAY -->
 <div class="feedback-overlay" id="feedbackOverlay"></div>
 
-<!-- GAME AREA -->
-<div class="game-area">
-  <div class="quest-header">
-    <div class="deco">🗺️</div>
-    <div>
-      <div class="instruction" id="instruction">Click the numbers in order from <strong>smallest</strong> to <strong>biggest</strong>!</div>
-      <div class="sub">Round <span id="roundNum">1</span> of 10</div>
+<!-- HEADER -->
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Progress</a>
+  </nav>
+  <button class="header-cta" onclick="window.location.href='../../index.html'">Play Now</button>
+</header>
+
+<!-- LAYOUT -->
+<div class="game-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
     </div>
-    <div class="deco" style="margin-left:auto;">⚔️</div>
-  </div>
-
-  <div class="round-feedback" id="roundFeedback"></div>
-
-  <!-- SORTED AREA -->
-  <div class="sorted-section">
-    <div class="sorted-label">✓ Sorted</div>
-    <div class="sorted-cards" id="sortedCards">
-      <span class="empty-hint">Sorted numbers will appear here…</span>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 1</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
     </div>
-  </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Number Quest</div>
+      <span class="level-pill">P1</span>
+    </div>
+  </aside>
 
-  <!-- MISTAKE COUNTER -->
-  <div class="mistake-row">
-    Mistakes this round:
-    <span class="mistake-dots">
-      <span class="mdot" id="m0"></span>
-      <span class="mdot" id="m1"></span>
-    </span>
-  </div>
+  <!-- GAME CANVAS -->
+  <div class="game-canvas">
+    <div class="game-area">
+      <div class="quest-header">
+        <div class="deco">🗺️</div>
+        <div>
+          <div class="instruction" id="instruction">Click the numbers in order from <strong>smallest</strong> to <strong>biggest</strong>!</div>
+          <div class="sub">Round <span id="roundNum">1</span> of 10</div>
+        </div>
+        <div class="deco" style="margin-left:auto;">⚔️</div>
+      </div>
 
-  <!-- UNSORTED AREA -->
-  <div class="unsorted-section">
-    <div class="unsorted-label">🃏 Your Cards</div>
-    <div class="unsorted-cards" id="unsortedCards"></div>
-  </div>
-</div>
+      <div class="round-feedback" id="roundFeedback"></div>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar-wrap">
-  <div class="progress-info">
-    <span>Question <span id="qNum">1</span> of 10</span>
-    <span id="pct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      <!-- SORTED AREA -->
+      <div class="sorted-section">
+        <div class="sorted-label">✓ Sorted</div>
+        <div class="sorted-cards" id="sortedCards">
+          <span class="empty-hint">Sorted numbers will appear here…</span>
+        </div>
+      </div>
+
+      <!-- MISTAKE COUNTER -->
+      <div class="mistake-row">
+        Mistakes this round:
+        <span class="mistake-dots">
+          <span class="mdot" id="m0"></span>
+          <span class="mdot" id="m1"></span>
+        </span>
+      </div>
+
+      <!-- UNSORTED AREA -->
+      <div class="unsorted-section">
+        <div class="unsorted-label">🃏 Your Cards</div>
+        <div class="unsorted-cards" id="unsortedCards"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -375,7 +252,7 @@
 
   function initGame() {
     round = 0; score = 0; mistakes = 0;
-    document.getElementById('scoreDisplay').textContent = 0;
+    document.getElementById('score').textContent = 0;
     document.getElementById('endOverlay').classList.remove('show');
     nextRound();
   }
@@ -396,9 +273,7 @@
 
   function updateProgress() {
     const pct = Math.round((round / 10) * 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('pct').textContent = pct + '%';
-    document.getElementById('qNum').textContent = round + 1;
+    document.getElementById('progressBar').style.width = pct + '%';
   }
 
   function updateMistakeDots() {
@@ -451,7 +326,7 @@
         const correct = roundMistakes <= 2;
         flashFeedback(correct);
         if (correct) score++;
-        document.getElementById('scoreDisplay').textContent = score;
+        document.getElementById('score').textContent = score;
         showRoundFeedback(correct);
         round++;
         updateProgress();
@@ -461,7 +336,6 @@
         }, 1200);
       }
     } else {
-      // Wrong card
       roundMistakes++;
       updateMistakeDots();
       cardEl.classList.add('shake');

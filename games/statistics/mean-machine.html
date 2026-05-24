@@ -1,220 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
-  <title>Mean Machine – MathMunch</title>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --s1:#FB923C;--s2:#F97316;
-      --bg:#F5F3FF;--white:#FFFFFF;
-      --dark:#1E1E2E;--mid:#525270;
-      --radius:16px;
-      --shadow:0 4px 20px rgba(249,115,22,0.15);
-    }
-    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(249,115,22,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
-    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
-    .back-btn:hover{background:var(--s1);color:white}
-    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
-    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
-    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
-    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
-    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:12px;background:#FFF7ED;z-index:200}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FB923C,#F97316);transition:width .4s ease;border-radius:0 4px 4px 0}
-    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
-    .end-screen.show{display:flex}
-    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-    .end-stars{font-size:2.5rem;margin-bottom:12px}
-    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
-    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
-    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
-    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
-    .btn-home{background:#FFF7ED;color:var(--s2);margin:0 6px}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
-    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<title>Mean Machine – MathMunch</title>
+<style>
+  :root {
+    --orange:#F97316;--orange-dark:#EA580C;--orange-light:#FFF7ED;
+    --blue:#3B82F6;--green:#10B981;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#FFEDD5;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
 
-    /* Question card */
-    .question-card{background:var(--white);border-radius:var(--radius);padding:30px 24px;box-shadow:var(--shadow);text-align:center}
-    .round-label{font-size:.8rem;color:var(--mid);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
-    .type-badge{display:inline-block;background:linear-gradient(135deg,var(--s1),var(--s2));color:white;font-size:.8rem;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:14px;letter-spacing:.05em}
-    .question-text{font-size:1.2rem;font-weight:700;color:var(--dark);margin-bottom:22px;line-height:1.4}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--orange-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--orange);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--orange-light);color:var(--orange);}
+  .btn-play-now{background:var(--orange);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--orange-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .btn-play-now:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
 
-    /* Number chips */
-    .chips-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
-    .chip{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:14px;font-size:1.4rem;font-weight:800;color:white;box-shadow:0 3px 10px rgba(0,0,0,0.15);transition:transform .2s}
-    .chip:hover{transform:scale(1.08)}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
 
-    /* Input answer (for mean) */
-    .input-row{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:8px}
-    .answer-input{border:2px solid var(--s1);border-radius:12px;padding:12px 18px;font-size:1.3rem;font-weight:700;width:120px;text-align:center;color:var(--dark);outline:none;transition:.2s}
-    .answer-input:focus{border-color:var(--s2);box-shadow:0 0 0 3px rgba(249,115,22,0.15)}
-    .submit-btn{padding:12px 24px;background:linear-gradient(135deg,var(--s1),var(--s2));color:white;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s}
-    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(249,115,22,0.3)}
-    .submit-btn:disabled{opacity:.5;pointer-events:none}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--orange);color:var(--orange);}
+  .exit-btn:active{transform:translateY(1px);box-shadow:none;}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--orange);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.4rem;font-weight:700;color:var(--orange);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--orange);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--orange);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
 
-    /* MC buttons */
-    .mc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:400px;margin:0 auto 8px}
-    .mc-btn{background:#F5F3FF;border:2px solid var(--s1);border-radius:12px;padding:16px;font-size:1.2rem;font-weight:800;color:var(--s2);cursor:pointer;transition:.2s}
-    .mc-btn:hover{background:var(--s1);color:white;transform:translateY(-2px)}
-    .mc-btn.correct{background:#00b894;border-color:#00b894;color:white}
-    .mc-btn.wrong{background:#d63031;border-color:#d63031;color:white}
-    .mc-btn.reveal{background:#e0fff5;border-color:#00b894;color:#00734a}
-    .mc-btn.disabled{pointer-events:none;opacity:.75}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(249,115,22,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
 
-    /* Explanation card */
-    .explanation{background:#F0EDFF;border-left:4px solid var(--s2);border-radius:0 12px 12px 0;padding:14px 18px;font-size:.9rem;color:var(--dark);line-height:1.5;text-align:left;margin-top:16px;opacity:0;max-height:0;overflow:hidden;transition:opacity .4s, max-height .4s}
-    .explanation.show{opacity:1;max-height:200px}
-    .explanation strong{color:var(--s2)}
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;margin:0 6px;}
+  .btn-play{background:var(--orange);color:white;box-shadow:0 3px 0 var(--orange-dark);}
+  .btn-play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);}
 
-    /* Feedback */
-    .feedback-bar{border-radius:12px;padding:13px 18px;font-weight:700;font-size:.95rem;text-align:center;margin-top:14px;opacity:0;transition:opacity .3s}
-    .feedback-bar.show{opacity:1}
-    .feedback-bar.good{background:#d4f8ec;color:#00734a;border:2px solid #00b894}
-    .feedback-bar.bad{background:#ffeaea;color:#c0392b;border:2px solid #d63031}
+  @media(max-width:768px){
+    .game-layout{grid-template-columns:1fr;padding:16px;}
+    .sidebar{flex-direction:row;flex-wrap:wrap;}
+    .stat-card{flex:1;min-width:140px;}
+    .site-nav{display:none;}
+  }
 
-    .next-btn{display:block;margin:14px auto 0;padding:12px 36px;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;border:none;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;opacity:0;pointer-events:none}
-    .next-btn.visible{opacity:1;pointer-events:auto}
-    .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
-
-    /* Sorted hint for median */
-    .sorted-hint{font-size:.8rem;color:var(--mid);margin-bottom:8px}
-    .sorted-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-    .sorted-chip{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;font-size:1rem;font-weight:700;background:#FFF7ED;color:var(--s2)}
-    .sorted-chip.highlight{background:var(--s2);color:white;box-shadow:0 0 10px rgba(249,115,22,0.4)}
-  </style>
+  /* Game-specific CSS */
+  .question-card{background:white;border-radius:16px;padding:30px 24px;box-shadow:0 4px 20px rgba(249,115,22,0.15);text-align:center}
+  .round-label{font-size:.8rem;color:#525270;font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+  .type-badge{display:inline-block;background:linear-gradient(135deg,#FB923C,#F97316);color:white;font-size:.8rem;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:14px;letter-spacing:.05em}
+  .question-text{font-size:1.2rem;font-weight:700;color:#1E1E2E;margin-bottom:22px;line-height:1.4}
+  .chips-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+  .chip{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:14px;font-size:1.4rem;font-weight:800;color:white;box-shadow:0 3px 10px rgba(0,0,0,0.15);transition:transform .2s}
+  .chip:hover{transform:scale(1.08)}
+  .input-row{display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:8px}
+  .answer-input{border:2px solid #FB923C;border-radius:12px;padding:12px 18px;font-size:1.3rem;font-weight:700;width:120px;text-align:center;color:#1E1E2E;outline:none;transition:.2s}
+  .answer-input:focus{border-color:#F97316;box-shadow:0 0 0 3px rgba(249,115,22,0.15)}
+  .submit-btn{padding:12px 24px;background:linear-gradient(135deg,#FB923C,#F97316);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s}
+  .submit-btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(249,115,22,0.3)}
+  .submit-btn:disabled{opacity:.5;pointer-events:none}
+  .mc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:400px;margin:0 auto 8px}
+  .mc-btn{background:#FFF7ED;border:2px solid #FB923C;border-radius:12px;padding:16px;font-size:1.2rem;font-weight:800;color:#F97316;cursor:pointer;transition:.2s}
+  .mc-btn:hover{background:#FB923C;color:white;transform:translateY(-2px)}
+  .mc-btn.correct{background:#00b894;border-color:#00b894;color:white}
+  .mc-btn.wrong{background:#d63031;border-color:#d63031;color:white}
+  .mc-btn.reveal{background:#e0fff5;border-color:#00b894;color:#00734a}
+  .mc-btn.disabled{pointer-events:none;opacity:.75}
+  .explanation{background:#FFF7ED;border-left:4px solid #F97316;border-radius:0 12px 12px 0;padding:14px 18px;font-size:.9rem;color:#1E1E2E;line-height:1.5;text-align:left;margin-top:16px;opacity:0;max-height:0;overflow:hidden;transition:opacity .4s, max-height .4s}
+  .explanation.show{opacity:1;max-height:200px}
+  .explanation strong{color:#F97316}
+  .feedback-bar{border-radius:12px;padding:13px 18px;font-weight:700;font-size:.95rem;text-align:center;margin-top:14px;opacity:0;transition:opacity .3s}
+  .feedback-bar.show{opacity:1}
+  .feedback-bar.good{background:#d4f8ec;color:#00734a;border:2px solid #00b894}
+  .feedback-bar.bad{background:#ffeaea;color:#c0392b;border:2px solid #d63031}
+  .next-btn{display:block;margin:14px auto 0;padding:12px 36px;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;border:none;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;opacity:0;pointer-events:none}
+  .next-btn.visible{opacity:1;pointer-events:auto}
+  .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
+  .sorted-hint{font-size:.8rem;color:#525270;margin-bottom:8px}
+  .sorted-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+  .sorted-chip{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;font-size:1rem;font-weight:700;background:#FFF7ED;color:#F97316}
+  .sorted-chip.highlight{background:#F97316;color:white;box-shadow:0 0 10px rgba(249,115,22,0.4)}
+</style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
-<div class="topbar">
-  <a href="../../index.html" class="back-btn">← All Games</a>
-  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
-  <span class="game-title">🧮 Mean Machine</span>
-  <span class="level-badge">P5</span>
-  <span class="score-display">⭐ <span id="score">0</span></span>
-</div>
 
-<div class="game-area">
-  <div id="gameContainer"></div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">📊</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
+  </div>
+</header>
+
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Statistician</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Mean Machine</div>
+      <span class="level-pill">P5</span>
+    </div>
+  </div>
+
+  <div class="game-canvas">
+    <div id="gameContainer"></div>
+  </div>
 </div>
 
 <div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars">⭐⭐⭐</div>
-    <div class="end-title" id="endTitle">Amazing!</div>
-    <div class="end-score" id="endScore">You scored 10/10</div>
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🎉</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;" id="endTitle">Game Over!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:28px;" id="endScore">0 / 10</div>
     <button class="btn btn-play" onclick="restartGame()">Play Again</button>
-    <a href="../../index.html" class="btn btn-home">Home</a>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
   </div>
 </div>
-<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
 
 <script>
-// ── State ────────────────────────────────────────────────────────────
 let score=0, total=10, current=0;
 
-// ── Chip colours ──────────────────────────────────────────────────────
 const CHIP_COLS=['#A29BFE','#6C5CE7','#7B8AF9','#8B78F5','#9D8DF7','#B3A3FF','#5A4BD1','#C4B5FE'];
 function chipCol(i){return CHIP_COLS[i%CHIP_COLS.length];}
 
-// ── Dataset definitions ───────────────────────────────────────────────
-// type: 'mean'|'median'|'mode'|'range'
-// nums: array of numbers
-// answer: the correct numerical answer
-// explanation: the step-by-step string shown after answering
 const QUESTIONS = [
-  {
-    type:'mean',
-    nums:[4,6,8,10,12],
-    answer:8,
-    mc:false,
-    explanation:'Mean = sum ÷ count = (4+6+8+10+12) ÷ 5 = 40 ÷ 5 = 8'
-  },
-  {
-    type:'median',
-    nums:[3,7,2,9,5],
-    sorted:[2,3,5,7,9],
-    answer:5,
-    mc:true,
-    opts:[3,5,7,9],
-    explanation:'First sort the numbers: 2, 3, 5, 7, 9. The middle value is 5.'
-  },
-  {
-    type:'mode',
-    nums:[4,7,4,3,4,7,2],
-    answer:4,
-    mc:true,
-    opts:[2,4,7,3],
-    explanation:'The mode is the number that appears most often. 4 appears 3 times.'
-  },
-  {
-    type:'range',
-    nums:[15,7,12,3,10],
-    answer:12,
-    mc:true,
-    opts:[12,15,8,7],
-    explanation:'Range = largest − smallest = 15 − 3 = 12'
-  },
-  {
-    type:'mean',
-    nums:[5,10,15,20],
-    answer:12.5,
-    mc:false,
-    explanation:'Mean = (5+10+15+20) ÷ 4 = 50 ÷ 4 = 12.5'
-  },
-  {
-    type:'median',
-    nums:[8,1,6,3,9,4,7],
-    sorted:[1,3,4,6,7,8,9],
-    answer:6,
-    mc:true,
-    opts:[4,6,7,8],
-    explanation:'Sorted: 1, 3, 4, 6, 7, 8, 9. The 4th (middle) value is 6.'
-  },
-  {
-    type:'mode',
-    nums:[2,5,2,8,5,2,9],
-    answer:2,
-    mc:true,
-    opts:[5,9,2,8],
-    explanation:'2 appears 3 times, 5 appears twice — so the mode is 2.'
-  },
-  {
-    type:'range',
-    nums:[6,14,3,18,11],
-    answer:15,
-    mc:true,
-    opts:[15,12,11,18],
-    explanation:'Range = 18 − 3 = 15'
-  },
-  {
-    type:'mean',
-    nums:[2,4,6,8,10,12],
-    answer:7,
-    mc:false,
-    explanation:'Mean = (2+4+6+8+10+12) ÷ 6 = 42 ÷ 6 = 7'
-  },
-  {
-    type:'median',
-    nums:[11,5,9,3,7],
-    sorted:[3,5,7,9,11],
-    answer:7,
-    mc:true,
-    opts:[5,9,7,11],
-    explanation:'Sorted: 3, 5, 7, 9, 11. The middle value is 7.'
-  }
+  {type:'mean',nums:[4,6,8,10,12],answer:8,mc:false,explanation:'Mean = sum ÷ count = (4+6+8+10+12) ÷ 5 = 40 ÷ 5 = 8'},
+  {type:'median',nums:[3,7,2,9,5],sorted:[2,3,5,7,9],answer:5,mc:true,opts:[3,5,7,9],explanation:'First sort the numbers: 2, 3, 5, 7, 9. The middle value is 5.'},
+  {type:'mode',nums:[4,7,4,3,4,7,2],answer:4,mc:true,opts:[2,4,7,3],explanation:'The mode is the number that appears most often. 4 appears 3 times.'},
+  {type:'range',nums:[15,7,12,3,10],answer:12,mc:true,opts:[12,15,8,7],explanation:'Range = largest − smallest = 15 − 3 = 12'},
+  {type:'mean',nums:[5,10,15,20],answer:12.5,mc:false,explanation:'Mean = (5+10+15+20) ÷ 4 = 50 ÷ 4 = 12.5'},
+  {type:'median',nums:[8,1,6,3,9,4,7],sorted:[1,3,4,6,7,8,9],answer:6,mc:true,opts:[4,6,7,8],explanation:'Sorted: 1, 3, 4, 6, 7, 8, 9. The 4th (middle) value is 6.'},
+  {type:'mode',nums:[2,5,2,8,5,2,9],answer:2,mc:true,opts:[5,9,2,8],explanation:'2 appears 3 times, 5 appears twice — so the mode is 2.'},
+  {type:'range',nums:[6,14,3,18,11],answer:15,mc:true,opts:[15,12,11,18],explanation:'Range = 18 − 3 = 15'},
+  {type:'mean',nums:[2,4,6,8,10,12],answer:7,mc:false,explanation:'Mean = (2+4+6+8+10+12) ÷ 6 = 42 ÷ 6 = 7'},
+  {type:'median',nums:[11,5,9,3,7],sorted:[3,5,7,9,11],answer:7,mc:true,opts:[5,9,7,11],explanation:'Sorted: 3, 5, 7, 9, 11. The middle value is 7.'}
 ];
 
 let pool=[...QUESTIONS];
 
-// ── Helpers ──────────────────────────────────────────────────────────
 function updateScore(pts){score+=pts;document.getElementById('score').textContent=score;}
 function updateProgress(){document.getElementById('progressBar').style.width=(current/total*100)+'%';}
 function showEnd(){
   const pct=score/total;
-  document.getElementById('endStars').textContent=pct>=0.8?'⭐⭐⭐':pct>=0.5?'⭐⭐':'⭐';
+  document.getElementById('endEmoji').textContent=pct>=0.8?'🌟':pct>=0.5?'👍':'💪';
   document.getElementById('endTitle').textContent=pct>=0.8?'Brilliant!':pct>=0.5?'Good job!':'Keep trying!';
   document.getElementById('endScore').textContent='You scored '+score+' / '+total;
   document.getElementById('endScreen').classList.add('show');
@@ -227,7 +208,6 @@ function restartGame(){
   initGame();
 }
 
-// ── Render chips ──────────────────────────────────────────────────────
 function renderChips(nums){
   return nums.map((n,i)=>`<span class="chip" style="background:${chipCol(i)}">${n}</span>`).join('');
 }
@@ -236,7 +216,6 @@ function renderSortedChips(sorted,answer){
   return sorted.map((n,i)=>`<span class="sorted-chip${n===answer&&i===midIdx?' highlight':''}">${n}</span>`).join('');
 }
 
-// ── Render question ───────────────────────────────────────────────────
 function renderQuestion(q){
   const gc=document.getElementById('gameContainer');
   const typeLabel=q.type.charAt(0).toUpperCase()+q.type.slice(1);
@@ -253,7 +232,6 @@ function renderQuestion(q){
     <span class="type-badge">${typeLabel}</span>
     <div class="chips-row">${renderChips(q.nums)}</div>`;
 
-  // For median, show sorted chips hint
   if(q.type==='median'&&q.sorted){
     html+=`<div class="sorted-hint">Sorted order:</div>
     <div class="sorted-chips">${renderSortedChips(q.sorted,q.answer)}</div>`;
@@ -262,7 +240,6 @@ function renderQuestion(q){
   html+=`<div class="question-text">${questionText}</div>`;
 
   if(!q.mc){
-    // Input mode
     const expSafe=q.explanation.replace(/'/g,"\\'");
     const ans=q.answer;
     html+=`<div class="input-row">
@@ -271,7 +248,6 @@ function renderQuestion(q){
       <button class="submit-btn" onclick="submitInput(${ans},'${expSafe}')">Check</button>
     </div>`;
   } else {
-    // MC mode
     html+=`<div class="mc-grid">`;
     q.opts.forEach(opt=>{
       const expSafe=q.explanation.replace(/'/g,"\\'");
@@ -286,7 +262,6 @@ function renderQuestion(q){
   </div>`;
   gc.innerHTML=html;
 
-  // Focus input if present
   const inp=document.getElementById('ansInput');
   if(inp) setTimeout(()=>inp.focus(),100);
 }

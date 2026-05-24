@@ -3,129 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Time Tracker – MathMunch</title>
 <style>
 :root{
-  --primary:#10B981;--primary-light:#ECFDF5;
-  --g1:#34D399;--g2:#10B981;
-  --accent:#FDCB6E;--bg:#F0F4FF;
-  --white:#FFFFFF;--text:#1E1E2E;--text2:#525270;
-  --green:#00B894;--red:#FF4757;
-  --radius:16px;--shadow:0 4px 20px rgba(78,205,196,0.15);
+  --green:#10B981;--green-dark:#059669;--green-light:#ECFDF5;
+  --canvas:#D1FAE5;--bg:#F8FAFC;
+  --red:#FF4757;--text:#1E293B;--text2:#64748B;
+  --white:#FFFFFF;--shadow:0 1px 3px rgba(0,0,0,0.08);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFF8F0;color:var(--text);min-height:100vh}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
 
-.topbar{background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);position:sticky;top:0;z-index:50}
-.topbar-inner{max-width:800px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.back-btn{text-decoration:none;background:var(--bg);color:var(--text2);padding:7px 14px;border-radius:10px;font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:5px;transition:all 0.2s}
-.back-btn:hover{background:var(--primary-light);color:var(--primary)}
-.topbar-logo{font-size:1rem;font-weight:900;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:6px}
-.topbar-sep{color:#ccc}
-.topbar-title{font-size:0.95rem;font-weight:800;flex:1}
-.level-badge{background:#FFFBE0;color:#F0A500;font-size:0.75rem;font-weight:800;padding:4px 10px;border-radius:20px;border:1px solid #F0A500}
-.score-display{background:linear-gradient(135deg,var(--g1),var(--g2));color:white;padding:6px 14px;border-radius:20px;font-weight:800;font-size:0.85rem}
+/* SITE HEADER */
+.site-header{background:var(--white);border-bottom:1px solid #E2E8F0;position:sticky;top:0;z-index:50;box-shadow:var(--shadow)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;gap:24px}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:1.25rem;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px}
+.header-logo span{color:var(--text)}
+.header-nav{display:flex;align-items:center;gap:4px;margin-left:auto}
+.header-nav a{font-size:0.875rem;font-weight:600;color:var(--text2);text-decoration:none;padding:6px 12px;border-radius:8px;transition:all 0.15s}
+.header-nav a:hover{color:var(--green);background:var(--green-light)}
+.header-cta{background:var(--green);color:var(--white)!important;border-radius:8px;padding:7px 16px!important;font-weight:600!important}
+.header-cta:hover{background:var(--green-dark)!important;color:var(--white)!important}
 
-.game-area{max-width:800px;margin:0 auto;padding:24px 20px 100px}
-.question-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px}
-.mode-badge{padding:5px 14px;border-radius:20px;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;display:inline-block}
+/* GAME LAYOUT */
+.game-layout{flex:1;display:grid;grid-template-columns:280px 1fr;min-height:0}
+
+/* SIDEBAR */
+.sidebar{background:var(--white);border-right:1px solid #E2E8F0;padding:20px 16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.875rem;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.15s;text-decoration:none;width:100%}
+.exit-btn:hover{background:var(--green-light);color:var(--green);border-color:var(--green)}
+.stat-card{background:var(--bg);border:1px solid #E2E8F0;border-radius:12px;padding:14px}
+.stat-label{font-size:0.72rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:1.75rem;font-weight:700;color:var(--green)}
+.level-progress-track{height:6px;background:#E2E8F0;border-radius:99px;overflow:hidden;margin-top:8px}
+.level-progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--green-dark));border-radius:99px;transition:width 0.4s ease;width:0%}
+.grade-badge{display:inline-block;background:var(--green-light);color:var(--green-dark);font-size:0.8rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:4px}
+.topic-icon{font-size:1.5rem;margin-bottom:4px}
+
+/* GAME CANVAS */
+.game-canvas{background:var(--canvas);position:relative;display:flex;flex-direction:column;overflow-y:auto}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#6EE7B7 1px,transparent 1px);background-size:24px 24px;pointer-events:none;opacity:0.5}
+.canvas-inner{position:relative;z-index:1;padding:28px;max-width:760px;width:100%;margin:0 auto}
+
+/* QUESTION CARD */
+.question-card{background:var(--white);border-radius:16px;box-shadow:0 4px 20px rgba(16,185,129,0.10);padding:28px;margin-bottom:20px}
+.mode-badge{padding:5px 14px;border-radius:20px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;display:inline-block}
 .mode-read{background:#E0F7FA;color:#00838F}
 .mode-set{background:#FFF3E0;color:#E65100}
-.question-text{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:24px;line-height:1.5}
+.question-text{font-size:1.05rem;font-weight:600;color:var(--text);margin-bottom:24px;line-height:1.6}
 
 /* Digital display */
-.digital-time{font-size:3rem;font-weight:900;color:var(--text);font-family:'Courier New',monospace;background:#1E1E2E;color:#34D399;padding:16px 32px;border-radius:12px;display:inline-block;letter-spacing:4px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.digital-time{font-size:3rem;font-weight:900;color:var(--text);font-family:'Courier New',monospace;background:#1E293B;color:#34D399;padding:16px 32px;border-radius:12px;display:inline-block;letter-spacing:4px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
 
 /* Single large clock */
 .clock-center{display:flex;justify-content:center;margin-bottom:20px}
 
 /* Four clocks grid for Mode B */
 .clocks-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:400px;margin:0 auto 20px}
-.clock-option{background:var(--bg);border:3px solid #E0E7FF;border-radius:16px;padding:16px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:8px}
-.clock-option:hover:not(.disabled){border-color:var(--g1);background:#E0FFF8;transform:translateY(-2px)}
-.clock-option.correct{border-color:var(--green);background:#D4EDDA}
+.clock-option{background:var(--bg);border:3px solid #E2E8F0;border-radius:16px;padding:16px;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:8px}
+.clock-option:hover:not(.disabled){border-color:var(--green);background:var(--green-light);transform:translateY(-2px)}
+.clock-option.correct{border-color:#00B894;background:#D4EDDA}
 .clock-option.wrong{border-color:var(--red);background:#FFE0E3}
 .clock-option.disabled{cursor:default}
 .clock-option-label{font-size:0.8rem;font-weight:700;color:var(--text2)}
 
 /* Text answers for Mode A */
 .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
-.ans-btn{background:var(--bg);border:2px solid #E0E7FF;border-radius:12px;padding:14px 10px;font-size:1.05rem;font-weight:800;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:center;font-family:'Courier New',monospace}
-.ans-btn:hover:not(:disabled){border-color:var(--g1);background:#E0FFF8;transform:translateY(-1px)}
-.ans-btn.correct{background:#D4EDDA;border-color:var(--green);color:var(--green)}
+.ans-btn{background:var(--bg);border:2px solid #E2E8F0;border-radius:12px;padding:14px 10px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:center;font-family:'Courier New',monospace}
+.ans-btn:hover:not(:disabled){border-color:var(--green);background:var(--green-light);transform:translateY(-1px)}
+.ans-btn.correct{background:#D4EDDA;border-color:#00B894;color:#00B894}
 .ans-btn.wrong{background:#FFE0E3;border-color:var(--red);color:var(--red)}
 .ans-btn:disabled{cursor:default;opacity:0.85}
 
-.feedback-bar{padding:12px 16px;border-radius:12px;font-weight:700;font-size:0.95rem;margin-top:12px;display:none}
+.feedback-bar{padding:12px 16px;border-radius:12px;font-weight:600;font-size:0.95rem;margin-top:12px;display:none}
 .feedback-bar.show{display:block}
 .feedback-bar.correct{background:#D4EDDA;color:#155724}
 .feedback-bar.wrong{background:#FFE0E3;color:#721C24}
 
-.progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:40}
-.progress-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:12px}
-.progress-label{font-size:0.82rem;font-weight:700;color:var(--text2);white-space:nowrap}
-.progress-track{flex:1;height:10px;background:#E0E7FF;border-radius:99px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s ease}
-.progress-pct{font-size:0.82rem;font-weight:800;color:var(--g1);white-space:nowrap}
-
-.end-overlay{position:fixed;inset:0;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
-.end-overlay.show{display:flex}
+/* END SCREEN */
+.end-screen{position:fixed;inset:0;background:rgba(15,23,42,0.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
+.end-screen.show{display:flex}
 .end-card{background:var(--white);border-radius:24px;padding:40px 32px;max-width:400px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
 @keyframes popIn{from{transform:scale(0.6);opacity:0}to{transform:scale(1);opacity:1}}
-.end-emoji{font-size:3rem;margin-bottom:12px}
-.end-title{font-size:1.5rem;font-weight:900;margin-bottom:8px}
-.end-score{font-size:2.5rem;font-weight:900;color:var(--primary);margin-bottom:8px}
+#endEmoji{font-size:3rem;margin-bottom:12px}
+#endTitle{font-family:'Quicksand',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:8px;color:var(--text)}
+#endScore{font-family:'Quicksand',sans-serif;font-size:2.5rem;font-weight:700;color:var(--green);margin-bottom:8px}
 .end-stars{font-size:2rem;letter-spacing:4px;margin-bottom:12px}
-.end-msg{font-size:1rem;color:var(--text2);margin-bottom:24px;font-weight:600}
-.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:1rem;transition:all 0.2s;text-decoration:none;display:inline-block}
-.btn-geo:hover{transform:translateY(-2px)}
+.end-msg{font-size:1rem;color:var(--text2);margin-bottom:24px;font-weight:500}
 .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-secondary{background:var(--bg);color:var(--text2);border:2px solid #E0E7FF;border-radius:12px;font-weight:800;padding:12px 24px;cursor:pointer;font-size:0.9rem;text-decoration:none;display:inline-block;transition:all 0.2s}
-.btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+.btn{border:none;border-radius:12px;font-weight:700;padding:12px 24px;cursor:pointer;font-size:0.95rem;transition:all 0.2s;text-decoration:none;display:inline-block;font-family:'Lexend',sans-serif}
+.btn-play{background:linear-gradient(135deg,var(--green),var(--green-dark));color:var(--white)}
+.btn-play:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(16,185,129,0.35)}
+.btn-home{background:var(--bg);color:var(--text2);border:1px solid #E2E8F0}
+.btn-home:hover{border-color:var(--green);color:var(--green)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .game-layout{grid-template-columns:1fr}
+  .sidebar{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid #E2E8F0;padding:12px}
+  .stat-card{flex:1;min-width:120px}
+  .header-nav{display:none}
+}
 </style>
 </head>
-<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <a href="../../index.html" class="back-btn">← All Games</a>
-    <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
-    <span class="topbar-sep">|</span>
-    <span class="topbar-title">🕐 Time Tracker</span>
-    <span class="level-badge">P2</span>
-    <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../../index.html" class="header-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="#10B981"/><text x="14" y="20" text-anchor="middle" font-size="16" fill="white">M</text></svg>
+      <span>Math<span style="color:var(--green)">Munch</span></span>
+    </a>
+    <nav class="header-nav">
+      <a href="../../index.html">Games</a>
+      <a href="../../index.html">Topics</a>
+      <a href="../../index.html" class="header-cta">Dashboard</a>
+    </nav>
+  </div>
+</header>
+
+<div class="game-layout">
+  <aside class="sidebar">
+    <a href="../../index.html" class="exit-btn">&#8617; Exit Game</a>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:1rem;color:var(--text);margin-bottom:4px">Keeper</div>
+      <div class="level-progress-track"><div class="level-progress-fill" id="progressBar"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Grade</div>
+      <span class="grade-badge">P2</span>
+    </div>
+    <div class="stat-card">
+      <div class="topic-icon">🕐</div>
+      <div class="stat-label">Topic</div>
+      <div style="font-size:0.875rem;font-weight:600;color:var(--text)">Time Tracker</div>
+    </div>
+  </aside>
+
+  <div class="game-canvas">
+    <div class="canvas-inner">
+      <div class="question-card" id="questionCard">
+        <span class="mode-badge" id="modeBadge">Read the Clock</span>
+        <div class="question-text" id="questionText">What time does this clock show?</div>
+        <div id="visualArea"></div>
+        <div id="answersArea"></div>
+        <div class="feedback-bar" id="feedbackBar"></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="game-area">
-  <div class="question-card" id="questionCard">
-    <span class="mode-badge" id="modeBadge">Read the Clock</span>
-    <div class="question-text" id="questionText">What time does this clock show?</div>
-    <div id="visualArea"></div>
-    <div id="answersArea"></div>
-    <div class="feedback-bar" id="feedbackBar"></div>
-  </div>
-</div>
-
-<div class="progress-bar">
-  <div class="progress-inner">
-    <span class="progress-label" id="progressLabel">Question 1 of 10</span>
-    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    <span class="progress-pct" id="progressPct">0%</span>
-  </div>
-</div>
-
-<div class="end-overlay" id="endOverlay">
+<div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-emoji" id="endEmoji">🏆</div>
-    <div class="end-title" id="endTitle">Brilliant!</div>
-    <div class="end-score" id="endScore">10/10</div>
+    <div id="endEmoji">🏆</div>
+    <div id="endTitle">Brilliant!</div>
+    <div id="endScore">0 / 10</div>
     <div class="end-stars" id="endStars">★★★</div>
     <div class="end-msg" id="endMsg">Amazing time skills!</div>
     <div class="end-btns">
-      <button class="btn-geo" onclick="restartGame()">Play Again</button>
-      <a href="../../index.html" class="btn-secondary">← Back</a>
+      <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+      <a class="btn btn-home" href="../../index.html">&#8592; All Games</a>
     </div>
   </div>
 </div>
@@ -187,9 +233,9 @@ function drawClock(h, m, size){
   return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
     <circle cx="${cx}" cy="${cy}" r="${r-2}" fill="white" stroke="#34D399" stroke-width="3"/>
     ${markers}${nums}
-    <line x1="${cx}" y1="${cy}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}" stroke="#1E1E2E" stroke-width="${size>100?4:2.5}" stroke-linecap="round"/>
+    <line x1="${cx}" y1="${cy}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}" stroke="#1E293B" stroke-width="${size>100?4:2.5}" stroke-linecap="round"/>
     <line x1="${cx}" y1="${cy}" x2="${mx2.toFixed(1)}" y2="${my2.toFixed(1)}" stroke="#34D399" stroke-width="${size>100?2.5:1.5}" stroke-linecap="round"/>
-    <circle cx="${cx}" cy="${cy}" r="${size>100?5:3}" fill="#1E1E2E"/>
+    <circle cx="${cx}" cy="${cy}" r="${size>100?5:3}" fill="#1E293B"/>
   </svg>`;
 }
 
@@ -225,9 +271,7 @@ function shuffle(arr){
 function renderQuestion(){
   const round=rounds[current];
   const pct=Math.round((current/10)*100);
-  document.getElementById('progressLabel').textContent=`Question ${current+1} of 10`;
-  document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('progressPct').textContent=pct+'%';
+  document.getElementById('progressBar').style.width=pct+'%';
   answered=false;
 
   const fb=document.getElementById('feedbackBar');
@@ -287,7 +331,7 @@ function handleReadAnswer(correct,btn,grid,correctLabel){
   if(answered)return;
   answered=true;
   if(correct)score++;
-  document.getElementById('scoreDisplay').textContent=score;
+  document.getElementById('score').textContent=score;
   grid.querySelectorAll('.ans-btn').forEach(b=>{
     b.disabled=true;
     if(b.textContent===correctLabel)b.classList.add('correct');
@@ -301,7 +345,7 @@ function handleSetAnswer(correct,div,grid,correctLabel){
   if(answered)return;
   answered=true;
   if(correct)score++;
-  document.getElementById('scoreDisplay').textContent=score;
+  document.getElementById('score').textContent=score;
   grid.querySelectorAll('.clock-option').forEach(el=>{
     el.classList.add('disabled');
     el.onclick=null;
@@ -332,8 +376,7 @@ function advance(){
 }
 
 function showEnd(){
-  document.getElementById('progressFill').style.width='100%';
-  document.getElementById('progressPct').textContent='100%';
+  document.getElementById('progressBar').style.width='100%';
   let emoji,title,stars,msg;
   if(score>=9){emoji='🏆';title='Brilliant!';stars='★★★';msg='You are a clock-reading champion!'}
   else if(score>=7){emoji='🎉';title='Well Done!';stars='★★☆';msg='Great time-reading skills!'}
@@ -343,13 +386,13 @@ function showEnd(){
   document.getElementById('endScore').textContent=score+'/10';
   document.getElementById('endStars').textContent=stars;
   document.getElementById('endMsg').textContent=msg;
-  document.getElementById('endOverlay').classList.add('show');
+  document.getElementById('endScreen').classList.add('show');
 }
 
 function restartGame(){
   current=0;score=0;answered=false;
-  document.getElementById('scoreDisplay').textContent='0';
-  document.getElementById('endOverlay').classList.remove('show');
+  document.getElementById('score').textContent='0';
+  document.getElementById('endScreen').classList.remove('show');
   renderQuestion();
 }
 

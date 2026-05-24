@@ -3,315 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Number Line Hop – MathMunch</title>
 <style>
-  :root {
-    --primary: #3B82F6;
-    --primary-light: #EFF6FF;
-    --accent: #FDCB6E;
-    --n1: #FF6B6B;
-    --n2: #FF8E53;
-    --bg: #F0F4FF;
-    --white: #FFFFFF;
-    --text: #1E1E2E;
-    --text2: #525270;
-    --green: #00B894;
-    --red: #FF4757;
-    --radius: 16px;
-    --shadow: 0 4px 20px rgba(59,130,246,0.12);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Lexend', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 80px;
-  }
+:root {
+  --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+  --green:#10B981;--orange:#F97316;
+  --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+  --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+  --canvas:#DBEAFE;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-  /* TOP BAR */
-  .topbar {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--white);
-    box-shadow: 0 2px 12px rgba(59,130,246,0.10);
-    display: flex; align-items: center; gap: 12px;
-    padding: 0 20px; height: 60px;
-  }
-  .topbar a {
-    text-decoration: none; color: var(--primary);
-    font-weight: 600; font-size: 14px;
-    display: flex; align-items: center; gap: 4px;
-    padding: 6px 10px; border-radius: 8px;
-    transition: background 0.2s;
-  }
-  .topbar a:hover { background: var(--primary-light); }
-  .topbar .brand {
-    font-weight: 800; font-size: 18px;
-    background: linear-gradient(135deg,var(--primary),var(--n1));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .topbar .game-title {
-    font-weight: 700; font-size: 16px; color: var(--text);
-    margin-left: 4px;
-  }
-  .topbar .spacer { flex: 1; }
-  .level-badge {
-    background: #FFF0E0; color: #FF7043;
-    font-weight: 700; font-size: 12px;
-    padding: 4px 10px; border-radius: 20px;
-  }
-  .score-display {
-    font-weight: 700; font-size: 15px; color: var(--text);
-    display: flex; align-items: center; gap: 4px;
-  }
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--blue);text-decoration:none;}
+.header-nav{display:flex;gap:24px;}
+.header-nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--text-mid);}
+.header-nav a:hover{color:var(--blue);}
+.header-cta{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Lexend',sans-serif;}
+.header-cta:hover{background:var(--blue-dark);}
 
-  /* GAME AREA */
-  .game-area {
-    max-width: 800px; margin: 0 auto; padding: 24px 16px;
-  }
+/* LAYOUT */
+.game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;max-width:1200px;margin:0 auto;padding:24px 20px;}
 
-  /* QUESTION CARD */
-  .question-card {
-    background: var(--white); border-radius: var(--radius);
-    padding: 24px; box-shadow: var(--shadow);
-    margin-bottom: 24px; text-align: center;
-  }
-  .question-text {
-    font-size: 20px; font-weight: 700; color: var(--text);
-    line-height: 1.5; margin-bottom: 12px;
-  }
-  .question-text .num-highlight {
-    display: inline-block;
-    background: var(--primary-light); color: var(--primary);
-    font-size: 24px; font-weight: 800;
-    padding: 4px 12px; border-radius: 8px; margin: 0 4px;
-  }
-  .frog-info {
-    display: flex; align-items: center; justify-content: center;
-    gap: 20px; font-size: 15px; color: var(--text2);
-    flex-wrap: wrap;
-  }
-  .frog-chip {
-    background: #E8F5E9; padding: 8px 16px; border-radius: 30px;
-    font-weight: 600; display: flex; align-items: center; gap: 6px;
-  }
-  .frog-chip.start { background: #E3F2FD; color: #1565C0; }
-  .frog-chip.hops { background: #FFF8E1; color: #E65100; }
-  .frog-chip.dir { background: #F3E5F5; color: #6A1B9A; }
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--outline);border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;color:var(--text-mid);cursor:pointer;font-family:'Lexend',sans-serif;transition:background .2s;}
+.exit-btn:hover{background:#F1F5F9;}
+.stat-card{background:var(--white);border:1px solid var(--outline);border-radius:16px;padding:16px 18px;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:32px;font-weight:700;color:var(--text);}
+.stat-level-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.level-icon{font-size:20px;}
+.stat-value-sm{font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.level-progress{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;}
+.level-progress-fill{height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width .4s ease;}
+.hearts{font-size:22px;letter-spacing:4px;margin-top:4px;}
+.game-info-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.level-pill{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;}
 
-  /* FEEDBACK */
-  .answer-feedback {
-    display: none; padding: 10px 18px; border-radius: 10px;
-    font-weight: 700; font-size: 15px; margin-top: 12px;
-  }
-  .answer-feedback.correct { display: block; background: #D4EDDA; color: #155724; }
-  .answer-feedback.wrong { display: block; background: #F8D7DA; color: #721c24; }
+/* GAME CANVAS */
+.game-canvas{background:var(--canvas);border-radius:24px;padding:28px;position:relative;overflow:hidden;min-height:560px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.game-canvas > *{position:relative;z-index:1;}
 
-  /* NUMBER LINE CONTAINER */
-  .numberline-wrap {
-    background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
-    border-radius: var(--radius); padding: 30px 20px 20px;
-    box-shadow: var(--shadow); margin-bottom: 24px;
-    overflow: hidden; position: relative;
-  }
-  .frog-row {
-    position: relative; height: 60px; margin-bottom: 8px;
-  }
-  .frog-emoji {
-    position: absolute; font-size: 36px;
-    top: 0; transform: translateX(-50%);
-    transition: left 0.6s cubic-bezier(0.34,1.56,0.64,1);
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    animation: bounce 1s ease-in-out infinite;
-  }
-  @keyframes bounce {
-    0%,100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-8px); }
-  }
-  .frog-emoji.hopping { animation: hop 0.6s ease; }
-  @keyframes hop {
-    0% { transform: translateX(-50%) translateY(0) scale(1); }
-    50% { transform: translateX(-50%) translateY(-20px) scale(1.3); }
-    100% { transform: translateX(-50%) translateY(0) scale(1); }
-  }
+/* GAME AREA */
+.game-area{width:100%;}
 
-  .hop-arrow {
-    position: absolute; top: 28px; height: 3px;
-    border-top: 3px dashed rgba(255,255,255,0.8);
-    pointer-events: none;
-    transition: all 0.3s;
-  }
-  .hop-arrow::after {
-    content: '→';
-    position: absolute; right: -10px; top: -12px;
-    font-size: 16px; color: rgba(255,255,255,0.9);
-  }
-  .hop-arrow.back::after { content: '←'; left: -10px; right: auto; }
+/* QUESTION CARD */
+.question-card{background:var(--white);border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(59,130,246,0.12);margin-bottom:24px;text-align:center;}
+.question-text{font-size:20px;font-weight:700;color:var(--text);line-height:1.5;margin-bottom:12px;}
+.question-text .num-highlight{display:inline-block;background:var(--blue-light);color:var(--blue);font-size:24px;font-weight:800;padding:4px 12px;border-radius:8px;margin:0 4px;}
+.frog-info{display:flex;align-items:center;justify-content:center;gap:20px;font-size:15px;color:#525270;flex-wrap:wrap;}
+.frog-chip{background:#E8F5E9;padding:8px 16px;border-radius:30px;font-weight:600;display:flex;align-items:center;gap:6px;}
+.frog-chip.start{background:#E3F2FD;color:#1565C0;}
+.frog-chip.hops{background:#FFF8E1;color:#E65100;}
+.frog-chip.dir{background:#F3E5F5;color:#6A1B9A;}
 
-  .line-row {
-    position: relative;
-    height: 50px;
-  }
-  .line-base {
-    position: absolute;
-    top: 16px; left: 0; right: 0;
-    height: 4px; background: rgba(255,255,255,0.6);
-    border-radius: 2px;
-  }
-  .tick-container {
-    position: absolute; top: 0; left: 0; right: 0;
-    display: flex; justify-content: space-between;
-    align-items: flex-start;
-  }
-  .tick {
-    display: flex; flex-direction: column; align-items: center;
-    cursor: pointer; position: relative;
-    flex: 0 0 auto;
-  }
-  .tick-pad {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: #4CAF50;
-    border: 3px solid rgba(255,255,255,0.7);
-    margin-top: 4px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; color: white;
-    transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  }
-  .tick:hover .tick-pad {
-    transform: scale(1.2);
-    background: #2E7D32;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  }
-  .tick-pad.selected { background: var(--accent); border-color: #fff; transform: scale(1.3); }
-  .tick-pad.correct-tick { background: var(--green); box-shadow: 0 0 12px rgba(0,184,148,0.6); }
-  .tick-pad.wrong-tick { background: var(--red); }
-  .tick-label {
-    font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.95);
-    margin-top: 4px; white-space: nowrap;
-  }
+/* FEEDBACK */
+.answer-feedback{display:none;padding:10px 18px;border-radius:10px;font-weight:700;font-size:15px;margin-top:12px;}
+.answer-feedback.correct{display:block;background:#D4EDDA;color:#155724;}
+.answer-feedback.wrong{display:block;background:#F8D7DA;color:#721c24;}
 
-  /* Large line: scroll if needed */
-  .numberline-scroll {
-    overflow-x: auto; padding-bottom: 4px;
-  }
-  .numberline-inner {
-    min-width: 100%;
-    position: relative;
-  }
+/* NUMBER LINE CONTAINER */
+.numberline-wrap{background:linear-gradient(135deg,#C8E6C9,#A5D6A7);border-radius:16px;padding:30px 20px 20px;box-shadow:0 4px 20px rgba(59,130,246,0.12);margin-bottom:24px;overflow:hidden;position:relative;}
+.frog-row{position:relative;height:60px;margin-bottom:8px;}
+.frog-emoji{position:absolute;font-size:36px;top:0;transform:translateX(-50%);transition:left .6s cubic-bezier(0.34,1.56,0.64,1);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));animation:bounce 1s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-8px);}}
+.frog-emoji.hopping{animation:hop .6s ease;}
+@keyframes hop{0%{transform:translateX(-50%) translateY(0) scale(1);}50%{transform:translateX(-50%) translateY(-20px) scale(1.3);}100%{transform:translateX(-50%) translateY(0) scale(1);}}
+.hop-arrow{position:absolute;top:28px;height:3px;border-top:3px dashed rgba(255,255,255,0.8);pointer-events:none;transition:all .3s;}
+.hop-arrow::after{content:'→';position:absolute;right:-10px;top:-12px;font-size:16px;color:rgba(255,255,255,0.9);}
+.hop-arrow.back::after{content:'←';left:-10px;right:auto;}
+.line-row{position:relative;height:50px;}
+.line-base{position:absolute;top:16px;left:0;right:0;height:4px;background:rgba(255,255,255,0.6);border-radius:2px;}
+.tick-container{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;}
+.tick{display:flex;flex-direction:column;align-items:center;cursor:pointer;position:relative;flex:0 0 auto;}
+.tick-pad{width:28px;height:28px;border-radius:50%;background:#4CAF50;border:3px solid rgba(255,255,255,0.7);margin-top:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;transition:transform .15s,background .15s,box-shadow .15s;box-shadow:0 2px 6px rgba(0,0,0,0.15);}
+.tick:hover .tick-pad{transform:scale(1.2);background:#2E7D32;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+.tick-pad.selected{background:#FDCB6E;border-color:#fff;transform:scale(1.3);}
+.tick-pad.correct-tick{background:#00B894;box-shadow:0 0 12px rgba(0,184,148,0.6);}
+.tick-pad.wrong-tick{background:#FF4757;}
+.tick-label{font-size:11px;font-weight:700;color:rgba(255,255,255,0.95);margin-top:4px;white-space:nowrap;}
+.numberline-scroll{overflow-x:auto;padding-bottom:4px;}
+.numberline-inner{min-width:100%;position:relative;}
 
-  /* PROGRESS BAR */
-  .progress-bar-wrap {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    background: var(--white);
-    box-shadow: 0 -2px 12px rgba(59,130,246,0.10);
-    padding: 10px 20px;
-  }
-  .progress-info {
-    display: flex; justify-content: space-between;
-    font-size: 13px; font-weight: 600; color: var(--text2);
-    margin-bottom: 6px;
-  }
-  .progress-track {
-    height: 10px; border-radius: 100px;
-    background: #eee; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; border-radius: 100px;
-    background: linear-gradient(90deg,#60A5FA,#3B82F6);
-    transition: width 0.4s ease;
-  }
+/* END SCREEN */
+.end-overlay{position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;}
+.end-overlay.show{opacity:1;pointer-events:all;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 48px;text-align:center;box-shadow:0 20px 60px rgba(59,130,246,0.25);max-width:420px;width:90%;transform:scale(0.85);transition:transform .4s;}
+.end-overlay.show .end-card{transform:scale(1);}
+.end-emoji{font-size:60px;margin-bottom:12px;}
+.end-title{font-size:28px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.end-score{font-size:20px;color:#525270;margin-bottom:16px;}
+.end-stars{font-size:36px;margin-bottom:8px;letter-spacing:4px;}
+.end-verdict{font-size:18px;font-weight:700;color:var(--blue);margin-bottom:24px;}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:linear-gradient(135deg,var(--blue),#8e78ff);color:white;border:none;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .15s;text-decoration:none;display:inline-flex;align-items:center;font-family:'Lexend',sans-serif;}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{background:var(--blue-light);color:var(--blue);border:none;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;font-family:'Lexend',sans-serif;}
 
-  /* END SCREEN */
-  .end-overlay {
-    position: fixed; inset: 0; z-index: 300;
-    background: rgba(30,30,46,0.7);
-    backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity 0.4s;
-  }
-  .end-overlay.show { opacity: 1; pointer-events: all; }
-  .end-card {
-    background: var(--white); border-radius: 24px;
-    padding: 40px 48px; text-align: center;
-    box-shadow: 0 20px 60px rgba(59,130,246,0.25);
-    max-width: 420px; width: 90%;
-    transform: scale(0.85); transition: transform 0.4s;
-  }
-  .end-overlay.show .end-card { transform: scale(1); }
-  .end-emoji { font-size: 60px; margin-bottom: 12px; }
-  .end-title { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
-  .end-score { font-size: 20px; color: var(--text2); margin-bottom: 16px; }
-  .end-stars { font-size: 36px; margin-bottom: 8px; letter-spacing: 4px; }
-  .end-verdict { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 24px; }
-  .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: linear-gradient(135deg,var(--primary),#8e78ff);
-    color: white; border: none; border-radius: 12px;
-    padding: 12px 28px; font-size: 16px; font-weight: 700;
-    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 14px rgba(59,130,246,0.3);
-    text-decoration: none; display: inline-flex; align-items: center;
-  }
-  .btn-primary:hover { transform: translateY(-2px); }
-  .btn-secondary {
-    background: var(--primary-light); color: var(--primary);
-    border: none; border-radius: 12px;
-    padding: 12px 28px; font-size: 16px; font-weight: 700;
-    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
-  }
+@media(max-width:768px){.game-layout{grid-template-columns:1fr;}.site-header .header-nav{display:none;}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="../../index.html">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="game-title">🐸 Number Line Hop</span>
-  <div class="spacer"></div>
-  <span class="level-badge">P1/P2</span>
-  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
-</div>
+<!-- HEADER -->
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Progress</a>
+  </nav>
+  <button class="header-cta" onclick="window.location.href='../../index.html'">Play Now</button>
+</header>
 
-<!-- GAME AREA -->
-<div class="game-area">
-
-  <!-- QUESTION CARD -->
-  <div class="question-card">
-    <div class="question-text" id="questionText">Loading…</div>
-    <div class="frog-info" id="frogInfo"></div>
-    <div class="answer-feedback" id="answerFeedback"></div>
-  </div>
-
-  <!-- NUMBER LINE -->
-  <div class="numberline-wrap">
-    <div class="frog-row" id="frogRow">
-      <div class="frog-emoji" id="frogEl">🐸</div>
-      <div class="hop-arrow" id="hopArrow" style="display:none;"></div>
+<!-- LAYOUT -->
+<div class="game-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
     </div>
-    <div class="numberline-scroll">
-      <div class="numberline-inner" id="numberlineInner">
-        <div class="line-row" id="lineRow">
-          <div class="line-base"></div>
-          <div class="tick-container" id="tickContainer"></div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 1/2</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Number Line Hop</div>
+      <span class="level-pill">P1/P2</span>
+    </div>
+  </aside>
+
+  <!-- GAME CANVAS -->
+  <div class="game-canvas">
+    <div class="game-area">
+      <!-- QUESTION CARD -->
+      <div class="question-card">
+        <div class="question-text" id="questionText">Loading…</div>
+        <div class="frog-info" id="frogInfo"></div>
+        <div class="answer-feedback" id="answerFeedback"></div>
+      </div>
+
+      <!-- NUMBER LINE -->
+      <div class="numberline-wrap">
+        <div class="frog-row" id="frogRow">
+          <div class="frog-emoji" id="frogEl">🐸</div>
+          <div class="hop-arrow" id="hopArrow" style="display:none;"></div>
+        </div>
+        <div class="numberline-scroll">
+          <div class="numberline-inner" id="numberlineInner">
+            <div class="line-row" id="lineRow">
+              <div class="line-base"></div>
+              <div class="tick-container" id="tickContainer"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-</div>
-
-<!-- PROGRESS BAR -->
-<div class="progress-bar-wrap">
-  <div class="progress-info">
-    <span>Question <span id="qNum">1</span> of 10</span>
-    <span id="pct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
   </div>
 </div>
 
@@ -340,14 +205,12 @@
 
   function generateQuestion(r) {
     if (r < 5) {
-      // 0-20 line, forward only
       const start = rnd(0, 15);
       const hops = rnd(1, 5);
       const answer = start + hops;
       const dir = 'forward';
       return { start, hops, dir, answer, lineMax: 20, lineMin: 0, step: 1 };
     } else {
-      // 0-100 by 10s, forward or backward
       const starts = [0,10,20,30,40,50,60,70];
       const start = starts[rnd(0, starts.length - 1)];
       const hops = rnd(1, 4);
@@ -369,12 +232,10 @@
     for (let n = q.lineMin; n <= q.lineMax; n += q.step) ticks.push(n);
     const count = ticks.length;
 
-    // Set widths
     const minWidth = Math.max(600, count * 40);
     document.getElementById('numberlineInner').style.minWidth = minWidth + 'px';
     document.getElementById('lineRow').style.minWidth = minWidth + 'px';
 
-    // Position frog
     function getPct(val) {
       return ((val - q.lineMin) / (q.lineMax - q.lineMin)) * 100;
     }
@@ -383,7 +244,6 @@
     frog.style.left = getPct(q.start) + '%';
     frog.style.animation = 'bounce 1s ease-in-out infinite';
 
-    // Build ticks
     ticks.forEach(n => {
       const tick = document.createElement('div');
       tick.className = 'tick';
@@ -411,7 +271,6 @@
     if (busy) return;
     busy = true;
 
-    // Highlight chosen
     padEl.classList.add('selected');
 
     setTimeout(() => {
@@ -422,14 +281,13 @@
         padEl.classList.remove('selected');
         padEl.classList.add('correct-tick');
         score++;
-        document.getElementById('scoreDisplay').textContent = score;
+        document.getElementById('score').textContent = score;
         fb.textContent = '🎉 Correct! The frog landed on ' + q.answer + '!';
         fb.className = 'answer-feedback correct';
         animateFrogHop(getPct(q.start), getPct(q.answer), q);
       } else {
         padEl.classList.remove('selected');
         padEl.classList.add('wrong-tick');
-        // Show correct
         const correctPad = document.querySelector(`[data-val="${q.answer}"]`);
         if (correctPad) correctPad.classList.add('correct-tick');
         fb.textContent = '❌ The frog should hop to ' + q.answer + '!';
@@ -452,7 +310,6 @@
     frog.classList.add('hopping');
     frog.style.left = endPct + '%';
 
-    // Arrow
     const arrow = document.getElementById('hopArrow');
     const leftPct = Math.min(startPct, endPct);
     const widthPct = Math.abs(endPct - startPct);
@@ -475,7 +332,6 @@
     const qt = document.getElementById('questionText');
     const fi = document.getElementById('frogInfo');
     const dirText = currentQ.dir === 'forward' ? 'forward' : 'backward';
-    const hopWord = currentQ.step === 10 ? `${currentQ.hops} × 10` : currentQ.hops;
 
     qt.innerHTML = `The frog starts at <span class="num-highlight">${currentQ.start}</span> and hops <span class="num-highlight">${currentQ.hops}</span> place${currentQ.hops !== 1 ? 's' : ''} ${dirText}. Where does it land?`;
     fi.innerHTML = `
@@ -490,9 +346,7 @@
 
   function updateProgress() {
     const pct = Math.round((round / 10) * 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('pct').textContent = pct + '%';
-    document.getElementById('qNum').textContent = Math.min(round + 1, 10);
+    document.getElementById('progressBar').style.width = pct + '%';
   }
 
   function showEnd() {
@@ -513,7 +367,7 @@
 
   function initGame() {
     round = 0; score = 0; busy = false;
-    document.getElementById('scoreDisplay').textContent = 0;
+    document.getElementById('score').textContent = 0;
     document.getElementById('endOverlay').classList.remove('show');
     nextRound();
   }

@@ -3,289 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Fraction Forest – MathMunch</title>
 <style>
 :root {
-  --primary: #3B82F6;
-  --primary-light: #EFF6FF;
-  --accent: #FDCB6E;
-  --n1: #FF6B6B;
-  --n2: #FF8E53;
-  --bg: #E8F5E9;
-  --white: #FFFFFF;
-  --text: #1E1E2E;
-  --text2: #525270;
-  --green: #00B894;
-  --red: #FF4757;
-  --radius: 16px;
-  --shadow: 0 4px 20px rgba(59,130,246,0.12);
-  --forest-green: #2E7D32;
-  --forest-light: #81C784;
-  --cell-shaded: linear-gradient(135deg,#81C784,#4CAF50);
-  --cell-unshaded: #F1F8E9;
+  --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+  --green:#10B981;--orange:#F97316;
+  --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+  --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+  --canvas:#DBEAFE;
+  --forest-green:#2E7D32;--forest-light:#81C784;
+  --cell-shaded:linear-gradient(135deg,#81C784,#4CAF50);--cell-unshaded:#F1F8E9;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Lexend', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-/* Leaf pattern background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(ellipse 30px 50px at 50% 50%, rgba(76,175,80,0.12) 0%, transparent 100%);
-  background-size: 80px 80px;
-  pointer-events: none;
-  z-index: 0;
-}
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--blue);text-decoration:none;}
+.header-nav{display:flex;gap:24px;}
+.header-nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--text-mid);}
+.header-nav a:hover{color:var(--blue);}
+.header-cta{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Lexend',sans-serif;}
+.header-cta:hover{background:var(--blue-dark);}
 
-/* TOP BAR */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--white);
-  box-shadow: 0 2px 12px rgba(46,125,50,0.12);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 20px;
-  height: 60px;
-}
-.topbar a.back-btn {
-  text-decoration: none;
-  color: var(--forest-green);
-  font-weight: 600;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-.topbar .brand { font-weight: 800; font-size: 1rem; color: var(--primary); white-space: nowrap; }
-.topbar .game-title { font-weight: 700; font-size: 1rem; color: var(--text); flex: 1; text-align: center; }
-.level-badge { background: #E0F7FF; color: #0090C0; font-weight: 700; font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
-.score-display { display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 0.95rem; color: var(--text); white-space: nowrap; }
+/* LAYOUT */
+.game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;max-width:1200px;margin:0 auto;padding:24px 20px;}
 
-/* MAIN */
-main {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  margin: 30px auto 100px;
-  padding: 0 16px;
-}
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--outline);border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;color:var(--text-mid);cursor:pointer;font-family:'Lexend',sans-serif;transition:background .2s;}
+.exit-btn:hover{background:#F1F5F9;}
+.stat-card{background:var(--white);border:1px solid var(--outline);border-radius:16px;padding:16px 18px;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:32px;font-weight:700;color:var(--text);}
+.stat-level-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.level-icon{font-size:20px;}
+.stat-value-sm{font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.level-progress{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;}
+.level-progress-fill{height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width .4s ease;}
+.hearts{font-size:22px;letter-spacing:4px;margin-top:4px;}
+.game-info-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.level-pill{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+/* GAME CANVAS */
+.game-canvas{background:var(--canvas);border-radius:24px;padding:28px;position:relative;overflow:hidden;min-height:560px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.game-canvas > *{position:relative;z-index:1;}
+
+/* GAME AREA */
+.game-area{width:100%;}
 
 /* QUESTION CARD */
-.question-card {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 28px 24px;
-  text-align: center;
-  margin-bottom: 20px;
-  position: relative;
-}
-.question-card::before { content: '🌳'; position: absolute; top: 10px; left: 14px; font-size: 1.5rem; opacity: 0.5; }
-.question-card::after { content: '🌳'; position: absolute; top: 10px; right: 14px; font-size: 1.5rem; opacity: 0.5; }
-
-.question-label { font-size: 0.95rem; color: var(--text2); margin-bottom: 10px; font-weight: 600; }
-.question-ask { font-size: 1.1rem; font-weight: 700; color: var(--text); margin: 12px 0 4px; }
+.question-card{background:var(--white);border-radius:16px;box-shadow:0 4px 20px rgba(59,130,246,0.12);padding:28px 24px;text-align:center;margin-bottom:20px;position:relative;}
+.question-card::before{content:'🌳';position:absolute;top:10px;left:14px;font-size:1.5rem;opacity:0.5;}
+.question-card::after{content:'🌳';position:absolute;top:10px;right:14px;font-size:1.5rem;opacity:0.5;}
+.question-label{font-size:0.95rem;color:var(--text-soft);margin-bottom:10px;font-weight:600;}
+.question-ask{font-size:1.1rem;font-weight:700;color:var(--text);margin:12px 0 4px;}
 
 /* FRACTION DISPLAY */
-.fraction-display {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 2.2rem;
-  font-weight: 900;
-  color: var(--forest-green);
-  line-height: 1;
-  margin: 10px 0;
-}
-.fraction-display .frac-num { padding-bottom: 4px; }
-.fraction-display .frac-line { width: 100%; height: 4px; background: var(--forest-green); border-radius: 2px; margin: 2px 0; }
-.fraction-display .frac-den { padding-top: 4px; }
+.fraction-display{display:inline-flex;flex-direction:column;align-items:center;font-size:2.2rem;font-weight:900;color:var(--forest-green);line-height:1;margin:10px 0;}
+.fraction-display .frac-num{padding-bottom:4px;}
+.fraction-display .frac-line{width:100%;height:4px;background:var(--forest-green);border-radius:2px;margin:2px 0;}
+.fraction-display .frac-den{padding-top:4px;}
 
 /* FRACTION GRID */
-.fraction-grid-wrap {
-  display: flex;
-  justify-content: center;
-  margin: 16px 0 8px;
-}
-.fraction-grid {
-  display: grid;
-  gap: 4px;
-}
-.fraction-cell {
-  width: 60px;
-  height: 60px;
-  border: 2px solid #A5D6A7;
-  border-radius: 6px;
-  background: var(--cell-unshaded);
-  cursor: default;
-  transition: all 0.18s ease;
-}
-.fraction-cell.shaded {
-  background: linear-gradient(135deg, #81C784, #4CAF50);
-  border-color: #2E7D32;
-}
-.fraction-cell.clickable {
-  cursor: pointer;
-}
-.fraction-cell.clickable:hover {
-  transform: scale(1.08);
-  box-shadow: 0 2px 8px rgba(46,125,50,0.25);
-}
+.fraction-grid-wrap{display:flex;justify-content:center;margin:16px 0 8px;}
+.fraction-grid{display:grid;gap:4px;}
+.fraction-cell{width:60px;height:60px;border:2px solid #A5D6A7;border-radius:6px;background:var(--cell-unshaded);cursor:default;transition:all .18s ease;}
+.fraction-cell.shaded{background:linear-gradient(135deg,#81C784,#4CAF50);border-color:#2E7D32;}
+.fraction-cell.clickable{cursor:pointer;}
+.fraction-cell.clickable:hover{transform:scale(1.08);box-shadow:0 2px 8px rgba(46,125,50,0.25);}
 
 /* CHECK BUTTON */
-.check-btn {
-  background: var(--forest-green);
-  color: var(--white);
-  border: none;
-  border-radius: 12px;
-  padding: 14px 32px;
-  font-size: 1.05rem;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 12px;
-  transition: transform 0.15s, background 0.15s;
-  display: none;
-}
-.check-btn:hover { transform: scale(1.04); background: #1B5E20; }
-.check-btn.visible { display: inline-block; }
+.check-btn{background:var(--forest-green);color:var(--white);border:none;border-radius:12px;padding:14px 32px;font-size:1.05rem;font-weight:700;cursor:pointer;margin-top:12px;transition:transform .15s,background .15s;display:none;font-family:'Lexend',sans-serif;}
+.check-btn:hover{transform:scale(1.04);background:#1B5E20;}
+.check-btn.visible{display:inline-block;}
 
-/* ANSWERS GRID (Mode A) */
-.answers-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 16px;
-}
-.ans-btn {
-  background: var(--white);
-  border: 3px solid #C8E6C9;
-  border-radius: var(--radius);
-  padding: 16px 12px;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  box-shadow: 0 2px 8px rgba(46,125,50,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ans-btn:hover:not(:disabled) {
-  background: #F1F8E9;
-  border-color: var(--forest-green);
-  transform: translateY(-2px);
-}
-.ans-btn:disabled { cursor: default; }
-.ans-btn.correct { background: #D4F5E9; border-color: var(--green); animation: popIn 0.3s ease; }
-.ans-btn.wrong { background: #FFE5E8; border-color: var(--red); }
-.ans-btn.reveal { background: #D4F5E9; border-color: var(--green); }
-.ans-btn-frac {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 1.4rem;
-  font-weight: 900;
-  color: var(--forest-green);
-  line-height: 1;
-}
-.ans-btn-frac .frac-line { width: 100%; height: 3px; background: var(--forest-green); margin: 3px 0; border-radius: 2px; }
-
-@keyframes popIn {
-  0% { transform: scale(0.9); }
-  60% { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
+/* ANSWERS GRID */
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.ans-btn{background:var(--white);border:3px solid #C8E6C9;border-radius:16px;padding:16px 12px;cursor:pointer;transition:all .18s ease;box-shadow:0 2px 8px rgba(46,125,50,0.08);display:flex;align-items:center;justify-content:center;}
+.ans-btn:hover:not(:disabled){background:#F1F8E9;border-color:var(--forest-green);transform:translateY(-2px);}
+.ans-btn:disabled{cursor:default;}
+.ans-btn.correct{background:#D4F5E9;border-color:var(--green);animation:popIn .3s ease;}
+.ans-btn.wrong{background:#FFE5E8;border-color:#FF4757;}
+.ans-btn.reveal{background:#D4F5E9;border-color:var(--green);}
+.ans-btn-frac{display:inline-flex;flex-direction:column;align-items:center;font-size:1.4rem;font-weight:900;color:var(--forest-green);line-height:1;}
+.ans-btn-frac .frac-line{width:100%;height:3px;background:var(--forest-green);margin:3px 0;border-radius:2px;}
+@keyframes popIn{0%{transform:scale(0.9);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
 
 /* SPARKLES */
-@keyframes sparkleUp {
-  0% { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 0; transform: translateY(-80px) scale(0.5); }
-}
-.sparkle {
-  position: fixed;
-  font-size: 1.5rem;
-  pointer-events: none;
-  z-index: 200;
-  animation: sparkleUp 1s ease-out forwards;
-}
+@keyframes sparkleUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(0.5);}}
+.sparkle{position:fixed;font-size:1.5rem;pointer-events:none;z-index:200;animation:sparkleUp 1s ease-out forwards;}
 
 /* FEEDBACK */
-.feedback { border-radius: 12px; padding: 12px 16px; font-size: 1rem; font-weight: 700; text-align: center; margin-top: 12px; display: none; }
-.feedback.show { display: block; }
-.feedback.correct-fb { background: #D4F5E9; color: #007A5A; }
-.feedback.wrong-fb { background: #FFE5E8; color: var(--red); }
+.feedback{border-radius:12px;padding:12px 16px;font-size:1rem;font-weight:700;text-align:center;margin-top:12px;display:none;}
+.feedback.show{display:block;}
+.feedback.correct-fb{background:#D4F5E9;color:#007A5A;}
+.feedback.wrong-fb{background:#FFE5E8;color:#FF4757;}
 
-/* PROGRESS BAR */
-.progress-bar-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--white); box-shadow: 0 -2px 12px rgba(46,125,50,0.10); padding: 10px 20px 14px; }
-.progress-info { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
-.progress-track { height: 10px; background: #EEE; border-radius: 99px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg,#60A5FA,#3B82F6); border-radius: 99px; transition: width 0.4s ease; }
+/* END SCREEN */
+.end-overlay{position:fixed;inset:0;background:rgba(30,30,46,0.80);z-index:300;align-items:center;justify-content:center;display:none;}
+.end-overlay.show{display:flex;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 32px;text-align:center;max-width:380px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,0.3);}
+.end-emoji{font-size:3.5rem;margin-bottom:8px;}
+.end-title{font-size:1.6rem;font-weight:900;color:var(--blue);margin-bottom:4px;}
+.end-score{font-size:2.2rem;font-weight:900;color:var(--text);margin:12px 0;}
+.end-stars{font-size:2rem;margin:8px 0 20px;}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:var(--blue);color:var(--white);border:none;border-radius:12px;padding:12px 24px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s;font-family:'Lexend',sans-serif;}
+.btn-primary:hover{transform:scale(1.05);}
+.btn-secondary{background:var(--blue-light);color:var(--blue);border:none;border-radius:12px;padding:12px 24px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s;font-family:'Lexend',sans-serif;}
+.btn-secondary:hover{transform:scale(1.05);}
 
-/* END */
-.end-overlay { position: fixed; inset: 0; background: rgba(30,30,46,0.80); z-index: 300; align-items: center; justify-content: center; display: none; }
-.end-overlay.show { display: flex; }
-.end-card { background: var(--white); border-radius: 24px; padding: 40px 32px; text-align: center; max-width: 380px; width: 90%; box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
-.end-emoji { font-size: 3.5rem; margin-bottom: 8px; }
-.end-title { font-size: 1.6rem; font-weight: 900; color: var(--primary); margin-bottom: 4px; }
-.end-score { font-size: 2.2rem; font-weight: 900; color: var(--text); margin: 12px 0; }
-.end-stars { font-size: 2rem; margin: 8px 0 20px; }
-.end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.btn-primary { background: var(--primary); color: var(--white); border: none; border-radius: 12px; padding: 12px 24px; font-size: 1rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s; }
-.btn-primary:hover { transform: scale(1.05); }
-.btn-secondary { background: var(--primary-light); color: var(--primary); border: none; border-radius: 12px; padding: 12px 24px; font-size: 1rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.15s; }
-.btn-secondary:hover { transform: scale(1.05); }
+@media(max-width:768px){.game-layout{grid-template-columns:1fr;}.site-header .header-nav{display:none;}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<div class="topbar">
-  <a href="../../index.html" class="back-btn">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="game-title">Fraction Forest 🌳</span>
-  <span class="level-badge">P3</span>
-  <span class="score-display" id="scoreDisplay">⭐ 0</span>
-</div>
+<!-- HEADER -->
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Progress</a>
+  </nav>
+  <button class="header-cta" onclick="window.location.href='../../index.html'">Play Now</button>
+</header>
 
-<main>
-  <div class="question-card" id="questionCard">
-    <div class="question-label" id="qLabel">What fraction is shaded?</div>
-    <div id="fractionShowWrap" style="display:none">
-      <div class="question-ask">This fraction is shown:</div>
-      <div class="fraction-display" id="fractionDisplay">
-        <span class="frac-num" id="fracNum">2</span>
-        <div class="frac-line"></div>
-        <span class="frac-den" id="fracDen">3</span>
+<!-- LAYOUT -->
+<div class="game-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 3</span>
       </div>
-      <div class="question-ask" style="margin-top:4px">Shade the correct number of sections, then click Check:</div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
     </div>
-    <div class="fraction-grid-wrap">
-      <div class="fraction-grid" id="fractionGrid"></div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
     </div>
-    <button class="check-btn" id="checkBtn" onclick="handleCheck()">Check ✓</button>
-    <div class="feedback" id="feedback"></div>
-  </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Fraction Forest</div>
+      <span class="level-pill">P3</span>
+    </div>
+  </aside>
 
-  <div class="answers-grid" id="answersGrid"></div>
-</main>
+  <!-- GAME CANVAS -->
+  <div class="game-canvas">
+    <div class="game-area">
+      <div class="question-card" id="questionCard">
+        <div class="question-label" id="qLabel">What fraction is shaded?</div>
+        <div id="fractionShowWrap" style="display:none">
+          <div class="question-ask">This fraction is shown:</div>
+          <div class="fraction-display" id="fractionDisplay">
+            <span class="frac-num" id="fracNum">2</span>
+            <div class="frac-line"></div>
+            <span class="frac-den" id="fracDen">3</span>
+          </div>
+          <div class="question-ask" style="margin-top:4px">Shade the correct number of sections, then click Check:</div>
+        </div>
+        <div class="fraction-grid-wrap">
+          <div class="fraction-grid" id="fractionGrid"></div>
+        </div>
+        <button class="check-btn" id="checkBtn" onclick="handleCheck()">Check ✓</button>
+        <div class="feedback" id="feedback"></div>
+      </div>
 
-<div class="progress-bar-wrap">
-  <div class="progress-info">
-    <span id="progressLabel">Question 1 of 10</span>
-    <span id="progressPct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      <div class="answers-grid" id="answersGrid"></div>
+    </div>
   </div>
 </div>
 
+<!-- END SCREEN -->
 <div class="end-overlay" id="endOverlay">
   <div class="end-card">
     <div class="end-emoji" id="endEmoji">🌟</div>
@@ -300,60 +203,35 @@ main {
 </div>
 
 <script>
-let currentQuestion = 0;
-let score = 0;
-let answered = false;
-const TOTAL = 10;
+let currentQuestion=0, score=0, answered=false;
+const TOTAL=10;
 
-// Fractions: [numerator, denominator, columns, rows]
-const FRACTIONS = [
-  [1,2, 2,1],
-  [1,3, 3,1],
-  [2,3, 3,1],
-  [1,4, 4,1],
-  [3,4, 4,1],
-  [1,5, 5,1],
-  [2,5, 5,1],
-  [3,5, 5,1],
-  [1,6, 3,2],
-  [5,6, 3,2],
-];
+const FRACTIONS=[[1,2,2,1],[1,3,3,1],[2,3,3,1],[1,4,4,1],[3,4,4,1],[1,5,5,1],[2,5,5,1],[3,5,5,1],[1,6,3,2],[5,6,3,2]];
 
-// Modes: odd rounds (0,2,4,6,8) = Mode A (read), even index (1,3,5,7,9) = Mode B (shade)
-// Round index 0-9
-function getMode(idx){ return idx%2===0 ? 'A' : 'B'; }
-
+function getMode(idx){ return idx%2===0?'A':'B'; }
 function fracText(n,d){ return `${n}/${d}`; }
 
-// Generate distractors for Mode A
-function getDistractors(num, den){
-  const correct = fracText(num,den);
-  const opts = [correct];
-  const pool = FRACTIONS.filter(f=>fracText(f[0],f[1])!==correct);
-  // shuffle pool and pick 3
-  for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]; }
+function getDistractors(num,den){
+  const correct=fracText(num,den);
+  const opts=[correct];
+  const pool=FRACTIONS.filter(f=>fracText(f[0],f[1])!==correct);
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
   for(let i=0;i<3&&i<pool.length;i++) opts.push(fracText(pool[i][0],pool[i][1]));
-  // shuffle opts
-  for(let i=opts.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]]; }
+  for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
   return opts;
 }
 
-function renderGrid(num, den, cols, rows, mode, shadedSet){
-  const grid = document.getElementById('fractionGrid');
-  grid.innerHTML='';
-  grid.style.gridTemplateColumns=`repeat(${cols}, 60px)`;
+function renderGrid(num,den,cols,rows,mode,shadedSet){
+  const grid=document.getElementById('fractionGrid');
+  grid.innerHTML=''; grid.style.gridTemplateColumns=`repeat(${cols}, 60px)`;
   for(let i=0;i<den;i++){
-    const cell = document.createElement('div');
-    cell.className='fraction-cell';
-    if(mode==='A' && i<num){ cell.classList.add('shaded'); }
+    const cell=document.createElement('div'); cell.className='fraction-cell';
+    if(mode==='A'&&i<num) cell.classList.add('shaded');
     if(mode==='B'){
       cell.classList.add('clickable');
-      if(shadedSet && shadedSet.has(i)) cell.classList.add('shaded');
+      if(shadedSet&&shadedSet.has(i)) cell.classList.add('shaded');
       cell.dataset.idx=i;
-      cell.onclick=()=>{
-        if(answered) return;
-        cell.classList.toggle('shaded');
-      };
+      cell.onclick=()=>{ if(answered) return; cell.classList.toggle('shaded'); };
     }
     grid.appendChild(cell);
   }
@@ -361,142 +239,93 @@ function renderGrid(num, den, cols, rows, mode, shadedSet){
 
 function showQuestion(){
   answered=false;
-  const idx = currentQuestion;
-  const [num, den, cols, rows] = FRACTIONS[idx];
-  const mode = getMode(idx);
-  const fb = document.getElementById('feedback');
-  fb.className='feedback'; fb.textContent='';
-
-  const checkBtn = document.getElementById('checkBtn');
-  const answersGrid = document.getElementById('answersGrid');
-  const fracShowWrap = document.getElementById('fractionShowWrap');
-  const qLabel = document.getElementById('qLabel');
+  const idx=currentQuestion, [num,den,cols,rows]=FRACTIONS[idx], mode=getMode(idx);
+  const fb=document.getElementById('feedback'); fb.className='feedback'; fb.textContent='';
+  const checkBtn=document.getElementById('checkBtn'), answersGrid=document.getElementById('answersGrid');
+  const fracShowWrap=document.getElementById('fractionShowWrap'), qLabel=document.getElementById('qLabel');
 
   if(mode==='A'){
-    qLabel.textContent='What fraction is shaded? 🍃';
-    qLabel.style.display='block';
-    fracShowWrap.style.display='none';
-    checkBtn.classList.remove('visible');
-    answersGrid.style.display='grid';
-    renderGrid(num, den, cols, rows, 'A', null);
-
-    const opts = getDistractors(num, den);
+    qLabel.textContent='What fraction is shaded? 🍃'; qLabel.style.display='block';
+    fracShowWrap.style.display='none'; checkBtn.classList.remove('visible');
+    answersGrid.style.display='grid'; renderGrid(num,den,cols,rows,'A',null);
+    const opts=getDistractors(num,den);
     answersGrid.innerHTML='';
     opts.forEach(opt=>{
-      const btn = document.createElement('button');
-      btn.className='ans-btn';
-      const [n,d] = opt.split('/');
+      const btn=document.createElement('button'); btn.className='ans-btn';
+      const [n,d]=opt.split('/');
       btn.innerHTML=`<div class="ans-btn-frac"><span>${n}</span><div class="frac-line"></div><span>${d}</span></div>`;
-      btn.onclick=()=>handleAnswerA(opt, btn, fracText(num,den), n, d);
+      btn.onclick=()=>handleAnswerA(opt,btn,fracText(num,den),n,d);
       answersGrid.appendChild(btn);
     });
   } else {
-    // Mode B
-    qLabel.style.display='none';
-    fracShowWrap.style.display='block';
-    document.getElementById('fracNum').textContent=num;
-    document.getElementById('fracDen').textContent=den;
-    checkBtn.classList.add('visible');
-    answersGrid.style.display='none';
-    answersGrid.innerHTML='';
-    renderGrid(num, den, cols, rows, 'B', new Set());
+    qLabel.style.display='none'; fracShowWrap.style.display='block';
+    document.getElementById('fracNum').textContent=num; document.getElementById('fracDen').textContent=den;
+    checkBtn.classList.add('visible'); answersGrid.style.display='none'; answersGrid.innerHTML='';
+    renderGrid(num,den,cols,rows,'B',new Set());
   }
-
   updateProgress();
 }
 
-function handleAnswerA(chosen, btn, correct, n, d){
+function handleAnswerA(chosen,btn,correct,n,d){
   if(answered) return;
   answered=true;
-  const btns = document.querySelectorAll('#answersGrid .ans-btn');
-  btns.forEach(b=>b.disabled=true);
-  const fb = document.getElementById('feedback');
+  const btns=document.querySelectorAll('#answersGrid .ans-btn'); btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedback');
   if(chosen===correct){
-    score++;
-    document.getElementById('scoreDisplay').textContent='⭐ '+score;
-    btn.classList.add('correct');
-    fb.textContent='🌟 Correct! Great work!';
-    fb.className='feedback show correct-fb';
+    score++; document.getElementById('score').textContent=score;
+    btn.classList.add('correct'); fb.textContent='🌟 Correct! Great work!'; fb.className='feedback show correct-fb';
     launchSparkles();
   } else {
     btn.classList.add('wrong');
-    // Reveal correct
     btns.forEach(b=>{
       const txt=b.querySelector('.ans-btn-frac');
-      if(txt){
-        const spans=txt.querySelectorAll('span');
-        if(spans[0]&&spans[1]&&spans[0].textContent+'/'+spans[1].textContent===correct) b.classList.add('reveal');
-      }
+      if(txt){ const spans=txt.querySelectorAll('span'); if(spans[0]&&spans[1]&&spans[0].textContent+'/'+spans[1].textContent===correct) b.classList.add('reveal'); }
     });
-    fb.textContent=`❌ Not quite! The shaded part is ${correct}.`;
-    fb.className='feedback show wrong-fb';
+    fb.textContent=`❌ Not quite! The shaded part is ${correct}.`; fb.className='feedback show wrong-fb';
   }
-  setTimeout(nextQuestion, 1300);
+  setTimeout(nextQuestion,1300);
 }
 
 function handleCheck(){
   if(answered) return;
-  const idx = currentQuestion;
-  const [num, den] = FRACTIONS[idx];
-  const cells = document.querySelectorAll('.fraction-cell.shaded');
-  const shadedCount = cells.length;
-  const fb = document.getElementById('feedback');
-  answered=true;
-  document.getElementById('checkBtn').disabled=true;
-
+  const idx=currentQuestion, [num,den]=FRACTIONS[idx];
+  const cells=document.querySelectorAll('.fraction-cell.shaded'), shadedCount=cells.length;
+  const fb=document.getElementById('feedback');
+  answered=true; document.getElementById('checkBtn').disabled=true;
   if(shadedCount===num){
-    score++;
-    document.getElementById('scoreDisplay').textContent='⭐ '+score;
-    fb.textContent=`🌟 Correct! You shaded ${num}/${den}!`;
-    fb.className='feedback show correct-fb';
+    score++; document.getElementById('score').textContent=score;
+    fb.textContent=`🌟 Correct! You shaded ${num}/${den}!`; fb.className='feedback show correct-fb';
     launchSparkles();
   } else {
-    // Show correct shading
-    const allCells = document.querySelectorAll('.fraction-cell');
-    allCells.forEach((c,i)=>{
-      c.classList.remove('shaded');
-      if(i<num) c.classList.add('shaded');
-    });
-    fb.textContent=`❌ You shaded ${shadedCount}/${den}. The answer is ${num}/${den}.`;
-    fb.className='feedback show wrong-fb';
+    const allCells=document.querySelectorAll('.fraction-cell');
+    allCells.forEach((c,i)=>{ c.classList.remove('shaded'); if(i<num) c.classList.add('shaded'); });
+    fb.textContent=`❌ You shaded ${shadedCount}/${den}. The answer is ${num}/${den}.`; fb.className='feedback show wrong-fb';
   }
-  setTimeout(nextQuestion, 1400);
+  setTimeout(nextQuestion,1400);
 }
 
-function nextQuestion(){
-  currentQuestion++;
-  if(currentQuestion>=TOTAL){ showEnd(); return; }
-  showQuestion();
-}
+function nextQuestion(){ currentQuestion++; if(currentQuestion>=TOTAL){ showEnd(); return; } showQuestion(); }
 
 function updateProgress(){
-  const pct = Math.round((currentQuestion/TOTAL)*100);
-  document.getElementById('progressLabel').textContent=`Question ${currentQuestion+1} of ${TOTAL}`;
-  document.getElementById('progressPct').textContent=pct+'%';
-  document.getElementById('progressFill').style.width=pct+'%';
+  const pct=Math.round((currentQuestion/TOTAL)*100);
+  document.getElementById('progressBar').style.width=pct+'%';
 }
 
 function launchSparkles(){
   const emojis=['🌟','✨','🍃','🌿','🌟'];
-  const grid = document.getElementById('fractionGrid');
-  const rect = grid.getBoundingClientRect();
+  const grid=document.getElementById('fractionGrid'), rect=grid.getBoundingClientRect();
   emojis.forEach((e,i)=>{
     setTimeout(()=>{
-      const s=document.createElement('div');
-      s.className='sparkle';
-      s.textContent=e;
-      s.style.left=(rect.left+Math.random()*rect.width)+'px';
-      s.style.top=(rect.top+Math.random()*rect.height)+'px';
-      document.body.appendChild(s);
-      setTimeout(()=>s.remove(), 1000);
-    }, i*100);
+      const s=document.createElement('div'); s.className='sparkle'; s.textContent=e;
+      s.style.left=(rect.left+Math.random()*rect.width)+'px'; s.style.top=(rect.top+Math.random()*rect.height)+'px';
+      document.body.appendChild(s); setTimeout(()=>s.remove(),1000);
+    },i*100);
   });
 }
 
 function showEnd(){
-  document.getElementById('progressFill').style.width='100%';
-  document.getElementById('progressPct').textContent='100%';
-  let emoji='🌟', title='Brilliant!', stars='★★★';
+  document.getElementById('progressBar').style.width='100%';
+  let emoji='🌟',title='Brilliant!',stars='★★★';
   if(score<7){ emoji='💪'; title='Keep Trying!'; stars='★☆☆'; }
   else if(score<9){ emoji='🍃'; title='Well Done!'; stars='★★☆'; }
   document.getElementById('endEmoji').textContent=emoji;
@@ -508,7 +337,7 @@ function showEnd(){
 
 function restartGame(){
   currentQuestion=0; score=0;
-  document.getElementById('scoreDisplay').textContent='⭐ 0';
+  document.getElementById('score').textContent=0;
   document.getElementById('endOverlay').classList.remove('show');
   showQuestion();
 }

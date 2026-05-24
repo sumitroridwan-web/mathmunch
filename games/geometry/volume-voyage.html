@@ -3,155 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Volume Voyage – MathMunch</title>
 <style>
 :root {
-  --primary:#10B981; --primary-light:#ECFDF5;
-  --g1:#34D399; --g2:#10B981;
-  --accent:#FDCB6E; --bg:#F0F4FF;
-  --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
-  --green:#00B894; --red:#FF4757;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --canvas:#D1FAE5; --bg:#F8FAFC; --white:#FFFFFF;
+  --text:#1E293B; --text2:#64748B; --shadow:0 4px 20px rgba(16,185,129,0.12);
   --radius:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0D2137;color:#C8E6F5;min-height:100vh;overflow-x:hidden;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
 
-/* BUBBLES BACKGROUND */
-.bubbles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
-.bubble{position:absolute;bottom:-80px;border-radius:50%;background:rgba(78,205,196,0.08);border:1px solid rgba(78,205,196,0.15);animation:rise linear infinite;}
-@keyframes rise{0%{transform:translateY(0) scale(1);opacity:0.6;}100%{transform:translateY(-110vh) scale(0.5);opacity:0;}}
+.site-header{background:var(--white);box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.header-nav{display:flex;align-items:center;gap:16px;}
+.header-nav a{color:var(--text2);text-decoration:none;font-size:14px;font-weight:600;}
+.header-nav a:hover{color:var(--green);}
+.header-cta{background:var(--green);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none;}
 
-/* TOP BAR */
-.topbar{position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px;}
-.topbar a{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;white-space:nowrap;}
-.topbar-brand{font-weight:900;font-size:16px;color:var(--primary);}
-.topbar-title{font-weight:800;font-size:15px;color:var(--text);display:flex;align-items:center;gap:6px;}
-.badge-p5{background:#EEE8FF;color:#5F27CD;border-radius:8px;padding:3px 10px;font-size:12px;font-weight:800;}
-.score-display{background:var(--primary-light);color:var(--primary);border-radius:10px;padding:4px 14px;font-weight:800;font-size:14px;white-space:nowrap;}
+.game-layout{display:grid;grid-template-columns:280px 1fr;flex:1;min-height:0;}
 
-/* GAME AREA */
-.game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px;position:relative;z-index:1;}
+.sidebar{background:var(--white);border-right:1px solid #E2E8F0;padding:24px 20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--green-light);color:var(--green-dark);border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;}
+.exit-btn:hover{background:#D1FAE5;}
+.stat-card{background:var(--bg);border-radius:12px;padding:16px;border:1px solid #E2E8F0;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:var(--green);}
+.level-progress-track{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;margin-top:8px;}
+.level-progress-fill{height:100%;background:linear-gradient(90deg,#34D399,var(--green));border-radius:99px;transition:width 0.4s ease;width:0%;}
 
-.game-card{background:#1A3A5C;border-radius:var(--radius);padding:28px;margin-bottom:20px;box-shadow:0 8px 40px rgba(0,0,0,0.4);border:1px solid rgba(78,205,196,0.18);}
+.game-canvas{background:var(--canvas);position:relative;overflow-y:auto;padding:32px 28px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#6EE7B7 1px,transparent 1px);background-size:24px 24px;opacity:0.4;pointer-events:none;}
+.canvas-inner{position:relative;z-index:1;}
 
-.header-deco{text-align:center;font-size:28px;margin-bottom:8px;}
-.round-label{font-size:12px;color:#6AABCA;text-align:center;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;}
-.question-text{font-size:18px;font-weight:700;color:#A8D8EA;text-align:center;margin-bottom:20px;line-height:1.5;}
-
-/* ISOMETRIC VIEW */
+/* Game-specific CSS */
+.game-card{background:var(--white);border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:var(--shadow);}
+.round-label{font-size:12px;color:var(--text2);text-align:center;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;}
+.question-text{font-size:17px;font-weight:600;color:var(--text);text-align:center;margin-bottom:20px;line-height:1.5;}
 .iso-container{display:flex;justify-content:center;align-items:center;margin:16px 0;min-height:200px;}
 svg.iso-svg{overflow:visible;}
-
-/* FORMULA DISPLAY */
-.formula-box{background:#0D2137;border:1px solid rgba(78,205,196,0.3);border-radius:12px;padding:16px 24px;text-align:center;margin:16px 0;}
-.formula-title{font-size:14px;color:#6AABCA;margin-bottom:8px;letter-spacing:1px;}
-.formula-eq{font-size:20px;font-weight:800;color:#34D399;}
-
-/* OPTIONS */
+.formula-box{background:var(--green-light);border:1px solid #A7F3D0;border-radius:12px;padding:16px 24px;text-align:center;margin:16px 0;}
+.formula-title{font-size:14px;color:var(--green-dark);margin-bottom:8px;letter-spacing:1px;font-weight:700;}
+.formula-eq{font-size:20px;font-weight:700;color:var(--green-dark);}
 .options-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;}
-.option-btn{background:#0D2137;border:2px solid rgba(78,205,196,0.25);border-radius:12px;padding:14px 8px;color:#A8D8EA;font-size:17px;font-weight:800;cursor:pointer;transition:all 0.2s;text-align:center;}
-.option-btn:hover{background:#1A4A6A;border-color:#34D399;transform:translateY(-2px);}
-.option-btn.correct{background:#00B89422;border-color:#00B894;color:#00B894;}
-.option-btn.wrong{background:#FF475722;border-color:#FF4757;color:#FF4757;}
+.option-btn{background:var(--green-light);border:2px solid #A7F3D0;border-radius:12px;padding:14px 8px;color:var(--text);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;}
+.option-btn:hover{background:#D1FAE5;border-color:var(--green);transform:translateY(-2px);}
+.option-btn.correct{background:#D1FAE5;border-color:var(--green-dark);color:var(--green-dark);}
+.option-btn.wrong{background:#FEE2E2;border-color:#DC2626;color:#DC2626;}
 .option-btn:disabled{cursor:not-allowed;}
-
 .feedback{text-align:center;font-size:15px;font-weight:700;padding:10px;border-radius:10px;margin-top:12px;min-height:36px;}
-.feedback.correct{background:#00B89422;color:#00B894;}
-.feedback.wrong{background:#FF475722;color:#FF4757;}
+.feedback.correct{background:#D1FAE5;color:var(--green-dark);}
+.feedback.wrong{background:#FEE2E2;color:#DC2626;}
 
-/* PROGRESS */
-.progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:10px 20px;display:flex;align-items:center;gap:16px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,0.08);}
-.progress-label{font-size:13px;font-weight:700;color:var(--text2);white-space:nowrap;}
-.progress-track{flex:1;background:#eee;border-radius:99px;height:12px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s;}
-.progress-pct{font-size:13px;font-weight:700;color:var(--g2);min-width:36px;text-align:right;}
-
-/* END */
-.end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;}
-.end-overlay.show{display:flex;}
-.end-card{background:#fff;border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+.end-screen{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;}
+.end-screen.show{display:flex;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
 @keyframes popIn{from{transform:scale(0.7);opacity:0;}to{transform:scale(1);opacity:1;}}
-.end-stars{font-size:36px;margin-bottom:12px;}
-.end-title{font-size:26px;font-weight:900;color:var(--text);margin-bottom:8px;}
-.end-subtitle{font-size:15px;color:var(--text2);margin-bottom:8px;}
-.end-score{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:24px;}
-.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;transition:opacity 0.2s;}
-.btn-geo:hover{opacity:0.88;}
-.btn-back{background:#f0f0f0;color:var(--text);border:none;border-radius:12px;font-weight:700;padding:12px 24px;cursor:pointer;font-size:15px;}
-.btn-back:hover{background:#e0e0e0;}
+#endEmoji{font-size:48px;margin-bottom:12px;}
+#endTitle{font-size:26px;font-weight:700;color:var(--text);margin-bottom:8px;font-family:'Quicksand',sans-serif;}
+#endScore{font-size:18px;font-weight:700;color:var(--green);margin-bottom:24px;}
+.btn{display:inline-block;padding:12px 28px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:none;margin:4px;text-decoration:none;}
+.btn-play{background:linear-gradient(135deg,#34D399,var(--green));color:white;}
+.btn-home{background:var(--green-light);color:var(--green-dark);}
+
+@media(max-width:768px){
+  .game-layout{grid-template-columns:1fr;}
+  .sidebar{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid #E2E8F0;padding:12px;}
+  .header-nav{display:none;}
+}
 </style>
 </head>
-<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- BUBBLES -->
-<div class="bubbles" id="bubblesContainer"></div>
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">All Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="../../index.html" class="header-cta">Play Now</a>
+  </nav>
+</header>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="../../index.html">← All Games</a>
-  <span class="topbar-brand">🧮 MathMunch</span>
-  <span class="topbar-title">🌊 Volume Voyage <span class="badge-p5">P5</span></span>
-  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
-</div>
-
-<!-- GAME AREA -->
-<div class="game-area">
-  <div class="game-card" id="gameCard">
-    <div class="header-deco">🌊 🐠 🔵</div>
-    <div class="round-label">DIVE <span id="roundLabel">1</span> OF 10</div>
-    <div class="question-text" id="questionText"></div>
-
-    <div class="iso-container" id="isoContainer">
-      <svg class="iso-svg" id="isoSvg" width="280" height="200"></svg>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">&#8617; Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
     </div>
-
-    <div class="formula-box" id="formulaBox" style="display:none;">
-      <div class="formula-title">VOLUME FORMULA</div>
-      <div class="formula-eq" id="formulaEq"></div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-value" style="font-size:18px;">Captain</div>
+      <div class="level-progress-track"><div class="level-progress-fill" id="progressBar"></div></div>
     </div>
+    <div class="stat-card">
+      <div class="stat-label">Grade</div>
+      <div class="stat-value" style="font-size:18px;color:var(--text);">P5</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Topic</div>
+      <div style="font-size:13px;color:var(--text2);font-weight:600;line-height:1.5;">Volume of 3D Shapes</div>
+    </div>
+  </div>
 
-    <div class="options-row" id="optionsRow"></div>
-    <div class="feedback" id="feedback"></div>
+  <div class="game-canvas">
+    <div class="canvas-inner">
+      <div class="game-card" id="gameCard">
+        <div class="round-label">DIVE <span id="roundLabel">1</span> OF 10</div>
+        <div class="question-text" id="questionText"></div>
+        <div class="iso-container" id="isoContainer">
+          <svg class="iso-svg" id="isoSvg" width="280" height="200"></svg>
+        </div>
+        <div class="formula-box" id="formulaBox" style="display:none;">
+          <div class="formula-title">VOLUME FORMULA</div>
+          <div class="formula-eq" id="formulaEq"></div>
+        </div>
+        <div class="options-row" id="optionsRow"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- PROGRESS -->
-<div class="progress-bar-wrap">
-  <span class="progress-label">Question <span id="progQ">1</span> of 10</span>
-  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  <span class="progress-pct" id="progPct">0%</span>
-</div>
-
-<!-- END SCREEN -->
-<div class="end-overlay" id="endOverlay">
+<div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars"></div>
-    <div class="end-title" id="endTitle"></div>
-    <div class="end-subtitle">You scored</div>
-    <div class="end-score" id="endScore"></div>
-    <div class="end-btns">
-      <button class="btn-geo" onclick="restartGame()">Play Again</button>
-      <button class="btn-back" onclick="window.location.href='../../index.html'">Back</button>
-    </div>
+    <div id="endEmoji">🎉</div>
+    <div id="endTitle">Game Over!</div>
+    <div id="endScore">0 / 10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">&#8592; All Games</a>
   </div>
 </div>
 
 <script>
-// ─── BUBBLES ──────────────────────────────────────────────────────────
-(function() {
-  const cont = document.getElementById('bubblesContainer');
-  for (let i = 0; i < 14; i++) {
-    const b = document.createElement('div');
-    b.className = 'bubble';
-    const sz = 20 + Math.random() * 50;
-    b.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;animation-duration:${6+Math.random()*10}s;animation-delay:${Math.random()*8}s;`;
-    cont.appendChild(b);
-  }
-})();
-
-// ─── ISO CUBE DRAWING ─────────────────────────────────────────────────
 const CELL_W = 40, CELL_H = 40;
 const ns = 'http://www.w3.org/2000/svg';
 
@@ -162,7 +150,6 @@ function isoPoint(col, row, layer, cX, cY) {
 }
 
 function drawCube(svg, col, row, layer, cX, cY) {
-  // 8 corners of the cube
   const [x0,y0] = isoPoint(col,   row,   layer,   cX, cY);
   const [x1,y1] = isoPoint(col+1, row,   layer,   cX, cY);
   const [x2,y2] = isoPoint(col+1, row+1, layer,   cX, cY);
@@ -172,25 +159,21 @@ function drawCube(svg, col, row, layer, cX, cY) {
   const [x6,y6] = isoPoint(col+1, row+1, layer+1, cX, cY);
   const [x7,y7] = isoPoint(col,   row+1, layer+1, cX, cY);
 
-  function poly(pts, fill, stroke) {
+  function poly(pts, fill) {
     const p = document.createElementNS(ns,'polygon');
     p.setAttribute('points', pts.map(([px,py])=>`${px},${py}`).join(' '));
     p.setAttribute('fill', fill);
-    p.setAttribute('stroke', stroke || '#0D2137');
+    p.setAttribute('stroke', '#D1FAE5');
     p.setAttribute('stroke-width','1.5');
     return p;
   }
 
-  // Right face (col+1 side)
-  svg.appendChild(poly([[x1,y1],[x2,y2],[x6,y6],[x5,y5]], '#27AE60'));
-  // Left face (row+1 side)
+  svg.appendChild(poly([[x1,y1],[x2,y2],[x6,y6],[x5,y5]], '#059669'));
   svg.appendChild(poly([[x2,y2],[x3,y3],[x7,y7],[x6,y6]], '#10B981'));
-  // Top face
   svg.appendChild(poly([[x4,y4],[x5,y5],[x6,y6],[x7,y7]], '#34D399'));
 }
 
 function drawArrangement(svg, arrangement, cX, cY) {
-  // Sort back-to-front: higher row first, then lower col
   const sorted = [...arrangement].sort((a,b) => {
     if (b[1] !== a[1]) return b[1] - a[1];
     return a[0] - b[0];
@@ -198,7 +181,6 @@ function drawArrangement(svg, arrangement, cX, cY) {
   sorted.forEach(([c,r,l]) => drawCube(svg, c, r, l, cX, cY));
 }
 
-// ─── CUBOID DIAGRAM (formula rounds) ─────────────────────────────────
 function drawCuboidDiagram(svg, L, W, H) {
   svg.innerHTML = '';
   svg.setAttribute('width','280');
@@ -209,27 +191,24 @@ function drawCuboidDiagram(svg, L, W, H) {
 
   function pt(x,y) { return `${x},${y}`; }
 
-  // 8 vertices
   const pts = {
     A:[cX, cY], B:[cX+w, cY], C:[cX+w+d, cY-d/2], D:[cX+d, cY-d/2],
     E:[cX, cY-h], F:[cX+w, cY-h], G:[cX+w+d, cY-h-d/2], H2:[cX+d, cY-h-d/2]
   };
 
-  function face(corners, fill, opacity) {
+  function face(corners, fill) {
     const p = document.createElementNS(ns,'polygon');
     p.setAttribute('points', corners.map(k=>pt(pts[k][0],pts[k][1])).join(' '));
     p.setAttribute('fill', fill);
-    p.setAttribute('opacity', opacity || '1');
     p.setAttribute('stroke','#34D399');
     p.setAttribute('stroke-width','1.5');
     return p;
   }
 
-  svg.appendChild(face(['A','B','F','E'], '#1A4A6A'));
-  svg.appendChild(face(['B','C','G','F'], '#134060'));
+  svg.appendChild(face(['A','B','F','E'], '#A7F3D0'));
+  svg.appendChild(face(['B','C','G','F'], '#6EE7B7'));
   svg.appendChild(face(['E','F','G','H2'], '#34D39988'));
 
-  // Labels
   function label(text, x, y) {
     const t = document.createElementNS(ns,'text');
     t.setAttribute('x', x); t.setAttribute('y', y);
@@ -244,108 +223,31 @@ function drawCuboidDiagram(svg, L, W, H) {
   label(`H=${H}`, cX-12, cY-h/2);
 }
 
-// ─── ROUNDS DATA ──────────────────────────────────────────────────────
 const ROUNDS = [
-  { // R1: 2x2x2
-    q:'How many unit cubes are there in total?',
-    visual:'cubes',
-    arrangement: (() => {
-      const a=[];
-      for(let c=0;c<2;c++) for(let r=0;r<2;r++) for(let l=0;l<2;l++) a.push([c,r,l]);
-      return a;
-    })(),
-    answer:8, options:[6,7,8,9],
-    cX:140, cY:140
-  },
-  { // R2: 3x2x1
-    q:'How many unit cubes are in this flat layer?',
-    visual:'cubes',
-    arrangement: (() => {
-      const a=[];
-      for(let c=0;c<3;c++) for(let r=0;r<2;r++) a.push([c,r,0]);
-      return a;
-    })(),
-    answer:6, options:[5,6,7,8],
-    cX:130, cY:130
-  },
-  { // R3: Staircase 3 steps
-    q:'Count the cubes in this staircase arrangement.',
-    visual:'cubes',
-    arrangement: [
-      [0,0,0],
-      [1,0,0],[1,0,1],
-      [2,0,0],[2,0,1],[2,0,2]
-    ],
-    answer:6, options:[5,6,7,8],
-    cX:130, cY:150
-  },
-  { // R4: 2x2x3
-    q:'How many unit cubes make up this tower?',
-    visual:'cubes',
-    arrangement: (() => {
-      const a=[];
-      for(let c=0;c<2;c++) for(let r=0;r<2;r++) for(let l=0;l<3;l++) a.push([c,r,l]);
-      return a;
-    })(),
-    answer:12, options:[10,11,12,14],
-    cX:140, cY:150
-  },
-  { // R5: Formula L=4,W=3,H=2
-    q:'What is the volume of this cuboid?',
-    visual:'formula',
-    L:4, W:3, H:2,
-    answer:24, options:[18,20,24,26],
-    formulaHint:'V = L × W × H = 4 × 3 × 2 = ?'
-  },
-  { // R6: L-shaped (8 cubes)
-    q:'How many unit cubes form this L-shaped structure?',
-    visual:'cubes',
-    arrangement: [
-      [0,0,0],[1,0,0],[2,0,0],
-      [0,1,0],[1,1,0],[2,1,0],
-      [0,2,0],[0,3,0]
-    ],
-    answer:8, options:[7,8,9,10],
-    cX:130, cY:130
-  },
-  { // R7: Cube side 3
-    q:'What is the volume of a cube with side length 3 cm?',
-    visual:'formula',
-    L:3, W:3, H:3,
-    answer:27, options:[18,24,27,30],
-    formulaHint:'V = side³ = 3 × 3 × 3 = ?'
-  },
-  { // R8: 3x3x1 with one missing = 8
-    q:'One cube is missing! How many cubes remain?',
-    visual:'cubes',
-    arrangement: (() => {
-      const a=[];
-      for(let c=0;c<3;c++) for(let r=0;r<3;r++) {
-        if (!(c===2&&r===2)) a.push([c,r,0]);
-      }
-      return a;
-    })(),
-    answer:8, options:[7,8,9,10],
-    cX:130, cY:130
-  },
-  { // R9: 3x2x2
-    q:'Count all the cubes in this 3D arrangement.',
-    visual:'cubes',
-    arrangement: (() => {
-      const a=[];
-      for(let c=0;c<3;c++) for(let r=0;r<2;r++) for(let l=0;l<2;l++) a.push([c,r,l]);
-      return a;
-    })(),
-    answer:12, options:[10,12,14,16],
-    cX:130, cY:150
-  },
-  { // R10: Formula L=5,W=4,H=3
-    q:'Find the volume of this cuboid.',
-    visual:'formula',
-    L:5, W:4, H:3,
-    answer:60, options:[48,55,60,66],
-    formulaHint:'V = L × W × H = 5 × 4 × 3 = ?'
-  }
+  { q:'How many unit cubes are there in total?', visual:'cubes',
+    arrangement: (()=>{ const a=[]; for(let c=0;c<2;c++) for(let r=0;r<2;r++) for(let l=0;l<2;l++) a.push([c,r,l]); return a; })(),
+    answer:8, options:[6,7,8,9], cX:140, cY:140 },
+  { q:'How many unit cubes are in this flat layer?', visual:'cubes',
+    arrangement: (()=>{ const a=[]; for(let c=0;c<3;c++) for(let r=0;r<2;r++) a.push([c,r,0]); return a; })(),
+    answer:6, options:[5,6,7,8], cX:130, cY:130 },
+  { q:'Count the cubes in this staircase arrangement.', visual:'cubes',
+    arrangement: [[0,0,0],[1,0,0],[1,0,1],[2,0,0],[2,0,1],[2,0,2]],
+    answer:6, options:[5,6,7,8], cX:130, cY:150 },
+  { q:'How many unit cubes make up this tower?', visual:'cubes',
+    arrangement: (()=>{ const a=[]; for(let c=0;c<2;c++) for(let r=0;r<2;r++) for(let l=0;l<3;l++) a.push([c,r,l]); return a; })(),
+    answer:12, options:[10,11,12,14], cX:140, cY:150 },
+  { q:'What is the volume of this cuboid?', visual:'formula', L:4, W:3, H:2, answer:24, options:[18,20,24,26], formulaHint:'V = L × W × H = 4 × 3 × 2 = ?' },
+  { q:'How many unit cubes form this L-shaped structure?', visual:'cubes',
+    arrangement: [[0,0,0],[1,0,0],[2,0,0],[0,1,0],[1,1,0],[2,1,0],[0,2,0],[0,3,0]],
+    answer:8, options:[7,8,9,10], cX:130, cY:130 },
+  { q:'What is the volume of a cube with side length 3 cm?', visual:'formula', L:3, W:3, H:3, answer:27, options:[18,24,27,30], formulaHint:'V = side³ = 3 × 3 × 3 = ?' },
+  { q:'One cube is missing! How many cubes remain?', visual:'cubes',
+    arrangement: (()=>{ const a=[]; for(let c=0;c<3;c++) for(let r=0;r<3;r++) { if(!(c===2&&r===2)) a.push([c,r,0]); } return a; })(),
+    answer:8, options:[7,8,9,10], cX:130, cY:130 },
+  { q:'Count all the cubes in this 3D arrangement.', visual:'cubes',
+    arrangement: (()=>{ const a=[]; for(let c=0;c<3;c++) for(let r=0;r<2;r++) for(let l=0;l<2;l++) a.push([c,r,l]); return a; })(),
+    answer:12, options:[10,12,14,16], cX:130, cY:150 },
+  { q:'Find the volume of this cuboid.', visual:'formula', L:5, W:4, H:3, answer:60, options:[48,55,60,66], formulaHint:'V = L × W × H = 5 × 4 × 3 = ?' }
 ];
 
 let currentRound = 0;
@@ -357,10 +259,8 @@ function renderRound() {
   const rd = ROUNDS[currentRound];
 
   document.getElementById('roundLabel').textContent = currentRound + 1;
-  document.getElementById('progQ').textContent = currentRound + 1;
   const pct = Math.round((currentRound / 10) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('feedback').textContent = '';
   document.getElementById('feedback').className = 'feedback';
   document.getElementById('questionText').textContent = rd.q;
@@ -386,7 +286,6 @@ function renderRound() {
     drawArrangement(svg, rd.arrangement, rd.cX, rd.cY);
   }
 
-  // Options
   const optRow = document.getElementById('optionsRow');
   optRow.innerHTML = '';
   const opts = [...rd.options].sort((a,b) => a-b);
@@ -412,7 +311,7 @@ function handleAnswer(btn, isCorrect, correctAns, isFormula) {
     btn.classList.add('correct');
     fb.textContent = `✅ Correct! The answer is ${correctAns}${suffix}.`;
     fb.className = 'feedback correct';
-    document.getElementById('scoreDisplay').textContent = score;
+    document.getElementById('score').textContent = score;
   } else {
     btn.classList.add('wrong');
     allBtns.forEach(b => {
@@ -431,20 +330,19 @@ function advanceRound() {
 }
 
 function showEndScreen() {
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('progPct').textContent = '100%';
-  const stars = score >= 9 ? '★★★' : score >= 7 ? '★★☆' : '★☆☆';
+  document.getElementById('progressBar').style.width = '100%';
+  const emoji = score >= 9 ? '🌟' : score >= 7 ? '😊' : '💪';
   const title = score >= 9 ? 'Brilliant!' : score >= 7 ? 'Well Done!' : 'Keep Trying!';
-  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endEmoji').textContent = emoji;
   document.getElementById('endTitle').textContent = title;
-  document.getElementById('endScore').textContent = `${score} / 10 correct`;
-  document.getElementById('endOverlay').classList.add('show');
+  document.getElementById('endScore').textContent = score + ' / 10 correct';
+  document.getElementById('endScreen').classList.add('show');
 }
 
 function restartGame() {
   currentRound = 0; score = 0;
-  document.getElementById('scoreDisplay').textContent = '0';
-  document.getElementById('endOverlay').classList.remove('show');
+  document.getElementById('score').textContent = '0';
+  document.getElementById('endScreen').classList.remove('show');
   renderRound();
 }
 

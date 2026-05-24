@@ -1,134 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
-  <title>Data Detective – MathMunch</title>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --s1:#FB923C;--s2:#F97316;
-      --bg:#F5F3FF;--white:#FFFFFF;
-      --dark:#1E1E2E;--mid:#525270;
-      --radius:16px;
-      --shadow:0 4px 20px rgba(249,115,22,0.15);
-    }
-    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(249,115,22,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
-    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
-    .back-btn:hover{background:var(--s1);color:white}
-    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
-    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
-    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
-    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
-    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:12px;background:#FFF7ED;z-index:200}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FB923C,#F97316);transition:width .4s ease;border-radius:0 4px 4px 0}
-    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
-    .end-screen.show{display:flex}
-    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-    .end-stars{font-size:2.5rem;margin-bottom:12px}
-    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
-    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
-    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
-    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
-    .btn-home{background:#FFF7ED;color:var(--s2);margin:0 6px}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
-    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<title>Data Detective – MathMunch</title>
+<style>
+  :root {
+    --orange:#F97316;--orange-dark:#EA580C;--orange-light:#FFF7ED;
+    --blue:#3B82F6;--green:#10B981;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#FFEDD5;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
 
-    /* Case file card */
-    .case-file{background:#FBF7EC;border:2px solid #D4A853;border-radius:var(--radius);padding:0;overflow:hidden;box-shadow:0 6px 28px rgba(249,115,22,0.12),0 2px 8px rgba(0,0,0,0.08)}
-    .case-header{background:#D4A853;padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
-    .case-number{font-size:.85rem;font-weight:800;color:#7B4F00;letter-spacing:.08em;text-transform:uppercase}
-    .case-status{font-size:.8rem;font-weight:700;color:#7B4F00;display:flex;align-items:center;gap:6px}
-    .case-body{padding:22px 24px}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--orange-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--orange);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--orange-light);color:var(--orange);}
+  .btn-play-now{background:var(--orange);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--orange-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .btn-play-now:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
 
-    /* Stamp overlay */
-    .stamp-wrap{position:relative;display:inline-block}
-    .stamp{position:absolute;top:-10px;right:-10px;font-size:.85rem;font-weight:800;padding:5px 10px;border-radius:4px;border:3px solid;transform:rotate(15deg);letter-spacing:.05em;opacity:0;transition:opacity .3s;pointer-events:none;z-index:10}
-    .stamp.solved{color:#006400;border-color:#006400;background:rgba(200,255,200,0.6)}
-    .stamp.incorrect{color:#8B0000;border-color:#8B0000;background:rgba(255,200,200,0.6)}
-    .stamp.show{opacity:1}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
 
-    /* Chart area */
-    .chart-area{background:white;border-radius:10px;padding:16px;margin-bottom:16px;border:1px solid #E0D5B0}
-    .chart-title{font-size:.9rem;font-weight:700;color:var(--mid);margin-bottom:12px;text-align:center}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--orange);color:var(--orange);}
+  .exit-btn:active{transform:translateY(1px);box-shadow:none;}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--orange);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.4rem;font-weight:700;color:var(--orange);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--orange);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--orange);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
 
-    /* Detective question */
-    .detective-q-label{font-size:.75rem;font-weight:700;color:#8B6914;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-    .detective-q{font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:18px;line-height:1.4}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(249,115,22,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
 
-    /* Options */
-    .opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
-    .opt-btn{background:white;border:2px solid #D4A853;border-radius:10px;padding:14px 12px;font-size:.95rem;font-weight:700;color:#6B4C00;cursor:pointer;transition:.2s;text-align:left}
-    .opt-btn:hover{background:#FFF3CD;transform:translateY(-1px)}
-    .opt-btn.correct{background:#d4f8ec;border-color:#00b894;color:#00734a}
-    .opt-btn.wrong{background:#ffeaea;border-color:#d63031;color:#c0392b}
-    .opt-btn.reveal{background:#e0fff5;border-color:#00b894;color:#00734a}
-    .opt-btn.disabled{pointer-events:none;opacity:.8}
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;margin:0 6px;}
+  .btn-play{background:var(--orange);color:white;box-shadow:0 3px 0 var(--orange-dark);}
+  .btn-play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);}
 
-    /* Feedback */
-    .feedback-strip{border-radius:10px;padding:12px 16px;font-weight:700;font-size:.9rem;margin-top:12px;opacity:0;transition:opacity .3s}
-    .feedback-strip.show{opacity:1}
-    .feedback-strip.good{background:#d4f8ec;color:#00734a;border:2px solid #00b894}
-    .feedback-strip.bad{background:#ffeaea;color:#c0392b;border:2px solid #d63031}
+  @media(max-width:768px){
+    .game-layout{grid-template-columns:1fr;padding:16px;}
+    .sidebar{flex-direction:row;flex-wrap:wrap;}
+    .stat-card{flex:1;min-width:140px;}
+    .site-nav{display:none;}
+  }
 
-    .next-btn{display:block;margin:14px auto 0;padding:11px 32px;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;border:none;border-radius:30px;font-size:.95rem;font-weight:700;cursor:pointer;transition:.2s;opacity:0;pointer-events:none}
-    .next-btn.visible{opacity:1;pointer-events:auto}
-    .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
-
-    /* Bar chart */
-    .bar-chart{display:flex;align-items:flex-end;gap:6px;height:140px;padding-bottom:24px;position:relative;border-bottom:2px solid #ccc;border-left:2px solid #ccc;margin:0 8px}
-    .bar-col{display:flex;flex-direction:column;align-items:center;flex:1}
-    .bar{width:100%;border-radius:4px 4px 0 0;transition:height .4s;position:relative}
-    .bar-label{font-size:.65rem;font-weight:700;color:var(--mid);position:absolute;bottom:-20px;text-align:center;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .bar-val{position:absolute;top:-18px;font-size:.7rem;font-weight:700;color:var(--dark);width:100%;text-align:center}
-
-    /* Line chart */
-    .line-chart-wrap{position:relative;padding-bottom:28px;margin:0 8px}
-
-    /* Pie chart */
-    .pie-legend{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin-top:10px}
-    .pie-legend-item{display:flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:var(--mid)}
-    .pie-swatch{width:13px;height:13px;border-radius:3px;flex-shrink:0}
-
-    /* round counter */
-    .round-label{font-size:.78rem;color:var(--mid);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
-  </style>
+  /* Game-specific CSS */
+  .case-file{background:#FBF7EC;border:2px solid #D4A853;border-radius:16px;padding:0;overflow:hidden;box-shadow:0 6px 28px rgba(249,115,22,0.12),0 2px 8px rgba(0,0,0,0.08)}
+  .case-header{background:#D4A853;padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
+  .case-number{font-size:.85rem;font-weight:800;color:#7B4F00;letter-spacing:.08em;text-transform:uppercase}
+  .case-status{font-size:.8rem;font-weight:700;color:#7B4F00;display:flex;align-items:center;gap:6px}
+  .case-body{padding:22px 24px}
+  .stamp-wrap{position:relative;display:inline-block}
+  .stamp{position:absolute;top:-10px;right:-10px;font-size:.85rem;font-weight:800;padding:5px 10px;border-radius:4px;border:3px solid;transform:rotate(15deg);letter-spacing:.05em;opacity:0;transition:opacity .3s;pointer-events:none;z-index:10}
+  .stamp.solved{color:#006400;border-color:#006400;background:rgba(200,255,200,0.6)}
+  .stamp.incorrect{color:#8B0000;border-color:#8B0000;background:rgba(255,200,200,0.6)}
+  .stamp.show{opacity:1}
+  .chart-area{background:white;border-radius:10px;padding:16px;margin-bottom:16px;border:1px solid #E0D5B0}
+  .chart-title{font-size:.9rem;font-weight:700;color:#525270;margin-bottom:12px;text-align:center}
+  .detective-q-label{font-size:.75rem;font-weight:700;color:#8B6914;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+  .detective-q{font-size:1.1rem;font-weight:700;color:#1E1E2E;margin-bottom:18px;line-height:1.4}
+  .opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+  .opt-btn{background:white;border:2px solid #D4A853;border-radius:10px;padding:14px 12px;font-size:.95rem;font-weight:700;color:#6B4C00;cursor:pointer;transition:.2s;text-align:left}
+  .opt-btn:hover{background:#FFF3CD;transform:translateY(-1px)}
+  .opt-btn.correct{background:#d4f8ec;border-color:#00b894;color:#00734a}
+  .opt-btn.wrong{background:#ffeaea;border-color:#d63031;color:#c0392b}
+  .opt-btn.reveal{background:#e0fff5;border-color:#00b894;color:#00734a}
+  .opt-btn.disabled{pointer-events:none;opacity:.8}
+  .feedback-strip{border-radius:10px;padding:12px 16px;font-weight:700;font-size:.9rem;margin-top:12px;opacity:0;transition:opacity .3s}
+  .feedback-strip.show{opacity:1}
+  .feedback-strip.good{background:#d4f8ec;color:#00734a;border:2px solid #00b894}
+  .feedback-strip.bad{background:#ffeaea;color:#c0392b;border:2px solid #d63031}
+  .next-btn{display:block;margin:14px auto 0;padding:11px 32px;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;border:none;border-radius:30px;font-size:.95rem;font-weight:700;cursor:pointer;transition:.2s;opacity:0;pointer-events:none}
+  .next-btn.visible{opacity:1;pointer-events:auto}
+  .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
+  .bar-chart{display:flex;align-items:flex-end;gap:6px;height:140px;padding-bottom:24px;position:relative;border-bottom:2px solid #ccc;border-left:2px solid #ccc;margin:0 8px}
+  .bar-col{display:flex;flex-direction:column;align-items:center;flex:1}
+  .bar{width:100%;border-radius:4px 4px 0 0;transition:height .4s;position:relative}
+  .bar-label{font-size:.65rem;font-weight:700;color:#525270;position:absolute;bottom:-20px;text-align:center;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar-val{position:absolute;top:-18px;font-size:.7rem;font-weight:700;color:#1E1E2E;width:100%;text-align:center}
+  .line-chart-wrap{position:relative;padding-bottom:28px;margin:0 8px}
+  .pie-legend{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin-top:10px}
+  .pie-legend-item{display:flex;align-items:center;gap:5px;font-size:.8rem;font-weight:600;color:#525270}
+  .pie-swatch{width:13px;height:13px;border-radius:3px;flex-shrink:0}
+  .round-label{font-size:.78rem;color:#525270;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+</style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
-<div class="topbar">
-  <a href="../../index.html" class="back-btn">← All Games</a>
-  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
-  <span class="game-title">🔍 Data Detective</span>
-  <span class="level-badge">P5</span>
-  <span class="score-display">⭐ <span id="score">0</span></span>
-</div>
 
-<div class="game-area">
-  <div id="gameContainer"></div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">📊</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
+  </div>
+</header>
+
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Detective</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Data Detective</div>
+      <span class="level-pill">P5</span>
+    </div>
+  </div>
+
+  <div class="game-canvas">
+    <div id="gameContainer"></div>
+  </div>
 </div>
 
 <div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars">⭐⭐⭐</div>
-    <div class="end-title" id="endTitle">Amazing!</div>
-    <div class="end-score" id="endScore">You scored 10/10</div>
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🎉</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;" id="endTitle">Game Over!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:28px;" id="endScore">0 / 10</div>
     <button class="btn btn-play" onclick="restartGame()">New Investigation</button>
-    <a href="../../index.html" class="btn btn-home">Home</a>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
   </div>
 </div>
-<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
 
 <script>
-// ── State ────────────────────────────────────────────────────────────
 let score=0, total=10, current=0;
 
-// ── Colour palette ────────────────────────────────────────────────────
 const BAR_COLS=['#A29BFE','#6C5CE7','#FF6B6B','#4ECDC4','#FDCB6E','#74B9FF','#55EFC4','#FD79A8'];
 
-// ── SVG Pie helpers ───────────────────────────────────────────────────
 function polarXY(cx,cy,r,deg){
   const rad=(deg-90)*Math.PI/180;
   return{x:+(cx+r*Math.cos(rad)).toFixed(3),y:+(cy+r*Math.sin(rad)).toFixed(3)};
@@ -151,19 +201,15 @@ function buildPie(segs,size=200){
   return svg;
 }
 
-// ── Build bar chart SVG ───────────────────────────────────────────────
 function buildBarSVG(labels,values,yLabel){
   const w=340, h=160, pad={top:24,right:10,bottom:42,left:36};
   const cw=w-pad.left-pad.right, ch=h-pad.top-pad.bottom;
   const maxV=Math.max(...values);
   const barW=Math.floor(cw/values.length)-8;
   let svg=`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="overflow:visible">`;
-  // axes
   svg+=`<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top+ch}" stroke="#ccc" stroke-width="2"/>`;
   svg+=`<line x1="${pad.left}" y1="${pad.top+ch}" x2="${pad.left+cw}" y2="${pad.top+ch}" stroke="#ccc" stroke-width="2"/>`;
-  // y-axis label
   if(yLabel) svg+=`<text x="10" y="${pad.top+ch/2}" text-anchor="middle" dominant-baseline="middle" font-size="9" fill="#999" transform="rotate(-90,10,${pad.top+ch/2})">${yLabel}</text>`;
-  // gridlines & y-labels
   const steps=4;
   for(let i=0;i<=steps;i++){
     const v=Math.round(maxV*(i/steps));
@@ -171,14 +217,12 @@ function buildBarSVG(labels,values,yLabel){
     svg+=`<line x1="${pad.left}" y1="${gy}" x2="${pad.left+cw}" y2="${gy}" stroke="#eee" stroke-width="1"/>`;
     svg+=`<text x="${pad.left-4}" y="${gy}" text-anchor="end" dominant-baseline="middle" font-size="9" fill="#999">${v}</text>`;
   }
-  // bars
   values.forEach((v,i)=>{
     const bh=ch*(v/maxV);
     const bx=pad.left+i*(cw/values.length)+(cw/values.length-barW)/2;
     const by=pad.top+ch-bh;
     svg+=`<rect x="${bx}" y="${by}" width="${barW}" height="${bh}" rx="3" fill="${BAR_COLS[i%BAR_COLS.length]}"/>`;
     svg+=`<text x="${bx+barW/2}" y="${by-4}" text-anchor="middle" font-size="9" fill="${BAR_COLS[i%BAR_COLS.length]}" font-weight="700">${v}</text>`;
-    // x label
     const lx=bx+barW/2, ly=pad.top+ch+14;
     svg+=`<text x="${lx}" y="${ly}" text-anchor="middle" font-size="9" fill="#666">${labels[i]}</text>`;
   });
@@ -186,7 +230,6 @@ function buildBarSVG(labels,values,yLabel){
   return svg;
 }
 
-// ── Build line chart SVG ──────────────────────────────────────────────
 function buildLineSVG(labels,values,yLabel){
   const w=340, h=160, pad={top:24,right:10,bottom:42,left:36};
   const cw=w-pad.left-pad.right, ch=h-pad.top-pad.bottom;
@@ -196,7 +239,6 @@ function buildLineSVG(labels,values,yLabel){
   svg+=`<line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${pad.top+ch}" stroke="#ccc" stroke-width="2"/>`;
   svg+=`<line x1="${pad.left}" y1="${pad.top+ch}" x2="${pad.left+cw}" y2="${pad.top+ch}" stroke="#ccc" stroke-width="2"/>`;
   if(yLabel) svg+=`<text x="10" y="${pad.top+ch/2}" text-anchor="middle" dominant-baseline="middle" font-size="9" fill="#999" transform="rotate(-90,10,${pad.top+ch/2})">${yLabel}</text>`;
-  // gridlines
   const steps=4;
   for(let i=0;i<=steps;i++){
     const v=Math.round(maxV*(i/steps));
@@ -204,14 +246,12 @@ function buildLineSVG(labels,values,yLabel){
     svg+=`<line x1="${pad.left}" y1="${gy}" x2="${pad.left+cw}" y2="${gy}" stroke="#eee" stroke-width="1"/>`;
     svg+=`<text x="${pad.left-4}" y="${gy}" text-anchor="end" dominant-baseline="middle" font-size="9" fill="#999">${v}</text>`;
   }
-  // line path
   const pts=values.map((v,i)=>{
     const x=pad.left+i*step;
     const y=pad.top+ch-ch*(v/maxV);
     return`${x},${y}`;
   });
   svg+=`<polyline points="${pts.join(' ')}" fill="none" stroke="#6C5CE7" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
-  // dots & labels
   values.forEach((v,i)=>{
     const x=pad.left+i*step;
     const y=pad.top+ch-ch*(v/maxV);
@@ -223,189 +263,26 @@ function buildLineSVG(labels,values,yLabel){
   return svg;
 }
 
-// ── Questions ─────────────────────────────────────────────────────────
 const QUESTIONS = [
-  // ── Case File 1: Books sold per month (bar chart) ───────────────────
-  {
-    caseFile:1,
-    chartType:'bar',
-    chartTitle:'Books Sold at the School Library',
-    chartData:{
-      labels:['Jan','Feb','Mar','Apr','May','Jun'],
-      values:[12,18,25,30,22,15],
-      yLabel:'Books Sold'
-    },
-    question:'In which month were the most books sold?',
-    answer:'April',
-    opts:['January','March','April','June'],
-    fb:'April had the tallest bar with 30 books sold.'
-  },
-  {
-    caseFile:1,
-    chartType:'bar',
-    chartTitle:'Books Sold at the School Library',
-    chartData:{
-      labels:['Jan','Feb','Mar','Apr','May','Jun'],
-      values:[12,18,25,30,22,15],
-      yLabel:'Books Sold'
-    },
-    question:'What was the range of books sold across all six months?',
-    answer:'18',
-    opts:['12','18','30','25'],
-    fb:'Range = highest − lowest = 30 − 12 = 18'
-  },
-  {
-    caseFile:1,
-    chartType:'bar',
-    chartTitle:'Books Sold at the School Library',
-    chartData:{
-      labels:['Jan','Feb','Mar','Apr','May','Jun'],
-      values:[12,18,25,30,22,15],
-      yLabel:'Books Sold'
-    },
-    question:'Between which two consecutive months did sales increase the most?',
-    answer:'February to March',
-    opts:['January to February','February to March','March to April','May to June'],
-    fb:'Feb→Mar increased by 7, Mar→Apr increased by 5 — Feb to Mar was the biggest jump.'
-  },
-
-  // ── Case File 2: Temperature across the week (line chart) ──────────
-  {
-    caseFile:2,
-    chartType:'line',
-    chartTitle:'Daily Temperature (°C) This Week',
-    chartData:{
-      labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-      values:[14,16,19,22,20,17,13],
-      yLabel:'Temperature °C'
-    },
-    question:'On which day was the temperature highest?',
-    answer:'Thursday',
-    opts:['Tuesday','Wednesday','Thursday','Saturday'],
-    fb:'Thursday had the highest point on the graph at 22°C.'
-  },
-  {
-    caseFile:2,
-    chartType:'line',
-    chartTitle:'Daily Temperature (°C) This Week',
-    chartData:{
-      labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-      values:[14,16,19,22,20,17,13],
-      yLabel:'Temperature °C'
-    },
-    question:'What was the range of temperatures across the week?',
-    answer:'9°C',
-    opts:['6°C','9°C','12°C','22°C'],
-    fb:'Range = 22 − 13 = 9°C'
-  },
-  {
-    caseFile:2,
-    chartType:'line',
-    chartTitle:'Daily Temperature (°C) This Week',
-    chartData:{
-      labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-      values:[14,16,19,22,20,17,13],
-      yLabel:'Temperature °C'
-    },
-    question:'On which day did the temperature drop the most compared to the day before?',
-    answer:'Sunday',
-    opts:['Friday','Saturday','Sunday','Monday'],
-    fb:'Sun dropped from 17 to 13 = 4°C drop, the steepest fall on the graph.'
-  },
-  {
-    caseFile:2,
-    chartType:'line',
-    chartTitle:'Daily Temperature (°C) This Week',
-    chartData:{
-      labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-      values:[14,16,19,22,20,17,13],
-      yLabel:'Temperature °C'
-    },
-    question:'What was the temperature on Wednesday?',
-    answer:'19°C',
-    opts:['17°C','19°C','20°C','22°C'],
-    fb:'Wednesday\'s point sits at 19°C on the graph.'
-  },
-
-  // ── Case File 3: Favourite school lunches (pie chart) ─────────────
-  {
-    caseFile:3,
-    chartType:'pie',
-    chartTitle:'Favourite School Lunches 🍽️',
-    chartData:{
-      segs:[
-        {label:'Pizza',   emoji:'🍕',col:'#FF6B6B',pct:40},
-        {label:'Pasta',   emoji:'🍝',col:'#FDCB6E',pct:25},
-        {label:'Salad',   emoji:'🥗',col:'#55EFC4',pct:15},
-        {label:'Burger',  emoji:'🍔',col:'#A29BFE',pct:20},
-      ]
-    },
-    question:'Approximately what fraction of students chose Pizza?',
-    answer:'2/5',
-    opts:['1/4','1/2','2/5','1/3'],
-    fb:'Pizza = 40% of students = 2/5 of the total.'
-  },
-  {
-    caseFile:3,
-    chartType:'pie',
-    chartTitle:'Favourite School Lunches 🍽️',
-    chartData:{
-      segs:[
-        {label:'Pizza',   emoji:'🍕',col:'#FF6B6B',pct:40},
-        {label:'Pasta',   emoji:'🍝',col:'#FDCB6E',pct:25},
-        {label:'Salad',   emoji:'🥗',col:'#55EFC4',pct:15},
-        {label:'Burger',  emoji:'🍔',col:'#A29BFE',pct:20},
-      ]
-    },
-    question:'Which meal is the least popular?',
-    answer:'Salad 🥗',
-    opts:['Pizza 🍕','Pasta 🍝','Salad 🥗','Burger 🍔'],
-    fb:'Salad has the smallest slice at only 15%.'
-  },
-  {
-    caseFile:3,
-    chartType:'pie',
-    chartTitle:'Favourite School Lunches 🍽️',
-    chartData:{
-      segs:[
-        {label:'Pizza',   emoji:'🍕',col:'#FF6B6B',pct:40},
-        {label:'Pasta',   emoji:'🍝',col:'#FDCB6E',pct:25},
-        {label:'Salad',   emoji:'🥗',col:'#55EFC4',pct:15},
-        {label:'Burger',  emoji:'🍔',col:'#A29BFE',pct:20},
-      ]
-    },
-    question:'If 100 students were surveyed, how many chose Pasta?',
-    answer:'25',
-    opts:['15','20','25','40'],
-    fb:'Pasta = 25% of 100 = 25 students.'
-  },
-  {
-    caseFile:3,
-    chartType:'pie',
-    chartTitle:'Favourite School Lunches 🍽️',
-    chartData:{
-      segs:[
-        {label:'Pizza',   emoji:'🍕',col:'#FF6B6B',pct:40},
-        {label:'Pasta',   emoji:'🍝',col:'#FDCB6E',pct:25},
-        {label:'Salad',   emoji:'🥗',col:'#55EFC4',pct:15},
-        {label:'Burger',  emoji:'🍔',col:'#A29BFE',pct:20},
-      ]
-    },
-    question:'Together, what fraction of students chose either Pizza or Burger?',
-    answer:'3/5',
-    opts:['1/2','3/5','2/3','7/10'],
-    fb:'Pizza (40%) + Burger (20%) = 60% = 3/5'
-  },
+  {caseFile:1,chartType:'bar',chartTitle:'Books Sold at the School Library',chartData:{labels:['Jan','Feb','Mar','Apr','May','Jun'],values:[12,18,25,30,22,15],yLabel:'Books Sold'},question:'In which month were the most books sold?',answer:'April',opts:['January','March','April','June'],fb:'April had the tallest bar with 30 books sold.'},
+  {caseFile:1,chartType:'bar',chartTitle:'Books Sold at the School Library',chartData:{labels:['Jan','Feb','Mar','Apr','May','Jun'],values:[12,18,25,30,22,15],yLabel:'Books Sold'},question:'What was the range of books sold across all six months?',answer:'18',opts:['12','18','30','25'],fb:'Range = highest − lowest = 30 − 12 = 18'},
+  {caseFile:1,chartType:'bar',chartTitle:'Books Sold at the School Library',chartData:{labels:['Jan','Feb','Mar','Apr','May','Jun'],values:[12,18,25,30,22,15],yLabel:'Books Sold'},question:'Between which two consecutive months did sales increase the most?',answer:'February to March',opts:['January to February','February to March','March to April','May to June'],fb:'Feb→Mar increased by 7, Mar→Apr increased by 5 — Feb to Mar was the biggest jump.'},
+  {caseFile:2,chartType:'line',chartTitle:'Daily Temperature (°C) This Week',chartData:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],values:[14,16,19,22,20,17,13],yLabel:'Temperature °C'},question:'On which day was the temperature highest?',answer:'Thursday',opts:['Tuesday','Wednesday','Thursday','Saturday'],fb:'Thursday had the highest point on the graph at 22°C.'},
+  {caseFile:2,chartType:'line',chartTitle:'Daily Temperature (°C) This Week',chartData:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],values:[14,16,19,22,20,17,13],yLabel:'Temperature °C'},question:'What was the range of temperatures across the week?',answer:'9°C',opts:['6°C','9°C','12°C','22°C'],fb:'Range = 22 − 13 = 9°C'},
+  {caseFile:2,chartType:'line',chartTitle:'Daily Temperature (°C) This Week',chartData:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],values:[14,16,19,22,20,17,13],yLabel:'Temperature °C'},question:'On which day did the temperature drop the most compared to the day before?',answer:'Sunday',opts:['Friday','Saturday','Sunday','Monday'],fb:'Sun dropped from 17 to 13 = 4°C drop, the steepest fall on the graph.'},
+  {caseFile:2,chartType:'line',chartTitle:'Daily Temperature (°C) This Week',chartData:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],values:[14,16,19,22,20,17,13],yLabel:'Temperature °C'},question:'What was the temperature on Wednesday?',answer:'19°C',opts:['17°C','19°C','20°C','22°C'],fb:'Wednesday\'s point sits at 19°C on the graph.'},
+  {caseFile:3,chartType:'pie',chartTitle:'Favourite School Lunches 🍽️',chartData:{segs:[{label:'Pizza',emoji:'🍕',col:'#FF6B6B',pct:40},{label:'Pasta',emoji:'🍝',col:'#FDCB6E',pct:25},{label:'Salad',emoji:'🥗',col:'#55EFC4',pct:15},{label:'Burger',emoji:'🍔',col:'#A29BFE',pct:20}]},question:'Approximately what fraction of students chose Pizza?',answer:'2/5',opts:['1/4','1/2','2/5','1/3'],fb:'Pizza = 40% of students = 2/5 of the total.'},
+  {caseFile:3,chartType:'pie',chartTitle:'Favourite School Lunches 🍽️',chartData:{segs:[{label:'Pizza',emoji:'🍕',col:'#FF6B6B',pct:40},{label:'Pasta',emoji:'🍝',col:'#FDCB6E',pct:25},{label:'Salad',emoji:'🥗',col:'#55EFC4',pct:15},{label:'Burger',emoji:'🍔',col:'#A29BFE',pct:20}]},question:'Which meal is the least popular?',answer:'Salad 🥗',opts:['Pizza 🍕','Pasta 🍝','Salad 🥗','Burger 🍔'],fb:'Salad has the smallest slice at only 15%.'},
+  {caseFile:3,chartType:'pie',chartTitle:'Favourite School Lunches 🍽️',chartData:{segs:[{label:'Pizza',emoji:'🍕',col:'#FF6B6B',pct:40},{label:'Pasta',emoji:'🍝',col:'#FDCB6E',pct:25},{label:'Salad',emoji:'🥗',col:'#55EFC4',pct:15},{label:'Burger',emoji:'🍔',col:'#A29BFE',pct:20}]},question:'If 100 students were surveyed, how many chose Pasta?',answer:'25',opts:['15','20','25','40'],fb:'Pasta = 25% of 100 = 25 students.'},
 ];
 
 let pool=[...QUESTIONS];
 
-// ── Helpers ───────────────────────────────────────────────────────────
 function updateScore(pts){score+=pts;document.getElementById('score').textContent=score;}
 function updateProgress(){document.getElementById('progressBar').style.width=(current/total*100)+'%';}
 function showEnd(){
   const pct=score/total;
-  document.getElementById('endStars').textContent=pct>=0.8?'⭐⭐⭐':pct>=0.5?'⭐⭐':'⭐';
+  document.getElementById('endEmoji').textContent=pct>=0.8?'🌟':pct>=0.5?'👍':'💪';
   document.getElementById('endTitle').textContent=pct>=0.8?'Case Closed!':pct>=0.5?'Good detective work!':'Keep investigating!';
   document.getElementById('endScore').textContent='You solved '+score+' / '+total+' cases';
   document.getElementById('endScreen').classList.add('show');
@@ -418,7 +295,6 @@ function restartGame(){
   initGame();
 }
 
-// ── Build chart HTML ──────────────────────────────────────────────────
 function buildChart(q){
   if(q.chartType==='bar'){
     return buildBarSVG(q.chartData.labels,q.chartData.values,q.chartData.yLabel);
@@ -436,7 +312,6 @@ function buildChart(q){
   return '';
 }
 
-// ── Render question ───────────────────────────────────────────────────
 function renderQuestion(q){
   const gc=document.getElementById('gameContainer');
   const chartHTML=buildChart(q);
@@ -481,7 +356,6 @@ function checkAnswer(btn,chosen,correct,fbText){
   const ok=chosen===correct;
   if(ok) updateScore(1);
 
-  // Show stamp
   if(ok){
     document.getElementById('solvedStamp').classList.add('show');
   } else {

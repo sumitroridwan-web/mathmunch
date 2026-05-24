@@ -1,137 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
-  <title>Frequency Forest – MathMunch</title>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --s1:#FB923C;--s2:#F97316;
-      --bg:#F5F3FF;--white:#FFFFFF;
-      --dark:#1E1E2E;--mid:#525270;
-      --radius:16px;
-      --shadow:0 4px 20px rgba(249,115,22,0.15);
-      --forest:#2D6A4F;--wood:#8B5E3C;--plank:#F5ECD7;
-    }
-    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(249,115,22,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
-    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
-    .back-btn:hover{background:var(--s1);color:white}
-    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
-    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
-    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
-    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
-    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:12px;background:#FFF7ED;z-index:200}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FB923C,#F97316);transition:width .4s ease;border-radius:0 4px 4px 0}
-    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
-    .end-screen.show{display:flex}
-    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-    .end-stars{font-size:2.5rem;margin-bottom:12px}
-    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
-    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
-    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
-    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
-    .btn-home{background:#FFF7ED;color:var(--s2);margin:0 6px}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
-    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<title>Frequency Forest – MathMunch</title>
+<style>
+  :root {
+    --orange:#F97316;--orange-dark:#EA580C;--orange-light:#FFF7ED;
+    --blue:#3B82F6;--green:#10B981;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#FFEDD5;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
 
-    /* Forest theme */
-    .forest-header{text-align:center;margin-bottom:20px}
-    .forest-scene{font-size:2rem;letter-spacing:4px;margin-bottom:6px}
-    .question-counter{text-align:center;font-size:.85rem;color:var(--mid);margin-bottom:14px;font-weight:600}
-    .question-text{text-align:center;font-size:1.15rem;font-weight:700;color:var(--dark);margin-bottom:20px;line-height:1.4;background:white;border-radius:14px;padding:14px 20px;box-shadow:var(--shadow)}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--orange-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--orange);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--orange-light);color:var(--orange);}
+  .btn-play-now{background:var(--orange);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--orange-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .btn-play-now:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
 
-    /* Wooden plank table */
-    .table-wrap{background:var(--plank);border:3px solid var(--wood);border-radius:12px;overflow:hidden;margin-bottom:24px;box-shadow:0 4px 16px rgba(139,94,60,0.2)}
-    .table-wrap table{width:100%;border-collapse:collapse}
-    .table-wrap th{background:var(--wood);color:white;padding:10px 16px;font-size:.95rem;font-weight:700;text-align:center}
-    .table-wrap td{padding:10px 16px;text-align:center;border-bottom:1.5px solid #D4B896;font-size:1rem;font-weight:600}
-    .table-wrap tr:last-child td{border-bottom:none}
-    .table-wrap tr:nth-child(even) td{background:rgba(139,94,60,0.08)}
-    .table-wrap .animal-cell{font-size:1.3rem}
-    .table-wrap .missing-cell{background:#FFF9C4;color:var(--s2);font-weight:800;font-size:1.1rem}
-    .table-wrap .highlight-row td{background:#E8F5E9 !important}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
 
-    /* Answer options */
-    .choices{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:20px}
-    .choice-btn{padding:12px 24px;border-radius:20px;border:2.5px solid var(--s1);background:white;color:var(--dark);font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;min-width:80px}
-    .choice-btn:hover:not(:disabled){background:var(--s1);color:white;transform:translateY(-2px)}
-    .choice-btn.correct{background:#DCFCE7;border-color:#22C55E;color:#166534}
-    .choice-btn.wrong{background:#FEE2E2;border-color:#EF4444;color:#991B1B}
-    .choice-btn:disabled{cursor:default}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--orange);color:var(--orange);}
+  .exit-btn:active{transform:translateY(1px);box-shadow:none;}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--orange);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.4rem;font-weight:700;color:var(--orange);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--orange);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--orange);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
 
-    /* Fill-in input */
-    .fill-wrap{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:20px}
-    .fill-input{padding:12px 20px;border-radius:12px;border:2.5px solid var(--s1);font-size:1.3rem;font-weight:800;width:100px;text-align:center;color:var(--dark);outline:none;transition:.2s}
-    .fill-input:focus{border-color:var(--s2);box-shadow:0 0 0 3px rgba(249,115,22,.15)}
-    .fill-input.correct{border-color:#22C55E;background:#DCFCE7}
-    .fill-input.wrong{border-color:#EF4444;background:#FEE2E2}
-    .submit-btn{padding:12px 24px;border-radius:20px;border:none;background:var(--s2);color:white;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s}
-    .submit-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 16px rgba(249,115,22,.3)}
-    .submit-btn:disabled{opacity:.5;cursor:default}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(249,115,22,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
 
-    .feedback-box{text-align:center;min-height:48px;margin-bottom:10px}
-    .feedback-msg{font-size:1.05rem;font-weight:700;padding:10px 24px;border-radius:24px;display:inline-block;opacity:0;transition:opacity .3s}
-    .feedback-msg.show{opacity:1}
-    .feedback-msg.correct{background:#DCFCE7;color:#166534}
-    .feedback-msg.wrong{background:#FEE2E2;color:#991B1B}
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;margin:0 6px;}
+  .btn-play{background:var(--orange);color:white;box-shadow:0 3px 0 var(--orange-dark);}
+  .btn-play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);}
 
-    .next-btn{display:block;margin:0 auto;padding:12px 36px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;transition:.2s;opacity:0;pointer-events:none}
-    .next-btn.visible{opacity:1;pointer-events:all}
-    .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,.3)}
+  @media(max-width:768px){
+    .game-layout{grid-template-columns:1fr;padding:16px;}
+    .sidebar{flex-direction:row;flex-wrap:wrap;}
+    .stat-card{flex:1;min-width:140px;}
+    .site-nav{display:none;}
+  }
 
-    .type-badge{display:inline-block;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:10px}
-    .type-read{background:#EDE9FE;color:var(--s2)}
-    .type-complete{background:#FEF9C3;color:#92400E}
-    .type-interpret{background:#DCFCE7;color:var(--forest)}
-  </style>
+  /* Game-specific CSS */
+  .forest-header{text-align:center;margin-bottom:20px}
+  .forest-scene{font-size:2rem;letter-spacing:4px;margin-bottom:6px}
+  .question-counter{text-align:center;font-size:.85rem;color:#525270;margin-bottom:14px;font-weight:600}
+  .question-text{text-align:center;font-size:1.15rem;font-weight:700;color:#1E1E2E;margin-bottom:20px;line-height:1.4;background:white;border-radius:14px;padding:14px 20px;box-shadow:0 4px 20px rgba(249,115,22,0.15)}
+  .table-wrap{background:#F5ECD7;border:3px solid #8B5E3C;border-radius:12px;overflow:hidden;margin-bottom:24px;box-shadow:0 4px 16px rgba(139,94,60,0.2)}
+  .table-wrap table{width:100%;border-collapse:collapse}
+  .table-wrap th{background:#8B5E3C;color:white;padding:10px 16px;font-size:.95rem;font-weight:700;text-align:center}
+  .table-wrap td{padding:10px 16px;text-align:center;border-bottom:1.5px solid #D4B896;font-size:1rem;font-weight:600}
+  .table-wrap tr:last-child td{border-bottom:none}
+  .table-wrap tr:nth-child(even) td{background:rgba(139,94,60,0.08)}
+  .table-wrap .animal-cell{font-size:1.3rem}
+  .table-wrap .missing-cell{background:#FFF9C4;color:#F97316;font-weight:800;font-size:1.1rem}
+  .table-wrap .highlight-row td{background:#E8F5E9 !important}
+  .choices{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:20px}
+  .choice-btn{padding:12px 24px;border-radius:20px;border:2.5px solid #FB923C;background:white;color:#1E1E2E;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;min-width:80px}
+  .choice-btn:hover:not(:disabled){background:#FB923C;color:white;transform:translateY(-2px)}
+  .choice-btn.correct{background:#DCFCE7;border-color:#22C55E;color:#166534}
+  .choice-btn.wrong{background:#FEE2E2;border-color:#EF4444;color:#991B1B}
+  .choice-btn:disabled{cursor:default}
+  .fill-wrap{display:flex;gap:12px;justify-content:center;align-items:center;margin-bottom:20px}
+  .fill-input{padding:12px 20px;border-radius:12px;border:2.5px solid #FB923C;font-size:1.3rem;font-weight:800;width:100px;text-align:center;color:#1E1E2E;outline:none;transition:.2s}
+  .fill-input:focus{border-color:#F97316;box-shadow:0 0 0 3px rgba(249,115,22,.15)}
+  .fill-input.correct{border-color:#22C55E;background:#DCFCE7}
+  .fill-input.wrong{border-color:#EF4444;background:#FEE2E2}
+  .submit-btn{padding:12px 24px;border-radius:20px;border:none;background:#F97316;color:white;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s}
+  .submit-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 16px rgba(249,115,22,.3)}
+  .submit-btn:disabled{opacity:.5;cursor:default}
+  .feedback-box{text-align:center;min-height:48px;margin-bottom:10px}
+  .feedback-msg{font-size:1.05rem;font-weight:700;padding:10px 24px;border-radius:24px;display:inline-block;opacity:0;transition:opacity .3s}
+  .feedback-msg.show{opacity:1}
+  .feedback-msg.correct{background:#DCFCE7;color:#166534}
+  .feedback-msg.wrong{background:#FEE2E2;color:#991B1B}
+  .next-btn{display:block;margin:0 auto;padding:12px 36px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;transition:.2s;opacity:0;pointer-events:none}
+  .next-btn.visible{opacity:1;pointer-events:all}
+  .next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,.3)}
+  .type-badge{display:inline-block;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:10px}
+  .type-read{background:#EDE9FE;color:#F97316}
+  .type-complete{background:#FEF9C3;color:#92400E}
+  .type-interpret{background:#DCFCE7;color:#2D6A4F}
+</style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
-<div class="topbar">
-  <a href="../../index.html" class="back-btn">← All Games</a>
-  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
-  <span class="game-title">Frequency Forest</span>
-  <span class="level-badge">P3</span>
-  <span class="score-display">⭐ <span id="score">0</span></span>
-</div>
 
-<div class="game-area">
-  <div class="forest-header">
-    <div class="forest-scene">🌲🌳🌲🌿🌲</div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">📊</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
   </div>
-  <div class="question-counter" id="questionCounter">Question 1 of 10</div>
-  <div style="text-align:center;margin-bottom:8px">
-    <span class="type-badge" id="typeBadge">Read</span>
-  </div>
-  <div class="question-text" id="questionText">Loading...</div>
+</header>
 
-  <div class="table-wrap" id="tableWrap">
-    <table id="freqTable"></table>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Ranger</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Frequency Forest</div>
+      <span class="level-pill">P3</span>
+    </div>
   </div>
 
-  <div id="mcArea" class="choices" style="display:none"></div>
-  <div id="fillArea" class="fill-wrap" style="display:none">
-    <input type="number" id="fillInput" class="fill-input" min="0" max="99" placeholder="?"/>
-    <button class="submit-btn" id="submitFill" onclick="checkFill()">Check</button>
-  </div>
+  <div class="game-canvas">
+    <div class="forest-header">
+      <div class="forest-scene">🌲🌳🌲🌿🌲</div>
+    </div>
+    <div class="question-counter" id="questionCounter">Question 1 of 10</div>
+    <div style="text-align:center;margin-bottom:8px">
+      <span class="type-badge" id="typeBadge">Read</span>
+    </div>
+    <div class="question-text" id="questionText">Loading...</div>
 
-  <div class="feedback-box"><div class="feedback-msg" id="feedbackMsg"></div></div>
-  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+    <div class="table-wrap" id="tableWrap">
+      <table id="freqTable"></table>
+    </div>
+
+    <div id="mcArea" class="choices" style="display:none"></div>
+    <div id="fillArea" class="fill-wrap" style="display:none">
+      <input type="number" id="fillInput" class="fill-input" min="0" max="99" placeholder="?"/>
+      <button class="submit-btn" id="submitFill" onclick="checkFill()">Check</button>
+    </div>
+
+    <div class="feedback-box"><div class="feedback-msg" id="feedbackMsg"></div></div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+  </div>
 </div>
 
 <div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars">⭐⭐⭐</div>
-    <div class="end-title" id="endTitle">Amazing!</div>
-    <div class="end-score" id="endScore">You scored 10/10</div>
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🎉</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;" id="endTitle">Game Over!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:28px;" id="endScore">0 / 10</div>
     <button class="btn btn-play" onclick="restartGame()">Play Again</button>
-    <a href="../../index.html" class="btn btn-home">Home</a>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
   </div>
 </div>
-<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
 
 <script>
   let score = 0, total = 10, current = 0;
@@ -142,7 +204,7 @@
   function updateProgress() { document.getElementById('progressBar').style.width = (current / total * 100) + '%'; }
   function showEnd() {
     const pct = score / total;
-    document.getElementById('endStars').textContent = pct >= 0.8 ? '⭐⭐⭐' : pct >= 0.5 ? '⭐⭐' : '⭐';
+    document.getElementById('endEmoji').textContent = pct >= 0.8 ? '🌟' : pct >= 0.5 ? '👍' : '💪';
     document.getElementById('endTitle').textContent = pct >= 0.8 ? 'Brilliant!' : pct >= 0.5 ? 'Good job!' : 'Keep trying!';
     document.getElementById('endScore').textContent = 'You scored ' + score + ' / ' + total;
     document.getElementById('endScreen').classList.add('show');
@@ -173,8 +235,6 @@
     ]}
   ];
 
-  // 10 questions: mix of types across datasets
-  // type: 'read-count' | 'read-total' | 'complete' | 'interpret-most' | 'interpret-least'
   const questions = [
     { dsIdx: 0, type: 'read-count',    target: 'Squirrel' },
     { dsIdx: 0, type: 'read-total',    target: null },
@@ -347,7 +407,6 @@
       btn.classList.add('wrong');
       fb.textContent = '❌ The answer was ' + correctAnswer;
       fb.className = 'feedback-msg wrong show';
-      // Highlight correct button
       area.querySelectorAll('.choice-btn').forEach(b => {
         if (b.textContent.includes(correctAnswer)) b.classList.add('correct');
       });
@@ -398,7 +457,6 @@
 
   function nextQuestion() { loadQuestion(); }
 
-  // Handle Enter key for fill input
   document.getElementById('fillInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') checkFill();
   });

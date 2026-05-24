@@ -3,286 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Number Bonds Blaster – MathMunch</title>
 <style>
   :root {
-    --primary: #3B82F6;
-    --primary-light: #EFF6FF;
-    --accent: #FDCB6E;
-    --n1: #FF6B6B;
-    --n2: #FF8E53;
-    --bg: #F0F4FF;
-    --white: #FFFFFF;
-    --text: #1E1E2E;
-    --text2: #525270;
-    --green: #00B894;
-    --red: #FF4757;
-    --radius: 16px;
-    --shadow: 0 4px 20px rgba(59,130,246,0.12);
+    --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+    --green:#10B981;--orange:#F97316;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#DBEAFE;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Lexend', system-ui, sans-serif;
-    background: linear-gradient(160deg, #0a0015, #1a0030, #0d0025);
-    color: var(--white); min-height: 100vh; overflow-x: hidden;
-  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value{font-family:'Quicksand',system-ui,sans-serif;}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--blue-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--blue);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--blue-light);color:var(--blue);}
+  .btn-play-now{background:var(--blue);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--blue-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--blue);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.8rem;font-weight:700;color:var(--blue);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--green);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--blue);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(59,130,246,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
 
-  /* FLOATING STARS */
-  .space-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .space-star {
-    position: absolute; border-radius: 50%;
-    background: white; animation: drift var(--dur, 8s) ease-in-out infinite alternate;
-    opacity: 0.5;
-  }
-  @keyframes drift {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-    100% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
-  }
-
-  /* TOP BAR */
-  .top-bar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(10,0,21,0.85); backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(162,155,254,0.2);
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 20px; height: 60px;
-  }
-  .top-bar a { text-decoration: none; color: #93C5FD; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
-  .top-bar a:hover { text-decoration: underline; }
-  .top-bar .brand { font-weight: 800; font-size: 1rem; color: var(--white); }
-  .top-bar .game-title { font-weight: 700; font-size: 0.95rem; color: rgba(255,255,255,0.6); flex: 1; }
-  .level-badge { background: #FFF0E0; color: #FF7043; font-weight: 800; font-size: 0.8rem; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
-  .score-display { font-weight: 800; font-size: 1rem; color: var(--white); white-space: nowrap; }
-
-  /* GAME AREA */
-  .game-area { max-width: 800px; margin: 0 auto; padding: 80px 16px 100px; position: relative; z-index: 1; }
-
-  /* MAKE BANNER */
-  .make-banner {
-    background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(162,155,254,0.2));
-    border: 1px solid rgba(162,155,254,0.3);
-    border-radius: 20px; padding: 20px 24px; text-align: center; margin-bottom: 16px;
-  }
-  .make-label { font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
-  .make-target { font-size: 3rem; font-weight: 900; color: #FDCB6E; line-height: 1; }
-  .make-sub { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
-
-  /* FIRST NUMBER */
-  .equation-display {
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px; padding: 16px 24px; margin-bottom: 20px;
-    display: flex; align-items: center; justify-content: center; gap: 16px;
-    font-size: 2rem; font-weight: 900;
-  }
-  .eq-num {
-    background: linear-gradient(135deg, #3B82F6, #93C5FD);
-    border-radius: 12px; padding: 8px 20px;
-    box-shadow: 0 4px 16px rgba(59,130,246,0.4);
-  }
-  .eq-plus { color: rgba(255,255,255,0.5); }
-  .eq-blank {
-    background: rgba(255,255,255,0.08); border: 2px dashed rgba(255,255,255,0.3);
-    border-radius: 12px; padding: 8px 28px; min-width: 80px; text-align: center;
-    color: rgba(255,255,255,0.3); font-size: 1.5rem;
-  }
-  .eq-equals { color: rgba(255,255,255,0.5); }
-  .eq-result {
-    color: #FDCB6E;
-  }
-
-  /* QUESTION TEXT */
-  .question-text { text-align: center; font-size: 1rem; color: rgba(255,255,255,0.6); margin-bottom: 20px; font-weight: 600; }
-
-  /* BUBBLE GRID */
-  .bubble-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    max-width: 380px;
-    margin: 0 auto 20px;
-  }
-  .bubble {
-    width: 90px; height: 90px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem; font-weight: 900; color: white;
-    cursor: pointer; border: none; font-family: inherit;
-    transition: transform 0.15s, box-shadow 0.15s;
-    position: relative; overflow: hidden; margin: 0 auto;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
-  }
-  .bubble::before {
-    content: ''; position: absolute; top: 12%; left: 20%;
-    width: 30%; height: 20%; border-radius: 50%;
-    background: rgba(255,255,255,0.35);
-    transform: rotate(-30deg);
-  }
-  .bubble:hover:not(:disabled) { transform: scale(1.1) translateY(-4px); }
-  .bubble:disabled { cursor: default; }
-  .bubble.explode { animation: bubbleExplode 0.5s ease-out forwards; }
-  .bubble.shake { animation: bubbleShake 0.4s ease; }
-  .bubble.wrong-bubble { opacity: 0.35; transform: scale(0.9); }
-
-  @keyframes bubbleExplode {
-    0% { transform: scale(1); opacity: 1; }
-    40% { transform: scale(1.4); opacity: 1; }
-    100% { transform: scale(0); opacity: 0; }
-  }
-  @keyframes bubbleShake {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-8px); }
-    40% { transform: translateX(8px); }
-    60% { transform: translateX(-6px); }
-    80% { transform: translateX(6px); }
-  }
-
-  /* BUBBLE COLORS */
-  .bc0 { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
-  .bc1 { background: linear-gradient(135deg, #3B82F6, #93C5FD); }
-  .bc2 { background: linear-gradient(135deg, #00B894, #55EFC4); }
-  .bc3 { background: linear-gradient(135deg, #FDCB6E, #E17055); }
-  .bc4 { background: linear-gradient(135deg, #FD79A8, #E84393); }
-  .bc5 { background: linear-gradient(135deg, #0984E3, #74B9FF); }
-  .bc6 { background: linear-gradient(135deg, #6AB04C, #BADC58); }
-  .bc7 { background: linear-gradient(135deg, #EB4D4B, #C0392B); }
-
-  /* FEEDBACK */
-  .feedback-box {
-    border-radius: 12px; padding: 12px 20px; text-align: center;
-    font-weight: 700; font-size: 1rem; margin-top: 4px;
-    display: none; max-width: 440px; margin-left: auto; margin-right: auto;
-  }
-  .feedback-box.correct { background: rgba(0,184,148,0.2); color: #55EFC4; display: block; border: 1px solid rgba(0,184,148,0.4); }
-  .feedback-box.wrong { background: rgba(255,71,87,0.2); color: #FF6B6B; display: block; border: 1px solid rgba(255,71,87,0.3); }
-
-  /* ROUND TYPE BADGE */
-  .round-badge {
-    display: inline-block; margin: 0 auto 12px;
-    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 20px; padding: 4px 14px;
-    font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.5);
-    text-transform: uppercase; letter-spacing: 1px;
-    text-align: center; display: block;
-  }
-
-  /* PROGRESS BAR */
-  .progress-bar-container {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: rgba(10,0,21,0.9); backdrop-filter: blur(8px);
-    border-top: 1px solid rgba(162,155,254,0.15);
-    padding: 12px 20px; z-index: 100;
-  }
-  .progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
-  .progress-track { background: rgba(255,255,255,0.1); border-radius: 99px; height: 10px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); transition: width 0.4s ease; }
-
-  /* CONFETTI */
-  .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 200; overflow: hidden; }
-  .confetti-piece {
-    position: absolute; font-size: 1.5rem;
-    animation: confettiFly 1.2s ease-out forwards;
-    top: 50%; opacity: 1;
-  }
-  @keyframes confettiFly {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-240px) rotate(720deg); opacity: 0; }
-  }
-
-  /* END SCREEN */
-  .end-overlay {
-    display: none; position: fixed; inset: 0; z-index: 300;
-    background: rgba(5,0,15,0.85); backdrop-filter: blur(8px);
-    align-items: center; justify-content: center;
-  }
-  .end-overlay.show { display: flex; }
-  .end-card {
-    background: linear-gradient(135deg, #12002a, #1e0040);
-    border: 1px solid rgba(162,155,254,0.3);
-    border-radius: 24px; padding: 40px 36px; text-align: center; max-width: 420px; width: 90%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 60px rgba(59,130,246,0.2);
-    animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
-  }
-  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .end-emoji { font-size: 4rem; margin-bottom: 12px; }
-  .end-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: var(--white); }
-  .end-score { font-size: 3rem; font-weight: 800; color: #93C5FD; margin: 12px 0; }
-  .end-stars { font-size: 2rem; margin: 8px 0; }
-  .end-label { font-size: 1rem; color: rgba(255,255,255,0.55); margin-bottom: 24px; font-weight: 600; }
-  .btn-play-again {
-    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-    color: white; border: none; border-radius: 12px;
-    font-weight: 800; font-size: 1.1rem; padding: 14px 36px;
-    cursor: pointer; font-family: inherit; margin-bottom: 14px;
-    display: block; width: 100%; transition: transform 0.15s;
-  }
-  .btn-play-again:hover { transform: translateY(-2px); }
-  .back-link { display: block; color: #93C5FD; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
-  .back-link:hover { text-decoration: underline; }
+  /* GAME-SPECIFIC */
+  .make-banner{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:20px;padding:20px 24px;text-align:center;margin-bottom:16px;}
+  .make-label{font-size:0.85rem;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;}
+  .make-target{font-size:3rem;font-weight:900;color:#D97706;line-height:1;}
+  .make-sub{font-size:0.9rem;color:var(--text-soft);margin-top:4px;}
+  .equation-display{background:rgba(255,255,255,0.7);border:1px solid var(--outline);border-radius:16px;padding:16px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:16px;font-size:2rem;font-weight:900;}
+  .eq-num{background:linear-gradient(135deg,#3B82F6,#93C5FD);border-radius:12px;padding:8px 20px;box-shadow:0 4px 16px rgba(59,130,246,0.4);color:white;}
+  .eq-plus{color:var(--text-mid);}
+  .eq-blank{background:rgba(255,255,255,0.5);border:2px dashed rgba(59,130,246,0.4);border-radius:12px;padding:8px 28px;min-width:80px;text-align:center;color:var(--text-soft);font-size:1.5rem;}
+  .eq-equals{color:var(--text-mid);}
+  .eq-result{color:#D97706;}
+  .question-text{text-align:center;font-size:1rem;color:var(--text-mid);margin-bottom:20px;font-weight:600;}
+  .bubble-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:380px;margin:0 auto 20px;}
+  .bubble{width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:900;color:white;cursor:pointer;border:none;font-family:inherit;transition:transform 0.15s,box-shadow 0.15s;position:relative;overflow:hidden;margin:0 auto;box-shadow:0 6px 24px rgba(0,0,0,0.3);}
+  .bubble::before{content:'';position:absolute;top:12%;left:20%;width:30%;height:20%;border-radius:50%;background:rgba(255,255,255,0.35);transform:rotate(-30deg);}
+  .bubble:hover:not(:disabled){transform:scale(1.1) translateY(-4px);}
+  .bubble:disabled{cursor:default;}
+  .bubble.explode{animation:bubbleExplode 0.5s ease-out forwards;}
+  .bubble.shake{animation:bubbleShake 0.4s ease;}
+  .bubble.wrong-bubble{opacity:0.35;transform:scale(0.9);}
+  @keyframes bubbleExplode{0%{transform:scale(1);opacity:1;}40%{transform:scale(1.4);opacity:1;}100%{transform:scale(0);opacity:0;}}
+  @keyframes bubbleShake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
+  .bc0{background:linear-gradient(135deg,#FF6B6B,#FF8E53);}
+  .bc1{background:linear-gradient(135deg,#3B82F6,#93C5FD);}
+  .bc2{background:linear-gradient(135deg,#00B894,#55EFC4);}
+  .bc3{background:linear-gradient(135deg,#FDCB6E,#E17055);}
+  .bc4{background:linear-gradient(135deg,#FD79A8,#E84393);}
+  .bc5{background:linear-gradient(135deg,#0984E3,#74B9FF);}
+  .bc6{background:linear-gradient(135deg,#6AB04C,#BADC58);}
+  .bc7{background:linear-gradient(135deg,#EB4D4B,#C0392B);}
+  .round-badge{display:block;text-align:center;margin:0 auto 12px;background:rgba(255,255,255,0.6);border:1px solid var(--outline);border-radius:20px;padding:4px 14px;font-size:0.8rem;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:1px;}
+  .feedback-box{border-radius:12px;padding:12px 20px;text-align:center;font-weight:700;font-size:1rem;margin-top:4px;display:none;max-width:440px;margin-left:auto;margin-right:auto;}
+  .feedback-box.correct{background:#D1FAE5;color:#065F46;display:block;}
+  .feedback-box.wrong{background:#FEE2E2;color:#991B1B;display:block;}
+  .confetti-container{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:200;overflow:hidden;}
+  .confetti-piece{position:absolute;font-size:1.5rem;animation:confettiFly 1.2s ease-out forwards;top:50%;opacity:1;}
+  @keyframes confettiFly{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(-240px) rotate(720deg);opacity:0;}}
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;}
+  .btn-play{background:var(--blue);color:white;box-shadow:0 3px 0 var(--blue-dark);margin:0 6px;}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);margin:0 6px;}
+  @media(max-width:768px){.game-layout{grid-template-columns:1fr;padding:16px;}.sidebar{flex-direction:row;flex-wrap:wrap;}.stat-card{flex:1;min-width:140px;}.site-nav{display:none;}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<div class="space-bg" id="spaceBg"></div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">🧮</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
+  </div>
+</header>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <a href="../../index.html">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="game-title">Number Bonds Blaster</span>
-  <span class="level-badge">P1</span>
-  <span class="score-display">⭐ <span id="scoreVal">0</span></span>
-</div>
-
-<div class="game-area">
-  <!-- MAKE BANNER -->
-  <div class="make-banner">
-    <div class="make-label">🚀 Mission Target</div>
-    <div class="make-target" id="makeTarget">Make 10</div>
-    <div class="make-sub" id="makeSub">Rounds 1–3</div>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 1</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Number Bonds Blaster</div>
+      <span class="level-pill">P1</span>
+    </div>
   </div>
 
-  <span class="round-badge" id="roundBadge">Round 1</span>
+  <div class="game-canvas">
+    <div class="make-banner">
+      <div class="make-label">🚀 Mission Target</div>
+      <div class="make-target" id="makeTarget">Make 10</div>
+      <div class="make-sub" id="makeSub">Rounds 1–3</div>
+    </div>
 
-  <!-- EQUATION DISPLAY -->
-  <div class="equation-display">
-    <div class="eq-num" id="eqNum">?</div>
-    <div class="eq-plus">+</div>
-    <div class="eq-blank" id="eqBlank">?</div>
-    <div class="eq-equals">=</div>
-    <div class="eq-result" id="eqResult">?</div>
-  </div>
+    <span class="round-badge" id="roundBadge">Round 1</span>
 
-  <div class="question-text">Blast the correct number bubble! 💥</div>
+    <div class="equation-display">
+      <div class="eq-num" id="eqNum">?</div>
+      <div class="eq-plus">+</div>
+      <div class="eq-blank" id="eqBlank">?</div>
+      <div class="eq-equals">=</div>
+      <div class="eq-result" id="eqResult">?</div>
+    </div>
 
-  <!-- BUBBLE GRID -->
-  <div class="bubble-grid" id="bubbleGrid"></div>
+    <div class="question-text">Blast the correct number bubble! 💥</div>
 
-  <div class="feedback-box" id="feedbackBox"></div>
-</div>
+    <div class="bubble-grid" id="bubbleGrid"></div>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar-container">
-  <div class="progress-labels">
-    <span id="progressLabel">Question 1 of 10</span>
-    <span id="progressPercent">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    <div class="feedback-box" id="feedbackBox"></div>
   </div>
 </div>
 
 <div class="confetti-container" id="confettiContainer"></div>
 
-<!-- END SCREEN -->
-<div class="end-overlay" id="endOverlay">
+<div class="end-screen" id="endOverlay">
   <div class="end-card">
-    <div class="end-emoji" id="endEmoji">🚀</div>
-    <div class="end-title">Blast Complete!</div>
-    <div class="end-score" id="endScore">0 / 10</div>
-    <div class="end-stars" id="endStars">★★★</div>
-    <div class="end-label" id="endLabel">Brilliant!</div>
-    <button class="btn-play-again" onclick="restartGame()">Play Again</button>
-    <a class="back-link" href="../../index.html">← Back to All Games</a>
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🚀</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Blast Complete!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:8px;" id="endScore">0 / 10</div>
+    <div style="font-size:2rem;margin-bottom:8px;" id="endStars">★★★</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:20px;" id="endLabel">Brilliant!</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
   </div>
 </div>
 
@@ -294,22 +186,6 @@ let rounds = [];
 let currentRound = 0;
 let score = 0;
 let answered = false;
-
-// Generate floating background stars
-(function() {
-  const bg = document.getElementById('spaceBg');
-  for (let i = 0; i < 80; i++) {
-    const s = document.createElement('div');
-    s.className = 'space-star';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = Math.random() * 100 + '%';
-    const size = (1 + Math.random() * 4).toFixed(1);
-    s.style.width = s.style.height = size + 'px';
-    s.style.setProperty('--dur', (4 + Math.random() * 8).toFixed(1) + 's');
-    s.style.animationDelay = (Math.random() * 8).toFixed(1) + 's';
-    bg.appendChild(s);
-  }
-})();
 
 function shuffle(arr) {
   const a = [...arr];
@@ -337,7 +213,6 @@ function generateRounds() {
 
     let first;
     if (i >= 6) {
-      // multiples of 10
       const opts = [];
       for (let v = minFirst; v <= maxFirst; v += 10) opts.push(v);
       first = opts[Math.floor(Math.random() * opts.length)];
@@ -346,8 +221,6 @@ function generateRounds() {
     }
 
     const correct = target - first;
-
-    // Generate 5 wrong bubbles
     const wrongs = new Set();
     let attempts = 0;
     while (wrongs.size < 5 && attempts < 200) {
@@ -362,7 +235,6 @@ function generateRounds() {
       }
       if (w !== correct && w >= 0 && w <= target + 10 && w !== first) wrongs.add(w);
     }
-    // fallback
     let fb = correct + 1;
     while (wrongs.size < 5) { if (fb !== correct) wrongs.add(fb); fb++; }
 
@@ -378,7 +250,6 @@ function renderRound() {
   document.getElementById('makeTarget').textContent = r.label;
   document.getElementById('makeSub').textContent = r.sub;
   document.getElementById('roundBadge').textContent = `Round ${currentRound + 1}`;
-
   document.getElementById('eqNum').textContent = r.first;
   document.getElementById('eqBlank').textContent = '?';
   document.getElementById('eqResult').textContent = r.target;
@@ -387,7 +258,6 @@ function renderRound() {
   fb.className = 'feedback-box';
   fb.textContent = '';
 
-  // Assign random colors to bubbles
   const colors = shuffle([...BC]);
   const grid = document.getElementById('bubbleGrid');
   grid.innerHTML = '';
@@ -416,27 +286,26 @@ function handleBubble(bubble, chosen, correct, equationStr) {
   if (chosen === correct) {
     bubble.classList.add('explode');
     document.getElementById('eqBlank').textContent = correct;
-    document.getElementById('eqBlank').style.background = 'linear-gradient(135deg, #00B894, #55EFC4)';
+    document.getElementById('eqBlank').style.background = 'linear-gradient(135deg,#00B894,#55EFC4)';
     document.getElementById('eqBlank').style.border = 'none';
     document.getElementById('eqBlank').style.color = 'white';
     fb.className = 'feedback-box correct';
     fb.textContent = '✓ Correct! Great job!';
     score++;
-    document.getElementById('scoreVal').textContent = score;
+    document.getElementById('score').textContent = score;
     launchConfetti();
   } else {
     bubble.classList.add('shake');
     setTimeout(() => bubble.classList.add('wrong-bubble'), 400);
-    // Show correct bubble
     allBubbles.forEach(b => {
       if (parseInt(b.dataset.value) === correct) {
-        b.style.boxShadow = '0 0 0 3px #00B894, 0 6px 24px rgba(0,184,148,0.5)';
+        b.style.boxShadow = '0 0 0 3px #00B894,0 6px 24px rgba(0,184,148,0.5)';
       }
     });
     document.getElementById('eqBlank').textContent = correct;
     document.getElementById('eqBlank').style.background = 'rgba(0,184,148,0.3)';
     document.getElementById('eqBlank').style.border = '2px solid #00B894';
-    document.getElementById('eqBlank').style.color = '#55EFC4';
+    document.getElementById('eqBlank').style.color = '#059669';
     fb.className = 'feedback-box wrong';
     fb.textContent = `✗ Not quite! The answer was ${correct}.`;
   }
@@ -446,7 +315,6 @@ function handleBubble(bubble, chosen, correct, equationStr) {
 
 function advance() {
   currentRound++;
-  // Reset eq-blank style
   const blank = document.getElementById('eqBlank');
   blank.style.background = '';
   blank.style.border = '';
@@ -457,9 +325,7 @@ function advance() {
 
 function updateProgress() {
   const pct = Math.round((currentRound / 10) * 100);
-  document.getElementById('progressLabel').textContent = `Question ${currentRound + 1} of 10`;
-  document.getElementById('progressPercent').textContent = `${pct}%`;
-  document.getElementById('progressFill').style.width = `${pct}%`;
+  document.getElementById('progressBar').style.width = `${pct}%`;
 }
 
 function launchConfetti() {
@@ -489,7 +355,7 @@ function showEndScreen() {
 
 function restartGame() {
   currentRound = 0; score = 0;
-  document.getElementById('scoreVal').textContent = 0;
+  document.getElementById('score').textContent = 0;
   document.getElementById('endOverlay').classList.remove('show');
   generateRounds(); renderRound();
 }

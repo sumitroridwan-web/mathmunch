@@ -3,366 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Rounding Rocket – MathMunch</title>
 <style>
 :root {
-  --primary: #3B82F6;
-  --primary-light: #EFF6FF;
-  --accent: #FDCB6E;
-  --n1: #FF6B6B;
-  --n2: #FF8E53;
-  --bg: #0F0F2D;
-  --white: #FFFFFF;
-  --text: #1E1E2E;
-  --text2: #525270;
-  --green: #00B894;
-  --red: #FF4757;
-  --radius: 16px;
-  --shadow: 0 4px 20px rgba(59,130,246,0.12);
+  --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+  --green:#10B981;--orange:#F97316;
+  --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+  --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+  --canvas:#DBEAFE;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Lexend', system-ui, sans-serif;
-  background: #0F0F2D;
-  color: var(--white);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-/* Stars background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.75) 1px, transparent 1px),
-    radial-gradient(circle, rgba(200,220,255,0.8) 1px, transparent 1px);
-  background-size: 150px 150px, 100px 100px, 200px 200px, 80px 80px;
-  background-position: 20px 30px, 60px 70px, 110px 50px, 30px 120px;
-  pointer-events: none;
-  z-index: 0;
-}
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--blue);text-decoration:none;}
+.header-nav{display:flex;gap:24px;}
+.header-nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--text-mid);}
+.header-nav a:hover{color:var(--blue);}
+.header-cta{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Lexend',sans-serif;}
+.header-cta:hover{background:var(--blue-dark);}
 
-/* TOP BAR */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(15,15,45,0.95);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(59,130,246,0.3);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 0 20px;
-  height: 60px;
-}
-.topbar a.back-btn {
-  text-decoration: none;
-  color: #A89EFF;
-  font-weight: 600;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
-.topbar .brand {
-  font-weight: 800;
-  font-size: 1rem;
-  color: #A89EFF;
-  white-space: nowrap;
-}
-.topbar .game-title {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--white);
-  flex: 1;
-  text-align: center;
-}
-.level-badge {
-  background: #E0F7FF;
-  color: #0090C0;
-  font-weight: 700;
-  font-size: 0.78rem;
-  padding: 4px 10px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-.score-display {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--accent);
-  white-space: nowrap;
-}
+/* LAYOUT */
+.game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;max-width:1200px;margin:0 auto;padding:24px 20px;}
 
-/* MAIN */
-main {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  margin: 30px auto 100px;
-  padding: 0 16px;
-}
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--outline);border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;color:var(--text-mid);cursor:pointer;font-family:'Lexend',sans-serif;transition:background .2s;}
+.exit-btn:hover{background:#F1F5F9;}
+.stat-card{background:var(--white);border:1px solid var(--outline);border-radius:16px;padding:16px 18px;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:32px;font-weight:700;color:var(--text);}
+.stat-level-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.level-icon{font-size:20px;}
+.stat-value-sm{font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.level-progress{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;}
+.level-progress-fill{height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width .4s ease;}
+.hearts{font-size:22px;letter-spacing:4px;margin-top:4px;}
+.game-info-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.level-pill{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;}
+
+/* GAME CANVAS */
+.game-canvas{background:var(--canvas);border-radius:24px;padding:28px;position:relative;overflow:hidden;min-height:560px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.game-canvas > *{position:relative;z-index:1;}
+
+/* GAME AREA */
+.game-area{width:100%;}
 
 /* QUESTION CARD */
-.question-card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: var(--radius);
-  padding: 28px 24px;
-  text-align: center;
-  margin-bottom: 20px;
-  backdrop-filter: blur(4px);
-}
-.question-label {
-  font-size: 0.95rem;
-  color: rgba(255,255,255,0.6);
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-.question-number {
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: var(--accent);
-  letter-spacing: 4px;
-  margin: 8px 0;
-  text-shadow: 0 0 20px rgba(253,203,110,0.4);
-}
-.question-ask {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: rgba(255,255,255,0.9);
-  margin-top: 4px;
-}
+.question-card{background:var(--white);border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:20px;box-shadow:0 4px 20px rgba(59,130,246,0.12);}
+.question-label{font-size:0.95rem;color:var(--text-soft);margin-bottom:8px;font-weight:600;}
+.question-number{font-size:3.5rem;font-weight:900;color:var(--blue);letter-spacing:4px;margin:8px 0;}
+.question-ask{font-size:1.1rem;font-weight:700;color:var(--text);margin-top:4px;}
 
 /* NUMBER LINE */
-.number-line-wrap {
-  background: rgba(255,255,255,0.04);
-  border-radius: 12px;
-  padding: 24px 20px 16px;
-  margin: 16px 0;
-  position: relative;
-  overflow: visible;
-}
-.number-line-svg {
-  width: 100%;
-  overflow: visible;
-}
-.rocket-label {
-  font-size: 0.75rem;
-  fill: rgba(255,255,255,0.7);
-  text-anchor: middle;
-  font-family: 'Segoe UI', sans-serif;
-}
-.line-label {
-  font-size: 0.8rem;
-  fill: rgba(255,255,255,0.85);
-  text-anchor: middle;
-  font-family: 'Segoe UI', sans-serif;
-  font-weight: 700;
-}
-.number-dot {
-  transition: cx 0.5s ease;
-}
+.number-line-wrap{background:var(--white);border-radius:12px;padding:24px 20px 16px;margin:16px 0;position:relative;overflow:visible;box-shadow:0 2px 12px rgba(59,130,246,0.08);}
+.number-line-svg{width:100%;overflow:visible;}
+.rocket-label{font-size:0.75rem;fill:var(--text-soft);text-anchor:middle;font-family:'Lexend',sans-serif;}
+.line-label{font-size:0.8rem;fill:var(--text);text-anchor:middle;font-family:'Lexend',sans-serif;font-weight:700;}
+.number-dot{transition:cx .5s ease;}
 
 /* ANSWERS */
-.answers-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 16px;
-}
-.ans-btn {
-  background: rgba(255,255,255,0.08);
-  border: 2px solid rgba(59,130,246,0.4);
-  border-radius: var(--radius);
-  padding: 16px 12px;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--white);
-  cursor: pointer;
-  transition: all 0.18s ease;
-}
-.ans-btn:hover:not(:disabled) {
-  background: rgba(59,130,246,0.3);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
-.ans-btn:disabled { cursor: default; }
-.ans-btn.correct {
-  background: rgba(0,184,148,0.2);
-  border-color: var(--green);
-  color: #7EFFD8;
-  animation: popIn 0.3s ease;
-}
-.ans-btn.wrong {
-  background: rgba(255,71,87,0.2);
-  border-color: var(--red);
-  color: #FF8E9E;
-}
-.ans-btn.reveal {
-  background: rgba(0,184,148,0.2);
-  border-color: var(--green);
-  color: #7EFFD8;
-}
-@keyframes popIn {
-  0% { transform: scale(0.9); }
-  60% { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.ans-btn{background:var(--white);border:2px solid var(--blue-light);border-radius:16px;padding:16px 12px;font-size:1.3rem;font-weight:800;color:var(--text);cursor:pointer;transition:all .18s ease;font-family:'Lexend',sans-serif;}
+.ans-btn:hover:not(:disabled){background:var(--blue-light);border-color:var(--blue);transform:translateY(-2px);}
+.ans-btn:disabled{cursor:default;}
+.ans-btn.correct{background:rgba(16,185,129,0.1);border-color:var(--green);color:var(--green);animation:popIn .3s ease;}
+.ans-btn.wrong{background:rgba(239,68,68,0.08);border-color:#EF4444;color:#EF4444;}
+.ans-btn.reveal{background:rgba(16,185,129,0.1);border-color:var(--green);color:var(--green);}
+@keyframes popIn{0%{transform:scale(0.9);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
 
 /* FEEDBACK */
-.feedback {
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-size: 1rem;
-  font-weight: 700;
-  text-align: center;
-  margin-top: 12px;
-  display: none;
-}
-.feedback.show { display: block; }
-.feedback.correct-fb { background: rgba(0,184,148,0.15); color: #7EFFD8; border: 1px solid rgba(0,184,148,0.3); }
-.feedback.wrong-fb { background: rgba(255,71,87,0.15); color: #FF8E9E; border: 1px solid rgba(255,71,87,0.3); }
-
-/* ROCKET ANIMATION */
-@keyframes rocketLaunch {
-  0% { transform: translateX(0) rotate(-45deg); }
-  30% { transform: translateX(-10px) translateY(10px) rotate(-45deg); }
-  100% { transform: translateX(var(--rocket-dx)) translateY(-30px) rotate(-45deg); }
-}
-
-/* PROGRESS BAR */
-.progress-bar-wrap {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: rgba(15,15,45,0.95);
-  border-top: 1px solid rgba(59,130,246,0.2);
-  padding: 10px 20px 14px;
-}
-.progress-info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 6px;
-}
-.progress-track {
-  height: 10px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 99px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg,#60A5FA,#3B82F6);
-  border-radius: 99px;
-  transition: width 0.4s ease;
-}
+.feedback{border-radius:12px;padding:12px 16px;font-size:1rem;font-weight:700;text-align:center;margin-top:12px;display:none;}
+.feedback.show{display:block;}
+.feedback.correct-fb{background:rgba(16,185,129,0.1);color:var(--green);}
+.feedback.wrong-fb{background:rgba(239,68,68,0.08);color:#EF4444;}
 
 /* END SCREEN */
-.end-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 300;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  display: none;
-}
-.end-overlay.show { display: flex; }
-.end-card {
-  background: var(--white);
-  border-radius: 24px;
-  padding: 40px 32px;
-  text-align: center;
-  max-width: 380px;
-  width: 90%;
-  box-shadow: 0 8px 60px rgba(0,0,0,0.6);
-  color: var(--text);
-}
-.end-emoji { font-size: 3.5rem; margin-bottom: 8px; }
-.end-title { font-size: 1.6rem; font-weight: 900; color: var(--primary); margin-bottom: 4px; }
-.end-score { font-size: 2.2rem; font-weight: 900; color: var(--text); margin: 12px 0; }
-.end-stars { font-size: 2rem; margin: 8px 0 20px; }
-.end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.btn-primary {
-  background: var(--primary);
-  color: var(--white);
-  border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: transform 0.15s;
-}
-.btn-primary:hover { transform: scale(1.05); }
-.btn-secondary {
-  background: var(--primary-light);
-  color: var(--primary);
-  border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: transform 0.15s;
-}
-.btn-secondary:hover { transform: scale(1.05); }
+.end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:300;display:none;align-items:center;justify-content:center;}
+.end-overlay.show{display:flex;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 32px;text-align:center;max-width:380px;width:90%;box-shadow:0 8px 60px rgba(0,0,0,0.3);color:var(--text);}
+.end-emoji{font-size:3.5rem;margin-bottom:8px;}
+.end-title{font-size:1.6rem;font-weight:900;color:var(--blue);margin-bottom:4px;}
+.end-score{font-size:2.2rem;font-weight:900;color:var(--text);margin:12px 0;}
+.end-stars{font-size:2rem;margin:8px 0 20px;}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:var(--blue);color:var(--white);border:none;border-radius:12px;padding:12px 24px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s;font-family:'Lexend',sans-serif;}
+.btn-primary:hover{transform:scale(1.05);}
+.btn-secondary{background:var(--blue-light);color:var(--blue);border:none;border-radius:12px;padding:12px 24px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s;font-family:'Lexend',sans-serif;}
+.btn-secondary:hover{transform:scale(1.05);}
+
+@media(max-width:768px){.game-layout{grid-template-columns:1fr;}.site-header .header-nav{display:none;}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<div class="topbar">
-  <a href="../../index.html" class="back-btn">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="game-title">Rounding Rocket 🚀</span>
-  <span class="level-badge">P3</span>
-  <span class="score-display" id="scoreDisplay">⭐ 0</span>
+<!-- HEADER -->
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Progress</a>
+  </nav>
+  <button class="header-cta" onclick="window.location.href='../../index.html'">Play Now</button>
+</header>
+
+<!-- LAYOUT -->
+<div class="game-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 3</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Rounding Rocket</div>
+      <span class="level-pill">P3</span>
+    </div>
+  </aside>
+
+  <!-- GAME CANVAS -->
+  <div class="game-canvas">
+    <div class="game-area" id="gameArea">
+      <div class="question-card">
+        <div class="question-label" id="qLabel">Round this number:</div>
+        <div class="question-number" id="qNumber">347</div>
+        <div class="question-ask" id="qAsk">to the nearest 100</div>
+      </div>
+
+      <div class="number-line-wrap">
+        <svg class="number-line-svg" id="numberLineSvg" height="100" viewBox="0 0 700 100"></svg>
+      </div>
+
+      <div class="answers-grid" id="answersGrid"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+  </div>
 </div>
 
-<main id="gameArea">
-  <div class="question-card">
-    <div class="question-label" id="qLabel">Round this number:</div>
-    <div class="question-number" id="qNumber">347</div>
-    <div class="question-ask" id="qAsk">to the nearest 100</div>
-  </div>
-
-  <div class="number-line-wrap">
-    <svg class="number-line-svg" id="numberLineSvg" height="100" viewBox="0 0 700 100"></svg>
-  </div>
-
-  <div class="answers-grid" id="answersGrid"></div>
-  <div class="feedback" id="feedback"></div>
-</main>
-
-<div class="progress-bar-wrap">
-  <div class="progress-info">
-    <span id="progressLabel">Question 1 of 10</span>
-    <span id="progressPct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
-  </div>
-</div>
-
+<!-- END SCREEN -->
 <div class="end-overlay" id="endOverlay">
   <div class="end-card">
     <div class="end-emoji" id="endEmoji">🚀</div>
@@ -377,217 +175,129 @@ main {
 </div>
 
 <script>
-let currentQuestion = 0;
-let score = 0;
-let answered = false;
-const TOTAL = 10;
+let currentQuestion=0, score=0, answered=false;
+const TOTAL=10;
 
 function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
 function shuffle(arr){ for(let i=arr.length-1;i>0;i--){const j=rand(0,i);[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+function roundTo(num,n){ return Math.round(num/n)*n; }
 
-// Round to nearest N
-function roundTo(num, n){ return Math.round(num/n)*n; }
-
-// Round definitions
-const ROUND_DEFS = [
-  {range:[11,99],  roundTo:10,   label:'10'},
-  {range:[11,99],  roundTo:10,   label:'10'},
-  {range:[11,99],  roundTo:10,   label:'10'},
-  {range:[101,999],roundTo:10,   label:'10'},
-  {range:[101,999],roundTo:10,   label:'10'},
-  {range:[101,999],roundTo:100,  label:'100'},
-  {range:[101,999],roundTo:100,  label:'100'},
-  {range:[1001,9999],roundTo:100,label:'100'},
-  {range:[1001,9999],roundTo:100,label:'100'},
+const ROUND_DEFS=[
+  {range:[11,99],roundTo:10,label:'10'},{range:[11,99],roundTo:10,label:'10'},{range:[11,99],roundTo:10,label:'10'},
+  {range:[101,999],roundTo:10,label:'10'},{range:[101,999],roundTo:10,label:'10'},
+  {range:[101,999],roundTo:100,label:'100'},{range:[101,999],roundTo:100,label:'100'},
+  {range:[1001,9999],roundTo:100,label:'100'},{range:[1001,9999],roundTo:100,label:'100'},
   {range:[1001,9999],roundTo:1000,label:'1000'},
 ];
 
-let questions = [];
+let questions=[];
 
 function generateQuestions(){
-  questions = [];
+  questions=[];
   for(let i=0;i<TOTAL;i++){
-    const def = ROUND_DEFS[i];
+    const def=ROUND_DEFS[i];
     let num, answer;
-    // make sure rounding is interesting (not already rounded)
-    do {
-      num = rand(def.range[0], def.range[1]);
-      answer = roundTo(num, def.roundTo);
-    } while(answer===num);
-
-    const lower = answer < num ? answer : answer - def.roundTo;
-    const upper = lower + def.roundTo;
-
-    // Distractors: other multiples of roundTo
-    const opts = new Set([answer]);
-    const extras = [lower - def.roundTo, upper + def.roundTo, lower - 2*def.roundTo, upper + 2*def.roundTo];
-    for(const e of extras){ if(opts.size<4 && e>0) opts.add(e); }
-    while(opts.size<4) opts.add(answer + opts.size * def.roundTo);
-
-    questions.push({
-      num, answer,
-      roundTo: def.roundTo,
-      roundLabel: def.label,
-      lower, upper,
-      options: shuffle([...opts])
-    });
+    do { num=rand(def.range[0],def.range[1]); answer=roundTo(num,def.roundTo); } while(answer===num);
+    const lower=answer<num?answer:answer-def.roundTo, upper=lower+def.roundTo;
+    const opts=new Set([answer]);
+    const extras=[lower-def.roundTo,upper+def.roundTo,lower-2*def.roundTo,upper+2*def.roundTo];
+    for(const e of extras){ if(opts.size<4&&e>0) opts.add(e); }
+    while(opts.size<4) opts.add(answer+opts.size*def.roundTo);
+    questions.push({num,answer,roundTo:def.roundTo,roundLabel:def.label,lower,upper,options:shuffle([...opts])});
   }
 }
 
 function renderNumberLine(q){
-  const svg = document.getElementById('numberLineSvg');
+  const svg=document.getElementById('numberLineSvg');
   svg.innerHTML='';
-  const W = 700, H = 100;
-  const pad = 80;
-  const lineY = 55;
+  const W=700,H=100,pad=80,lineY=55;
+  const lo=q.lower,hi=q.upper,num=q.num,span=hi-lo;
 
-  const lo = q.lower, hi = q.upper, num = q.num;
-  const span = hi - lo;
+  function xPos(val){ return pad+((val-lo)/span)*(W-pad*2); }
+  const loX=xPos(lo),hiX=xPos(hi),numX=xPos(num);
 
-  function xPos(val){
-    return pad + ((val - lo) / span) * (W - pad*2);
-  }
+  const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+  line.setAttribute('x1',pad-20);line.setAttribute('y1',lineY);line.setAttribute('x2',W-pad+20);line.setAttribute('y2',lineY);
+  line.setAttribute('stroke','#CBD5E1');line.setAttribute('stroke-width','3');svg.appendChild(line);
 
-  const loX = xPos(lo), hiX = xPos(hi), numX = xPos(num);
-
-  // Main line
-  const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-  line.setAttribute('x1', pad-20); line.setAttribute('y1', lineY);
-  line.setAttribute('x2', W-pad+20); line.setAttribute('y2', lineY);
-  line.setAttribute('stroke','rgba(255,255,255,0.3)'); line.setAttribute('stroke-width','3');
-  svg.appendChild(line);
-
-  // Tick marks & labels
-  [[lo, loX],[hi, hiX]].forEach(([val, x]) => {
-    const tick = document.createElementNS('http://www.w3.org/2000/svg','line');
-    tick.setAttribute('x1',x); tick.setAttribute('y1',lineY-12);
-    tick.setAttribute('x2',x); tick.setAttribute('y2',lineY+12);
-    tick.setAttribute('stroke','rgba(255,255,255,0.6)'); tick.setAttribute('stroke-width','2');
-    svg.appendChild(tick);
-
-    const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
-    txt.setAttribute('x',x); txt.setAttribute('y',lineY+30);
-    txt.setAttribute('class','line-label');
-    txt.textContent = val;
-    svg.appendChild(txt);
+  [[lo,loX],[hi,hiX]].forEach(([val,x])=>{
+    const tick=document.createElementNS('http://www.w3.org/2000/svg','line');
+    tick.setAttribute('x1',x);tick.setAttribute('y1',lineY-12);tick.setAttribute('x2',x);tick.setAttribute('y2',lineY+12);
+    tick.setAttribute('stroke','#94A3B8');tick.setAttribute('stroke-width','2');svg.appendChild(tick);
+    const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',x);txt.setAttribute('y',lineY+30);txt.setAttribute('class','line-label');txt.textContent=val;svg.appendChild(txt);
   });
 
-  // Number position dot (yellow)
-  const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
-  dot.setAttribute('cx', numX); dot.setAttribute('cy', lineY);
-  dot.setAttribute('r','8'); dot.setAttribute('fill','#FDCB6E');
-  dot.setAttribute('class','number-dot');
-  dot.id = 'numDot';
-  svg.appendChild(dot);
-
-  // Rocket at num position
-  const rocket = document.createElementNS('http://www.w3.org/2000/svg','text');
-  rocket.setAttribute('x', numX); rocket.setAttribute('y', lineY-18);
-  rocket.setAttribute('text-anchor','middle'); rocket.setAttribute('font-size','22');
-  rocket.id = 'rocketEmoji';
-  rocket.textContent = '🚀';
-  svg.appendChild(rocket);
-
-  // Label for num
-  const numLbl = document.createElementNS('http://www.w3.org/2000/svg','text');
-  numLbl.setAttribute('x', numX); numLbl.setAttribute('y', lineY-40);
-  numLbl.setAttribute('class','rocket-label');
-  numLbl.textContent = num;
-  svg.appendChild(numLbl);
+  const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  dot.setAttribute('cx',numX);dot.setAttribute('cy',lineY);dot.setAttribute('r','8');dot.setAttribute('fill','#FDCB6E');dot.setAttribute('class','number-dot');dot.id='numDot';svg.appendChild(dot);
+  const rocket=document.createElementNS('http://www.w3.org/2000/svg','text');
+  rocket.setAttribute('x',numX);rocket.setAttribute('y',lineY-18);rocket.setAttribute('text-anchor','middle');rocket.setAttribute('font-size','22');rocket.id='rocketEmoji';rocket.textContent='🚀';svg.appendChild(rocket);
+  const numLbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+  numLbl.setAttribute('x',numX);numLbl.setAttribute('y',lineY-40);numLbl.setAttribute('class','rocket-label');numLbl.textContent=num;svg.appendChild(numLbl);
 }
 
-function animateRocket(q, correct){
-  const svg = document.getElementById('numberLineSvg');
-  const W = 700, pad = 80;
-  const lo = q.lower, hi = q.upper, num = q.num;
-  const span = hi - lo;
-  function xPos(val){ return pad + ((val-lo)/span)*(W-pad*2); }
-
-  const targetX = xPos(q.answer);
-  const rocket = document.getElementById('rocketEmoji');
+function animateRocket(q){
+  const svg=document.getElementById('numberLineSvg');
+  const W=700,pad=80,lo=q.lower,hi=q.upper,num=q.num,span=hi-lo;
+  function xPos(val){ return pad+((val-lo)/span)*(W-pad*2); }
+  const targetX=xPos(q.answer),startX=xPos(num);
+  const rocket=document.getElementById('rocketEmoji');
   if(!rocket) return;
-
-  // Animate using JS
-  const startX = xPos(num);
-  const startTime = performance.now();
-  const duration = 600;
+  const startTime=performance.now(),duration=600;
   function frame(now){
-    const t = Math.min((now - startTime)/duration, 1);
-    const ease = 1 - Math.pow(1-t, 3);
-    const x = startX + (targetX - startX)*ease;
-    const y = 55 - 18 - Math.sin(t*Math.PI)*30;
-    rocket.setAttribute('x', x);
-    rocket.setAttribute('y', y);
+    const t=Math.min((now-startTime)/duration,1);
+    const ease=1-Math.pow(1-t,3);
+    const x=startX+(targetX-startX)*ease;
+    const y=55-18-Math.sin(t*Math.PI)*30;
+    rocket.setAttribute('x',x);rocket.setAttribute('y',y);
     if(t<1) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 }
 
 function showQuestion(){
-  answered = false;
-  const q = questions[currentQuestion];
+  answered=false;
+  const q=questions[currentQuestion];
   document.getElementById('qLabel').textContent='Round this number:';
   document.getElementById('qNumber').textContent=q.num;
   document.getElementById('qAsk').textContent=`to the nearest ${q.roundLabel}`;
-
-  const fb = document.getElementById('feedback');
-  fb.className='feedback'; fb.textContent='';
-
+  const fb=document.getElementById('feedback'); fb.className='feedback'; fb.textContent='';
   renderNumberLine(q);
-
-  const grid = document.getElementById('answersGrid');
-  grid.innerHTML='';
+  const grid=document.getElementById('answersGrid'); grid.innerHTML='';
   q.options.forEach(opt=>{
-    const btn = document.createElement('button');
-    btn.className='ans-btn';
-    btn.textContent=opt;
-    btn.onclick=()=>handleAnswer(opt, btn, q);
-    grid.appendChild(btn);
+    const btn=document.createElement('button'); btn.className='ans-btn'; btn.textContent=opt;
+    btn.onclick=()=>handleAnswer(opt,btn,q); grid.appendChild(btn);
   });
-
   updateProgress();
 }
 
-function handleAnswer(chosen, btn, q){
+function handleAnswer(chosen,btn,q){
   if(answered) return;
   answered=true;
-  const btns = document.querySelectorAll('.ans-btn');
-  btns.forEach(b=>b.disabled=true);
-  const fb = document.getElementById('feedback');
+  const btns=document.querySelectorAll('.ans-btn'); btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedback');
   if(chosen===q.answer){
-    score++;
-    document.getElementById('scoreDisplay').textContent='⭐ '+score;
-    btn.classList.add('correct');
-    fb.textContent='🚀 Correct! Blast off!';
-    fb.className='feedback show correct-fb';
-    animateRocket(q, true);
+    score++; document.getElementById('score').textContent=score;
+    btn.classList.add('correct'); fb.textContent='🚀 Correct! Blast off!'; fb.className='feedback show correct-fb';
+    animateRocket(q);
   } else {
-    btn.classList.add('wrong');
-    btns.forEach(b=>{ if(+b.textContent===q.answer) b.classList.add('reveal'); });
-    fb.textContent=`❌ Not quite! ${q.num} rounds to ${q.answer}.`;
-    fb.className='feedback show wrong-fb';
-    animateRocket(q, false);
+    btn.classList.add('wrong'); btns.forEach(b=>{ if(+b.textContent===q.answer) b.classList.add('reveal'); });
+    fb.textContent=`❌ Not quite! ${q.num} rounds to ${q.answer}.`; fb.className='feedback show wrong-fb';
+    animateRocket(q);
   }
-  setTimeout(nextQuestion, 1400);
+  setTimeout(nextQuestion,1400);
 }
 
-function nextQuestion(){
-  currentQuestion++;
-  if(currentQuestion>=TOTAL){ showEnd(); return; }
-  showQuestion();
-}
+function nextQuestion(){ currentQuestion++; if(currentQuestion>=TOTAL){ showEnd(); return; } showQuestion(); }
 
 function updateProgress(){
-  const pct = Math.round((currentQuestion/TOTAL)*100);
-  document.getElementById('progressLabel').textContent=`Question ${currentQuestion+1} of ${TOTAL}`;
-  document.getElementById('progressPct').textContent=pct+'%';
-  document.getElementById('progressFill').style.width=pct+'%';
+  const pct=Math.round((currentQuestion/TOTAL)*100);
+  document.getElementById('progressBar').style.width=pct+'%';
 }
 
 function showEnd(){
-  document.getElementById('progressFill').style.width='100%';
-  document.getElementById('progressPct').textContent='100%';
-  let emoji='🚀', title='Brilliant!', stars='★★★';
+  document.getElementById('progressBar').style.width='100%';
+  let emoji='🚀',title='Brilliant!',stars='★★★';
   if(score<7){ emoji='💪'; title='Keep Trying!'; stars='★☆☆'; }
   else if(score<9){ emoji='👍'; title='Well Done!'; stars='★★☆'; }
   document.getElementById('endEmoji').textContent=emoji;
@@ -599,10 +309,9 @@ function showEnd(){
 
 function restartGame(){
   currentQuestion=0; score=0;
-  document.getElementById('scoreDisplay').textContent='⭐ 0';
+  document.getElementById('score').textContent=0;
   document.getElementById('endOverlay').classList.remove('show');
-  generateQuestions();
-  showQuestion();
+  generateQuestions(); showQuestion();
 }
 
 generateQuestions();

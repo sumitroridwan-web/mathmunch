@@ -3,312 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Skip Counting Spaceship – MathMunch</title>
 <style>
-  :root {
-    --primary: #3B82F6;
-    --primary-light: #EFF6FF;
-    --accent: #FDCB6E;
-    --n1: #FF6B6B;
-    --n2: #FF8E53;
-    --bg: #F0F4FF;
-    --white: #FFFFFF;
-    --text: #1E1E2E;
-    --text2: #525270;
-    --green: #00B894;
-    --red: #FF4757;
-    --radius: 16px;
-    --shadow: 0 4px 20px rgba(59,130,246,0.12);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Lexend', system-ui, sans-serif;
-    background: #0A0A2E;
-    color: var(--white);
-    min-height: 100vh;
-    padding-bottom: 80px;
-    overflow-x: hidden;
-    position: relative;
-  }
+:root {
+  --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+  --green:#10B981;--orange:#F97316;
+  --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+  --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+  --canvas:#DBEAFE;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-  /* STARS */
-  .stars-bg {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    overflow: hidden;
-  }
-  .star {
-    position: absolute; background: white; border-radius: 50%;
-    animation: twinkle 2s infinite ease-in-out;
-  }
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:200;background:var(--white);border-bottom:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--blue);text-decoration:none;}
+.header-nav{display:flex;gap:24px;}
+.header-nav a{text-decoration:none;font-size:14px;font-weight:600;color:var(--text-mid);}
+.header-nav a:hover{color:var(--blue);}
+.header-cta{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Lexend',sans-serif;}
+.header-cta:hover{background:var(--blue-dark);}
 
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.3); }
-  }
+/* LAYOUT */
+.game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;max-width:1200px;margin:0 auto;padding:24px 20px;}
 
-  /* TOP BAR */
-  .topbar {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(15,10,50,0.95);
-    box-shadow: 0 2px 12px rgba(59,130,246,0.25);
-    backdrop-filter: blur(8px);
-    display: flex; align-items: center; gap: 12px;
-    padding: 0 20px; height: 60px;
-  }
-  .topbar a {
-    text-decoration: none; color: #93C5FD;
-    font-weight: 600; font-size: 14px;
-    display: flex; align-items: center; gap: 4px;
-    padding: 6px 10px; border-radius: 8px;
-    transition: background 0.2s;
-  }
-  .topbar a:hover { background: rgba(162,155,254,0.15); }
-  .topbar .brand {
-    font-weight: 800; font-size: 18px;
-    background: linear-gradient(135deg,#93C5FD,var(--accent));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .topbar .game-title {
-    font-weight: 700; font-size: 16px; color: var(--white);
-    margin-left: 4px;
-  }
-  .topbar .spacer { flex: 1; }
-  .level-badge {
-    background: #FFFBE0; color: #F0A500;
-    font-weight: 700; font-size: 12px;
-    padding: 4px 10px; border-radius: 20px;
-  }
-  .score-display {
-    font-weight: 700; font-size: 15px; color: var(--white);
-    display: flex; align-items: center; gap: 4px;
-  }
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--outline);border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;color:var(--text-mid);cursor:pointer;font-family:'Lexend',sans-serif;transition:background .2s;}
+.exit-btn:hover{background:#F1F5F9;}
+.stat-card{background:var(--white);border:1px solid var(--outline);border-radius:16px;padding:16px 18px;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:32px;font-weight:700;color:var(--text);}
+.stat-level-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.level-icon{font-size:20px;}
+.stat-value-sm{font-family:'Quicksand',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.level-progress{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;}
+.level-progress-fill{height:100%;background:var(--blue);border-radius:99px;width:0%;transition:width .4s ease;}
+.hearts{font-size:22px;letter-spacing:4px;margin-top:4px;}
+.game-info-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.level-pill{background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;}
 
-  /* GAME AREA */
-  .game-area {
-    max-width: 800px; margin: 0 auto; padding: 24px 16px;
-    position: relative; z-index: 1;
-  }
+/* GAME CANVAS */
+.game-canvas{background:var(--canvas);border-radius:24px;padding:28px;position:relative;overflow:hidden;min-height:560px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+.game-canvas > *{position:relative;z-index:1;}
 
-  /* HEADER */
-  .game-header {
-    text-align: center; margin-bottom: 24px;
-    position: relative;
-  }
-  .round-label {
-    font-size: 14px; color: #93C5FD; font-weight: 600;
-    margin-bottom: 8px;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .skip-rule {
-    font-size: 22px; font-weight: 800;
-    background: linear-gradient(135deg,#93C5FD,var(--accent));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 4px;
-  }
-  .rocket-container {
-    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-    font-size: 48px;
-    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1);
-  }
-  .rocket-container.zooming {
-    animation: rocketZoom 0.8s ease forwards;
-  }
-  @keyframes rocketZoom {
-    0% { transform: translateY(-50%) translateX(0) rotate(0deg); }
-    50% { transform: translateY(-80%) translateX(80px) rotate(-20deg) scale(1.4); }
-    100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
-  }
+/* GAME AREA */
+.game-area{width:100%;}
 
-  /* SEQUENCE CARDS */
-  .sequence-wrap {
-    display: flex; gap: 10px; justify-content: center;
-    flex-wrap: wrap; margin-bottom: 28px;
-  }
-  .seq-card {
-    width: 80px; height: 80px;
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 800;
-    position: relative;
-  }
-  .seq-card.known {
-    background: rgba(255,255,255,0.1);
-    border: 2px solid rgba(255,255,255,0.2);
-    color: white;
-  }
-  .seq-card.blank {
-    background: transparent;
-    border: 3px dashed #93C5FD;
-    color: #93C5FD;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  .seq-card.blank.filled-correct {
-    background: rgba(0,184,148,0.2);
-    border: 3px solid var(--green);
-    color: var(--green);
-    animation: none;
-  }
-  .seq-card.blank.filled-wrong {
-    background: rgba(255,71,87,0.2);
-    border: 3px solid var(--red);
-    color: var(--red);
-    animation: none;
-  }
-  @keyframes pulse {
-    0%,100% { border-color: #93C5FD; box-shadow: 0 0 0 0 rgba(162,155,254,0.4); }
-    50% { border-color: #FDCB6E; box-shadow: 0 0 0 8px rgba(253,203,110,0.15); }
-  }
+/* HEADER */
+.game-header{text-align:center;margin-bottom:24px;position:relative;}
+.round-label{font-size:14px;color:var(--blue);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;}
+.skip-rule{font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.rocket-container{position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:48px;transition:transform .6s cubic-bezier(0.23,1,0.32,1);}
+.rocket-container.zooming{animation:rocketZoom .8s ease forwards;}
+@keyframes rocketZoom{0%{transform:translateY(-50%) translateX(0) rotate(0deg);}50%{transform:translateY(-80%) translateX(80px) rotate(-20deg) scale(1.4);}100%{transform:translateY(-50%) translateX(0) rotate(0deg);}}
 
-  /* ANSWER BUTTONS */
-  .answers-label {
-    text-align: center; font-size: 14px; color: #93C5FD;
-    font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 14px;
-  }
-  .answers-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 12px; max-width: 400px; margin: 0 auto;
-  }
-  .ans-btn {
-    padding: 18px; border-radius: 14px;
-    background: rgba(162,155,254,0.12);
-    border: 2px solid rgba(162,155,254,0.3);
-    color: white; font-size: 22px; font-weight: 800;
-    cursor: pointer;
-    transition: background 0.15s, transform 0.1s, border-color 0.15s, box-shadow 0.15s;
-    text-align: center;
-  }
-  .ans-btn:hover:not(:disabled) {
-    background: rgba(162,155,254,0.25);
-    border-color: #93C5FD;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(162,155,254,0.3);
-  }
-  .ans-btn:disabled { cursor: default; opacity: 0.6; }
-  .ans-btn.correct { background: rgba(0,184,148,0.3); border-color: var(--green); color: var(--green); }
-  .ans-btn.wrong { background: rgba(255,71,87,0.3); border-color: var(--red); color: var(--red); }
+/* SEQUENCE CARDS */
+.sequence-wrap{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
+.seq-card{width:80px;height:80px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;position:relative;}
+.seq-card.known{background:rgba(59,130,246,0.1);border:2px solid rgba(59,130,246,0.2);color:var(--text);}
+.seq-card.blank{background:transparent;border:3px dashed var(--blue);color:var(--blue);animation:pulse 1.5s ease-in-out infinite;}
+.seq-card.blank.filled-correct{background:rgba(16,185,129,0.15);border:3px solid var(--green);color:var(--green);animation:none;}
+.seq-card.blank.filled-wrong{background:rgba(239,68,68,0.15);border:3px solid #EF4444;color:#EF4444;animation:none;}
+@keyframes pulse{0%,100%{border-color:var(--blue);box-shadow:0 0 0 0 rgba(59,130,246,0.4);}50%{border-color:var(--orange);box-shadow:0 0 0 8px rgba(249,115,22,0.1);}}
 
-  /* FEEDBACK */
-  .feedback-msg {
-    text-align: center; padding: 14px;
-    border-radius: 12px; margin-top: 16px;
-    font-weight: 700; font-size: 16px;
-    display: none;
-  }
-  .feedback-msg.show { display: block; }
-  .feedback-msg.correct { background: rgba(0,184,148,0.2); color: #4ECDC4; }
-  .feedback-msg.wrong { background: rgba(255,71,87,0.2); color: #FF6B6B; }
+/* ANSWER BUTTONS */
+.answers-label{text-align:center;font-size:14px;color:var(--blue);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:400px;margin:0 auto;}
+.ans-btn{padding:18px;border-radius:14px;background:var(--white);border:2px solid var(--outline);color:var(--text);font-size:22px;font-weight:800;cursor:pointer;transition:background .15s,transform .1s,border-color .15s,box-shadow .15s;text-align:center;font-family:'Lexend',sans-serif;}
+.ans-btn:hover:not(:disabled){background:var(--blue-light);border-color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 20px rgba(59,130,246,0.2);}
+.ans-btn:disabled{cursor:default;opacity:0.6;}
+.ans-btn.correct{background:rgba(16,185,129,0.15);border-color:var(--green);color:var(--green);}
+.ans-btn.wrong{background:rgba(239,68,68,0.1);border-color:#EF4444;color:#EF4444;}
 
-  /* PROGRESS BAR */
-  .progress-bar-wrap {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(15,10,50,0.95);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 -2px 12px rgba(59,130,246,0.25);
-    padding: 10px 20px;
-  }
-  .progress-info {
-    display: flex; justify-content: space-between;
-    font-size: 13px; font-weight: 600; color: #93C5FD;
-    margin-bottom: 6px;
-  }
-  .progress-track {
-    height: 10px; border-radius: 100px;
-    background: rgba(255,255,255,0.1); overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; border-radius: 100px;
-    background: linear-gradient(90deg,#60A5FA,#3B82F6);
-    transition: width 0.4s ease;
-  }
+/* FEEDBACK */
+.feedback-msg{text-align:center;padding:14px;border-radius:12px;margin-top:16px;font-weight:700;font-size:16px;display:none;}
+.feedback-msg.show{display:block;}
+.feedback-msg.correct{background:rgba(16,185,129,0.15);color:var(--green);}
+.feedback-msg.wrong{background:rgba(239,68,68,0.1);color:#EF4444;}
 
-  /* END SCREEN */
-  .end-overlay {
-    position: fixed; inset: 0; z-index: 300;
-    background: rgba(10,10,46,0.85);
-    backdrop-filter: blur(8px);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity 0.4s;
-  }
-  .end-overlay.show { opacity: 1; pointer-events: all; }
-  .end-card {
-    background: #16163A; border: 2px solid rgba(162,155,254,0.3);
-    border-radius: 24px; padding: 40px 48px; text-align: center;
-    box-shadow: 0 20px 60px rgba(59,130,246,0.4);
-    max-width: 420px; width: 90%;
-    transform: scale(0.85); transition: transform 0.4s;
-  }
-  .end-overlay.show .end-card { transform: scale(1); }
-  .end-emoji { font-size: 60px; margin-bottom: 12px; }
-  .end-title { font-size: 28px; font-weight: 800; color: white; margin-bottom: 6px; }
-  .end-score { font-size: 20px; color: #93C5FD; margin-bottom: 16px; }
-  .end-stars { font-size: 36px; margin-bottom: 8px; letter-spacing: 4px; color: var(--accent); }
-  .end-verdict { font-size: 18px; font-weight: 700; color: #93C5FD; margin-bottom: 24px; }
-  .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: linear-gradient(135deg,var(--primary),#8e78ff);
-    color: white; border: none; border-radius: 12px;
-    padding: 12px 28px; font-size: 16px; font-weight: 700;
-    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
-    box-shadow: 0 4px 14px rgba(59,130,246,0.4);
-    transition: transform 0.15s;
-  }
-  .btn-primary:hover { transform: translateY(-2px); }
-  .btn-secondary {
-    background: rgba(162,155,254,0.15); color: #93C5FD;
-    border: 2px solid rgba(162,155,254,0.3); border-radius: 12px;
-    padding: 12px 28px; font-size: 16px; font-weight: 700;
-    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
-    transition: background 0.2s;
-  }
-  .btn-secondary:hover { background: rgba(162,155,254,0.25); }
+/* END SCREEN */
+.end-overlay{position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;}
+.end-overlay.show{opacity:1;pointer-events:all;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 48px;text-align:center;box-shadow:0 20px 60px rgba(59,130,246,0.25);max-width:420px;width:90%;transform:scale(0.85);transition:transform .4s;}
+.end-overlay.show .end-card{transform:scale(1);}
+.end-emoji{font-size:60px;margin-bottom:12px;}
+.end-title{font-size:28px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.end-score{font-size:20px;color:#525270;margin-bottom:16px;}
+.end-stars{font-size:36px;margin-bottom:8px;letter-spacing:4px;}
+.end-verdict{font-size:18px;font-weight:700;color:var(--blue);margin-bottom:24px;}
+.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:linear-gradient(135deg,var(--blue),#8e78ff);color:white;border:none;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;box-shadow:0 4px 14px rgba(59,130,246,0.3);transition:transform .15s;font-family:'Lexend',sans-serif;}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{background:var(--blue-light);color:var(--blue);border:none;border-radius:12px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;font-family:'Lexend',sans-serif;}
+
+@media(max-width:768px){.game-layout{grid-template-columns:1fr;}.site-header .header-nav{display:none;}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- STARS BACKGROUND -->
-<div class="stars-bg" id="starsBg"></div>
+<!-- HEADER -->
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="#">Progress</a>
+  </nav>
+  <button class="header-cta" onclick="window.location.href='../../index.html'">Play Now</button>
+</header>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="../../index.html">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="game-title">🚀 Skip Counting Spaceship</span>
-  <div class="spacer"></div>
-  <span class="level-badge">P2</span>
-  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
-</div>
+<!-- LAYOUT -->
+<div class="game-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 2</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Skip Counting Spaceship</div>
+      <span class="level-pill">P2</span>
+    </div>
+  </aside>
 
-<!-- GAME AREA -->
-<div class="game-area">
-  <div class="game-header">
-    <div class="round-label">Round <span id="roundNum">1</span> of 10</div>
-    <div class="skip-rule" id="skipRule">Count in 2s</div>
-    <div class="rocket-container" id="rocket">🚀</div>
-  </div>
+  <!-- GAME CANVAS -->
+  <div class="game-canvas">
+    <div class="game-area">
+      <div class="game-header">
+        <div class="round-label">Round <span id="roundNum">1</span> of 10</div>
+        <div class="skip-rule" id="skipRule">Count in 2s</div>
+        <div class="rocket-container" id="rocket">🚀</div>
+      </div>
 
-  <!-- SEQUENCE -->
-  <div class="sequence-wrap" id="sequenceWrap"></div>
+      <!-- SEQUENCE -->
+      <div class="sequence-wrap" id="sequenceWrap"></div>
 
-  <!-- ANSWERS -->
-  <div class="answers-label">Choose the missing number:</div>
-  <div class="answers-grid" id="answersGrid"></div>
+      <!-- ANSWERS -->
+      <div class="answers-label">Choose the missing number:</div>
+      <div class="answers-grid" id="answersGrid"></div>
 
-  <!-- FEEDBACK -->
-  <div class="feedback-msg" id="feedbackMsg"></div>
-</div>
-
-<!-- PROGRESS BAR -->
-<div class="progress-bar-wrap">
-  <div class="progress-info">
-    <span>Question <span id="qNum">1</span> of 10</span>
-    <span id="pct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      <!-- FEEDBACK -->
+      <div class="feedback-msg" id="feedbackMsg"></div>
+    </div>
   </div>
 </div>
 
@@ -328,25 +183,6 @@
 </div>
 
 <script>
-  // Generate stars
-  (function() {
-    const bg = document.getElementById('starsBg');
-    const sizes = [2, 3, 2, 4, 2, 3, 2, 2, 3, 2];
-    for (let i = 0; i < 70; i++) {
-      const s = document.createElement('div');
-      s.className = 'star';
-      const size = sizes[i % sizes.length];
-      s.style.cssText = `
-        width:${size}px; height:${size}px;
-        left:${Math.random()*100}%;
-        top:${Math.random()*100}%;
-        animation-delay:${(Math.random()*3).toFixed(2)}s;
-        animation-duration:${(1.5+Math.random()*2).toFixed(2)}s;
-      `;
-      bg.appendChild(s);
-    }
-  })();
-
   const RULES = [
     { step: 2, label: 'Count in 2s', rounds: [0,1] },
     { step: 5, label: 'Count in 5s', rounds: [2,3] },
@@ -386,7 +222,6 @@
     const startIdx = Math.floor(Math.random() * (allStarts.length - 4));
     const seq = [];
     for (let i = 0; i < 5; i++) seq.push(allStarts[startIdx] + i * rule.step);
-    // Pick a random blank (not first or last to keep it interesting)
     const bi = 1 + Math.floor(Math.random() * 3);
     return { seq, blankIdx: bi };
   }
@@ -421,7 +256,6 @@
     document.getElementById('skipRule').textContent = rule.label;
     document.getElementById('feedbackMsg').className = 'feedback-msg';
 
-    // Render sequence
     const wrap = document.getElementById('sequenceWrap');
     wrap.innerHTML = '';
     seq.forEach((n, i) => {
@@ -432,7 +266,6 @@
       wrap.appendChild(card);
     });
 
-    // Render answer buttons
     const opts = generateOptions(currentAnswer, rule.step);
     const grid = document.getElementById('answersGrid');
     grid.innerHTML = '';
@@ -462,9 +295,8 @@
       blankCard.classList.add('filled-correct');
       blankCard.textContent = currentAnswer;
       score++;
-      document.getElementById('scoreDisplay').textContent = score;
+      document.getElementById('score').textContent = score;
       showFeedback(true, currentAnswer);
-      // Rocket zoom
       const rocket = document.getElementById('rocket');
       rocket.classList.remove('zooming');
       void rocket.offsetWidth;
@@ -473,7 +305,6 @@
       btnEl.classList.add('wrong');
       blankCard.classList.add('filled-wrong');
       blankCard.textContent = '✗';
-      // Show correct
       allBtns.forEach(b => {
         if (parseInt(b.textContent) === currentAnswer) b.classList.add('correct');
       });
@@ -495,9 +326,7 @@
 
   function updateProgress() {
     const pct = Math.round((round / 10) * 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('pct').textContent = pct + '%';
-    document.getElementById('qNum').textContent = Math.min(round + 1, 10);
+    document.getElementById('progressBar').style.width = pct + '%';
   }
 
   function showEnd() {
@@ -518,7 +347,7 @@
 
   function initGame() {
     round = 0; score = 0; busy = false;
-    document.getElementById('scoreDisplay').textContent = 0;
+    document.getElementById('score').textContent = 0;
     document.getElementById('endOverlay').classList.remove('show');
     renderRound();
   }

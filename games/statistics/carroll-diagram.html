@@ -1,130 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
-  <title>Carroll Diagram – MathMunch</title>
-  <style>
-    :root {
-      --s1: #FB923C; --s2: #F97316;
-      --bg: #F5F3FF; --white: #FFFFFF;
-      --dark: #1E1E2E; --mid: #525270;
-      --radius: 16px;
-      --shadow: 0 4px 20px rgba(249,115,22,0.15);
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(249,115,22,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
-    .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
-    .back-btn:hover{background:var(--s1);color:white}
-    .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
-    .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
-    .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
-    .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
-    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:12px;background:#FFF7ED;z-index:200}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FB923C,#F97316);transition:width .4s ease;border-radius:0 4px 4px 0}
-    .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
-    .end-screen.show{display:flex}
-    .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
-    @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-    .end-stars{font-size:2.5rem;margin-bottom:12px}
-    .end-title{font-size:1.8rem;font-weight:800;color:var(--dark);margin-bottom:8px}
-    .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
-    .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
-    .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
-    .btn-home{background:#FFF7ED;color:var(--s2);margin:0 6px}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
-    .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<title>Carroll Diagram – MathMunch</title>
+<style>
+  :root {
+    --orange:#F97316;--orange-dark:#EA580C;--orange-light:#FFF7ED;
+    --blue:#3B82F6;--green:#10B981;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#FFEDD5;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
 
-    /* Q counter and dots */
-    .q-counter{text-align:center;font-size:.95rem;font-weight:700;color:var(--mid);margin-bottom:12px}
-    .round-dots{display:flex;justify-content:center;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-    .rdot{width:24px;height:24px;border-radius:50%;background:#FFF7ED;border:2px solid #c8c0ff;transition:.3s}
-    .rdot.correct{background:linear-gradient(135deg,#55efc4,#00b894);border-color:#00b894}
-    .rdot.wrong{background:linear-gradient(135deg,#fd79a8,#e84393);border-color:#e84393}
-    .rdot.active{background:var(--s1);border-color:var(--s2);transform:scale(1.3)}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--orange-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--orange);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--orange-light);color:var(--orange);}
+  .btn-play-now{background:var(--orange);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--orange-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .btn-play-now:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
 
-    /* Number display */
-    .number-prompt{text-align:center;margin-bottom:28px}
-    .number-prompt p{font-size:.95rem;font-weight:600;color:var(--mid);margin-bottom:10px}
-    .big-number{display:inline-block;font-size:4rem;font-weight:900;color:var(--s2);background:white;border:4px solid var(--s1);border-radius:20px;padding:12px 36px;box-shadow:var(--shadow);animation:numPop .35s cubic-bezier(.34,1.56,.64,1);line-height:1.1}
-    @keyframes numPop{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
 
-    /* Carroll diagram table */
-    .carroll-wrap{overflow-x:auto;margin-bottom:24px}
-    .carroll-table{border-collapse:collapse;width:100%;max-width:560px;margin:0 auto}
-    .carroll-table th, .carroll-table td{border:3px solid var(--s2);padding:0}
-    /* Corner cell */
-    .corner-cell{background:#F5F3FF;border:3px solid var(--s2)!important;min-width:60px}
-    /* Column header cells */
-    .col-header{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;text-align:center;font-size:.9rem;font-weight:800;padding:12px 8px;letter-spacing:.3px;min-width:130px}
-    /* Row header cells */
-    .row-header{background:linear-gradient(135deg,#6C5CE7,#4834d4);color:white;text-align:center;font-size:.9rem;font-weight:800;padding:12px 8px;letter-spacing:.3px;min-width:120px;writing-mode:horizontal-tb}
-    /* Data cells */
-    .data-cell{background:white;text-align:center;vertical-align:middle;cursor:pointer;min-height:100px;height:100px;min-width:130px;transition:background .18s, transform .18s;position:relative;user-select:none}
-    .data-cell:hover:not(.disabled){background:#F0EFFF;transform:scale(1.02)}
-    .data-cell:active:not(.disabled){transform:scale(0.98)}
-    .data-cell.disabled{cursor:not-allowed}
-    .data-cell .cell-inner{display:flex;align-items:center;justify-content:center;height:100px;padding:8px;font-size:.85rem;font-weight:700;color:var(--mid)}
-    .data-cell.correct-cell{background:linear-gradient(135deg,#d4f5e9,#b2f0d8)!important;animation:cellGlow .5s ease}
-    .data-cell.wrong-cell{background:linear-gradient(135deg,#ffe4f0,#ffc8e0)!important;animation:cellShake .4s ease}
-    @keyframes cellGlow{0%,100%{box-shadow:none}50%{box-shadow:inset 0 0 20px rgba(0,184,148,0.4)}}
-    @keyframes cellShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-    .data-cell .cell-checkmark{position:absolute;top:8px;right:10px;font-size:1.3rem;opacity:0;transition:opacity .3s}
-    .data-cell.correct-cell .cell-checkmark{opacity:1}
-    .data-cell.wrong-cell .cell-checkmark{opacity:1}
-    /* Already placed numbers in cell */
-    .placed-numbers{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;align-items:center;width:100%;padding:4px}
-    .placed-num{background:linear-gradient(135deg,#55efc4,#00b894);color:white;font-size:.8rem;font-weight:800;border-radius:8px;padding:2px 7px}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--orange);color:var(--orange);}
+  .exit-btn:active{transform:translateY(1px);box-shadow:none;}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--orange);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.4rem;font-weight:700;color:var(--orange);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--orange);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--orange);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
 
-    /* Criteria reminder */
-    .criteria-hint{text-align:center;font-size:.85rem;color:var(--mid);margin-bottom:18px;background:white;border-radius:12px;padding:10px 16px;box-shadow:0 2px 8px rgba(249,115,22,0.1);max-width:560px;margin-left:auto;margin-right:auto;margin-bottom:18px}
-    .criteria-hint strong{color:var(--s2)}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(249,115,22,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
 
-    /* Feedback */
-    .feedback-strip{text-align:center;font-size:1.05rem;font-weight:700;min-height:36px;padding:8px 20px;border-radius:12px;transition:all .3s;margin-top:4px}
-    .feedback-strip.good{background:#d4f5e9;color:#00b894}
-    .feedback-strip.bad{background:#ffe4f0;color:#e84393}
-  </style>
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;margin:0 6px;}
+  .btn-play{background:var(--orange);color:white;box-shadow:0 3px 0 var(--orange-dark);}
+  .btn-play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);}
+
+  @media(max-width:768px){
+    .game-layout{grid-template-columns:1fr;padding:16px;}
+    .sidebar{flex-direction:row;flex-wrap:wrap;}
+    .stat-card{flex:1;min-width:140px;}
+    .site-nav{display:none;}
+  }
+
+  /* Game-specific CSS */
+  .q-counter{text-align:center;font-size:.95rem;font-weight:700;color:#525270;margin-bottom:12px}
+  .round-dots{display:flex;justify-content:center;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+  .rdot{width:24px;height:24px;border-radius:50%;background:#FFF7ED;border:2px solid #c8c0ff;transition:.3s}
+  .rdot.correct{background:linear-gradient(135deg,#55efc4,#00b894);border-color:#00b894}
+  .rdot.wrong{background:linear-gradient(135deg,#fd79a8,#e84393);border-color:#e84393}
+  .rdot.active{background:#FB923C;border-color:#F97316;transform:scale(1.3)}
+  .number-prompt{text-align:center;margin-bottom:28px}
+  .number-prompt p{font-size:.95rem;font-weight:600;color:#525270;margin-bottom:10px}
+  .big-number{display:inline-block;font-size:4rem;font-weight:900;color:#F97316;background:white;border:4px solid #FB923C;border-radius:20px;padding:12px 36px;box-shadow:0 4px 20px rgba(249,115,22,0.15);animation:numPop .35s cubic-bezier(.34,1.56,.64,1);line-height:1.1}
+  @keyframes numPop{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+  .carroll-wrap{overflow-x:auto;margin-bottom:24px}
+  .carroll-table{border-collapse:collapse;width:100%;max-width:560px;margin:0 auto}
+  .carroll-table th,.carroll-table td{border:3px solid #F97316;padding:0}
+  .corner-cell{background:#FFF7ED;border:3px solid #F97316!important;min-width:60px}
+  .col-header{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;text-align:center;font-size:.9rem;font-weight:800;padding:12px 8px;letter-spacing:.3px;min-width:130px}
+  .row-header{background:linear-gradient(135deg,#6C5CE7,#4834d4);color:white;text-align:center;font-size:.9rem;font-weight:800;padding:12px 8px;letter-spacing:.3px;min-width:120px;writing-mode:horizontal-tb}
+  .data-cell{background:white;text-align:center;vertical-align:middle;cursor:pointer;min-height:100px;height:100px;min-width:130px;transition:background .18s, transform .18s;position:relative;user-select:none}
+  .data-cell:hover:not(.disabled){background:#F0EFFF;transform:scale(1.02)}
+  .data-cell:active:not(.disabled){transform:scale(0.98)}
+  .data-cell.disabled{cursor:not-allowed}
+  .data-cell .cell-inner{display:flex;align-items:center;justify-content:center;height:100px;padding:8px;font-size:.85rem;font-weight:700;color:#525270}
+  .data-cell.correct-cell{background:linear-gradient(135deg,#d4f5e9,#b2f0d8)!important;animation:cellGlow .5s ease}
+  .data-cell.wrong-cell{background:linear-gradient(135deg,#ffe4f0,#ffc8e0)!important;animation:cellShake .4s ease}
+  @keyframes cellGlow{0%,100%{box-shadow:none}50%{box-shadow:inset 0 0 20px rgba(0,184,148,0.4)}}
+  @keyframes cellShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .data-cell .cell-checkmark{position:absolute;top:8px;right:10px;font-size:1.3rem;opacity:0;transition:opacity .3s}
+  .data-cell.correct-cell .cell-checkmark{opacity:1}
+  .data-cell.wrong-cell .cell-checkmark{opacity:1}
+  .placed-numbers{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;align-items:center;width:100%;padding:4px}
+  .placed-num{background:linear-gradient(135deg,#55efc4,#00b894);color:white;font-size:.8rem;font-weight:800;border-radius:8px;padding:2px 7px}
+  .criteria-hint{text-align:center;font-size:.85rem;color:#525270;margin-bottom:18px;background:white;border-radius:12px;padding:10px 16px;box-shadow:0 2px 8px rgba(249,115,22,0.1);max-width:560px;margin-left:auto;margin-right:auto}
+  .criteria-hint strong{color:#F97316}
+  .feedback-strip{text-align:center;font-size:1.05rem;font-weight:700;min-height:36px;padding:8px 20px;border-radius:12px;transition:all .3s;margin-top:4px}
+  .feedback-strip.good{background:#d4f5e9;color:#00b894}
+  .feedback-strip.bad{background:#ffe4f0;color:#e84393}
+</style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
-<div class="topbar">
-  <a href="../../index.html" class="back-btn">← All Games</a>
-  <a href="../../index.html" class="topbar-logo">🧮 MathMunch</a>
-  <span class="game-title">Carroll Diagram</span>
-  <span class="level-badge">P3</span>
-  <span class="score-display">⭐ <span id="score">0</span></span>
-</div>
-<div class="game-area">
-  <div class="q-counter" id="qCounter">Question 1 of 10</div>
-  <div class="round-dots" id="roundDots"></div>
 
-  <div class="number-prompt">
-    <p>Where does this number belong?</p>
-    <span class="big-number" id="bigNumber">?</span>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">📊</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
+  </div>
+</header>
+
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Sorter</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Carroll Diagram</div>
+      <span class="level-pill">P3</span>
+    </div>
   </div>
 
-  <div class="criteria-hint" id="criteriaHint"></div>
+  <div class="game-canvas">
+    <div class="q-counter" id="qCounter">Question 1 of 10</div>
+    <div class="round-dots" id="roundDots"></div>
 
-  <div class="carroll-wrap">
-    <table class="carroll-table" id="carrollTable">
-      <!-- built by JS -->
-    </table>
+    <div class="number-prompt">
+      <p>Where does this number belong?</p>
+      <span class="big-number" id="bigNumber">?</span>
+    </div>
+
+    <div class="criteria-hint" id="criteriaHint"></div>
+
+    <div class="carroll-wrap">
+      <table class="carroll-table" id="carrollTable"></table>
+    </div>
+
+    <div class="feedback-strip" id="feedbackStrip"></div>
   </div>
-
-  <div class="feedback-strip" id="feedbackStrip"></div>
 </div>
+
 <div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars">⭐⭐⭐</div>
-    <div class="end-title" id="endTitle">Amazing!</div>
-    <div class="end-score" id="endScore">You scored 10/10</div>
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🎉</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;" id="endTitle">Game Over!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:28px;" id="endScore">0 / 10</div>
     <button class="btn btn-play" onclick="restartGame()">Play Again</button>
-    <a href="../../index.html" class="btn btn-home">Home</a>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
   </div>
 </div>
-<div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
 <script>
   let score = 0, total = 10, current = 0;
   let locked = false;
@@ -135,7 +195,7 @@
 
   function showEnd(){
     const pct = score/total;
-    document.getElementById('endStars').textContent = pct>=0.8?'⭐⭐⭐':pct>=0.5?'⭐⭐':'⭐';
+    document.getElementById('endEmoji').textContent = pct>=0.8?'🌟':pct>=0.5?'👍':'💪';
     document.getElementById('endTitle').textContent = pct>=0.8?'Brilliant!':pct>=0.5?'Good job!':'Keep trying!';
     document.getElementById('endScore').textContent = 'You scored '+score+' / '+total;
     document.getElementById('endScreen').classList.add('show');
@@ -146,7 +206,6 @@
     initGame();
   }
 
-  // ─── Criterion Pairs ──────────────────────────────────────────────────────
   const CRITERION_PAIRS = [
     {
       id: 'even_gt10',
@@ -206,17 +265,13 @@
     return a;
   }
 
-  // Ensure numbers cover all 4 cells at least once across the 10 questions
   function generateQuestions(){
     const qs=[];
-    // Pick 3 different criterion pairs
     const shuffledPairs = shuffle([...CRITERION_PAIRS]);
-    // Assign: pair 0 → rounds 0-3, pair 1 → rounds 4-6, pair 2 → rounds 7-9
     const pairAssign = [0,0,0,0,1,1,1,2,2,2];
 
     for(let i=0;i<10;i++){
       const pair = shuffledPairs[pairAssign[i]];
-      // Pick number so we get variety — try to cover all 4 cells
       const n = pickNumber(pair, i);
       const correctCell = {
         col: pair.testCol(n) ? 0 : 1,
@@ -227,7 +282,6 @@
     return qs;
   }
 
-  // Pick numbers that naturally cover all 4 cells
   const CELL_RANGES = {
     'even_gt10':   [ [12,14,16,18,20], [11,13,15,17,19], [2,4,6,8,10], [1,3,5,7,9] ],
     'mult3_lt20':  [ [3,6,9,12,15,18], [21,24,27,30],   [1,2,4,5,7,8,10,11,13,14,16,17,19], [22,23,25,26] ],
@@ -236,7 +290,6 @@
     'mult2_gt20':  [ [22,24,26,28,30], [21,23,25,27,29], [2,4,6,8,10,12,14,16,18,20], [1,3,5,7,9,11,13,15,17,19] ]
   };
 
-  // Cycle through cells for variety
   const cellCounters = {};
   function pickNumber(pair, roundIdx){
     const key = pair.id;
@@ -244,10 +297,7 @@
     const cellIdx = cellCounters[key] % 4;
     cellCounters[key]++;
     const ranges = CELL_RANGES[key];
-    if(!ranges) {
-      // fallback: random 1-30
-      return Math.floor(Math.random()*30)+1;
-    }
+    if(!ranges) return Math.floor(Math.random()*30)+1;
     const pool = ranges[cellIdx];
     return pool[Math.floor(Math.random()*pool.length)];
   }
@@ -272,16 +322,13 @@
     const table = document.getElementById('carrollTable');
     table.innerHTML='';
 
-    // Header row: corner + two col headers
     const thead=document.createElement('thead');
     const hrow=document.createElement('tr');
-    // Corner
     const corner=document.createElement('th');
     corner.className='corner-cell';
-    corner.style.cssText='padding:8px;text-align:center;font-size:.7rem;color:var(--mid);font-style:italic';
+    corner.style.cssText='padding:8px;text-align:center;font-size:.7rem;color:#525270;font-style:italic';
     corner.textContent='Sort here';
     hrow.appendChild(corner);
-    // Col headers
     [pair.colTrue, pair.colFalse].forEach((label,ci)=>{
       const th=document.createElement('th');
       th.className='col-header';
@@ -291,16 +338,13 @@
     thead.appendChild(hrow);
     table.appendChild(thead);
 
-    // Body: 2 rows
     const tbody=document.createElement('tbody');
     [0,1].forEach(ri=>{
       const tr=document.createElement('tr');
-      // Row header
       const rh=document.createElement('td');
       rh.className='row-header';
       rh.textContent=ri===0?pair.rowTrue:pair.rowFalse;
       tr.appendChild(rh);
-      // Two data cells
       [0,1].forEach(ci=>{
         const td=document.createElement('td');
         td.className='data-cell'+(locked?' disabled':'');
@@ -326,13 +370,10 @@
     if(locked) return;
     locked=true;
 
-    const q=questions[current-1]; // current is already incremented? No — we increment after
-    // Actually current isn't incremented yet at time of click
     const qIdx=current;
     const question=questions[qIdx];
     const isCorrect=(ri===question.correctCell.row && ci===question.correctCell.col);
 
-    // Disable all cells
     document.querySelectorAll('.data-cell').forEach(c=>{
       c.classList.add('disabled');
       c.style.pointerEvents='none';
@@ -350,7 +391,6 @@
     } else {
       td.classList.add('wrong-cell');
       td.querySelector('.cell-checkmark').textContent='❌';
-      // Highlight correct cell
       const correctTd=document.getElementById('cell-'+question.correctCell.row+'-'+question.correctCell.col);
       if(correctTd){
         correctTd.classList.add('correct-cell');
@@ -375,26 +415,21 @@
     const q=questions[current];
     document.getElementById('qCounter').textContent='Question '+(current+1)+' of '+total;
 
-    // Animate number
     const numEl=document.getElementById('bigNumber');
     numEl.style.animation='none';
     void numEl.offsetWidth;
     numEl.style.animation='numPop .35s cubic-bezier(.34,1.56,.64,1)';
     numEl.textContent=q.number;
 
-    // Criteria hint
     document.getElementById('criteriaHint').innerHTML=
       '<strong>Columns:</strong> '+q.pair.colTrue+' / '+q.pair.colFalse+
       ' &nbsp;|&nbsp; <strong>Rows:</strong> '+q.pair.rowTrue+' / '+q.pair.rowFalse;
 
-    // Build table
     buildCarrollTable(q.pair, q.number, false);
 
-    // Reset feedback
     document.getElementById('feedbackStrip').textContent='';
     document.getElementById('feedbackStrip').className='feedback-strip';
 
-    // Update dots
     for(let i=0;i<total;i++){
       const d=document.getElementById('rdot-'+i);
       if(d) d.classList.toggle('active',i===current);
@@ -407,7 +442,6 @@
     document.getElementById('progressBar').style.width='0%';
     document.getElementById('feedbackStrip').textContent='';
     document.getElementById('feedbackStrip').className='feedback-strip';
-    // Reset cell counters
     Object.keys(cellCounters).forEach(k=>delete cellCounters[k]);
     questions=generateQuestions();
     buildRoundDots();

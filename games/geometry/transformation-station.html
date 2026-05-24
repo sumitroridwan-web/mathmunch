@@ -3,143 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Transformation Station – MathMunch</title>
 <style>
 :root {
-  --primary:#10B981; --primary-light:#ECFDF5;
-  --g1:#34D399; --g2:#10B981;
-  --accent:#FDCB6E; --bg:#F0F4FF;
-  --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
-  --green:#00B894; --red:#FF4757;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --canvas:#D1FAE5; --bg:#F8FAFC; --white:#FFFFFF;
+  --text:#1E293B; --text2:#64748B; --shadow:0 4px 20px rgba(16,185,129,0.12);
   --radius:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#2C2C54;color:#D8D8F0;min-height:100vh;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
 
-/* RAIL DECORATIONS */
-.rail-line{position:fixed;top:0;height:100%;width:4px;background:repeating-linear-gradient(to bottom,#4A4A8A 0px,#4A4A8A 20px,transparent 20px,transparent 40px);opacity:0.3;z-index:0;}
-.rail-left{left:18px;} .rail-right{right:18px;}
+/* SITE HEADER */
+.site-header{background:var(--white);box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.header-nav{display:flex;align-items:center;gap:16px;}
+.header-nav a{color:var(--text2);text-decoration:none;font-size:14px;font-weight:600;}
+.header-nav a:hover{color:var(--green);}
+.header-cta{background:var(--green);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none;}
 
-/* TOP BAR */
-.topbar{position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px;}
-.topbar a{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;white-space:nowrap;}
-.topbar-brand{font-weight:900;font-size:16px;color:var(--primary);}
-.topbar-title{font-weight:800;font-size:15px;color:var(--text);display:flex;align-items:center;gap:6px;}
-.badge-p5{background:#EEE8FF;color:#5F27CD;border-radius:8px;padding:3px 10px;font-size:12px;font-weight:800;}
-.score-display{background:var(--primary-light);color:var(--primary);border-radius:10px;padding:4px 14px;font-weight:800;font-size:14px;white-space:nowrap;}
+/* TWO-COLUMN LAYOUT */
+.game-layout{display:grid;grid-template-columns:280px 1fr;flex:1;min-height:0;}
 
-/* GAME AREA */
-.game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px;position:relative;z-index:1;}
+/* SIDEBAR */
+.sidebar{background:var(--white);border-right:1px solid #E2E8F0;padding:24px 20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--green-light);color:var(--green-dark);border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;}
+.exit-btn:hover{background:#D1FAE5;}
+.stat-card{background:var(--bg);border-radius:12px;padding:16px;border:1px solid #E2E8F0;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:var(--green);}
+.level-progress-track{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;margin-top:8px;}
+.level-progress-fill{height:100%;background:linear-gradient(90deg,#34D399,var(--green));border-radius:99px;transition:width 0.4s ease;width:0%;}
 
-.game-card{background:#1E1E40;border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:0 8px 40px rgba(0,0,0,0.4);border:1px solid rgba(16,185,129,0.25);}
+/* GAME CANVAS */
+.game-canvas{background:var(--canvas);position:relative;overflow-y:auto;padding:32px 28px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#6EE7B7 1px,transparent 1px);background-size:24px 24px;opacity:0.4;pointer-events:none;}
+.canvas-inner{position:relative;z-index:1;}
 
-.header-deco{text-align:center;font-size:28px;margin-bottom:8px;}
-.round-label{font-size:12px;color:#9090C0;text-align:center;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
-.type-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:12px;}
-.type-reflect{background:#34D39933;color:#34D399;}
-.type-translate{background:#FDCB6E33;color:#FDCB6E;}
-.type-rotate{background:#FF475733;color:#FF6B7A;}
-.question-text{font-size:17px;font-weight:700;color:#C0C0E0;text-align:center;margin-bottom:16px;line-height:1.5;}
-
-/* MAIN GRID VIEW */
+/* Game-specific CSS */
+.game-card{background:var(--white);border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:var(--shadow);}
+.type-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:12px;}
+.type-reflect{background:#34D39933;color:#059669;}
+.type-translate{background:#FDCB6E33;color:#B45309;}
+.type-rotate{background:#FF475733;color:#DC2626;}
+.question-text{font-size:16px;font-weight:600;color:var(--text);text-align:center;margin-bottom:16px;line-height:1.5;}
 .main-grid-wrap{display:flex;justify-content:center;margin-bottom:16px;}
-
-/* ANSWER OPTIONS - 2x2 thumbnails */
 .thumb-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto;}
-.thumb-option{background:#16163A;border:3px solid rgba(16,185,129,0.3);border-radius:12px;padding:8px;cursor:pointer;transition:all 0.2s;text-align:center;}
-.thumb-option:hover{border-color:#10B981;background:#20204A;transform:translateY(-2px);}
-.thumb-option .platform-label{font-size:11px;color:#7070A0;font-weight:700;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
-.thumb-option.correct{border-color:#00B894;background:#00B89415;}
-.thumb-option.wrong{border-color:#FF4757;background:#FF475715;}
-.thumb-option:disabled, .thumb-option.disabled{cursor:not-allowed;pointer-events:none;}
-
+.thumb-option{background:#F0FDF4;border:3px solid #A7F3D0;border-radius:12px;padding:8px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.thumb-option:hover{border-color:var(--green);background:#D1FAE5;transform:translateY(-2px);}
+.platform-label{font-size:11px;color:var(--text2);font-weight:700;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
+.thumb-option.correct{border-color:#059669;background:#D1FAE5;}
+.thumb-option.wrong{border-color:#DC2626;background:#FEE2E2;}
+.thumb-option.disabled{cursor:not-allowed;pointer-events:none;}
 .feedback{text-align:center;font-size:15px;font-weight:700;padding:10px;border-radius:10px;margin-top:12px;min-height:36px;}
-.feedback.correct{background:#00B89422;color:#00B894;}
-.feedback.wrong{background:#FF475722;color:#FF4757;}
+.feedback.correct{background:#D1FAE5;color:#059669;}
+.feedback.wrong{background:#FEE2E2;color:#DC2626;}
+.round-label{font-size:12px;color:var(--text2);text-align:center;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;}
 
-/* PROGRESS */
-.progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:10px 20px;display:flex;align-items:center;gap:16px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,0.08);}
-.progress-label{font-size:13px;font-weight:700;color:var(--text2);white-space:nowrap;}
-.progress-track{flex:1;background:#eee;border-radius:99px;height:12px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s;}
-.progress-pct{font-size:13px;font-weight:700;color:var(--g2);min-width:36px;text-align:right;}
-
-/* END */
-.end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;}
-.end-overlay.show{display:flex;}
-.end-card{background:#fff;border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+/* END SCREEN */
+.end-screen{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;}
+.end-screen.show{display:flex;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
 @keyframes popIn{from{transform:scale(0.7);opacity:0;}to{transform:scale(1);opacity:1;}}
-.end-stars{font-size:36px;margin-bottom:12px;}
-.end-title{font-size:26px;font-weight:900;color:var(--text);margin-bottom:8px;}
-.end-subtitle{font-size:15px;color:var(--text2);margin-bottom:8px;}
-.end-score{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:24px;}
-.end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;}
-.btn-geo:hover{opacity:0.88;}
-.btn-back{background:#f0f0f0;color:var(--text);border:none;border-radius:12px;font-weight:700;padding:12px 24px;cursor:pointer;font-size:15px;}
-.btn-back:hover{background:#e0e0e0;}
+#endEmoji{font-size:48px;margin-bottom:12px;}
+#endTitle{font-size:26px;font-weight:700;color:var(--text);margin-bottom:8px;font-family:'Quicksand',sans-serif;}
+#endScore{font-size:18px;font-weight:700;color:var(--green);margin-bottom:24px;}
+.btn{display:inline-block;padding:12px 28px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:none;margin:4px;text-decoration:none;}
+.btn-play{background:linear-gradient(135deg,#34D399,var(--green));color:white;}
+.btn-home{background:var(--green-light);color:var(--green-dark);}
+
+@media(max-width:768px){
+  .game-layout{grid-template-columns:1fr;}
+  .sidebar{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid #E2E8F0;padding:12px;}
+  .header-nav{display:none;}
+}
 </style>
 </head>
-<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<div class="rail-line rail-left"></div>
-<div class="rail-line rail-right"></div>
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">All Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="../../index.html" class="header-cta">Play Now</a>
+  </nav>
+</header>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="../../index.html">← All Games</a>
-  <span class="topbar-brand">🧮 MathMunch</span>
-  <span class="topbar-title">🚂 Transformation Station <span class="badge-p5">P5</span></span>
-  <span class="score-display">⭐ <span id="scoreDisplay">0</span></span>
-</div>
-
-<!-- GAME AREA -->
-<div class="game-area">
-  <div class="game-card">
-    <div class="header-deco">🚂 🛤️ 🚉</div>
-    <div class="round-label">PLATFORM <span id="roundLabel">1</span> OF 10</div>
-    <div style="text-align:center;margin-bottom:8px;">
-      <span class="type-badge type-reflect" id="typeBadge">REFLECTION</span>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">&#8617; Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
     </div>
-    <div class="question-text" id="questionText"></div>
-
-    <div class="main-grid-wrap" id="mainGridWrap">
-      <svg id="mainGrid" width="320" height="320"></svg>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-value" style="font-size:18px;">Engineer</div>
+      <div class="level-progress-track"><div class="level-progress-fill" id="progressBar"></div></div>
     </div>
+    <div class="stat-card">
+      <div class="stat-label">Grade</div>
+      <div class="stat-value" style="font-size:18px;color:var(--text);">P5</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Topic</div>
+      <div style="font-size:13px;color:var(--text2);font-weight:600;line-height:1.5;">Reflections, Translations &amp; Rotations</div>
+    </div>
+  </div>
 
-    <div style="text-align:center;font-size:13px;color:#9090C0;margin-bottom:10px;">Which image shows the result?</div>
-
-    <div class="thumb-grid" id="thumbGrid"></div>
-    <div class="feedback" id="feedback"></div>
+  <div class="game-canvas">
+    <div class="canvas-inner">
+      <div class="game-card">
+        <div class="round-label">PLATFORM <span id="roundLabel">1</span> OF 10</div>
+        <div style="text-align:center;margin-bottom:8px;">
+          <span class="type-badge type-reflect" id="typeBadge">REFLECTION</span>
+        </div>
+        <div class="question-text" id="questionText"></div>
+        <div class="main-grid-wrap" id="mainGridWrap">
+          <svg id="mainGrid" width="320" height="320"></svg>
+        </div>
+        <div style="text-align:center;font-size:13px;color:var(--text2);margin-bottom:10px;">Which image shows the result?</div>
+        <div class="thumb-grid" id="thumbGrid"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- PROGRESS -->
-<div class="progress-bar-wrap">
-  <span class="progress-label">Question <span id="progQ">1</span> of 10</span>
-  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  <span class="progress-pct" id="progPct">0%</span>
-</div>
-
-<!-- END SCREEN -->
-<div class="end-overlay" id="endOverlay">
+<div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-stars" id="endStars"></div>
-    <div class="end-title" id="endTitle"></div>
-    <div class="end-subtitle">You scored</div>
-    <div class="end-score" id="endScore"></div>
-    <div class="end-btns">
-      <button class="btn-geo" onclick="restartGame()">Play Again</button>
-      <button class="btn-back" onclick="window.location.href='../../index.html'">Back</button>
-    </div>
+    <div id="endEmoji">🎉</div>
+    <div id="endTitle">Game Over!</div>
+    <div id="endScore">0 / 10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">&#8592; All Games</a>
   </div>
 </div>
 
 <script>
 const ns = 'http://www.w3.org/2000/svg';
 
-// ─── SHAPES ─────────────────────────────────────────────────────────
 const SHAPES = {
   L: [[1,1],[2,1],[3,1],[3,2]],
   T: [[1,1],[1,2],[1,3],[2,2]],
@@ -147,27 +155,14 @@ const SHAPES = {
   F: [[1,1],[1,2],[2,1],[3,1],[3,2]]
 };
 
-// ─── TRANSFORMATIONS ─────────────────────────────────────────────────
-// Grid is 8x8 (0-indexed, rows and cols 0-7)
-function reflectV(cells) { // reflect over col=4 (vertical): col → 7-col
-  return cells.map(([r,c]) => [r, 7-c]);
-}
-function reflectH(cells) { // reflect over row=4 (horizontal): row → 7-row
-  return cells.map(([r,c]) => [7-r, c]);
-}
-function translate(cells, dc, dr) {
-  return cells.map(([r,c]) => [r+dr, c+dc]);
-}
-function rotate90CW(cells) { // 90° CW around (3.5,3.5): new_col=7-row, new_row=col
-  return cells.map(([r,c]) => [c, 7-r]);
-}
-function rotate180(cells) {
-  return cells.map(([r,c]) => [7-r, 7-c]);
-}
+function reflectV(cells) { return cells.map(([r,c]) => [r, 7-c]); }
+function reflectH(cells) { return cells.map(([r,c]) => [7-r, c]); }
+function translate(cells, dc, dr) { return cells.map(([r,c]) => [r+dr, c+dc]); }
+function rotate90CW(cells) { return cells.map(([r,c]) => [c, 7-r]); }
+function rotate180(cells) { return cells.map(([r,c]) => [7-r, 7-c]); }
 
-// ─── SVG DRAWING ─────────────────────────────────────────────────────
-const CELL_SIZE = 40; // main grid
-const THUMB_CELL = 10; // thumbnail cell
+const CELL_SIZE = 40;
+const THUMB_CELL = 10;
 
 function drawGridSVG(svg, cells, mirrorLine, cellSize, fillColor, bgColor, gridColor, showGrid) {
   svg.innerHTML = '';
@@ -176,10 +171,9 @@ function drawGridSVG(svg, cells, mirrorLine, cellSize, fillColor, bgColor, gridC
   svg.setAttribute('width', W);
   svg.setAttribute('height', H);
 
-  // Background
   const bg = document.createElementNS(ns,'rect');
   bg.setAttribute('width', W); bg.setAttribute('height', H);
-  bg.setAttribute('fill', bgColor || '#12122A');
+  bg.setAttribute('fill', bgColor || '#A7F3D0');
   svg.appendChild(bg);
 
   if (showGrid) {
@@ -187,7 +181,7 @@ function drawGridSVG(svg, cells, mirrorLine, cellSize, fillColor, bgColor, gridC
       const l = document.createElementNS(ns,'line');
       l.setAttribute('x1',0); l.setAttribute('y1',r*cellSize);
       l.setAttribute('x2',W); l.setAttribute('y2',r*cellSize);
-      l.setAttribute('stroke', gridColor||'rgba(255,255,255,0.08)');
+      l.setAttribute('stroke', gridColor||'rgba(0,0,0,0.08)');
       l.setAttribute('stroke-width','0.5');
       svg.appendChild(l);
     }
@@ -195,25 +189,23 @@ function drawGridSVG(svg, cells, mirrorLine, cellSize, fillColor, bgColor, gridC
       const l = document.createElementNS(ns,'line');
       l.setAttribute('x1',c*cellSize); l.setAttribute('y1',0);
       l.setAttribute('x2',c*cellSize); l.setAttribute('y2',H);
-      l.setAttribute('stroke', gridColor||'rgba(255,255,255,0.08)');
+      l.setAttribute('stroke', gridColor||'rgba(0,0,0,0.08)');
       l.setAttribute('stroke-width','0.5');
       svg.appendChild(l);
     }
   }
 
-  // Cells
   cells.forEach(([r,c]) => {
     const rect = document.createElementNS(ns,'rect');
     rect.setAttribute('x', c*cellSize + 1);
     rect.setAttribute('y', r*cellSize + 1);
     rect.setAttribute('width', cellSize - 2);
     rect.setAttribute('height', cellSize - 2);
-    rect.setAttribute('fill', fillColor || '#34D399');
+    rect.setAttribute('fill', fillColor || '#10B981');
     rect.setAttribute('rx','2');
     svg.appendChild(rect);
   });
 
-  // Mirror line
   if (mirrorLine) {
     const ml = document.createElementNS(ns,'line');
     if (mirrorLine.type === 'vertical') {
@@ -225,14 +217,13 @@ function drawGridSVG(svg, cells, mirrorLine, cellSize, fillColor, bgColor, gridC
       ml.setAttribute('x1',0); ml.setAttribute('y1',y);
       ml.setAttribute('x2',W); ml.setAttribute('y2',y);
     }
-    ml.setAttribute('stroke','#FF4757');
+    ml.setAttribute('stroke','#DC2626');
     ml.setAttribute('stroke-width', mirrorLine.width || '2');
     ml.setAttribute('stroke-dasharray', mirrorLine.dash || '6,4');
     svg.appendChild(ml);
   }
 }
 
-// Generate 3 wrong variations
 function generateWrongVariants(correctCells, type) {
   const wrongs = [];
   if (type === 'reflect_v') {
@@ -276,192 +267,63 @@ function generateWrongVariants(correctCells, type) {
     wrongs.push(rotate90CW(SHAPES.Z));
     wrongs.push(reflectH(SHAPES.Z));
   }
-  // Validate: filter invalid (cells within 0-7)
   return wrongs.map(cells => cells.filter(([r,c])=>r>=0&&r<8&&c>=0&&c<8));
 }
 
-// ─── ROUND DEFINITIONS ────────────────────────────────────────────────
 const ROUNDS = [
-  // R1: Reflect L over vertical x=4
   { type:'reflect', subtype:'reflect_v', typeName:'REFLECTION', badgeClass:'type-reflect',
     q:'Reflect the shape over the vertical mirror line.',
     mainShape: SHAPES.L, mirrorLine:{type:'vertical',pos:4,width:2},
-    correctCells: reflectV(SHAPES.L),
-    mainFill:'#34D399'
-  },
-  // R2: Translate L-shape: (1,1) → move 3 right, 2 down
+    correctCells: reflectV(SHAPES.L), mainFill:'#10B981' },
   { type:'translate', subtype:'translate1', typeName:'TRANSLATION', badgeClass:'type-translate',
     q:'The shape moves 3 right and 2 down. Which image shows the result?',
     mainShape: SHAPES.L, mirrorLine: null,
-    correctCells: translate(SHAPES.L, 3, 2),
-    mainFill:'#FDCB6E'
-  },
-  // R3: Reflect T over horizontal y=4
+    correctCells: translate(SHAPES.L, 3, 2), mainFill:'#FDCB6E' },
   { type:'reflect', subtype:'reflect_h', typeName:'REFLECTION', badgeClass:'type-reflect',
     q:'Reflect the shape over the horizontal mirror line.',
     mainShape: SHAPES.T, mirrorLine:{type:'horizontal',pos:4,width:2},
-    correctCells: reflectH(SHAPES.T),
-    mainFill:'#34D399'
-  },
-  // R4: Rotate L 90° CW
+    correctCells: reflectH(SHAPES.T), mainFill:'#10B981' },
   { type:'rotate', subtype:'rotate_L_90', typeName:'ROTATION', badgeClass:'type-rotate',
     q:'Which image shows the shape rotated 90° clockwise?',
     mainShape: SHAPES.L, mirrorLine: null,
-    correctCells: rotate90CW(SHAPES.L),
-    mainFill:'#FF6B7A'
-  },
-  // R5: Reflect Z over vertical
+    correctCells: rotate90CW(SHAPES.L), mainFill:'#F87171' },
   { type:'reflect', subtype:'reflect_v2', typeName:'REFLECTION', badgeClass:'type-reflect',
     q:'Reflect the shape over the vertical mirror line.',
     mainShape: SHAPES.Z, mirrorLine:{type:'vertical',pos:4,width:2},
-    correctCells: reflectV(SHAPES.Z),
-    mainFill:'#34D399'
-  },
-  // R6: Translate T: move 4 right, 1 down
+    correctCells: reflectV(SHAPES.Z), mainFill:'#10B981' },
   { type:'translate', subtype:'translate2', typeName:'TRANSLATION', badgeClass:'type-translate',
     q:'The shape moves 4 right and 1 down. Which image shows the result?',
     mainShape: SHAPES.T, mirrorLine: null,
-    correctCells: translate(SHAPES.T, 4, 1),
-    mainFill:'#FDCB6E'
-  },
-  // R7: Rotate T 90° CW
+    correctCells: translate(SHAPES.T, 4, 1), mainFill:'#FDCB6E' },
   { type:'rotate', subtype:'rotate_T_90', typeName:'ROTATION', badgeClass:'type-rotate',
     q:'Which image shows the T-shape rotated 90° clockwise?',
     mainShape: SHAPES.T, mirrorLine: null,
-    correctCells: rotate90CW(SHAPES.T),
-    mainFill:'#FF6B7A'
-  },
-  // R8: Reflect F over horizontal
+    correctCells: rotate90CW(SHAPES.T), mainFill:'#F87171' },
   { type:'reflect', subtype:'reflect_h2', typeName:'REFLECTION', badgeClass:'type-reflect',
     q:'Reflect the shape over the horizontal mirror line.',
     mainShape: SHAPES.F, mirrorLine:{type:'horizontal',pos:4,width:2},
-    correctCells: reflectH(SHAPES.F),
-    mainFill:'#34D399'
-  },
-  // R9: Translate Z: move 2 right, 3 down
+    correctCells: reflectH(SHAPES.F), mainFill:'#10B981' },
   { type:'translate', subtype:'translate3', typeName:'TRANSLATION', badgeClass:'type-translate',
     q:'The shape moves 2 right and 3 down. Which image shows the result?',
     mainShape: SHAPES.Z, mirrorLine: null,
-    correctCells: translate(SHAPES.Z, 2, 3),
-    mainFill:'#FDCB6E'
-  },
-  // R10: Rotate Z 180°
+    correctCells: translate(SHAPES.Z, 2, 3), mainFill:'#FDCB6E' },
   { type:'rotate', subtype:'rotate_Z_180', typeName:'ROTATION', badgeClass:'type-rotate',
     q:'Which image shows the Z-shape rotated 180°?',
     mainShape: SHAPES.Z, mirrorLine: null,
-    correctCells: rotate180(SHAPES.Z),
-    mainFill:'#FF6B7A'
-  }
+    correctCells: rotate180(SHAPES.Z), mainFill:'#F87171' }
 ];
 
 let currentRound = 0;
 let score = 0;
 let answeredThisRound = false;
 
-function renderRound() {
-  answeredThisRound = false;
-  const rd = ROUNDS[currentRound];
-
-  document.getElementById('roundLabel').textContent = currentRound + 1;
-  document.getElementById('progQ').textContent = currentRound + 1;
-  const pct = Math.round((currentRound / 10) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progPct').textContent = pct + '%';
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('feedback').className = 'feedback';
-  document.getElementById('questionText').textContent = rd.q;
-
-  const typeBadge = document.getElementById('typeBadge');
-  typeBadge.textContent = rd.typeName;
-  typeBadge.className = 'type-badge ' + rd.badgeClass;
-
-  // Draw main grid
-  const mainSvg = document.getElementById('mainGrid');
-  drawGridSVG(mainSvg, rd.mainShape, rd.mirrorLine, CELL_SIZE, rd.mainFill, '#12122A', 'rgba(255,255,255,0.07)', true);
-
-  // Generate thumbnails
-  const wrongs = generateWrongVariants(rd.correctCells, rd.subtype);
-  // Build 4 options: correct + 3 wrongs
-  const options = [
-    { cells: rd.correctCells, isCorrect: true },
-    ...wrongs.slice(0,3).map(c => ({ cells: c, isCorrect: false }))
-  ].sort(() => Math.random() - 0.5);
-
-  const thumbGrid = document.getElementById('thumbGrid');
-  thumbGrid.innerHTML = '';
-  const platformLetters = ['A','B','C','D'];
-  options.forEach((opt, idx) => {
-    const div = document.createElement('div');
-    div.className = 'thumb-option';
-
-    const lbl = document.createElement('div');
-    lbl.className = 'platform-label';
-    lbl.textContent = 'Platform ' + platformLetters[idx];
-    div.appendChild(lbl);
-
-    const thumbSvg = document.createElementNS(ns,'svg');
-    thumbSvg.setAttribute('width','80');
-    thumbSvg.setAttribute('height','80');
-    const mirrorLnThumb = rd.mirrorLine ? {...rd.mirrorLine, width:1, dash:'4,3'} : null;
-    const thumbFill = rd.type === 'reflect' ? '#10B981' : rd.type === 'translate' ? '#FDCB6E' : '#FF6B7A';
-    drawGridSVG(thumbSvg, opt.cells, mirrorLnThumb, THUMB_CELL, thumbFill, '#0E0E28', 'rgba(255,255,255,0.06)', true);
-    div.appendChild(thumbSvg);
-
-    div.onclick = () => handleAnswer(div, opt.isCorrect, options, thumbGrid);
-    thumbGrid.appendChild(div);
-  });
-}
-
-function handleAnswer(clickedDiv, isCorrect, options, thumbGrid) {
-  if (answeredThisRound) return;
-  answeredThisRound = true;
-
-  const allDivs = thumbGrid.querySelectorAll('.thumb-option');
-  allDivs.forEach(d => d.classList.add('disabled'));
-
-  const fb = document.getElementById('feedback');
-  if (isCorrect) {
-    score++;
-    clickedDiv.classList.add('correct');
-    fb.textContent = '✅ Correct! Great transformation!';
-    fb.className = 'feedback correct';
-    document.getElementById('scoreDisplay').textContent = score;
-  } else {
-    clickedDiv.classList.add('wrong');
-    // Highlight correct
-    let correctIdx = -1;
-    const sorted = [...options].sort(() => 0); // keep original order
-    // We need to find which div corresponds to the correct option
-    // Options are rendered in shuffled order, same as allDivs
-    // Iterate allDivs and find the one with correct cells
-    // We'll mark them during creation: store idx on each div
-    allDivs.forEach((d, i) => {
-      if (d !== clickedDiv) {
-        // We check by re-running — instead, mark correct div by dataset
-      }
-    });
-    fb.textContent = '❌ Not quite! Try the next one.';
-    fb.className = 'feedback wrong';
-  }
-
-  // Mark the correct one with green border regardless
-  allDivs.forEach((d, i) => {
-    if (d.dataset.correct === '1') d.classList.add('correct');
-  });
-
-  setTimeout(advanceRound, 1300);
-}
-
-// Override render to store correct marker on divs
 function renderRoundFixed() {
   answeredThisRound = false;
   const rd = ROUNDS[currentRound];
 
   document.getElementById('roundLabel').textContent = currentRound + 1;
-  document.getElementById('progQ').textContent = currentRound + 1;
   const pct = Math.round((currentRound / 10) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('feedback').textContent = '';
   document.getElementById('feedback').className = 'feedback';
   document.getElementById('questionText').textContent = rd.q;
@@ -471,7 +333,7 @@ function renderRoundFixed() {
   typeBadge.className = 'type-badge ' + rd.badgeClass;
 
   const mainSvg = document.getElementById('mainGrid');
-  drawGridSVG(mainSvg, rd.mainShape, rd.mirrorLine, CELL_SIZE, rd.mainFill, '#12122A', 'rgba(255,255,255,0.07)', true);
+  drawGridSVG(mainSvg, rd.mainShape, rd.mirrorLine, CELL_SIZE, rd.mainFill, '#A7F3D0', 'rgba(0,0,0,0.06)', true);
 
   const wrongs = generateWrongVariants(rd.correctCells, rd.subtype);
   const options = [
@@ -482,7 +344,7 @@ function renderRoundFixed() {
   const thumbGrid = document.getElementById('thumbGrid');
   thumbGrid.innerHTML = '';
   const platformLetters = ['A','B','C','D'];
-  const thumbFill = rd.type === 'reflect' ? '#10B981' : rd.type === 'translate' ? '#FDCB6E' : '#FF6B7A';
+  const thumbFill = rd.type === 'reflect' ? '#10B981' : rd.type === 'translate' ? '#FDCB6E' : '#F87171';
 
   options.forEach((opt, idx) => {
     const div = document.createElement('div');
@@ -498,7 +360,7 @@ function renderRoundFixed() {
     thumbSvg.setAttribute('width','80');
     thumbSvg.setAttribute('height','80');
     const mirrorLnThumb = rd.mirrorLine ? {...rd.mirrorLine, width:1, dash:'4,3'} : null;
-    drawGridSVG(thumbSvg, opt.cells, mirrorLnThumb, THUMB_CELL, thumbFill, '#0E0E28', 'rgba(255,255,255,0.06)', true);
+    drawGridSVG(thumbSvg, opt.cells, mirrorLnThumb, THUMB_CELL, thumbFill, '#D1FAE5', 'rgba(0,0,0,0.06)', true);
     div.appendChild(thumbSvg);
 
     div.onclick = () => {
@@ -514,7 +376,7 @@ function renderRoundFixed() {
         div.classList.add('correct');
         fb.textContent = '✅ Correct! Great transformation!';
         fb.className = 'feedback correct';
-        document.getElementById('scoreDisplay').textContent = score;
+        document.getElementById('score').textContent = score;
       } else {
         div.classList.add('wrong');
         allDivs.forEach(d => { if (d.dataset.correct === '1') d.classList.add('correct'); });
@@ -535,20 +397,19 @@ function advanceRound() {
 }
 
 function showEndScreen() {
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('progPct').textContent = '100%';
-  const stars = score >= 9 ? '★★★' : score >= 7 ? '★★☆' : '★☆☆';
+  document.getElementById('progressBar').style.width = '100%';
+  const emoji = score >= 9 ? '🌟' : score >= 7 ? '😊' : '💪';
   const title = score >= 9 ? 'Brilliant!' : score >= 7 ? 'Well Done!' : 'Keep Trying!';
-  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endEmoji').textContent = emoji;
   document.getElementById('endTitle').textContent = title;
-  document.getElementById('endScore').textContent = `${score} / 10 correct`;
-  document.getElementById('endOverlay').classList.add('show');
+  document.getElementById('endScore').textContent = score + ' / 10 correct';
+  document.getElementById('endScreen').classList.add('show');
 }
 
 function restartGame() {
   currentRound = 0; score = 0;
-  document.getElementById('scoreDisplay').textContent = '0';
-  document.getElementById('endOverlay').classList.remove('show');
+  document.getElementById('score').textContent = '0';
+  document.getElementById('endScreen').classList.remove('show');
   renderRoundFixed();
 }
 

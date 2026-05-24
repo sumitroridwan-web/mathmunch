@@ -3,142 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Shape Explorer – MathMunch</title>
 <style>
   :root {
-    --primary:#10B981; --primary-light:#ECFDF5;
-    --g1:#34D399; --g2:#10B981;
-    --accent:#FDCB6E; --accent-dark:#E17055;
-    --bg:#F0F4FF; --white:#FFFFFF;
-    --text:#1E1E2E; --text2:#525270;
-    --green:#00B894; --red:#FF4757;
-    --radius:16px; --shadow:0 4px 20px rgba(78,205,196,0.15);
+    --green:#10B981;--green-dark:#059669;--green-light:#ECFDF5;
+    --blue:#3B82F6;--orange:#F97316;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#D1FAE5;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
 
-  /* TOP BAR */
-  .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
-  .topbar a.back{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;white-space:nowrap}
-  .topbar .brand{font-weight:900;font-size:18px;color:var(--primary);display:flex;align-items:center;gap:5px}
-  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
-  .badge{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#FFE0F0;color:#FF4785}
-  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:var(--text)}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--green-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--green);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--green-light);color:var(--green);}
+  .btn-play-now{background:var(--green);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--green-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .btn-play-now:active{transform:translateY(2px);box-shadow:0 1px 0 var(--green-dark);}
 
-  /* GAME AREA */
-  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
 
-  /* QUESTION CARD */
-  .question-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:28px 24px;margin-bottom:20px;text-align:center}
-  .question-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
-  .question-text{font-size:24px;font-weight:800;color:var(--text);margin-bottom:8px}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--green);color:var(--green);}
+  .exit-btn:active{transform:translateY(1px);box-shadow:none;}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--green);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.4rem;font-weight:700;color:var(--green);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--green);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--green);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
 
-  /* SHAPE DISPLAY */
-  .shape-display{display:flex;justify-content:center;align-items:center;padding:30px;min-height:180px}
-  .shape-wrapper{display:flex;justify-content:center;align-items:center;transition:transform 0.3s}
-  .shape-wrapper.pulse{animation:pulse 0.4s ease}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(16,185,129,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
+
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  @keyframes popIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;margin:0 6px;}
+  .btn-play{background:var(--green);color:white;box-shadow:0 3px 0 var(--green-dark);}
+  .btn-play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--green-dark);}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);}
+
+  @media(max-width:768px){
+    .game-layout{grid-template-columns:1fr;padding:16px;}
+    .sidebar{flex-direction:row;flex-wrap:wrap;}
+    .stat-card{flex:1;min-width:140px;}
+    .site-nav{display:none;}
+  }
+
+  /* Game-specific CSS */
+  .question-card{background:rgba(255,255,255,0.85);border-radius:16px;padding:24px;margin-bottom:20px;text-align:center;border:1px solid rgba(16,185,129,0.2);}
+  .question-label{font-size:13px;font-weight:700;color:#424754;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+  .shape-display{display:flex;justify-content:center;align-items:center;padding:30px;min-height:160px;}
+  .shape-wrapper{display:flex;justify-content:center;align-items:center;transition:transform 0.3s;}
+  .shape-wrapper.pulse{animation:pulse 0.4s ease;}
   @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
-
-  .css-circle{border-radius:50%;width:120px;height:120px}
-  .css-square{border-radius:8px;width:110px;height:110px}
-  .css-triangle{width:0;height:0}
-  .css-rectangle{border-radius:8px;width:160px;height:90px}
-  .css-pentagon{clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%);width:110px;height:110px}
-  .css-hexagon{clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);width:110px;height:110px}
-  .css-oval{border-radius:50%;width:150px;height:90px}
-  .css-star{clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);width:110px;height:110px}
-
-  /* ANSWER BUTTONS MODE A */
-  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto}
-  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer;border:2px solid #ECFDF5;background:var(--white);color:var(--text);transition:all 0.2s}
-  .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
-  .btn-answer.correct{background:#E8FFF3;border-color:var(--green);color:var(--green)}
-  .btn-answer.wrong{background:#FFE8EC;border-color:var(--red);color:var(--red)}
-  .btn-answer:disabled{cursor:not-allowed}
-
-  /* SHAPE CARDS MODE B */
-  .shape-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto}
-  .shape-card{background:var(--white);border:2px solid #ECFDF5;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;cursor:pointer;transition:all 0.2s}
-  .shape-card:hover:not(:disabled){border-color:var(--primary);transform:translateY(-3px);box-shadow:0 6px 20px rgba(16,185,129,0.18)}
-  .shape-card.correct{border-color:var(--green);background:#E8FFF3}
-  .shape-card.wrong{border-color:var(--red);background:#FFE8EC}
-
-  /* MODE B question text */
-  .find-shape-name{font-size:40px;font-weight:900;color:var(--primary);margin-bottom:8px}
-  .find-instruction{font-size:16px;color:var(--text2);font-weight:600}
-
-  /* FEEDBACK OVERLAY */
-  .feedback{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;padding:18px 36px;border-radius:20px;font-size:22px;font-weight:800;color:white;pointer-events:none}
-  .feedback.show-correct{display:block;background:var(--green)}
-  .feedback.show-wrong{display:block;background:var(--red)}
-
-  /* PROGRESS BAR */
-  .progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:100}
-  .progress-info{display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:var(--text2);margin-bottom:6px}
-  .progress-track{height:12px;background:#ECFDF5;border-radius:4px;overflow:hidden}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:4px;transition:width 0.4s ease}
-
-  /* END SCREEN */
-  .end-screen{display:none;position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
-  .end-screen.show{display:flex}
-  .end-card{background:var(--white);border-radius:24px;padding:40px 36px;text-align:center;max-width:420px;width:90%;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
-  @keyframes popIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
-  .end-emoji{font-size:56px;margin-bottom:10px}
-  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:6px}
-  .end-score-text{font-size:18px;color:var(--text2);margin-bottom:14px}
-  .end-stars{font-size:32px;margin-bottom:6px}
-  .end-verdict{font-size:20px;font-weight:800;color:var(--primary);margin-bottom:24px}
-  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#34D399,#10B981);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
-  .btn-geo:hover{transform:translateY(-2px)}
-  .btn-secondary{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:2px solid var(--primary);background:transparent;color:var(--primary);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
-  .btn-secondary:hover{background:var(--primary-light)}
+  .css-circle{border-radius:50%;width:120px;height:120px;}
+  .css-square{border-radius:8px;width:110px;height:110px;}
+  .css-triangle{width:0;height:0;}
+  .css-rectangle{border-radius:8px;width:160px;height:90px;}
+  .css-pentagon{clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%);width:110px;height:110px;}
+  .css-hexagon{clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);width:110px;height:110px;}
+  .css-oval{border-radius:50%;width:150px;height:90px;}
+  .css-star{clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);width:110px;height:110px;}
+  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto;}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:2px solid rgba(16,185,129,0.3);background:white;color:var(--text);transition:all 0.2s;font-family:'Lexend',sans-serif;}
+  .btn-answer:hover:not(:disabled){background:var(--green-light);border-color:var(--green);transform:translateY(-2px);}
+  .btn-answer.correct{background:#E8FFF3;border-color:#00B894;color:#00B894;}
+  .btn-answer.wrong{background:#FFE8EC;border-color:#FF4757;color:#FF4757;}
+  .btn-answer:disabled{cursor:not-allowed;}
+  .shape-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:460px;margin:0 auto;}
+  .shape-card{background:white;border:2px solid rgba(16,185,129,0.2);border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px;cursor:pointer;transition:all 0.2s;}
+  .shape-card:hover:not(.disabled){border-color:var(--green);transform:translateY(-3px);box-shadow:0 6px 20px rgba(16,185,129,0.18);}
+  .shape-card.correct{border-color:#00B894;background:#E8FFF3;}
+  .shape-card.wrong{border-color:#FF4757;background:#FFE8EC;}
+  .find-shape-name{font-size:36px;font-weight:900;color:var(--green);margin-bottom:8px;font-family:'Quicksand',sans-serif;}
+  .find-instruction{font-size:15px;color:var(--text-mid);font-weight:600;}
+  .feedback{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;padding:18px 36px;border-radius:20px;font-size:22px;font-weight:800;color:white;pointer-events:none;}
+  .feedback.show-correct{display:block;background:#00B894;}
+  .feedback.show-wrong{display:block;background:#FF4757;}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a class="back" href="../../index.html">← All Games</a>
-  <div class="brand">🧮 MathMunch</div>
-  <div class="game-title">Shape Explorer</div>
-  <div class="badge">EY</div>
-  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
-</div>
-
-<!-- GAME AREA -->
-<div class="game-area">
-  <div class="question-card" id="questionCard">
-    <div class="question-label" id="questionLabel">Question 1 of 10</div>
-    <div id="questionContent"></div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">🔷</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
   </div>
-  <div id="answersArea"></div>
+</header>
+
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Explorer</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Shape Explorer</div>
+      <span class="level-pill">EY</span>
+    </div>
+  </div>
+
+  <div class="game-canvas">
+    <div class="question-card" id="questionCard">
+      <div class="question-label" id="questionLabel">Question 1 of 10</div>
+      <div id="questionContent"></div>
+    </div>
+    <div id="answersArea"></div>
+  </div>
 </div>
 
-<!-- FEEDBACK -->
 <div class="feedback" id="feedback"></div>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar">
-  <div class="progress-info">
-    <span id="progressText">Question 1 of 10</span>
-    <span id="progressPct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
-  </div>
-</div>
-
-<!-- END SCREEN -->
 <div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-emoji" id="endEmoji"></div>
-    <div class="end-title" id="endTitle"></div>
-    <div class="end-score-text" id="endScoreText"></div>
-    <div class="end-stars" id="endStars"></div>
-    <div class="end-verdict" id="endVerdict"></div>
-    <button class="btn-geo" onclick="restartGame()">Play Again</button>
-    <a class="btn-secondary" href="../../index.html">← Back to All Games</a>
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🎉</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;" id="endTitle">Game Over!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:28px;" id="endScore">0 / 10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
   </div>
 </div>
 
@@ -167,7 +197,7 @@ function buildRounds(){
   const shapePool = shuffle(SHAPES);
   for(let i=0;i<10;i++){
     const shape = shapePool[i % shapePool.length];
-    const mode = (i % 2 === 0) ? 'A' : 'B'; // odd rounds 1,3,5,7,9 = mode A; even = mode B
+    const mode = (i % 2 === 0) ? 'A' : 'B';
     const color = COLORS[i % COLORS.length];
     rounds.push({ shape, mode, color });
   }
@@ -198,10 +228,8 @@ function buildShapeEl(shape, color, small=false){
 function renderRound(){
   const r = rounds[currentRound];
   document.getElementById('questionLabel').textContent = `Question ${currentRound+1} of 10`;
-  document.getElementById('progressText').textContent = `Question ${currentRound+1} of 10`;
   const pct = Math.round((currentRound/10)*100);
-  document.getElementById('progressPct').textContent = pct+'%';
-  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressBar').style.width = pct+'%';
 
   const content = document.getElementById('questionContent');
   const answersArea = document.getElementById('answersArea');
@@ -209,9 +237,8 @@ function renderRound(){
   answersArea.innerHTML = '';
 
   if(r.mode === 'A'){
-    // Show shape, ask name
     const q = document.createElement('div');
-    q.style.cssText = 'font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px;';
+    q.style.cssText = 'font-size:18px;font-weight:700;color:var(--text);margin-bottom:20px;font-family:Lexend,sans-serif;';
     q.textContent = 'What shape is this?';
     content.appendChild(q);
 
@@ -222,7 +249,6 @@ function renderRound(){
     display.appendChild(shapeEl);
     content.appendChild(display);
 
-    // 4 answer buttons
     const wrongShapes = shuffle(SHAPES.filter(s=>s.id!==r.shape.id)).slice(0,3);
     const options = shuffle([r.shape, ...wrongShapes]);
     const grid = document.createElement('div');
@@ -237,7 +263,6 @@ function renderRound(){
     answersArea.appendChild(grid);
 
   } else {
-    // Show name, find shape
     const nameDiv = document.createElement('div');
     nameDiv.style.cssText = 'margin-bottom:8px;';
     const bigName = document.createElement('div');
@@ -269,7 +294,7 @@ function renderRound(){
 
 function handleAnswer(isCorrect, clickedBtn, grid){
   if(isCorrect) score++;
-  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('score').textContent = score;
   Array.from(grid.children).forEach(b => b.disabled = true);
 
   if(isCorrect){
@@ -279,7 +304,6 @@ function handleAnswer(isCorrect, clickedBtn, grid){
     showFeedback(true);
   } else {
     clickedBtn.classList.add('wrong');
-    // find correct button and highlight
     const r = rounds[currentRound];
     Array.from(grid.children).forEach(b => {
       if(b.textContent === r.shape.name) b.classList.add('correct');
@@ -291,7 +315,7 @@ function handleAnswer(isCorrect, clickedBtn, grid){
 
 function handleCardAnswer(isCorrect, clickedCard, grid, correctShape, options, cardColor){
   if(isCorrect) score++;
-  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('score').textContent = score;
   Array.from(grid.children).forEach(c => {
     c.onclick = null;
     c.style.cursor = 'default';
@@ -303,7 +327,6 @@ function handleCardAnswer(isCorrect, clickedCard, grid, correctShape, options, c
     showFeedback(true);
   } else {
     clickedCard.classList.add('wrong');
-    // find correct card
     Array.from(grid.children).forEach(c => {
       const wrapper = c.querySelector('.shape-wrapper');
       const el = wrapper ? wrapper.firstChild : null;
@@ -334,25 +357,21 @@ function nextRound(){
 }
 
 function showEndScreen(){
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('progressPct').textContent = '100%';
-  const screen = document.getElementById('endScreen');
-  screen.classList.add('show');
-  let emoji, title, stars, verdict;
-  if(score >= 9){ emoji='🌟'; title='Brilliant!'; stars='★★★'; verdict='Amazing work!'; }
-  else if(score >= 7){ emoji='😊'; title='Well Done!'; stars='★★☆'; verdict='Great job!'; }
-  else { emoji='💪'; title='Keep Trying!'; stars='★☆☆'; verdict='You can do it!'; }
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('endScreen').classList.add('show');
+  let emoji, title;
+  if(score >= 9){ emoji='🌟'; title='Brilliant!'; }
+  else if(score >= 7){ emoji='😊'; title='Well Done!'; }
+  else { emoji='💪'; title='Keep Trying!'; }
   document.getElementById('endEmoji').textContent = emoji;
   document.getElementById('endTitle').textContent = title;
-  document.getElementById('endScoreText').textContent = `You scored ${score} out of 10`;
-  document.getElementById('endStars').textContent = stars;
-  document.getElementById('endVerdict').textContent = verdict;
+  document.getElementById('endScore').textContent = `You scored ${score} out of 10`;
 }
 
 function restartGame(){
   score = 0;
   currentRound = 0;
-  document.getElementById('scoreDisplay').textContent = '0';
+  document.getElementById('score').textContent = '0';
   document.getElementById('endScreen').classList.remove('show');
   buildRounds();
   renderRound();

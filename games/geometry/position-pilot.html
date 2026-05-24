@@ -3,139 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Position Pilot – MathMunch</title>
 <style>
-  :root {
-    --primary:#10B981; --primary-light:#ECFDF5;
-    --g1:#34D399; --g2:#10B981;
-    --accent:#FDCB6E; --accent-dark:#E17055;
-    --bg:#F0F4FF; --white:#FFFFFF;
-    --text:#1E1E2E; --text2:#525270;
-    --green:#00B894; --red:#FF4757;
-    --radius:16px; --shadow:0 4px 20px rgba(78,205,196,0.15);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+:root {
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --canvas:#D1FAE5; --bg:#F8FAFC; --white:#FFFFFF;
+  --text:#1E293B; --text2:#64748B; --shadow:0 4px 20px rgba(16,185,129,0.12);
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
 
-  .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,0.08);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
-  .topbar a.back{text-decoration:none;color:var(--primary);font-weight:700;font-size:14px;white-space:nowrap}
-  .topbar .brand{font-weight:900;font-size:18px;color:var(--primary)}
-  .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
-  .badge{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#FFF0E0;color:#FF7043}
-  .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:var(--text)}
+.site-header{background:var(--white);box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.header-logo{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.header-nav{display:flex;align-items:center;gap:16px;}
+.header-nav a{color:var(--text2);text-decoration:none;font-size:14px;font-weight:600;}
+.header-nav a:hover{color:var(--green);}
+.header-cta{background:var(--green);color:white;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none;}
 
-  .game-area{max-width:800px;margin:24px auto 90px;padding:0 16px}
+.game-layout{display:grid;grid-template-columns:280px 1fr;flex:1;min-height:0;}
 
-  /* Header decoration */
-  .game-header{text-align:center;margin-bottom:16px;font-size:28px;line-height:1}
+.sidebar{background:var(--white);border-right:1px solid #E2E8F0;padding:24px 20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+.exit-btn{display:flex;align-items:center;gap:8px;background:var(--green-light);color:var(--green-dark);border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;}
+.exit-btn:hover{background:#D1FAE5;}
+.stat-card{background:var(--bg);border-radius:12px;padding:16px;border:1px solid #E2E8F0;}
+.stat-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.stat-value{font-family:'Quicksand',sans-serif;font-size:28px;font-weight:700;color:var(--green);}
+.level-progress-track{height:8px;background:#E2E8F0;border-radius:99px;overflow:hidden;margin-top:8px;}
+.level-progress-fill{height:100%;background:linear-gradient(90deg,#34D399,var(--green));border-radius:99px;transition:width 0.4s ease;width:0%;}
 
-  .question-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:24px;margin-bottom:20px;text-align:center}
-  .q-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-  .q-text{font-size:19px;font-weight:800;color:var(--text);margin-bottom:20px;line-height:1.4}
+.game-canvas{background:var(--canvas);position:relative;overflow-y:auto;padding:32px 28px;}
+.game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#6EE7B7 1px,transparent 1px);background-size:24px 24px;opacity:0.4;pointer-events:none;}
+.canvas-inner{position:relative;z-index:1;}
 
-  /* GRID */
-  .grid-container{display:flex;justify-content:center;margin-bottom:20px}
-  .grid-3x3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#E8F0E8;border-radius:14px;padding:10px;max-width:340px;width:100%}
-  .grid-cell{aspect-ratio:1;background:var(--white);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:all 0.2s;border:2px solid transparent;min-height:80px;position:relative}
-  .grid-cell:hover{border-color:var(--accent);transform:scale(1.04)}
-  .grid-cell.empty{background:#F0F7F0;cursor:default}
-  .grid-cell.empty:hover{border-color:transparent;transform:none}
-  .grid-cell.clickable:hover{border-color:var(--primary);background:var(--primary-light);cursor:pointer}
-  .grid-cell.correct-cell{border-color:var(--green)!important;background:#D4F8EA!important;animation:cellBounce 0.4s ease}
-  .grid-cell.wrong-cell{border-color:var(--red)!important;background:#FFE8EC!important}
-  .grid-cell.highlight-correct{border-color:var(--green)!important;background:#D4F8EA!important}
-  @keyframes cellBounce{0%{transform:scale(1)}40%{transform:scale(1.15)}100%{transform:scale(1)}}
+/* Game-specific CSS */
+.question-card{background:var(--white);border-radius:20px;box-shadow:var(--shadow);padding:24px;margin-bottom:20px;text-align:center;}
+.q-label{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.q-text{font-size:18px;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.4;}
+.grid-container{display:flex;justify-content:center;margin-bottom:20px;}
+.grid-3x3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#D1FAE5;border-radius:14px;padding:10px;max-width:340px;width:100%;}
+.grid-cell{aspect-ratio:1;background:var(--white);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:all 0.2s;border:2px solid transparent;min-height:80px;position:relative;}
+.grid-cell:hover{border-color:#FDCB6E;transform:scale(1.04);}
+.grid-cell.empty{background:#F0FDF4;cursor:default;}
+.grid-cell.empty:hover{border-color:transparent;transform:none;}
+.grid-cell.clickable:hover{border-color:var(--green);background:var(--green-light);cursor:pointer;}
+.grid-cell.correct-cell{border-color:var(--green-dark)!important;background:#D1FAE5!important;animation:cellBounce 0.4s ease;}
+.grid-cell.wrong-cell{border-color:#DC2626!important;background:#FEE2E2!important;}
+.grid-cell.highlight-correct{border-color:var(--green-dark)!important;background:#D1FAE5!important;}
+@keyframes cellBounce{0%{transform:scale(1)}40%{transform:scale(1.15)}100%{transform:scale(1)}}
+.grid-cell.target{background:#FEF9C3;border-color:#FDCB6E;}
+.grid-cell .checkmark{position:absolute;top:2px;right:4px;font-size:14px;color:var(--green-dark);}
+.direction-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;background:var(--green-light);color:var(--green-dark);font-weight:700;font-size:14px;margin-bottom:16px;}
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto;}
+.btn-answer{padding:14px 20px;border-radius:12px;font-weight:700;font-size:20px;cursor:pointer;border:2px solid #A7F3D0;background:var(--white);color:var(--text);transition:all 0.2s;min-height:60px;}
+.btn-answer:hover:not(:disabled){background:var(--green-light);border-color:var(--green);transform:translateY(-2px);}
+.btn-answer.correct{background:#D1FAE5;border-color:var(--green-dark);}
+.btn-answer.wrong{background:#FEE2E2;border-color:#DC2626;}
+.btn-answer:disabled{cursor:not-allowed;}
+.instruction-note{font-size:14px;color:var(--text2);margin-top:8px;font-style:italic;}
+.flash-feedback{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;padding:18px 36px;border-radius:20px;font-size:22px;font-weight:700;color:white;pointer-events:none;}
+.flash-feedback.show-correct{display:block;background:var(--green-dark);}
+.flash-feedback.show-wrong{display:block;background:#DC2626;}
 
-  /* Target/question highlight */
-  .grid-cell.target{background:#FFF9E0;border-color:var(--accent);}
-  .grid-cell .checkmark{position:absolute;top:2px;right:4px;font-size:14px;color:var(--green)}
+.end-screen{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:300;}
+.end-screen.show{display:flex;}
+.end-card{background:var(--white);border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes popIn{from{transform:scale(0.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+#endEmoji{font-size:48px;margin-bottom:12px;}
+#endTitle{font-size:26px;font-weight:700;color:var(--text);margin-bottom:8px;font-family:'Quicksand',sans-serif;}
+#endScore{font-size:18px;font-weight:700;color:var(--green);margin-bottom:24px;}
+.btn{display:inline-block;padding:12px 28px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:none;margin:4px;text-decoration:none;}
+.btn-play{background:linear-gradient(135deg,#34D399,var(--green));color:white;}
+.btn-home{background:var(--green-light);color:var(--green-dark);}
 
-  /* Direction indicator */
-  .direction-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;background:var(--primary-light);color:var(--primary);font-weight:800;font-size:14px;margin-bottom:16px}
-
-  /* Answer buttons */
-  .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto}
-  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:20px;cursor:pointer;border:2px solid #ECFDF5;background:var(--white);color:var(--text);transition:all 0.2s;min-height:60px}
-  .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
-  .btn-answer.correct{background:#E8FFF3;border-color:var(--green)}
-  .btn-answer.wrong{background:#FFE8EC;border-color:var(--red)}
-  .btn-answer:disabled{cursor:not-allowed}
-
-  .instruction-note{font-size:14px;color:var(--text2);margin-top:8px;font-style:italic}
-
-  /* Feedback */
-  .feedback{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;padding:18px 36px;border-radius:20px;font-size:22px;font-weight:800;color:white;pointer-events:none}
-  .feedback.show-correct{display:block;background:var(--green)}
-  .feedback.show-wrong{display:block;background:var(--red)}
-
-  /* Progress */
-  .progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:100}
-  .progress-info{display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:var(--text2);margin-bottom:6px}
-  .progress-track{height:12px;background:#ECFDF5;border-radius:4px;overflow:hidden}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:4px;transition:width 0.4s ease}
-
-  /* End screen */
-  .end-screen{display:none;position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
-  .end-screen.show{display:flex}
-  .end-card{background:var(--white);border-radius:24px;padding:40px 36px;text-align:center;max-width:420px;width:90%;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1)}
-  @keyframes popIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
-  .end-emoji{font-size:56px;margin-bottom:10px}
-  .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:6px}
-  .end-score-text{font-size:18px;color:var(--text2);margin-bottom:14px}
-  .end-stars{font-size:32px;margin-bottom:6px}
-  .end-verdict{font-size:20px;font-weight:800;color:var(--primary);margin-bottom:24px}
-  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#34D399,#10B981);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
-  .btn-geo:hover{transform:translateY(-2px)}
-  .btn-secondary{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:2px solid var(--primary);background:transparent;color:var(--primary);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
-  .btn-secondary:hover{background:var(--primary-light)}
+@media(max-width:768px){
+  .game-layout{grid-template-columns:1fr;}
+  .sidebar{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid #E2E8F0;padding:12px;}
+  .header-nav{display:none;}
+}
 </style>
 </head>
-<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
 
-<div class="topbar">
-  <a class="back" href="../../index.html">← All Games</a>
-  <div class="brand">🧮 MathMunch</div>
-  <div class="game-title">Position Pilot</div>
-  <div class="badge">P1</div>
-  <div class="score-box">⭐ <span id="scoreDisplay">0</span></div>
-</div>
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav">
+    <a href="../../index.html">All Games</a>
+    <a href="#">Leaderboard</a>
+    <a href="../../index.html" class="header-cta">Play Now</a>
+  </nav>
+</header>
 
-<div class="game-area">
-  <div class="game-header">🤖 ✈️</div>
-  <div class="question-card">
-    <div class="q-label" id="qLabel">Question 1 of 10</div>
-    <div class="q-text" id="qText"></div>
-    <div id="directionBadge"></div>
-    <div class="grid-container">
-      <div class="grid-3x3" id="mainGrid"></div>
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">&#8617; Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
     </div>
-    <div class="instruction-note" id="instrNote"></div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-value" style="font-size:18px;">Pilot</div>
+      <div class="level-progress-track"><div class="level-progress-fill" id="progressBar"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Grade</div>
+      <div class="stat-value" style="font-size:18px;color:var(--text);">P1</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Topic</div>
+      <div style="font-size:13px;color:var(--text2);font-weight:600;line-height:1.5;">Positional Language</div>
+    </div>
   </div>
-  <div id="answersArea"></div>
+
+  <div class="game-canvas">
+    <div class="canvas-inner">
+      <div class="question-card">
+        <div class="q-label" id="qLabel">Question 1 of 10</div>
+        <div class="q-text" id="qText"></div>
+        <div id="directionBadge"></div>
+        <div class="grid-container">
+          <div class="grid-3x3" id="mainGrid"></div>
+        </div>
+        <div class="instruction-note" id="instrNote"></div>
+      </div>
+      <div id="answersArea"></div>
+    </div>
+  </div>
 </div>
 
-<div class="feedback" id="feedback"></div>
-
-<div class="progress-bar">
-  <div class="progress-info">
-    <span id="progressText">Question 1 of 10</span>
-    <span id="progressPct">0%</span>
-  </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
-  </div>
-</div>
+<div class="flash-feedback" id="flashFeedback"></div>
 
 <div class="end-screen" id="endScreen">
   <div class="end-card">
-    <div class="end-emoji" id="endEmoji"></div>
-    <div class="end-title" id="endTitle"></div>
-    <div class="end-score-text" id="endScoreText"></div>
-    <div class="end-stars" id="endStars"></div>
-    <div class="end-verdict" id="endVerdict"></div>
-    <button class="btn-geo" onclick="restartGame()">Play Again</button>
-    <a class="btn-secondary" href="../../index.html">← Back to All Games</a>
+    <div id="endEmoji">🎉</div>
+    <div id="endTitle">Game Over!</div>
+    <div id="endScore">0 / 10</div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">&#8592; All Games</a>
   </div>
 </div>
 
@@ -144,9 +153,6 @@ const ITEMS = ['🌟','🎈','🎁','🏠','🌸','🐱','🦋','⭐','🎀'];
 
 function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5); }
 function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-
-// Grid: 3x3, positions 0-8, row/col from 0
 function pos(row,col){ return row*3+col; }
 function rowOf(p){ return Math.floor(p/3); }
 function colOf(p){ return p%3; }
@@ -155,27 +161,19 @@ let currentRound = 0;
 let score = 0;
 let rounds = [];
 
-// Generate a question round
 function generateRound(roundIdx){
-  // Pick 4 items, place them in random distinct positions
   const items = shuffle(ITEMS).slice(0,4);
   const positions = shuffle([0,1,2,3,4,5,6,7,8]).slice(0,4);
-  const placement = {}; // pos -> item emoji
+  const placement = {};
   positions.forEach((p,i) => placement[p] = items[i]);
 
   const qType = [0,0,0,0,1,1,1,2,2,2][roundIdx] || (roundIdx%3===0?0:roundIdx%3===1?1:2);
 
-  // Type A: "Which cell is to the RIGHT of X?" — player clicks cell
-  // Type B: "What is ABOVE X?" — 4 answer buttons (emoji or 'nothing')
-  // Type C: "What is BETWEEN X and Y in the same row?" — 4 answer buttons
-
   let question, correctAnswer, distractors, mode, targetPos, highlightPos;
 
   if(qType === 0){
-    // Type A: directional cell click
     const directions = ['right','left','above','below'];
     const dir = rand(directions);
-    // Find an item that has a valid neighbour in that direction
     let chosen = null, answerPos = -1;
     for(let attempt=0; attempt<50; attempt++){
       const p = rand(positions);
@@ -185,9 +183,7 @@ function generateRound(roundIdx){
       else if(dir==='left'){nr=r;nc=c-1;}
       else if(dir==='above'){nr=r-1;nc=c;}
       else{nr=r+1;nc=c;}
-      if(nr>=0&&nr<3&&nc>=0&&nc<3){
-        chosen=p; answerPos=pos(nr,nc); break;
-      }
+      if(nr>=0&&nr<3&&nc>=0&&nc<3){ chosen=p; answerPos=pos(nr,nc); break; }
     }
     if(chosen===null){ return generateRound(roundIdx); }
     const emoji = placement[chosen];
@@ -195,12 +191,10 @@ function generateRound(roundIdx){
     correctAnswer = answerPos;
     highlightPos = chosen;
     mode = 'click';
-
     return { placement, question, mode, correctAnswer, highlightPos,
              dirLabel: dir==='right'?'→ Right':dir==='left'?'← Left':dir==='above'?'↑ Above':'↓ Below' };
 
   } else if(qType === 1){
-    // Type B: "What is ABOVE/BELOW/LEFT/RIGHT of X?"
     const directions = ['above','below','left of','right of'];
     const dir = rand(directions);
     let chosen=null, neighbourPos=-1;
@@ -218,7 +212,6 @@ function generateRound(roundIdx){
     const emoji=placement[chosen];
     const dirLabel=dir==='above'?'↑ Above':dir==='below'?'↓ Below':dir==='left of'?'← Left of':'→ Right of';
     const correctEmoji = placement[neighbourPos] || '⬜ Empty';
-    // Distractors: other items + 'Empty'
     const otherItems = items.filter(it=>it!==correctEmoji && it!==emoji);
     const dists = shuffle([...otherItems,'⬜ Empty']).slice(0,3);
     question = `What is ${dir.toUpperCase()} the ${emoji}?`;
@@ -227,27 +220,16 @@ function generateRound(roundIdx){
              highlightPos:chosen, dirLabel };
 
   } else {
-    // Type C: Between in same row
-    // Find two items in same row with one empty cell between them
     const rowGroups = [[0,1,2],[3,4,5],[6,7,8]];
     let found=null;
     for(let attempt=0;attempt<50;attempt++){
       const row = rand(rowGroups);
-      // check if positions 0 and 2 of a row both have items and middle empty
       const left=row[0],mid=row[1],right=row[2];
       if(placement[left] && placement[right] && !placement[mid]){
         found={left,mid,right}; break;
       }
-      // or left and mid with right being the target
-      if(placement[left]&&placement[mid]){
-        // "between left and mid" — but there's no cell between them directly
-        // try the reverse: items at 0 and 2
-      }
     }
-    if(!found){
-      // fallback to Type B
-      return generateRound(roundIdx);
-    }
+    if(!found){ return generateRound(roundIdx); }
     const leftEmoji=placement[found.left], rightEmoji=placement[found.right];
     const correctEmoji = placement[found.mid] || '⬜ Empty';
     const otherItems=items.filter(it=>it!==leftEmoji&&it!==rightEmoji);
@@ -270,20 +252,16 @@ function buildRounds(){
 function renderRound(){
   const r=rounds[currentRound];
   document.getElementById('qLabel').textContent=`Question ${currentRound+1} of 10`;
-  document.getElementById('progressText').textContent=`Question ${currentRound+1} of 10`;
   const pct=Math.round((currentRound/10)*100);
-  document.getElementById('progressPct').textContent=pct+'%';
-  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressBar').style.width=pct+'%';
   document.getElementById('qText').textContent=r.question;
   document.getElementById('answersArea').innerHTML='';
 
-  // Direction badge
   const db=document.getElementById('directionBadge');
   if(r.dirLabel){
     db.innerHTML=`<div class="direction-badge">${r.dirLabel}</div>`;
   } else { db.innerHTML=''; }
 
-  // Build grid
   const grid=document.getElementById('mainGrid');
   grid.innerHTML='';
   for(let i=0;i<9;i++){
@@ -308,7 +286,6 @@ function renderRound(){
     document.getElementById('instrNote').textContent='Tap the correct cell on the grid!';
   } else {
     document.getElementById('instrNote').textContent='';
-    // Build answer buttons
     const options=shuffle([r.correctAnswer,...r.distractors]);
     const answGrid=document.createElement('div');
     answGrid.className='answers-grid';
@@ -332,44 +309,43 @@ function handleCellClick(isCorrect, cell, correctPos){
   });
   if(isCorrect){
     score++;
-    document.getElementById('scoreDisplay').textContent=score;
+    document.getElementById('score').textContent=score;
     cell.classList.add('correct-cell');
     const check=document.createElement('span');
     check.className='checkmark';
     check.textContent='✓';
     cell.appendChild(check);
-    showFeedback(true);
+    showFlash(true);
   } else {
     cell.classList.add('wrong-cell');
-    // highlight correct
-    grid.children[correctPos].classList.add('highlight-correct');
-    showFeedback(false);
+    document.getElementById('mainGrid').children[correctPos].classList.add('highlight-correct');
+    showFlash(false);
   }
   setTimeout(nextRound,1200);
 }
 
 function handleButtonAnswer(isCorrect, btn, grid, correctAnswer){
   if(isCorrect) score++;
-  document.getElementById('scoreDisplay').textContent=score;
+  document.getElementById('score').textContent=score;
   Array.from(grid.children).forEach(b=>{b.disabled=true;});
   if(isCorrect){
     btn.classList.add('correct');
-    showFeedback(true);
+    showFlash(true);
   } else {
     btn.classList.add('wrong');
     Array.from(grid.children).forEach(b=>{
       if(b.textContent===correctAnswer) b.classList.add('correct');
     });
-    showFeedback(false);
+    showFlash(false);
   }
   setTimeout(nextRound,1200);
 }
 
-function showFeedback(correct){
-  const fb=document.getElementById('feedback');
+function showFlash(correct){
+  const fb=document.getElementById('flashFeedback');
   fb.textContent=correct?'✓ Correct!':'✗ Not quite!';
-  fb.className='feedback '+(correct?'show-correct':'show-wrong');
-  setTimeout(()=>fb.className='feedback',1100);
+  fb.className='flash-feedback '+(correct?'show-correct':'show-wrong');
+  setTimeout(()=>fb.className='flash-feedback',1100);
 }
 
 function nextRound(){
@@ -379,23 +355,18 @@ function nextRound(){
 }
 
 function showEndScreen(){
-  document.getElementById('progressFill').style.width='100%';
-  document.getElementById('progressPct').textContent='100%';
+  document.getElementById('progressBar').style.width='100%';
   document.getElementById('endScreen').classList.add('show');
-  let emoji,title,stars,verdict;
-  if(score>=9){emoji='🌟';title='Brilliant!';stars='★★★';verdict='Amazing work!';}
-  else if(score>=7){emoji='😊';title='Well Done!';stars='★★☆';verdict='Great job!';}
-  else{emoji='💪';title='Keep Trying!';stars='★☆☆';verdict='You can do it!';}
+  const emoji = score>=9?'🌟':score>=7?'😊':'💪';
+  const title = score>=9?'Brilliant!':score>=7?'Well Done!':'Keep Trying!';
   document.getElementById('endEmoji').textContent=emoji;
   document.getElementById('endTitle').textContent=title;
-  document.getElementById('endScoreText').textContent=`You scored ${score} out of 10`;
-  document.getElementById('endStars').textContent=stars;
-  document.getElementById('endVerdict').textContent=verdict;
+  document.getElementById('endScore').textContent=`${score} / 10 correct`;
 }
 
 function restartGame(){
   score=0;currentRound=0;
-  document.getElementById('scoreDisplay').textContent='0';
+  document.getElementById('score').textContent='0';
   document.getElementById('endScreen').classList.remove('show');
   buildRounds();
   renderRound();

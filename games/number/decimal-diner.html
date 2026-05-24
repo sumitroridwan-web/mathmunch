@@ -7,331 +7,116 @@
 <title>Decimal Diner – MathMunch</title>
 <style>
   :root {
-    --primary: #3B82F6;
-    --primary-light: #EFF6FF;
-    --accent: #FDCB6E;
-    --n1: #FF6B6B;
-    --n2: #FF8E53;
-    --bg: #FFF8F0;
-    --white: #FFFFFF;
-    --text: #1E1E2E;
-    --text2: #525270;
-    --green: #00B894;
-    --red: #FF4757;
-    --radius: 16px;
-    --shadow: 0 4px 20px rgba(59,130,246,0.12);
-    --brown: #8B5E3C;
+    --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+    --green:#10B981;--orange:#F97316;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#DBEAFE;
+    --accent:#FDCB6E;
+    --red:#EF4444;
+    --brown:#8B5E3C;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Lexend', system-ui, sans-serif;
-    background: #FFF8F0;
-    min-height: 100vh;
-    color: var(--text);
-  }
+  body { font-family: 'Lexend', system-ui, sans-serif; background: var(--bg); min-height: 100vh; color: var(--text); }
 
-  /* TOP BAR */
-  .topbar {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--white);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    display: flex; align-items: center; gap: 12px;
-    padding: 0 20px; height: 56px;
-    border-bottom: 3px solid var(--accent);
-  }
-  .topbar a { text-decoration: none; color: var(--primary); font-weight: 600; font-size: 14px; }
-  .topbar .brand { font-weight: 700; font-size: 18px; color: var(--primary); }
-  .topbar .title { font-weight: 600; font-size: 16px; color: var(--text); }
-  .topbar .badge { background: #E0FFF5; color: #00A878; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-  .topbar .score { margin-left: auto; font-weight: 700; font-size: 16px; color: var(--text); display: flex; align-items: center; gap: 4px; }
+  /* HEADER */
+  .site-header { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 1px solid var(--outline); box-shadow: 0 1px 4px rgba(0,0,0,0.06); display: flex; align-items: center; padding: 0 24px; height: 60px; gap: 16px; }
+  .header-logo { font-family: 'Quicksand', sans-serif; font-size: 20px; font-weight: 700; color: var(--blue); text-decoration: none; }
+  .header-nav { flex: 1; display: flex; justify-content: center; }
+  .header-nav span { font-size: 15px; font-weight: 600; color: var(--text-mid); }
+  .header-play { background: var(--blue); color: white; border: none; border-radius: 10px; padding: 8px 18px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
 
-  .game-area {
-    max-width: 800px;
-    margin: 24px auto 100px;
-    padding: 0 16px;
-  }
+  /* LAYOUT */
+  .game-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 12px; }
+  .exit-btn { display: block; width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--outline); background: var(--white); color: var(--text-mid); font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; font-family: inherit; text-decoration: none; transition: background 0.15s; }
+  .exit-btn:hover { background: #F1F5F9; }
+  .stat-card { background: var(--white); border: 1px solid var(--outline); border-radius: 16px; padding: 16px; }
+  .stat-label { font-size: 11px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+  .stat-value { font-family: 'Quicksand', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-level-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .level-icon { font-size: 20px; }
+  .stat-value-sm { font-family: 'Quicksand', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+  .level-progress { height: 8px; background: var(--outline); border-radius: 8px; overflow: hidden; }
+  .level-progress-fill { height: 100%; background: var(--blue); border-radius: 8px; transition: width .4s ease; width: 0%; }
+  .hearts { font-size: 20px; letter-spacing: 2px; }
+  .game-info-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .level-pill { display: inline-block; background: var(--blue-light); color: var(--blue); font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  /* GAME CANVAS */
+  .game-canvas { background: var(--canvas); border-radius: 24px; padding: 28px; position: relative; overflow: hidden; min-height: 560px; }
+  .game-canvas::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px); background-size: 28px 28px; pointer-events: none; z-index: 0; }
+  .game-area { position: relative; z-index: 1; }
 
   /* DINER HEADER */
-  .diner-header {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 14px 20px;
-    display: flex; align-items: center; justify-content: center;
-    gap: 12px; margin-bottom: 16px;
-    box-shadow: var(--shadow);
-    border: 2px solid #FFE4B5;
-  }
+  .diner-header { background: var(--white); border-radius: 14px; padding: 14px 20px; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; border: 1px solid var(--outline); }
   .diner-header .deco { font-size: 28px; }
-  .diner-header .menu-title {
-    font-size: 16px; font-weight: 800; color: var(--brown);
-    letter-spacing: 1px;
-  }
+  .diner-header .menu-title { font-size: 16px; font-weight: 800; color: var(--brown); letter-spacing: 1px; }
 
   /* MODE CARD */
-  .mode-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow);
-    border: 2px solid #FFE4B5;
-  }
-  .mode-label {
-    display: inline-block;
-    font-size: 12px; font-weight: 700;
-    background: var(--accent);
-    color: #4A3000;
-    padding: 3px 12px; border-radius: 20px;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
-  }
-  .question-text {
-    font-size: 18px; font-weight: 700; color: var(--text);
-    margin-bottom: 16px; line-height: 1.4;
-  }
+  .mode-card { background: var(--white); border-radius: 16px; padding: 24px; margin-bottom: 16px; border: 1px solid var(--outline); }
+  .mode-label { display: inline-block; font-size: 12px; font-weight: 700; background: var(--accent); color: #4A3000; padding: 3px 12px; border-radius: 20px; margin-bottom: 12px; letter-spacing: 1px; }
+  .question-text { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 16px; line-height: 1.4; }
 
   /* MODE A: SORTING */
-  .sort-instruction {
-    font-size: 14px; color: var(--text2); margin-bottom: 12px; font-style: italic;
-  }
-  .decimals-pool {
-    display: flex; gap: 10px; flex-wrap: wrap;
-    margin-bottom: 16px; min-height: 60px;
-    padding: 12px;
-    background: #FFF3E0;
-    border-radius: 12px;
-    border: 2px dashed #FFD180;
-    align-items: center;
-  }
-  .decimal-card {
-    background: var(--white);
-    border: 2px solid #FFD180;
-    border-radius: 10px;
-    padding: 12px 20px;
-    font-size: 22px; font-weight: 800; color: var(--text);
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    position: relative;
-  }
-  .decimal-card:hover:not(.placed):not(.disabled) {
-    border-color: var(--primary);
-    background: var(--primary-light);
-    transform: translateY(-3px);
-  }
-  .decimal-card.selected-next {
-    border-color: var(--primary);
-    background: var(--primary-light);
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
-  }
-  .decimal-card.placed {
-    opacity: 0.35; cursor: default; transform: none;
-  }
-
-  .sorted-row-label {
-    font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 6px;
-  }
-  .sorted-row {
-    display: flex; gap: 10px; flex-wrap: wrap;
-    min-height: 60px;
-    padding: 10px;
-    background: #E8FFF5;
-    border-radius: 12px;
-    border: 2px solid #A0E0C0;
-    align-items: center; margin-bottom: 16px;
-  }
-  .sorted-card {
-    background: var(--green);
-    color: white;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 18px; font-weight: 800;
-    animation: slideIn 0.3s ease;
-  }
-  @keyframes slideIn {
-    from { transform: scale(0.7); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-  .order-num {
-    display: inline-block; font-size: 11px;
-    background: rgba(255,255,255,0.3);
-    border-radius: 4px; padding: 1px 5px;
-    margin-left: 4px;
-  }
-
-  .check-sort-btn {
-    padding: 12px 28px;
-    border-radius: var(--radius);
-    background: linear-gradient(135deg, var(--primary), #a855f7);
-    color: white; font-size: 16px; font-weight: 700;
-    border: none; cursor: pointer;
-    transition: all 0.2s;
-    display: block; width: 100%;
-    box-shadow: 0 4px 16px rgba(59,130,246,0.3);
-  }
-  .check-sort-btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .sort-instruction { font-size: 14px; color: var(--text-mid); margin-bottom: 12px; font-style: italic; }
+  .decimals-pool { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; min-height: 60px; padding: 12px; background: #FFF7ED; border-radius: 12px; border: 2px dashed #FCD34D; align-items: center; }
+  .decimal-card { background: var(--white); border: 2px solid #FCD34D; border-radius: 10px; padding: 12px 20px; font-size: 22px; font-weight: 800; color: var(--text); cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; }
+  .decimal-card:hover:not(.placed):not(.disabled) { border-color: var(--blue); background: var(--blue-light); transform: translateY(-3px); }
+  .decimal-card.selected-next { border-color: var(--blue); background: var(--blue-light); box-shadow: 0 0 0 3px rgba(59,130,246,0.25); }
+  .decimal-card.placed { opacity: 0.35; cursor: default; transform: none; }
+  .sorted-row-label { font-size: 13px; font-weight: 700; color: var(--text-mid); margin-bottom: 6px; }
+  .sorted-row { display: flex; gap: 10px; flex-wrap: wrap; min-height: 60px; padding: 10px; background: #ECFDF5; border-radius: 12px; border: 2px solid #6EE7B7; align-items: center; margin-bottom: 16px; }
+  .sorted-card { background: var(--green); color: white; border-radius: 8px; padding: 10px 16px; font-size: 18px; font-weight: 800; animation: slideIn 0.3s ease; }
+  @keyframes slideIn { from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1} }
+  .order-num { display: inline-block; font-size: 11px; background: rgba(255,255,255,0.3); border-radius: 4px; padding: 1px 5px; margin-left: 4px; }
+  .check-sort-btn { padding: 12px 28px; border-radius: 16px; background: var(--blue); color: white; font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; display: block; width: 100%; font-family: inherit; }
+  .check-sort-btn:hover:not(:disabled) { transform: translateY(-2px); background: var(--blue-dark); }
   .check-sort-btn:disabled { opacity: 0.5; cursor: default; }
 
   /* MODE B: NUMBER LINE */
-  .number-to-place {
-    font-size: 52px; font-weight: 900; color: var(--primary);
-    text-align: center; margin-bottom: 8px;
-  }
-  .place-instruction {
-    font-size: 14px; color: var(--text2); text-align: center; margin-bottom: 20px;
-  }
-  .number-line-wrap {
-    padding: 20px 16px;
-    background: #FFF3E0;
-    border-radius: 12px;
-    border: 2px solid #FFD180;
-    position: relative;
-    margin-bottom: 16px;
-  }
-  .number-line-track {
-    position: relative;
-    height: 20px;
-    background: #8B5E3C;
-    border-radius: 10px;
-    cursor: crosshair;
-    margin: 0 20px;
-  }
-  .tick {
-    position: absolute;
-    top: -8px;
-    width: 2px;
-    height: 36px;
-    background: #5A3C1F;
-    transform: translateX(-50%);
-  }
-  .tick-label {
-    position: absolute;
-    top: 32px;
-    transform: translateX(-50%);
-    font-size: 12px; font-weight: 700; color: #5A3C1F;
-    white-space: nowrap;
-  }
-  .nl-marker {
-    position: absolute;
-    top: -14px;
-    width: 24px; height: 24px;
-    background: var(--primary);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(59,130,246,0.5);
-    cursor: grab;
-    display: none;
-    transition: left 0.2s;
-  }
+  .number-to-place { font-size: 52px; font-weight: 900; color: var(--blue); text-align: center; margin-bottom: 8px; }
+  .place-instruction { font-size: 14px; color: var(--text-mid); text-align: center; margin-bottom: 20px; }
+  .number-line-wrap { padding: 20px 16px; background: #FFF7ED; border-radius: 12px; border: 2px solid #FCD34D; position: relative; margin-bottom: 16px; }
+  .number-line-track { position: relative; height: 20px; background: var(--brown); border-radius: 10px; cursor: crosshair; margin: 0 20px; }
+  .tick { position: absolute; top: -8px; width: 2px; height: 36px; background: #5A3C1F; transform: translateX(-50%); }
+  .tick-label { position: absolute; top: 32px; transform: translateX(-50%); font-size: 12px; font-weight: 700; color: #5A3C1F; white-space: nowrap; }
+  .nl-marker { position: absolute; top: -14px; width: 24px; height: 24px; background: var(--blue); border-radius: 50%; transform: translateX(-50%); border: 3px solid white; box-shadow: 0 2px 8px rgba(59,130,246,0.5); cursor: grab; display: none; transition: left 0.2s; }
   .nl-marker.show { display: block; }
   .nl-correct { background: var(--green) !important; }
   .nl-wrong { background: var(--red) !important; }
-  .correct-marker {
-    position: absolute; top: -14px;
-    width: 24px; height: 24px;
-    background: var(--green);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(0,184,148,0.5);
-    display: none;
-  }
+  .correct-marker { position: absolute; top: -14px; width: 24px; height: 24px; background: var(--green); border-radius: 50%; transform: translateX(-50%); border: 3px solid white; box-shadow: 0 2px 8px rgba(16,185,129,0.5); display: none; }
   .correct-marker.show { display: block; }
 
   /* FEEDBACK */
-  .feedback {
-    font-size: 16px; font-weight: 700;
-    text-align: center; padding: 12px; border-radius: 10px;
-    opacity: 0; transition: opacity 0.3s; min-height: 42px;
-  }
+  .feedback { font-size: 16px; font-weight: 700; text-align: center; padding: 12px; border-radius: 10px; opacity: 0; transition: opacity 0.3s; min-height: 42px; }
   .feedback.show { opacity: 1; }
-  .feedback.correct { color: var(--green); background: #E8FFF5; }
-  .feedback.wrong { color: var(--red); background: #FFF0F0; }
+  .feedback.correct { color: var(--green); background: #ECFDF5; }
+  .feedback.wrong { color: var(--red); background: #FEF2F2; }
 
-  .next-btn {
-    display: none; width: 100%;
-    padding: 14px;
-    border-radius: var(--radius);
-    background: linear-gradient(135deg, var(--green), #00CEC9);
-    color: white; font-size: 16px; font-weight: 700;
-    border: none; cursor: pointer;
-    margin-top: 12px; transition: all 0.2s;
-  }
+  .next-btn { display: none; width: 100%; padding: 14px; border-radius: 16px; background: var(--green); color: white; font-size: 16px; font-weight: 700; border: none; cursor: pointer; margin-top: 12px; transition: all 0.2s; font-family: inherit; }
   .next-btn.show { display: block; }
   .next-btn:hover { transform: translateY(-2px); }
 
-  /* PROGRESS BAR */
-  .progress-bar-wrap {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--white);
-    padding: 10px 20px;
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
-    display: flex; align-items: center; gap: 16px; z-index: 100;
-    border-top: 3px solid var(--accent);
-  }
-  .progress-label { font-size: 14px; color: var(--text2); font-weight: 600; white-space: nowrap; }
-  .progress-track { flex: 1; height: 12px; background: #E0E0F0; border-radius: 10px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--n1), var(--n2)); border-radius: 10px; transition: width 0.4s ease; }
-  .progress-pct { font-size: 14px; font-weight: 700; color: var(--n2); white-space: nowrap; }
-
   /* END SCREEN */
-  .end-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
-    display: none; align-items: center; justify-content: center; z-index: 200;
-  }
-  .end-card {
-    background: var(--white); border-radius: 24px; padding: 40px;
-    text-align: center; max-width: 420px; width: 90%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  }
+  .end-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 200; }
+  .end-overlay.show { display: flex; }
+  .end-card { background: var(--white); border-radius: 24px; padding: 40px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
   .end-emoji { font-size: 64px; margin-bottom: 10px; }
   .end-title { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
-  .end-score { font-size: 20px; color: var(--text2); margin-bottom: 16px; }
+  .end-score { font-size: 20px; color: var(--text-mid); margin-bottom: 16px; }
   .end-stars { font-size: 36px; margin-bottom: 24px; }
   .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { padding: 14px 28px; border-radius: var(--radius); background: linear-gradient(135deg, var(--primary), #a855f7); color: white; font-size: 16px; font-weight: 700; border: none; cursor: pointer; }
-  .btn-secondary { padding: 14px 28px; border-radius: var(--radius); background: var(--white); color: var(--primary); font-size: 16px; font-weight: 700; border: 2px solid var(--primary); cursor: pointer; text-decoration: none; display: inline-block; }
-  .btn-secondary:hover { background: var(--primary-light); }
+  .btn-primary { padding: 14px 28px; border-radius: 16px; background: var(--blue); color: white; font-size: 16px; font-weight: 700; border: none; cursor: pointer; font-family: inherit; }
+  .btn-secondary { padding: 14px 28px; border-radius: 16px; background: var(--white); color: var(--blue); font-size: 16px; font-weight: 700; border: 2px solid var(--blue); cursor: pointer; text-decoration: none; display: inline-block; font-family: inherit; }
+  .btn-secondary:hover { background: var(--blue-light); }
+
+  @media(max-width:768px){.game-layout{grid-template-columns:1fr}.sidebar{flex-direction:row;flex-wrap:wrap}.stat-card{flex:1;min-width:120px}}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
-
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="../../index.html">← Games</a>
-  <span class="brand">🧮 MathMunch</span>
-  <span class="title">Decimal Diner</span>
-  <span class="badge">P4</span>
-  <div class="score">⭐ <span id="scoreDisplay">0</span></div>
-</div>
-
-<!-- GAME AREA -->
-<div class="game-area">
-  <div class="diner-header">
-    <span class="deco">🍽️</span>
-    <span class="menu-title">DECIMAL DINER — Today's Menu</span>
-    <span class="deco">🧁</span>
-  </div>
-
-  <div class="mode-card" id="modeCard">
-    <div class="mode-label" id="modeLabel">ORDER MENU</div>
-    <div class="question-text" id="questionText">Loading...</div>
-    <div id="gameContent"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="next-btn" id="nextBtn" onclick="nextRound()">Next →</button>
-  </div>
-</div>
-
-<!-- PROGRESS BAR -->
-<div class="progress-bar-wrap">
-  <div class="progress-label" id="progressLabel">Question 1 of 10</div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
-  </div>
-  <div class="progress-pct" id="progressPct">0%</div>
-</div>
 
 <!-- END SCREEN -->
 <div class="end-overlay" id="endOverlay">
@@ -347,9 +132,64 @@
   </div>
 </div>
 
+<!-- HEADER -->
+<header class="site-header">
+  <a href="../../index.html" class="header-logo">🧮 MathMunch</a>
+  <nav class="header-nav"><span>Decimal Diner</span></nav>
+  <button class="header-play" onclick="restartGame()">Play Now</button>
+</header>
+
+<!-- LAYOUT -->
+<div class="game-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 4</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Decimal Diner</div>
+      <span class="level-pill">P4</span>
+    </div>
+  </aside>
+
+  <!-- GAME CANVAS -->
+  <div class="game-canvas">
+    <div class="game-area">
+      <div class="diner-header">
+        <span class="deco">🍽️</span>
+        <span class="menu-title">DECIMAL DINER — Today's Menu</span>
+        <span class="deco">🧁</span>
+      </div>
+
+      <div class="mode-card" id="modeCard">
+        <div class="mode-label" id="modeLabel">ORDER MENU</div>
+        <div class="question-text" id="questionText">Loading...</div>
+        <div id="gameContent"></div>
+        <div class="feedback" id="feedback"></div>
+        <button class="next-btn" id="nextBtn" onclick="nextRound()">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-// ROUNDS: 10 total – alternating Mode A (sort) and Mode B (place)
-// Rounds 0,2,4,6,8 = Mode A; rounds 1,3,5,7,9 = Mode B
 const ROUNDS = [
   { mode: 'A', decimals: [0.1, 0.5, 0.3, 0.8, 0.2] },
   { mode: 'B', value: 0.5, min: 0, max: 1, step: 0.1, label: '0 to 1' },
@@ -375,11 +215,9 @@ function numDisplay(n) {
 }
 
 function updateProgress() {
-  document.getElementById('progressLabel').textContent = `Question ${currentRound+1} of 10`;
   const pct = Math.round((currentRound / 10) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressPct').textContent = pct + '%';
-  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('score').textContent = score;
 }
 
 function clearFeedback() {
@@ -469,7 +307,7 @@ function checkSortAnswer(q) {
   const fb = document.getElementById('feedback');
   if (isCorrect) {
     score++;
-    document.getElementById('scoreDisplay').textContent = score;
+    document.getElementById('score').textContent = score;
     fb.className = 'feedback correct show';
     fb.textContent = `✓ Correct order! ${correct.map(numDisplay).join(' < ')}`;
   } else {
@@ -497,7 +335,6 @@ function loadModeB(q) {
   placeInstr.textContent = `Tap on the number line (${q.label}) to place the number`;
   content.appendChild(placeInstr);
 
-  // Build number line
   const wrap = document.createElement('div');
   wrap.className = 'number-line-wrap';
   wrap.style.paddingBottom = '40px';
@@ -506,7 +343,6 @@ function loadModeB(q) {
   track.className = 'number-line-track';
   track.id = 'nlTrack';
 
-  // Ticks
   const range = q.max - q.min;
   const tickCount = Math.round(range / q.step);
   for (let i = 0; i <= tickCount; i++) {
@@ -523,13 +359,11 @@ function loadModeB(q) {
     track.appendChild(label);
   }
 
-  // Marker
   const marker = document.createElement('div');
   marker.className = 'nl-marker';
   marker.id = 'nlMarker';
   track.appendChild(marker);
 
-  // Correct marker
   const correctMarker = document.createElement('div');
   correctMarker.className = 'correct-marker';
   correctMarker.id = 'correctMarker';
@@ -553,18 +387,15 @@ function placeOnLine(e, q, track) {
   const pct = Math.max(0, Math.min(1, x / rect.width));
   const clickedVal = q.min + pct * (q.max - q.min);
 
-  // Snap to nearest step
   const steps = Math.round((clickedVal - q.min) / q.step);
   const snappedVal = q.min + steps * q.step;
   const snappedPct = ((snappedVal - q.min) / (q.max - q.min)) * 100;
 
-  // Show marker
   const marker = document.getElementById('nlMarker');
   marker.classList.add('show');
   marker.style.left = snappedPct + '%';
   placedValue = snappedVal;
 
-  // Check answer with tolerance
   const tolerance = 0.15;
   const isCorrect = Math.abs(snappedVal - q.value) <= tolerance + 0.0001;
 
@@ -574,12 +405,11 @@ function placeOnLine(e, q, track) {
   if (isCorrect) {
     marker.classList.add('nl-correct');
     score++;
-    document.getElementById('scoreDisplay').textContent = score;
+    document.getElementById('score').textContent = score;
     fb.className = 'feedback correct show';
     fb.textContent = `✓ Correct! ${numDisplay(q.value)} is in the right place!`;
   } else {
     marker.classList.add('nl-wrong');
-    // Show correct position
     const correctPct = ((q.value - q.min) / (q.max - q.min)) * 100;
     const cm = document.getElementById('correctMarker');
     cm.classList.add('show');
@@ -597,8 +427,7 @@ function nextRound() {
 }
 
 function showEnd() {
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('progressPct').textContent = '100%';
+  document.getElementById('progressBar').style.width = '100%';
 
   let emoji, title, stars;
   if (score >= 9) { emoji='🍽️'; title='Brilliant!'; stars='★★★'; }
@@ -609,12 +438,12 @@ function showEnd() {
   document.getElementById('endTitle').textContent = title;
   document.getElementById('endScore').textContent = `${score}/10 correct`;
   document.getElementById('endStars').textContent = stars;
-  document.getElementById('endOverlay').style.display = 'flex';
+  document.getElementById('endOverlay').classList.add('show');
 }
 
 function restartGame() {
   currentRound = 0; score = 0;
-  document.getElementById('endOverlay').style.display = 'none';
+  document.getElementById('endOverlay').classList.remove('show');
   loadRound();
 }
 
