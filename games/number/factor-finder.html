@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Factor Finder – MathMunch</title>
 <style>
   :root {
-    --primary: #6C5CE7;
-    --primary-light: #E8E4FF;
+    --primary: #3B82F6;
+    --primary-light: #EFF6FF;
     --accent: #FDCB6E;
     --n1: #FF6B6B;
     --n2: #FF8E53;
@@ -19,11 +20,11 @@
     --red: #FF4757;
     --orange: #FF9800;
     --radius: 16px;
-    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+    --shadow: 0 4px 20px rgba(59,130,246,0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Lexend', system-ui, sans-serif;
     background: #FDF6E3;
     min-height: 100vh;
     color: var(--text);
@@ -142,9 +143,9 @@
     color: white; font-size: 16px; font-weight: 700;
     border: none; cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 16px rgba(108,92,231,0.3);
+    box-shadow: 0 4px 16px rgba(59,130,246,0.3);
   }
-  .check-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,92,231,0.4); }
+  .check-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,0.4); }
   .check-btn:disabled { opacity: 0.5; cursor: default; transform: none; }
 
   /* FEEDBACK */

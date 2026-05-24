@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Shape Explorer – MathMunch</title>
 <style>
   :root {
-    --primary:#6C5CE7; --primary-light:#E8E4FF;
-    --g1:#4ECDC4; --g2:#2ECC71;
+    --primary:#10B981; --primary-light:#ECFDF5;
+    --g1:#34D399; --g2:#10B981;
     --accent:#FDCB6E; --accent-dark:#E17055;
     --bg:#F0F4FF; --white:#FFFFFF;
     --text:#1E1E2E; --text2:#525270;
@@ -50,7 +51,7 @@
 
   /* ANSWER BUTTONS MODE A */
   .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto}
-  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer;border:2px solid #E8E4FF;background:var(--white);color:var(--text);transition:all 0.2s}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer;border:2px solid #ECFDF5;background:var(--white);color:var(--text);transition:all 0.2s}
   .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
   .btn-answer.correct{background:#E8FFF3;border-color:var(--green);color:var(--green)}
   .btn-answer.wrong{background:#FFE8EC;border-color:var(--red);color:var(--red)}
@@ -58,8 +59,8 @@
 
   /* SHAPE CARDS MODE B */
   .shape-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto}
-  .shape-card{background:var(--white);border:2px solid #E8E4FF;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;cursor:pointer;transition:all 0.2s}
-  .shape-card:hover:not(:disabled){border-color:var(--primary);transform:translateY(-3px);box-shadow:0 6px 20px rgba(108,92,231,0.18)}
+  .shape-card{background:var(--white);border:2px solid #ECFDF5;border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;cursor:pointer;transition:all 0.2s}
+  .shape-card:hover:not(:disabled){border-color:var(--primary);transform:translateY(-3px);box-shadow:0 6px 20px rgba(16,185,129,0.18)}
   .shape-card.correct{border-color:var(--green);background:#E8FFF3}
   .shape-card.wrong{border-color:var(--red);background:#FFE8EC}
 
@@ -75,8 +76,8 @@
   /* PROGRESS BAR */
   .progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:100}
   .progress-info{display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:var(--text2);margin-bottom:6px}
-  .progress-track{height:8px;background:#E8E4FF;border-radius:4px;overflow:hidden}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:4px;transition:width 0.4s ease}
+  .progress-track{height:12px;background:#ECFDF5;border-radius:4px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:4px;transition:width 0.4s ease}
 
   /* END SCREEN */
   .end-screen{display:none;position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
@@ -88,7 +89,7 @@
   .end-score-text{font-size:18px;color:var(--text2);margin-bottom:14px}
   .end-stars{font-size:32px;margin-bottom:6px}
   .end-verdict{font-size:20px;font-weight:800;color:var(--primary);margin-bottom:24px}
-  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
+  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#34D399,#10B981);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
   .btn-geo:hover{transform:translateY(-2px)}
   .btn-secondary{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:2px solid var(--primary);background:transparent;color:var(--primary);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
   .btn-secondary:hover{background:var(--primary-light)}
@@ -152,7 +153,7 @@ const SHAPES = [
   { id:'oval',      name:'Oval',      cls:'css-oval' },
   { id:'star',      name:'Star',      cls:'css-star' },
 ];
-const COLORS = ['#FF6B6B','#4ECDC4','#FFD93D','#A29BFE','#FF8E53','#2ECC71','#74B9FF','#FF6B9D'];
+const COLORS = ['#FF6B6B','#34D399','#FFD93D','#6EE7B7','#FF8E53','#10B981','#74B9FF','#FF6B9D'];
 
 let currentRound = 0;
 let score = 0;

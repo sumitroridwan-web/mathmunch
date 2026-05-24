@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Volume Voyage – MathMunch</title>
 <style>
 :root {
-  --primary:#6C5CE7; --primary-light:#E8E4FF;
-  --g1:#4ECDC4; --g2:#2ECC71;
+  --primary:#10B981; --primary-light:#ECFDF5;
+  --g1:#34D399; --g2:#10B981;
   --accent:#FDCB6E; --bg:#F0F4FF;
   --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
   --green:#00B894; --red:#FF4757;
@@ -45,12 +46,12 @@ svg.iso-svg{overflow:visible;}
 /* FORMULA DISPLAY */
 .formula-box{background:#0D2137;border:1px solid rgba(78,205,196,0.3);border-radius:12px;padding:16px 24px;text-align:center;margin:16px 0;}
 .formula-title{font-size:14px;color:#6AABCA;margin-bottom:8px;letter-spacing:1px;}
-.formula-eq{font-size:20px;font-weight:800;color:#4ECDC4;}
+.formula-eq{font-size:20px;font-weight:800;color:#34D399;}
 
 /* OPTIONS */
 .options-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;}
 .option-btn{background:#0D2137;border:2px solid rgba(78,205,196,0.25);border-radius:12px;padding:14px 8px;color:#A8D8EA;font-size:17px;font-weight:800;cursor:pointer;transition:all 0.2s;text-align:center;}
-.option-btn:hover{background:#1A4A6A;border-color:#4ECDC4;transform:translateY(-2px);}
+.option-btn:hover{background:#1A4A6A;border-color:#34D399;transform:translateY(-2px);}
 .option-btn.correct{background:#00B89422;border-color:#00B894;color:#00B894;}
 .option-btn.wrong{background:#FF475722;border-color:#FF4757;color:#FF4757;}
 .option-btn:disabled{cursor:not-allowed;}
@@ -63,7 +64,7 @@ svg.iso-svg{overflow:visible;}
 .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:10px 20px;display:flex;align-items:center;gap:16px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,0.08);}
 .progress-label{font-size:13px;font-weight:700;color:var(--text2);white-space:nowrap;}
 .progress-track{flex:1;background:#eee;border-radius:99px;height:12px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:99px;transition:width 0.4s;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s;}
 .progress-pct{font-size:13px;font-weight:700;color:var(--g2);min-width:36px;text-align:right;}
 
 /* END */
@@ -76,7 +77,7 @@ svg.iso-svg{overflow:visible;}
 .end-subtitle{font-size:15px;color:var(--text2);margin-bottom:8px;}
 .end-score{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:24px;}
 .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;transition:opacity 0.2s;}
+.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;transition:opacity 0.2s;}
 .btn-geo:hover{opacity:0.88;}
 .btn-back{background:#f0f0f0;color:var(--text);border:none;border-radius:12px;font-weight:700;padding:12px 24px;cursor:pointer;font-size:15px;}
 .btn-back:hover{background:#e0e0e0;}
@@ -183,9 +184,9 @@ function drawCube(svg, col, row, layer, cX, cY) {
   // Right face (col+1 side)
   svg.appendChild(poly([[x1,y1],[x2,y2],[x6,y6],[x5,y5]], '#27AE60'));
   // Left face (row+1 side)
-  svg.appendChild(poly([[x2,y2],[x3,y3],[x7,y7],[x6,y6]], '#2ECC71'));
+  svg.appendChild(poly([[x2,y2],[x3,y3],[x7,y7],[x6,y6]], '#10B981'));
   // Top face
-  svg.appendChild(poly([[x4,y4],[x5,y5],[x6,y6],[x7,y7]], '#4ECDC4'));
+  svg.appendChild(poly([[x4,y4],[x5,y5],[x6,y6],[x7,y7]], '#34D399'));
 }
 
 function drawArrangement(svg, arrangement, cX, cY) {
@@ -219,14 +220,14 @@ function drawCuboidDiagram(svg, L, W, H) {
     p.setAttribute('points', corners.map(k=>pt(pts[k][0],pts[k][1])).join(' '));
     p.setAttribute('fill', fill);
     p.setAttribute('opacity', opacity || '1');
-    p.setAttribute('stroke','#4ECDC4');
+    p.setAttribute('stroke','#34D399');
     p.setAttribute('stroke-width','1.5');
     return p;
   }
 
   svg.appendChild(face(['A','B','F','E'], '#1A4A6A'));
   svg.appendChild(face(['B','C','G','F'], '#134060'));
-  svg.appendChild(face(['E','F','G','H2'], '#4ECDC488'));
+  svg.appendChild(face(['E','F','G','H2'], '#34D39988'));
 
   // Labels
   function label(text, x, y) {

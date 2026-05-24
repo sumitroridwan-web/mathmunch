@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Number Bonds Blaster – MathMunch</title>
 <style>
   :root {
-    --primary: #6C5CE7;
-    --primary-light: #E8E4FF;
+    --primary: #3B82F6;
+    --primary-light: #EFF6FF;
     --accent: #FDCB6E;
     --n1: #FF6B6B;
     --n2: #FF8E53;
@@ -18,11 +19,11 @@
     --green: #00B894;
     --red: #FF4757;
     --radius: 16px;
-    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+    --shadow: 0 4px 20px rgba(59,130,246,0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Lexend', system-ui, sans-serif;
     background: linear-gradient(160deg, #0a0015, #1a0030, #0d0025);
     color: var(--white); min-height: 100vh; overflow-x: hidden;
   }
@@ -47,7 +48,7 @@
     display: flex; align-items: center; gap: 12px;
     padding: 10px 20px; height: 60px;
   }
-  .top-bar a { text-decoration: none; color: #A29BFE; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+  .top-bar a { text-decoration: none; color: #93C5FD; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
   .top-bar a:hover { text-decoration: underline; }
   .top-bar .brand { font-weight: 800; font-size: 1rem; color: var(--white); }
   .top-bar .game-title { font-weight: 700; font-size: 0.95rem; color: rgba(255,255,255,0.6); flex: 1; }
@@ -59,7 +60,7 @@
 
   /* MAKE BANNER */
   .make-banner {
-    background: linear-gradient(135deg, rgba(108,92,231,0.3), rgba(162,155,254,0.2));
+    background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(162,155,254,0.2));
     border: 1px solid rgba(162,155,254,0.3);
     border-radius: 20px; padding: 20px 24px; text-align: center; margin-bottom: 16px;
   }
@@ -75,9 +76,9 @@
     font-size: 2rem; font-weight: 900;
   }
   .eq-num {
-    background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+    background: linear-gradient(135deg, #3B82F6, #93C5FD);
     border-radius: 12px; padding: 8px 20px;
-    box-shadow: 0 4px 16px rgba(108,92,231,0.4);
+    box-shadow: 0 4px 16px rgba(59,130,246,0.4);
   }
   .eq-plus { color: rgba(255,255,255,0.5); }
   .eq-blank {
@@ -137,7 +138,7 @@
 
   /* BUBBLE COLORS */
   .bc0 { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
-  .bc1 { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+  .bc1 { background: linear-gradient(135deg, #3B82F6, #93C5FD); }
   .bc2 { background: linear-gradient(135deg, #00B894, #55EFC4); }
   .bc3 { background: linear-gradient(135deg, #FDCB6E, #E17055); }
   .bc4 { background: linear-gradient(135deg, #FD79A8, #E84393); }
@@ -198,13 +199,13 @@
     background: linear-gradient(135deg, #12002a, #1e0040);
     border: 1px solid rgba(162,155,254,0.3);
     border-radius: 24px; padding: 40px 36px; text-align: center; max-width: 420px; width: 90%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 60px rgba(108,92,231,0.2);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 60px rgba(59,130,246,0.2);
     animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
   }
   @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .end-emoji { font-size: 4rem; margin-bottom: 12px; }
   .end-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: var(--white); }
-  .end-score { font-size: 3rem; font-weight: 800; color: #A29BFE; margin: 12px 0; }
+  .end-score { font-size: 3rem; font-weight: 800; color: #93C5FD; margin: 12px 0; }
   .end-stars { font-size: 2rem; margin: 8px 0; }
   .end-label { font-size: 1rem; color: rgba(255,255,255,0.55); margin-bottom: 24px; font-weight: 600; }
   .btn-play-again {
@@ -215,7 +216,7 @@
     display: block; width: 100%; transition: transform 0.15s;
   }
   .btn-play-again:hover { transform: translateY(-2px); }
-  .back-link { display: block; color: #A29BFE; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+  .back-link { display: block; color: #93C5FD; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
   .back-link:hover { text-decoration: underline; }
 </style>
 </head>

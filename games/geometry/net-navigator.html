@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Net Navigator – MathMunch</title>
 <style>
 :root {
-  --primary:#6C5CE7; --primary-light:#E8E4FF;
-  --g1:#4ECDC4; --g2:#2ECC71;
+  --primary:#10B981; --primary-light:#ECFDF5;
+  --g1:#34D399; --g2:#10B981;
   --accent:#FDCB6E; --bg:#F0F4FF;
   --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
   --green:#00B894; --red:#FF4757;
@@ -35,7 +36,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .header-deco{text-align:center;font-size:28px;margin-bottom:8px;}
 .round-label{font-size:12px;color:#7090C0;text-align:center;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
 .mode-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:12px;}
-.mode-a-badge{background:#4ECDC433;color:#4ECDC4;}
+.mode-a-badge{background:#34D39933;color:#34D399;}
 .mode-b-badge{background:#FDCB6E33;color:#FDCB6E;}
 .question-text{font-size:18px;font-weight:700;color:#A8C8EA;text-align:center;margin-bottom:18px;line-height:1.5;}
 
@@ -44,13 +45,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 /* SHAPE NAME DISPLAY (Mode B) */
 .shape-name-display{text-align:center;margin:16px 0 24px;}
-.shape-name-big{font-size:32px;font-weight:900;color:#4ECDC4;letter-spacing:1px;}
+.shape-name-big{font-size:32px;font-weight:900;color:#34D399;letter-spacing:1px;}
 .shape-3d-icon{font-size:48px;margin-bottom:8px;}
 
 /* MODE A OPTIONS - text buttons */
 .name-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:500px;margin:0 auto;}
 .name-btn{background:#142038;border:2px solid rgba(78,205,196,0.25);border-radius:12px;padding:14px 18px;color:#A8C8EA;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;}
-.name-btn:hover{background:#1D3A5A;border-color:#4ECDC4;transform:translateY(-2px);}
+.name-btn:hover{background:#1D3A5A;border-color:#34D399;transform:translateY(-2px);}
 .name-btn.correct{background:#00B89422;border-color:#00B894;color:#00B894;}
 .name-btn.wrong{background:#FF475722;border-color:#FF4757;color:#FF4757;}
 .name-btn:disabled{cursor:not-allowed;}
@@ -58,7 +59,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 /* MODE B OPTIONS - net thumbnails */
 .net-thumb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto;}
 .net-thumb-option{background:#142038;border:3px solid rgba(78,205,196,0.2);border-radius:12px;padding:10px;cursor:pointer;transition:all 0.2s;text-align:center;}
-.net-thumb-option:hover{border-color:#4ECDC4;background:#1A3050;transform:translateY(-2px);}
+.net-thumb-option:hover{border-color:#34D399;background:#1A3050;transform:translateY(-2px);}
 .net-thumb-option.correct{border-color:#00B894;background:#00B89415;}
 .net-thumb-option.wrong{border-color:#FF4757;background:#FF475715;}
 .net-thumb-option.disabled{cursor:not-allowed;pointer-events:none;}
@@ -72,7 +73,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:10px 20px;display:flex;align-items:center;gap:16px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,0.08);}
 .progress-label{font-size:13px;font-weight:700;color:var(--text2);white-space:nowrap;}
 .progress-track{flex:1;background:#eee;border-radius:99px;height:12px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:99px;transition:width 0.4s;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s;}
 .progress-pct{font-size:13px;font-weight:700;color:var(--g2);min-width:36px;text-align:right;}
 
 /* END */
@@ -85,7 +86,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .end-subtitle{font-size:15px;color:var(--text2);margin-bottom:8px;}
 .end-score{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:24px;}
 .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;}
+.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;}
 .btn-geo:hover{opacity:0.88;}
 .btn-back{background:#f0f0f0;color:var(--text);border:none;border-radius:12px;font-weight:700;padding:12px 24px;cursor:pointer;font-size:15px;}
 .btn-back:hover{background:#e0e0e0;}
@@ -175,7 +176,7 @@ function drawNetCube(svg, scale) {
   // Squares: (col,row) in cross pattern
   const squares = [[1,0],[0,1],[1,1],[2,1],[3,1],[1,2]];
   squares.forEach(([c,r]) => {
-    const rect = svgEl('rect',{x:c*S+2,y:r*S+2,width:S-1,height:S-1,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2',rx:'2'});
+    const rect = svgEl('rect',{x:c*S+2,y:r*S+2,width:S-1,height:S-1,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2',rx:'2'});
     svg.appendChild(rect);
     // Blueprint annotation
     const ann = svgEl('line',{x1:c*S+6,y1:r*S+6,x2:c*S+S-6,y2:r*S+6,stroke:'rgba(78,205,196,0.2)','stroke-width':'0.5'});
@@ -202,7 +203,7 @@ function drawNetCuboid(svg, scale) {
     {x:Sw+2, y:Sh+H+2, w:Lw, h:Sh},  // bottom
   ];
   rects.forEach(r => {
-    const rect = svgEl('rect',{x:r.x,y:r.y,width:r.w,height:r.h,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'1.5',rx:'2'});
+    const rect = svgEl('rect',{x:r.x,y:r.y,width:r.w,height:r.h,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'1.5',rx:'2'});
     svg.appendChild(rect);
   });
 }
@@ -213,12 +214,12 @@ function drawNetCylinder(svg, scale) {
   const totalW = cx2+R+2, totalH = Math.max(RH+4, 2*R+4)+8;
   svg.setAttribute('width', totalW); svg.setAttribute('height', totalH);
   // Rectangle (label)
-  const rect = svgEl('rect',{x:cx1+R+4,y:(totalH-RH)/2,width:RW,height:RH,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2',rx:'4'});
+  const rect = svgEl('rect',{x:cx1+R+4,y:(totalH-RH)/2,width:RW,height:RH,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2',rx:'4'});
   svg.appendChild(rect);
   // Circles
   const midY = totalH/2;
   [cx1, cx2].forEach(cx => {
-    const c = svgEl('circle',{cx,cy:midY,r:R,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2'});
+    const c = svgEl('circle',{cx,cy:midY,r:R,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'});
     svg.appendChild(c);
     // Cross detail
     const ln1 = svgEl('line',{x1:cx-R+4,y1:midY,x2:cx+R-4,y2:midY,stroke:'rgba(78,205,196,0.3)','stroke-width':'0.8'});
@@ -239,12 +240,12 @@ function drawNetCone(svg, scale) {
   const x1=cx+r1*Math.cos(rad1), y1=cy+r1*Math.sin(rad1);
   const sector = svgEl('path',{
     d:`M${cx},${cy} L${x0},${y0} A${r1},${r1} 0 1,1 ${x1},${y1} Z`,
-    fill:'#E0FAF8', stroke:'#4ECDC4','stroke-width':'2'
+    fill:'#E0FAF8', stroke:'#34D399','stroke-width':'2'
   });
   svg.appendChild(sector);
   // Circle (base)
   const circX = R+4, circY = H/2;
-  const c = svgEl('circle',{cx:circX,cy:circY,r:R,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2'});
+  const c = svgEl('circle',{cx:circX,cy:circY,r:R,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'});
   svg.appendChild(c);
 }
 
@@ -258,16 +259,16 @@ function drawNetTriPrism(svg, scale) {
   let cx=4;
   // Triangle 1
   const t1pts = `${cx},${y0+RH} ${cx+TW/2},${y0} ${cx+TW},${y0+RH}`;
-  svg.appendChild(svgEl('polygon',{points:t1pts,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2'}));
+  svg.appendChild(svgEl('polygon',{points:t1pts,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'}));
   cx += TW;
   // 3 rectangles
   for(let i=0;i<3;i++){
-    svg.appendChild(svgEl('rect',{x:cx,y:y0,width:RW,height:RH,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2',rx:'2'}));
+    svg.appendChild(svgEl('rect',{x:cx,y:y0,width:RW,height:RH,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2',rx:'2'}));
     cx += RW;
   }
   // Triangle 2
   const t2pts = `${cx},${y0+RH} ${cx+TW/2},${y0} ${cx+TW},${y0+RH}`;
-  svg.appendChild(svgEl('polygon',{points:t2pts,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2'}));
+  svg.appendChild(svgEl('polygon',{points:t2pts,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'}));
 }
 
 function drawNetSquarePyramid(svg, scale) {
@@ -278,26 +279,26 @@ function drawNetSquarePyramid(svg, scale) {
   svg.setAttribute('width', totalW); svg.setAttribute('height', totalH);
   const cx=TH+4, cy=TH+4;
   // Center square
-  svg.appendChild(svgEl('rect',{x:cx,y:cy,width:S,height:S,fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2',rx:'2'}));
+  svg.appendChild(svgEl('rect',{x:cx,y:cy,width:S,height:S,fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2',rx:'2'}));
   // Top triangle
   svg.appendChild(svgEl('polygon',{
     points:`${cx},${cy} ${cx+S},${cy} ${cx+S/2},${cy-TH}`,
-    fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2'
+    fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'
   }));
   // Bottom triangle
   svg.appendChild(svgEl('polygon',{
     points:`${cx},${cy+S} ${cx+S},${cy+S} ${cx+S/2},${cy+S+TH}`,
-    fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2'
+    fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'
   }));
   // Left triangle
   svg.appendChild(svgEl('polygon',{
     points:`${cx},${cy} ${cx},${cy+S} ${cx-TH},${cy+S/2}`,
-    fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2'
+    fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'
   }));
   // Right triangle
   svg.appendChild(svgEl('polygon',{
     points:`${cx+S},${cy} ${cx+S},${cy+S} ${cx+S+TH},${cy+S/2}`,
-    fill:'#E0FAF8',stroke:'#4ECDC4','stroke-width':'2'
+    fill:'#E0FAF8',stroke:'#34D399','stroke-width':'2'
   }));
 }
 

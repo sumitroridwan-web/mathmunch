@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Symmetry Lab – MathMunch</title>
 <style>
   :root {
-    --primary:#6C5CE7; --primary-light:#E8E4FF;
-    --g1:#4ECDC4; --g2:#2ECC71;
+    --primary:#10B981; --primary-light:#ECFDF5;
+    --g1:#34D399; --g2:#10B981;
     --accent:#FDCB6E; --bg:#F0F4FF;
     --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
     --green:#00B894; --red:#FF4757;
@@ -37,7 +38,7 @@
 
   /* ANSWERS */
   .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto}
-  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:18px;cursor:pointer;border:2px solid #E8E4FF;background:var(--white);color:var(--text);transition:all 0.2s}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:18px;cursor:pointer;border:2px solid #ECFDF5;background:var(--white);color:var(--text);transition:all 0.2s}
   .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
   .btn-answer.correct{background:#E8FFF3;border-color:var(--green);color:var(--green)}
   .btn-answer.wrong{background:#FFE8EC;border-color:var(--red);color:var(--red)}
@@ -54,7 +55,7 @@
   .grid-cell.check-correct{background:var(--green)!important;border-color:#00956C!important}
   .grid-cell.check-wrong{background:var(--red)!important;border-color:#CC2233!important}
   .grid-cell.check-missed{background:#FFD700!important;border-color:#B8A000!important}
-  .mirror-line{width:6px;background:linear-gradient(180deg,var(--primary),#9B8FF5);border-radius:3px;margin:0 4px;align-self:stretch;box-shadow:0 0 8px rgba(108,92,231,0.4)}
+  .mirror-line{width:6px;background:linear-gradient(180deg,var(--primary),#9B8FF5);border-radius:3px;margin:0 4px;align-self:stretch;box-shadow:0 0 8px rgba(16,185,129,0.4)}
   .check-btn{margin-top:16px}
 
   /* FEEDBACK */
@@ -67,7 +68,7 @@
   .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;z-index:99;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px}
   .progress-info{display:flex;justify-content:space-between;align-items:center;max-width:800px;margin:0 auto 6px}
   .progress-track{max-width:800px;margin:0 auto;height:10px;background:#E0E8FF;border-radius:10px;overflow:hidden}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:10px;transition:width 0.4s ease}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:10px;transition:width 0.4s ease}
 
   /* END SCREEN */
   .end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:200;display:none}
@@ -78,13 +79,13 @@
   .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:8px}
   .end-score{font-size:18px;color:var(--text2);margin-bottom:28px}
   .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px}
+  .btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px}
   .btn-back{background:var(--primary-light);color:var(--primary);border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-flex;align-items:center}
 
   /* MODE TAG */
   .mode-tag{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:0.5px}
   .mode-a-tag{background:#E0FAF8;color:#0090A0}
-  .mode-b-tag{background:#F0EAFF;color:#6C5CE7}
+  .mode-b-tag{background:#F0EAFF;color:#10B981}
 
   /* SVG SHAPES */
   .shape-svg-wrap{display:flex;justify-content:center;align-items:center}
@@ -216,12 +217,12 @@ function drawSquare(showLines){
   let lines = '';
   if(showLines){
     lines = `
-      <line x1="${x+s/2}" y1="${y-15}" x2="${x+s/2}" y2="${y+s+15}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
-      <line x1="${x-15}" y1="${y+s/2}" x2="${x+s+15}" y2="${y+s/2}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${x+s/2}" y1="${y-15}" x2="${x+s/2}" y2="${y+s+15}" stroke="#10B981" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${x-15}" y1="${y+s/2}" x2="${x+s+15}" y2="${y+s/2}" stroke="#10B981" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
       <line x1="${x-10}" y1="${y-10}" x2="${x+s+10}" y2="${y+s+10}" stroke="#FDCB6E" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
       <line x1="${x+s+10}" y1="${y-10}" x2="${x-10}" y2="${y+s+10}" stroke="#FDCB6E" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
   }
-  return svgWrap(`<rect x="${x}" y="${y}" width="${s}" height="${s}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3" rx="4"/>${lines}`);
+  return svgWrap(`<rect x="${x}" y="${y}" width="${s}" height="${s}" fill="#E0FAF8" stroke="#34D399" stroke-width="3" rx="4"/>${lines}`);
 }
 
 function drawRectangle(showLines){
@@ -229,10 +230,10 @@ function drawRectangle(showLines){
   let lines = '';
   if(showLines){
     lines = `
-      <line x1="${x+w/2}" y1="${y-15}" x2="${x+w/2}" y2="${y+h+15}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
-      <line x1="${x-15}" y1="${y+h/2}" x2="${x+w+15}" y2="${y+h/2}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
+      <line x1="${x+w/2}" y1="${y-15}" x2="${x+w/2}" y2="${y+h+15}" stroke="#10B981" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${x-15}" y1="${y+h/2}" x2="${x+w+15}" y2="${y+h/2}" stroke="#10B981" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
   }
-  return svgWrap(`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3" rx="4"/>${lines}`);
+  return svgWrap(`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#E0FAF8" stroke="#34D399" stroke-width="3" rx="4"/>${lines}`);
 }
 
 function drawEqTriangle(showLines){
@@ -248,20 +249,20 @@ function drawEqTriangle(showLines){
   if(showLines){
     // 3 medians = lines of symmetry
     lines = `
-      <line x1="${ax}" y1="${ay-10}" x2="${(bx+cx2)/2}" y2="${(by+cy2)/2+5}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="${ax}" y1="${ay-10}" x2="${(bx+cx2)/2}" y2="${(by+cy2)/2+5}" stroke="#10B981" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
       <line x1="${bx-10}" y1="${by+5}" x2="${(ax+cx2)/2}" y2="${(ay+cy2)/2-5}" stroke="#FDCB6E" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
       <line x1="${cx2+10}" y1="${cy2+5}" x2="${(ax+bx)/2}" y2="${(ay+by)/2-5}" stroke="#00B894" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
   }
-  return svgWrap(`<polygon points="${ax},${ay} ${bx},${by} ${cx2},${cy2}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3"/>${lines}`);
+  return svgWrap(`<polygon points="${ax},${ay} ${bx},${by} ${cx2},${cy2}" fill="#E0FAF8" stroke="#34D399" stroke-width="3"/>${lines}`);
 }
 
 function drawIsoTriangle(showLines){
   const ax=100,ay=20, bx=30,by=175, cx=170,cy=175;
   let lines = '';
   if(showLines){
-    lines = `<line x1="100" y1="${ay-12}" x2="100" y2="${by+8}" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
+    lines = `<line x1="100" y1="${ay-12}" x2="100" y2="${by+8}" stroke="#10B981" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
   }
-  return svgWrap(`<polygon points="${ax},${ay} ${bx},${by} ${cx},${cy}" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="3"/>${lines}`);
+  return svgWrap(`<polygon points="${ax},${ay} ${bx},${by} ${cx},${cy}" fill="#E0FAF8" stroke="#34D399" stroke-width="3"/>${lines}`);
 }
 
 function drawLetterH(showLines){
@@ -271,13 +272,13 @@ function drawLetterH(showLines){
   let lines = '';
   if(showLines){
     lines = `
-      <line x1="100" y1="15" x2="100" y2="185" stroke="#6C5CE7" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
+      <line x1="100" y1="15" x2="100" y2="185" stroke="#10B981" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>
       <line x1="15" y1="100" x2="185" y2="100" stroke="#FDCB6E" stroke-width="2" stroke-dasharray="6,4" opacity="0.7"/>`;
   }
   const h = `
-    <rect x="35" y="25" width="30" height="150" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="2"/>
-    <rect x="135" y="25" width="30" height="150" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="2"/>
-    <rect x="65" y="82" width="70" height="36" fill="#E0FAF8" stroke="#4ECDC4" stroke-width="2"/>
+    <rect x="35" y="25" width="30" height="150" fill="#E0FAF8" stroke="#34D399" stroke-width="2"/>
+    <rect x="135" y="25" width="30" height="150" fill="#E0FAF8" stroke="#34D399" stroke-width="2"/>
+    <rect x="65" y="82" width="70" height="36" fill="#E0FAF8" stroke="#34D399" stroke-width="2"/>
     ${lines}`;
   return svgWrap(h);
 }

@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Times Table Tornado – MathMunch</title>
 <style>
 :root {
-  --primary: #6C5CE7;
-  --primary-light: #E8E4FF;
+  --primary: #3B82F6;
+  --primary-light: #EFF6FF;
   --accent: #FDCB6E;
   --n1: #FF6B6B;
   --n2: #FF8E53;
@@ -18,11 +19,11 @@
   --green: #00B894;
   --red: #FF4757;
   --radius: 16px;
-  --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  --shadow: 0 4px 20px rgba(59,130,246,0.12);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -87,7 +88,7 @@ body.shake { animation: shake 0.4s ease; }
 .topbar {
   position: sticky; top: 0; z-index: 100;
   background: rgba(255,255,255,0.95);
-  box-shadow: 0 2px 12px rgba(108,92,231,0.10);
+  box-shadow: 0 2px 12px rgba(59,130,246,0.10);
   display: flex; align-items: center; gap: 12px;
   padding: 0 20px; height: 60px;
 }
@@ -138,7 +139,7 @@ body.shake { animation: shake 0.4s ease; }
 
 /* TIMER BAR */
 .timer-track {
-  height: 8px;
+  height: 12px;
   background: rgba(255,255,255,0.2);
   border-radius: 99px;
   overflow: hidden;
@@ -209,7 +210,7 @@ body.shake { animation: shake 0.4s ease; }
 }
 .ans-btn {
   background: rgba(255,255,255,0.10);
-  border: 2px solid rgba(108,92,231,0.4);
+  border: 2px solid rgba(59,130,246,0.4);
   border-radius: var(--radius);
   padding: 18px 12px;
   font-size: 1.5rem;
@@ -219,10 +220,10 @@ body.shake { animation: shake 0.4s ease; }
   transition: all 0.18s ease;
 }
 .ans-btn:hover:not(:disabled) {
-  background: rgba(108,92,231,0.35);
+  background: rgba(59,130,246,0.35);
   border-color: var(--primary);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(108,92,231,0.3);
+  box-shadow: 0 6px 20px rgba(59,130,246,0.3);
 }
 .ans-btn:disabled { cursor: default; }
 .ans-btn.correct { background: rgba(0,184,148,0.25); border-color: var(--green); color: #7EFFD8; animation: popIn 0.3s ease; }
@@ -252,11 +253,11 @@ body.shake { animation: shake 0.4s ease; }
 .feedback.wrong-fb { background: rgba(255,71,87,0.15); color: #FF8E9E; border: 1px solid rgba(255,71,87,0.25); }
 
 /* PROGRESS BAR */
-.progress-bar-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: rgba(15,15,45,0.95); border-top: 1px solid rgba(108,92,231,0.2); padding: 10px 20px 14px; display: none; }
+.progress-bar-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: rgba(15,15,45,0.95); border-top: 1px solid rgba(59,130,246,0.2); padding: 10px 20px 14px; display: none; }
 .progress-bar-wrap.visible { display: block; }
 .progress-info { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
 .progress-track { height: 10px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, #6C5CE7, #A855F7, #FF6B6B); border-radius: 99px; transition: width 0.4s ease; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #3B82F6, #A855F7, #FF6B6B); border-radius: 99px; transition: width 0.4s ease; }
 
 /* END SCREEN */
 .end-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 300; align-items: center; justify-content: center; display: none; }
@@ -356,7 +357,7 @@ body.shake { animation: shake 0.4s ease; }
 <script>
 const TABLE_COLORS = {
   2:'#FF6B6B',3:'#FF8E53',4:'#FDCB6E',5:'#00B894',
-  6:'#6C5CE7',7:'#A855F7',8:'#0090C0',9:'#FF4757',10:'#2D3436'
+  6:'#3B82F6',7:'#A855F7',8:'#0090C0',9:'#FF4757',10:'#2D3436'
 };
 const TABLE_ICONS = {
   2:'🐦',3:'🌈',4:'🍀',5:'⭐',6:'🎯',7:'🌪️',8:'🚀',9:'💎',10:'🔥'

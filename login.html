@@ -4,86 +4,85 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In – MathMunch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #6C5CE7;
-      --primary-light: #E8E4FF;
-      --primary-dark: #5A4BD1;
-      --accent: #FDCB6E;
-      --number-1: #FF6B6B;
-      --bg-main: #F0F4FF;
-      --bg-white: #FFFFFF;
-      --text-dark: #1E1E2E;
-      --text-medium: #525270;
-      --text-light: #8888A8;
-      --border: #E0DCFF;
-      --error: #FF6B6B;
-      --success: #00B894;
+      --blue:        #3B82F6;
+      --blue-dark:   #1D4ED8;
+      --blue-light:  #EFF6FF;
+      --blue-mid:    #BFDBFE;
+      --green:       #10B981;
+      --orange:      #F97316;
+      --orange-dark: #C2410C;
+      --yellow:      #FBBF24;
+      --yellow-dark: #D97706;
+      --bg:          #F8FAFC;
+      --white:       #FFFFFF;
+      --outline:     #E2E8F0;
+      --text:        #191C1E;
+      --text-mid:    #424754;
+      --text-soft:   #727785;
+      --error:       #EF4444;
+      --success:     #10B981;
+      --radius:      24px;
+      --radius-btn:  9999px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg-main);
-      color: var(--text-dark);
+      font-family: 'Lexend', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
+    h1, h2, h3, .logo-text { font-family: 'Quicksand', sans-serif; }
+
     /* ── HEADER ── */
     header {
-      background: var(--bg-white);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-      padding: 14px 24px;
+      background: var(--white);
+      border-bottom: 1px solid var(--outline);
+      padding: 16px 24px;
     }
 
     .header-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
     }
 
     .logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; flex-shrink: 0;
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
     }
 
     .logo-icon {
-      width: 44px; height: 44px;
-      background: linear-gradient(135deg, var(--primary), #A29BFE);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
+      width: 40px; height: 40px; background: var(--blue);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.3rem;
+      box-shadow: 0 2px 0 var(--blue-dark);
     }
 
-    .logo-text {
-      font-size: 1.4rem; font-weight: 900;
-      background: linear-gradient(135deg, var(--primary), var(--number-1));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
+    .logo-text { font-size: 1.35rem; font-weight: 700; color: var(--blue); }
 
     .logo-tagline {
-      font-size: 0.6rem; color: var(--text-light);
+      font-size: .6rem; color: var(--text-soft);
       display: block; font-weight: 600;
       text-transform: uppercase; letter-spacing: 1px;
-      -webkit-text-fill-color: var(--text-light);
     }
 
     .header-link {
-      font-size: 0.88rem; font-weight: 600; color: var(--text-medium);
+      font-size: .88rem; font-weight: 600; color: var(--text-mid);
       text-decoration: none;
     }
 
-    .header-link span {
-      color: var(--primary); font-weight: 700;
-    }
+    .header-link span { color: var(--blue); font-weight: 700; }
 
-    /* ── MAIN LAYOUT ── */
+    /* ── LAYOUT ── */
     .page {
       flex: 1;
       display: grid;
@@ -93,25 +92,21 @@
 
     /* ── LEFT PANEL ── */
     .panel-left {
-      background: linear-gradient(145deg, #6C5CE7 0%, #A29BFE 50%, #FF6B6B 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 48px;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(145deg, #1D4ED8 0%, #3B82F6 50%, #60A5FA 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 60px 48px; position: relative; overflow: hidden;
     }
 
     .panel-left::before {
       content: '';
       position: absolute; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-image: radial-gradient(circle, rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size: 28px 28px;
     }
 
     .panel-illustration {
-      font-size: 5rem;
-      margin-bottom: 24px;
+      font-size: 5rem; margin-bottom: 24px;
       animation: bob 2.5s ease-in-out infinite;
       position: relative; z-index: 1;
     }
@@ -119,22 +114,19 @@
     @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 
     .panel-title {
-      font-size: 2rem; font-weight: 900;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 2rem; font-weight: 700;
       color: white; text-align: center;
       line-height: 1.2; margin-bottom: 16px;
       position: relative; z-index: 1;
     }
 
-    .panel-title em {
-      font-style: normal;
-      color: var(--accent);
-    }
+    .panel-title em { font-style: normal; color: var(--yellow); }
 
     .panel-desc {
-      color: rgba(255,255,255,0.8);
-      text-align: center; font-size: 0.95rem;
-      line-height: 1.6; max-width: 320px;
-      position: relative; z-index: 1;
+      color: rgba(255,255,255,.8); text-align: center;
+      font-size: .95rem; line-height: 1.7;
+      max-width: 300px; position: relative; z-index: 1;
     }
 
     .panel-badges {
@@ -144,89 +136,71 @@
     }
 
     .panel-badge {
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: white; font-size: 0.8rem; font-weight: 700;
-      padding: 8px 16px; border-radius: 20px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: white; font-size: .8rem; font-weight: 600;
+      padding: 8px 16px; border-radius: var(--radius-btn);
     }
 
-    /* ── RIGHT PANEL (FORM) ── */
+    /* ── RIGHT PANEL ── */
     .panel-right {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 32px;
-      background: var(--bg-white);
+      display: flex; align-items: center; justify-content: center;
+      padding: 48px 32px; background: var(--white);
     }
 
-    .form-box {
-      width: 100%;
-      max-width: 440px;
-    }
+    .form-box { width: 100%; max-width: 440px; }
 
     .form-heading {
-      font-size: 1.8rem; font-weight: 900;
-      color: var(--text-dark); margin-bottom: 6px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.8rem; font-weight: 700;
+      color: var(--text); margin-bottom: 6px;
     }
 
-    .form-sub {
-      color: var(--text-medium); font-size: 0.95rem;
-      margin-bottom: 32px;
-    }
+    .form-sub { color: var(--text-mid); font-size: .95rem; margin-bottom: 28px; }
 
-    /* Google btn */
+    /* Google */
     .btn-google {
       width: 100%;
       display: flex; align-items: center; justify-content: center; gap: 12px;
       padding: 13px 20px;
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      background: white;
-      font-size: 0.95rem; font-weight: 700; color: var(--text-dark);
-      cursor: pointer; transition: all 0.2s;
-      margin-bottom: 24px;
-      text-decoration: none;
+      border: 2px solid var(--outline); border-radius: var(--radius-btn);
+      background: white; font-family: 'Lexend', sans-serif;
+      font-size: .95rem; font-weight: 600; color: var(--text);
+      cursor: pointer; transition: all .2s; margin-bottom: 24px;
+      text-decoration: none; box-shadow: 0 2px 0 var(--outline);
     }
 
     .btn-google:hover {
-      border-color: var(--primary);
-      background: var(--primary-light);
+      border-color: var(--blue); background: var(--blue-light);
       transform: translateY(-1px);
     }
 
-    .google-icon {
-      width: 20px; height: 20px;
-    }
+    .btn-google:active { transform: translateY(1px); box-shadow: none; }
+
+    .google-icon { width: 20px; height: 20px; }
 
     .divider {
       display: flex; align-items: center; gap: 12px;
-      margin-bottom: 24px; color: var(--text-light);
-      font-size: 0.85rem;
+      margin-bottom: 24px; color: var(--text-soft); font-size: .85rem;
     }
 
     .divider::before, .divider::after {
-      content: ''; flex: 1;
-      height: 1px; background: var(--border);
+      content: ''; flex: 1; height: 1px; background: var(--outline);
     }
 
-    /* Form fields */
+    /* Fields */
     .field { margin-bottom: 18px; }
 
     label {
-      display: block;
-      font-size: 0.85rem; font-weight: 700;
-      color: var(--text-dark); margin-bottom: 7px;
+      display: block; font-size: .85rem; font-weight: 600;
+      color: var(--text); margin-bottom: 7px;
     }
 
-    .input-wrap {
-      position: relative;
-    }
+    .input-wrap { position: relative; }
 
     .input-icon {
       position: absolute; left: 14px; top: 50%;
-      transform: translateY(-50%);
-      font-size: 1rem; pointer-events: none;
+      transform: translateY(-50%); font-size: 1rem; pointer-events: none;
     }
 
     input[type="email"],
@@ -234,131 +208,118 @@
     input[type="text"] {
       width: 100%;
       padding: 13px 14px 13px 42px;
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      font-size: 0.95rem;
-      color: var(--text-dark);
-      background: var(--bg-main);
-      transition: all 0.2s;
-      outline: none;
-      font-family: inherit;
+      border: 2px solid var(--outline); border-radius: 14px;
+      font-family: 'Lexend', sans-serif;
+      font-size: .95rem; color: var(--text);
+      background: var(--bg); transition: all .2s; outline: none;
     }
 
     input:focus {
-      border-color: var(--primary);
-      background: white;
-      box-shadow: 0 0 0 4px rgba(108,92,231,0.1);
+      border-color: var(--blue); background: white;
+      box-shadow: 0 0 0 4px rgba(59,130,246,.1);
     }
 
-    input.error {
-      border-color: var(--error);
-    }
+    input.err { border-color: var(--error); }
 
     .field-error {
-      font-size: 0.8rem; color: var(--error);
+      font-size: .8rem; color: var(--error);
       margin-top: 5px; display: none;
     }
 
-    /* Password toggle */
     .toggle-pw {
       position: absolute; right: 14px; top: 50%;
       transform: translateY(-50%);
-      background: none; border: none;
-      cursor: pointer; font-size: 1.1rem;
-      color: var(--text-light);
-      padding: 0;
-      transition: color 0.2s;
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; color: var(--text-soft); padding: 0;
+      transition: color .15s;
     }
+    .toggle-pw:hover { color: var(--blue); }
 
-    .toggle-pw:hover { color: var(--primary); }
-
-    /* Remember + forgot */
     .form-row {
       display: flex; align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
+      justify-content: space-between; margin-bottom: 24px;
     }
 
     .remember {
       display: flex; align-items: center; gap: 8px;
-      font-size: 0.88rem; color: var(--text-medium);
-      cursor: pointer;
+      font-size: .88rem; color: var(--text-mid); cursor: pointer;
     }
 
     .remember input[type="checkbox"] {
-      width: 17px; height: 17px;
-      accent-color: var(--primary);
-      padding: 0; border-radius: 4px;
+      width: 17px; height: 17px; accent-color: var(--blue); padding: 0;
     }
 
     .forgot {
-      font-size: 0.88rem; font-weight: 700;
-      color: var(--primary); text-decoration: none;
-    }
-
-    .forgot:hover { text-decoration: underline; }
-
-    /* Submit button */
-    .btn-submit {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, var(--primary), #A29BFE);
-      color: white;
-      border: none; border-radius: 14px;
-      font-size: 1rem; font-weight: 800;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.3px;
-      margin-bottom: 20px;
-    }
-
-    .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(108,92,231,0.4);
-    }
-
-    .btn-submit:active { transform: translateY(0); }
-
-    /* Loading state */
-    .btn-submit.loading {
-      pointer-events: none;
-      opacity: 0.8;
-    }
-
-    /* Signup link */
-    .form-footer {
-      text-align: center;
-      font-size: 0.9rem; color: var(--text-medium);
-    }
-
-    .form-footer a {
-      color: var(--primary); font-weight: 700;
+      font-size: .88rem; font-weight: 600; color: var(--blue);
       text-decoration: none;
     }
+    .forgot:hover { text-decoration: underline; }
 
+    /* Buttons */
+    .btn-submit {
+      width: 100%; padding: 14px;
+      background: var(--blue); color: white;
+      border: none; border-radius: var(--radius-btn);
+      font-family: 'Lexend', sans-serif;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 0 var(--blue-dark);
+      transition: transform .1s, box-shadow .1s;
+      margin-bottom: 14px;
+    }
+    .btn-submit:hover { transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--blue-dark); }
+    .btn-submit.loading { opacity: .8; pointer-events: none; }
+
+    .btn-guest {
+      width: 100%; padding: 14px;
+      background: var(--yellow); color: var(--text);
+      border: none; border-radius: var(--radius-btn);
+      font-family: 'Lexend', sans-serif;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 0 var(--yellow-dark);
+      transition: transform .1s, box-shadow .1s;
+      margin-bottom: 20px;
+    }
+    .btn-guest:hover { transform: translateY(-1px); }
+    .btn-guest:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--yellow-dark); }
+
+    .or-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 14px; color: var(--text-soft); font-size: .82rem;
+    }
+    .or-divider::before, .or-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--outline);
+    }
+
+    .form-footer {
+      text-align: center; font-size: .9rem; color: var(--text-mid);
+    }
+    .form-footer a { color: var(--blue); font-weight: 600; text-decoration: none; }
     .form-footer a:hover { text-decoration: underline; }
 
     /* Toast */
     .toast {
       position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(80px);
-      background: var(--text-dark); color: white;
+      background: var(--text); color: white;
       padding: 12px 24px; border-radius: 12px;
-      font-size: 0.9rem; font-weight: 600;
-      transition: transform 0.3s ease;
-      z-index: 999; pointer-events: none;
+      font-size: .9rem; font-weight: 600;
+      transition: transform .3s ease; z-index: 999; pointer-events: none;
     }
-
     .toast.show { transform: translateX(-50%) translateY(0); }
-    .toast.success { background: var(--success); }
-    .toast.error-toast { background: var(--error); }
+    .toast.ok { background: var(--success); }
+    .toast.bad { background: var(--error); }
 
-    /* ── RESPONSIVE ── */
+    /* Responsive */
     @media (max-width: 768px) {
       .page { grid-template-columns: 1fr; }
       .panel-left { display: none; }
-      .panel-right { padding: 32px 20px; background: var(--bg-main); }
-      .form-box { background: white; padding: 32px 24px; border-radius: 24px; box-shadow: 0 4px 30px rgba(108,92,231,0.12); }
+      .panel-right { padding: 32px 20px; background: var(--bg); }
+      .form-box {
+        background: white; padding: 32px 24px;
+        border-radius: var(--radius);
+        box-shadow: 0 4px 0 var(--outline), 0 8px 32px rgba(0,0,0,.08);
+      }
     }
   </style>
 </head>
@@ -379,10 +340,9 @@
 
 <div class="page">
 
-  <!-- LEFT PANEL -->
   <div class="panel-left">
     <div class="panel-illustration">🦊</div>
-    <div class="panel-title">Welcome<br>back, <em>explorer!</em></div>
+    <div class="panel-title">Welcome back,<br><em>explorer!</em></div>
     <p class="panel-desc">Sign in to continue your maths adventure, check your progress, and earn more badges.</p>
     <div class="panel-badges">
       <span class="panel-badge">🏆 45 Games</span>
@@ -391,16 +351,14 @@
     </div>
   </div>
 
-  <!-- RIGHT PANEL -->
   <div class="panel-right">
     <div class="form-box">
 
       <h1 class="form-heading">Sign in 👋</h1>
       <p class="form-sub">Enter your details to continue playing.</p>
 
-      <!-- Google -->
       <a href="#" class="btn-google" onclick="handleGoogle(event)">
-        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg class="google-icon" viewBox="0 0 24 24">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
@@ -443,14 +401,9 @@
 
       </form>
 
-      <div style="position:relative;margin:20px 0;text-align:center;">
-        <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border);"></div>
-        <span style="position:relative;background:white;padding:0 12px;font-size:.82rem;color:var(--text-light);">or try without signing up</span>
-      </div>
+      <div class="or-divider">or try without signing up</div>
 
-      <button class="btn-submit" id="demoBtn" style="background:linear-gradient(135deg,#FDCB6E,#F39C12);margin-bottom:20px;" onclick="playAsGuest()">
-        🎮 Play as Guest — No Account Needed
-      </button>
+      <button class="btn-guest" onclick="playAsGuest()">🎮 Play as Guest — No Account Needed</button>
 
       <div class="form-footer">
         Don't have an account? <a href="signup.html">Join Free</a>
@@ -467,14 +420,13 @@
   const form = document.getElementById('loginForm');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
-  const togglePw = document.getElementById('togglePw');
   const submitBtn = document.getElementById('submitBtn');
   const toast = document.getElementById('toast');
 
-  togglePw.addEventListener('click', () => {
+  document.getElementById('togglePw').addEventListener('click', () => {
     const isText = passwordInput.type === 'text';
     passwordInput.type = isText ? 'password' : 'text';
-    togglePw.textContent = isText ? '👁️' : '🙈';
+    document.getElementById('togglePw').textContent = isText ? '👁️' : '🙈';
   });
 
   function showToast(msg, type = '') {
@@ -486,45 +438,32 @@
   function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
   function setError(input, errorEl, show) {
-    input.classList.toggle('error', show);
+    input.classList.toggle('err', show);
     errorEl.style.display = show ? 'block' : 'none';
   }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const email = emailInput.value.trim();
     const password = passwordInput.value;
-
     let valid = true;
 
-    if (!validateEmail(email)) {
-      setError(emailInput, document.getElementById('emailError'), true);
-      valid = false;
-    } else {
-      setError(emailInput, document.getElementById('emailError'), false);
-    }
+    if (!validateEmail(email)) { setError(emailInput, document.getElementById('emailError'), true); valid = false; }
+    else { setError(emailInput, document.getElementById('emailError'), false); }
 
-    if (password.length < 6) {
-      setError(passwordInput, document.getElementById('passwordError'), true);
-      valid = false;
-    } else {
-      setError(passwordInput, document.getElementById('passwordError'), false);
-    }
+    if (password.length < 6) { setError(passwordInput, document.getElementById('passwordError'), true); valid = false; }
+    else { setError(passwordInput, document.getElementById('passwordError'), false); }
 
     if (!valid) return;
 
     submitBtn.classList.add('loading');
     submitBtn.textContent = 'Signing in…';
-
-    // Simulate auth delay
     await new Promise(r => setTimeout(r, 1200));
-
     submitBtn.classList.remove('loading');
     submitBtn.textContent = 'Sign In →';
 
     localStorage.setItem('mm_user', JSON.stringify({email}));
-    showToast('Welcome back! Redirecting…', 'success');
+    showToast('Welcome back! Redirecting…', 'ok');
     setTimeout(() => {
       const redir = sessionStorage.getItem('mm_redir');
       sessionStorage.removeItem('mm_redir');
@@ -538,13 +477,8 @@
   }
 
   function playAsGuest() {
-    localStorage.setItem('mm_user', JSON.stringify({
-      name: 'Guest Player',
-      email: 'guest@mathmunch.com',
-      role: 'student',
-      isGuest: true
-    }));
-    showToast('Welcome, Guest! Enjoy the games 🎮', 'success');
+    localStorage.setItem('mm_user', JSON.stringify({name:'Guest Player',email:'guest@mathmunch.com',role:'student',isGuest:true}));
+    showToast('Welcome, Guest! Enjoy the games 🎮', 'ok');
     setTimeout(() => {
       const redir = sessionStorage.getItem('mm_redir');
       sessionStorage.removeItem('mm_redir');

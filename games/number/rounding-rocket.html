@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Rounding Rocket – MathMunch</title>
 <style>
 :root {
-  --primary: #6C5CE7;
-  --primary-light: #E8E4FF;
+  --primary: #3B82F6;
+  --primary-light: #EFF6FF;
   --accent: #FDCB6E;
   --n1: #FF6B6B;
   --n2: #FF8E53;
@@ -18,11 +19,11 @@
   --green: #00B894;
   --red: #FF4757;
   --radius: 16px;
-  --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  --shadow: 0 4px 20px rgba(59,130,246,0.12);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   background: #0F0F2D;
   color: var(--white);
   min-height: 100vh;
@@ -52,7 +53,7 @@ body::before {
   z-index: 100;
   background: rgba(15,15,45,0.95);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(108,92,231,0.3);
+  border-bottom: 1px solid rgba(59,130,246,0.3);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -180,7 +181,7 @@ main {
 }
 .ans-btn {
   background: rgba(255,255,255,0.08);
-  border: 2px solid rgba(108,92,231,0.4);
+  border: 2px solid rgba(59,130,246,0.4);
   border-radius: var(--radius);
   padding: 16px 12px;
   font-size: 1.3rem;
@@ -190,7 +191,7 @@ main {
   transition: all 0.18s ease;
 }
 .ans-btn:hover:not(:disabled) {
-  background: rgba(108,92,231,0.3);
+  background: rgba(59,130,246,0.3);
   border-color: var(--primary);
   transform: translateY(-2px);
 }
@@ -246,7 +247,7 @@ main {
   right: 0;
   z-index: 100;
   background: rgba(15,15,45,0.95);
-  border-top: 1px solid rgba(108,92,231,0.2);
+  border-top: 1px solid rgba(59,130,246,0.2);
   padding: 10px 20px 14px;
 }
 .progress-info {
@@ -265,7 +266,7 @@ main {
 }
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+  background: linear-gradient(90deg,#60A5FA,#3B82F6);
   border-radius: 99px;
   transition: width 0.4s ease;
 }

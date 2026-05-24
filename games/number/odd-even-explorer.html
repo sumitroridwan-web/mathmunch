@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Odd or Even Explorer – MathMunch</title>
 <style>
   :root {
-    --primary: #6C5CE7;
-    --primary-light: #E8E4FF;
+    --primary: #3B82F6;
+    --primary-light: #EFF6FF;
     --accent: #FDCB6E;
     --n1: #FF6B6B;
     --n2: #FF8E53;
@@ -18,11 +19,11 @@
     --green: #00B894;
     --red: #FF4757;
     --radius: 16px;
-    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+    --shadow: 0 4px 20px rgba(59,130,246,0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Lexend', system-ui, sans-serif;
     background: linear-gradient(160deg, #0F0C29, #302B63, #24243E);
     color: var(--white); min-height: 100vh;
     overflow-x: hidden;
@@ -50,7 +51,7 @@
     display: flex; align-items: center; gap: 12px;
     padding: 10px 20px; height: 60px;
   }
-  .top-bar a { text-decoration: none; color: #A29BFE; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+  .top-bar a { text-decoration: none; color: #93C5FD; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
   .top-bar a:hover { text-decoration: underline; }
   .top-bar .brand { font-weight: 800; font-size: 1rem; color: var(--white); }
   .top-bar .game-title { font-weight: 700; font-size: 0.95rem; color: rgba(255,255,255,0.7); flex: 1; }
@@ -86,10 +87,10 @@
 
   /* TIMER BAR */
   .timer-wrap { margin: 16px auto 24px; max-width: 300px; }
-  .timer-bar-track { background: rgba(255,255,255,0.2); border-radius: 99px; height: 8px; overflow: hidden; }
+  .timer-bar-track { background: rgba(255,255,255,0.2); border-radius: 99px; height: 12px; overflow: hidden; }
   .timer-bar-fill {
     height: 100%; border-radius: 99px;
-    background: linear-gradient(90deg, #A29BFE, #6C5CE7);
+    background: linear-gradient(90deg, #93C5FD, #3B82F6);
     transition: width 0.1s linear;
   }
   .timer-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 4px; font-weight: 600; }
@@ -107,7 +108,7 @@
   .answer-card:hover:not(:disabled) { transform: translateY(-4px) scale(1.03); }
   .answer-card:disabled { cursor: default; opacity: 0.7; }
   .answer-card.odd-card { background: linear-gradient(135deg, #FF6B6B, #FF8E53); box-shadow: 0 8px 24px rgba(255,107,107,0.4); }
-  .answer-card.even-card { background: linear-gradient(135deg, #6C5CE7, #A29BFE); box-shadow: 0 8px 24px rgba(108,92,231,0.4); }
+  .answer-card.even-card { background: linear-gradient(135deg, #3B82F6, #93C5FD); box-shadow: 0 8px 24px rgba(59,130,246,0.4); }
   .card-planet { font-size: 2.4rem; }
   .card-label { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; }
   .card-sub { font-size: 0.8rem; opacity: 0.85; font-weight: 600; }
@@ -175,7 +176,7 @@
   }
   .end-emoji { font-size: 4rem; margin-bottom: 12px; }
   .end-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: var(--white); }
-  .end-score { font-size: 3rem; font-weight: 800; color: #A29BFE; margin: 12px 0; }
+  .end-score { font-size: 3rem; font-weight: 800; color: #93C5FD; margin: 12px 0; }
   .end-stars { font-size: 2rem; margin: 8px 0; }
   .end-label { font-size: 1rem; color: rgba(255,255,255,0.6); margin-bottom: 24px; font-weight: 600; }
   .end-bonus { font-size: 0.9rem; color: var(--accent); font-weight: 700; margin-bottom: 16px; }
@@ -187,7 +188,7 @@
     display: block; width: 100%; transition: transform 0.15s;
   }
   .btn-play-again:hover { transform: translateY(-2px); }
-  .back-link { display: block; color: #A29BFE; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+  .back-link { display: block; color: #93C5FD; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
   .back-link:hover { text-decoration: underline; }
 </style>
 </head>

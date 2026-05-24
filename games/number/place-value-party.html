@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Place Value Party – MathMunch</title>
 <style>
 :root {
-  --primary: #6C5CE7;
-  --primary-light: #E8E4FF;
+  --primary: #3B82F6;
+  --primary-light: #EFF6FF;
   --accent: #FDCB6E;
   --n1: #FF6B6B;
   --n2: #FF8E53;
@@ -18,11 +19,11 @@
   --green: #00B894;
   --red: #FF4757;
   --radius: 16px;
-  --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  --shadow: 0 4px 20px rgba(59,130,246,0.12);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -36,7 +37,7 @@ body::before {
   inset: 0;
   background-image:
     radial-gradient(circle, #FF6B6B 2px, transparent 2px),
-    radial-gradient(circle, #6C5CE7 2px, transparent 2px),
+    radial-gradient(circle, #3B82F6 2px, transparent 2px),
     radial-gradient(circle, #FDCB6E 2px, transparent 2px),
     radial-gradient(circle, #00B894 2px, transparent 2px),
     radial-gradient(circle, #FF8E53 2px, transparent 2px);
@@ -53,7 +54,7 @@ body::before {
   top: 0;
   z-index: 100;
   background: var(--white);
-  box-shadow: 0 2px 12px rgba(108,92,231,0.10);
+  box-shadow: 0 2px 12px rgba(59,130,246,0.10);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -249,13 +250,13 @@ main {
   color: var(--text);
   cursor: pointer;
   transition: all 0.18s ease;
-  box-shadow: 0 2px 8px rgba(108,92,231,0.08);
+  box-shadow: 0 2px 8px rgba(59,130,246,0.08);
 }
 .ans-btn:hover:not(:disabled) {
   background: var(--primary-light);
   border-color: var(--primary);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(108,92,231,0.18);
+  box-shadow: 0 6px 18px rgba(59,130,246,0.18);
 }
 .ans-btn:disabled { cursor: default; }
 .ans-btn.correct {
@@ -316,7 +317,7 @@ main {
   right: 0;
   z-index: 100;
   background: var(--white);
-  box-shadow: 0 -2px 12px rgba(108,92,231,0.10);
+  box-shadow: 0 -2px 12px rgba(59,130,246,0.10);
   padding: 10px 20px 14px;
 }
 .progress-info {
@@ -335,7 +336,7 @@ main {
 }
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+  background: linear-gradient(90deg,#60A5FA,#3B82F6);
   border-radius: 99px;
   transition: width 0.4s ease;
 }

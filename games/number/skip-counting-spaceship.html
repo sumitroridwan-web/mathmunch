@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Skip Counting Spaceship – MathMunch</title>
 <style>
   :root {
-    --primary: #6C5CE7;
-    --primary-light: #E8E4FF;
+    --primary: #3B82F6;
+    --primary-light: #EFF6FF;
     --accent: #FDCB6E;
     --n1: #FF6B6B;
     --n2: #FF8E53;
@@ -18,11 +19,11 @@
     --green: #00B894;
     --red: #FF4757;
     --radius: 16px;
-    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+    --shadow: 0 4px 20px rgba(59,130,246,0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Lexend', system-ui, sans-serif;
     background: #0A0A2E;
     color: var(--white);
     min-height: 100vh;
@@ -50,13 +51,13 @@
   .topbar {
     position: sticky; top: 0; z-index: 100;
     background: rgba(15,10,50,0.95);
-    box-shadow: 0 2px 12px rgba(108,92,231,0.25);
+    box-shadow: 0 2px 12px rgba(59,130,246,0.25);
     backdrop-filter: blur(8px);
     display: flex; align-items: center; gap: 12px;
     padding: 0 20px; height: 60px;
   }
   .topbar a {
-    text-decoration: none; color: #A29BFE;
+    text-decoration: none; color: #93C5FD;
     font-weight: 600; font-size: 14px;
     display: flex; align-items: center; gap: 4px;
     padding: 6px 10px; border-radius: 8px;
@@ -65,7 +66,7 @@
   .topbar a:hover { background: rgba(162,155,254,0.15); }
   .topbar .brand {
     font-weight: 800; font-size: 18px;
-    background: linear-gradient(135deg,#A29BFE,var(--accent));
+    background: linear-gradient(135deg,#93C5FD,var(--accent));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
   }
@@ -96,13 +97,13 @@
     position: relative;
   }
   .round-label {
-    font-size: 14px; color: #A29BFE; font-weight: 600;
+    font-size: 14px; color: #93C5FD; font-weight: 600;
     margin-bottom: 8px;
     text-transform: uppercase; letter-spacing: 1px;
   }
   .skip-rule {
     font-size: 22px; font-weight: 800;
-    background: linear-gradient(135deg,#A29BFE,var(--accent));
+    background: linear-gradient(135deg,#93C5FD,var(--accent));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 4px;
@@ -140,8 +141,8 @@
   }
   .seq-card.blank {
     background: transparent;
-    border: 3px dashed #A29BFE;
-    color: #A29BFE;
+    border: 3px dashed #93C5FD;
+    color: #93C5FD;
     animation: pulse 1.5s ease-in-out infinite;
   }
   .seq-card.blank.filled-correct {
@@ -157,13 +158,13 @@
     animation: none;
   }
   @keyframes pulse {
-    0%,100% { border-color: #A29BFE; box-shadow: 0 0 0 0 rgba(162,155,254,0.4); }
+    0%,100% { border-color: #93C5FD; box-shadow: 0 0 0 0 rgba(162,155,254,0.4); }
     50% { border-color: #FDCB6E; box-shadow: 0 0 0 8px rgba(253,203,110,0.15); }
   }
 
   /* ANSWER BUTTONS */
   .answers-label {
-    text-align: center; font-size: 14px; color: #A29BFE;
+    text-align: center; font-size: 14px; color: #93C5FD;
     font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
     margin-bottom: 14px;
   }
@@ -182,7 +183,7 @@
   }
   .ans-btn:hover:not(:disabled) {
     background: rgba(162,155,254,0.25);
-    border-color: #A29BFE;
+    border-color: #93C5FD;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(162,155,254,0.3);
   }
@@ -206,12 +207,12 @@
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     background: rgba(15,10,50,0.95);
     backdrop-filter: blur(8px);
-    box-shadow: 0 -2px 12px rgba(108,92,231,0.25);
+    box-shadow: 0 -2px 12px rgba(59,130,246,0.25);
     padding: 10px 20px;
   }
   .progress-info {
     display: flex; justify-content: space-between;
-    font-size: 13px; font-weight: 600; color: #A29BFE;
+    font-size: 13px; font-weight: 600; color: #93C5FD;
     margin-bottom: 6px;
   }
   .progress-track {
@@ -220,7 +221,7 @@
   }
   .progress-fill {
     height: 100%; border-radius: 100px;
-    background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+    background: linear-gradient(90deg,#60A5FA,#3B82F6);
     transition: width 0.4s ease;
   }
 
@@ -236,28 +237,28 @@
   .end-card {
     background: #16163A; border: 2px solid rgba(162,155,254,0.3);
     border-radius: 24px; padding: 40px 48px; text-align: center;
-    box-shadow: 0 20px 60px rgba(108,92,231,0.4);
+    box-shadow: 0 20px 60px rgba(59,130,246,0.4);
     max-width: 420px; width: 90%;
     transform: scale(0.85); transition: transform 0.4s;
   }
   .end-overlay.show .end-card { transform: scale(1); }
   .end-emoji { font-size: 60px; margin-bottom: 12px; }
   .end-title { font-size: 28px; font-weight: 800; color: white; margin-bottom: 6px; }
-  .end-score { font-size: 20px; color: #A29BFE; margin-bottom: 16px; }
+  .end-score { font-size: 20px; color: #93C5FD; margin-bottom: 16px; }
   .end-stars { font-size: 36px; margin-bottom: 8px; letter-spacing: 4px; color: var(--accent); }
-  .end-verdict { font-size: 18px; font-weight: 700; color: #A29BFE; margin-bottom: 24px; }
+  .end-verdict { font-size: 18px; font-weight: 700; color: #93C5FD; margin-bottom: 24px; }
   .end-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
   .btn-primary {
     background: linear-gradient(135deg,var(--primary),#8e78ff);
     color: white; border: none; border-radius: 12px;
     padding: 12px 28px; font-size: 16px; font-weight: 700;
     cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
-    box-shadow: 0 4px 14px rgba(108,92,231,0.4);
+    box-shadow: 0 4px 14px rgba(59,130,246,0.4);
     transition: transform 0.15s;
   }
   .btn-primary:hover { transform: translateY(-2px); }
   .btn-secondary {
-    background: rgba(162,155,254,0.15); color: #A29BFE;
+    background: rgba(162,155,254,0.15); color: #93C5FD;
     border: 2px solid rgba(162,155,254,0.3); border-radius: 12px;
     padding: 12px 28px; font-size: 16px; font-weight: 700;
     cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;

@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Number Line Hop – MathMunch</title>
 <style>
   :root {
-    --primary: #6C5CE7;
-    --primary-light: #E8E4FF;
+    --primary: #3B82F6;
+    --primary-light: #EFF6FF;
     --accent: #FDCB6E;
     --n1: #FF6B6B;
     --n2: #FF8E53;
@@ -18,11 +19,11 @@
     --green: #00B894;
     --red: #FF4757;
     --radius: 16px;
-    --shadow: 0 4px 20px rgba(108,92,231,0.12);
+    --shadow: 0 4px 20px rgba(59,130,246,0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Lexend', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -33,7 +34,7 @@
   .topbar {
     position: sticky; top: 0; z-index: 100;
     background: var(--white);
-    box-shadow: 0 2px 12px rgba(108,92,231,0.10);
+    box-shadow: 0 2px 12px rgba(59,130,246,0.10);
     display: flex; align-items: center; gap: 12px;
     padding: 0 20px; height: 60px;
   }
@@ -205,7 +206,7 @@
   .progress-bar-wrap {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
     background: var(--white);
-    box-shadow: 0 -2px 12px rgba(108,92,231,0.10);
+    box-shadow: 0 -2px 12px rgba(59,130,246,0.10);
     padding: 10px 20px;
   }
   .progress-info {
@@ -219,7 +220,7 @@
   }
   .progress-fill {
     height: 100%; border-radius: 100px;
-    background: linear-gradient(90deg, #FF6B6B, #FF8E53);
+    background: linear-gradient(90deg,#60A5FA,#3B82F6);
     transition: width 0.4s ease;
   }
 
@@ -235,7 +236,7 @@
   .end-card {
     background: var(--white); border-radius: 24px;
     padding: 40px 48px; text-align: center;
-    box-shadow: 0 20px 60px rgba(108,92,231,0.25);
+    box-shadow: 0 20px 60px rgba(59,130,246,0.25);
     max-width: 420px; width: 90%;
     transform: scale(0.85); transition: transform 0.4s;
   }
@@ -251,7 +252,7 @@
     color: white; border: none; border-radius: 12px;
     padding: 12px 28px; font-size: 16px; font-weight: 700;
     cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 4px 14px rgba(108,92,231,0.3);
+    box-shadow: 0 4px 14px rgba(59,130,246,0.3);
     text-decoration: none; display: inline-flex; align-items: center;
   }
   .btn-primary:hover { transform: translateY(-2px); }

@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Area Arena – MathMunch</title>
 <style>
   :root {
-    --primary:#6C5CE7; --primary-light:#E8E4FF;
-    --g1:#4ECDC4; --g2:#2ECC71;
+    --primary:#10B981; --primary-light:#ECFDF5;
+    --g1:#34D399; --g2:#10B981;
     --accent:#FDCB6E; --bg:#1A1A2E;
     --white:#FFFFFF; --text:#E8EFF7; --text2:#6B7A99;
     --green:#00B894; --red:#FF4757;
@@ -18,8 +19,8 @@
 
   /* TOP BAR */
   .topbar{position:sticky;top:0;z-index:100;background:#12122A;box-shadow:0 2px 20px rgba(0,0,0,0.5);display:flex;align-items:center;gap:12px;padding:10px 20px;flex-wrap:wrap}
-  .topbar a.back{text-decoration:none;color:#4ECDC4;font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;white-space:nowrap}
-  .topbar .brand{font-weight:900;font-size:18px;color:#4ECDC4}
+  .topbar a.back{text-decoration:none;color:#34D399;font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;white-space:nowrap}
+  .topbar .brand{font-weight:900;font-size:18px;color:#34D399}
   .topbar .game-title{font-weight:700;font-size:16px;color:var(--text);flex:1}
   .badge-p4{padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px;background:#E0FFF5;color:#00A878}
   .score-box{display:flex;align-items:center;gap:5px;font-weight:800;font-size:16px;color:#FDCB6E}
@@ -34,23 +35,23 @@
 
   /* MODE TAGS */
   .mode-tag{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:0.5px}
-  .tag-count{background:#0D2E30;color:#4ECDC4;border:1px solid #4ECDC4}
+  .tag-count{background:#0D2E30;color:#34D399;border:1px solid #34D399}
   .tag-formula{background:#2E2A0D;color:#FDCB6E;border:1px solid #FDCB6E}
 
   /* GRID */
   .arena-grid-wrap{display:flex;justify-content:center;overflow-x:auto;margin-bottom:20px}
   .arena-grid{display:inline-grid;gap:2px;background:#0A0A1A;border:2px solid #243460;border-radius:8px;padding:4px;position:relative}
   .arena-cell{width:40px;height:40px;background:#1E1E3A;border-radius:4px;border:1px solid #2A2A4A;transition:background 0.15s}
-  .arena-cell.filled{background:rgba(78,205,196,0.7);border-color:#4ECDC4;box-shadow:0 0 8px rgba(78,205,196,0.3)}
+  .arena-cell.filled{background:rgba(78,205,196,0.7);border-color:#34D399;box-shadow:0 0 8px rgba(78,205,196,0.3)}
   .arena-cell.filled:hover{background:rgba(78,205,196,0.9);box-shadow:0 0 14px rgba(78,205,196,0.5)}
   .arena-cell.hover-highlight{background:#2A3A4A}
-  .count-badge{background:#1A2A3A;border:2px solid #4ECDC4;border-radius:10px;padding:8px 16px;display:inline-flex;align-items:center;gap:8px;margin-bottom:16px}
-  .count-num{font-size:28px;font-weight:900;color:#4ECDC4}
+  .count-badge{background:#1A2A3A;border:2px solid #34D399;border-radius:10px;padding:8px 16px;display:inline-flex;align-items:center;gap:8px;margin-bottom:16px}
+  .count-num{font-size:28px;font-weight:900;color:#34D399}
 
   /* FORMULA MODE */
   .rect-wrap{display:flex;justify-content:center;margin-bottom:20px}
   .rect-shape{position:relative;display:inline-block;padding:40px 60px}
-  .rect-inner{background:rgba(78,205,196,0.15);border:3px solid #4ECDC4;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#8BAABB}
+  .rect-inner{background:rgba(78,205,196,0.15);border:3px solid #34D399;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#8BAABB}
   .dim-label{position:absolute;font-size:14px;font-weight:900;color:#FDCB6E}
   .dim-top{top:14px;left:50%;transform:translateX(-50%)}
   .dim-bottom{bottom:14px;left:50%;transform:translateX(-50%)}
@@ -63,7 +64,7 @@
   /* ANSWERS */
   .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;margin:0 auto}
   .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:18px;cursor:pointer;border:2px solid #243460;background:#12122A;color:var(--text);transition:all 0.2s}
-  .btn-answer:hover:not(:disabled){background:#243460;border-color:#4ECDC4;transform:translateY(-2px)}
+  .btn-answer:hover:not(:disabled){background:#243460;border-color:#34D399;transform:translateY(-2px)}
   .btn-answer.correct{background:#0D2E20;border-color:var(--green);color:var(--green)}
   .btn-answer.wrong{background:#2E0D15;border-color:var(--red);color:var(--red)}
   .btn-answer:disabled{cursor:not-allowed;opacity:0.7}
@@ -82,7 +83,7 @@
   .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;z-index:99;background:#12122A;box-shadow:0 -2px 15px rgba(0,0,0,0.4);padding:12px 20px}
   .progress-info{display:flex;justify-content:space-between;align-items:center;max-width:800px;margin:0 auto 6px}
   .progress-track{max-width:800px;margin:0 auto;height:10px;background:#1E1E3A;border-radius:10px;overflow:hidden}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:10px;transition:width 0.4s ease}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:10px;transition:width 0.4s ease}
 
   /* END SCREEN */
   .end-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;z-index:200;display:none}
@@ -93,8 +94,8 @@
   .end-title{font-size:28px;font-weight:900;color:var(--text);margin-bottom:8px}
   .end-score{font-size:18px;color:var(--text2);margin-bottom:28px}
   .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px}
-  .btn-back{background:#1A1A2E;color:#4ECDC4;border:2px solid #4ECDC4;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-flex;align-items:center}
+  .btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px}
+  .btn-back{background:#1A1A2E;color:#34D399;border:2px solid #34D399;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-flex;align-items:center}
 </style>
 </head>
 <body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
@@ -123,7 +124,7 @@
 <div class="progress-bar-wrap">
   <div class="progress-info">
     <span id="progressLabel" style="font-size:13px;font-weight:700;color:var(--text2)">Question 1 of 10</span>
-    <span id="progressPct" style="font-size:13px;font-weight:700;color:#4ECDC4">0%</span>
+    <span id="progressPct" style="font-size:13px;font-weight:700;color:#34D399">0%</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 </div>

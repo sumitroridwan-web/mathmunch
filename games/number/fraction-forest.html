@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Fraction Forest – MathMunch</title>
 <style>
 :root {
-  --primary: #6C5CE7;
-  --primary-light: #E8E4FF;
+  --primary: #3B82F6;
+  --primary-light: #EFF6FF;
   --accent: #FDCB6E;
   --n1: #FF6B6B;
   --n2: #FF8E53;
@@ -18,7 +19,7 @@
   --green: #00B894;
   --red: #FF4757;
   --radius: 16px;
-  --shadow: 0 4px 20px rgba(108,92,231,0.12);
+  --shadow: 0 4px 20px rgba(59,130,246,0.12);
   --forest-green: #2E7D32;
   --forest-light: #81C784;
   --cell-shaded: linear-gradient(135deg,#81C784,#4CAF50);
@@ -26,7 +27,7 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -226,7 +227,7 @@ main {
 .progress-bar-wrap { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: var(--white); box-shadow: 0 -2px 12px rgba(46,125,50,0.10); padding: 10px 20px 14px; }
 .progress-info { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
 .progress-track { height: 10px; background: #EEE; border-radius: 99px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, #FF6B6B, #FF8E53); border-radius: 99px; transition: width 0.4s ease; }
+.progress-fill { height: 100%; background: linear-gradient(90deg,#60A5FA,#3B82F6); border-radius: 99px; transition: width 0.4s ease; }
 
 /* END */
 .end-overlay { position: fixed; inset: 0; background: rgba(30,30,46,0.80); z-index: 300; align-items: center; justify-content: center; display: none; }

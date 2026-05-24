@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>3D Shape Safari – MathMunch</title>
 <style>
   :root {
-    --primary:#6C5CE7; --primary-light:#E8E4FF;
-    --g1:#4ECDC4; --g2:#2ECC71;
+    --primary:#10B981; --primary-light:#ECFDF5;
+    --g1:#34D399; --g2:#10B981;
     --accent:#FDCB6E; --accent-dark:#E17055;
     --bg:#F0F4FF; --white:#FFFFFF;
     --text:#1E1E2E; --text2:#525270;
@@ -40,10 +41,10 @@
   .shape-3d-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center}
 
   /* Cube illusion */
-  .css-cube{width:90px;height:90px;background:#4ECDC4;border-radius:6px;position:relative;box-shadow:8px -8px 0 #2BB5AD, 8px -8px 0 1px #1A8E89;transform:perspective(200px) rotateY(-10deg) rotateX(5deg)}
+  .css-cube{width:90px;height:90px;background:#34D399;border-radius:6px;position:relative;box-shadow:8px -8px 0 #2BB5AD, 8px -8px 0 1px #1A8E89;transform:perspective(200px) rotateY(-10deg) rotateX(5deg)}
 
   /* Cuboid */
-  .css-cuboid{width:130px;height:80px;background:#A29BFE;border-radius:6px;position:relative;box-shadow:10px -10px 0 #7C6FE0, 10px -10px 0 1px #5D4FCC;transform:perspective(250px) rotateY(-10deg) rotateX(5deg)}
+  .css-cuboid{width:130px;height:80px;background:#6EE7B7;border-radius:6px;position:relative;box-shadow:10px -10px 0 #7C6FE0, 10px -10px 0 1px #5D4FCC;transform:perspective(250px) rotateY(-10deg) rotateX(5deg)}
 
   /* Cylinder: rectangle + oval top */
   .css-cylinder-wrap{display:flex;flex-direction:column;align-items:center}
@@ -61,7 +62,7 @@
 
   /* Triangular prism */
   .css-prism-wrap{display:inline-block;position:relative;width:120px;height:100px}
-  .css-prism-face{position:absolute;width:0;height:0;border-left:55px solid transparent;border-right:55px solid transparent;border-bottom:95px solid #2ECC71;top:0;left:5px;filter:drop-shadow(4px 4px 0 #27AE60)}
+  .css-prism-face{position:absolute;width:0;height:0;border-left:55px solid transparent;border-right:55px solid transparent;border-bottom:95px solid #10B981;top:0;left:5px;filter:drop-shadow(4px 4px 0 #27AE60)}
   .css-prism-base{position:absolute;bottom:0;left:0;width:120px;height:18px;background:#27AE60;border-radius:3px}
 
   /* Properties chips */
@@ -77,7 +78,7 @@
 
   /* Answer buttons */
   .answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto}
-  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;border:2px solid #E8E4FF;background:var(--white);color:var(--text);transition:all 0.2s;min-height:54px}
+  .btn-answer{padding:14px 20px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;border:2px solid #ECFDF5;background:var(--white);color:var(--text);transition:all 0.2s;min-height:54px}
   .btn-answer:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);transform:translateY(-2px)}
   .btn-answer.correct{background:#E8FFF3;border-color:var(--green);color:var(--green)}
   .btn-answer.wrong{background:#FFE8EC;border-color:var(--red);color:var(--red)}
@@ -94,8 +95,8 @@
   /* Progress */
   .progress-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -2px 15px rgba(0,0,0,0.08);padding:12px 20px;z-index:100}
   .progress-info{display:flex;justify-content:space-between;font-weight:700;font-size:13px;color:var(--text2);margin-bottom:6px}
-  .progress-track{height:8px;background:#E8E4FF;border-radius:4px;overflow:hidden}
-  .progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:4px;transition:width 0.4s ease}
+  .progress-track{height:12px;background:#ECFDF5;border-radius:4px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:4px;transition:width 0.4s ease}
 
   /* End screen */
   .end-screen{display:none;position:fixed;inset:0;z-index:300;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center}
@@ -107,7 +108,7 @@
   .end-score-text{font-size:18px;color:var(--text2);margin-bottom:14px}
   .end-stars{font-size:32px;margin-bottom:6px}
   .end-verdict{font-size:20px;font-weight:800;color:var(--primary);margin-bottom:24px}
-  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
+  .btn-geo{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:none;background:linear-gradient(135deg,#34D399,#10B981);color:white;box-shadow:0 4px 15px rgba(78,205,196,0.35);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
   .btn-geo:hover{transform:translateY(-2px)}
   .btn-secondary{padding:12px 28px;border-radius:12px;font-weight:800;cursor:pointer;border:2px solid var(--primary);background:transparent;color:var(--primary);font-size:16px;transition:all 0.2s;text-decoration:none;display:inline-block;margin:6px}
   .btn-secondary:hover{background:var(--primary-light)}

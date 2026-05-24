@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Transformation Station – MathMunch</title>
 <style>
 :root {
-  --primary:#6C5CE7; --primary-light:#E8E4FF;
-  --g1:#4ECDC4; --g2:#2ECC71;
+  --primary:#10B981; --primary-light:#ECFDF5;
+  --g1:#34D399; --g2:#10B981;
   --accent:#FDCB6E; --bg:#F0F4FF;
   --white:#FFFFFF; --text:#1E1E2E; --text2:#525270;
   --green:#00B894; --red:#FF4757;
@@ -31,12 +32,12 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#2C2C5
 /* GAME AREA */
 .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px;position:relative;z-index:1;}
 
-.game-card{background:#1E1E40;border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:0 8px 40px rgba(0,0,0,0.4);border:1px solid rgba(108,92,231,0.25);}
+.game-card{background:#1E1E40;border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:0 8px 40px rgba(0,0,0,0.4);border:1px solid rgba(16,185,129,0.25);}
 
 .header-deco{text-align:center;font-size:28px;margin-bottom:8px;}
 .round-label{font-size:12px;color:#9090C0;text-align:center;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase;}
 .type-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:12px;}
-.type-reflect{background:#4ECDC433;color:#4ECDC4;}
+.type-reflect{background:#34D39933;color:#34D399;}
 .type-translate{background:#FDCB6E33;color:#FDCB6E;}
 .type-rotate{background:#FF475733;color:#FF6B7A;}
 .question-text{font-size:17px;font-weight:700;color:#C0C0E0;text-align:center;margin-bottom:16px;line-height:1.5;}
@@ -46,8 +47,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#2C2C5
 
 /* ANSWER OPTIONS - 2x2 thumbnails */
 .thumb-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto;}
-.thumb-option{background:#16163A;border:3px solid rgba(108,92,231,0.3);border-radius:12px;padding:8px;cursor:pointer;transition:all 0.2s;text-align:center;}
-.thumb-option:hover{border-color:#6C5CE7;background:#20204A;transform:translateY(-2px);}
+.thumb-option{background:#16163A;border:3px solid rgba(16,185,129,0.3);border-radius:12px;padding:8px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.thumb-option:hover{border-color:#10B981;background:#20204A;transform:translateY(-2px);}
 .thumb-option .platform-label{font-size:11px;color:#7070A0;font-weight:700;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
 .thumb-option.correct{border-color:#00B894;background:#00B89415;}
 .thumb-option.wrong{border-color:#FF4757;background:#FF475715;}
@@ -61,7 +62,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#2C2C5
 .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:10px 20px;display:flex;align-items:center;gap:16px;z-index:100;box-shadow:0 -2px 12px rgba(0,0,0,0.08);}
 .progress-label{font-size:13px;font-weight:700;color:var(--text2);white-space:nowrap;}
 .progress-track{flex:1;background:#eee;border-radius:99px;height:12px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:99px;transition:width 0.4s;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s;}
 .progress-pct{font-size:13px;font-weight:700;color:var(--g2);min-width:36px;text-align:right;}
 
 /* END */
@@ -74,7 +75,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#2C2C5
 .end-subtitle{font-size:15px;color:var(--text2);margin-bottom:8px;}
 .end-score{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:24px;}
 .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;}
+.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:15px;}
 .btn-geo:hover{opacity:0.88;}
 .btn-back{background:#f0f0f0;color:var(--text);border:none;border-radius:12px;font-weight:700;padding:12px 24px;cursor:pointer;font-size:15px;}
 .btn-back:hover{background:#e0e0e0;}
@@ -207,7 +208,7 @@ function drawGridSVG(svg, cells, mirrorLine, cellSize, fillColor, bgColor, gridC
     rect.setAttribute('y', r*cellSize + 1);
     rect.setAttribute('width', cellSize - 2);
     rect.setAttribute('height', cellSize - 2);
-    rect.setAttribute('fill', fillColor || '#4ECDC4');
+    rect.setAttribute('fill', fillColor || '#34D399');
     rect.setAttribute('rx','2');
     svg.appendChild(rect);
   });
@@ -286,7 +287,7 @@ const ROUNDS = [
     q:'Reflect the shape over the vertical mirror line.',
     mainShape: SHAPES.L, mirrorLine:{type:'vertical',pos:4,width:2},
     correctCells: reflectV(SHAPES.L),
-    mainFill:'#4ECDC4'
+    mainFill:'#34D399'
   },
   // R2: Translate L-shape: (1,1) → move 3 right, 2 down
   { type:'translate', subtype:'translate1', typeName:'TRANSLATION', badgeClass:'type-translate',
@@ -300,7 +301,7 @@ const ROUNDS = [
     q:'Reflect the shape over the horizontal mirror line.',
     mainShape: SHAPES.T, mirrorLine:{type:'horizontal',pos:4,width:2},
     correctCells: reflectH(SHAPES.T),
-    mainFill:'#4ECDC4'
+    mainFill:'#34D399'
   },
   // R4: Rotate L 90° CW
   { type:'rotate', subtype:'rotate_L_90', typeName:'ROTATION', badgeClass:'type-rotate',
@@ -314,7 +315,7 @@ const ROUNDS = [
     q:'Reflect the shape over the vertical mirror line.',
     mainShape: SHAPES.Z, mirrorLine:{type:'vertical',pos:4,width:2},
     correctCells: reflectV(SHAPES.Z),
-    mainFill:'#4ECDC4'
+    mainFill:'#34D399'
   },
   // R6: Translate T: move 4 right, 1 down
   { type:'translate', subtype:'translate2', typeName:'TRANSLATION', badgeClass:'type-translate',
@@ -335,7 +336,7 @@ const ROUNDS = [
     q:'Reflect the shape over the horizontal mirror line.',
     mainShape: SHAPES.F, mirrorLine:{type:'horizontal',pos:4,width:2},
     correctCells: reflectH(SHAPES.F),
-    mainFill:'#4ECDC4'
+    mainFill:'#34D399'
   },
   // R9: Translate Z: move 2 right, 3 down
   { type:'translate', subtype:'translate3', typeName:'TRANSLATION', badgeClass:'type-translate',
@@ -402,7 +403,7 @@ function renderRound() {
     thumbSvg.setAttribute('width','80');
     thumbSvg.setAttribute('height','80');
     const mirrorLnThumb = rd.mirrorLine ? {...rd.mirrorLine, width:1, dash:'4,3'} : null;
-    const thumbFill = rd.type === 'reflect' ? '#2ECC71' : rd.type === 'translate' ? '#FDCB6E' : '#FF6B7A';
+    const thumbFill = rd.type === 'reflect' ? '#10B981' : rd.type === 'translate' ? '#FDCB6E' : '#FF6B7A';
     drawGridSVG(thumbSvg, opt.cells, mirrorLnThumb, THUMB_CELL, thumbFill, '#0E0E28', 'rgba(255,255,255,0.06)', true);
     div.appendChild(thumbSvg);
 
@@ -481,7 +482,7 @@ function renderRoundFixed() {
   const thumbGrid = document.getElementById('thumbGrid');
   thumbGrid.innerHTML = '';
   const platformLetters = ['A','B','C','D'];
-  const thumbFill = rd.type === 'reflect' ? '#2ECC71' : rd.type === 'translate' ? '#FDCB6E' : '#FF6B7A';
+  const thumbFill = rd.type === 'reflect' ? '#10B981' : rd.type === 'translate' ? '#FDCB6E' : '#FF6B7A';
 
   options.forEach((opt, idx) => {
     const div = document.createElement('div');

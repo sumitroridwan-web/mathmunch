@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
 <title>Time Tracker – MathMunch</title>
 <style>
 :root{
-  --primary:#6C5CE7;--primary-light:#E8E4FF;
-  --g1:#4ECDC4;--g2:#2ECC71;
+  --primary:#10B981;--primary-light:#ECFDF5;
+  --g1:#34D399;--g2:#10B981;
   --accent:#FDCB6E;--bg:#F0F4FF;
   --white:#FFFFFF;--text:#1E1E2E;--text2:#525270;
   --green:#00B894;--red:#FF4757;
@@ -34,7 +35,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFF8F
 .question-text{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:24px;line-height:1.5}
 
 /* Digital display */
-.digital-time{font-size:3rem;font-weight:900;color:var(--text);font-family:'Courier New',monospace;background:#1E1E2E;color:#4ECDC4;padding:16px 32px;border-radius:12px;display:inline-block;letter-spacing:4px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.digital-time{font-size:3rem;font-weight:900;color:var(--text);font-family:'Courier New',monospace;background:#1E1E2E;color:#34D399;padding:16px 32px;border-radius:12px;display:inline-block;letter-spacing:4px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
 
 /* Single large clock */
 .clock-center{display:flex;justify-content:center;margin-bottom:20px}
@@ -65,7 +66,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFF8F
 .progress-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:12px}
 .progress-label{font-size:0.82rem;font-weight:700;color:var(--text2);white-space:nowrap}
 .progress-track{flex:1;height:10px;background:#E0E7FF;border-radius:99px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,#2ECC71);border-radius:99px;transition:width 0.4s ease}
+.progress-fill{height:100%;background:linear-gradient(90deg,#34D399,#10B981);border-radius:99px;transition:width 0.4s ease}
 .progress-pct{font-size:0.82rem;font-weight:800;color:var(--g1);white-space:nowrap}
 
 .end-overlay{position:fixed;inset:0;background:rgba(30,30,46,0.7);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center}
@@ -77,7 +78,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FFF8F
 .end-score{font-size:2.5rem;font-weight:900;color:var(--primary);margin-bottom:8px}
 .end-stars{font-size:2rem;letter-spacing:4px;margin-bottom:12px}
 .end-msg{font-size:1rem;color:var(--text2);margin-bottom:24px;font-weight:600}
-.btn-geo{background:linear-gradient(135deg,#4ECDC4,#2ECC71);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:1rem;transition:all 0.2s;text-decoration:none;display:inline-block}
+.btn-geo{background:linear-gradient(135deg,#34D399,#10B981);color:white;border:none;border-radius:12px;font-weight:800;padding:12px 28px;cursor:pointer;font-size:1rem;transition:all 0.2s;text-decoration:none;display:inline-block}
 .btn-geo:hover{transform:translateY(-2px)}
 .end-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .btn-secondary{background:var(--bg);color:var(--text2);border:2px solid #E0E7FF;border-radius:12px;font-weight:800;padding:12px 24px;cursor:pointer;font-size:0.9rem;text-decoration:none;display:inline-block;transition:all 0.2s}
@@ -184,10 +185,10 @@ function drawClock(h, m, size){
   }
 
   return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-    <circle cx="${cx}" cy="${cy}" r="${r-2}" fill="white" stroke="#4ECDC4" stroke-width="3"/>
+    <circle cx="${cx}" cy="${cy}" r="${r-2}" fill="white" stroke="#34D399" stroke-width="3"/>
     ${markers}${nums}
     <line x1="${cx}" y1="${cy}" x2="${hx.toFixed(1)}" y2="${hy.toFixed(1)}" stroke="#1E1E2E" stroke-width="${size>100?4:2.5}" stroke-linecap="round"/>
-    <line x1="${cx}" y1="${cy}" x2="${mx2.toFixed(1)}" y2="${my2.toFixed(1)}" stroke="#4ECDC4" stroke-width="${size>100?2.5:1.5}" stroke-linecap="round"/>
+    <line x1="${cx}" y1="${cy}" x2="${mx2.toFixed(1)}" y2="${my2.toFixed(1)}" stroke="#34D399" stroke-width="${size>100?2.5:1.5}" stroke-linecap="round"/>
     <circle cx="${cx}" cy="${cy}" r="${size>100?5:3}" fill="#1E1E2E"/>
   </svg>`;
 }

@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
   <title>Spin & Sort – MathMunch</title>
   <style>
     :root {
-      --s1: #A29BFE; --s2: #6C5CE7;
+      --s1: #FB923C; --s2: #F97316;
       --bg: #F5F3FF; --white: #FFFFFF;
       --dark: #1E1E2E; --mid: #525270;
       --radius: 16px;
-      --shadow: 0 4px 20px rgba(108,92,231,0.15);
+      --shadow: 0 4px 20px rgba(249,115,22,0.15);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
-    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(108,92,231,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
+    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--dark);min-height:100vh}
+    .topbar{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:0 2px 12px rgba(249,115,22,0.1);display:flex;align-items:center;gap:12px;padding:10px 20px}
     .back-btn{text-decoration:none;color:var(--s2);font-weight:700;font-size:.9rem;padding:6px 14px;border-radius:20px;border:2px solid var(--s1);transition:.2s}
     .back-btn:hover{background:var(--s1);color:white}
     .topbar-logo{text-decoration:none;font-weight:800;font-size:1.1rem;color:var(--s2)}
     .game-title{font-weight:700;font-size:1rem;color:var(--dark);flex:1;text-align:center}
     .level-badge{background:var(--s2);color:white;font-size:.75rem;font-weight:700;padding:4px 10px;border-radius:20px}
     .score-display{font-weight:800;font-size:1rem;color:var(--s2);min-width:80px;text-align:right}
-    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:8px;background:#E8E4FF;z-index:200}
-    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#A29BFE,#6C5CE7);transition:width .4s ease;border-radius:0 4px 4px 0}
+    .progress-bar-wrap{position:fixed;bottom:0;left:0;right:0;height:12px;background:#FFF7ED;z-index:200}
+    .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#FB923C,#F97316);transition:width .4s ease;border-radius:0 4px 4px 0}
     .end-screen{display:none;position:fixed;inset:0;background:rgba(30,30,46,0.85);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
     .end-screen.show{display:flex}
     .end-card{background:white;border-radius:24px;padding:40px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
@@ -32,13 +33,13 @@
     .end-score{font-size:1.1rem;color:var(--mid);margin-bottom:24px}
     .btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:1rem;font-weight:700;transition:.2s}
     .btn-play{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;margin:0 6px}
-    .btn-home{background:#F0F4FF;color:var(--s2);margin:0 6px}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(108,92,231,0.3)}
+    .btn-home{background:#FFF7ED;color:var(--s2);margin:0 6px}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(249,115,22,0.3)}
     .game-area{max-width:800px;margin:0 auto;padding:24px 16px 90px}
 
     /* Spinner section */
     .spinner-section{text-align:center;margin-bottom:28px}
-    .spinner-wheel{width:120px;height:120px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:white;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(108,92,231,0.35)}
+    .spinner-wheel{width:120px;height:120px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:white;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(249,115,22,0.35)}
     .spinner-wheel.spinning{animation:spinWheel 1.2s cubic-bezier(.17,.67,.38,1) forwards}
     @keyframes spinWheel{0%{transform:rotate(0deg)}60%{transform:rotate(740deg)}80%{transform:rotate(700deg)}100%{transform:rotate(720deg)}}
     .spinner-label{font-size:1.1rem;font-weight:700;color:var(--s2);margin-top:8px;min-height:28px}
@@ -52,7 +53,7 @@
 
     /* Round tracker */
     .round-tracker{display:flex;justify-content:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-    .round-dot{width:28px;height:28px;border-radius:50%;background:#E8E4FF;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--mid);transition:.3s}
+    .round-dot{width:28px;height:28px;border-radius:50%;background:#FFF7ED;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--mid);transition:.3s}
     .round-dot.correct{background:linear-gradient(135deg,#55efc4,#00b894);color:white}
     .round-dot.wrong{background:linear-gradient(135deg,#fd79a8,#e84393);color:white}
     .round-dot.current{background:var(--s1);color:white;transform:scale(1.2)}
@@ -60,7 +61,7 @@
     /* Bins */
     .bins-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
     .bin{flex:1;min-width:140px;max-width:220px;min-height:160px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:1.3rem;font-weight:800;color:white;box-shadow:var(--shadow);transition:transform .18s, box-shadow .18s;position:relative;overflow:hidden;border:4px solid transparent;user-select:none}
-    .bin:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 8px 28px rgba(108,92,231,0.28)}
+    .bin:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 8px 28px rgba(249,115,22,0.28)}
     .bin:active{transform:scale(0.97)}
     .bin .bin-icon{font-size:2.8rem;margin-bottom:8px}
     .bin .bin-label{font-size:1.2rem;letter-spacing:.5px}
@@ -77,8 +78,8 @@
 
     /* Spinner button */
     .spin-btn-wrap{text-align:center;margin-bottom:24px}
-    .spin-btn{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;border:none;padding:14px 36px;border-radius:30px;font-size:1.1rem;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(108,92,231,0.3);transition:.2s;letter-spacing:.3px}
-    .spin-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(108,92,231,0.4)}
+    .spin-btn{background:linear-gradient(135deg,#A29BFE,#6C5CE7);color:white;border:none;padding:14px 36px;border-radius:30px;font-size:1.1rem;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(249,115,22,0.3);transition:.2s;letter-spacing:.3px}
+    .spin-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(249,115,22,0.4)}
     .spin-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
     .waiting-message{text-align:center;font-size:1.15rem;color:var(--mid);font-weight:600;padding:24px}
