@@ -286,7 +286,7 @@
 
     /* ── QUICK ACTIONS ── */
     .quick-actions {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
     }
     .action-card {
       background: var(--white);
@@ -355,7 +355,7 @@
       .header-inner { padding: 0 16px; }
       .welcome-banner { padding: 24px; flex-direction: column; text-align: center; gap: 16px; }
       .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .quick-actions { grid-template-columns: 1fr; }
+      .quick-actions { grid-template-columns: 1fr 1fr; }
       nav { display: none; }
     }
   </style>
@@ -513,6 +513,12 @@
       <div class="action-title">Geometry Games</div>
       <div class="action-desc">Shapes, angles, area and perimeter</div>
       <div class="action-arrow" style="color:var(--green);">Play now →</div>
+    </a>
+    <a href="games/statistics/index.html" class="action-card">
+      <div class="action-icon" style="background:#FFEDD5;">📊</div>
+      <div class="action-title">Statistics Games</div>
+      <div class="action-desc">Data, graphs, charts and probability</div>
+      <div class="action-arrow" style="color:var(--orange);">Play now →</div>
     </a>
     <a href="index.html#books" class="action-card">
       <div class="action-icon" style="background:#F5F3FF;">📖</div>

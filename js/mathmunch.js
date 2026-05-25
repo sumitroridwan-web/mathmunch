@@ -915,4 +915,34 @@
     _injectObjectivesPanel();
   }
 
+  // ── FIX GAME NAV BAR LINKS ──
+  // Patches the broken href="#" Badges/Progress links and the misleading Play Now button
+  // across all game pages without modifying 45+ individual files.
+  (function fixGameNav() {
+    const isBook = window.location.pathname.includes('/books/');
+    const root   = isBook ? '../' : '../../';
+    const dash   = root + 'dashboard.html';
+
+    function patch() {
+      document.querySelectorAll('.site-nav a').forEach(function (a) {
+        const text = a.textContent.trim();
+        if (a.getAttribute('href') === '#') {
+          if (text === 'Badges')   a.href = dash + '#badges';
+          if (text === 'Progress') a.href = dash;
+        }
+      });
+      const playNow = document.querySelector('.btn-play-now');
+      if (playNow) {
+        playNow.textContent = '📊 My Journey';
+        playNow.href        = dash;
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', patch);
+    } else {
+      patch();
+    }
+  })();
+
 })();
