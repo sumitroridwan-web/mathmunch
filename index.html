@@ -159,8 +159,8 @@
 
     nav a {
       text-decoration: none; color: var(--text-mid);
-      font-weight: 600; font-size: .9rem;
-      padding: 8px 16px; border-radius: var(--radius-btn);
+      font-weight: 600; font-size: .82rem;
+      padding: 7px 11px; border-radius: var(--radius-btn);
       transition: background .15s, color .15s; white-space: nowrap;
     }
     nav a:hover, nav a.active { background: var(--blue-light); color: var(--blue); }
@@ -781,33 +781,6 @@
     }
 
     /* ── MASCOT ── */
-    .mascot-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-
-    .mascot {
-      width: 44px; height: 44px; background: var(--yellow);
-      border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; font-size: 1.4rem;
-      cursor: pointer; box-shadow: 0 3px 0 var(--yellow-dark);
-      animation: bob 3s ease-in-out infinite;
-    }
-
-    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-
-    .mascot-bubble {
-      background: var(--text); color: white;
-      padding: 6px 12px; border-radius: 12px;
-      font-size: .75rem; font-weight: 600;
-      display: none; white-space: nowrap;
-      position: relative;
-    }
-
-    .mascot-bubble::after {
-      content: ''; position: absolute;
-      right: -7px; top: 50%; transform: translateY(-50%);
-      border: 5px solid transparent;
-      border-left-color: var(--text);
-    }
-
     /* ── BOOKS SECTION ── */
     .books-section {
       padding: 64px var(--pad);
@@ -893,7 +866,6 @@
       .hero-buttons { flex-direction: column; }
       nav { display: none; }
       .badges-grid { grid-template-columns: repeat(4, 1fr); }
-      .mascot-wrap { display: none; }
     }
 
     /* ─── UPGRADE 1: HERO MOSAIC ─────────────────────────────── */
@@ -1116,11 +1088,6 @@
         <span class="logo-tagline">Cambridge Primary Aligned</span>
       </div>
     </a>
-
-    <div class="mascot-wrap">
-      <div class="mascot-bubble" id="mascotBubble">Hi! Let's play! 🎮</div>
-      <div class="mascot" id="mascot">🦊</div>
-    </div>
 
     <nav>
       <a href="index.html" class="active">🏠 Home</a>
@@ -2218,18 +2185,6 @@
   });
 
   /* Mascot */
-  const mascot = document.getElementById('mascot');
-  const bubble  = document.getElementById('mascotBubble');
-  const messages = ['Hi! Let\'s play! 🎮','Ready to learn? 📚','Maths is fun! 🔢','Pick a game! ⭐','You\'ve got this! 💪'];
-  let mIdx = 0;
-  if (mascot && bubble) {
-    mascot.addEventListener('mouseenter', () => {
-      bubble.textContent = messages[mIdx++ % messages.length];
-      bubble.style.display = 'block';
-    });
-    mascot.addEventListener('mouseleave', () => { bubble.style.display = 'none'; });
-  }
-
   /* Scroll progress bar */
   (function() {
     const bar = document.querySelector('.scroll-progress');
