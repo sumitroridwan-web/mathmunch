@@ -896,15 +896,145 @@
       .mascot-wrap { display: none; }
     }
 
-    /* ── SCROLL ANIMATION ── */
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ─── UPGRADE 1: HERO MOSAIC ─────────────────────────────── */
+    .hero-visual {
+      background: linear-gradient(145deg,#EFF6FF 0%,#F0FDF4 55%,#FFF7ED 100%);
+      overflow: visible;
+    }
+    .hero-visual::before { display: none; } /* remove old dot-grid */
+
+    .hero-mosaic { position: relative; width: 320px; height: 270px; }
+
+    .hm-card {
+      position: absolute; width: 162px; background: white;
+      border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.13);
+      overflow: hidden;
+      transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s;
+      will-change: transform;
+    }
+    .hm-c1 { top: 30px; left: 0;    transform: rotate(-7deg); z-index: 1; }
+    .hm-c2 { top: 0;    left: 79px; z-index: 3; box-shadow: 0 16px 40px rgba(0,0,0,.17); }
+    .hm-c3 { top: 30px; left: 158px; transform: rotate(6deg); z-index: 2; }
+    .hero-mosaic:hover .hm-c1 { transform: rotate(-10deg) translate(-6px,-5px); }
+    .hero-mosaic:hover .hm-c2 { transform: translateY(-9px); box-shadow: 0 22px 48px rgba(0,0,0,.2); }
+    .hero-mosaic:hover .hm-c3 { transform: rotate(9deg) translate(6px,-5px); }
+
+    .hm-thumb {
+      height: 90px; display: flex; align-items: center; justify-content: center;
+      font-size: 2.1rem; position: relative; overflow: hidden;
+    }
+    .hm-thumb::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle,rgba(255,255,255,.22) 1px,transparent 1px);
+      background-size: 12px 12px;
+    }
+    .hm-thumb span { position: relative; z-index: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
+    .hm-body { padding: 9px 11px 10px; }
+    .hm-title {
+      font-family: 'Quicksand',sans-serif; font-weight: 700; font-size: .74rem;
+      color: #191C1E; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px;
+    }
+    .hm-badge {
+      font-size: .6rem; font-weight: 700; padding: 2px 6px; border-radius: 999px; display: inline-block;
+    }
+    .hm-badge-n { background: #EFF6FF; color: #1D4ED8; }
+    .hm-badge-g { background: #ECFDF5; color: #047857; }
+    .hm-badge-s { background: #FFF7ED; color: #C2410C; }
+    .hm-stars { font-size: .6rem; color: #FBBF24; margin-top: 2px; }
+
+    .hm-streak {
+      position: absolute; top: -14px; left: 58px;
+      background: linear-gradient(135deg,#F97316,#FBBF24);
+      border-radius: 10px; padding: 5px 10px;
+      box-shadow: 0 4px 12px rgba(249,115,22,.4);
+      color: white; font-size: .66rem; font-weight: 700; z-index: 10;
+      white-space: nowrap; display: flex; align-items: center; gap: 4px;
+      animation: bob 3s ease-in-out infinite;
+    }
+    .hm-notif {
+      position: absolute; bottom: -8px; right: -16px;
+      background: white; border-radius: 12px; padding: 7px 11px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.14); border: 1.5px solid #FEF3C7;
+      display: flex; align-items: center; gap: 7px; z-index: 10;
+      white-space: nowrap; animation: floatUp 3.5s ease-in-out .6s infinite;
+    }
+    .hm-notif-icon { font-size: .9rem; }
+    .hm-notif-label { font-size: .58rem; color: #727785; line-height: 1.2; }
+    .hm-notif-text  { font-size: .64rem; font-weight: 700; color: #191C1E; }
+
+    /* ─── UPGRADE 2: TRUST BAR ──────────────────────────────── */
+    .trust-bar { background: var(--white); border-bottom: 1px solid var(--outline); }
+    .trust-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 var(--pad);
+      display: flex; align-items: stretch;
+    }
+    .trust-item {
+      flex: 1; display: flex; align-items: center; gap: 10px;
+      padding: 13px 18px; font-size: .8rem; color: var(--text-mid);
+      line-height: 1.35; border-right: 1px solid var(--outline);
+    }
+    .trust-item:last-child { border-right: none; }
+    .trust-icon { font-size: 1.25rem; flex-shrink: 0; }
+    .trust-label { font-size: .68rem; color: var(--text-soft); }
+    .trust-strong { font-weight: 700; color: var(--text); font-size: .78rem; }
+    @media(max-width:900px) { .trust-item:nth-child(n+4){ display:none; } }
+    @media(max-width:640px) { .trust-bar { display:none; } }
+
+    /* ─── UPGRADE 3: TYPOGRAPHY GRADIENT ───────────────────── */
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(120deg,var(--blue) 0%,var(--purple) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-title { letter-spacing: -.01em; }
+
+    /* ─── UPGRADE 4: SCROLL PROGRESS ───────────────────────── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 9999;
+      background: linear-gradient(90deg,var(--blue),var(--purple),var(--orange));
+      transform-origin: left; transform: scaleX(0);
+      transition: transform .08s linear; pointer-events: none;
     }
 
-    .game-card, .feat-card, .step-card, .badge-item {
-      animation: slideUp .4s ease both;
+    /* ─── UPGRADE 4: FADE-UP ON SCROLL ─────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1);
     }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* ─── UPGRADE 4: CARD GLOW HOVERS ──────────────────────── */
+    .strand-number .game-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 0 var(--blue-dark), 0 16px 36px rgba(59,130,246,.28);
+    }
+    .strand-geo .game-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 0 var(--green-dark), 0 16px 36px rgba(16,185,129,.28);
+    }
+    .strand-stats .game-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 0 var(--orange-dark), 0 16px 36px rgba(249,115,22,.28);
+    }
+    .feat-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,.13); }
+    .step-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,.1); }
+    .book-card:hover {
+      transform: translateY(-6px) rotate(-0.4deg);
+      box-shadow: 0 8px 0 rgba(109,40,217,.22), 0 20px 48px rgba(109,40,217,.16);
+    }
+
+    /* ─── UPGRADE 5: SECTION BACKGROUNDS ───────────────────── */
+    .how-section {
+      background: linear-gradient(180deg,#FFFBF5 0%,#F8FAFC 100%);
+      border-top: 1px solid #EDE9E2;
+      border-bottom: 1px solid #EDE9E2;
+      padding: 64px var(--pad);
+      max-width: none; margin: 0; /* override old centered styles */
+    }
+    .how-inner { max-width: 1200px; margin: 0 auto; }
+    .featured-section { background: var(--white); }
+    .strands-section  { background: var(--bg); }
 
     /* ── LOGGED-IN WELCOME BAR ── */
     .welcome-bar {
@@ -1009,6 +1139,7 @@
     </div>
 
   </div>
+  <div class="scroll-progress"></div>
 </header>
 
 <!-- ── LOGGED-IN WELCOME BAR ── -->
@@ -1058,11 +1189,70 @@
     </div>
 
     <div class="hero-visual">
-      <div class="hero-float">🧮</div>
+      <div class="hero-mosaic">
+        <div class="hm-streak">🔥 5-day streak!</div>
+        <div class="hm-card hm-c1">
+          <div class="hm-thumb" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8)"><span>🌪️</span></div>
+          <div class="hm-body">
+            <div class="hm-title">Times Table Tornado</div>
+            <span class="hm-badge hm-badge-n">Number</span>
+            <div class="hm-stars">★★★★★</div>
+          </div>
+        </div>
+        <div class="hm-card hm-c2">
+          <div class="hm-thumb" style="background:linear-gradient(135deg,#10B981,#047857)"><span>🔷</span></div>
+          <div class="hm-body">
+            <div class="hm-title">Shape Explorer</div>
+            <span class="hm-badge hm-badge-g">Geometry</span>
+            <div class="hm-stars">★★★★☆</div>
+          </div>
+        </div>
+        <div class="hm-card hm-c3">
+          <div class="hm-thumb" style="background:linear-gradient(135deg,#F97316,#C2410C)"><span>📊</span></div>
+          <div class="hm-body">
+            <div class="hm-title">Bar Chart Builder</div>
+            <span class="hm-badge hm-badge-s">Statistics</span>
+            <div class="hm-stars">★★★★★</div>
+          </div>
+        </div>
+        <div class="hm-notif">
+          <span class="hm-notif-icon">🏆</span>
+          <div>
+            <div class="hm-notif-label">Achievement unlocked!</div>
+            <div class="hm-notif-text">Times Wizard</div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
 </section>
+
+<!-- ── TRUST BAR ── -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <span class="trust-icon">🎓</span>
+      <div><div class="trust-strong">Cambridge Primary</div><div class="trust-label">Curriculum Aligned · All Stages</div></div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">🇮🇩</span>
+      <div><div class="trust-strong">Kurikulum Merdeka</div><div class="trust-label">Fase A–C · Kelas 1–6</div></div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">🔒</span>
+      <div><div class="trust-strong">COPPA &amp; GDPR-K</div><div class="trust-label">Safe for Children · No Ads</div></div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">🎮</span>
+      <div><div class="trust-strong">45 Games · 4 Books</div><div class="trust-label">100% Free · No In-App Purchases</div></div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">📊</span>
+      <div><div class="trust-strong">Progress Tracking</div><div class="trust-label">Badges, Streaks &amp; Strand Reports</div></div>
+    </div>
+  </div>
+</div>
 
 <!-- ── GRADE BAR ── -->
 <div class="grade-bar">
@@ -1508,6 +1698,7 @@
 
 <!-- ── HOW IT WORKS ── -->
 <section class="how-section">
+  <div class="how-inner">
   <h2 class="section-title">🎯 Where Math Is a Tasty Adventure</h2>
   <p class="section-subtitle">Four simple steps to start your maths adventure</p>
 
@@ -1547,6 +1738,7 @@
       <div class="step-title">Collect Badges</div>
       <div class="step-desc">Earn achievement badges and track progress across all three strands. Show your teacher your collection!</div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -2038,21 +2230,28 @@
     mascot.addEventListener('mouseleave', () => { bubble.style.display = 'none'; });
   }
 
-  /* Scroll-triggered animation */
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.animationPlayState = 'running';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
+  /* Scroll progress bar */
+  (function() {
+    const bar = document.querySelector('.scroll-progress');
+    if (!bar) return;
+    window.addEventListener('scroll', function() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+    }, { passive: true });
+  })();
 
-  document.querySelectorAll('.game-card, .feat-card, .step-card, .badge-item').forEach((el, i) => {
-    el.style.animationDelay = `${(i % 5) * 0.07}s`;
-    el.style.animationPlayState = 'paused';
-    observer.observe(el);
-  });
+  /* Fade-up on scroll */
+  (function() {
+    const io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.game-card,.feat-card,.step-card,.badge-item,.book-card,.strand').forEach(function(el) {
+      el.classList.add('fade-up');
+      io.observe(el);
+    });
+  })();
 </script>
 
 </body>
