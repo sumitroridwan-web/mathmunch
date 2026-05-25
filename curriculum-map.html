@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curriculum Map – MathMunch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --blue: #3B82F6;
+      --blue-dark: #1D4ED8;
+      --blue-light: #EFF6FF;
+      --blue-mid: #BFDBFE;
+      --blue-bg: #DBEAFE;
+      --green: #10B981;
+      --green-dark: #059669;
+      --green-light: #ECFDF5;
+      --green-bg: #D1FAE5;
+      --orange: #F97316;
+      --orange-dark: #C2410C;
+      --orange-light: #FFF7ED;
+      --orange-bg: #FFEDD5;
+      --purple: #8B5CF6;
+      --purple-dark: #6D28D9;
+      --purple-light: #F5F3FF;
+      --yellow: #FBBF24;
+      --yellow-dark: #D97706;
+      --red: #EF4444;
+      --rose: #F43F5E;
+      --amber: #F59E0B;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --surface: #F1F5F9;
+      --outline: #E2E8F0;
+      --text: #191C1E;
+      --text-mid: #424754;
+      --text-soft: #727785;
+      --radius-card: 24px;
+      --radius-btn: 9999px;
+      --radius-sm: 12px;
+      --shadow-card: 0 2px 0 rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-blue: 0 3px 0 #1D4ED8;
+      --shadow-green: 0 3px 0 #047857;
+      --shadow-orange: 0 3px 0 #C2410C;
+      --shadow-purple: 0 3px 0 #6D28D9;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lexend', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .logo-text {
+      font-family: 'Quicksand', system-ui, sans-serif;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--white);
+      border-bottom: 2px solid var(--outline);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 32px; height: 64px;
+      display: flex; align-items: center; gap: 20px;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--orange), #FBBF24);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 2px 0 var(--orange-dark);
+    }
+
+    .logo-text {
+      font-size: 1.25rem; font-weight: 700; color: var(--text);
+    }
+
+    nav {
+      display: flex; gap: 4px; flex: 1; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    nav::-webkit-scrollbar { display: none; }
+
+    nav a {
+      padding: 7px 14px; border-radius: 999px;
+      font-size: .85rem; font-weight: 600;
+      color: var(--text-mid); text-decoration: none;
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    nav a:hover { background: var(--blue-light); color: var(--blue); }
+    nav a.active { background: var(--blue-light); color: var(--blue); }
+
+    .header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px; border-radius: 999px;
+      font-family: 'Lexend', sans-serif;
+      font-size: .85rem; font-weight: 700;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform .1s ease, box-shadow .1s ease;
+      white-space: nowrap;
+    }
+    .btn-blue { background: var(--blue); color: white; box-shadow: var(--shadow-blue); }
+    .btn-blue:hover { transform: translateY(-1px); }
+    .btn-blue:active { transform: translateY(2px); box-shadow: none; }
+    .btn-outline {
+      background: transparent; color: var(--text-mid);
+      border: 2px solid var(--outline);
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+
+    /* ── MAIN WRAP ── */
+    .main { max-width: 1280px; margin: 0 auto; padding: 0 32px 80px; }
+
+    /* ── HERO ── */
+    .hero-section {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 50%, #1D4ED8 100%);
+      color: white;
+      padding: 56px 32px;
+      position: relative; overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .hero-content {
+      max-width: 1280px; margin: 0 auto;
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+    .hero-content h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; margin-bottom: 16px; line-height: 1.2;
+    }
+    .hero-content p {
+      font-size: 1.05rem; opacity: .85; max-width: 680px;
+      margin: 0 auto 28px; line-height: 1.7;
+    }
+    .stat-chips {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .stat-chip {
+      background: rgba(255,255,255,.15);
+      border: 1.5px solid rgba(255,255,255,.3);
+      border-radius: 999px; padding: 6px 18px;
+      font-size: .85rem; font-weight: 600;
+    }
+
+    /* ── CONTROLS ── */
+    .controls-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--outline);
+      position: sticky; top: 64px; z-index: 90;
+    }
+    .controls-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 14px 32px;
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    }
+
+    .view-group {
+      display: flex; background: var(--surface);
+      border-radius: 999px; padding: 3px; gap: 2px;
+    }
+    .view-btn {
+      padding: 7px 16px; border-radius: 999px;
+      font-family: 'Lexend', sans-serif;
+      font-size: .82rem; font-weight: 600;
+      cursor: pointer; border: none; background: transparent;
+      color: var(--text-mid); transition: background .15s, color .15s;
+    }
+    .view-btn.active {
+      background: var(--blue); color: white;
+      box-shadow: var(--shadow-blue);
+    }
+
+    .filter-select {
+      font-family: 'Lexend', sans-serif;
+      font-size: .85rem; font-weight: 600;
+      padding: 8px 14px; border-radius: 999px;
+      border: 2px solid var(--outline); background: var(--white);
+      color: var(--text-mid); cursor: pointer;
+      transition: border-color .15s;
+    }
+    .filter-select:hover, .filter-select:focus {
+      border-color: var(--blue); outline: none;
+    }
+
+    .search-wrap {
+      flex: 1; min-width: 200px; max-width: 300px;
+      position: relative;
+    }
+    .search-wrap input {
+      width: 100%; padding: 8px 14px 8px 36px;
+      border-radius: 999px; border: 2px solid var(--outline);
+      font-family: 'Lexend', sans-serif; font-size: .85rem;
+      background: var(--white); color: var(--text);
+      transition: border-color .15s;
+    }
+    .search-wrap input:focus { border-color: var(--blue); outline: none; }
+    .search-icon {
+      position: absolute; left: 12px; top: 50%;
+      transform: translateY(-50%); font-size: .9rem; opacity: .5;
+    }
+
+    .pdf-btn {
+      margin-left: auto;
+    }
+
+    /* ── STAGE FILTER TABS ── */
+    .stage-tabs-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--outline);
+    }
+    .stage-tabs-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 32px;
+      display: flex; gap: 0; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .stage-tabs-inner::-webkit-scrollbar { display: none; }
+    .stage-tab {
+      padding: 12px 20px;
+      font-family: 'Lexend', sans-serif;
+      font-size: .82rem; font-weight: 600;
+      color: var(--text-soft); cursor: pointer;
+      border: none; background: transparent;
+      border-bottom: 3px solid transparent;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    .stage-tab:hover { color: var(--blue); }
+    .stage-tab.active {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+    }
+
+    /* ── CONTENT ── */
+    .curriculum-content { padding: 28px 0; }
+
+    /* ── STAGE SECTION ── */
+    .stage-section {
+      margin-bottom: 24px;
+      border-radius: var(--radius-card);
+      border: 1px solid var(--outline);
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .stage-section.collapsed .stage-body { display: none; }
+
+    .stage-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 28px; cursor: pointer;
+      user-select: none;
+      transition: background .15s;
+    }
+    .stage-header:hover { filter: brightness(.97); }
+
+    .stage-badge {
+      padding: 4px 14px; border-radius: 999px;
+      font-size: .78rem; font-weight: 700;
+      color: white; flex-shrink: 0;
+    }
+
+    .stage-titles { flex: 1; }
+    .stage-title-main {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+    }
+    .stage-title-sub {
+      font-size: .82rem; color: inherit; opacity: .8; margin-top: 2px;
+    }
+
+    .stage-meta {
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    }
+    .stage-meta-chip {
+      background: rgba(255,255,255,.25);
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 999px; padding: 3px 12px;
+      font-size: .75rem; font-weight: 600;
+    }
+
+    .stage-toggle {
+      font-size: 1.1rem; transition: transform .2s;
+    }
+    .stage-section.collapsed .stage-toggle { transform: rotate(-90deg); }
+
+    /* ── SIDE BY SIDE GRID ── */
+    .stage-body { padding: 0 20px 20px; }
+
+    .side-by-side-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-bottom: 8px; padding: 10px 0;
+    }
+    .col-header {
+      font-family: 'Quicksand', sans-serif;
+      font-size: .9rem; font-weight: 700;
+      padding: 8px 16px; border-radius: 12px;
+      text-align: center;
+    }
+    .col-header.cambridge {
+      background: var(--blue-bg); color: var(--blue-dark);
+    }
+    .col-header.merdeka {
+      background: var(--green-bg); color: var(--green-dark);
+    }
+
+    /* ── STRAND BLOCK ── */
+    .strand-block {
+      margin-bottom: 16px; border-radius: var(--radius-sm);
+      border: 1px solid var(--outline); overflow: hidden;
+    }
+
+    .strand-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px;
+    }
+    .strand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .strand-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: .88rem; font-weight: 700;
+    }
+    .strand-count {
+      margin-left: auto; font-size: .75rem; font-weight: 600;
+      opacity: .7;
+    }
+
+    /* ── TWO-COLUMN OBJECTIVES ── */
+    .objectives-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .objectives-col {
+      padding: 8px 12px 12px;
+    }
+    .objectives-col:first-child {
+      border-right: 1px solid var(--outline);
+    }
+    .obj-col-title {
+      font-size: .72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .6px;
+      opacity: .65; margin-bottom: 8px; padding-bottom: 6px;
+      border-bottom: 1px dashed var(--outline);
+    }
+
+    /* ── SINGLE COLUMN (Cambridge/Merdeka only) ── */
+    .objectives-single {
+      padding: 8px 12px 12px;
+    }
+
+    /* ── OBJECTIVE ROW ── */
+    .obj-row {
+      display: flex; gap: 8px; padding: 7px 0;
+      border-bottom: 1px dashed var(--outline);
+      align-items: flex-start;
+    }
+    .obj-row:last-child { border-bottom: none; }
+    .obj-row.hidden { display: none; }
+
+    .obj-code {
+      font-size: .72rem; font-weight: 700;
+      font-family: 'Lexend', monospace;
+      padding: 2px 8px; border-radius: 6px;
+      flex-shrink: 0; margin-top: 2px;
+    }
+
+    .obj-text {
+      font-size: .82rem; color: var(--text-mid);
+      flex: 1; line-height: 1.5;
+    }
+
+    .obj-games {
+      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px;
+    }
+
+    .game-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 999px;
+      font-size: .7rem; font-weight: 600;
+      text-decoration: none; white-space: nowrap;
+      transition: transform .1s, opacity .1s;
+    }
+    .game-pill:hover { transform: translateY(-1px); opacity: .85; }
+
+    .game-pill.strand-number {
+      background: var(--blue-bg); color: var(--blue-dark);
+    }
+    .game-pill.strand-geometry {
+      background: var(--green-bg); color: var(--green-dark);
+    }
+    .game-pill.strand-statistics {
+      background: var(--orange-bg); color: var(--orange-dark);
+    }
+    .game-pill.strand-algebra {
+      background: var(--purple-light); color: var(--purple-dark);
+    }
+
+    /* ── SINGLE VIEW MODE STYLES ── */
+    .view-cambridge .objectives-grid { grid-template-columns: 1fr; }
+    .view-cambridge .objectives-col:last-child { display: none; }
+    .view-cambridge .side-by-side-header { display: none; }
+    .view-cambridge .col-header { display: none; }
+    .view-cambridge .objectives-col:first-child { border-right: none; }
+
+    .view-merdeka .objectives-grid { grid-template-columns: 1fr; }
+    .view-merdeka .objectives-col:first-child { display: none; }
+    .view-merdeka .side-by-side-header { display: none; }
+    .view-merdeka .col-header { display: none; }
+
+    /* ── SUMMARY TABLE ── */
+    .summary-section {
+      margin-top: 16px;
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--outline);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .summary-header {
+      padding: 20px 28px;
+      background: linear-gradient(135deg, #F0F9FF, #DBEAFE);
+      border-bottom: 1px solid var(--outline);
+    }
+    .summary-header h2 {
+      font-size: 1.15rem; font-weight: 700; color: var(--blue-dark);
+    }
+    .summary-header p {
+      font-size: .85rem; color: var(--text-soft); margin-top: 4px;
+    }
+
+    .summary-table-wrap { overflow-x: auto; padding: 20px 28px; }
+
+    .summary-table {
+      width: 100%; border-collapse: collapse;
+      font-size: .83rem;
+    }
+    .summary-table th {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700; font-size: .8rem;
+      padding: 10px 14px; text-align: left;
+      background: var(--surface); color: var(--text-mid);
+      border-bottom: 2px solid var(--outline);
+    }
+    .summary-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--outline);
+      vertical-align: middle; color: var(--text-mid);
+    }
+    .summary-table tr:last-child td { border-bottom: none; }
+    .summary-table tr:hover td { background: var(--bg); }
+
+    .strand-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 10px; border-radius: 999px;
+      font-size: .75rem; font-weight: 700;
+    }
+
+    /* ── HOW TO USE ── */
+    .how-to-section {
+      margin-top: 16px;
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--outline);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .how-to-header {
+      padding: 20px 28px;
+      background: linear-gradient(135deg, #F0FFF4, #D1FAE5);
+      border-bottom: 1px solid var(--outline);
+    }
+    .how-to-header h2 {
+      font-size: 1.15rem; font-weight: 700; color: var(--green-dark);
+    }
+    .how-to-header p {
+      font-size: .85rem; color: var(--text-soft); margin-top: 4px;
+    }
+    .tips-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px; padding: 24px 28px;
+    }
+    .tip-card {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      border: 1px solid var(--outline);
+    }
+    .tip-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--green); color: white;
+      font-family: 'Quicksand', sans-serif;
+      font-size: .9rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+    }
+    .tip-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: .9rem; font-weight: 700;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .tip-body {
+      font-size: .82rem; color: var(--text-soft); line-height: 1.6;
+    }
+
+    /* ── NO RESULTS ── */
+    .no-results {
+      text-align: center; padding: 48px;
+      color: var(--text-soft); font-size: .95rem;
+      display: none;
+    }
+    .no-results.visible { display: block; }
+
+    /* ── PRINT ── */
+    @media print {
+      .site-header, .controls-bar, .stage-tabs-bar, .pdf-btn,
+      .header-actions { display: none !important; }
+      body { background: white; }
+      .main { padding: 0; }
+      .hero-section {
+        background: #1E3A5F !important;
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+      .stage-section { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+      .stage-section.collapsed .stage-body { display: block !important; }
+      .stage-header { cursor: default; }
+      .game-pill { border: 1px solid currentColor; }
+      .strand-block { break-inside: avoid; }
+      @page { margin: 1.5cm; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .header-inner { padding: 0 16px; }
+      .main { padding: 0 16px 60px; }
+      .hero-section { padding: 36px 16px; }
+      .controls-inner { padding: 10px 16px; }
+      .stage-tabs-inner { padding: 0 16px; }
+      .objectives-grid { grid-template-columns: 1fr !important; }
+      .objectives-col:first-child { border-right: none !important; border-bottom: 1px solid var(--outline); }
+      .side-by-side-header { grid-template-columns: 1fr !important; }
+      .stage-header { padding: 16px; }
+      .stage-body { padding: 0 12px 12px; }
+      .tips-grid { grid-template-columns: 1fr 1fr; padding: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .tips-grid { grid-template-columns: 1fr; }
+      .stat-chips { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🍕</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav>
+      <a href="index.html">🏠 Home</a>
+      <a href="index.html#games">🎮 Games</a>
+      <a href="index.html#books">📚 Story Books</a>
+      <a href="dashboard.html">📊 My Journey</a>
+      <a href="teacher.html">👩‍🏫 Teachers</a>
+      <a href="curriculum-map.html" class="active">📋 Curriculum</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html" class="btn btn-outline">Log In</a>
+      <a href="signup.html" class="btn btn-blue">Sign Up</a>
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1>📋 Mathematics Curriculum Map</h1>
+    <p>Cambridge Primary Mathematics (Stages 1–6) and Indonesian Kurikulum Merdeka (Fase A–C) — with MathMunch game alignments for every objective, Grade 1 to Grade 6</p>
+    <div class="stat-chips">
+      <span class="stat-chip">🎮 45 MathMunch Games Mapped</span>
+      <span class="stat-chip">📚 2 Curricula</span>
+      <span class="stat-chip">🎓 Grades 1–6</span>
+      <span class="stat-chip">🌱 EY (Early Years) ≡ TK (Taman Kanak-Kanak)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTROLS ── -->
+<div class="controls-bar">
+  <div class="controls-inner">
+    <div class="view-group">
+      <button class="view-btn" data-view="cambridge">Cambridge Primary</button>
+      <button class="view-btn" data-view="merdeka">Indonesian Merdeka</button>
+      <button class="view-btn active" data-view="side-by-side">Side by Side</button>
+    </div>
+    <select class="filter-select" id="strandFilter">
+      <option value="all">All Strands</option>
+      <option value="number">Number / Bilangan</option>
+      <option value="geometry">Geometry / Geometri</option>
+      <option value="statistics">Statistics / Analisis Data</option>
+      <option value="algebra">Algebra / Aljabar</option>
+    </select>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search objective or game…">
+    </div>
+    <button class="btn btn-blue pdf-btn" onclick="window.print()">🖨️ Download PDF</button>
+  </div>
+</div>
+
+<!-- ── STAGE FILTER TABS ── -->
+<div class="stage-tabs-bar">
+  <div class="stage-tabs-inner">
+    <button class="stage-tab active" data-stage="all">All Grades</button>
+    <button class="stage-tab" data-stage="stage1">Grade 1 · Cambridge Stage 1 · Kelas 1 / Fase A</button>
+    <button class="stage-tab" data-stage="stage2">Grade 2 · Cambridge Stage 2 · Kelas 2 / Fase A</button>
+    <button class="stage-tab" data-stage="stage3">Grade 3 · Cambridge Stage 3 · Kelas 3 / Fase B</button>
+    <button class="stage-tab" data-stage="stage4">Grade 4 · Cambridge Stage 4 · Kelas 4 / Fase B</button>
+    <button class="stage-tab" data-stage="stage5">Grade 5 · Cambridge Stage 5 · Kelas 5 / Fase C</button>
+    <button class="stage-tab" data-stage="stage6">Grade 6 · Cambridge Stage 6 · Kelas 6 / Fase C</button>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="curriculum-content" id="curriculumContent">
+    <!-- Rendered by JS -->
+    <div class="no-results" id="noResults">No objectives match your search. Try a different term.</div>
+  </div>
+
+  <!-- ── CROSS-CURRICULUM SUMMARY TABLE ── -->
+  <div class="summary-section">
+    <div class="summary-header">
+      <h2>🔗 Cross-Curriculum Alignment Summary</h2>
+      <p>How MathMunch game strands map to Cambridge Primary and Indonesian Kurikulum Merdeka elements</p>
+    </div>
+    <div class="summary-table-wrap">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>MathMunch Strand</th>
+            <th>Cambridge Primary Elements</th>
+            <th>Indonesian Merdeka Elements</th>
+            <th>Key Games</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="strand-badge" style="background:#DBEAFE;color:#1D4ED8;">🔢 Number</span></td>
+            <td>Number (Nn) — place value, operations, fractions, decimals, ratio, primes</td>
+            <td>Bilangan (B) — membilang, nilai tempat, operasi hitung, pecahan, desimal, rasio</td>
+            <td>Place Value Party, Fraction Forest, Decimal Diner, Factor Finder</td>
+          </tr>
+          <tr>
+            <td><span class="strand-badge" style="background:#D1FAE5;color:#059669;">📐 Geometry</span></td>
+            <td>Geometry &amp; Measure (Gm) — shapes, angles, transformations, coordinates, measure</td>
+            <td>Geometri (G) + Pengukuran (P) — bangun datar/ruang, sudut, transformasi, koordinat, pengukuran</td>
+            <td>Shape Explorer, Angle Adventurer, Coordinate Commander, Volume Voyage</td>
+          </tr>
+          <tr>
+            <td><span class="strand-badge" style="background:#FFEDD5;color:#C2410C;">📊 Statistics</span></td>
+            <td>Statistics &amp; Probability (St) — data, graphs, probability, averages</td>
+            <td>Analisis Data (D) — pengumpulan data, diagram, peluang, statistik deskriptif</td>
+            <td>Bar Chart Builder, Mean Machine, Chance Castle, Pie Chart Party</td>
+          </tr>
+          <tr>
+            <td><span class="strand-badge" style="background:#F5F3FF;color:#6D28D9;">🔣 Algebra</span></td>
+            <td>Number (Nn) — patterns, sequences, order of operations</td>
+            <td>Aljabar (A) — pola bilangan, ekspresi, persamaan sederhana</td>
+            <td>Pattern Builder, Skip Counting Spaceship, Number Quest</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── HOW TO USE ── -->
+  <div class="how-to-section">
+    <div class="how-to-header">
+      <h2>📖 How to Use This Map</h2>
+      <p>Four tips to get the most out of the MathMunch Curriculum Map in your classroom</p>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-num">1</div>
+        <div class="tip-title">Assign Games by Objective Code</div>
+        <div class="tip-body">Find the exact Cambridge (e.g., Nn3.02) or Merdeka (e.g., B.B.2) objective you're teaching, then assign the linked game pills directly to students via the MathMunch dashboard.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">2</div>
+        <div class="tip-title">Use the Strand Filter</div>
+        <div class="tip-body">Select "Geometry / Geometri" from the strand dropdown to instantly see all geometry objectives and linked games across all grade levels — perfect for topic-based planning.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">3</div>
+        <div class="tip-title">Print as a Planning Tool</div>
+        <div class="tip-body">Click the "Download PDF" button for a clean printable version of this map. Use it as a weekly planning reference or share it with parents and department heads.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">4</div>
+        <div class="tip-title">Compare Curricula to Find Learning Gaps</div>
+        <div class="tip-body">Use "Side by Side" view to compare Cambridge and Merdeka objectives at the same level. Identify topics covered in one curriculum but not the other to enrich your teaching.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── GAME DATA ──
+const GAMES = {
+  // Number games
+  'counting-safari':          { name: 'Counting Safari',           strand: 'number',    path: 'games/number/counting-safari.html' },
+  'ten-frame-treasure':       { name: 'Ten Frame Treasure',        strand: 'number',    path: 'games/number/ten-frame-treasure.html' },
+  'odd-even-explorer':        { name: 'Odd & Even Explorer',       strand: 'number',    path: 'games/number/odd-even-explorer.html' },
+  'skip-counting-spaceship':  { name: 'Skip Counting Spaceship',   strand: 'number',    path: 'games/number/skip-counting-spaceship.html' },
+  'add-subtract-adventure':   { name: 'Add & Subtract',            strand: 'number',    path: 'games/number/add-subtract-adventure.html' },
+  'number-bonds-blaster':     { name: 'Number Bonds',              strand: 'number',    path: 'games/number/number-bonds-blaster.html' },
+  'place-value-party':        { name: 'Place Value Party',         strand: 'number',    path: 'games/number/place-value-party.html' },
+  'number-line-hop':          { name: 'Number Line Hop',           strand: 'number',    path: 'games/number/number-line-hop.html' },
+  'multiplication-mountains': { name: 'Multiplication Mountains',  strand: 'number',    path: 'games/number/multiplication-mountains.html' },
+  'times-table-tornado':      { name: 'Times Table Tornado',       strand: 'number',    path: 'games/number/times-table-tornado.html' },
+  'division-dungeon':         { name: 'Division Dungeon',          strand: 'number',    path: 'games/number/division-dungeon.html' },
+  'fraction-forest':          { name: 'Fraction Forest',           strand: 'number',    path: 'games/number/fraction-forest.html' },
+  'decimal-diner':            { name: 'Decimal Diner',             strand: 'number',    path: 'games/number/decimal-diner.html' },
+  'rounding-rocket':          { name: 'Rounding Rocket',           strand: 'number',    path: 'games/number/rounding-rocket.html' },
+  'negative-number-ninja':    { name: 'Negative Numbers',          strand: 'number',    path: 'games/number/negative-number-ninja.html' },
+  'number-quest':             { name: 'Number Quest',              strand: 'number',    path: 'games/number/number-quest.html' },
+  'factor-finder':            { name: 'Factor Finder',             strand: 'number',    path: 'games/number/factor-finder.html' },
+  // Geometry games
+  'shape-explorer':           { name: 'Shape Explorer',            strand: 'geometry',  path: 'games/geometry/shape-explorer.html' },
+  '3d-shape-safari':          { name: '3D Shape Safari',           strand: 'geometry',  path: 'games/geometry/3d-shape-safari.html' },
+  'pattern-builder':          { name: 'Pattern Builder',           strand: 'geometry',  path: 'games/geometry/pattern-builder.html' },
+  'symmetry-lab':             { name: 'Symmetry Lab',              strand: 'geometry',  path: 'games/geometry/symmetry-lab.html' },
+  'time-tracker':             { name: 'Time Tracker',              strand: 'geometry',  path: 'games/geometry/time-tracker.html' },
+  'calendar-quest':           { name: 'Calendar Quest',            strand: 'geometry',  path: 'games/geometry/calendar-quest.html' },
+  'money-market':             { name: 'Money Market',              strand: 'geometry',  path: 'games/geometry/money-market.html' },
+  'measure-mission':          { name: 'Measure Mission',           strand: 'geometry',  path: 'games/geometry/measure-mission.html' },
+  'position-pilot':           { name: 'Position Pilot',            strand: 'geometry',  path: 'games/geometry/position-pilot.html' },
+  'angle-adventurer':         { name: 'Angle Adventurer',          strand: 'geometry',  path: 'games/geometry/angle-adventurer.html' },
+  'area-arena':               { name: 'Area Arena',                strand: 'geometry',  path: 'games/geometry/area-arena.html' },
+  'perimeter-patrol':         { name: 'Perimeter Patrol',          strand: 'geometry',  path: 'games/geometry/perimeter-patrol.html' },
+  'coordinate-commander':     { name: 'Coordinate Commander',      strand: 'geometry',  path: 'games/geometry/coordinate-commander.html' },
+  'transformation-station':   { name: 'Transformation Station',    strand: 'geometry',  path: 'games/geometry/transformation-station.html' },
+  'net-navigator':            { name: 'Net Navigator',             strand: 'geometry',  path: 'games/geometry/net-navigator.html' },
+  'volume-voyage':            { name: 'Volume Voyage',             strand: 'geometry',  path: 'games/geometry/volume-voyage.html' },
+  // Statistics games
+  'tally-town':               { name: 'Tally Town',                strand: 'statistics', path: 'games/statistics/tally-town.html' },
+  'graph-garden':             { name: 'Graph Garden',              strand: 'statistics', path: 'games/statistics/graph-garden.html' },
+  'bar-chart-builder':        { name: 'Bar Chart Builder',         strand: 'statistics', path: 'games/statistics/bar-chart-builder.html' },
+  'carroll-diagram':          { name: 'Carroll Diagram',           strand: 'statistics', path: 'games/statistics/carroll-diagram.html' },
+  'venn-voyage':              { name: 'Venn Voyage',               strand: 'statistics', path: 'games/statistics/venn-voyage.html' },
+  'data-detective':           { name: 'Data Detective',            strand: 'statistics', path: 'games/statistics/data-detective.html' },
+  'spin-sort':                { name: 'Spin & Sort',               strand: 'statistics', path: 'games/statistics/spin-sort.html' },
+  'line-graph-lab':           { name: 'Line Graph Lab',            strand: 'statistics', path: 'games/statistics/line-graph-lab.html' },
+  'frequency-forest':         { name: 'Frequency Forest',          strand: 'statistics', path: 'games/statistics/frequency-forest.html' },
+  'mean-machine':             { name: 'Mean Machine',              strand: 'statistics', path: 'games/statistics/mean-machine.html' },
+  'pie-chart-party':          { name: 'Pie Chart Party',           strand: 'statistics', path: 'games/statistics/pie-chart-party.html' },
+  'chance-castle':            { name: 'Chance Castle',             strand: 'statistics', path: 'games/statistics/chance-castle.html' },
+};
+
+// ── CURRICULUM DATA ──
+// NOTE: EY (Early Years, Cambridge Foundation / Ages 3–5) is equivalent to
+//       TK (Taman Kanak-Kanak, Indonesian pre-primary / Ages 4–6).
+//       Both are PRE-primary stages. Grade 1 below = first year of primary school.
+
+const CURRICULUM = [
+  // ─── GRADE 1 ── Cambridge Stage 1 ── Kurikulum Merdeka Fase A Kelas 1 ───
+  {
+    id: 'stage1',
+    cambridgeLabel: 'Cambridge Primary Stage 1',
+    indonesianLabel: 'Kurikulum Merdeka Fase A — Kelas 1',
+    ages: 'Grade 1 · Ages 5–6 · Cambridge Stage 1 = Kelas 1 / Fase A',
+    stageColor: '#059669',
+    stageColorBg: 'linear-gradient(135deg,#065F46,#059669)',
+    stageNum: 'Grade 1',
+    strands: [
+      {
+        id: 'number',
+        label: 'Number / Bilangan',
+        color: '#3B82F6', bgColor: '#DBEAFE',
+        cambridgeObjectives: [
+          { code: 'Nn1.01', text: 'Count, read and write numbers 0–20; match numerals to quantities', games: ['counting-safari','ten-frame-treasure','number-line-hop'] },
+          { code: 'Nn1.02', text: 'Compare and order numbers to 20 using < > = symbols', games: ['number-line-hop','counting-safari'] },
+          { code: 'Nn1.03', text: 'Recognise odd and even numbers to 20', games: ['odd-even-explorer'] },
+          { code: 'Nn1.04', text: 'Count on and back in 1s, 2s and 10s from any small number', games: ['skip-counting-spaceship','counting-safari'] },
+          { code: 'Nn1.05', text: 'Recall addition and subtraction facts for numbers to 10 (number bonds)', games: ['number-bonds-blaster','add-subtract-adventure'] },
+          { code: 'Nn1.06', text: 'Add and subtract within 20 using objects, drawings and mental methods', games: ['add-subtract-adventure','number-bonds-blaster'] },
+          { code: 'Nn1.07', text: 'Recognise, name and write ½ and ¼ of shapes and small quantities', games: ['fraction-forest'] },
+        ],
+        indonesianObjectives: [
+          { code: '1.B.1', text: 'Membilang, membaca, dan menulis lambang bilangan asli 1–20 dengan benda konkret', games: ['counting-safari','ten-frame-treasure'] },
+          { code: '1.B.2', text: 'Membandingkan dan mengurutkan bilangan 1–20 (lebih besar, lebih kecil, sama)', games: ['number-line-hop','counting-safari'] },
+          { code: '1.B.3', text: 'Menentukan nilai tempat satuan pada bilangan 1–20', games: ['place-value-party'] },
+          { code: '1.B.4', text: 'Melakukan penjumlahan dan pengurangan bilangan sampai dengan 20', games: ['add-subtract-adventure','number-bonds-blaster'] },
+          { code: '1.B.5', text: 'Mengenal bilangan ganjil dan genap melalui benda konkret dan permainan', games: ['odd-even-explorer'] },
+          { code: '1.B.6', text: 'Mengenal dan melanjutkan pola bilangan sederhana (tambah 1, tambah 2)', games: ['skip-counting-spaceship','pattern-builder'] },
+        ]
+      },
+      {
+        id: 'geometry',
+        label: 'Geometry & Measure / Geometri & Pengukuran',
+        color: '#10B981', bgColor: '#D1FAE5',
+        cambridgeObjectives: [
+          { code: 'Gm1.01', text: 'Name, identify and sort 2D shapes: circle, square, triangle, rectangle, pentagon, hexagon', games: ['shape-explorer'] },
+          { code: 'Gm1.02', text: 'Name and identify 3D shapes: cube, cuboid, sphere, cylinder, cone, pyramid', games: ['3d-shape-safari'] },
+          { code: 'Gm1.03', text: 'Describe position and movement: left/right, above/below, next to, in front/behind', games: ['position-pilot'] },
+          { code: 'Gm1.04', text: 'Recognise, create and describe repeating patterns using shapes and colours', games: ['pattern-builder'] },
+          { code: 'Gm1.05', text: 'Compare and order lengths and masses using direct comparison (longer, shorter, heavier, lighter)', games: ['measure-mission'] },
+          { code: 'Gm1.06', text: 'Read the time to the hour on analogue and digital clocks', games: ['time-tracker'] },
+        ],
+        indonesianObjectives: [
+          { code: '1.G.1', text: 'Mengenal dan menyebutkan ciri-ciri bangun datar: segitiga, persegi, persegi panjang, lingkaran', games: ['shape-explorer'] },
+          { code: '1.G.2', text: 'Mengenal bangun ruang sederhana: kubus, balok, bola, tabung, kerucut', games: ['3d-shape-safari'] },
+          { code: '1.G.3', text: 'Mendeskripsikan posisi benda: kanan/kiri, atas/bawah, depan/belakang', games: ['position-pilot'] },
+          { code: '1.G.4', text: 'Membuat dan melanjutkan pola dengan bangun datar dan warna', games: ['pattern-builder'] },
+          { code: '1.P.1', text: 'Membandingkan panjang, berat, dan kapasitas benda secara langsung (satuan tidak baku)', games: ['measure-mission'] },
+          { code: '1.P.2', text: 'Membaca waktu tepat jam pada jam analog', games: ['time-tracker'] },
+        ]
+      },
+      {
+        id: 'statistics',
+        label: 'Statistics / Analisis Data',
+        color: '#F97316', bgColor: '#FFEDD5',
+        cambridgeObjectives: [
+          { code: 'St1.01', text: 'Sort and classify objects using one or two given criteria (colour, shape, size)', games: ['spin-sort','carroll-diagram'] },
+          { code: 'St1.02', text: 'Collect and record data as simple tally marks; count the tallies', games: ['tally-town'] },
+          { code: 'St1.03', text: 'Read data from a simple list or table and answer questions', games: ['graph-garden'] },
+        ],
+        indonesianObjectives: [
+          { code: '1.D.1', text: 'Mengelompokkan benda berdasarkan satu ciri (bentuk, warna, atau ukuran)', games: ['spin-sort','carroll-diagram'] },
+          { code: '1.D.2', text: 'Mencatat data sederhana menggunakan tabel coretan (turus/tally)', games: ['tally-town'] },
+          { code: '1.D.3', text: 'Membaca informasi dari tabel dan piktogram sederhana', games: ['graph-garden'] },
+        ]
+      }
+    ]
+  },
+
+  // ─── GRADE 2 ── Cambridge Stage 2 ── Kurikulum Merdeka Fase A Kelas 2 ───
+  {
+    id: 'stage2',
+    cambridgeLabel: 'Cambridge Primary Stage 2',
+    indonesianLabel: 'Kurikulum Merdeka Fase A — Kelas 2',
+    ages: 'Grade 2 · Ages 6–7 · Cambridge Stage 2 = Kelas 2 / Fase A',
+    stageColor: '#2563EB',
+    stageColorBg: 'linear-gradient(135deg,#1D4ED8,#2563EB)',
+    stageNum: 'Grade 2',
+    strands: [
+      {
+        id: 'number',
+        label: 'Number / Bilangan',
+        color: '#3B82F6', bgColor: '#DBEAFE',
+        cambridgeObjectives: [
+          { code: 'Nn2.01', text: 'Read, write, compare and order numbers to 100; identify place value (tens and ones)', games: ['place-value-party','number-line-hop'] },
+          { code: 'Nn2.02', text: 'Count on and back in 2s, 3s, 4s, 5s and 10s from any number', games: ['skip-counting-spaceship'] },
+          { code: 'Nn2.03', text: 'Add and subtract pairs of 2-digit numbers with and without regrouping', games: ['add-subtract-adventure'] },
+          { code: 'Nn2.04', text: 'Understand multiplication as repeated addition; use arrays for ×2, ×5, ×10', games: ['multiplication-mountains','skip-counting-spaceship'] },
+          { code: 'Nn2.05', text: 'Divide by sharing equally into groups; relate to multiplication', games: ['division-dungeon'] },
+          { code: 'Nn2.06', text: 'Recognise, name and find ½, ¼, ⅓, ¾ of shapes and quantities', games: ['fraction-forest'] },
+        ],
+        indonesianObjectives: [
+          { code: '2.B.1', text: 'Membilang, membaca, dan menulis bilangan cacah 1–100; memahami nilai tempat puluhan dan satuan', games: ['place-value-party','counting-safari'] },
+          { code: '2.B.2', text: 'Membandingkan dan mengurutkan bilangan 1–100 menggunakan garis bilangan', games: ['number-line-hop'] },
+          { code: '2.B.3', text: 'Menjumlahkan dan mengurangkan bilangan dua angka dengan dan tanpa teknik menyimpan', games: ['add-subtract-adventure','number-bonds-blaster'] },
+          { code: '2.B.4', text: 'Memahami perkalian sebagai penjumlahan berulang; menghafal perkalian 2 dan 5', games: ['multiplication-mountains','skip-counting-spaceship'] },
+          { code: '2.B.5', text: 'Memahami pembagian sebagai pengurangan berulang dan berbagi sama banyak', games: ['division-dungeon'] },
+          { code: '2.B.6', text: 'Mengenal pecahan sederhana ½ dan ¼ dari benda konkret dan gambar', games: ['fraction-forest'] },
+        ]
+      },
+      {
+        id: 'geometry',
+        label: 'Geometry & Measure / Geometri & Pengukuran',
+        color: '#10B981', bgColor: '#D1FAE5',
+        cambridgeObjectives: [
+          { code: 'Gm2.01', text: 'Identify and describe properties of 2D shapes: number of sides and corners; sort by properties', games: ['shape-explorer'] },
+          { code: 'Gm2.02', text: 'Identify lines of symmetry in 2D shapes; fold/draw symmetrical figures', games: ['symmetry-lab'] },
+          { code: 'Gm2.03', text: 'Estimate, measure and compare lengths and masses in standard units: cm, m, g, kg', games: ['measure-mission'] },
+          { code: 'Gm2.04', text: 'Read and record time to the nearest half hour and quarter hour on analogue/digital clocks', games: ['time-tracker'] },
+          { code: 'Gm2.05', text: 'Recognise and use coins and notes; find totals and give change', games: ['money-market'] },
+          { code: 'Gm2.06', text: 'Read and use simple compass directions (North, South, East, West)', games: ['position-pilot'] },
+        ],
+        indonesianObjectives: [
+          { code: '2.G.1', text: 'Mengenal sifat-sifat bangun datar: jumlah sisi dan sudut; mengelompokkan bangun datar', games: ['shape-explorer'] },
+          { code: '2.G.2', text: 'Mengenal simetri lipat pada bangun datar sederhana', games: ['symmetry-lab'] },
+          { code: '2.P.1', text: 'Mengukur panjang benda menggunakan satuan baku: cm dan m', games: ['measure-mission'] },
+          { code: '2.P.2', text: 'Membaca waktu pada jam analog dan digital (tepat, setengah, seperempat)', games: ['time-tracker'] },
+          { code: '2.P.3', text: 'Mengenal mata uang Rupiah; menghitung harga dan kembalian sederhana', games: ['money-market'] },
+          { code: '2.P.4', text: 'Membaca dan menggunakan kalender untuk menentukan hari dan tanggal', games: ['calendar-quest'] },
+        ]
+      },
+      {
+        id: 'statistics',
+        label: 'Statistics / Analisis Data',
+        color: '#F97316', bgColor: '#FFEDD5',
+        cambridgeObjectives: [
+          { code: 'St2.01', text: 'Collect data by counting; organise and record using tally charts and frequency tables', games: ['tally-town'] },
+          { code: 'St2.02', text: 'Represent data as pictograms (symbol = 1 or 2 items) and simple block graphs', games: ['graph-garden','bar-chart-builder'] },
+          { code: 'St2.03', text: 'Read and interpret data from pictograms and block charts; answer questions', games: ['bar-chart-builder','graph-garden'] },
+        ],
+        indonesianObjectives: [
+          { code: '2.D.1', text: 'Mengumpulkan data sederhana dan mencatatnya dalam bentuk tabel turus', games: ['tally-town'] },
+          { code: '2.D.2', text: 'Menyajikan data dalam bentuk piktogram dan diagram batang sederhana', games: ['graph-garden','bar-chart-builder'] },
+          { code: '2.D.3', text: 'Membaca dan menafsirkan informasi dari piktogram dan diagram batang; menjawab pertanyaan', games: ['bar-chart-builder','graph-garden'] },
+        ]
+      }
+    ]
+  },
+
+  // ─── GRADE 3 · CAMBRIDGE STAGE 3 · KELAS 3 / FASE B ───
+  {
+    id: 'stage3',
+    cambridgeLabel: 'Cambridge Primary Stage 3',
+    indonesianLabel: 'Kurikulum Merdeka Kelas 3 / Fase B',
+    ages: 'Grade 3 · Ages 7–8 · Cambridge Stage 3 = Kelas 3 / Fase B',
+    stageColor: '#7C3AED',
+    stageColorBg: 'linear-gradient(135deg,#5B21B6,#7C3AED)',
+    stageNum: 'Grade 3',
+    strands: [
+      {
+        id: 'number',
+        label: 'Number / Bilangan',
+        color: '#3B82F6', bgColor: '#DBEAFE',
+        cambridgeObjectives: [
+          { code: 'Nn3.01', text: 'Read, write and compare 3-digit numbers; understand place value (hundreds, tens, ones)', games: ['place-value-party','number-quest'] },
+          { code: 'Nn3.02', text: 'Add and subtract 3-digit numbers with regrouping (carrying and borrowing)', games: ['number-quest','number-line-hop'] },
+          { code: 'Nn3.03', text: 'Recall multiplication tables for 2, 3, 4, 5, 6 and 10; use to solve problems', games: ['times-table-tornado','multiplication-mountains'] },
+          { code: 'Nn3.04', text: 'Divide by 2, 3, 4, 5 and 10 with and without remainders', games: ['division-dungeon'] },
+          { code: 'Nn3.05', text: 'Compare and order unit fractions; find fractions of quantities', games: ['fraction-forest'] },
+          { code: 'Nn3.06', text: 'Round numbers to the nearest 10 or 100', games: ['rounding-rocket'] },
+        ],
+        indonesianObjectives: [
+          { code: '3.B.1', text: 'Membaca, menulis, dan membandingkan bilangan sampai 1.000; memahami nilai tempat ratusan, puluhan, satuan', games: ['place-value-party','number-line-hop','number-quest'] },
+          { code: '3.B.2', text: 'Melakukan penjumlahan dan pengurangan bilangan tiga angka dengan teknik menyimpan dan meminjam', games: ['number-quest','number-line-hop'] },
+          { code: '3.B.3', text: 'Hafal perkalian 1–10; memahami perkalian sebagai penjumlahan berulang dan menerapkannya', games: ['times-table-tornado','multiplication-mountains'] },
+          { code: '3.B.4', text: 'Memahami pembagian sebagai pengurangan berulang; mengenal hubungan perkalian dan pembagian', games: ['division-dungeon'] },
+          { code: '3.B.5', text: 'Mengenal pecahan sederhana (½, ⅓, ¼, ¾); membandingkan dan mengurutkan pecahan', games: ['fraction-forest'] },
+          { code: '3.B.6', text: 'Membulatkan bilangan ke puluhan dan ratusan terdekat', games: ['rounding-rocket'] },
+        ]
+      },
+      {
+        id: 'algebra',
+        label: 'Patterns / Aljabar',
+        color: '#8B5CF6', bgColor: '#F5F3FF',
+        cambridgeObjectives: [
+          { code: 'Nn3.07', text: 'Recognise, extend and describe number sequences; identify and explain the rule', games: ['skip-counting-spaceship','pattern-builder'] },
+        ],
+        indonesianObjectives: [
+          { code: '3.A.1', text: 'Mengenali, melanjutkan, dan membuat pola bilangan serta pola geometri; menjelaskan aturan pola', games: ['skip-counting-spaceship','pattern-builder'] },
+        ]
+      },
+      {
+        id: 'geometry',
+        label: 'Geometry & Measure / Geometri & Pengukuran',
+        color: '#10B981', bgColor: '#D1FAE5',
+        cambridgeObjectives: [
+          { code: 'Gm3.01', text: 'Measure length, mass and capacity using standard units; convert between cm and m, g and kg', games: ['measure-mission'] },
+          { code: 'Gm3.02', text: 'Recognise right angles as a quarter turn; compare angles as greater or less than a right angle', games: ['angle-adventurer'] },
+          { code: 'Gm3.03', text: 'Calculate the perimeter of rectilinear shapes by adding side lengths', games: ['perimeter-patrol'] },
+          { code: 'Gm3.04', text: 'Describe and classify 2D shapes by number of sides, vertices and lines of symmetry', games: ['shape-explorer','symmetry-lab'] },
+        ],
+        indonesianObjectives: [
+          { code: '3.G.1', text: 'Mengenal dan mendeskripsikan sifat-sifat bangun datar (segitiga, segiempat, segi banyak, lingkaran)', games: ['shape-explorer','symmetry-lab'] },
+          { code: '3.G.2', text: 'Mengenal sudut siku-siku; membandingkan besar sudut terhadap sudut siku-siku', games: ['angle-adventurer'] },
+          { code: '3.P.1', text: 'Menggunakan satuan baku untuk mengukur panjang (cm dan m) serta berat (g dan kg); melakukan konversi satuan', games: ['measure-mission'] },
+          { code: '3.P.2', text: 'Menghitung keliling bangun datar dengan menjumlahkan panjang sisi-sisinya', games: ['perimeter-patrol'] },
+          { code: '3.P.3', text: 'Membaca dan menggunakan kalender; menghitung selang waktu dalam satuan hari, minggu, dan bulan', games: ['calendar-quest','time-tracker'] },
+        ]
+      },
+      {
+        id: 'statistics',
+        label: 'Statistics / Analisis Data',
+        color: '#F97316', bgColor: '#FFEDD5',
+        cambridgeObjectives: [
+          { code: 'St3.01', text: 'Collect and organise data; record in frequency tables', games: ['tally-town','data-detective'] },
+          { code: 'St3.02', text: 'Construct and interpret bar charts with a given scale; answer questions about data', games: ['bar-chart-builder','graph-garden'] },
+          { code: 'St3.03', text: 'Sort data using Carroll diagrams and Venn diagrams with two criteria', games: ['carroll-diagram','venn-voyage'] },
+        ],
+        indonesianObjectives: [
+          { code: '3.D.1', text: 'Mengumpulkan data, mencatat dalam tabel frekuensi dan turus, menyajikan dalam diagram batang', games: ['bar-chart-builder','graph-garden','tally-town'] },
+          { code: '3.D.2', text: 'Membaca dan menafsirkan informasi dari diagram batang dan piktogram', games: ['data-detective','bar-chart-builder'] },
+          { code: '3.D.3', text: 'Menggunakan diagram Carroll dan diagram Venn untuk mengelompokkan data dengan dua kriteria', games: ['carroll-diagram','venn-voyage'] },
+        ]
+      }
+    ]
+  },
+
+  // ─── GRADE 4 · CAMBRIDGE STAGE 4 · KELAS 4 / FASE B ───
+  {
+    id: 'stage4',
+    cambridgeLabel: 'Cambridge Primary Stage 4',
+    indonesianLabel: 'Kurikulum Merdeka Kelas 4 / Fase B',
+    ages: 'Grade 4 · Ages 8–9 · Cambridge Stage 4 = Kelas 4 / Fase B',
+    stageColor: '#EA580C',
+    stageColorBg: 'linear-gradient(135deg,#C2410C,#EA580C)',
+    stageNum: 'Grade 4',
+    strands: [
+      {
+        id: 'number',
+        label: 'Number / Bilangan',
+        color: '#3B82F6', bgColor: '#DBEAFE',
+        cambridgeObjectives: [
+          { code: 'Nn4.01', text: 'Place value in 4-digit numbers; multiply and divide whole numbers by 10 and 100', games: ['place-value-party','number-quest'] },
+          { code: 'Nn4.02', text: 'Add and subtract 4-digit numbers using formal written methods', games: ['number-quest','number-line-hop'] },
+          { code: 'Nn4.03', text: 'Short multiplication (2-digit × 1-digit) and short division; interpret remainders', games: ['multiplication-mountains','division-dungeon','times-table-tornado'] },
+          { code: 'Nn4.04', text: 'Understand and use negative numbers on a number line; order negative numbers', games: ['negative-number-ninja','number-line-hop'] },
+          { code: 'Nn4.05', text: 'Recognise and generate equivalent fractions; add and subtract fractions with the same denominator', games: ['fraction-forest'] },
+          { code: 'Nn4.06', text: 'Understand tenths and hundredths as decimals; order decimals to 2 decimal places', games: ['decimal-diner'] },
+          { code: 'Nn4.07', text: 'Find factors and multiples of numbers; recognise common factors and common multiples', games: ['factor-finder'] },
+        ],
+        indonesianObjectives: [
+          { code: '4.B.1', text: 'Membaca, menulis, dan membandingkan bilangan sampai 10.000; memahami nilai tempat ribuan, ratusan, puluhan, satuan', games: ['place-value-party','number-line-hop','number-quest'] },
+          { code: '4.B.2', text: 'Penjumlahan dan pengurangan bilangan empat angka menggunakan strategi mental dan tertulis', games: ['number-quest','number-line-hop'] },
+          { code: '4.B.3', text: 'Perkalian dua angka × satu angka dan pembagian dengan sisa; hubungan antara operasi perkalian dan pembagian', games: ['times-table-tornado','multiplication-mountains','division-dungeon'] },
+          { code: '4.B.4', text: 'Mengenal dan menggunakan bilangan negatif pada garis bilangan; membandingkan dan mengurutkan bilangan negatif', games: ['negative-number-ninja','number-line-hop'] },
+          { code: '4.B.5', text: 'Memahami pecahan senilai; melakukan penjumlahan dan pengurangan pecahan berpenyebut sama', games: ['fraction-forest'] },
+          { code: '4.B.6', text: 'Memahami desimal persepuluhan dan perseratusan; mengurutkan dan membandingkan bilangan desimal', games: ['decimal-diner'] },
+          { code: '4.B.7', text: 'Mencari FPB dan KPK dua bilangan; mengenal faktor dan kelipatan suatu bilangan', games: ['factor-finder'] },
+        ]
+      },
+      {
+        id: 'geometry',
+        label: 'Geometry & Measure / Geometri & Pengukuran',
+        color: '#10B981', bgColor: '#D1FAE5',
+        cambridgeObjectives: [
+          { code: 'Gm4.01', text: 'Calculate the area of rectangles and composite rectilinear shapes by counting squares and using formulae', games: ['area-arena'] },
+          { code: 'Gm4.02', text: 'Classify and measure angles: acute, right, obtuse and reflex; use a protractor', games: ['angle-adventurer'] },
+          { code: 'Gm4.03', text: 'Plot and read coordinates in the first quadrant; describe positions and movements', games: ['coordinate-commander'] },
+          { code: 'Gm4.04', text: 'Describe and classify 2D polygons by their properties: sides, angles and symmetry', games: ['shape-explorer','symmetry-lab'] },
+        ],
+        indonesianObjectives: [
+          { code: '4.G.1', text: 'Mengenal dan mengklasifikasikan bangun datar berdasarkan jumlah sisi, besar sudut, dan simetrinya', games: ['shape-explorer','symmetry-lab'] },
+          { code: '4.G.2', text: 'Mengenal jenis-jenis sudut (lancip, siku-siku, tumpul, dan refleks); mengukur sudut dengan busur derajat', games: ['angle-adventurer'] },
+          { code: '4.G.3', text: 'Menggunakan koordinat pada kuadran pertama untuk menggambar dan mendeskripsikan posisi', games: ['coordinate-commander'] },
+          { code: '4.P.1', text: 'Menghitung luas persegi dan persegi panjang menggunakan rumus; mengenal satuan luas baku (cm² dan m²)', games: ['area-arena'] },
+        ]
+      },
+      {
+        id: 'statistics',
+        label: 'Statistics / Analisis Data',
+        color: '#F97316', bgColor: '#FFEDD5',
+        cambridgeObjectives: [
+          { code: 'St4.01', text: 'Read and plot data on line graphs; identify trends and patterns', games: ['line-graph-lab'] },
+          { code: 'St4.02', text: 'Complete and interpret frequency tables with grouped data; identify the mode', games: ['frequency-forest','data-detective'] },
+          { code: 'St4.03', text: 'Construct and interpret bar charts and pictograms; compare data sets', games: ['bar-chart-builder','graph-garden'] },
+        ],
+        indonesianObjectives: [
+          { code: '4.D.1', text: 'Membaca dan menggambar grafik garis dari data yang diberikan; mengidentifikasi tren dan perubahan data', games: ['line-graph-lab'] },
+          { code: '4.D.2', text: 'Membuat dan menafsirkan tabel frekuensi; menentukan modus dari suatu kumpulan data', games: ['frequency-forest','data-detective'] },
+          { code: '4.D.3', text: 'Menyajikan data dalam berbagai bentuk diagram (batang, piktogram) dan memilih representasi yang paling tepat', games: ['bar-chart-builder','graph-garden'] },
+        ]
+      }
+    ]
+  },
+
+  // ─── GRADE 5 · CAMBRIDGE STAGE 5 · KELAS 5 / FASE C ───
+  {
+    id: 'stage5',
+    cambridgeLabel: 'Cambridge Primary Stage 5',
+    indonesianLabel: 'Kurikulum Merdeka Kelas 5 / Fase C',
+    ages: 'Grade 5 · Ages 9–10 · Cambridge Stage 5 = Kelas 5 / Fase C',
+    stageColor: '#E11D48',
+    stageColorBg: 'linear-gradient(135deg,#BE123C,#E11D48)',
+    stageNum: 'Grade 5',
+    strands: [
+      {
+        id: 'number',
+        label: 'Number / Bilangan',
+        color: '#3B82F6', bgColor: '#DBEAFE',
+        cambridgeObjectives: [
+          { code: 'Nn5.01', text: 'Read, write, order and compare numbers up to 1 million; understand the place value of each digit', games: ['place-value-party','number-quest'] },
+          { code: 'Nn5.02', text: 'Understand and use negative numbers across zero on a number line and in context', games: ['negative-number-ninja','number-line-hop'] },
+          { code: 'Nn5.03', text: 'Convert fluently between fractions, decimals and percentages; compare and order', games: ['decimal-diner','fraction-forest'] },
+          { code: 'Nn5.04', text: 'Understand and apply order of operations (brackets, division/multiplication before addition/subtraction)', games: ['number-quest'] },
+          { code: 'Nn5.05', text: 'Understand ratio and proportion; solve ratio problems by scaling up and down', games: ['factor-finder','number-quest'] },
+        ],
+        indonesianObjectives: [
+          { code: '5.B.1', text: 'Memahami bilangan bulat positif dan negatif; melakukan operasi penjumlahan dan pengurangan bilangan bulat', games: ['negative-number-ninja','number-line-hop'] },
+          { code: '5.B.2', text: 'Melakukan operasi perkalian dan pembagian bilangan bulat termasuk perkalian multi-angka', games: ['multiplication-mountains','division-dungeon','times-table-tornado'] },
+          { code: '5.B.3', text: 'Mengkonversi antar pecahan, desimal, dan persen; membandingkan dan mengurutkan dalam berbagai bentuk', games: ['decimal-diner','fraction-forest'] },
+          { code: '5.B.4', text: 'Memahami dan menerapkan rasio dan proporsi dalam konteks kehidupan nyata (skala, resep, kecepatan)', games: ['number-quest','factor-finder'] },
+          { code: '5.B.5', text: 'Mencari FPB dan KPK menggunakan faktorisasi prima; menerapkan dalam pemecahan masalah', games: ['factor-finder'] },
+        ]
+      },
+      {
+        id: 'algebra',
+        label: 'Algebra / Aljabar',
+        color: '#8B5CF6', bgColor: '#F5F3FF',
+        cambridgeObjectives: [
+          { code: 'Nn5.06', text: 'Identify and describe number sequences including those involving decimals and fractions; use and generate simple formulae', games: ['pattern-builder','skip-counting-spaceship'] },
+        ],
+        indonesianObjectives: [
+          { code: '5.A.1', text: 'Mengenali dan melanjutkan pola bilangan kompleks; menggunakan ekspresi dan persamaan sederhana untuk menggambarkan pola', games: ['pattern-builder','skip-counting-spaceship'] },
+        ]
+      },
+      {
+        id: 'geometry',
+        label: 'Geometry & Measure / Geometri & Pengukuran',
+        color: '#10B981', bgColor: '#D1FAE5',
+        cambridgeObjectives: [
+          { code: 'Gm5.01', text: 'Calculate the area of triangles and parallelograms using appropriate formulae', games: ['area-arena'] },
+          { code: 'Gm5.02', text: 'Calculate the volume of cuboids by counting cubes and using length × width × height', games: ['volume-voyage'] },
+          { code: 'Gm5.03', text: 'Identify, sketch and build 3D shapes from their nets; visualise 3D shapes from 2D representations', games: ['net-navigator'] },
+          { code: 'Gm5.04', text: 'Perform and describe reflections, rotations (90°/180°) and translations on a coordinate grid', games: ['transformation-station','symmetry-lab'] },
+        ],
+        indonesianObjectives: [
+          { code: '5.G.1', text: 'Menghitung luas segitiga dan jajargenjang menggunakan rumus yang sesuai', games: ['area-arena'] },
+          { code: '5.G.2', text: 'Menghitung volume kubus dan balok menggunakan rumus panjang × lebar × tinggi', games: ['volume-voyage'] },
+          { code: '5.G.3', text: 'Mengenal jaring-jaring bangun ruang (kubus, balok, prisma); membuat dan mengidentifikasi jaring-jaring', games: ['net-navigator'] },
+          { code: '5.G.4', text: 'Melakukan transformasi bangun datar: refleksi, rotasi (90° dan 180°), dan translasi pada bidang koordinat', games: ['transformation-station','symmetry-lab'] },
+          { code: '5.P.1', text: 'Mengukur dan menggambar sudut menggunakan busur derajat; menghitung jumlah sudut dalam segitiga (180°)', games: ['angle-adventurer'] },
+        ]
+      },
+      {
+        id: 'statistics',
+        label: 'Statistics / Analisis Data',
+        color: '#F97316', bgColor: '#FFEDD5',
+        cambridgeObjectives: [
+          { code: 'St5.01', text: 'Calculate the mean of a data set; understand mean as a measure of average', games: ['mean-machine'] },
+          { code: 'St5.02', text: 'Describe probability using the likelihood scale (impossible to certain); compare probabilities of events', games: ['chance-castle','spin-sort'] },
+          { code: 'St5.03', text: 'Read, construct and interpret pie charts and line graphs; use data to answer questions', games: ['pie-chart-party','line-graph-lab'] },
+        ],
+        indonesianObjectives: [
+          { code: '5.D.1', text: 'Menghitung mean (rata-rata) suatu kumpulan data; memahami mean sebagai ukuran pemusatan data', games: ['mean-machine'] },
+          { code: '5.D.2', text: 'Menyajikan data dalam diagram lingkaran; membaca dan menafsirkan grafik garis untuk melihat tren', games: ['pie-chart-party','line-graph-lab'] },
+          { code: '5.D.3', text: 'Memahami konsep peluang suatu kejadian; menghitung peluang kejadian sederhana sebagai pecahan atau desimal', games: ['chance-castle','spin-sort'] },
+        ]
+      }
+    ]
+  },
+
+  // ─── GRADE 6 · CAMBRIDGE STAGE 6 · KELAS 6 / FASE C ───
+  {
+    id: 'stage6',
+    cambridgeLabel: 'Cambridge Primary Stage 6',
+    indonesianLabel: 'Kurikulum Merdeka Kelas 6 / Fase C',
+    ages: 'Grade 6 · Ages 10–11 · Cambridge Stage 6 = Kelas 6 / Fase C',
+    stageColor: '#D97706',
+    stageColorBg: 'linear-gradient(135deg,#92400E,#D97706)',
+    stageNum: 'Grade 6',
+    strands: [
+      {
+        id: 'number',
+        label: 'Number / Bilangan',
+        color: '#3B82F6', bgColor: '#DBEAFE',
+        cambridgeObjectives: [
+          { code: 'Nn6.01', text: 'Identify prime numbers up to 100; find prime factors; understand square numbers and square roots', games: ['factor-finder'] },
+          { code: 'Nn6.02', text: 'Calculate the Highest Common Factor (HCF) and Lowest Common Multiple (LCM) of two or more numbers', games: ['factor-finder'] },
+          { code: 'Nn6.03', text: 'Calculate percentage increase and decrease; apply to real-world problems including profit, loss and discount', games: ['decimal-diner','number-quest'] },
+          { code: 'Nn6.04', text: 'Solve complex ratio and proportion problems; apply to scale, recipes, and rates', games: ['number-quest','factor-finder'] },
+          { code: 'Nn6.05', text: 'Use simple algebraic expressions; solve one-step and two-step linear equations', games: ['number-quest'] },
+        ],
+        indonesianObjectives: [
+          { code: '6.B.1', text: 'Mengenal bilangan prima; melakukan faktorisasi prima; mencari FPB dan KPK tiga bilangan menggunakan pohon faktor', games: ['factor-finder'] },
+          { code: '6.B.2', text: 'Menghitung persen dalam konteks kehidupan nyata: diskon, untung, rugi, dan bunga sederhana', games: ['decimal-diner','number-quest'] },
+          { code: '6.B.3', text: 'Menyelesaikan masalah perbandingan dan skala dalam situasi kehidupan nyata (peta, model, resep)', games: ['number-quest','factor-finder'] },
+          { code: '6.B.4', text: 'Menggunakan ekspresi dan persamaan aljabar sederhana; menyelesaikan persamaan linear satu variabel', games: ['number-quest'] },
+          { code: '6.B.5', text: 'Mengenal perpangkatan (kuadrat dan kubik) dan akar kuadrat; menerapkan dalam konteks luas dan volume', games: ['area-arena','volume-voyage'] },
+        ]
+      },
+      {
+        id: 'geometry',
+        label: 'Geometry & Measure / Geometri & Pengukuran',
+        color: '#10B981', bgColor: '#D1FAE5',
+        cambridgeObjectives: [
+          { code: 'Gm6.01', text: 'Plot and read coordinates in all four quadrants; reflect shapes in x- and y-axes', games: ['coordinate-commander'] },
+          { code: 'Gm6.02', text: 'Perform and describe complex transformations (reflection, rotation, translation) and their combinations', games: ['transformation-station'] },
+          { code: 'Gm6.03', text: 'Calculate angles in triangles (sum = 180°) and polygons (sum formula); find missing angles', games: ['angle-adventurer'] },
+          { code: 'Gm6.04', text: 'Calculate the circumference (C = πd) and area (A = πr²) of circles', games: ['perimeter-patrol','area-arena'] },
+        ],
+        indonesianObjectives: [
+          { code: '6.G.1', text: 'Menggunakan koordinat Kartesius empat kuadran; menggambarkan dan merefleksikan bangun datar pada sumbu koordinat', games: ['coordinate-commander'] },
+          { code: '6.G.2', text: 'Menghitung keliling dan luas lingkaran menggunakan nilai π (phi); menerapkan dalam pemecahan masalah', games: ['perimeter-patrol','area-arena'] },
+          { code: '6.G.3', text: 'Menghitung besar sudut dalam segitiga dan segi banyak beraturan; menemukan sudut yang tidak diketahui', games: ['angle-adventurer'] },
+          { code: '6.G.4', text: 'Menghitung luas permukaan dan volume bangun ruang (kubus, balok, prisma tegak, dan tabung)', games: ['volume-voyage','net-navigator'] },
+        ]
+      },
+      {
+        id: 'statistics',
+        label: 'Statistics / Analisis Data',
+        color: '#F97316', bgColor: '#FFEDD5',
+        cambridgeObjectives: [
+          { code: 'St6.01', text: 'Calculate and interpret mean, median, mode and range for a data set; compare distributions', games: ['mean-machine','data-detective'] },
+          { code: 'St6.02', text: 'Calculate the probability of single and combined events; use fractions, decimals and percentages', games: ['chance-castle','spin-sort'] },
+          { code: 'St6.03', text: 'Construct and interpret complex graphs: pie charts, line graphs and bar charts; justify choice of representation', games: ['line-graph-lab','pie-chart-party','graph-garden'] },
+        ],
+        indonesianObjectives: [
+          { code: '6.D.1', text: 'Menghitung dan menafsirkan mean, median, modus, dan jangkauan suatu kumpulan data; membandingkan dua kumpulan data', games: ['mean-machine','data-detective'] },
+          { code: '6.D.2', text: 'Menyajikan dan menafsirkan data dalam grafik kompleks (diagram lingkaran, grafik garis, diagram batang); memilih representasi yang tepat', games: ['pie-chart-party','line-graph-lab','graph-garden'] },
+          { code: '6.D.3', text: 'Menghitung peluang kejadian tunggal dan majemuk sederhana; menyatakan peluang dalam pecahan, desimal, dan persen', games: ['chance-castle','spin-sort'] },
+        ]
+      }
+    ]
+  }
+];
+
+// ── STRAND DISPLAY ORDER ──
+const STRAND_ORDER = ['number','algebra','geometry','statistics'];
+
+// ── STATE ──
+let currentView = 'side-by-side';
+let currentStage = 'all';
+let currentStrand = 'all';
+let searchQuery = '';
+
+// ── HELPERS ──
+function gamePill(gameId, strandClass) {
+  const g = GAMES[gameId];
+  if (!g) return '';
+  const cls = `game-pill strand-${g.strand}`;
+  return `<a href="${g.path}" class="${cls}" title="${g.name}">🎮 ${g.name}</a>`;
+}
+
+function countObjectives(stage) {
+  let total = 0;
+  stage.strands.forEach(s => {
+    total += s.cambridgeObjectives.length + s.indonesianObjectives.length;
+  });
+  return total;
+}
+
+function countGames(stage) {
+  const ids = new Set();
+  stage.strands.forEach(s => {
+    [...s.cambridgeObjectives, ...s.indonesianObjectives].forEach(obj => {
+      obj.games.forEach(g => ids.add(g));
+    });
+  });
+  return ids.size;
+}
+
+function renderObjRow(obj, strandId) {
+  const pills = obj.games.map(g => gamePill(g, strandId)).join('');
+  const gameSearchText = obj.games.map(g => GAMES[g] ? GAMES[g].name : '').join(' ');
+  return `
+    <div class="obj-row" data-text="${obj.text.toLowerCase()} ${obj.code.toLowerCase()} ${gameSearchText.toLowerCase()}">
+      <span class="obj-code" style="background:${getStrandBg(strandId)};color:${getStrandColor(strandId)}">${obj.code}</span>
+      <div style="flex:1">
+        <div class="obj-text">${obj.text}</div>
+        <div class="obj-games">${pills}</div>
+      </div>
+    </div>`;
+}
+
+function getStrandColor(id) {
+  const map = { number: '#1D4ED8', algebra: '#6D28D9', geometry: '#059669', statistics: '#C2410C' };
+  return map[id] || '#424754';
+}
+function getStrandBg(id) {
+  const map = { number: '#DBEAFE', algebra: '#F5F3FF', geometry: '#D1FAE5', statistics: '#FFEDD5' };
+  return map[id] || '#F1F5F9';
+}
+function getStrandHeaderBg(id) {
+  const map = { number: '#EFF6FF', algebra: '#F5F3FF', geometry: '#ECFDF5', statistics: '#FFF7ED' };
+  return map[id] || '#F8FAFC';
+}
+function getStrandBorderColor(id) {
+  const map = { number: '#BFDBFE', algebra: '#DDD6FE', geometry: '#A7F3D0', statistics: '#FED7AA' };
+  return map[id] || '#E2E8F0';
+}
+
+function renderStage(stage) {
+  const objCount = countObjectives(stage);
+  const gameCount = countGames(stage);
+
+  // Sort strands by defined order, skip algebra if no objectives
+  const orderedStrands = STRAND_ORDER
+    .map(sid => stage.strands.find(s => s.id === sid))
+    .filter(Boolean);
+
+  let strandsHtml = '';
+  orderedStrands.forEach(strand => {
+    if (currentStrand !== 'all' && strand.id !== currentStrand) return;
+    if (!strand.cambridgeObjectives.length && !strand.indonesianObjectives.length) return;
+
+    const camHtml = strand.cambridgeObjectives.map(o => renderObjRow(o, strand.id)).join('');
+    const indHtml = strand.indonesianObjectives.map(o => renderObjRow(o, strand.id)).join('');
+    const noData = `<div class="obj-row"><span class="obj-text" style="font-style:italic;opacity:.55;">— No objectives at this level —</span></div>`;
+
+    const totalInStrand = strand.cambridgeObjectives.length + strand.indonesianObjectives.length;
+
+    strandsHtml += `
+      <div class="strand-block" data-strand="${strand.id}"
+           style="border-color:${getStrandBorderColor(strand.id)}">
+        <div class="strand-header" style="background:${getStrandHeaderBg(strand.id)}">
+          <div class="strand-dot" style="background:${getStrandColor(strand.id)}"></div>
+          <span class="strand-label" style="color:${getStrandColor(strand.id)}">${strand.label}</span>
+          <span class="strand-count" style="color:${getStrandColor(strand.id)}">${totalInStrand} objectives</span>
+        </div>
+        <div class="side-by-side-header">
+          <div class="col-header cambridge">🇬🇧 Cambridge Primary</div>
+          <div class="col-header merdeka">🇮🇩 Kurikulum Merdeka</div>
+        </div>
+        <div class="objectives-grid">
+          <div class="objectives-col cambridge-col">
+            <div class="obj-col-title" style="color:${getStrandColor(strand.id)}">Cambridge Objectives</div>
+            ${camHtml || noData}
+          </div>
+          <div class="objectives-col merdeka-col">
+            <div class="obj-col-title" style="color:${getStrandColor(strand.id)}">Indonesian Objectives</div>
+            ${indHtml || noData}
+          </div>
+        </div>
+      </div>`;
+  });
+
+  if (!strandsHtml) return '';
+
+  return `
+    <div class="stage-section" id="${stage.id}" data-stage="${stage.id}">
+      <div class="stage-header" style="${stage.stageColorBg};color:white"
+           onclick="toggleStage('${stage.id}')">
+        <span class="stage-badge" style="background:rgba(255,255,255,.25);color:white">
+          ${stage.stageNum}
+        </span>
+        <div class="stage-titles">
+          <div class="stage-title-main">${stage.cambridgeLabel} · ${stage.indonesianLabel}</div>
+          <div class="stage-title-sub">${stage.ages}</div>
+        </div>
+        <div class="stage-meta">
+          <span class="stage-meta-chip">${objCount} objectives</span>
+          <span class="stage-meta-chip">${gameCount} games</span>
+        </div>
+        <span class="stage-toggle">▼</span>
+      </div>
+      <div class="stage-body">
+        ${strandsHtml}
+      </div>
+    </div>`;
+}
+
+function renderAll() {
+  const content = document.getElementById('curriculumContent');
+  const noResults = document.getElementById('noResults');
+
+  let html = '';
+  CURRICULUM.forEach(stage => {
+    if (currentStage !== 'all' && stage.id !== currentStage) return;
+    html += renderStage(stage);
+  });
+
+  // Insert before the no-results element
+  noResults.insertAdjacentHTML('beforebegin', '');
+  // Clear old stage sections
+  const existing = content.querySelectorAll('.stage-section');
+  existing.forEach(el => el.remove());
+
+  content.insertAdjacentHTML('afterbegin', html);
+
+  // Apply view class
+  updateViewClass();
+
+  // Apply search
+  applySearch();
+}
+
+function updateViewClass() {
+  const content = document.getElementById('curriculumContent');
+  content.classList.remove('view-cambridge', 'view-merdeka', 'view-side-by-side');
+  content.classList.add('view-' + currentView);
+}
+
+function applySearch() {
+  const q = searchQuery.toLowerCase().trim();
+  const noResults = document.getElementById('noResults');
+  let totalVisible = 0;
+
+  document.querySelectorAll('.stage-section').forEach(sec => {
+    let stageHasVisible = false;
+
+    sec.querySelectorAll('.strand-block').forEach(block => {
+      const strandId = block.dataset.strand;
+      let strandHasVisible = false;
+
+      if (currentStrand !== 'all' && strandId !== currentStrand) {
+        block.style.display = 'none';
+        return;
+      }
+      block.style.display = '';
+
+      block.querySelectorAll('.obj-row').forEach(row => {
+        const text = row.dataset.text || '';
+        const matches = !q || text.includes(q);
+        row.classList.toggle('hidden', !matches);
+        if (matches) strandHasVisible = true;
+      });
+
+      block.style.display = strandHasVisible ? '' : 'none';
+      if (strandHasVisible) stageHasVisible = true;
+    });
+
+    sec.style.display = stageHasVisible ? '' : 'none';
+    if (stageHasVisible) totalVisible++;
+  });
+
+  noResults.classList.toggle('visible', totalVisible === 0);
+}
+
+function toggleStage(stageId) {
+  const el = document.getElementById(stageId);
+  if (el) el.classList.toggle('collapsed');
+}
+
+// ── EVENT LISTENERS ──
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentView = btn.dataset.view;
+    updateViewClass();
+  });
+});
+
+document.querySelectorAll('.stage-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.stage-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentStage = tab.dataset.stage;
+    renderAll();
+  });
+});
+
+document.getElementById('strandFilter').addEventListener('change', e => {
+  currentStrand = e.target.value;
+  renderAll();
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  applySearch();
+});
+
+// ── INIT ──
+renderAll();
+</script>
+</body>
+</html>

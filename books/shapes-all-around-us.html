@@ -673,6 +673,7 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="nav-bar" id="navBar">
     <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
     <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
     <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
   </div>
 
@@ -761,6 +762,42 @@ function checkAnswer(id, btn, verdict, msg) {
 
 buildDots();
 updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+// ── AUDIO NARRATION (Web Speech API) ──
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
 </script>
+<script src="../js/mathmunch.js"></script>
 </body>
 </html>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Journey – MathMunch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:        #3B82F6;
+      --blue-dark:   #1D4ED8;
+      --blue-light:  #EFF6FF;
+      --blue-mid:    #BFDBFE;
+      --green:       #10B981;
+      --green-dark:  #059669;
+      --green-light: #ECFDF5;
+      --yellow:      #FBBF24;
+      --yellow-dark: #D97706;
+      --orange:      #F97316;
+      --orange-dark: #C2410C;
+      --orange-light:#FFF7ED;
+      --purple:      #8B5CF6;
+      --purple-dark: #6D28D9;
+      --purple-light:#F5F3FF;
+      --red:         #EF4444;
+      --bg:          #F8FAFC;
+      --white:       #FFFFFF;
+      --surface:     #F2F4F6;
+      --outline:     #E2E8F0;
+      --text:        #191C1E;
+      --text-mid:    #424754;
+      --text-soft:   #727785;
+      --radius-card: 24px;
+      --radius-btn:  9999px;
+      --radius-sm:   12px;
+      --shadow-card: 0 2px 0 rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lexend', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, .logo-text, .section-heading {
+      font-family: 'Quicksand', system-ui, sans-serif;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--white);
+      border-bottom: 2px solid var(--outline);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; font-family: 'Quicksand', sans-serif;
+      font-weight: 700; font-size: 1.3rem; color: var(--text);
+      flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--orange), #FBBF24);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; box-shadow: 0 2px 0 var(--orange-dark);
+    }
+    nav { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
+    nav a {
+      padding: 8px 16px; border-radius: 9999px;
+      font-size: .875rem; font-weight: 600;
+      color: var(--text-mid); text-decoration: none;
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    nav a:hover { background: var(--blue-light); color: var(--blue); }
+    nav a.active { background: var(--blue-light); color: var(--blue); }
+    .header-actions { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 10px 20px;
+      border-radius: 9999px; font-family: 'Lexend', sans-serif;
+      font-size: .875rem; font-weight: 600;
+      cursor: pointer; border: none;
+      text-decoration: none;
+      transition: transform .1s, box-shadow .1s;
+    }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 2px solid var(--outline);
+    }
+    .btn-orange {
+      background: var(--orange); color: white;
+      box-shadow: 0 4px 0 var(--orange-dark);
+    }
+    .btn-orange:hover { transform: translateY(-2px); }
+
+    /* ── MAIN LAYOUT ── */
+    .main { max-width: 1200px; margin: 0 auto; padding: 40px 32px 80px; }
+
+    /* ── WELCOME BANNER ── */
+    .welcome-banner {
+      background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 50%, #06B6D4 100%);
+      border-radius: var(--radius-card);
+      padding: 36px 40px;
+      display: flex; align-items: center; gap: 32px;
+      margin-bottom: 32px;
+      color: white;
+      position: relative; overflow: hidden;
+    }
+    .welcome-banner::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+    .welcome-banner::after {
+      content: '';
+      position: absolute; bottom: -60px; right: 100px;
+      width: 160px; height: 160px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    .avatar-wrap {
+      width: 80px; height: 80px; flex-shrink: 0;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%; border: 3px solid rgba(255,255,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+    }
+    .welcome-text { flex: 1; position: relative; z-index: 1; }
+    .welcome-text h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
+    .welcome-text p { opacity: .85; font-size: .95rem; }
+    .streak-badge {
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 16px;
+      padding: 12px 20px;
+      text-align: center;
+      flex-shrink: 0;
+      position: relative; z-index: 1;
+      backdrop-filter: blur(8px);
+    }
+    .streak-num { font-size: 2rem; font-weight: 700; line-height: 1; }
+    .streak-label { font-size: .75rem; opacity: .85; margin-top: 2px; }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      border: 2px solid var(--outline);
+      display: flex; align-items: center; gap: 16px;
+    }
+    .stat-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+    }
+    .stat-icon.blue  { background: var(--blue-light); }
+    .stat-icon.green { background: var(--green-light); }
+    .stat-icon.orange{ background: var(--orange-light); }
+    .stat-icon.purple{ background: var(--purple-light); }
+    .stat-value { font-family: 'Quicksand', sans-serif; font-size: 2rem; font-weight: 700; line-height: 1; }
+    .stat-label { font-size: .8rem; color: var(--text-soft); margin-top: 4px; }
+
+    /* ── TWO-COL GRID ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+
+    /* ── SECTION CARD ── */
+    .section-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 2px solid var(--outline);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .section-card-header {
+      padding: 20px 24px 16px;
+      border-bottom: 2px solid var(--outline);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-card-header h2 {
+      font-size: 1.05rem; font-weight: 700;
+    }
+    .section-card-body { padding: 20px 24px; }
+
+    /* ── STRAND PROGRESS ── */
+    .strand-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px;
+    }
+    .strand-row:last-child { margin-bottom: 0; }
+    .strand-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .strand-info { flex: 1; min-width: 0; }
+    .strand-name { font-size: .875rem; font-weight: 600; margin-bottom: 4px; }
+    .strand-bar-wrap {
+      background: var(--surface); border-radius: 999px;
+      height: 10px; overflow: hidden;
+    }
+    .strand-bar {
+      height: 100%; border-radius: 999px;
+      transition: width .8s cubic-bezier(.22,1,.36,1);
+    }
+    .strand-count { font-size: .8rem; color: var(--text-soft); white-space: nowrap; }
+
+    /* ── ACTIVITY FEED ── */
+    .activity-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--outline);
+    }
+    .activity-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .activity-dot {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; flex-shrink: 0;
+    }
+    .activity-text { flex: 1; min-width: 0; }
+    .activity-title { font-size: .875rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .activity-meta  { font-size: .75rem; color: var(--text-soft); margin-top: 1px; }
+    .activity-score { font-family: 'Quicksand', sans-serif; font-size: .875rem; font-weight: 700; white-space: nowrap; }
+    .stars { color: var(--yellow); letter-spacing: -2px; font-size: .9rem; }
+    .empty-state {
+      text-align: center; padding: 32px 16px;
+      color: var(--text-soft); font-size: .9rem;
+    }
+    .empty-state .emoji { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+
+    /* ── BADGES ── */
+    .badges-section {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 2px solid var(--outline);
+      box-shadow: var(--shadow-card);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .badges-section h2 {
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 20px;
+    }
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 16px;
+    }
+    .badge-card {
+      background: var(--surface);
+      border-radius: 18px;
+      padding: 20px 12px;
+      text-align: center;
+      border: 2px solid var(--outline);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .badge-card.earned {
+      background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+      border-color: var(--yellow);
+      box-shadow: 0 0 0 3px rgba(251,191,36,0.15);
+    }
+    .badge-card.earned:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(251,191,36,0.25); }
+    .badge-card.locked { opacity: .5; }
+    .badge-emoji { font-size: 2.2rem; display: block; margin-bottom: 8px; }
+    .badge-name { font-family: 'Quicksand', sans-serif; font-size: .8rem; font-weight: 700; line-height: 1.2; }
+    .badge-desc { font-size: .7rem; color: var(--text-soft); margin-top: 4px; }
+
+    /* ── QUICK ACTIONS ── */
+    .quick-actions {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .action-card {
+      background: var(--white);
+      border-radius: var(--radius-card);
+      border: 2px solid var(--outline);
+      box-shadow: var(--shadow-card);
+      padding: 24px;
+      text-decoration: none; color: var(--text);
+      display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .action-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+    .action-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .action-title { font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 700; }
+    .action-desc  { font-size: .8rem; color: var(--text-soft); }
+    .action-arrow { margin-top: auto; font-size: .85rem; font-weight: 600; }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+      .quick-actions { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .main { padding: 24px 16px 60px; }
+      .header-inner { padding: 0 16px; }
+      .welcome-banner { padding: 24px; flex-direction: column; text-align: center; gap: 16px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .quick-actions { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── SITE HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🍕</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav>
+      <a href="index.html">🏠 Home</a>
+      <a href="index.html#games">🎮 Games</a>
+      <a href="index.html#books">📚 Story Books</a>
+      <a href="dashboard.html" class="active">📊 My Journey</a>
+      <a href="teacher.html" id="navTeacher" style="display:none;">🏫 Class Dashboard</a>
+      <a href="curriculum-map.html">📋 Curriculum</a>
+      <a href="index.html#teachers">👩‍🏫 Teachers</a>
+      <a href="index.html#">👨‍👩‍👧 Parents</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-outline" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+</header>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- WELCOME BANNER -->
+  <div class="welcome-banner" id="welcomeBanner">
+    <div class="avatar-wrap" id="avatarWrap">🧒</div>
+    <div class="welcome-text">
+      <h1 id="welcomeHeading">Welcome back!</h1>
+      <p id="welcomeSub">Keep going — every game makes you smarter 🚀</p>
+    </div>
+    <div class="streak-badge">
+      <div class="streak-num" id="streakNum">0</div>
+      <div class="streak-label">🔥 Day Streak</div>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon blue">⭐</div>
+      <div>
+        <div class="stat-value" id="totalScore">0</div>
+        <div class="stat-label">Total Score Points</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">🎮</div>
+      <div>
+        <div class="stat-value" id="gamesPlayed">0</div>
+        <div class="stat-label">Games Played</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange">📚</div>
+      <div>
+        <div class="stat-value" id="booksRead">0</div>
+        <div class="stat-label">Books Completed</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple">🏆</div>
+      <div>
+        <div class="stat-value" id="bestScore">0</div>
+        <div class="stat-label">Best Single Score</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRAND PROGRESS + ACTIVITY FEED -->
+  <div class="two-col">
+
+    <!-- STRAND PROGRESS -->
+    <div class="section-card">
+      <div class="section-card-header">
+        <span>📈</span>
+        <h2>Strand Progress</h2>
+      </div>
+      <div class="section-card-body" id="strandProgress">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+    <div class="section-card">
+      <div class="section-card-header">
+        <span>🕐</span>
+        <h2>Recent Activity</h2>
+      </div>
+      <div class="section-card-body" id="recentActivity">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BADGES -->
+  <div class="section-label">🏅 Achievement Badges</div>
+  <div class="badges-section">
+    <div class="badges-grid" id="badgesGrid">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="section-label">⚡ Quick Actions</div>
+  <div class="quick-actions">
+    <a href="games/number/index.html" class="action-card">
+      <div class="action-icon" style="background:#DBEAFE;">🔢</div>
+      <div class="action-title">Number Games</div>
+      <div class="action-desc">Addition, subtraction, fractions and more</div>
+      <div class="action-arrow" style="color:var(--blue);">Play now →</div>
+    </a>
+    <a href="games/geometry/index.html" class="action-card">
+      <div class="action-icon" style="background:#D1FAE5;">📐</div>
+      <div class="action-title">Geometry Games</div>
+      <div class="action-desc">Shapes, angles, area and perimeter</div>
+      <div class="action-arrow" style="color:var(--green);">Play now →</div>
+    </a>
+    <a href="index.html#books" class="action-card">
+      <div class="action-icon" style="background:#F5F3FF;">📖</div>
+      <div class="action-title">Story Books</div>
+      <div class="action-desc">Learn maths through fun adventures</div>
+      <div class="action-arrow" style="color:var(--purple);">Read now →</div>
+    </a>
+  </div>
+
+</main>
+
+<script>
+  // ── AUTH GUARD ──
+  (function () {
+    const user = JSON.parse(localStorage.getItem('mm_user') || 'null');
+    if (!user) {
+      sessionStorage.setItem('mm_redir', location.href);
+      location.replace('login.html');
+    }
+  })();
+
+  // ── LOAD DATA ──
+  const user = JSON.parse(localStorage.getItem('mm_user') || '{}');
+  const data = JSON.parse(localStorage.getItem('mm_progress') || '{}');
+
+  const games  = data.games  || {};
+  const books  = data.books  || {};
+
+  // Show class dashboard nav link for teachers
+  if (user.role === 'teacher') {
+    const nt = document.getElementById('navTeacher');
+    if (nt) nt.style.display = '';
+  }
+
+  // ── WELCOME BANNER ──
+  const name = user.name || 'Explorer';
+  document.getElementById('welcomeHeading').textContent = 'Welcome back, ' + name.split(' ')[0] + '! 👋';
+  document.getElementById('streakNum').textContent = data.streak || 0;
+
+  const avatars = { student: '🧒', teacher: '👩‍🏫', parent: '👨‍👩‍👧', guest: '🎭' };
+  document.getElementById('avatarWrap').textContent = avatars[user.role] || '🧒';
+
+  const lastActive = data.lastActiveDay;
+  if (lastActive) {
+    document.getElementById('welcomeSub').textContent =
+      'Last active: ' + lastActive + ' · Keep the streak alive! 🔥';
+  }
+
+  // ── STATS ──
+  document.getElementById('totalScore').textContent  = data.totalScore  || 0;
+  document.getElementById('gamesPlayed').textContent = data.gamesPlayed || 0;
+
+  const completedBooks = Object.values(books).filter(b => b.completed).length;
+  document.getElementById('booksRead').textContent = completedBooks;
+
+  const bestScore = Object.values(games).reduce((max, g) => Math.max(max, g.bestScore || 0), 0);
+  document.getElementById('bestScore').textContent = bestScore;
+
+  // ── STRAND PROGRESS ──
+  const strands = [
+    { key: 'number',     label: 'Number',     emoji: '🔢', total: 17, color: '#3B82F6', bar: '#DBEAFE' },
+    { key: 'geometry',   label: 'Geometry',   emoji: '📐', total: 16, color: '#10B981', bar: '#D1FAE5' },
+    { key: 'statistics', label: 'Statistics', emoji: '📊', total: 12, color: '#F97316', bar: '#FFEDD5' },
+    { key: 'books',      label: 'Books',      emoji: '📚', total: 4,  color: '#8B5CF6', bar: '#F5F3FF' },
+  ];
+
+  const strandEl = document.getElementById('strandProgress');
+  strands.forEach(s => {
+    let played;
+    if (s.key === 'books') {
+      played = completedBooks;
+    } else {
+      played = Object.values(games).filter(g => g.strand === s.key && g.played > 0).length;
+    }
+    const pct = Math.min(100, Math.round((played / s.total) * 100));
+
+    strandEl.innerHTML += `
+      <div class="strand-row">
+        <div class="strand-icon" style="background:${s.bar};">${s.emoji}</div>
+        <div class="strand-info">
+          <div class="strand-name">${s.label}</div>
+          <div class="strand-bar-wrap">
+            <div class="strand-bar" style="width:0%;background:${s.color};" data-pct="${pct}"></div>
+          </div>
+        </div>
+        <div class="strand-count">${played}/${s.total}</div>
+      </div>`;
+  });
+
+  // Animate bars after paint
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.strand-bar').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  });
+
+  // ── RECENT ACTIVITY ──
+  const activityEl = document.getElementById('recentActivity');
+
+  const allActivity = [];
+  Object.entries(games).forEach(([id, g]) => {
+    if (g.lastPlayed) allActivity.push({ type: 'game', id, ...g });
+  });
+  Object.entries(books).forEach(([id, b]) => {
+    if (b.lastRead) allActivity.push({ type: 'book', id, lastTime: b.lastRead, ...b });
+  });
+
+  allActivity.sort((a, b) => {
+    const ta = a.lastPlayed || a.lastRead || 0;
+    const tb = b.lastPlayed || b.lastRead || 0;
+    return tb - ta;
+  });
+
+  const recent = allActivity.slice(0, 8);
+
+  function timeAgo(ts) {
+    const diff = Date.now() - ts;
+    const m = Math.floor(diff / 60000);
+    const h = Math.floor(diff / 3600000);
+    const d = Math.floor(diff / 86400000);
+    if (m < 2)   return 'just now';
+    if (m < 60)  return m + 'm ago';
+    if (h < 24)  return h + 'h ago';
+    if (d < 7)   return d + 'd ago';
+    return new Date(ts).toLocaleDateString();
+  }
+
+  function starsFor(score, total) {
+    const pct = total ? score / total : 0;
+    const filled = pct >= .9 ? 3 : pct >= .6 ? 2 : pct > 0 ? 1 : 0;
+    return '★'.repeat(filled) + '☆'.repeat(3 - filled);
+  }
+
+  const strandIcons = { number: '🔢', geometry: '📐', statistics: '📊', books: '📚', other: '🎮' };
+  const strandColors = { number: '#DBEAFE', geometry: '#D1FAE5', statistics: '#FFEDD5', books: '#F5F3FF', other: '#F1F5F9' };
+
+  if (recent.length === 0) {
+    activityEl.innerHTML = `
+      <div class="empty-state">
+        <span class="emoji">🎮</span>
+        No activity yet — play a game to get started!
+      </div>`;
+  } else {
+    recent.forEach(item => {
+      const ts   = item.lastPlayed || item.lastRead || 0;
+      const icon = item.type === 'book' ? '📖' : (strandIcons[item.strand] || '🎮');
+      const col  = item.type === 'book' ? '#F5F3FF' : (strandColors[item.strand] || '#F1F5F9');
+      let scoreHtml = '';
+      if (item.type === 'game') {
+        const stars = starsFor(item.lastScore || 0, item.total || 10);
+        scoreHtml = `<div class="activity-score"><span class="stars">${stars}</span> ${item.lastScore || 0}/${item.total || 10}</div>`;
+      } else {
+        const pct = item.totalPages ? Math.round((item.lastPage / item.totalPages) * 100) : 0;
+        const badge = item.completed ? '✅' : `${pct}%`;
+        scoreHtml = `<div class="activity-score" style="color:var(--purple)">${badge}</div>`;
+      }
+
+      activityEl.innerHTML += `
+        <div class="activity-item">
+          <div class="activity-dot" style="background:${col};">${icon}</div>
+          <div class="activity-text">
+            <div class="activity-title">${item.title || item.id}</div>
+            <div class="activity-meta">${timeAgo(ts)}</div>
+          </div>
+          ${scoreHtml}
+        </div>`;
+    });
+  }
+
+  // ── BADGES ──
+  const BADGES = [
+    {
+      id: 'first_game',
+      emoji: '🎮',
+      name: 'First Game!',
+      desc: 'Play your first game',
+      earned: (data.gamesPlayed || 0) >= 1
+    },
+    {
+      id: 'perfect_10',
+      emoji: '💯',
+      name: 'Perfect 10',
+      desc: 'Score 10/10 on any game',
+      earned: Object.values(games).some(g => g.bestScore >= 10)
+    },
+    {
+      id: 'bookworm',
+      emoji: '📖',
+      name: 'Bookworm',
+      desc: 'Complete a story book',
+      earned: completedBooks >= 1
+    },
+    {
+      id: 'on_fire',
+      emoji: '🔥',
+      name: 'On Fire!',
+      desc: '3-day login streak',
+      earned: (data.streak || 0) >= 3
+    },
+    {
+      id: 'number_ninja',
+      emoji: '🔢',
+      name: 'Number Ninja',
+      desc: 'Play 5 number games',
+      earned: Object.values(games).filter(g => g.strand === 'number').length >= 5
+    },
+    {
+      id: 'shape_spotter',
+      emoji: '📐',
+      name: 'Shape Spotter',
+      desc: 'Play 5 geometry games',
+      earned: Object.values(games).filter(g => g.strand === 'geometry').length >= 5
+    },
+    {
+      id: 'data_detective',
+      emoji: '📊',
+      name: 'Data Detective',
+      desc: 'Play 5 statistics games',
+      earned: Object.values(games).filter(g => g.strand === 'statistics').length >= 5
+    },
+    {
+      id: 'all_rounder',
+      emoji: '🌟',
+      name: 'All-Rounder',
+      desc: 'Play games in all 3 strands',
+      earned: ['number','geometry','statistics'].every(st =>
+        Object.values(games).some(g => g.strand === st)
+      )
+    },
+    {
+      id: 'centurion',
+      emoji: '💫',
+      name: 'Centurion',
+      desc: 'Earn 100 total points',
+      earned: (data.totalScore || 0) >= 100
+    },
+    {
+      id: 'library_card',
+      emoji: '📚',
+      name: 'Library Card',
+      desc: 'Complete all 4 books',
+      earned: completedBooks >= 4
+    },
+    {
+      id: 'hot_streak',
+      emoji: '🏆',
+      name: 'Hot Streak',
+      desc: '7-day login streak',
+      earned: (data.streak || 0) >= 7
+    },
+    {
+      id: 'maths_legend',
+      emoji: '👑',
+      name: 'Maths Legend',
+      desc: 'Play 25+ games',
+      earned: (data.gamesPlayed || 0) >= 25
+    },
+  ];
+
+  const badgesEl = document.getElementById('badgesGrid');
+  BADGES.forEach(b => {
+    badgesEl.innerHTML += `
+      <div class="badge-card ${b.earned ? 'earned' : 'locked'}">
+        <span class="badge-emoji">${b.earned ? b.emoji : '🔒'}</span>
+        <div class="badge-name">${b.name}</div>
+        <div class="badge-desc">${b.desc}</div>
+      </div>`;
+  });
+
+  // ── SIGN OUT ──
+  function signOut() {
+    localStorage.removeItem('mm_user');
+    location.href = 'index.html';
+  }
+</script>
+
+</body>
+</html>

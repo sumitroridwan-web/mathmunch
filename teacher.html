@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Dashboard – MathMunch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;--blue-mid:#BFDBFE;
+      --green:#10B981;--green-dark:#059669;--green-light:#ECFDF5;
+      --orange:#F97316;--orange-dark:#C2410C;--orange-light:#FFF7ED;
+      --yellow:#FBBF24;--red:#EF4444;--red-light:#FEE2E2;
+      --purple:#8B5CF6;--purple-light:#F5F3FF;
+      --bg:#F8FAFC;--white:#FFFFFF;--surface:#F1F5F9;
+      --outline:#E2E8F0;--text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+      --radius:24px;--shadow:0 2px 0 rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+    h1,h2,h3,h4,.logo-text{font-family:'Quicksand',system-ui,sans-serif}
+
+    /* ── HEADER ── */
+    .site-header{background:var(--white);border-bottom:2px solid var(--outline);position:sticky;top:0;z-index:100}
+    .header-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;gap:20px}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Quicksand',sans-serif;font-weight:700;font-size:1.25rem;color:var(--text);flex-shrink:0}
+    .logo-icon{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--orange),#FBBF24);display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 2px 0 var(--orange-dark)}
+    nav{display:flex;gap:4px;flex:1;overflow-x:auto}
+    nav a{padding:7px 14px;border-radius:999px;font-size:.85rem;font-weight:600;color:var(--text-mid);text-decoration:none;transition:background .15s,color .15s;white-space:nowrap}
+    nav a:hover{background:var(--blue-light);color:var(--blue)}
+    nav a.active{background:var(--blue-light);color:var(--blue)}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:999px;font-family:'Lexend',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:transform .1s}
+    .btn-outline{background:transparent;color:var(--text);border:2px solid var(--outline)}
+    .btn-green{background:var(--green);color:white;box-shadow:0 3px 0 var(--green-dark)}
+
+    /* ── MAIN ── */
+    .main{max-width:1280px;margin:0 auto;padding:36px 32px 80px}
+
+    /* ── TOP BANNER ── */
+    .teacher-banner{
+      background:linear-gradient(135deg,#064E3B,#065F46 50%,#047857);
+      border-radius:var(--radius);padding:32px 36px;color:white;
+      display:flex;align-items:center;gap:28px;margin-bottom:28px;
+      position:relative;overflow:hidden;
+    }
+    .teacher-banner::after{content:'';position:absolute;right:-30px;top:-30px;width:180px;height:180px;background:rgba(255,255,255,.06);border-radius:50%}
+    .teacher-avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);border:3px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0}
+    .teacher-text{flex:1;position:relative;z-index:1}
+    .teacher-text h1{font-size:1.65rem;margin-bottom:3px}
+    .teacher-text p{opacity:.8;font-size:.9rem}
+    .teacher-meta{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+    .teacher-chip{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:999px;padding:4px 14px;font-size:.78rem;font-weight:600}
+    .class-switcher{display:flex;gap:8px;flex-shrink:0;position:relative;z-index:1}
+    .cs-btn{padding:8px 16px;border-radius:999px;border:2px solid rgba(255,255,255,.4);background:transparent;color:white;font-family:'Lexend',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .15s}
+    .cs-btn:hover,.cs-btn.active{background:rgba(255,255,255,.2)}
+
+    /* ── STATS ROW ── */
+    .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
+    .stat-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:2px solid var(--outline);display:flex;align-items:center;gap:14px}
+    .stat-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+    .si-blue{background:var(--blue-light)}.si-green{background:var(--green-light)}.si-orange{background:var(--orange-light)}.si-red{background:var(--red-light)}.si-purple{background:var(--purple-light)}
+    .stat-val{font-family:'Quicksand',sans-serif;font-size:1.8rem;font-weight:700;line-height:1}
+    .stat-lbl{font-size:.75rem;color:var(--text-soft);margin-top:3px}
+    .stat-trend{font-size:.72rem;font-weight:700;margin-top:4px}
+    .trend-up{color:var(--green)}.trend-dn{color:var(--red)}
+
+    /* ── SECTION GRID ── */
+    .grid-3{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px}
+    .grid-equal{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+
+    /* ── SECTION CARD ── */
+    .sc{background:var(--white);border-radius:var(--radius);border:2px solid var(--outline);box-shadow:var(--shadow);overflow:hidden}
+    .sc-head{padding:18px 22px 14px;border-bottom:2px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .sc-head h2{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+    .sc-body{padding:18px 22px}
+    .sc-badge{padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700}
+
+    /* ── STUDENT TABLE ── */
+    .student-table{width:100%;border-collapse:collapse}
+    .student-table th{text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-soft);padding:8px 12px;border-bottom:2px solid var(--outline)}
+    .student-table td{padding:11px 12px;border-bottom:1px solid var(--outline);font-size:.85rem;vertical-align:middle}
+    .student-table tr:last-child td{border-bottom:none}
+    .student-table tr:hover td{background:var(--bg)}
+    .s-name{display:flex;align-items:center;gap:10px;font-weight:600}
+    .s-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    .status-pill{padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;white-space:nowrap}
+    .sp-excel{background:var(--green-light);color:var(--green-dark)}
+    .sp-good {background:var(--blue-light);color:var(--blue-dark)}
+    .sp-warn {background:#FEF3C7;color:#92400E}
+    .sp-help {background:var(--red-light);color:#991B1B}
+    .mini-bar-wrap{width:80px;height:7px;background:var(--surface);border-radius:999px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:6px}
+    .mini-bar{height:100%;border-radius:999px}
+
+    /* ── STRAND BARS ── */
+    .strand-row{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+    .strand-row:last-child{margin-bottom:0}
+    .strand-label{font-size:.82rem;font-weight:600;width:100px;flex-shrink:0}
+    .strand-bar-wrap{flex:1;height:12px;background:var(--surface);border-radius:999px;overflow:hidden}
+    .strand-bar-fill{height:100%;border-radius:999px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+    .strand-score{font-family:'Quicksand',sans-serif;font-weight:700;font-size:.9rem;width:42px;text-align:right;flex-shrink:0}
+
+    /* ── ALERT CARDS ── */
+    .alert-list{display:flex;flex-direction:column;gap:10px}
+    .alert-card{border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:2px solid}
+    .alert-card.warn{background:#FFFBEB;border-color:#FDE68A}
+    .alert-card.danger{background:var(--red-light);border-color:#FCA5A5}
+    .alert-card.info{background:var(--blue-light);border-color:var(--blue-mid)}
+    .alert-icon{font-size:1.4rem;flex-shrink:0}
+    .alert-text .name{font-weight:700;font-size:.88rem}
+    .alert-text .reason{font-size:.78rem;color:var(--text-mid);margin-top:2px}
+
+    /* ── ACTIVITY LOG ── */
+    .activity-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--outline)}
+    .activity-row:last-child{border-bottom:none}
+    .act-dot{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+    .act-info{flex:1;min-width:0}
+    .act-name{font-size:.83rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .act-meta{font-size:.72rem;color:var(--text-soft);margin-top:1px}
+    .act-score{font-family:'Quicksand',sans-serif;font-size:.85rem;font-weight:700;white-space:nowrap;color:var(--text-mid)}
+
+    /* ── DEMO BANNER ── */
+    .demo-note{background:linear-gradient(90deg,#FFF7ED,#FEF3C7);border:2px solid #FDE68A;border-radius:14px;padding:12px 20px;margin-bottom:24px;font-size:.83rem;display:flex;align-items:center;gap:10px;color:#92400E}
+
+    @media(max-width:1100px){.stats-row{grid-template-columns:repeat(3,1fr)}.grid-3,.grid-equal{grid-template-columns:1fr}}
+    @media(max-width:700px){.main{padding:20px 16px 60px}.header-inner{padding:0 16px}nav{display:none}.stats-row{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🍕</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav>
+      <a href="index.html">🏠 Home</a>
+      <a href="index.html#games">🎮 Games</a>
+      <a href="index.html#books">📚 Story Books</a>
+      <a href="dashboard.html">📊 My Journey</a>
+      <a href="teacher.html" class="active">👩‍🏫 Class Dashboard</a>
+      <a href="curriculum-map.html">📋 Curriculum</a>
+    </nav>
+    <div style="display:flex;gap:10px;flex-shrink:0">
+      <button class="btn btn-outline" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- DEMO NOTE -->
+  <div class="demo-note">
+    <span>💡</span>
+    <span>This dashboard shows a <strong>sample class</strong> alongside your device's real progress data. In a school deployment, each student logs in with their own account and data is aggregated on the server.</span>
+  </div>
+
+  <!-- TEACHER BANNER -->
+  <div class="teacher-banner">
+    <div class="teacher-avatar">👩‍🏫</div>
+    <div class="teacher-text">
+      <h1 id="teacherName">Class Dashboard</h1>
+      <p>Cambridge Primary Maths · Academic Year 2025–2026</p>
+      <div class="teacher-meta">
+        <span class="teacher-chip" id="classChip">📋 Year 3A — 24 Students</span>
+        <span class="teacher-chip">📅 Term 2, Week 8</span>
+        <span class="teacher-chip" id="activeTodayChip">⚡ 18 active today</span>
+      </div>
+    </div>
+    <div class="class-switcher">
+      <button class="cs-btn active" onclick="loadClass('3a',this)">Year 3A</button>
+      <button class="cs-btn" onclick="loadClass('4b',this)">Year 4B</button>
+      <button class="cs-btn" onclick="loadClass('5c',this)">Year 5C</button>
+    </div>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon si-blue">👥</div>
+      <div><div class="stat-val" id="statStudents">24</div><div class="stat-lbl">Total Students</div><div class="stat-trend trend-up">↑ 2 this week</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon si-green">⭐</div>
+      <div><div class="stat-val" id="statAvgScore">7.4</div><div class="stat-lbl">Avg Score /10</div><div class="stat-trend trend-up" id="avgScoreTrend">↑ +0.6 vs last week</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon si-orange">🎮</div>
+      <div><div class="stat-val" id="statGames">312</div><div class="stat-lbl">Games Played</div><div class="stat-trend trend-up">↑ 47 this week</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon si-red">⚠️</div>
+      <div><div class="stat-val" id="statAtRisk">3</div><div class="stat-lbl">Need Attention</div><div class="stat-trend trend-dn" id="atRiskTrend">↓ was 5 last week</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon si-purple">🔥</div>
+      <div><div class="stat-val" id="statStreak">6</div><div class="stat-lbl">Longest Streak</div><div class="stat-trend" style="color:var(--purple)">🏆 Aisha — 6 days</div></div>
+    </div>
+  </div>
+
+  <!-- STRAND PERFORMANCE + ALERTS -->
+  <div class="grid-3">
+
+    <div class="sc">
+      <div class="sc-head">
+        <h2>📈 Strand Performance — Class Average</h2>
+        <span class="sc-badge" style="background:var(--green-light);color:var(--green-dark);">This Term</span>
+      </div>
+      <div class="sc-body">
+        <div class="strand-row">
+          <div class="strand-label">🔢 Number</div>
+          <div class="strand-bar-wrap">
+            <div class="strand-bar-fill" style="width:0%;background:#3B82F6" data-w="74"></div>
+          </div>
+          <div class="strand-score" style="color:#1D4ED8" id="numScore">74%</div>
+        </div>
+        <div class="strand-row">
+          <div class="strand-label">📐 Geometry</div>
+          <div class="strand-bar-wrap">
+            <div class="strand-bar-fill" style="width:0%;background:#10B981" data-w="68"></div>
+          </div>
+          <div class="strand-score" style="color:#065F46" id="geoScore">68%</div>
+        </div>
+        <div class="strand-row">
+          <div class="strand-label">📊 Statistics</div>
+          <div class="strand-bar-wrap">
+            <div class="strand-bar-fill" style="width:0%;background:#F97316" data-w="81"></div>
+          </div>
+          <div class="strand-score" style="color:#C2410C" id="statScore">81%</div>
+        </div>
+        <div class="strand-row">
+          <div class="strand-label">📚 Books</div>
+          <div class="strand-bar-wrap">
+            <div class="strand-bar-fill" style="width:0%;background:#8B5CF6" data-w="56"></div>
+          </div>
+          <div class="strand-score" style="color:#6D28D9" id="bookScore">56%</div>
+        </div>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:2px solid var(--outline)">
+          <div style="font-size:.8rem;font-weight:700;color:var(--text-mid);margin-bottom:10px;">📉 Weakest Topics (class-wide)</div>
+          <div style="display:flex;flex-direction:column;gap:8px;" id="weakTopics">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.82rem;">
+              <span>Division Dungeon <span style="color:var(--text-soft);">· Number</span></span>
+              <span style="font-weight:700;color:var(--red)">4.9 avg</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.82rem;">
+              <span>Net Navigator <span style="color:var(--text-soft);">· Geometry</span></span>
+              <span style="font-weight:700;color:var(--orange)">5.3 avg</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.82rem;">
+              <span>Venn Voyage <span style="color:var(--text-soft);">· Statistics</span></span>
+              <span style="font-weight:700;color:var(--orange)">5.8 avg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <div class="sc" style="flex:1">
+        <div class="sc-head">
+          <h2>⚠️ Needs Attention</h2>
+          <span class="sc-badge" style="background:var(--red-light);color:#991B1B;" id="atRiskBadge">3 students</span>
+        </div>
+        <div class="sc-body">
+          <div class="alert-list" id="alertList">
+            <div class="alert-card danger">
+              <span class="alert-icon">📉</span>
+              <div class="alert-text">
+                <div class="name">Marcus T.</div>
+                <div class="reason">Avg score 3.8/10 · No activity in 5 days</div>
+              </div>
+            </div>
+            <div class="alert-card warn">
+              <span class="alert-icon">⏰</span>
+              <div class="alert-text">
+                <div class="name">Lily P.</div>
+                <div class="reason">Score dropped from 7.2 → 4.1 this week</div>
+              </div>
+            </div>
+            <div class="alert-card warn">
+              <span class="alert-icon">📚</span>
+              <div class="alert-text">
+                <div class="name">Ben O.</div>
+                <div class="reason">Only playing Number — skipping Geometry</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc">
+        <div class="sc-head">
+          <h2>🏆 Top Performers</h2>
+        </div>
+        <div class="sc-body" style="padding-top:12px">
+          <div style="display:flex;flex-direction:column;gap:10px" id="topPerformers">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:1.2rem">🥇</span>
+              <div style="flex:1"><div style="font-size:.85rem;font-weight:700">Aisha M.</div><div style="font-size:.72rem;color:var(--text-soft)">Avg 9.2/10 · 6-day streak</div></div>
+              <span style="font-family:'Quicksand',sans-serif;font-weight:700;color:var(--green)">9.2</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:1.2rem">🥈</span>
+              <div style="flex:1"><div style="font-size:.85rem;font-weight:700">Jaden K.</div><div style="font-size:.72rem;color:var(--text-soft)">Avg 8.7/10 · 4-day streak</div></div>
+              <span style="font-family:'Quicksand',sans-serif;font-weight:700;color:var(--blue)">8.7</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:1.2rem">🥉</span>
+              <div style="flex:1"><div style="font-size:.85rem;font-weight:700">Sophie L.</div><div style="font-size:.72rem;color:var(--text-soft)">Avg 8.4/10 · 3-day streak</div></div>
+              <span style="font-family:'Quicksand',sans-serif;font-weight:700;color:var(--orange)">8.4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STUDENT TABLE + RECENT ACTIVITY -->
+  <div class="grid-equal">
+
+    <div class="sc">
+      <div class="sc-head">
+        <h2>👥 All Students</h2>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="searchInput" type="text" placeholder="Search…" oninput="filterStudents(this.value)"
+            style="padding:6px 12px;border-radius:999px;border:2px solid var(--outline);font-family:'Lexend',sans-serif;font-size:.8rem;width:130px;outline:none">
+        </div>
+      </div>
+      <div class="sc-body" style="padding:0;overflow-x:auto">
+        <table class="student-table" id="studentTable">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Last Active</th>
+              <th>Avg Score</th>
+              <th>Strands</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="studentBody">
+            <!-- filled by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-head">
+        <h2>🕐 Class Activity Feed</h2>
+        <span class="sc-badge" style="background:var(--green-light);color:var(--green-dark);">Live</span>
+      </div>
+      <div class="sc-body" id="activityFeed">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+  // ── AUTH GUARD ──
+  (function () {
+    const raw = localStorage.getItem('mm_user');
+    if (!raw) { sessionStorage.setItem('mm_redir', location.href); location.replace('login.html'); return; }
+    const u = JSON.parse(raw);
+    document.getElementById('teacherName').textContent = 'Welcome, ' + (u.name || 'Teacher') + '!';
+  })();
+
+  // ── DEMO CLASS DATA ──
+  const DEMO_CLASSES = {
+    '3a': {
+      label: 'Year 3A — 24 Students', active: 18,
+      avgScore: 7.4, games: 312, atRisk: 3, streak: 6, streakName: 'Aisha',
+      numAvg: 74, geoAvg: 68, statAvg: 81, bookAvg: 56,
+      students: [
+        { name:'Aisha M.',  avatar:'👧', lastActive:'2m ago',   avg:9.2, strands:3, status:'excel' },
+        { name:'Jaden K.',  avatar:'👦', lastActive:'1h ago',   avg:8.7, strands:3, status:'excel' },
+        { name:'Sophie L.', avatar:'👧', lastActive:'3h ago',   avg:8.4, strands:3, status:'excel' },
+        { name:'Carlos R.', avatar:'👦', lastActive:'Today',    avg:7.8, strands:3, status:'good'  },
+        { name:'Priya S.',  avatar:'👧', lastActive:'Today',    avg:7.5, strands:2, status:'good'  },
+        { name:'Noah W.',   avatar:'👦', lastActive:'Yesterday',avg:7.1, strands:3, status:'good'  },
+        { name:'Emma T.',   avatar:'👧', lastActive:'Today',    avg:6.9, strands:2, status:'good'  },
+        { name:'Liam B.',   avatar:'👦', lastActive:'2 days ago',avg:6.4,strands:2, status:'good'  },
+        { name:'Zara A.',   avatar:'👧', lastActive:'Today',    avg:6.1, strands:2, status:'good'  },
+        { name:'Omar F.',   avatar:'👦', lastActive:'3 days ago',avg:5.8,strands:1, status:'warn'  },
+        { name:'Lily P.',   avatar:'👧', lastActive:'Today',    avg:4.1, strands:2, status:'warn'  },
+        { name:'Ben O.',    avatar:'👦', lastActive:'Today',    avg:5.2, strands:1, status:'warn'  },
+        { name:'Marcus T.', avatar:'👦', lastActive:'5 days ago',avg:3.8,strands:1, status:'help'  },
+      ]
+    },
+    '4b': {
+      label: 'Year 4B — 22 Students', active: 15,
+      avgScore: 6.9, games: 267, atRisk: 4, streak: 5, streakName: 'Carlos',
+      numAvg: 70, geoAvg: 62, statAvg: 77, bookAvg: 48,
+      students: [
+        { name:'Carlos D.', avatar:'👦', lastActive:'Just now',  avg:9.0, strands:3, status:'excel' },
+        { name:'Maya R.',   avatar:'👧', lastActive:'30m ago',   avg:8.1, strands:3, status:'excel' },
+        { name:'Finn P.',   avatar:'👦', lastActive:'1h ago',    avg:7.6, strands:3, status:'good'  },
+        { name:'Isla K.',   avatar:'👧', lastActive:'Today',     avg:7.3, strands:2, status:'good'  },
+        { name:'Harry M.',  avatar:'👦', lastActive:'Today',     avg:6.8, strands:2, status:'good'  },
+        { name:'Chloe S.',  avatar:'👧', lastActive:'Yesterday', avg:6.4, strands:2, status:'good'  },
+        { name:'Ryan T.',   avatar:'👦', lastActive:'3 days ago',avg:5.2, strands:1, status:'warn'  },
+        { name:'Grace N.',  avatar:'👧', lastActive:'4 days ago',avg:4.9, strands:1, status:'warn'  },
+        { name:'Leo B.',    avatar:'👦', lastActive:'7 days ago',avg:3.5, strands:1, status:'help'  },
+      ]
+    },
+    '5c': {
+      label: 'Year 5C — 26 Students', active: 20,
+      avgScore: 7.8, games: 401, atRisk: 2, streak: 8, streakName: 'Priya',
+      numAvg: 80, geoAvg: 75, statAvg: 83, bookAvg: 62,
+      students: [
+        { name:'Priya V.',  avatar:'👧', lastActive:'Just now',  avg:9.5, strands:3, status:'excel' },
+        { name:'Sam H.',    avatar:'👦', lastActive:'10m ago',   avg:9.1, strands:3, status:'excel' },
+        { name:'Layla M.',  avatar:'👧', lastActive:'25m ago',   avg:8.8, strands:3, status:'excel' },
+        { name:'Ethan C.',  avatar:'👦', lastActive:'1h ago',    avg:8.3, strands:3, status:'good'  },
+        { name:'Nina O.',   avatar:'👧', lastActive:'2h ago',    avg:7.9, strands:3, status:'good'  },
+        { name:'Tyler B.',  avatar:'👦', lastActive:'Today',     avg:7.5, strands:2, status:'good'  },
+        { name:'Anna W.',   avatar:'👧', lastActive:'Today',     avg:7.2, strands:2, status:'good'  },
+        { name:'Jack F.',   avatar:'👦', lastActive:'5 days ago',avg:4.6, strands:1, status:'warn'  },
+        { name:'Eva K.',    avatar:'👧', lastActive:'6 days ago',avg:3.9, strands:1, status:'help'  },
+      ]
+    }
+  };
+
+  const ACTIVITY_LOG = [
+    { student:'Aisha M.',  avatar:'👧', game:'Times Table Tornado',  strand:'number',     score:10, time:'2m ago'  },
+    { student:'Jaden K.',  avatar:'👦', game:'Area Arena',           strand:'geometry',   score:9,  time:'8m ago'  },
+    { student:'Sophie L.', avatar:'👧', game:'Bar Chart Builder',    strand:'statistics', score:8,  time:'14m ago' },
+    { student:'Carlos R.', avatar:'👦', game:'Counting Safari',      strand:'number',     score:7,  time:'21m ago' },
+    { student:'Priya S.',  avatar:'👧', game:'Symmetry Lab',         strand:'geometry',   score:9,  time:'35m ago' },
+    { student:'Noah W.',   avatar:'👦', game:'Chance Castle',        strand:'statistics', score:6,  time:'52m ago' },
+    { student:'Emma T.',   avatar:'👧', game:'The Counting Caterpillar', strand:'books',  score:null, time:'1h ago' },
+    { student:'Zara A.',   avatar:'👧', game:'Place Value Party',    strand:'number',     score:8,  time:'1h ago'  },
+    { student:'Liam B.',   avatar:'👦', game:'Perimeter Patrol',     strand:'geometry',   score:5,  time:'2h ago'  },
+    { student:'Omar F.',   avatar:'👦', game:'Data Detective',       strand:'statistics', score:4,  time:'3h ago'  },
+  ];
+
+  const strandColors = { number:'#DBEAFE', geometry:'#D1FAE5', statistics:'#FFEDD5', books:'#F5F3FF' };
+  const strandIcons  = { number:'🔢', geometry:'📐', statistics:'📊', books:'📚' };
+
+  function loadClass(key, btn) {
+    document.querySelectorAll('.cs-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const cls = DEMO_CLASSES[key];
+    if (!cls) return;
+
+    document.getElementById('classChip').textContent    = '📋 ' + cls.label;
+    document.getElementById('activeTodayChip').textContent = '⚡ ' + cls.active + ' active today';
+    document.getElementById('statStudents').textContent = cls.students.length;
+    document.getElementById('statAvgScore').textContent = cls.avgScore.toFixed(1);
+    document.getElementById('statGames').textContent    = cls.games;
+    document.getElementById('statAtRisk').textContent   = cls.atRisk;
+    document.getElementById('statStreak').textContent   = cls.streak;
+    document.querySelector('.stat-card:last-child .stat-trend').textContent = '🏆 ' + cls.streakName + ' — ' + cls.streak + ' days';
+
+    // Strand bars
+    [['numScore',cls.numAvg,'#3B82F6'],['geoScore',cls.geoAvg,'#10B981'],['statScore',cls.statAvg,'#F97316'],['bookScore',cls.bookAvg,'#8B5CF6']].forEach(([id, val, color]) => {
+      document.getElementById(id).textContent = val + '%';
+    });
+    document.querySelectorAll('.strand-bar-fill').forEach((el, i) => {
+      const vals = [cls.numAvg, cls.geoAvg, cls.statAvg, cls.bookAvg];
+      setTimeout(() => { el.style.width = vals[i] + '%'; }, 80);
+    });
+
+    // Student table
+    const tbody = document.getElementById('studentBody');
+    tbody.innerHTML = '';
+    cls.students.forEach(s => {
+      const statusClass = { excel:'sp-excel', good:'sp-good', warn:'sp-warn', help:'sp-help' }[s.status];
+      const statusLabel = { excel:'⭐ Excellent', good:'✅ On Track', warn:'⚠️ Monitor', help:'🆘 Needs Help' }[s.status];
+      const barColor    = { excel:'#10B981', good:'#3B82F6', warn:'#FBBF24', help:'#EF4444' }[s.status];
+      const strands     = ['🔢','📐','📊'].slice(0, s.strands).join(' ') + (s.strands < 3 ? ' —'.repeat(3 - s.strands) : '');
+      tbody.innerHTML += `
+        <tr>
+          <td><div class="s-name"><div class="s-avatar" style="background:${strandColors['number']}">${s.avatar}</div>${s.name}</div></td>
+          <td style="color:var(--text-soft);font-size:.8rem">${s.lastActive}</td>
+          <td>
+            <strong>${s.avg.toFixed(1)}</strong><span style="color:var(--text-soft)">/10</span>
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:${s.avg*10}%;background:${barColor}"></div></div>
+          </td>
+          <td style="font-size:.85rem">${strands}</td>
+          <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
+        </tr>`;
+    });
+  }
+
+  function filterStudents(q) {
+    document.querySelectorAll('#studentBody tr').forEach(row => {
+      row.style.display = row.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+    });
+  }
+
+  // Activity feed
+  function buildActivityFeed() {
+    const feed = document.getElementById('activityFeed');
+    feed.innerHTML = '';
+    ACTIVITY_LOG.forEach(a => {
+      const col = strandColors[a.strand] || '#F1F5F9';
+      const icon = strandIcons[a.strand] || '🎮';
+      const scoreHtml = a.score !== null
+        ? `<span class="act-score">${a.score}/10</span>`
+        : `<span class="act-score" style="color:var(--purple)">📖 Read</span>`;
+      feed.innerHTML += `
+        <div class="activity-row">
+          <div class="act-dot" style="background:${col}">${icon}</div>
+          <div class="act-info">
+            <div class="act-name">${a.student} · ${a.game}</div>
+            <div class="act-meta">${a.time}</div>
+          </div>
+          ${scoreHtml}
+        </div>`;
+    });
+  }
+
+  // Also inject current device's real data into student table as "You (This Device)"
+  function injectRealData() {
+    const prog = JSON.parse(localStorage.getItem('mm_progress') || '{}');
+    const games = prog.games || {};
+    if (!prog.gamesPlayed) return;
+
+    const scores = Object.values(games).filter(g => g.lastScore !== undefined);
+    if (!scores.length) return;
+    const avg = scores.reduce((s, g) => s + g.lastScore, 0) / scores.length;
+    const strands = new Set(scores.map(g => g.strand).filter(Boolean)).size;
+    const status = avg >= 8 ? 'excel' : avg >= 6 ? 'good' : avg >= 5 ? 'warn' : 'help';
+    const user = JSON.parse(localStorage.getItem('mm_user') || '{}');
+
+    const tbody = document.getElementById('studentBody');
+    const barColor = { excel:'#10B981', good:'#3B82F6', warn:'#FBBF24', help:'#EF4444' }[status];
+    const statusClass = { excel:'sp-excel', good:'sp-good', warn:'sp-warn', help:'sp-help' }[status];
+    const statusLabel = { excel:'⭐ Excellent', good:'✅ On Track', warn:'⚠️ Monitor', help:'🆘 Needs Help' }[status];
+    const strandStr = ['🔢','📐','📊'].slice(0, strands).join(' ');
+
+    const realRow = document.createElement('tr');
+    realRow.style.background = '#F0FDF4';
+    realRow.innerHTML = `
+      <td><div class="s-name"><div class="s-avatar" style="background:#D1FAE5">📱</div>${user.name || 'You'} <span style="font-size:.7rem;color:var(--green);font-weight:700;margin-left:4px">THIS DEVICE</span></div></td>
+      <td style="color:var(--text-soft);font-size:.8rem">Just now</td>
+      <td>
+        <strong>${avg.toFixed(1)}</strong><span style="color:var(--text-soft)">/10</span>
+        <div class="mini-bar-wrap"><div class="mini-bar" style="width:${avg*10}%;background:${barColor}"></div></div>
+      </td>
+      <td style="font-size:.85rem">${strandStr || '—'}</td>
+      <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>`;
+    tbody.insertBefore(realRow, tbody.firstChild);
+  }
+
+  // Init
+  loadClass('3a');
+  buildActivityFeed();
+  injectRealData();
+
+  // Animate strand bars on load
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.strand-bar-fill[data-w]').forEach(el => {
+      el.style.width = el.dataset.w + '%';
+    });
+  });
+
+  function signOut() { localStorage.removeItem('mm_user'); location.href = 'index.html'; }
+</script>
+
+</body>
+</html>
