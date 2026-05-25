@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Great Multiplication Race – MathMunch</title>
+<style>
+:root {
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --purple:#8B5CF6; --purple-dark:#6D28D9; --purple-light:#F5F3FF;
+  --amber-light:#FFFBEB;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#FBBF24,#F97316);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--orange-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--yellow-dark);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--orange);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--orange-light);color:var(--yellow-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #FED7AA;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--orange));border-radius:9999px;transition:width .5s ease;}
+
+/* BOOK PAGES */
+.book-page{display:none;animation:fadeIn .35s ease;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cover page is full-width */
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;}
+
+/* ILLUSTRATION PANEL */
+.illustration{border-radius:24px;overflow:hidden;position:relative;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL */
+.story-panel{display:flex;flex-direction:column;gap:20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--yellow-dark);font-weight:700;}
+.story-text em{color:var(--orange-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--orange-light);border-left:4px solid var(--yellow);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--yellow-dark);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--yellow-dark);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.math-callout.amber{background:#FFFBEB;border-color:var(--yellow);}
+.math-callout.amber .math-callout-title{color:var(--yellow-dark);}
+.math-callout.amber p{color:#78350F;}
+.math-callout.green-callout{background:var(--green-light);border-color:var(--green);}
+.math-callout.green-callout .math-callout-title{color:var(--green-dark);}
+.math-callout.green-callout p{color:#065F46;}
+
+/* ARRAY DISPLAY */
+.array-grid{display:inline-grid;gap:6px;background:rgba(0,0,0,.06);padding:12px;border-radius:12px;}
+.array-dot{width:16px;height:16px;border-radius:50%;background:var(--yellow-dark);}
+
+/* NUMBER LINE */
+.mult-table{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
+.mult-chip{background:var(--yellow);color:#78350F;font-size:.82rem;font-weight:700;padding:5px 10px;border-radius:8px;border:2px solid var(--yellow-dark);}
+.mult-chip.ten{background:var(--orange);color:white;border-color:var(--orange-dark);}
+
+/* FINGER TRICK */
+.finger-row{display:flex;gap:6px;justify-content:center;align-items:flex-end;margin:10px 0;}
+.finger{width:22px;height:50px;background:var(--yellow);border-radius:10px 10px 4px 4px;border:2px solid var(--yellow-dark);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#78350F;}
+.finger.folded{height:30px;background:#D1D5DB;border-color:#9CA3AF;color:#6B7280;border-radius:4px;}
+.finger.left-side{background:#FBBF24;border-color:var(--yellow-dark);}
+.finger.right-side{background:#F97316;border-color:var(--orange-dark);color:white;}
+
+/* 9x TABLE */
+.times-table-9{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0;}
+.t9-cell{background:var(--purple-light);border:1px solid #C4B5FD;border-radius:8px;padding:5px 4px;text-align:center;font-size:.8rem;font-weight:700;color:var(--purple-dark);}
+
+/* TIMES TABLE GRID */
+.times-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0;}
+.tg-cell{background:var(--orange-light);border:1px solid #FED7AA;border-radius:6px;padding:4px 2px;text-align:center;font-size:.7rem;font-weight:700;color:var(--yellow-dark);}
+.tg-cell.header{background:var(--yellow-dark);color:white;border-color:var(--orange-dark);}
+.tg-cell.highlight{background:var(--yellow);color:#78350F;border-color:var(--yellow-dark);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#FBBF24,#F97316);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(194,65,12,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--orange);color:var(--orange);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--orange);color:white;border-color:var(--orange);box-shadow:0 3px 0 var(--orange-dark);}
+.nav-btn-next:hover{background:var(--orange-dark);border-color:var(--orange-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--orange);transform:scale(1.2);}
+.dot.read{background:#FED7AA;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--orange);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--orange-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,var(--yellow),var(--orange));border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* DOUBLING STRATEGY */
+.strategy-box{background:#FFFBEB;border:2px solid var(--yellow);border-radius:12px;padding:12px 16px;margin:8px 0;font-size:.9rem;font-weight:700;color:#78350F;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.strategy-step{background:var(--yellow);color:#78350F;padding:4px 10px;border-radius:8px;font-size:.85rem;font-weight:700;}
+.strategy-arrow{font-size:1.1rem;color:var(--orange-dark);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+  .times-grid{grid-template-columns:repeat(4,1fr);}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🏎️</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Great Multiplication Race
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">🏎️ The Great Multiplication Race</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">✖️ Multiplication</span>
+        <span class="book-tag">📐 Arrays · Times Tables · Strategies</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Grade P3–P4</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 8</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:12.5%"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🏎️</span>
+      <div class="cover-title">The Great Multiplication<br>Race</div>
+      <div class="cover-subtitle">Can Hector learn the secret of multiplication<br>in time to win?</div>
+      <div class="cover-chars">🐇 🐢 🦊 🐻</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 8 Pages</span>
+        <span class="cover-tag">✖️ Multiplication</span>
+        <span class="cover-tag">👶 Ages 8–10</span>
+        <span class="cover-tag">⭐ Cambridge P3–P4</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – RACE DAY ARRIVES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FEF3C7);">
+      <div class="page-num-illus">Page 2</div>
+      <!-- Race track scene -->
+      <div style="width:88%;background:rgba(0,0,0,.07);border-radius:14px;padding:14px 10px;margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;font-size:2.2rem;padding:0 6px;">
+          <span title="Hector the Hare">🐇</span>
+          <span title="Tara the Tortoise">🐢</span>
+          <span title="Felix the Fox">🦊</span>
+          <span title="Bella the Bear">🐻</span>
+        </div>
+        <!-- Track lines -->
+        <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
+          <div style="height:5px;background:linear-gradient(90deg,#FBBF24,#F97316);border-radius:9999px;opacity:.7;"></div>
+          <div style="height:5px;background:linear-gradient(90deg,#FBBF24,#F97316);border-radius:9999px;opacity:.5;"></div>
+          <div style="height:5px;background:linear-gradient(90deg,#FBBF24,#F97316);border-radius:9999px;opacity:.7;"></div>
+          <div style="height:5px;background:linear-gradient(90deg,#FBBF24,#F97316);border-radius:9999px;opacity:.5;"></div>
+        </div>
+      </div>
+      <div style="font-size:3rem;">🏁</div>
+      <div class="illus-caption">The Annual Mathville Multiplication Race!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · Race Day Arrives</div>
+      <div class="story-text">
+        The <strong>Annual Mathville Multiplication Race</strong> was here! Every year, the animals competed to solve maths challenges as they ran.<br><br>
+        This year, <em>Hector the Hare</em> was the favourite — he was the fastest runner! But speed alone wouldn't win: each racer had to solve <strong>multiplication questions</strong> at checkpoint gates before they could pass.
+      </div>
+      <div class="character-speech" style="border-left-color:#FBBF24;">
+        <span style="font-size:.85rem;font-weight:700;color:var(--yellow-dark);display:block;margin-bottom:4px;">🐇 Hector the Hare</span>
+        I can run fast AND do maths. This race is mine!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">What is Multiplication?</span>
+        </div>
+        <p><strong>MULTIPLICATION</strong> is a quick way to add the <strong>same number</strong> many times.<br><br>
+        Instead of <strong>3 + 3 + 3 + 3 + 3 = 15</strong>, we write <strong>5 × 3 = 15</strong>. Much faster!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – GATE 1: ARRAYS (2× table)
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFFBEB,#FDE68A);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:1.5rem;font-weight:700;color:#92400E;margin-bottom:12px;">GATE 1: 2 × 5 = ?</div>
+      <!-- Array visual: 2 rows × 5 columns -->
+      <div style="background:rgba(255,255,255,.55);border-radius:16px;padding:20px 24px;text-align:center;">
+        <div style="font-size:.75rem;font-weight:700;color:#92400E;margin-bottom:8px;">2 rows × 5 columns</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 auto;width:fit-content;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
+        </div>
+        <div style="margin-top:12px;font-size:1.2rem;font-weight:700;color:#92400E;">2 × 5 = <span style="font-size:1.6rem;color:var(--orange-dark);">10</span></div>
+        <div style="font-size:.8rem;color:#78350F;margin-top:4px;">Count: 5 … 10 ✓</div>
+      </div>
+      <div class="illus-scene" style="margin-top:12px;">
+        <span class="char-sm">🐇</span><span style="font-size:1.1rem;color:#78350F;font-weight:700;padding:0 8px;">vs</span><span class="char-sm">🐢</span>
+      </div>
+      <div class="illus-caption">Tara answers first — she knew her arrays!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Gate 1: Multiplication as Arrays</div>
+      <div class="story-text">
+        At <strong>Gate 1</strong>, Hector skidded to a halt. The sign read: <em>"2 × 5 = ?"</em><br><br>
+        Hector looked at the field — there were <strong>2 rows of 5 flowers</strong>. "Count them!" he said.<br><br>
+        But clever <em>Tara the Tortoise</em> had already answered: <strong>"2 times 5 means 2 groups of 5. That's 10!"</strong>
+      </div>
+      <div class="character-speech" style="border-left-color:#FBBF24;">
+        <span style="font-size:.85rem;font-weight:700;color:var(--yellow-dark);display:block;margin-bottom:4px;">🐢 Tara the Tortoise</span>
+        An array shows multiplication — count the rows, count each row, then multiply!
+      </div>
+      <div class="math-callout amber">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔢</span>
+          <span class="math-callout-title" style="color:var(--yellow-dark);">Arrays and Multiplication</span>
+        </div>
+        <p>An <strong>ARRAY</strong> shows multiplication as rows and columns.<br><br>
+        <strong>2 × 5 = 10</strong> means 2 rows, 5 in each row.<br>
+        Count all the dots: 5, 10 — that's 10!</p>
+      </div>
+
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">An array has <strong>3 rows</strong> and <strong>4 columns</strong>. What multiplication does it show?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Yes! 3 rows × 4 columns = 3 × 4 = 12. Count: 4, 8, 12!')">3 × 4 = 12</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','That would be 2 rows × 4 columns. We have 3 rows!')">2 × 4 = 8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','3 × 3 = 9 has 3 rows and 3 columns, not 4!')">3 × 3 = 9</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','4 × 4 = 16 has 4 rows and 4 columns. Count again!')">4 × 4 = 16</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – GATE 2: 5× AND 10× TABLES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:3rem;margin-bottom:8px;">🕐 🪙</div>
+      <!-- 5× table chips -->
+      <div style="background:rgba(255,255,255,.55);border-radius:14px;padding:14px 16px;width:90%;text-align:center;">
+        <div style="font-size:.72rem;font-weight:700;color:#92400E;margin-bottom:6px;">5× TABLE</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;">
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">5</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">10</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">15</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">20</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">25</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">30</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">35</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">40</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">45</span>
+          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">50</span>
+        </div>
+        <div style="font-size:.72rem;font-weight:700;color:#92400E;margin:10px 0 6px;">10× TABLE</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;">
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">10</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">20</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">30</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">40</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">50</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">60</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">70</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">80</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">90</span>
+          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">100</span>
+        </div>
+      </div>
+      <div class="illus-scene" style="margin-top:10px;">
+        <span class="char-sm">🦊</span><span class="char-sm">🐻</span>
+      </div>
+      <div class="illus-caption">Felix knows 5×, Bella knows 10×!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Gate 2: 5× and 10× Tables</div>
+      <div class="story-text">
+        <strong>Gate 2</strong> had a tricky twist: <em>"What are the first five multiples of 5?"</em><br><br>
+        <em>Felix the Fox</em> jumped up: <strong>"5, 10, 15, 20, 25!"</strong> he shouted. Hector gasped — Felix had memorised the 5 times table!<br><br>
+        And <em>Bella the Bear</em> knew all the 10 times table: <strong>"Multiply by 10? Just add a zero!"</strong> she grinned.
+      </div>
+      <div class="character-speech" style="border-left-color:#FBBF24;">
+        <span style="font-size:.85rem;font-weight:700;color:var(--yellow-dark);display:block;margin-bottom:4px;">🐻 Bella the Bear</span>
+        6 × 10 = 60, 7 × 10 = 70 — just put a zero after the number! Easy!
+      </div>
+      <div class="math-callout amber">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⚡</span>
+          <span class="math-callout-title" style="color:var(--yellow-dark);">5× and 10× Tricks</span>
+        </div>
+        <p><strong>5× table pattern:</strong> always ends in 0 or 5!<br><br>
+        <strong>10× table trick:</strong> just put a 0 after the number.<br>
+        6 × 10 = 60, 7 × 10 = 70. Easy!</p>
+      </div>
+
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">What is <strong>7 × 5</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','6 × 5 = 30. Count on one more 5 to get 35!')">30</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Yes! 7 × 5 = 35. Count: 5, 10, 15, 20, 25, 30, 35!')">35</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','8 × 5 = 40. You went one too many!')">40</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','9 × 5 = 45. Count the fives carefully!')">45</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – GATE 3: COMMUTATIVITY
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:1.3rem;font-weight:700;color:#065F46;margin-bottom:10px;">Are these the same?</div>
+      <div style="display:flex;gap:16px;align-items:flex-start;justify-content:center;">
+        <!-- Array 1: 3 rows × 4 cols -->
+        <div style="background:rgba(255,255,255,.6);border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:.7rem;font-weight:700;color:#065F46;margin-bottom:6px;">3 × 4</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:fit-content;margin:0 auto;">
+            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
+          </div>
+          <div style="margin-top:8px;font-size:.85rem;font-weight:700;color:#065F46;">= 12</div>
+        </div>
+        <div style="font-size:1.8rem;color:#059669;font-weight:700;padding-top:30px;">=</div>
+        <!-- Array 2: 4 rows × 3 cols -->
+        <div style="background:rgba(255,255,255,.6);border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-size:.7rem;font-weight:700;color:#065F46;margin-bottom:6px;">4 × 3</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:fit-content;margin:0 auto;">
+            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#6EE7B7;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#6EE7B7;"></div>
+            <div style="width:18px;height:18px;border-radius:50%;background:#6EE7B7;"></div>
+          </div>
+          <div style="margin-top:8px;font-size:.85rem;font-weight:700;color:#065F46;">= 12</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:1rem;font-weight:700;color:#065F46;background:rgba(255,255,255,.5);padding:6px 14px;border-radius:9999px;">3 × 4 = 4 × 3 = 12 ✓</div>
+      <div class="illus-scene" style="margin-top:8px;">
+        <span class="char-sm">🐇</span><span class="char-sm">🐢</span>
+      </div>
+      <div class="illus-caption">The order doesn't matter!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Gate 3: Commutativity</div>
+      <div class="story-text">
+        <strong>Gate 3</strong> stopped everyone — it showed <em>TWO arrays</em> and asked: <strong>"Are these the same?"</strong><br><br>
+        One array: <em>3 rows of 4 dots</em>. The other: <em>4 rows of 3 dots</em>.<br><br>
+        Hector frowned. <strong>"They look different!"</strong> But Tara smiled: <strong>"3 × 4 = 12 and 4 × 3 = 12. It doesn't matter which way round — the answer is always the same!"</strong>
+      </div>
+      <div class="character-speech" style="border-left-color:var(--green);">
+        <span style="font-size:.85rem;font-weight:700;color:var(--green-dark);display:block;margin-bottom:4px;">🐢 Tara the Tortoise</span>
+        If you know 3 × 4, you already know 4 × 3 for free!
+      </div>
+      <div class="math-callout" style="background:var(--green-light);border-color:var(--green);">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔄</span>
+          <span class="math-callout-title" style="color:var(--green-dark);">The Commutative Law</span>
+        </div>
+        <p>The <strong>COMMUTATIVE LAW</strong>: <strong>a × b = b × a</strong><br><br>
+        You can multiply in any order!<br>
+        <strong>3 × 4 = 4 × 3 = 12</strong><br><br>
+        This means if you know one fact, you know TWO!</p>
+      </div>
+
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">If <strong>6 × 8 = 48</strong>, what is <strong>8 × 6</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Not quite — try using the commutative law!')">46</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Correct! 8 × 6 = 6 × 8 = 48. The order does not change the answer!')">48</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','That is not right — remember a × b = b × a!')">42</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','56 would be 7 × 8, not 6 × 8!')">56</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – GATE 4: THE 9× FINGER TRICK
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:1.3rem;font-weight:700;color:#4C1D95;margin-bottom:12px;">9 × 4 — Finger Trick!</div>
+      <!-- Finger trick diagram: 10 fingers, 4th folded -->
+      <div style="background:rgba(255,255,255,.55);border-radius:14px;padding:14px 18px;text-align:center;">
+        <div style="font-size:.72rem;font-weight:700;color:#4C1D95;margin-bottom:8px;">Hold up both hands, palms facing you</div>
+        <div style="display:flex;gap:5px;justify-content:center;align-items:flex-end;">
+          <!-- Fingers 1–3: left of fold (tens) -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#6D28D9;font-weight:700;">1</div>
+            <div style="width:20px;height:46px;background:#8B5CF6;border-radius:8px 8px 4px 4px;border:2px solid #6D28D9;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#6D28D9;font-weight:700;">2</div>
+            <div style="width:20px;height:46px;background:#8B5CF6;border-radius:8px 8px 4px 4px;border:2px solid #6D28D9;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#6D28D9;font-weight:700;">3</div>
+            <div style="width:20px;height:46px;background:#8B5CF6;border-radius:8px 8px 4px 4px;border:2px solid #6D28D9;"></div>
+          </div>
+          <!-- Finger 4: FOLDED DOWN -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#DC2626;font-weight:700;">4✗</div>
+            <div style="width:20px;height:22px;background:#D1D5DB;border-radius:4px;border:2px solid #9CA3AF;"></div>
+          </div>
+          <!-- Fingers 5–10: right of fold (ones) -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#D97706;font-weight:700;">5</div>
+            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#D97706;font-weight:700;">6</div>
+            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#D97706;font-weight:700;">7</div>
+            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#D97706;font-weight:700;">8</div>
+            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#D97706;font-weight:700;">9</div>
+            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+            <div style="font-size:.5rem;color:#D97706;font-weight:700;">10</div>
+            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
+          </div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:12px;justify-content:center;font-size:.72rem;font-weight:700;">
+          <span style="color:#6D28D9;">Purple = 3 tens = 30</span>
+          <span style="color:#92400E;">Amber = 6 ones = 6</span>
+        </div>
+        <div style="margin-top:6px;font-size:1rem;font-weight:700;color:#4C1D95;">9 × 4 = 30 + 6 = <span style="font-size:1.3rem;color:#6D28D9;">36</span></div>
+      </div>
+      <!-- 9× table -->
+      <div style="width:90%;margin-top:10px;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;">
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×1=9</div>
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×2=18</div>
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×3=27</div>
+        <div style="background:#C4B5FD;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#3730A3;">9×4=36</div>
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×5=45</div>
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×6=54</div>
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×7=63</div>
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×8=72</div>
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×9=81</div>
+        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×10=90</div>
+      </div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Gate 4: The 9× Finger Trick</div>
+      <div class="story-text">
+        <strong>Gate 4</strong> challenged only the <em>9 times table!</em> Hector panicked — he always mixed up his 9s.<br><br>
+        But then he remembered what his grandmother taught him: <strong>THE FINGER TRICK!</strong><br><br>
+        <strong>"Hold up both hands, palms facing you. To do 9 × 4, fold down your 4th finger..."</strong>
+      </div>
+      <div class="character-speech" style="border-left-color:#8B5CF6;">
+        <span style="font-size:.85rem;font-weight:700;color:var(--purple-dark);display:block;margin-bottom:4px;">🐇 Hector the Hare</span>
+        Fold down finger 4. Left side: 3 fingers = 30. Right side: 6 fingers = 6. So 9 × 4 = 36!
+      </div>
+      <div class="math-callout" style="background:var(--purple-light);border-color:var(--purple);">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🖐️</span>
+          <span class="math-callout-title" style="color:var(--purple-dark);">9× Finger Trick</span>
+        </div>
+        <p>Fold down finger number N to do 9 × N.<br>
+        <strong>Fingers LEFT</strong> = tens digit. <strong>Fingers RIGHT</strong> = ones digit!<br><br>
+        Also notice: digits in 9× always add to 9!<br>
+        (18: 1+8=9 · 27: 2+7=9 · 36: 3+6=9...)</p>
+      </div>
+
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Use the finger trick: what is <strong>9 × 7</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','54 = 9 × 6. Try folding down finger 7 — 6 left, 3 right!')">54</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Yes! Fold finger 7 → 6 left (60) + 3 right (3) = 63. And 6+3=9 ✓')">63</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','72 = 9 × 8. You folded one finger too many!')">72</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','56 = 7 × 8. Try the 9× finger trick again!')">56</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – THE FINAL SPRINT
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FBBF24);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:3rem;margin-bottom:6px;">🎉 🏁 🎉</div>
+      <!-- Doubling strategy visual -->
+      <div style="background:rgba(255,255,255,.6);border-radius:14px;padding:16px 18px;width:88%;text-align:center;">
+        <div style="font-size:.75rem;font-weight:700;color:#92400E;margin-bottom:10px;">DOUBLING STRATEGY: 6 × 8</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+          <div style="background:#FBBF24;color:#78350F;padding:8px 12px;border-radius:10px;font-weight:700;font-size:.9rem;border:2px solid #D97706;">6 × 8</div>
+          <span style="font-size:1.2rem;color:#92400E;">→</span>
+          <div style="background:#F97316;color:white;padding:8px 12px;border-radius:10px;font-weight:700;font-size:.9rem;border:2px solid #C2410C;">6 × 4 = 24</div>
+          <span style="font-size:1.2rem;color:#92400E;">×2</span>
+          <div style="background:#DC2626;color:white;padding:8px 12px;border-radius:10px;font-weight:700;font-size:.85rem;border:2px solid #B91C1C;">24 × 2 = <span style="font-size:1.1rem;">48</span></div>
+        </div>
+      </div>
+      <!-- Times table grid -->
+      <div style="width:90%;margin-top:10px;">
+        <div style="font-size:.68rem;font-weight:700;color:#92400E;margin-bottom:6px;text-align:center;">Key Multiplication Facts</div>
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;">
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">×</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">2</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">3</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">4</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">5</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">6</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">2</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">4</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">6</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">8</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">10</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">12</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">3</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">6</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">9</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">12</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">15</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">18</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">4</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">8</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">12</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">16</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">20</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">24</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">5</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">10</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">15</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">20</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">25</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">30</div>
+          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">6</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">12</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">18</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">24</div>
+          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">30</div>
+          <div style="background:#FBBF24;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;border:1px solid #D97706;">36</div>
+        </div>
+      </div>
+      <div class="illus-scene" style="margin-top:8px;">
+        <span class="char-sm">🐇</span><span class="char-sm">🐢</span><span class="char-sm">🦊</span><span class="char-sm">🐻</span>
+      </div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · The Final Sprint</div>
+      <div class="story-text">
+        The <strong>final gate</strong>: <em>"What is 6 × 8?"</em> All four animals froze. This was the hardest one!<br><br>
+        Hector thought: <strong>"6 × 8... I can do 6 × 4 = 24, then double it! 24 × 2 = 48!"</strong><br><br>
+        He hit the buzzer: <strong>"48!"</strong> And raced across the finish line — just ahead of Tara!
+      </div>
+      <div class="character-speech" style="border-left-color:#FBBF24;">
+        <span style="font-size:.85rem;font-weight:700;color:var(--yellow-dark);display:block;margin-bottom:4px;">🐇 Hector the Hare</span>
+        Break it down! 6 × 8 = 6 × 4 × 2 = 24 × 2 = 48. I did it!
+      </div>
+      <div class="math-callout amber">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">✌️</span>
+          <span class="math-callout-title" style="color:var(--yellow-dark);">Doubling Strategy</span>
+        </div>
+        <p><strong>DOUBLING STRATEGY:</strong><br>
+        To multiply by 8 → multiply by 4 and DOUBLE.<br>
+        To multiply by 6 → multiply by 3 and DOUBLE.<br><br>
+        Breaking hard facts into easier ones is clever maths!</p>
+      </div>
+
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Use doubling: what is <strong>4 × 8</strong>?<br><small style="color:var(--text-soft);">Hint: 4 × 4 = 16, then double</small></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','28 is not right. Try: 4 × 4 = 16, then double 16!')">28</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','Yes! 4 × 4 = 16, then 16 × 2 = 32. So 4 × 8 = 32!')">32</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','36 is 4 × 9, not 4 × 8. Double 16, not 18!')">36</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','24 is 4 × 6. Remember to double 16, not 12!')">24</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – THE END: ALL WINNERS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:3.5rem;margin-bottom:6px;">🏆 🎉 🏆</div>
+      <!-- All characters with medals -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:88%;">
+        <div style="background:rgba(255,255,255,.65);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:2rem;">🐇</div>
+          <div style="font-size:.65rem;font-weight:700;color:#92400E;margin-top:4px;">Hector</div>
+          <div style="background:#FBBF24;color:#78350F;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:9999px;margin-top:3px;border:1px solid #D97706;">🥇 Champion Multiplier</div>
+        </div>
+        <div style="background:rgba(255,255,255,.65);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:2rem;">🐢</div>
+          <div style="font-size:.65rem;font-weight:700;color:#92400E;margin-top:4px;">Tara</div>
+          <div style="background:#A7F3D0;color:#065F46;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:9999px;margin-top:3px;border:1px solid #6EE7B7;">🥈 Problem Solver</div>
+        </div>
+        <div style="background:rgba(255,255,255,.65);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:2rem;">🦊</div>
+          <div style="font-size:.65rem;font-weight:700;color:#92400E;margin-top:4px;">Felix</div>
+          <div style="background:#BFDBFE;color:#1D4ED8;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:9999px;margin-top:3px;border:1px solid #93C5FD;">🥉 Speed Star</div>
+        </div>
+        <div style="background:rgba(255,255,255,.65);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:2rem;">🐻</div>
+          <div style="font-size:.65rem;font-weight:700;color:#92400E;margin-top:4px;">Bella</div>
+          <div style="background:#DDD6FE;color:#4C1D95;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:9999px;margin-top:3px;border:1px solid #C4B5FD;">🏅 Pattern Spotter</div>
+        </div>
+      </div>
+      <div class="illus-caption" style="margin-top:10px;">Everyone who tries is a winner!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · The End</div>
+      <div class="story-text">
+        Hector crossed the line first — but the real winner was every animal who <strong>learned something new!</strong><br><br>
+        Tara received the <em>"Problem Solver"</em> medal, Felix got <em>"Speed Star"</em>, Bella earned <em>"Pattern Spotter"</em>, and Hector won <em>"Champion Multiplier"</em>.<br><br>
+        Their teacher smiled: <strong>"In mathematics, everyone who tries is a winner!"</strong>
+      </div>
+      <div class="math-callout green-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title" style="color:var(--green-dark);">What We Learned</span>
+        </div>
+        <p style="color:#065F46;">
+          ✅ Multiplication = repeated addition<br>
+          ✅ Arrays show rows × columns<br>
+          ✅ 5× always ends in 0 or 5<br>
+          ✅ 10× just add a zero<br>
+          ✅ a × b = b × a (commutative law)<br>
+          ✅ 9× finger trick<br>
+          ✅ Doubling strategy for ×8
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN (shown after page 8) -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🎉🏎️🏆</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Amazing work! You've finished <strong>The Great Multiplication Race</strong> and learned arrays, the 5× and 10× tables, the commutative law, the 9× finger trick, and the doubling strategy. Hector and friends are cheering for you!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">✖️</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Multiplication Master Badge ✖️</div>
+        <div class="badge-text-sub">Awarded for completing The Great Multiplication Race</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 8;
+let currentPage = 1;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  currentPage = n;
+  document.getElementById('page-' + currentPage).classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+</script>
+</body>
+</html>

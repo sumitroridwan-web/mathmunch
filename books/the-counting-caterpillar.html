@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Counting Caterpillar – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--green-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--green);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--green);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);color:var(--green-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #A7F3D0;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,#10B981,#059669);border-radius:9999px;transition:width .5s ease;}
+
+/* BOOK PAGES */
+.book-page{display:none;animation:fadeIn .35s ease;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cover page is full-width */
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;}
+
+/* ILLUSTRATION PANEL */
+.illustration{border-radius:24px;overflow:hidden;position:relative;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL */
+.story-panel{display:flex;flex-direction:column;gap:20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--green-dark);font-weight:700;}
+.story-text em{color:var(--green-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--green-light);border-left:4px solid var(--green);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--green);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--green);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.math-callout.green-callout{background:var(--green-light);border-color:var(--green);}
+.math-callout.green-callout .math-callout-title{color:var(--green-dark);}
+.math-callout.orange-callout{background:var(--orange-light);border-color:var(--orange);}
+.math-callout.orange-callout .math-callout-title{color:var(--orange-dark);}
+
+/* LEAF DISPLAY */
+.leaf-display{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:10px 0;}
+.leaf-big{font-size:2.4rem;}
+.big-number{font-family:'Quicksand',sans-serif;font-size:3rem;font-weight:700;color:var(--green-dark);text-align:center;line-height:1;}
+
+/* TEN FRAME */
+.ten-frame{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:240px;margin:0 auto;}
+.ten-frame-cell{width:40px;height:40px;border:2px solid var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;background:white;}
+.ten-frame-cell.filled{background:var(--green-light);}
+
+/* NUMBER LINE */
+.number-line{display:flex;align-items:center;gap:0;overflow-x:auto;padding:8px 4px;}
+.nl-num{min-width:32px;height:32px;border-radius:50%;background:var(--green);color:white;font-family:'Quicksand',sans-serif;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nl-arrow{color:var(--green-dark);font-weight:700;font-size:.9rem;padding:0 2px;flex-shrink:0;}
+
+/* COUNTDOWN ROW */
+.countdown-row{display:flex;flex-direction:column;gap:4px;margin:6px 0;}
+.countdown-item{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--text-mid);}
+.countdown-num{font-family:'Quicksand',sans-serif;font-weight:700;color:var(--green-dark);min-width:22px;}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#10B981,#047857);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(4,120,87,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--green);color:var(--green);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--green);color:white;border-color:var(--green);box-shadow:0 3px 0 var(--green-dark);}
+.nav-btn-next:hover{background:var(--green-dark);border-color:var(--green-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--green-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--green);transform:scale(1.2);}
+.dot.read{background:#A7F3D0;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--green);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--green-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#10B981,#047857);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* SUMMARY GRID */
+.summary-grid{display:flex;flex-direction:column;gap:4px;margin:6px 0;}
+.summary-row{display:flex;align-items:center;gap:8px;font-size:.82rem;}
+.summary-num{font-family:'Quicksand',sans-serif;font-weight:700;color:var(--green-dark);min-width:18px;font-size:1rem;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🐛</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Counting Caterpillar
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 The Counting Caterpillar</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">🔢 Counting 1–10</span>
+        <span class="book-tag">👶 Ages 3–5</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">⭐ Cambridge EY</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 8</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:12.5%"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🐛</span>
+      <div class="cover-title">The Counting Caterpillar</div>
+      <div class="cover-subtitle">A counting adventure with Coco the Caterpillar</div>
+      <div class="cover-chars">🐛 🍃 🌸</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 8 Pages</span>
+        <span class="cover-tag">🔢 Counting 1–10</span>
+        <span class="cover-tag">👶 Ages 3–5</span>
+        <span class="cover-tag">⭐ Cambridge EY</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – MEET COCO
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:#ECFDF5;">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:5rem;margin-bottom:8px;">🐛</div>
+      <div class="illus-scene">
+        <span class="char">🍃</span>
+      </div>
+      <div style="margin-top:16px;text-align:center;">
+        <div class="big-number">1</div>
+        <div style="font-size:2.4rem;margin-top:4px;">🍃</div>
+        <div style="font-size:.82rem;font-weight:700;color:var(--green-dark);margin-top:6px;">One big juicy leaf!</div>
+      </div>
+      <div class="illus-caption">Coco woke up very hungry!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · Meet Coco</div>
+      <div class="story-text">
+        <strong>Coco the Caterpillar</strong> woke up one sunny morning feeling very hungry.<br><br>
+        "Today I will count every leaf I eat!" said Coco proudly.<br><br>
+        On the <em>first day</em>, Coco ate <strong>1</strong> big juicy leaf.
+      </div>
+      <div class="character-speech">
+        One leaf! I will count everything I eat today!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">Counting Starts at 1</span>
+        </div>
+        <p>Counting starts at <strong>1</strong>. One means a single thing — just <strong>ONE</strong> leaf! When we count, we say a number for each thing we see.</p>
+      </div>
+
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">How many leaves did Coco eat on Day 1?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Zero means none — but Coco did eat!')">0</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','Yes! Coco ate exactly 1 leaf on the first day!')">1</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Not yet — that is Day 2!')">2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Three is too many for Day 1!')">3</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – DAY TWO
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:4rem;margin-bottom:8px;">🐛</div>
+      <div style="text-align:center;margin:10px 0;">
+        <div class="big-number">2</div>
+        <div style="font-size:2.4rem;letter-spacing:6px;margin-top:4px;">🍃🍃</div>
+        <div style="font-size:.82rem;font-weight:700;color:var(--green-dark);margin-top:6px;">🍃🍃 = 2 leaves</div>
+      </div>
+      <div style="background:rgba(255,255,255,.5);border-radius:12px;padding:8px 16px;margin-top:8px;font-family:'Quicksand',sans-serif;font-weight:700;color:var(--green-dark);font-size:1rem;">
+        One… Two!
+      </div>
+      <div class="illus-caption">Coco grows a little bigger!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Day Two</div>
+      <div class="story-text">
+        The next day Coco was even hungrier!<br><br>
+        Coco ate <strong>2</strong> leaves this time.<br><br>
+        <em>"One… Two!"</em> Coco counted carefully as each leaf disappeared.
+      </div>
+      <div class="character-speech">
+        One… Two! I ate TWO leaves today. I am getting better at counting!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">One More!</span>
+        </div>
+        <p><strong>2</strong> is one MORE than 1. We count: <strong>1, 2</strong>. Two things! Each time we count on, we add one more.</p>
+      </div>
+
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Coco ate <strong>1</strong> leaf on Day 1 and <strong>1</strong> leaf on Day 2. That is 1 + 1 = ?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','One is just Day 1 alone!')">1</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Yes! 1 + 1 = 2. Two leaves altogether!')">2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Three is a bit too many!')">3</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Four is way too many!')">4</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – DAYS THREE AND FOUR
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#D1FAE5,#6EE7B7);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:3.5rem;margin-bottom:4px;">🐛🐛</div>
+      <div style="text-align:center;margin:8px 0;">
+        <div style="font-size:.75rem;font-weight:700;color:var(--green-dark);margin-bottom:4px;">Day 3 — Three leaves:</div>
+        <div style="font-size:2rem;letter-spacing:4px;">🍃🍃🍃</div>
+      </div>
+      <div style="text-align:center;margin:8px 0;">
+        <div style="font-size:.75rem;font-weight:700;color:var(--green-dark);margin-bottom:4px;">Day 4 — Four leaves:</div>
+        <div style="font-size:2rem;letter-spacing:4px;">🍃🍃🍃🍃</div>
+      </div>
+      <!-- Number line 1-4 -->
+      <div style="margin-top:12px;">
+        <div style="font-size:.72rem;font-weight:700;color:var(--green-dark);margin-bottom:6px;text-align:center;">Counting on!</div>
+        <div class="number-line" style="justify-content:center;">
+          <div class="nl-num">1</div>
+          <div class="nl-arrow">→</div>
+          <div class="nl-num">2</div>
+          <div class="nl-arrow">→</div>
+          <div class="nl-num">3</div>
+          <div class="nl-arrow">→</div>
+          <div class="nl-num">4</div>
+        </div>
+      </div>
+      <div class="illus-caption">Coco is getting longer!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Days Three and Four</div>
+      <div class="story-text">
+        By day 3, Coco ate <strong>3</strong> leaves.<br><br>
+        Then on day 4, Coco ate <strong>4</strong> leaves!<br><br>
+        Each day Coco counted carefully: <em>"One, two, three, four!"</em>
+      </div>
+      <div class="character-speech">
+        One, two, three, four! I get one more leaf every day. I love counting!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">Counting On</span>
+        </div>
+        <p>We <strong>count on</strong> by adding one more each time.<br>
+        3 is one more than 2.<br>
+        4 is one more than 3.<br>
+        <strong>1 → 2 → 3 → 4</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">What number comes after 4 when counting?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','3 comes before 4, not after!')">3</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Yes! After 4 comes 5. Well done!')">5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','4 is where we already are!')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','6 is two steps away — we only go one more!')">6</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – DAYS FIVE, SIX, SEVEN
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:3rem;margin-bottom:4px;">🐛🐛🐛</div>
+      <div style="text-align:center;margin:6px 0;">
+        <div style="font-size:.72rem;font-weight:700;color:var(--orange-dark);margin-bottom:3px;">Day 5 — five:</div>
+        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+          <span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span>
+        </div>
+      </div>
+      <div style="text-align:center;margin:6px 0;">
+        <div style="font-size:.72rem;font-weight:700;color:var(--orange-dark);margin-bottom:3px;">Day 6 — six:</div>
+        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+          <span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span>
+        </div>
+      </div>
+      <div style="text-align:center;margin:6px 0;">
+        <div style="font-size:.72rem;font-weight:700;color:var(--orange-dark);margin-bottom:3px;">Day 7 — seven:</div>
+        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+          <span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span>
+        </div>
+      </div>
+      <div class="illus-caption">Friends help Coco count!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Days Five, Six, Seven</div>
+      <div class="story-text">
+        Coco kept eating! <strong>Five</strong> leaves on day 5, <strong>six</strong> on day 6, <strong>seven</strong> on day 7!<br><br>
+        Coco's friends came to help count:<br>
+        <em>"Five, six, seven — Coco, you're amazing!"</em>
+      </div>
+      <div class="character-speech">
+        Five, six, seven! Watch me count my leaves in a row!
+      </div>
+      <div class="math-callout orange-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title" style="color:var(--orange-dark);">Groups Help Us Count!</span>
+        </div>
+        <p style="color:var(--text-mid);">Groups of objects help us count faster! We can count leaves in a row:<br>
+        <strong style="color:var(--orange-dark);">● ● ● ● ● = 5</strong><br>
+        Each dot stands for one leaf.</p>
+      </div>
+
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Coco eats <strong>5</strong> leaves and then <strong>2</strong> more. How many leaves total?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','That is only one more than 5!')">6</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Yes! 5 + 2 = 7. Super counting!')">7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','8 is one too many!')">8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','5 is just the start — we add 2 more!')">5</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – DAYS EIGHT, NINE, TEN
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:3rem;margin-bottom:8px;">🐛🐛🐛🐛</div>
+      <div style="font-size:.75rem;font-weight:700;color:var(--green-dark);margin-bottom:8px;text-align:center;">Ten-Frame — all 10 boxes full!</div>
+      <!-- Ten Frame visual: 2 rows of 5 -->
+      <div class="ten-frame">
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+        <div class="ten-frame-cell filled">🍃</div>
+      </div>
+      <div style="margin-top:10px;font-family:'Quicksand',sans-serif;font-size:1.8rem;font-weight:700;color:var(--green-dark);">= 10!</div>
+      <div class="illus-caption">Coco's biggest day — 10 leaves!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Days Eight, Nine, Ten</div>
+      <div class="story-text">
+        By day 8, Coco ate <strong>8</strong> leaves.<br>
+        Day 9 brought <strong>9</strong> leaves.<br><br>
+        And on day <strong>10</strong> — Coco's biggest day — Coco ate <strong>10</strong> whole leaves!
+      </div>
+      <div class="character-speech">
+        TEN! I counted all the way to ten! That is SO many leaves!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔢</span>
+          <span class="math-callout-title">The Ten-Frame</span>
+        </div>
+        <p>A <strong>ten-frame</strong> has 10 boxes. When <strong>ALL</strong> boxes are full, we have <strong>10</strong>! Ten is a very special number — it is the start of something bigger!</p>
+      </div>
+
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">How many leaves are in a <strong>full</strong> ten-frame?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','5 fills only half the ten-frame!')">5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','8 leaves two boxes empty!')">8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Yes! A full ten-frame has exactly 10!')">10</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','12 is too many — the frame only has 10 boxes!')">12</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – COUNTING BACK
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:4rem;margin-bottom:6px;">🐛</div>
+      <div style="font-size:.75rem;font-weight:700;color:var(--green-dark);margin-bottom:8px;text-align:center;">Counting back!</div>
+      <!-- Countdown display -->
+      <div class="countdown-row" style="width:90%;">
+        <div class="countdown-item"><span class="countdown-num">10</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
+        <div class="countdown-item"><span class="countdown-num">9</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
+        <div class="countdown-item"><span class="countdown-num">8</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
+        <div class="countdown-item"><span class="countdown-num">7</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃🍃</span></div>
+        <div class="countdown-item"><span class="countdown-num">6</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃</span></div>
+        <div class="countdown-item"><span class="countdown-num">5</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃</span></div>
+        <div class="countdown-item"><span class="countdown-num">0</span><span style="font-size:.9rem;color:var(--green-dark);">All eaten!</span></div>
+      </div>
+      <div class="illus-caption">Coco counts all the way down to zero!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Counting Back</div>
+      <div class="story-text">
+        After eating all those leaves, Coco felt very full!<br><br>
+        <em>"Let me count DOWN now,"</em> said Coco.<br><br>
+        <strong>"10, 9, 8, 7, 6, 5, 4, 3, 2, 1 — ZERO! I ate them all!"</strong>
+      </div>
+      <div class="character-speech">
+        10, 9, 8, 7, 6, 5, 4, 3, 2, 1, ZERO! Counting back is fun too!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⬇️</span>
+          <span class="math-callout-title">Counting Back</span>
+        </div>
+        <p>Counting <strong>DOWN</strong> (backwards) is called <strong>COUNTING BACK</strong>.<br>
+        <strong>10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0!</strong><br>
+        Each step we say ONE LESS.</p>
+      </div>
+
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">What number comes <strong>before</strong> 6 when counting back?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','Yes! Counting back: 7, 6, 5 — so 5 comes before 6!')">5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','7 comes before 6 when counting up, not back!')">7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','4 is two steps before 6!')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','8 is two steps before 6 when counting up!')">8</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – THE END / COCOON
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FDE68A);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:4rem;margin-bottom:4px;">🌀</div>
+      <div style="font-size:3rem;margin-bottom:4px;">🦋</div>
+      <div style="background:rgba(255,255,255,.55);border-radius:14px;padding:12px 16px;text-align:center;margin-top:4px;max-width:220px;">
+        <div style="font-size:.72rem;font-weight:700;color:#92400E;margin-bottom:6px;">Coco counted 1 to 10!</div>
+        <!-- Summary mini -->
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">1</span>🍃</div>
+          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">2</span>🍃🍃</div>
+          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">3</span>🍃🍃🍃</div>
+          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">4</span>🍃🍃🍃🍃</div>
+          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">5</span>🍃🍃🍃🍃🍃</div>
+        </div>
+      </div>
+      <div class="illus-caption">Coco spins into a cocoon 🌀 — a butterfly is coming! 🦋</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · The End</div>
+      <div class="story-text">
+        Coco counted every leaf — all the way to <strong>10</strong>!<br><br>
+        Full and happy, Coco spun a cosy cocoon.<br><br>
+        Soon, a beautiful butterfly would emerge!<br><br>
+        <em>"Numbers are my friends,"</em> said Coco. <strong>"And I can count to ten!"</strong>
+      </div>
+      <div class="character-speech">
+        Numbers are my friends — and I can count to ten!
+      </div>
+      <div class="math-callout green-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title">Coco Counted 1 to 10!</span>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-row"><span class="summary-num">1</span><span>🍃</span></div>
+          <div class="summary-row"><span class="summary-num">2</span><span>🍃🍃</span></div>
+          <div class="summary-row"><span class="summary-num">3</span><span>🍃🍃🍃</span></div>
+          <div class="summary-row"><span class="summary-num">4</span><span>🍃🍃🍃🍃</span></div>
+          <div class="summary-row"><span class="summary-num">5</span><span>🍃🍃🍃🍃🍃</span></div>
+          <div class="summary-row"><span class="summary-num">6</span><span>🍃🍃🍃🍃🍃🍃</span></div>
+          <div class="summary-row"><span class="summary-num">7</span><span>🍃🍃🍃🍃🍃🍃🍃</span></div>
+          <div class="summary-row"><span class="summary-num">8</span><span>🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
+          <div class="summary-row"><span class="summary-num">9</span><span>🍃🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
+          <div class="summary-row"><span class="summary-num">10</span><span>🍃🍃🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN (shown after page 8) -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🎉🐛🦋</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Wonderful reading! You've finished <strong>The Counting Caterpillar</strong> and learned to count all the way from 1 to 10 — just like Coco! You're a counting superstar!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">🌟</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Counting Star Badge 🌟</div>
+        <div class="badge-text-sub">Awarded for completing The Counting Caterpillar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 8;
+let currentPage = 1;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  currentPage = n;
+  document.getElementById('page-' + currentPage).classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+</script>
+</body>
+</html>
