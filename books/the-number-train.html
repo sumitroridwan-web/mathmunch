@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Number Train – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --accent:#10B981; --accent-dark:#059669; --accent-light:#ECFDF5;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #A7F3D0;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#1D4ED8);border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL (left page) */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--blue-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.fraction-visual{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:'Quicksand',sans-serif;font-weight:700;line-height:1;border:2px solid var(--blue);border-radius:8px;padding:4px 10px;background:white;}
+.frac-num{font-size:1.1rem;color:var(--blue-dark);border-bottom:2px solid var(--blue);padding-bottom:2px;margin-bottom:2px;}
+.frac-den{font-size:1.1rem;color:var(--blue-dark);}
+.frac-word{font-size:.9rem;font-weight:600;color:var(--text-mid);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#10B981,#1D4ED8);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(5,150,105,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#A7F3D0;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#10B981,#1D4ED8);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🚂</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav" style="display:flex;gap:8px;">
+      <a href="../dashboard.html">📊 My Journey</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Number Train
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 The Number Train</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">➕ Addition</span>
+        <span class="book-tag">➖ Subtraction</span>
+        <span class="book-tag">🚂 Number Journey</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Age 6–7</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 8</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:12.5%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🚂</span>
+      <div class="cover-title">The Number Train</div>
+      <div class="cover-subtitle">An adding and subtracting adventure from Station 0 to Station 100!</div>
+      <div class="cover-chars">👩‍✈️ 🧑‍✈️ 🔢</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 8 Pages</span>
+        <span class="cover-tag">➕ Addition</span>
+        <span class="cover-tag">➖ Subtraction</span>
+        <span class="cover-tag">👶 Age 6–7</span>
+        <span class="cover-tag">⭐ Cambridge Nn2.03</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – STATION 10 — BOARDING!
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:4.5rem;margin-bottom:4px;">🚂</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin:6px 0;">
+        <span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span>
+        <span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span>
+      </div>
+      <div style="background:rgba(0,0,0,.12);border-radius:12px;padding:10px 20px;margin-top:8px;text-align:center;">
+        <div style="font-size:1.5rem;font-weight:800;color:#065F46;">Station 0 → 10</div>
+        <div style="font-size:.85rem;font-weight:700;color:#047857;">10 passengers on board!</div>
+      </div>
+      <div class="illus-scene" style="margin-top:10px;">
+        <span class="char">👩‍✈️</span><span class="char-sm" style="margin-left:6px;">🧑‍✈️</span>
+      </div>
+      <div class="illus-caption">Engineer Ella and Conductor Max at Station 10!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · Station 10 — Boarding!</div>
+      <div class="story-text">
+        <strong>Engineer Ella</strong> blew the whistle on a bright, sunny morning.<br><br>
+        The Number Train was ready to travel all the way from Station 0 to Station 100!<br><br>
+        At the very first stop, <em>10 passengers</em> climbed aboard the train.<br><br>
+        Conductor Max counted them all carefully. <strong>"Ten passengers on board! All aboard — next stop, Station 25!"</strong>
+      </div>
+      <div class="character-speech">
+        We started at 0 and now we have 10! That means we added 10 to 0. Zero plus ten equals ten!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">Adding 10</span>
+        </div>
+        <p>Adding 10 to any number is easy — just go up one step on the number line! The <strong>tens digit</strong> goes up by 1 and the ones digit stays the same.</p>
+      </div>
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">The train has <strong>10 passengers</strong>. Then <strong>3 more</strong> get on at a small stop. How many passengers are there now?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Try counting on from 10!')">12</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','10 + 3 = 13. Count on from 10!')">13</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','That is one too many!')">14</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','That is two too many!')">15</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – STATION 25 — ADDING TENS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:4rem;margin-bottom:8px;">🚂</div>
+      <!-- SVG Number line 0–50 with train at 25, jumps shown -->
+      <svg width="260" height="90" viewBox="0 0 260 90" style="margin:0 auto;">
+        <!-- line -->
+        <line x1="10" y1="50" x2="250" y2="50" stroke="#059669" stroke-width="3"/>
+        <!-- ticks and labels -->
+        <line x1="10" y1="44" x2="10" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="10" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">0</text>
+        <line x1="60" y1="44" x2="60" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="60" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">10</text>
+        <line x1="110" y1="44" x2="110" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="110" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">20</text>
+        <line x1="135" y1="40" x2="135" y2="60" stroke="#059669" stroke-width="3"/>
+        <text x="135" y="75" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800">25</text>
+        <line x1="160" y1="44" x2="160" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="160" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">30</text>
+        <line x1="210" y1="44" x2="210" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="210" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">40</text>
+        <line x1="235" y1="40" x2="235" y2="60" stroke="#10B981" stroke-width="3"/>
+        <text x="235" y="75" text-anchor="middle" font-size="12" fill="#059669" font-weight="800">35</text>
+        <!-- jump arc +10 -->
+        <path d="M 135,46 Q 185,10 235,46" stroke="#F97316" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
+        <text x="185" y="20" text-anchor="middle" font-size="12" fill="#C2410C" font-weight="800">+10</text>
+        <!-- train emoji position -->
+        <text x="130" y="35" font-size="18" text-anchor="middle">🚂</text>
+      </svg>
+      <div class="illus-scene" style="margin-top:10px;">
+        <span class="char">👩‍✈️</span><span style="font-size:2rem;padding:0 4px;">➡️</span><span class="char-sm">🧑‍✈️</span>
+      </div>
+      <div class="illus-caption">The train jumps forward — adding tens!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Station 25 — Adding Tens</div>
+      <div class="story-text">
+        The train chuffed along and arrived at Station 25.<br><br>
+        <strong>More passengers</strong> were waiting on the platform with their bags and tickets.<br><br>
+        Ella pointed to the number line on the wall of the station. <em>"Look — we can jump in tens!"</em><br><br>
+        <strong>"When we add 10, the tens digit goes up by one. The ones digit stays the same!"</strong> said Max.
+      </div>
+      <div class="character-speech">
+        Watch this! 25 + 10 = 35. The 2 in the tens place became a 3. Easy as pie!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">➕</span>
+          <span class="math-callout-title">Adding Tens</span>
+        </div>
+        <p>Adding tens: <strong>25 + 10 = 35</strong>. The tens digit goes up by 1. The ones digit stays the same! <strong>25 + 20 = 45</strong> — two jumps of ten!</p>
+      </div>
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">The train is at Station 25. It jumps forward <strong>20 more</strong>. Where does it stop?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','That is only 10 more, not 20!')">35</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Try adding 20, not 15!')">40</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','25 + 20 = 45. Add 2 tens!')">45</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','That is 25 more, not 20!')">50</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – STATION 40 — SUBTRACTING
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:4rem;margin-bottom:4px;">🚂</div>
+      <div style="display:flex;gap:6px;justify-content:center;margin:4px 0;font-size:2.2rem;">
+        <span>🚶‍♂️</span><span>🚶‍♀️</span><span>🚶</span>
+      </div>
+      <!-- Number line showing subtraction -->
+      <svg width="260" height="90" viewBox="0 0 260 90" style="margin:0 auto;">
+        <line x1="10" y1="50" x2="250" y2="50" stroke="#059669" stroke-width="3"/>
+        <line x1="10" y1="44" x2="10" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="10" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">20</text>
+        <line x1="85" y1="44" x2="85" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="85" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">30</text>
+        <line x1="130" y1="40" x2="130" y2="60" stroke="#10B981" stroke-width="3"/>
+        <text x="130" y="75" text-anchor="middle" font-size="12" fill="#059669" font-weight="800">30</text>
+        <line x1="160" y1="44" x2="160" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="160" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">35</text>
+        <line x1="205" y1="40" x2="205" y2="60" stroke="#059669" stroke-width="3"/>
+        <text x="205" y="75" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800">40</text>
+        <line x1="250" y1="44" x2="250" y2="56" stroke="#059669" stroke-width="2"/>
+        <text x="250" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">45</text>
+        <!-- jump arc back -10 -->
+        <path d="M 205,46 Q 167,8 130,46" stroke="#DC2626" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
+        <text x="167" y="18" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="800">−10</text>
+        <text x="200" y="35" font-size="18" text-anchor="middle">🚂</text>
+      </svg>
+      <div class="illus-caption" style="margin-top:6px;">Passengers leave at Station 40!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Station 40 — Subtracting!</div>
+      <div class="story-text">
+        The train arrived at Station 40 with a squeal of the brakes.<br><br>
+        Three passengers grabbed their bags and walked off the train. <em>"Goodbye!"</em> they waved.<br><br>
+        <strong>Max watched the number on the train go down.</strong><br><br>
+        <strong>"When passengers leave, we subtract!"</strong> said Ella. <em>"The number gets smaller — we count back on the number line."</em>
+      </div>
+      <div class="character-speech">
+        Subtracting means taking away. Count back on the number line to find the answer. Easy!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">➖</span>
+          <span class="math-callout-title">Subtracting Tens</span>
+        </div>
+        <p>Subtracting means taking away. <strong>40 − 15 = 25</strong>. Count back on the number line. When you subtract 10, the <strong>tens digit goes down by 1</strong>!</p>
+      </div>
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">The train is at station number <strong>40</strong>. It counts back <strong>10</strong>. Which station number is it at now?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','That is too far back! Just subtract 10.')">20</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','Close! Try subtracting 10, not 15.')">25</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','40 − 10 = 30. The tens digit went down by 1!')">30</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','That is only 5 back, not 10!')">35</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – STATION 57 — BRIDGING THROUGH 10
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:3.5rem;margin-bottom:4px;">🚂💨</div>
+      <!-- Number line bridging 57 + 6 → 60 + 3 = 63 -->
+      <svg width="270" height="110" viewBox="0 0 270 110" style="margin:0 auto;">
+        <line x1="10" y1="60" x2="260" y2="60" stroke="#059669" stroke-width="3"/>
+        <!-- ticks -->
+        <line x1="30" y1="54" x2="30" y2="66" stroke="#059669" stroke-width="2"/>
+        <text x="30" y="78" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">55</text>
+        <line x1="75" y1="50" x2="75" y2="70" stroke="#059669" stroke-width="3"/>
+        <text x="75" y="82" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800">57</text>
+        <line x1="155" y1="50" x2="155" y2="70" stroke="#1D4ED8" stroke-width="3"/>
+        <text x="155" y="82" text-anchor="middle" font-size="12" fill="#1D4ED8" font-weight="800">60</text>
+        <line x1="230" y1="50" x2="230" y2="70" stroke="#10B981" stroke-width="3"/>
+        <text x="230" y="82" text-anchor="middle" font-size="12" fill="#059669" font-weight="800">63</text>
+        <!-- arc 1: +3 to reach 60 -->
+        <path d="M 75,56 Q 115,15 155,56" stroke="#F97316" stroke-width="2.5" fill="none"/>
+        <text x="115" y="14" text-anchor="middle" font-size="12" fill="#C2410C" font-weight="800">+3</text>
+        <!-- arc 2: +3 to reach 63 -->
+        <path d="M 155,56 Q 192,25 230,56" stroke="#10B981" stroke-width="2.5" fill="none"/>
+        <text x="192" y="26" text-anchor="middle" font-size="12" fill="#059669" font-weight="800">+3</text>
+        <!-- bridge label -->
+        <text x="75" y="100" font-size="10" fill="#065F46" font-weight="700" text-anchor="middle">START</text>
+        <text x="155" y="100" font-size="10" fill="#1D4ED8" font-weight="700" text-anchor="middle">BRIDGE!</text>
+        <text x="230" y="100" font-size="10" fill="#059669" font-weight="700" text-anchor="middle">DONE!</text>
+      </svg>
+      <div style="background:rgba(0,0,0,.1);border-radius:10px;padding:6px 14px;margin-top:6px;text-align:center;font-size:.85rem;font-weight:700;color:#065F46;">
+        57 + 3 = 60 → 60 + 3 = 63
+      </div>
+      <div class="illus-caption" style="margin-top:6px;">Bridging through 60 — the clever trick!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Station 57 — Bridging Through 10!</div>
+      <div class="story-text">
+        The train reached Station 57. <em>This was the trickiest stop!</em><br><br>
+        Six more passengers wanted to get on. Ella scratched her head.<br><br>
+        <strong>"Adding 6 to 57 is tricky,"</strong> she said. <strong>"But we can use a clever trick called bridging through 10!"</strong><br><br>
+        Max explained: <em>"First, go up to the nearest ten. Then add what is left over."</em>
+      </div>
+      <div class="character-speech">
+        57 + 6: Step 1 — add 3 to get to 60. Step 2 — add the remaining 3. So 57 + 6 = 63!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🌉</span>
+          <span class="math-callout-title">Bridging Through 10</span>
+        </div>
+        <p><strong>57 + 6</strong>: Step 1: 57 + 3 = 60. Step 2: 60 + 3 = 63. Split the number you add to reach the nearest ten first!</p>
+      </div>
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Use bridging! <strong>58 + 5 = ?</strong> (Hint: How much to get to 60 first?)</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Try bridging through 60 first!')">61</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Very close! 58 + 2 = 60, then 60 + 3 = ?')">62</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','58 + 2 = 60, then 60 + 3 = 63!')">63</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','That is too many! Bridge through 60.')">65</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – STATION 72 — COLUMN METHOD
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:4rem;margin-bottom:6px;">📝</div>
+      <!-- Column addition SVG -->
+      <svg width="200" height="160" viewBox="0 0 200 160" style="margin:0 auto;">
+        <rect x="20" y="10" width="160" height="140" rx="12" fill="white" stroke="#059669" stroke-width="2"/>
+        <!-- Header row -->
+        <text x="90" y="35" text-anchor="middle" font-size="13" fill="#065F46" font-weight="800">Tens</text>
+        <text x="150" y="35" text-anchor="middle" font-size="13" fill="#065F46" font-weight="800">Ones</text>
+        <line x1="30" y1="40" x2="170" y2="40" stroke="#A7F3D0" stroke-width="1.5"/>
+        <line x1="120" y1="10" x2="120" y2="150" stroke="#A7F3D0" stroke-width="1.5"/>
+        <!-- Row 1: 35 -->
+        <text x="90" y="65" text-anchor="middle" font-size="22" fill="#1D4ED8" font-weight="800">3</text>
+        <text x="150" y="65" text-anchor="middle" font-size="22" fill="#1D4ED8" font-weight="800">5</text>
+        <!-- Row 2: + 47 -->
+        <text x="40" y="90" text-anchor="end" font-size="18" fill="#059669" font-weight="800">+</text>
+        <text x="90" y="90" text-anchor="middle" font-size="22" fill="#1D4ED8" font-weight="800">4</text>
+        <text x="150" y="90" text-anchor="middle" font-size="22" fill="#1D4ED8" font-weight="800">7</text>
+        <line x1="30" y1="97" x2="170" y2="97" stroke="#059669" stroke-width="2"/>
+        <!-- Result: 82 -->
+        <text x="90" y="125" text-anchor="middle" font-size="22" fill="#059669" font-weight="800">8</text>
+        <text x="150" y="125" text-anchor="middle" font-size="22" fill="#059669" font-weight="800">2</text>
+        <!-- carry indicator -->
+        <text x="72" y="55" font-size="11" fill="#DC2626" font-weight="700">1</text>
+        <text x="55" y="55" font-size="9" fill="#DC2626">carry</text>
+      </svg>
+      <div class="illus-scene" style="margin-top:8px;">
+        <span class="char">👩‍✈️</span>
+      </div>
+      <div class="illus-caption">35 + 47 — always add the ones first!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Station 72 — Column Method</div>
+      <div class="story-text">
+        At Station 72, Ella had a very big sum to work out.<br><br>
+        She took out her special notebook and drew two columns — one for <strong>tens</strong> and one for <strong>ones</strong>.<br><br>
+        <em>"This is called the column method,"</em> she said. <em>"It helps us add big numbers without getting confused!"</em><br><br>
+        <strong>She always started with the ones column first.</strong>
+      </div>
+      <div class="character-speech">
+        Write the tens and ones in neat columns. Always add the ones first, then the tens. It keeps everything tidy!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📋</span>
+          <span class="math-callout-title">Column Method</span>
+        </div>
+        <p>Write the tens and ones in columns. <strong>Add ones first</strong>, then tens. If ones add up to 10 or more, carry the extra ten across!</p>
+      </div>
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">In the column method for <strong>35 + 47</strong>, which column do we add first?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Always start with the ones column!')">Tens</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Always add the ones column first!')">Ones</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','There are no hundreds in this sum!')">Hundreds</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','We add them one column at a time, not both!')">Both at once</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – STATION 89 — ALMOST THERE!
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:4.5rem;margin-bottom:4px;">🚂💨</div>
+      <div style="background:rgba(5,150,105,.15);border-radius:16px;padding:14px 24px;text-align:center;margin-bottom:8px;">
+        <div style="font-size:3rem;font-weight:800;color:#065F46;">89</div>
+        <div style="font-size:.9rem;font-weight:700;color:#047857;">on the engine display</div>
+      </div>
+      <!-- Number line near 100 -->
+      <svg width="260" height="80" viewBox="0 0 260 80" style="margin:0 auto;">
+        <line x1="10" y1="45" x2="250" y2="45" stroke="#059669" stroke-width="3"/>
+        <line x1="10" y1="39" x2="10" y2="51" stroke="#059669" stroke-width="2"/>
+        <text x="10" y="64" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">85</text>
+        <line x1="75" y1="39" x2="75" y2="51" stroke="#059669" stroke-width="3"/>
+        <text x="75" y="64" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800">89</text>
+        <line x1="250" y1="36" x2="250" y2="54" stroke="#F97316" stroke-width="4"/>
+        <text x="250" y="68" text-anchor="middle" font-size="13" fill="#C2410C" font-weight="800">100</text>
+        <!-- arc +11 -->
+        <path d="M 75,40 Q 162,5 250,40" stroke="#F97316" stroke-width="2.5" fill="none" stroke-dasharray="7,3"/>
+        <text x="162" y="12" text-anchor="middle" font-size="13" fill="#C2410C" font-weight="800">+11</text>
+        <text x="68" y="30" font-size="18" text-anchor="middle">🚂</text>
+      </svg>
+      <div class="illus-caption" style="margin-top:6px;">So close to Station 100!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Station 89 — Almost There!</div>
+      <div class="story-text">
+        The engine display showed <strong>89</strong>. Station 100 was glowing in the distance!<br><br>
+        <em>"We are nearly there!"</em> cheered all the passengers.<br><br>
+        <strong>"How much do we still need to travel?"</strong> asked Max. <strong>"What number added to 89 makes 100?"</strong><br><br>
+        Ella smiled. <em>"Count on from 89 — how many steps to reach 100?"</em>
+      </div>
+      <div class="character-speech">
+        89 is very close to 100. I can count on: 90, 91... all the way to 100. That is 11 steps!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🎯</span>
+          <span class="math-callout-title">Finding the Missing Number</span>
+        </div>
+        <p>89 is close to 100. <strong>89 + 11 = 100</strong>. To find how much more 89 needs, count on from 89 to 100. Count on 11 steps!</p>
+      </div>
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);"><strong>89 + ? = 100</strong> — What is the missing number?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','89 + 9 = 98, not 100. Try again!')">9</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','89 + 10 = 99, not 100. One more!')">10</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','89 + 11 = 100. Count on from 89 to reach 100!')">11</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','89 + 12 = 101 — that is one too many!')">12</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – STATION 100 — WE MADE IT!
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:4.5rem;margin-bottom:4px;">🚂🎉🎊</div>
+      <div style="background:rgba(0,0,0,.12);border-radius:16px;padding:14px 24px;text-align:center;margin:8px 0;">
+        <div style="font-size:3.5rem;font-weight:800;color:#065F46;">100</div>
+        <div style="font-size:.9rem;font-weight:700;color:#047857;">STATION ONE HUNDRED!</div>
+      </div>
+      <div style="font-size:2rem;letter-spacing:4px;margin:8px 0;">🎊🏆🎉🎊🏆🎉</div>
+      <div class="illus-scene">
+        <span class="char">👩‍✈️</span><span class="char">🧑‍✈️</span>
+      </div>
+      <div class="illus-caption">We made it — Station 100!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · Station 100 — We Made It!</div>
+      <div class="story-text">
+        With one final <strong>CHUGGA CHUGGA CHOO!</strong> the Number Train rolled into Station 100!<br><br>
+        All the passengers burst into cheers. <em>"HOORAY!"</em> they shouted.<br><br>
+        Ella and Max waved from the engine, smiling with pride.<br><br>
+        <strong>"We added, subtracted, bridged, and columned our way from 0 all the way to 100!"</strong> laughed Max.
+      </div>
+      <div class="character-speech">
+        Brilliant maths! You're a Number Train Champion! We never could have made it without your help!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title" style="color:var(--green-dark);">What We Learned</span>
+        </div>
+        <p>✅ <strong>Adding 10</strong>: the tens digit goes up by 1<br>
+           ✅ <strong>Subtracting 10</strong>: the tens digit goes down by 1<br>
+           ✅ <strong>Bridging</strong>: split to reach the nearest 10 first<br>
+           ✅ <strong>Column method</strong>: add ones first, then tens<br>
+           ✅ <strong>100 = ten tens</strong>. You've reached it!</p>
+      </div>
+      <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:14px;padding:14px 18px;text-align:center;font-size:1rem;font-weight:700;color:var(--accent-dark);">
+        🏆 Brilliant maths! You're a Number Train Champion! 🏆
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🚂🔢🏆</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Amazing work! You have finished <strong>The Number Train</strong> and travelled all the way from Station 0 to Station 100 using addition and subtraction. Ella and Max are so proud of you!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">🚂</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Number Train Driver Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Number Train</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 8;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+// ── AUDIO NARRATION (Web Speech API) ──
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

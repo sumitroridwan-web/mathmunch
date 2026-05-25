@@ -937,6 +937,161 @@
         { type: 'indonesian', code: '2.B.4', text: 'Memahami perkalian sebagai penjumlahan berulang; hafal perkalian 2, 5, 10' },
       ]
     },
+
+    // ── P1 STORY BOOKS ───────────────────────────
+    'leo-counts-to-twenty': {
+      grade: 'Grade 1', stageColor: '#3B82F6', indonesianGrade: 'Kelas 1 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'Nn1.01', text: 'Count, read and write numbers to 20; use one-to-one correspondence' },
+        { type: 'cambridge', code: 'Nn1.02', text: 'Compare and order numbers to 20; use < > = symbols' },
+        { type: 'indonesian', code: '1.B.1', text: 'Membilang dan membaca bilangan 1–20 dengan korespondensi satu-satu' },
+      ]
+    },
+    'the-shape-kingdom': {
+      grade: 'Grade 1', stageColor: '#10B981', indonesianGrade: 'Kelas 1 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'Gm1.01', text: 'Name, sort and describe common 2D shapes; find shapes in the environment' },
+        { type: 'cambridge', code: 'Gm1.02', text: 'Describe properties of 2D shapes: number of sides, corners and right angles' },
+        { type: 'indonesian', code: '1.G.1', text: 'Mengenal dan menyebutkan nama bentuk 2D; mendeskripsikan sisi dan sudut' },
+      ]
+    },
+    'odd-even-island': {
+      grade: 'Grade 1', stageColor: '#8B5CF6', indonesianGrade: 'Kelas 1 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'Nn1.03', text: 'Identify odd and even numbers to 20; explain the pattern using pairs' },
+        { type: 'indonesian', code: '1.B.3', text: 'Mengenal bilangan ganjil dan genap sampai 20; menjelaskan pola berpasangan' },
+      ]
+    },
+
+    // ── P2 STORY BOOKS ───────────────────────────
+    'the-number-train': {
+      grade: 'Grade 2', stageColor: '#10B981', indonesianGrade: 'Kelas 2 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'Nn2.03', text: 'Add and subtract 2-digit numbers mentally and using written strategies' },
+        { type: 'cambridge', code: 'Nn2.01', text: 'Understand place value in 2-digit numbers; partition into tens and ones' },
+        { type: 'indonesian', code: '2.B.3', text: 'Melakukan penjumlahan dan pengurangan bilangan dua angka menggunakan berbagai strategi' },
+      ]
+    },
+    'mias-measurement-mission': {
+      grade: 'Grade 2', stageColor: '#F97316', indonesianGrade: 'Kelas 2 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'Gm2.03', text: 'Measure length in centimetres and metres; estimate and compare lengths' },
+        { type: 'cambridge', code: 'Gm2.04', text: 'Measure mass in kilograms and grams; compare using balance and scales' },
+        { type: 'indonesian', code: '2.G.3', text: 'Mengukur panjang dalam cm dan m; mengukur massa dalam kg dan g' },
+      ]
+    },
+    'the-sharing-bakery': {
+      grade: 'Grade 2', stageColor: '#8B5CF6', indonesianGrade: 'Kelas 2 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'Nn2.06', text: 'Recognise halves, quarters, thirds and three quarters; use fraction notation' },
+        { type: 'cambridge', code: 'Nn1.07', text: 'Find one half and one quarter of shapes and sets of objects' },
+        { type: 'indonesian', code: '2.B.6', text: 'Mengenal pecahan ½, ¼, ⅓, ¾ dan menggunakan notasi pecahan' },
+      ]
+    },
+
+    // ── P3 STORY BOOKS ───────────────────────────
+    'the-times-table-quest': {
+      grade: 'Grade 3', stageColor: '#8B5CF6', indonesianGrade: 'Kelas 3 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Nn3.03', text: 'Recall multiplication and division facts for 2, 3, 4, 5, 6 and 10 times tables' },
+        { type: 'cambridge', code: 'Nn3.04', text: 'Understand the relationship between multiplication and division as inverse operations' },
+        { type: 'indonesian', code: '3.B.3', text: 'Menghafal fakta perkalian dan pembagian untuk 2, 3, 4, 5, 6, dan 10' },
+      ]
+    },
+    'the-hundred-square-mystery': {
+      grade: 'Grade 3', stageColor: '#F97316', indonesianGrade: 'Kelas 3 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Nn3.02', text: 'Recognise and describe patterns on a 100-square; use to support mental calculation' },
+        { type: 'cambridge', code: 'Nn3.01', text: 'Count, read and write numbers to 1000; understand place value in 3-digit numbers' },
+        { type: 'indonesian', code: '3.B.2', text: 'Mengenal dan mendeskripsikan pola bilangan pada bagan 100; menggunakannya untuk perhitungan' },
+      ]
+    },
+    'the-symmetry-detectives': {
+      grade: 'Grade 3', stageColor: '#10B981', indonesianGrade: 'Kelas 3 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Gm2.02', text: 'Identify lines of symmetry in 2D shapes and pictures; complete symmetric figures' },
+        { type: 'cambridge', code: 'Gm2.01', text: 'Describe and classify 2D shapes by their properties including symmetry' },
+        { type: 'indonesian', code: '3.G.2', text: 'Mengidentifikasi sumbu simetri pada bangun datar; melengkapi gambar simetris' },
+      ]
+    },
+
+    // ── P4 STORY BOOKS ───────────────────────────
+    'the-decimal-dragon': {
+      grade: 'Grade 4', stageColor: '#3B82F6', indonesianGrade: 'Kelas 4 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Nn4.06', text: 'Understand decimals as tenths and hundredths; place on a number line; round to nearest whole' },
+        { type: 'cambridge', code: 'Nn4.01', text: 'Understand place value in numbers with up to 2 decimal places' },
+        { type: 'indonesian', code: '4.B.6', text: 'Memahami desimal sebagai persepuluhan dan perseratusan; membandingkan dan membulatkan' },
+      ]
+    },
+    'the-area-adventure': {
+      grade: 'Grade 4', stageColor: '#10B981', indonesianGrade: 'Kelas 4 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Gm4.01', text: 'Calculate the area of rectangles by counting unit squares and using length × width' },
+        { type: 'cambridge', code: 'Gm4.02', text: 'Measure and calculate the perimeter of rectangles and other rectilinear shapes' },
+        { type: 'indonesian', code: '4.G.1', text: 'Menghitung luas persegi panjang dengan menghitung satuan kotak dan rumus p × l' },
+      ]
+    },
+    'data-detective-academy': {
+      grade: 'Grade 4', stageColor: '#F97316', indonesianGrade: 'Kelas 4 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'St4.01', text: 'Read and interpret bar charts, pictograms and line graphs; identify patterns and trends' },
+        { type: 'cambridge', code: 'St4.02', text: 'Collect and organise data in tables; choose appropriate charts to display data' },
+        { type: 'indonesian', code: '4.D.1', text: 'Membaca dan menafsirkan diagram batang, piktogram, dan grafik garis' },
+      ]
+    },
+
+    // ── P5 STORY BOOKS ───────────────────────────
+    'the-fraction-kingdom': {
+      grade: 'Grade 5', stageColor: '#DC2626', indonesianGrade: 'Kelas 5 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn4.05', text: 'Recognise and generate equivalent fractions; simplify fractions using common factors' },
+        { type: 'cambridge', code: 'Nn5.04', text: 'Add and subtract fractions with different denominators; convert between mixed numbers and improper fractions' },
+        { type: 'indonesian', code: '5.B.4', text: 'Mengenal pecahan senilai; menyederhanakan pecahan; menjumlahkan dan mengurangkan pecahan berbeda penyebut' },
+      ]
+    },
+    'the-coordinate-compass': {
+      grade: 'Grade 5', stageColor: '#0284C7', indonesianGrade: 'Kelas 5 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Gm4.03', text: 'Read and plot coordinates in all four quadrants; translate and reflect shapes on a grid' },
+        { type: 'cambridge', code: 'Gm5.03', text: 'Use coordinates to describe translations; find midpoints of line segments' },
+        { type: 'indonesian', code: '5.G.3', text: 'Membaca dan menggambar koordinat; menggambarkan translasi dan refleksi bangun pada koordinat' },
+      ]
+    },
+    'the-percentage-palace': {
+      grade: 'Grade 5', stageColor: '#C2410C', indonesianGrade: 'Kelas 5 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn5.03', text: 'Understand percentage as number of parts per 100; convert between fractions, decimals and percentages' },
+        { type: 'cambridge', code: 'Nn5.05', text: 'Find percentages of amounts; calculate percentage increase and decrease' },
+        { type: 'indonesian', code: '5.B.3', text: 'Memahami persentase sebagai bagian per 100; mengonversi antara pecahan, desimal, dan persen' },
+      ]
+    },
+
+    // ── P6 STORY BOOKS ───────────────────────────
+    'the-prime-number-mystery': {
+      grade: 'Grade 6', stageColor: '#6D28D9', indonesianGrade: 'Kelas 6 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn6.01', text: 'Identify prime numbers to 100; find prime factors using factor trees; understand square numbers' },
+        { type: 'cambridge', code: 'Nn6.02', text: 'Find HCF and LCM using prime factorisation; apply to solve problems' },
+        { type: 'indonesian', code: '6.B.1', text: 'Mengidentifikasi bilangan prima sampai 100; faktorisasi prima; KPK dan FPB dengan pohon faktor' },
+      ]
+    },
+    'the-ratio-rangers': {
+      grade: 'Grade 6', stageColor: '#059669', indonesianGrade: 'Kelas 6 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn6.04', text: 'Understand and use ratio to compare quantities; simplify ratios and divide in a given ratio' },
+        { type: 'cambridge', code: 'Nn6.05', text: 'Solve problems involving direct proportion; use proportion in scale, recipes and conversions' },
+        { type: 'indonesian', code: '6.B.4', text: 'Memahami dan menggunakan perbandingan; membagi bilangan dalam rasio tertentu; menyelesaikan masalah proporsi' },
+      ]
+    },
+    'the-statistics-saga': {
+      grade: 'Grade 6', stageColor: '#0EA5E9', indonesianGrade: 'Kelas 6 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'St6.01', text: 'Calculate mean, median, mode and range of data sets; know when to use each average' },
+        { type: 'cambridge', code: 'St6.02', text: 'Interpret frequency tables and graphs; compare two data sets using statistics' },
+        { type: 'indonesian', code: '6.D.1', text: 'Menghitung mean, median, modus, dan jangkauan; membandingkan dua kumpulan data menggunakan statistik' },
+      ]
+    },
   };
 
   function _injectObjectivesPanel() {

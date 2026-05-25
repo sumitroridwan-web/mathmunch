@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Hundred Square Mystery – MathMunch</title>
+<style>
+:root {
+  --accent:#F97316; --accent-dark:#C2410C; --accent-light:#FFF7ED;
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+.site-nav{display:flex;gap:8px;}
+.site-nav a{font-size:.82rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 12px;border-radius:9999px;border:1px solid var(--outline);background:var(--bg);transition:.15s;}
+.site-nav a:hover{border-color:var(--accent);color:var(--accent);}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #FED7AA;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--yellow));border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL (left page) */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  padding:32px 16px 44px 28px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:4px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.9);text-align:center;margin-top:8px;background:rgba(0,0,0,.2);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:16px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.05rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--green-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:16px 18px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.93rem;color:var(--text-mid);line-height:1.6;}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:16px 18px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:10px 12px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:8px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#F97316,#FBBF24);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(194,65,12,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#FED7AA;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#F97316,#FBBF24);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 16px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🔍</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav" style="display:flex;gap:8px;">
+      <a href="../dashboard.html">📊 My Journey</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Hundred Square Mystery
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">🔍 The Hundred Square Mystery</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">🔍 Number Patterns</span>
+        <span class="book-tag">🟦 100-Square</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Grade P3</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 9</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:11.1%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🔍</span>
+      <div class="cover-title">The Hundred Square<br>Mystery</div>
+      <div class="cover-subtitle">Help Detective Dara find the missing numbers<br>and catch the mysterious number thief!</div>
+      <div class="cover-chars">🕵️ 🧑</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 9 Pages</span>
+        <span class="cover-tag">🔍 Number Patterns</span>
+        <span class="cover-tag">👶 Ages 7–8</span>
+        <span class="cover-tag">⭐ Cambridge Nn3.02</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – MEET THE 100-SQUARE
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:1rem;font-weight:700;color:#C2410C;margin-bottom:6px;">The 100-square — with missing numbers!</div>
+      <!-- Partial 100-square SVG with some blanked -->
+      <svg width="220" height="200" viewBox="0 0 220 200" style="margin:0 auto;">
+        <!-- Row 1: 1–10 -->
+        <rect x="2" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="12" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">1</text>
+        <rect x="24" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="34" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">2</text>
+        <rect x="46" y="2" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#FED7AA"/><text x="56" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#F97316">?</text>
+        <rect x="68" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="78" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">4</text>
+        <rect x="90" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="100" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">5</text>
+        <rect x="112" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="122" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">6</text>
+        <rect x="134" y="2" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#FED7AA"/><text x="144" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#F97316">?</text>
+        <rect x="156" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="166" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">8</text>
+        <rect x="178" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="188" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">9</text>
+        <rect x="200" y="2" width="18" height="18" rx="2" fill="#FED7AA"/><text x="209" y="15" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">10</text>
+        <!-- Row 2: 11–20 -->
+        <rect x="2" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="12" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">11</text>
+        <rect x="24" y="22" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#FED7AA"/><text x="34" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#F97316">?</text>
+        <rect x="46" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="56" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">13</text>
+        <rect x="68" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="78" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">14</text>
+        <rect x="90" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="100" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">15</text>
+        <rect x="112" y="22" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#FED7AA"/><text x="122" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#F97316">?</text>
+        <rect x="134" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="144" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">17</text>
+        <rect x="156" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="166" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">18</text>
+        <rect x="178" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="188" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">19</text>
+        <rect x="200" y="22" width="18" height="18" rx="2" fill="#FED7AA"/><text x="209" y="35" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">20</text>
+        <!-- Row 3: 21–30 -->
+        <rect x="2" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="12" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">21</text>
+        <rect x="24" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="34" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">22</text>
+        <rect x="46" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="56" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">23</text>
+        <rect x="68" y="42" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#FED7AA"/><text x="78" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#F97316">?</text>
+        <rect x="90" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="100" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">25</text>
+        <rect x="112" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="122" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">26</text>
+        <rect x="134" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="144" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">27</text>
+        <rect x="156" y="42" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#FED7AA"/><text x="166" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#F97316">?</text>
+        <rect x="178" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="188" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">29</text>
+        <rect x="200" y="42" width="18" height="18" rx="2" fill="#FED7AA"/><text x="209" y="55" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">30</text>
+        <!-- Rows 4–5 simplified -->
+        <rect x="2" y="62" width="216" height="18" rx="2" fill="#FEF3C7" opacity=".7"/>
+        <text x="110" y="75" text-anchor="middle" font-size="9" fill="#92400E" font-weight="600">31 · 32 · 33 · 34 · 35 · 36 · 37 · 38 · 39 · 40</text>
+        <rect x="2" y="82" width="216" height="18" rx="2" fill="#FEF3C7" opacity=".5"/>
+        <text x="110" y="95" text-anchor="middle" font-size="9" fill="#92400E" font-weight="600">41 · 42 · 43 · 44 · 45 · 46 · 47 · 48 · 49 · 50</text>
+        <!-- Detective pointing -->
+        <text x="110" y="130" text-anchor="middle" font-size="13">🕵️</text>
+        <text x="110" y="150" text-anchor="middle" font-size="9" fill="#C2410C" font-weight="700">Missing numbers shown as ?</text>
+        <text x="110" y="165" text-anchor="middle" font-size="8" fill="#92400E">Numbers 1–100 in rows of 10</text>
+      </svg>
+      <div class="illus-caption">Numbers have gone missing from the 100-square!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · The Case Begins</div>
+      <div class="story-text">
+        <strong>Detective Dara</strong> arrived at the Maths Museum early one morning. Her assistant <em>Theo</em> was already there, looking worried.<br><br>
+        "Dara! Someone has stolen numbers from the 100-square!" he cried, pointing at the giant grid on the wall.<br><br>
+        Sure enough, several numbers had been replaced by question marks. Dara pulled out her magnifying glass.<br><br>
+        "A 100-square shows every number from 1 to 100," she said calmly. "Each row has 10 numbers, going left to right."<br><br>
+        Theo nodded. "And each column goes downwards from top to bottom!"<br><br>
+        Dara smiled. "Exactly. And that is how we will catch the thief — by using the patterns!"<br><br>
+        She took out her detective notebook and got to work.
+      </div>
+      <div class="character-speech">
+        Every number on the 100-square has a special position. Once we know the pattern, we can find any missing number!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔢</span>
+          <span class="math-callout-title">Maths Fact: The 100-Square</span>
+        </div>
+        <p>A <strong>100-square</strong> shows numbers 1–100 in rows of 10. Rows go <strong>across</strong> (left to right). Columns go <strong>down</strong> (top to bottom).</p>
+      </div>
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">On a 100-square, what number is directly below 29 (in the next row)?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','30 is just to the right of 29, not below it.')">30</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','38 is close but one too few. Below means +10!')">38</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','29 + 10 = 39. The number directly below is always +10!')">39</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','40 is one too many. 29 + 10 = 39, not 40.')">40</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – ROW PATTERNS (+1)
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:6px;">Row 3: going right adds 1 each step</div>
+      <!-- Row 3 highlighted SVG -->
+      <svg width="220" height="160" viewBox="0 0 220 160" style="margin:0 auto;">
+        <!-- Faded rows above for context -->
+        <rect x="2" y="2" width="216" height="18" rx="2" fill="#F0FDF4" opacity=".5"/>
+        <text x="110" y="15" text-anchor="middle" font-size="8" fill="#6B7280">1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10</text>
+        <rect x="2" y="22" width="216" height="18" rx="2" fill="#F0FDF4" opacity=".5"/>
+        <text x="110" y="35" text-anchor="middle" font-size="8" fill="#6B7280">11 · 12 · 13 · 14 · 15 · 16 · 17 · 18 · 19 · 20</text>
+        <!-- Highlighted row 3 -->
+        <rect x="2" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="12" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">21</text>
+        <rect x="24" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="34" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">22</text>
+        <rect x="46" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="56" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">23</text>
+        <rect x="68" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="78" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">24</text>
+        <rect x="90" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="100" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">25</text>
+        <rect x="112" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="122" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">26</text>
+        <rect x="134" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="144" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">27</text>
+        <rect x="156" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="166" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">28</text>
+        <rect x="178" y="42" width="20" height="20" rx="3" fill="#10B981"/><text x="188" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">29</text>
+        <rect x="200" y="42" width="18" height="20" rx="3" fill="#10B981"/><text x="209" y="56" text-anchor="middle" font-size="9" font-weight="700" fill="white">30</text>
+        <!-- +1 arrows -->
+        <text x="22" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <text x="44" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <text x="66" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <text x="88" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <text x="110" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <text x="132" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <text x="154" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <text x="176" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <text x="198" y="76" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">+1</text>
+        <!-- Faded rows below -->
+        <rect x="2" y="82" width="216" height="18" rx="2" fill="#F0FDF4" opacity=".5"/>
+        <text x="110" y="95" text-anchor="middle" font-size="8" fill="#6B7280">31 · 32 · 33 · 34 · 35 · 36 · 37 · 38 · 39 · 40</text>
+        <!-- Legend -->
+        <text x="110" y="125" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">→ Going RIGHT = +1</text>
+        <text x="110" y="142" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">← Going LEFT = −1</text>
+      </svg>
+      <div class="illus-scene" style="margin-top:6px;">
+        <span class="char">🕵️</span>
+      </div>
+      <div class="illus-caption">Each step right adds 1!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Row Patterns</div>
+      <div class="story-text">
+        Dara began examining the 100-square row by row, moving her magnifying glass from left to right.<br><br>
+        "Look, Theo!" she whispered excitedly. "Every time you move one step to the right, the number gets <strong>one bigger</strong>!"<br><br>
+        Theo picked up a green pencil and drew arrows. "21, 22, 23, 24, 25... it goes up by 1 every single time!"<br><br>
+        "And going the other way — moving LEFT — the number gets one <em>smaller</em>," Dara added. "That is −1 each step."<br><br>
+        The thief had stolen numbers from several places in the rows. But now Dara could find them.<br><br>
+        She just needed to look at the number before or after the gap, and count one step!<br><br>
+        "These row patterns are clue number one," she told Theo, writing it in her notebook.
+      </div>
+      <div class="character-speech">
+        Every step to the right on the 100-square adds exactly 1. Every step to the left takes 1 away. Simple!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">➡️</span>
+          <span class="math-callout-title">Pattern: Going Across Rows</span>
+        </div>
+        <p>Going <strong>RIGHT</strong> on the 100-square means <strong>+1</strong> each step. Going <strong>LEFT</strong> means <strong>−1</strong>.</p>
+      </div>
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">On the 100-square, what number is <strong>3 steps to the right</strong> of 45?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','42 is to the LEFT of 45, not the right!')">42</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','46 is only 1 step right. We need 3 steps!')">46</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','45 + 3 = 48. Three steps right = +3!')">48</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','50 would be 5 steps right. Too far!')">50</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – COLUMN PATTERNS (+10)
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:1rem;font-weight:700;color:#1D4ED8;margin-bottom:6px;">Column 5: going down adds 10</div>
+      <!-- Column 5 highlighted SVG -->
+      <svg width="220" height="200" viewBox="0 0 220 200" style="margin:0 auto;">
+        <!-- Faded columns on left -->
+        <text x="12" y="22" text-anchor="middle" font-size="8" fill="#CBD5E1">1</text>
+        <text x="34" y="22" text-anchor="middle" font-size="8" fill="#CBD5E1">2</text>
+        <text x="56" y="22" text-anchor="middle" font-size="8" fill="#CBD5E1">3</text>
+        <text x="78" y="22" text-anchor="middle" font-size="8" fill="#CBD5E1">4</text>
+        <!-- Column 5 highlighted (x≈100) -->
+        <rect x="90" y="6" width="20" height="18" rx="3" fill="#3B82F6"/><text x="100" y="19" text-anchor="middle" font-size="9" font-weight="700" fill="white">5</text>
+        <text x="110" y="26" text-anchor="middle" fill="#3B82F6" font-size="8" font-weight="700">+10</text>
+        <rect x="90" y="28" width="20" height="18" rx="3" fill="#3B82F6"/><text x="100" y="41" text-anchor="middle" font-size="9" font-weight="700" fill="white">15</text>
+        <text x="110" y="48" text-anchor="middle" fill="#3B82F6" font-size="8" font-weight="700">+10</text>
+        <rect x="90" y="50" width="20" height="18" rx="3" fill="#3B82F6"/><text x="100" y="63" text-anchor="middle" font-size="9" font-weight="700" fill="white">25</text>
+        <text x="110" y="70" text-anchor="middle" fill="#3B82F6" font-size="8" font-weight="700">+10</text>
+        <rect x="90" y="72" width="20" height="18" rx="3" fill="#3B82F6"/><text x="100" y="85" text-anchor="middle" font-size="9" font-weight="700" fill="white">35</text>
+        <text x="110" y="92" text-anchor="middle" fill="#3B82F6" font-size="8" font-weight="700">+10</text>
+        <rect x="90" y="94" width="20" height="18" rx="3" fill="#3B82F6"/><text x="100" y="107" text-anchor="middle" font-size="9" font-weight="700" fill="white">45</text>
+        <text x="110" y="114" text-anchor="middle" fill="#3B82F6" font-size="8" font-weight="700">+10</text>
+        <rect x="90" y="116" width="20" height="18" rx="3" fill="#3B82F6"/><text x="100" y="129" text-anchor="middle" font-size="9" font-weight="700" fill="white">55</text>
+        <text x="110" y="136" text-anchor="middle" fill="#3B82F6" font-size="8" font-weight="700">+10</text>
+        <rect x="90" y="138" width="20" height="18" rx="3" fill="#3B82F6"/><text x="100" y="151" text-anchor="middle" font-size="9" font-weight="700" fill="white">65</text>
+        <text x="110" y="158" text-anchor="middle" fill="#3B82F6" font-size="8" font-weight="700">+10</text>
+        <rect x="90" y="160" width="20" height="18" rx="3" fill="#3B82F6"/><text x="100" y="173" text-anchor="middle" font-size="9" font-weight="700" fill="white">75</text>
+        <text x="110" y="180" text-anchor="middle" fill="#3B82F6" font-size="8" font-weight="700">+10</text>
+        <rect x="90" y="182" width="20" height="16" rx="3" fill="#3B82F6"/><text x="100" y="194" text-anchor="middle" font-size="9" font-weight="700" fill="white">85</text>
+        <!-- Faded columns on right -->
+        <text x="122" y="22" text-anchor="middle" font-size="8" fill="#CBD5E1">6</text>
+        <text x="144" y="22" text-anchor="middle" font-size="8" fill="#CBD5E1">7</text>
+      </svg>
+      <div class="illus-caption">Column 5: 5, 15, 25, 35... (+10 each step!)</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Column Patterns</div>
+      <div class="story-text">
+        Next, Dara turned her attention to the columns — the vertical lines going <strong>down</strong> the 100-square.<br><br>
+        "Theo, look at column 5," she said, tracing her finger downward. "5, 15, 25, 35, 45..."<br><br>
+        <em>"Each number is 10 more than the one above it!"</em> Theo exclaimed.<br><br>
+        "Precisely," said Dara. "Going DOWN on the 100-square always adds <strong>10</strong>."<br><br>
+        "And going UP takes 10 away — it's −10," she continued, moving her finger upward.<br><br>
+        This was clue number two. The thief had stolen numbers from the middle of several columns.<br><br>
+        But Dara just needed to find the number above or below the gap, then add or subtract 10!
+      </div>
+      <div class="character-speech">
+        Going down one step on the 100-square always adds 10. That is why column 5 has 5, 15, 25, 35, 45, 55, 65, 75, 85, 95!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⬇️</span>
+          <span class="math-callout-title">Pattern: Going Down Columns</span>
+        </div>
+        <p>Going <strong>DOWN</strong> on the 100-square means <strong>+10</strong> each step. Going <strong>UP</strong> means <strong>−10</strong>.</p>
+      </div>
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">The number directly <strong>below 37</strong> on the 100-square is?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','27 is ABOVE 37 (that would be −10).')">27</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','36 is one step to the LEFT of 37.')">36</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','38 is one step to the RIGHT of 37.')">38</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','37 + 10 = 47. One step down = +10!')">47</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – DIAGONAL PATTERNS (+11 / +9)
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:1rem;font-weight:700;color:#6D28D9;margin-bottom:6px;">Diagonal clues from the thief!</div>
+      <!-- Diagonal SVG: mini 7×7 section of 100-square with diagonal highlighted -->
+      <svg width="200" height="190" viewBox="0 0 200 190" style="margin:0 auto;">
+        <!-- Grid rows 1–7 (numbers 1–70 simplified) -->
+        <!-- Row 1 -->
+        <rect x="2" y="2" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="14" y="17" text-anchor="middle" font-size="9" fill="#6B7280">1</text>
+        <rect x="28" y="2" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="40" y="17" text-anchor="middle" font-size="9" fill="#6B7280">2</text>
+        <rect x="54" y="2" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="66" y="17" text-anchor="middle" font-size="9" fill="#6B7280">3</text>
+        <rect x="80" y="2" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="92" y="17" text-anchor="middle" font-size="9" fill="#6B7280">4</text>
+        <rect x="106" y="2" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="118" y="17" text-anchor="middle" font-size="9" fill="#6B7280">5</text>
+        <rect x="132" y="2" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="144" y="17" text-anchor="middle" font-size="9" fill="#6B7280">6</text>
+        <rect x="158" y="2" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="170" y="17" text-anchor="middle" font-size="9" fill="#6B7280">7</text>
+        <!-- Row 2 -->
+        <rect x="2" y="26" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="14" y="41" text-anchor="middle" font-size="9" fill="#6B7280">11</text>
+        <rect x="28" y="26" width="24" height="22" rx="3" fill="#8B5CF6"/><text x="40" y="41" text-anchor="middle" font-size="9" font-weight="700" fill="white">12</text>
+        <rect x="54" y="26" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="66" y="41" text-anchor="middle" font-size="9" fill="#6B7280">13</text>
+        <rect x="80" y="26" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="92" y="41" text-anchor="middle" font-size="9" fill="#6B7280">14</text>
+        <rect x="106" y="26" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="118" y="41" text-anchor="middle" font-size="9" fill="#6B7280">15</text>
+        <rect x="132" y="26" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="144" y="41" text-anchor="middle" font-size="9" fill="#6B7280">16</text>
+        <rect x="158" y="26" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="170" y="41" text-anchor="middle" font-size="9" fill="#6B7280">17</text>
+        <!-- Row 3 -->
+        <rect x="2" y="50" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="14" y="65" text-anchor="middle" font-size="9" fill="#6B7280">21</text>
+        <rect x="28" y="50" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="40" y="65" text-anchor="middle" font-size="9" fill="#6B7280">22</text>
+        <rect x="54" y="50" width="24" height="22" rx="3" fill="#8B5CF6"/><text x="66" y="65" text-anchor="middle" font-size="9" font-weight="700" fill="white">23</text>
+        <rect x="80" y="50" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="92" y="65" text-anchor="middle" font-size="9" fill="#6B7280">24</text>
+        <rect x="106" y="50" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="118" y="65" text-anchor="middle" font-size="9" fill="#6B7280">25</text>
+        <!-- Row 4 -->
+        <rect x="2" y="74" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="14" y="89" text-anchor="middle" font-size="9" fill="#6B7280">31</text>
+        <rect x="28" y="74" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="40" y="89" text-anchor="middle" font-size="9" fill="#6B7280">32</text>
+        <rect x="54" y="74" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="66" y="89" text-anchor="middle" font-size="9" fill="#6B7280">33</text>
+        <rect x="80" y="74" width="24" height="22" rx="3" fill="#8B5CF6"/><text x="92" y="89" text-anchor="middle" font-size="9" font-weight="700" fill="white">34</text>
+        <rect x="106" y="74" width="24" height="22" rx="3" fill="#F3F4F6"/><text x="118" y="89" text-anchor="middle" font-size="9" fill="#6B7280">35</text>
+        <!-- Arrow showing diagonal direction -->
+        <path d="M40,26 L66,50" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="4,2"/>
+        <path d="M66,50 L92,74" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="4,2"/>
+        <!-- Labels -->
+        <text x="100" y="130" text-anchor="middle" fill="#6D28D9" font-size="10" font-weight="700">Down-right (+11):</text>
+        <text x="100" y="146" text-anchor="middle" fill="#6D28D9" font-size="10">11 → 22 → 33 → 44 → 55 → 66</text>
+        <text x="100" y="162" text-anchor="middle" fill="#6D28D9" font-size="9">Down (+10) + Right (+1) = +11</text>
+        <text x="100" y="178" text-anchor="middle" fill="#059669" font-size="9">Down-left: +10 − 1 = +9</text>
+      </svg>
+      <div class="illus-caption">Diagonal pattern: +11 going down-right!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Diagonal Clues</div>
+      <div class="story-text">
+        Dara found something unexpected — the thief had left clues arranged <em>diagonally</em> across the 100-square.<br><br>
+        "A diagonal means going down AND across at the same time," Dara explained to Theo.<br><br>
+        She traced her finger from 11 to 22 to 33 to 44. "Look! Each step goes one row down and one column right."<br><br>
+        "Down is +10, right is +1, so diagonally down-right is... <strong>+11</strong>!" said Theo.<br><br>
+        "Excellent detective work!" Dara said proudly. "And going down-left would be +10 and −1, which is <strong>+9</strong>."<br><br>
+        These diagonal patterns were how the thief had been hiding clues. But now Dara could read them.<br><br>
+        She circled the diagonal numbers in her notebook: 11, 22, 33, 44, 55, 66. Each one exactly 11 apart.
+      </div>
+      <div class="character-speech">
+        Diagonal clues! Going diagonally down and to the right adds 11 each time. Down and left adds 9. The grid never lies!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">↘️</span>
+          <span class="math-callout-title">Pattern: Diagonal Moves</span>
+        </div>
+        <p>Going <strong>diagonally down-right</strong> = +11 each step. Going <strong>diagonally down-left</strong> = +9 each step.</p>
+      </div>
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">Going diagonally <strong>down and right</strong> from 24 on the 100-square gives which number?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','33 would be diagonally down-left from 24 (+9).')">33</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Down (+10) and right (+1) = +11. 24 + 11 = 35!')">35</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','34 would just be straight down (+10) from 24.')">34</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','44 is two rows down — that is +20, not +11.')">44</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – EVEN AND ODD PATTERNS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:1rem;font-weight:700;color:#C2410C;margin-bottom:4px;">Even = blue · Odd = orange</div>
+      <!-- Even/odd coloured mini 100-square (5×4 section) -->
+      <svg width="220" height="160" viewBox="0 0 220 160" style="margin:0 auto;">
+        <!-- Row 1 (1–10): odd-even alternating -->
+        <rect x="2" y="2" width="20" height="18" rx="2" fill="#F97316"/><text x="12" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">1</text>
+        <rect x="24" y="2" width="20" height="18" rx="2" fill="#3B82F6"/><text x="34" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">2</text>
+        <rect x="46" y="2" width="20" height="18" rx="2" fill="#F97316"/><text x="56" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">3</text>
+        <rect x="68" y="2" width="20" height="18" rx="2" fill="#3B82F6"/><text x="78" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">4</text>
+        <rect x="90" y="2" width="20" height="18" rx="2" fill="#F97316"/><text x="100" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">5</text>
+        <rect x="112" y="2" width="20" height="18" rx="2" fill="#3B82F6"/><text x="122" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">6</text>
+        <rect x="134" y="2" width="20" height="18" rx="2" fill="#F97316"/><text x="144" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">7</text>
+        <rect x="156" y="2" width="20" height="18" rx="2" fill="#3B82F6"/><text x="166" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">8</text>
+        <rect x="178" y="2" width="20" height="18" rx="2" fill="#F97316"/><text x="188" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">9</text>
+        <rect x="200" y="2" width="18" height="18" rx="2" fill="#3B82F6"/><text x="209" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="white">10</text>
+        <!-- Row 2 (11–20) -->
+        <rect x="2" y="22" width="20" height="18" rx="2" fill="#F97316"/><text x="12" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">11</text>
+        <rect x="24" y="22" width="20" height="18" rx="2" fill="#3B82F6"/><text x="34" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">12</text>
+        <rect x="46" y="22" width="20" height="18" rx="2" fill="#F97316"/><text x="56" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">13</text>
+        <rect x="68" y="22" width="20" height="18" rx="2" fill="#3B82F6"/><text x="78" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">14</text>
+        <rect x="90" y="22" width="20" height="18" rx="2" fill="#F97316"/><text x="100" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">15</text>
+        <rect x="112" y="22" width="20" height="18" rx="2" fill="#3B82F6"/><text x="122" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">16</text>
+        <rect x="134" y="22" width="20" height="18" rx="2" fill="#F97316"/><text x="144" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">17</text>
+        <rect x="156" y="22" width="20" height="18" rx="2" fill="#3B82F6"/><text x="166" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">18</text>
+        <rect x="178" y="22" width="20" height="18" rx="2" fill="#F97316"/><text x="188" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">19</text>
+        <rect x="200" y="22" width="18" height="18" rx="2" fill="#3B82F6"/><text x="209" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="white">20</text>
+        <!-- Row 3 (21–30) -->
+        <rect x="2" y="42" width="20" height="18" rx="2" fill="#F97316"/><text x="12" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="white">21</text>
+        <rect x="24" y="42" width="20" height="18" rx="2" fill="#3B82F6"/><text x="34" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="white">22</text>
+        <rect x="46" y="42" width="20" height="18" rx="2" fill="#F97316"/><text x="56" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="white">23</text>
+        <rect x="68" y="42" width="20" height="18" rx="2" fill="#3B82F6"/><text x="78" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="white">24</text>
+        <rect x="90" y="42" width="20" height="18" rx="2" fill="#F97316"/><text x="100" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="white">25</text>
+        <rect x="112" y="42" width="20" height="18" rx="2" fill="#3B82F6"/><text x="122" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="white">26</text>
+        <!-- Legend -->
+        <rect x="20" y="80" width="16" height="14" rx="3" fill="#3B82F6"/>
+        <text x="44" y="91" font-size="10" fill="#1D4ED8" font-weight="700">= EVEN (end in 0,2,4,6,8)</text>
+        <rect x="20" y="100" width="16" height="14" rx="3" fill="#F97316"/>
+        <text x="44" y="111" font-size="10" fill="#C2410C" font-weight="700">= ODD (end in 1,3,5,7,9)</text>
+        <text x="110" y="135" text-anchor="middle" font-size="10" fill="#C2410C" font-weight="700">Even and odd alternate every cell!</text>
+        <text x="110" y="152" text-anchor="middle" font-size="9" fill="#C2410C">Column 2: 2,12,22,32,42... ALL EVEN!</text>
+      </svg>
+      <div class="illus-caption">Dara spots a colour pattern!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Even and Odd Patterns</div>
+      <div class="story-text">
+        Dara stepped back and looked at the whole 100-square with fresh eyes. Something beautiful appeared.<br><br>
+        "Theo! The numbers alternate — even, odd, even, odd — all the way across every single row!"<br><br>
+        <em>Even numbers</em> end in 0, 2, 4, 6 or 8. <em>Odd numbers</em> end in 1, 3, 5, 7 or 9.<br><br>
+        Dara coloured the evens blue and the odds orange. A perfect striped pattern appeared.<br><br>
+        "Look at column 2," she said. "2, 12, 22, 32, 42 — all even! The whole column is blue!"<br><br>
+        Theo checked column 1: "1, 11, 21, 31, 41 — all odd! All orange!"<br><br>
+        The thief had tried to mix up even and odd numbers — but the pattern gave them away.
+      </div>
+      <div class="character-speech">
+        Even numbers end in 0, 2, 4, 6 or 8. Odd numbers end in 1, 3, 5, 7 or 9. On the 100-square, they always alternate!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔵</span>
+          <span class="math-callout-title">Pattern: Even and Odd Numbers</span>
+        </div>
+        <p><strong>Even</strong> numbers (2,4,6,8,10...) alternate with <strong>odd</strong> numbers (1,3,5,7,9...) across every row. They never sit next to one another!</p>
+      </div>
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">On the 100-square, all numbers in <strong>column 2</strong> are:</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Column 2 has 2,12,22,32... all even, not odd!')">All odd</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Column 2: 2,12,22,32,42,52,62,72,82,92 — all even!')">All even</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','A column always stays the same — all even or all odd!')">Both</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Column 2 is always even — it never varies!')">It varies</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – SKIP COUNTING (MULTIPLES OF 5)
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:4px;">Multiples of 5 highlighted in green</div>
+      <!-- 100-square with multiples of 5 highlighted -->
+      <svg width="220" height="170" viewBox="0 0 220 170" style="margin:0 auto;">
+        <!-- 10 rows of 10 cells, cell size 20×15 -->
+        <!-- Multiples of 5: 5,10,15,20,25,30,35,40,45,50,55,60 etc. -->
+        <!-- Row 1: 1-10 -->
+        <rect x="2" y="2" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="12" y="13" text-anchor="middle" font-size="7" fill="#9CA3AF">1</text>
+        <rect x="24" y="2" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="34" y="13" text-anchor="middle" font-size="7" fill="#9CA3AF">2</text>
+        <rect x="46" y="2" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="56" y="13" text-anchor="middle" font-size="7" fill="#9CA3AF">3</text>
+        <rect x="68" y="2" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="78" y="13" text-anchor="middle" font-size="7" fill="#9CA3AF">4</text>
+        <rect x="90" y="2" width="20" height="14" rx="2" fill="#10B981"/><text x="100" y="13" text-anchor="middle" font-size="7" font-weight="700" fill="white">5</text>
+        <rect x="112" y="2" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="122" y="13" text-anchor="middle" font-size="7" fill="#9CA3AF">6</text>
+        <rect x="134" y="2" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="144" y="13" text-anchor="middle" font-size="7" fill="#9CA3AF">7</text>
+        <rect x="156" y="2" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="166" y="13" text-anchor="middle" font-size="7" fill="#9CA3AF">8</text>
+        <rect x="178" y="2" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="188" y="13" text-anchor="middle" font-size="7" fill="#9CA3AF">9</text>
+        <rect x="200" y="2" width="18" height="14" rx="2" fill="#10B981"/><text x="209" y="13" text-anchor="middle" font-size="7" font-weight="700" fill="white">10</text>
+        <!-- Row 2: 11-20 -->
+        <rect x="2" y="18" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="12" y="29" text-anchor="middle" font-size="7" fill="#9CA3AF">11</text>
+        <rect x="24" y="18" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="34" y="29" text-anchor="middle" font-size="7" fill="#9CA3AF">12</text>
+        <rect x="46" y="18" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="56" y="29" text-anchor="middle" font-size="7" fill="#9CA3AF">13</text>
+        <rect x="68" y="18" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="78" y="29" text-anchor="middle" font-size="7" fill="#9CA3AF">14</text>
+        <rect x="90" y="18" width="20" height="14" rx="2" fill="#10B981"/><text x="100" y="29" text-anchor="middle" font-size="7" font-weight="700" fill="white">15</text>
+        <rect x="112" y="18" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="122" y="29" text-anchor="middle" font-size="7" fill="#9CA3AF">16</text>
+        <rect x="134" y="18" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="144" y="29" text-anchor="middle" font-size="7" fill="#9CA3AF">17</text>
+        <rect x="156" y="18" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="166" y="29" text-anchor="middle" font-size="7" fill="#9CA3AF">18</text>
+        <rect x="178" y="18" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="188" y="29" text-anchor="middle" font-size="7" fill="#9CA3AF">19</text>
+        <rect x="200" y="18" width="18" height="14" rx="2" fill="#10B981"/><text x="209" y="29" text-anchor="middle" font-size="7" font-weight="700" fill="white">20</text>
+        <!-- Row 3: 21-30 -->
+        <rect x="2" y="34" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="12" y="45" text-anchor="middle" font-size="7" fill="#9CA3AF">21</text>
+        <rect x="24" y="34" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="34" y="45" text-anchor="middle" font-size="7" fill="#9CA3AF">22</text>
+        <rect x="46" y="34" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="56" y="45" text-anchor="middle" font-size="7" fill="#9CA3AF">23</text>
+        <rect x="68" y="34" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="78" y="45" text-anchor="middle" font-size="7" fill="#9CA3AF">24</text>
+        <rect x="90" y="34" width="20" height="14" rx="2" fill="#10B981"/><text x="100" y="45" text-anchor="middle" font-size="7" font-weight="700" fill="white">25</text>
+        <rect x="112" y="34" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="122" y="45" text-anchor="middle" font-size="7" fill="#9CA3AF">26</text>
+        <rect x="134" y="34" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="144" y="45" text-anchor="middle" font-size="7" fill="#9CA3AF">27</text>
+        <rect x="156" y="34" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="166" y="45" text-anchor="middle" font-size="7" fill="#9CA3AF">28</text>
+        <rect x="178" y="34" width="20" height="14" rx="2" fill="#F9FAFB"/><text x="188" y="45" text-anchor="middle" font-size="7" fill="#9CA3AF">29</text>
+        <rect x="200" y="34" width="18" height="14" rx="2" fill="#10B981"/><text x="209" y="45" text-anchor="middle" font-size="7" font-weight="700" fill="white">30</text>
+        <!-- Rows 4-6 simplified with highlights -->
+        <rect x="2" y="50" width="216" height="14" rx="2" fill="#F0FDF4" opacity=".6"/>
+        <text x="110" y="61" text-anchor="middle" font-size="7" fill="#9CA3AF">31  32  33  34</text>
+        <rect x="90" y="50" width="20" height="14" rx="2" fill="#10B981"/><text x="100" y="61" text-anchor="middle" font-size="7" font-weight="700" fill="white">35</text>
+        <text x="160" y="61" text-anchor="middle" font-size="7" fill="#9CA3AF">36  37  38  39</text>
+        <rect x="200" y="50" width="18" height="14" rx="2" fill="#10B981"/><text x="209" y="61" text-anchor="middle" font-size="7" font-weight="700" fill="white">40</text>
+        <!-- Legend at bottom -->
+        <rect x="20" y="82" width="14" height="12" rx="2" fill="#10B981"/>
+        <text x="42" y="92" font-size="10" fill="#059669" font-weight="700">= Multiple of 5 (ends in 5 or 0)</text>
+        <text x="110" y="115" text-anchor="middle" font-size="10" fill="#059669" font-weight="700">5, 10, 15, 20, 25, 30, 35, 40...</text>
+        <text x="110" y="132" text-anchor="middle" font-size="9" fill="#059669">Two highlighted columns appear!</text>
+      </svg>
+      <div class="illus-caption">Multiples of 5 make two green columns!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Skip Counting Patterns</div>
+      <div class="story-text">
+        Dara had one more pattern to find. She picked up a green highlighter and started marking numbers.<br><br>
+        "I am going to mark every multiple of 5," she said. "Numbers I land on when I count in fives."<br><br>
+        5... 10... 15... 20... 25... 30... She marked them all in bright green.<br><br>
+        When she stepped back, <em>two entire columns</em> were glowing green — the column ending in 5 and the column ending in 0!<br><br>
+        "Multiples of 5 always end in 5 or 0," she explained to Theo. "So they always fall in those two columns."<br><br>
+        Theo grabbed the green pen. "42 does NOT end in 5 or 0 — so it is not a multiple of 5!"<br><br>
+        Dara nodded. "Exactly. These patterns are how we prove a number belongs — or does not belong!"
+      </div>
+      <div class="character-speech">
+        Multiples of 5 always end in 5 or 0. On the 100-square, they form two neat columns — one for 5s and one for 0s!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">5️⃣</span>
+          <span class="math-callout-title">Pattern: Multiples of 5</span>
+        </div>
+        <p>Multiples of 5 <strong>always end in 5 or 0</strong>. They make a column pattern on the 100-square: 5, 15, 25, 35... and 10, 20, 30, 40...</p>
+      </div>
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">Which of these is <strong>NOT</strong> a multiple of 5?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','25 ends in 5, so it IS a multiple of 5!')">25</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','35 ends in 5, so it IS a multiple of 5!')">35</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','42 ends in 2, not 5 or 0. It is NOT a multiple of 5!')">42</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','50 ends in 0, so it IS a multiple of 5!')">50</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – FINDING THE MISSING NUMBERS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:1rem;font-weight:700;color:#C2410C;margin-bottom:4px;">6 missing numbers — can you find them?</div>
+      <!-- Mini 100-square section with 6 missing numbers -->
+      <svg width="220" height="170" viewBox="0 0 220 170" style="margin:0 auto;">
+        <!-- Rows 5–8 of 100-square (41–80) -->
+        <!-- Row 5: 41-50 -->
+        <rect x="2" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="12" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">41</text>
+        <rect x="24" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="34" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">42</text>
+        <rect x="46" y="2" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/><text x="56" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#F97316">?</text>
+        <rect x="68" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="78" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">44</text>
+        <rect x="90" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="100" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">45</text>
+        <rect x="112" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="122" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">46</text>
+        <rect x="134" y="2" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/><text x="144" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#F97316">?</text>
+        <rect x="156" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="166" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">48</text>
+        <rect x="178" y="2" width="20" height="18" rx="2" fill="#FED7AA"/><text x="188" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">49</text>
+        <rect x="200" y="2" width="18" height="18" rx="2" fill="#FED7AA"/><text x="209" y="15" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">50</text>
+        <!-- Row 6: 51-60 -->
+        <rect x="2" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="12" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">51</text>
+        <rect x="24" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="34" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">52</text>
+        <rect x="46" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="56" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">53</text>
+        <rect x="68" y="22" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/><text x="78" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#F97316">?</text>
+        <rect x="90" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="100" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">55</text>
+        <rect x="112" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="122" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">56</text>
+        <rect x="134" y="22" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/><text x="144" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#F97316">?</text>
+        <rect x="156" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="166" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">58</text>
+        <rect x="178" y="22" width="20" height="18" rx="2" fill="#FED7AA"/><text x="188" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">59</text>
+        <rect x="200" y="22" width="18" height="18" rx="2" fill="#FED7AA"/><text x="209" y="35" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">60</text>
+        <!-- Row 7: 61-70 with two missing -->
+        <rect x="2" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="12" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">61</text>
+        <rect x="24" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="34" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">62</text>
+        <rect x="46" y="42" width="20" height="18" rx="2" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/><text x="56" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#F97316">?</text>
+        <rect x="68" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="78" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">64</text>
+        <rect x="90" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="100" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">65</text>
+        <rect x="112" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="122" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">66</text>
+        <rect x="134" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="144" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">67</text>
+        <rect x="156" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="166" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">68</text>
+        <rect x="178" y="42" width="20" height="18" rx="2" fill="#FED7AA"/><text x="188" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">69</text>
+        <rect x="200" y="42" width="18" height="18" rx="2" fill="#FED7AA"/><text x="209" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#C2410C">70</text>
+        <!-- Detective emoji -->
+        <text x="80" y="100" font-size="18">🕵️</text>
+        <text x="110" y="125" text-anchor="middle" font-size="10" fill="#C2410C" font-weight="700">Use patterns to find the ?s!</text>
+        <text x="110" y="142" text-anchor="middle" font-size="9" fill="#C2410C">63 is between 62 and 64 (+1 each step)</text>
+      </svg>
+      <div class="illus-caption">Dara uses patterns to find missing numbers!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · The Missing Numbers!</div>
+      <div class="story-text">
+        With all four patterns in her notebook, Dara was ready to find every single missing number.<br><br>
+        "Row pattern — add 1 going right," she said firmly. "Column pattern — add 10 going down."<br><br>
+        She moved methodically across the grid, filling in each question mark.<br><br>
+        For a number missing from the middle of a row: look left, add 1. Done!<br><br>
+        For a number missing from the middle of a column: look above, add 10. Done!<br><br>
+        Theo watched in amazement as Dara filled in six missing numbers in under a minute.<br><br>
+        "Every number has a proper place," Dara said with a satisfied smile. "The patterns never lie."
+      </div>
+      <div class="character-speech">
+        Use rows (+1), columns (+10), and your knowledge of patterns. Once you understand the 100-square, no number can stay hidden for long!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔍</span>
+          <span class="math-callout-title">Detective Tool: Find Any Missing Number</span>
+        </div>
+        <p>Use <strong>rows (+1)</strong>, <strong>columns (+10)</strong>, and patterns to find any missing number on the 100-square!</p>
+      </div>
+      <div class="think-box" id="think-page8">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">The 100-square shows <strong>63, [?], 65</strong>. What is the missing number?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','54 would be directly above 64, not between 63 and 65.')">54</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'correct','Going right: 63 + 1 = 64. The missing number is 64!')">64</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','74 would be below 64, not between 63 and 65.')">74</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','60 is too far away — we need the number between 63 and 65.')">60</button>
+        </div>
+        <div class="think-result" id="think-page8-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 9 – THE MYSTERY IS SOLVED!
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-9">
+    <div class="illustration" style="background:linear-gradient(135deg,#F97316,#FBBF24);">
+      <div class="page-num-illus">Page 9</div>
+      <div class="illus-scene">
+        <span class="char">🕵️</span><span class="char">🧑</span>
+      </div>
+      <div style="font-size:2.5rem;margin:8px 0;">✅🟦🏆</div>
+      <!-- Complete 100-square miniature symbol -->
+      <div style="background:white;border-radius:10px;padding:8px 12px;border:3px solid #F97316;font-family:'Quicksand',sans-serif;font-size:.78rem;font-weight:700;color:#C2410C;text-align:center;max-width:180px;">
+        <div>100-Square RESTORED!</div>
+        <div style="font-size:.65rem;color:#92400E;margin-top:3px;">All numbers 1–100 back in place ✓</div>
+      </div>
+      <div class="illus-caption">Mystery solved! All patterns found!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 9 · Case Closed!</div>
+      <div class="story-text">
+        With the last missing number restored, the 100-square glowed and every number settled back into place.<br><br>
+        <strong>Detective Dara</strong> had done it — she had used the four patterns to catch the thief's trick and fix the entire grid.<br><br>
+        Theo clapped and cheered. "You found them all! How did you do it so fast?"<br><br>
+        "Patterns," said Dara simply. "The 100-square is full of them — rows, columns, diagonals, even and odd, multiples."<br><br>
+        The museum director rushed in. "You have saved the 100-square! The thief has been caught trying to sneak back!"<br><br>
+        Dara and Theo smiled at each other. Another maths mystery solved — with the power of number patterns.<br><br>
+        "The 100-square never lies," Dara said, putting away her magnifying glass. "As long as you know the patterns."
+      </div>
+      <div class="math-callout" style="background:var(--accent-light);border-color:var(--accent);">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📋</span>
+          <span class="math-callout-title" style="color:var(--accent-dark);">All the Patterns You Learned!</span>
+        </div>
+        <p>✅ Going <strong>right</strong> = +1 · Going <strong>left</strong> = −1<br>
+           ✅ Going <strong>down</strong> = +10 · Going <strong>up</strong> = −10<br>
+           ✅ Diagonal <strong>down-right</strong> = +11<br>
+           ✅ <strong>Even</strong> and odd numbers alternate<br>
+           ✅ Multiples of 5 end in <strong>5 or 0</strong></p>
+      </div>
+      <div style="background:linear-gradient(135deg,#F97316,#FBBF24);border-radius:16px;padding:16px 20px;color:white;text-align:center;">
+        <div style="font-size:1.6rem;margin-bottom:6px;">🔍🟦🏆</div>
+        <div style="font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;">Brilliant detective work!</div>
+        <div style="font-size:.88rem;opacity:.9;margin-top:4px;">You found all the patterns!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN (shown after page 9) -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🔍🟦🏆</div>
+      <div class="end-title">Mystery Solved!</div>
+      <div class="end-msg">Outstanding work! You have finished <strong>The Hundred Square Mystery</strong> and found all the patterns. Detective Dara and Theo are so impressed!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">🔍</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Pattern Finder Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Hundred Square Mystery</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 9;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.character-speech');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

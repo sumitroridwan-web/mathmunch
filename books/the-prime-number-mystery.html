@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Prime Number Mystery – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF; --blue-mid:#BFDBFE;
+  --green:#059669; --green-dark:#065F46; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+  --accent:#6D28D9; --accent-dark:#4C1D95; --accent-light:#F5F3FF;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #DDD6FE;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:9999px;transition:width .5s ease;}
+.book-scene{perspective:2500px;}
+.open-book{position:relative;background:#FAF8F4;border-radius:3px 8px 8px 3px;transform-style:preserve-3d;box-shadow:-4px 0 10px rgba(0,0,0,.22),0 10px 40px rgba(0,0,0,.18),4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;}
+.open-book::before{content:'';position:absolute;left:calc(50% - 11px);width:22px;top:0;bottom:0;background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);pointer-events:none;z-index:6;}
+.open-book::after{content:'';position:absolute;bottom:0;right:6px;width:54px;height:54px;background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);pointer-events:none;z-index:5;border-radius:0 0 8px 0;}
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+.illustration{border-radius:0;overflow:hidden;position:relative;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px 20px 44px 32px;border-right:1px solid rgba(0,0,0,.06);}
+.pg-flip{position:absolute;top:0;bottom:0;transform-style:preserve-3d;transition:transform .62s cubic-bezier(.645,.045,.355,1);z-index:30;}
+.pg-flip-fwd{right:0;width:50%;transform-origin:left center;border-radius:0 8px 8px 0;background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);box-shadow:inset -4px 0 8px rgba(0,0,0,.09);}
+.pg-flip-back{left:0;width:50%;transform-origin:right center;border-radius:3px 0 0 3px;background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);box-shadow:inset 4px 0 8px rgba(0,0,0,.09);}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.05rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--accent);font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'\201C';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'\201D';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.think-box{background:var(--accent-light);border:2px solid var(--accent);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #DDD6FE;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--accent);background:var(--accent-light);}
+.think-btn.correct{border-color:var(--accent);background:#EDE9FE;color:var(--accent-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#EDE9FE;color:var(--accent-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+.cover-card{background:linear-gradient(135deg,#4C1D95,#1E40AF);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(76,29,149,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#DDD6FE;}
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#6D28D9,#4C1D95);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+.worked-step{background:#F5F3FF;border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 14px;margin:6px 0;font-size:.9rem;color:var(--text-mid);}
+.worked-step strong{color:var(--accent-dark);}
+.prime-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;width:100%;}
+.prime-grid div{text-align:center;padding:5px 2px;border-radius:5px;font-size:.72rem;font-weight:700;}
+.pg-prime{background:#6D28D9;color:white;}
+.pg-comp{background:#E2E8F0;color:#727785;text-decoration:line-through;}
+.pg-one{background:#FFF7ED;color:#C2410C;font-style:italic;}
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🔐</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">📚 Books</a> › The Prime Number Mystery
+      </span>
+      <nav class="site-nav" style="display:flex;gap:8px;">
+        <a href="../dashboard.html" style="font-size:.82rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border:1px solid var(--outline);border-radius:9999px;background:var(--white);">📊 My Journey</a>
+        <a href="#" style="font-size:.82rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border:1px solid var(--outline);border-radius:9999px;background:var(--white);">Badges</a>
+        <a href="#" style="font-size:.82rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border:1px solid var(--outline);border-radius:9999px;background:var(--white);">Progress</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">🔐 The Prime Number Mystery</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">🔢 Prime Numbers</span>
+        <span class="book-tag">🧮 Factor Trees</span>
+        <span class="book-tag">🔍 Number Theory</span>
+        <span class="book-tag">Age 10–11</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Nn6.01 Cambridge</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 12</span>
+  </div>
+
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:8.33%"></div>
+  </div>
+
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- PAGE 1 – COVER -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🔐</span>
+      <div class="cover-title">The Prime Number Mystery</div>
+      <div class="cover-subtitle">A number theory adventure with Inspector Erin<br>and Professor Zane</div>
+      <div class="cover-chars">🕵️‍♀️ 👨‍🏫</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 12 Pages</span>
+        <span class="cover-tag">🔢 Prime Numbers · Factors</span>
+        <span class="cover-tag">🧮 HCF · LCM · Age 10–11</span>
+        <span class="cover-tag">⭐ Nn6.01 Cambridge</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 – WHAT IS A PRIME? -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:1.3rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Primes vs Composites</div>
+      <div style="width:92%;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;">
+        <div style="background:#6D28D9;color:white;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">2<div style="font-size:.6rem;font-weight:600;opacity:.85;">prime</div></div>
+        <div style="background:#6D28D9;color:white;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">3<div style="font-size:.6rem;font-weight:600;opacity:.85;">prime</div></div>
+        <div style="background:#E2E8F0;color:#727785;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">4<div style="font-size:.6rem;font-weight:600;opacity:.75;">2×2</div></div>
+        <div style="background:#6D28D9;color:white;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">5<div style="font-size:.6rem;font-weight:600;opacity:.85;">prime</div></div>
+        <div style="background:#E2E8F0;color:#727785;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">6<div style="font-size:.6rem;font-weight:600;opacity:.75;">2×3</div></div>
+        <div style="background:#6D28D9;color:white;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">7<div style="font-size:.6rem;font-weight:600;opacity:.85;">prime</div></div>
+        <div style="background:#E2E8F0;color:#727785;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">8<div style="font-size:.6rem;font-weight:600;opacity:.75;">2×4</div></div>
+        <div style="background:#E2E8F0;color:#727785;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">9<div style="font-size:.6rem;font-weight:600;opacity:.75;">3×3</div></div>
+        <div style="background:#E2E8F0;color:#727785;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">10<div style="font-size:.6rem;font-weight:600;opacity:.75;">2×5</div></div>
+        <div style="background:#6D28D9;color:white;border-radius:8px;padding:8px;text-align:center;font-weight:800;font-size:.95rem;">11<div style="font-size:.6rem;font-weight:600;opacity:.85;">prime</div></div>
+      </div>
+      <div style="margin-top:12px;font-size:.78rem;font-weight:700;color:var(--accent-dark);background:#EDE9FE;padding:7px 14px;border-radius:9px;text-align:center;">Purple = prime · Grey = composite</div>
+      <div class="illus-scene" style="margin-top:12px;">
+        <span style="font-size:1.8rem;">🕵️‍♀️</span>
+        <span style="font-size:1.6rem;margin-left:10px;">👨‍🏫</span>
+      </div>
+      <div class="illus-caption">Erin and Zane examine the number vault</div>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · What Is a Prime Number?</div>
+      <div class="story-text">
+        <strong>Inspector Erin</strong> stood before the ancient number vault deep beneath the City of Mathematica. The vault's digital lock displayed a single message: <em>"Enter only prime numbers to proceed."</em> Beside her, <strong>Professor Zane</strong> adjusted his spectacles and smiled.<br><br>
+        "A <em>prime number</em>," he explained, "is any whole number greater than 1 that has <strong>exactly two factors</strong>: 1 and itself. No more, no less." He tapped the display. "The number 7 is prime because its only factors are 1 and 7. But 6 is not prime, because it can be divided by 1, 2, 3, and 6 — four factors in total."<br><br>
+        Erin studied the grid above. <strong>2</strong> is the smallest prime — and the only even prime, since every other even number is divisible by 2. Then come 3, 5, 7, 11, 13, 17, 19 … The primes to 20 are easy to memorise: <em>2, 3, 5, 7, 11, 13, 17, 19</em>. Numbers with more than two factors are called <strong>composite numbers</strong>. The number 1 is neither prime nor composite — it is in a category of its own.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">Prime vs Composite</span></div>
+        <p><strong>Prime:</strong> exactly 2 factors (1 and itself). Examples: 2, 3, 5, 7, 11<br>
+        <strong>Composite:</strong> more than 2 factors. Examples: 4 (1,2,4), 6 (1,2,3,6), 12 (1,2,3,4,6,12)<br>
+        <strong>Special:</strong> 1 is neither prime nor composite.</p>
+      </div>
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Is <strong>15</strong> a prime number?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','15 has factors 1, 3, 5, and 15 — that is 4 factors, so it is composite.')">Yes — it is prime</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','Correct! 15 = 3 × 5, so it has 4 factors and is composite.')">No — 15 = 3 × 5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','1 is neither prime nor composite, not related to 15.')">It is neither</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','15 ends in 5, so it is divisible by 5 — definitely not prime.')">Cannot tell</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3 – SIEVE OF ERATOSTHENES -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">Sieve of Eratosthenes (1–50)</div>
+      <div class="prime-grid" style="max-width:280px;">
+        <div class="pg-one">1</div>
+        <div class="pg-prime">2</div><div class="pg-comp">3</div><div class="pg-comp">4</div><div class="pg-prime">5</div>
+        <div class="pg-comp">6</div><div class="pg-prime">7</div><div class="pg-comp">8</div><div class="pg-comp">9</div><div class="pg-comp">10</div>
+        <div class="pg-prime">11</div><div class="pg-comp">12</div><div class="pg-prime">13</div><div class="pg-comp">14</div><div class="pg-comp">15</div>
+        <div class="pg-comp">16</div><div class="pg-prime">17</div><div class="pg-comp">18</div><div class="pg-prime">19</div><div class="pg-comp">20</div>
+        <div class="pg-comp">21</div><div class="pg-comp">22</div><div class="pg-prime">23</div><div class="pg-comp">24</div><div class="pg-comp">25</div>
+        <div class="pg-comp">26</div><div class="pg-comp">27</div><div class="pg-comp">28</div><div class="pg-prime">29</div><div class="pg-comp">30</div>
+        <div class="pg-prime">31</div><div class="pg-comp">32</div><div class="pg-comp">33</div><div class="pg-comp">34</div><div class="pg-comp">35</div>
+        <div class="pg-comp">36</div><div class="pg-prime">37</div><div class="pg-comp">38</div><div class="pg-comp">39</div><div class="pg-comp">40</div>
+        <div class="pg-prime">41</div><div class="pg-comp">42</div><div class="pg-prime">43</div><div class="pg-comp">44</div><div class="pg-comp">45</div>
+        <div class="pg-comp">46</div><div class="pg-prime">47</div><div class="pg-comp">48</div><div class="pg-comp">49</div><div class="pg-comp">50</div>
+      </div>
+      <div style="margin-top:8px;font-size:.72rem;color:var(--accent-dark);font-weight:700;background:rgba(255,255,255,.6);padding:5px 10px;border-radius:8px;">Purple = prime · Struck = composite · Orange = 1</div>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · The Sieve of Eratosthenes</div>
+      <div class="story-text">
+        Professor Zane produced a large grid of numbers from his satchel. "Over 2,000 years ago," he began, "a Greek scholar named <strong>Eratosthenes</strong> devised a remarkably elegant method to find all prime numbers up to any limit. We still use his technique today — it is called the <em>Sieve of Eratosthenes</em>."<br><br>
+        The method works like this. Start with a full grid of numbers. First, <strong>cross out 1</strong>, as it is neither prime nor composite. Next, <strong>circle 2</strong> (the first prime) and cross out all multiples of 2: 4, 6, 8, 10 … Then circle 3 and cross out all multiples of 3 not already crossed. Continue: circle 5, cross out multiples of 5; circle 7, cross out multiples of 7. You only need to continue until the prime you circle is greater than the square root of your limit.<br><br>
+        Every number that survives — that has never been crossed out — is prime. Look at the grid on the left: the <em>purple numbers</em> are all the primes to 50. There are <strong>15 primes</strong> between 1 and 50. Notice how they thin out as numbers grow larger, yet they never completely disappear.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">Sieve Steps</span></div>
+        <p>1. Cross out 1 &nbsp;2. Circle 2, cross multiples of 2<br>
+        3. Circle 3, cross multiples of 3 &nbsp;4. Circle 5, cross multiples of 5<br>
+        5. Circle 7, cross multiples of 7 &nbsp;→ Everything remaining is prime</p>
+      </div>
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">How many prime numbers are there between <strong>20 and 50</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Count again: 23, 29, 31, 37, 41, 43, 47 — that is 7.')">5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Close, but you may have missed one. The primes are 23,29,31,37,41,43,47.')">6</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Correct! 23, 29, 31, 37, 41, 43, 47 — seven primes between 20 and 50.')">7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Too many — some of those numbers are composite.')">9</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4 – FACTOR TREES -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Factor Tree: 36</div>
+      <svg width="220" height="200" viewBox="0 0 220 200" style="overflow:visible">
+        <!-- Root -->
+        <circle cx="110" cy="20" r="18" fill="#6D28D9"/>
+        <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">36</text>
+        <!-- Level 1 -->
+        <line x1="110" y1="38" x2="60" y2="72" stroke="#4C1D95" stroke-width="2"/>
+        <line x1="110" y1="38" x2="160" y2="72" stroke="#4C1D95" stroke-width="2"/>
+        <circle cx="60" cy="84" r="16" fill="#8B5CF6"/>
+        <text x="60" y="89" text-anchor="middle" fill="white" font-size="13" font-weight="bold">4</text>
+        <circle cx="160" cy="84" r="16" fill="#8B5CF6"/>
+        <text x="160" y="89" text-anchor="middle" fill="white" font-size="13" font-weight="bold">9</text>
+        <!-- Level 2 left: 4 = 2×2 -->
+        <line x1="60" y1="100" x2="35" y2="134" stroke="#4C1D95" stroke-width="2"/>
+        <line x1="60" y1="100" x2="85" y2="134" stroke="#4C1D95" stroke-width="2"/>
+        <circle cx="35" cy="146" r="14" fill="#059669"/>
+        <text x="35" y="151" text-anchor="middle" fill="white" font-size="13" font-weight="bold">2</text>
+        <circle cx="85" cy="146" r="14" fill="#059669"/>
+        <text x="85" y="151" text-anchor="middle" fill="white" font-size="13" font-weight="bold">2</text>
+        <!-- Level 2 right: 9 = 3×3 -->
+        <line x1="160" y1="100" x2="135" y2="134" stroke="#4C1D95" stroke-width="2"/>
+        <line x1="160" y1="100" x2="185" y2="134" stroke="#4C1D95" stroke-width="2"/>
+        <circle cx="135" cy="146" r="14" fill="#059669"/>
+        <text x="135" y="151" text-anchor="middle" fill="white" font-size="13" font-weight="bold">3</text>
+        <circle cx="185" cy="146" r="14" fill="#059669"/>
+        <text x="185" y="151" text-anchor="middle" fill="white" font-size="13" font-weight="bold">3</text>
+        <!-- Answer -->
+        <text x="110" y="185" text-anchor="middle" fill="#4C1D95" font-size="13" font-weight="bold">36 = 2² × 3²</text>
+      </svg>
+      <div style="margin-top:6px;font-size:.75rem;color:var(--accent-dark);font-weight:700;background:#EDE9FE;padding:6px 12px;border-radius:8px;text-align:center;">Green circles = prime factors (leaves of the tree)</div>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Factor Trees</div>
+      <div class="story-text">
+        The vault displayed a new challenge: decompose the lock codes into their prime building blocks. "Every composite number," said Professor Zane, "can be broken apart into prime factors. A <em>factor tree</em> is a visual method for doing exactly this."<br><br>
+        Take the number <strong>36</strong>. We begin by splitting it into any two factors: 4 × 9. Neither is prime, so we split again: 4 = 2 × 2, and 9 = 3 × 3. Both 2 and 3 are prime — they cannot be split further. These are the <strong>leaves</strong> of the tree. Reading all the leaves gives us: <em>36 = 2 × 2 × 3 × 3 = 2² × 3²</em>.<br><br>
+        The remarkable fact — known as the <strong>Fundamental Theorem of Arithmetic</strong> — is that every whole number greater than 1 has <em>exactly one</em> unique prime factorisation (ignoring order). No matter how you build your factor tree for 36, you will always end up with 2² × 3². This makes prime factorisation an incredibly powerful tool for solving many kinds of number problems.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">Factor Tree Method</span></div>
+        <p>Split a number into two factors → split again if not prime → repeat until all leaves are prime.<br>
+        Write product of all leaves using index notation:<br>
+        <strong>36 = 2² × 3²</strong> &nbsp;|&nbsp; <strong>12 = 2² × 3</strong></p>
+      </div>
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">What is the prime factorisation of <strong>60</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','60 = 4×15 = 2²×3×5. You need three different primes.')">2³ × 5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Correct! 60 = 4×15 = 2²×(3×5) = 2²×3×5.')">2² × 3 × 5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','2×30 = 2×(2×15) = 2×2×(3×5) = 2²×3×5, not 2×3×5.')">2 × 3 × 5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','Check: 2³×3 = 24, not 60.')">2³ × 3</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5 – PRIME FACTORISATION -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Factor Tree: 84</div>
+      <svg width="220" height="200" viewBox="0 0 220 200" style="overflow:visible">
+        <circle cx="110" cy="20" r="18" fill="#6D28D9"/>
+        <text x="110" y="25" text-anchor="middle" fill="white" font-size="14" font-weight="bold">84</text>
+        <line x1="110" y1="38" x2="60" y2="72" stroke="#4C1D95" stroke-width="2"/>
+        <line x1="110" y1="38" x2="160" y2="72" stroke="#4C1D95" stroke-width="2"/>
+        <circle cx="60" cy="84" r="16" fill="#059669"/>
+        <text x="60" y="89" text-anchor="middle" fill="white" font-size="13" font-weight="bold">2</text>
+        <circle cx="160" cy="84" r="16" fill="#8B5CF6"/>
+        <text x="160" y="89" text-anchor="middle" fill="white" font-size="13" font-weight="bold">42</text>
+        <line x1="160" y1="100" x2="130" y2="134" stroke="#4C1D95" stroke-width="2"/>
+        <line x1="160" y1="100" x2="190" y2="134" stroke="#4C1D95" stroke-width="2"/>
+        <circle cx="130" cy="146" r="14" fill="#059669"/>
+        <text x="130" y="151" text-anchor="middle" fill="white" font-size="13" font-weight="bold">2</text>
+        <circle cx="190" cy="146" r="14" fill="#8B5CF6"/>
+        <text x="190" y="151" text-anchor="middle" fill="white" font-size="13" font-weight="bold">21</text>
+        <line x1="190" y1="160" x2="168" y2="187" stroke="#4C1D95" stroke-width="2"/>
+        <line x1="190" y1="160" x2="212" y2="187" stroke="#4C1D95" stroke-width="2"/>
+        <circle cx="168" cy="193" r="12" fill="#059669"/>
+        <text x="168" y="197" text-anchor="middle" fill="white" font-size="12" font-weight="bold">3</text>
+        <circle cx="212" cy="193" r="12" fill="#059669"/>
+        <text x="212" y="197" text-anchor="middle" fill="white" font-size="12" font-weight="bold">7</text>
+        <text x="70" y="185" text-anchor="middle" fill="#4C1D95" font-size="12" font-weight="bold">84 = 2² × 3 × 7</text>
+      </svg>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Writing Prime Factorisations</div>
+      <div class="story-text">
+        Inspector Erin keyed the code <strong>84</strong> into the vault's analysis terminal. "Let us find every prime that builds this number," she said, watching the factor tree grow on the screen.<br><br>
+        Splitting 84 into 2 × 42, then 42 into 2 × 21, then 21 into 3 × 7, she arrived at four prime leaves: <em>2, 2, 3, 7</em>. Written using index notation: <strong>84 = 2² × 3 × 7</strong>.<br><br>
+        Prime factorisation tells us the <em>DNA</em> of a number. It reveals every factor the number contains. From 84 = 2² × 3 × 7, we can immediately see that 84 is divisible by 2, 4, 3, 7, 12, 14, 21, 28, 42, and 84. A useful tip: the number of factors a composite number has can be calculated from its prime factorisation. For 2² × 3¹ × 7¹, the count is (2+1)(1+1)(1+1) = <strong>12 factors</strong> in total.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">Prime Factorisation</span></div>
+        <p>84 ÷ 2 = 42 → 42 ÷ 2 = 21 → 21 ÷ 3 = 7 → 7 is prime<br>
+        <strong>84 = 2² × 3 × 7</strong><br>
+        Number of factors: (2+1)(1+1)(1+1) = 3 × 2 × 2 = <strong>12</strong></p>
+      </div>
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Write <strong>120</strong> as a product of prime factors in index notation.</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Correct! 120 = 8×15 = 2³×3×5. Well done!')">2³ × 3 × 5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Check: 2²×3×5 = 60, not 120.')">2² × 3 × 5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Check: 2³×3² = 72, not 120.')">2³ × 3²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Check: 2×3×5 = 30, not 120.')">2 × 3 × 5</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6 – SQUARE NUMBERS -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Square Numbers &amp; Prime Squares</div>
+      <svg width="240" height="200" viewBox="0 0 240 200">
+        <!-- 2×2 grid -->
+        <rect x="10" y="20" width="24" height="24" fill="#6D28D9" rx="3"/>
+        <rect x="36" y="20" width="24" height="24" fill="#6D28D9" rx="3"/>
+        <rect x="10" y="46" width="24" height="24" fill="#6D28D9" rx="3"/>
+        <rect x="36" y="46" width="24" height="24" fill="#6D28D9" rx="3"/>
+        <text x="35" y="86" text-anchor="middle" fill="#4C1D95" font-size="12" font-weight="bold">4 = 2²</text>
+        <!-- 3×3 grid -->
+        <rect x="76" y="20" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <rect x="100" y="20" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <rect x="124" y="20" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <rect x="76" y="44" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <rect x="100" y="44" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <rect x="124" y="44" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <rect x="76" y="68" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <rect x="100" y="68" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <rect x="124" y="68" width="22" height="22" fill="#8B5CF6" rx="3"/>
+        <text x="101" y="104" text-anchor="middle" fill="#4C1D95" font-size="12" font-weight="bold">9 = 3²</text>
+        <!-- 5×5 grid -->
+        <text x="195" y="18" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="800">5×5</text>
+        <rect x="163" y="22" width="14" height="14" fill="#059669" rx="2"/><rect x="179" y="22" width="14" height="14" fill="#059669" rx="2"/><rect x="195" y="22" width="14" height="14" fill="#059669" rx="2"/><rect x="211" y="22" width="14" height="14" fill="#059669" rx="2"/><rect x="227" y="22" width="14" height="14" fill="#059669" rx="2"/>
+        <rect x="163" y="38" width="14" height="14" fill="#059669" rx="2"/><rect x="179" y="38" width="14" height="14" fill="#059669" rx="2"/><rect x="195" y="38" width="14" height="14" fill="#059669" rx="2"/><rect x="211" y="38" width="14" height="14" fill="#059669" rx="2"/><rect x="227" y="38" width="14" height="14" fill="#059669" rx="2"/>
+        <rect x="163" y="54" width="14" height="14" fill="#059669" rx="2"/><rect x="179" y="54" width="14" height="14" fill="#059669" rx="2"/><rect x="195" y="54" width="14" height="14" fill="#059669" rx="2"/><rect x="211" y="54" width="14" height="14" fill="#059669" rx="2"/><rect x="227" y="54" width="14" height="14" fill="#059669" rx="2"/>
+        <rect x="163" y="70" width="14" height="14" fill="#059669" rx="2"/><rect x="179" y="70" width="14" height="14" fill="#059669" rx="2"/><rect x="195" y="70" width="14" height="14" fill="#059669" rx="2"/><rect x="211" y="70" width="14" height="14" fill="#059669" rx="2"/><rect x="227" y="70" width="14" height="14" fill="#059669" rx="2"/>
+        <rect x="163" y="86" width="14" height="14" fill="#059669" rx="2"/><rect x="179" y="86" width="14" height="14" fill="#059669" rx="2"/><rect x="195" y="86" width="14" height="14" fill="#059669" rx="2"/><rect x="211" y="86" width="14" height="14" fill="#059669" rx="2"/><rect x="227" y="86" width="14" height="14" fill="#059669" rx="2"/>
+        <text x="195" y="116" text-anchor="middle" fill="#4C1D95" font-size="12" font-weight="bold">25 = 5²</text>
+        <text x="120" y="145" text-anchor="middle" fill="#4C1D95" font-size="11" font-weight="700">Square numbers: 1, 4, 9, 16, 25, 36, 49 …</text>
+        <text x="120" y="165" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="700">Prime squares: 4=2², 9=3², 25=5², 49=7² …</text>
+        <text x="120" y="185" text-anchor="middle" fill="#C2410C" font-size="11" font-weight="700">Note: 2 is the ONLY even prime!</text>
+      </svg>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Square Numbers &amp; Prime Squares</div>
+      <div class="story-text">
+        The vault's next lock displayed a sequence of square-shaped tiles: 1, 4, 9, 16, 25, 36 … Erin recognised them immediately. "These are <em>square numbers</em> — the result of multiplying an integer by itself." She said the key word with emphasis: <strong>n²</strong>.<br><br>
+        When the base number in n² is itself prime, the result is called a <strong>prime square</strong>: 4 = 2², 9 = 3², 25 = 5², 49 = 7². Professor Zane pointed out a curious fact: <em>"A prime square like 25 has exactly three factors: 1, 5, and 25. All prime squares have exactly three factors!"</em> This is because the only way to write p² as a product is 1 × p², p × p, or p² × 1.<br><br>
+        Another important fact worth memorising: <strong>2 is the only even prime number</strong>. Every other even number is divisible by 2, so it has at least three factors and is composite. The square root of a prime square is always prime: √49 = 7, which is prime. Checking whether a number is a perfect square can help us test for primality in some situations.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">Square Numbers</span></div>
+        <p><strong>Square numbers:</strong> 1, 4, 9, 16, 25, 36, 49, 64, 81, 100 …<br>
+        <strong>Prime squares</strong> have exactly 3 factors: 1, p, p²<br>
+        <strong>2</strong> is the only even prime — all other even numbers are composite.</p>
+      </div>
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Is <strong>49</strong> prime? What is its square root?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','49 = 7 × 7, so it has three factors: 1, 7, and 49. It is composite.')">Yes, prime — √49 = 7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Correct! 49 = 7² is composite. It has factors 1, 7, 49. Its square root is 7.')">No, composite — √49 = 7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','√49 = 7, not 7.5. And 49 = 7×7 is not prime.')">No, composite — √49 = 7.5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','49 = 7 × 7, which is a perfect square with integer square root.')">Cannot tell — not a perfect square</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 7 – PRIMES TO 100 -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:1rem;font-weight:800;color:var(--accent-dark);margin-bottom:6px;">All 25 Primes to 100</div>
+      <div class="prime-grid" style="max-width:290px;">
+        <div class="pg-one">1</div><div class="pg-prime">2</div><div class="pg-prime">3</div><div class="pg-comp">4</div><div class="pg-prime">5</div><div class="pg-comp">6</div><div class="pg-prime">7</div><div class="pg-comp">8</div><div class="pg-comp">9</div><div class="pg-comp">10</div>
+        <div class="pg-prime">11</div><div class="pg-comp">12</div><div class="pg-prime">13</div><div class="pg-comp">14</div><div class="pg-comp">15</div><div class="pg-comp">16</div><div class="pg-prime">17</div><div class="pg-comp">18</div><div class="pg-prime">19</div><div class="pg-comp">20</div>
+        <div class="pg-comp">21</div><div class="pg-comp">22</div><div class="pg-prime">23</div><div class="pg-comp">24</div><div class="pg-comp">25</div><div class="pg-comp">26</div><div class="pg-comp">27</div><div class="pg-comp">28</div><div class="pg-prime">29</div><div class="pg-comp">30</div>
+        <div class="pg-prime">31</div><div class="pg-comp">32</div><div class="pg-comp">33</div><div class="pg-comp">34</div><div class="pg-comp">35</div><div class="pg-comp">36</div><div class="pg-prime">37</div><div class="pg-comp">38</div><div class="pg-comp">39</div><div class="pg-comp">40</div>
+        <div class="pg-prime">41</div><div class="pg-comp">42</div><div class="pg-prime">43</div><div class="pg-comp">44</div><div class="pg-comp">45</div><div class="pg-comp">46</div><div class="pg-prime">47</div><div class="pg-comp">48</div><div class="pg-comp">49</div><div class="pg-comp">50</div>
+        <div class="pg-comp">51</div><div class="pg-prime">53</div><div class="pg-comp">52</div><div class="pg-comp">54</div><div class="pg-comp">55</div><div class="pg-comp">56</div><div class="pg-comp">57</div><div class="pg-comp">58</div><div class="pg-prime">59</div><div class="pg-comp">60</div>
+        <div class="pg-prime">61</div><div class="pg-comp">62</div><div class="pg-comp">63</div><div class="pg-comp">64</div><div class="pg-comp">65</div><div class="pg-comp">66</div><div class="pg-prime">67</div><div class="pg-comp">68</div><div class="pg-comp">69</div><div class="pg-comp">70</div>
+        <div class="pg-prime">71</div><div class="pg-comp">72</div><div class="pg-prime">73</div><div class="pg-comp">74</div><div class="pg-comp">75</div><div class="pg-comp">76</div><div class="pg-comp">77</div><div class="pg-comp">78</div><div class="pg-prime">79</div><div class="pg-comp">80</div>
+        <div class="pg-comp">81</div><div class="pg-comp">82</div><div class="pg-prime">83</div><div class="pg-comp">84</div><div class="pg-comp">85</div><div class="pg-comp">86</div><div class="pg-comp">87</div><div class="pg-comp">88</div><div class="pg-prime">89</div><div class="pg-comp">90</div>
+        <div class="pg-comp">91</div><div class="pg-comp">92</div><div class="pg-comp">93</div><div class="pg-comp">94</div><div class="pg-comp">95</div><div class="pg-comp">96</div><div class="pg-prime">97</div><div class="pg-comp">98</div><div class="pg-comp">99</div><div class="pg-comp">100</div>
+      </div>
+      <div style="margin-top:5px;font-size:.68rem;color:var(--accent-dark);font-weight:700;background:rgba(255,255,255,.6);padding:4px 8px;border-radius:7px;">25 primes highlighted in purple</div>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · How Many Primes to 100?</div>
+      <div class="story-text">
+        Professor Zane spread the complete 100-square on the vault floor. "There are exactly <strong>25 prime numbers</strong> between 1 and 100," he announced. "Let us list them all: <em>2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97.</em>"<br><br>
+        Several patterns are worth noticing. All primes greater than 5 end in 1, 3, 7, or 9 — never 0, 2, 4, 5, 6, or 8. Why? Because numbers ending in those digits are always divisible by 2 or 5. However, not every number ending in 1, 3, 7, or 9 is prime: 21 = 3 × 7, for example.<br><br>
+        To test whether a number n is prime, you only need to check for prime factors up to √n. For instance, to check whether 97 is prime, you test divisibility by 2, 3, 5, and 7 (since 7² = 49 &lt; 97 &lt; 121 = 11²). Because 97 is not divisible by any of these, it is prime. This is a much more efficient approach than testing every number up to 96.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">Primality Test Shortcut</span></div>
+        <p>To test if n is prime: check for prime factors up to √n.<br>
+        For <strong>n = 97</strong>: √97 ≈ 9.8, so test 2, 3, 5, 7.<br>
+        97 ÷ 2, 3, 5, 7 — none divide evenly → <strong>97 is prime</strong>.</p>
+      </div>
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">How many prime numbers are there between <strong>50 and 100</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','Count from the grid: 53,59,61,67,71,73,79,83,89,97 — that is 10.')">8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','You may have missed one or two. Check the full list carefully.')">9</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','Correct! 53,59,61,67,71,73,79,83,89,97 — ten primes between 50 and 100.')">10</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','Too many — some of those numbers between 50 and 100 are composite.')">12</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 8 – HCF -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">HCF(24, 36) using Prime Factorisation</div>
+      <svg width="240" height="180" viewBox="0 0 240 180">
+        <text x="60" y="20" text-anchor="middle" fill="#4C1D95" font-size="12" font-weight="bold">24</text>
+        <text x="180" y="20" text-anchor="middle" fill="#4C1D95" font-size="12" font-weight="bold">36</text>
+        <text x="60" y="45" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="bold">= 2³ × 3</text>
+        <text x="180" y="45" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="bold">= 2² × 3²</text>
+        <line x1="30" y1="55" x2="210" y2="55" stroke="#DDD6FE" stroke-width="1.5"/>
+        <text x="120" y="75" text-anchor="middle" fill="#4C1D95" font-size="11" font-weight="700">Take LOWEST power of COMMON primes:</text>
+        <rect x="30" y="85" width="80" height="28" fill="#059669" rx="7"/>
+        <text x="70" y="104" text-anchor="middle" fill="white" font-size="12" font-weight="bold">2² (from 36)</text>
+        <rect x="130" y="85" width="80" height="28" fill="#059669" rx="7"/>
+        <text x="170" y="104" text-anchor="middle" fill="white" font-size="12" font-weight="bold">3¹ (from 24)</text>
+        <line x1="30" y1="122" x2="210" y2="122" stroke="#DDD6FE" stroke-width="1.5"/>
+        <text x="120" y="145" text-anchor="middle" fill="#4C1D95" font-size="13" font-weight="bold">HCF = 2² × 3 = 4 × 3 = 12</text>
+        <text x="120" y="168" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">12 is the largest number dividing both 24 and 36</text>
+      </svg>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · HCF Using Prime Factorisation</div>
+      <div class="story-text">
+        The vault presented a new puzzle: "Find the <strong>Highest Common Factor</strong> of the two lock codes." Erin typed in 24 and 36. The HCF — also called the Greatest Common Divisor (GCD) — is the <em>largest number that divides exactly into both values</em>.<br><br>
+        Using prime factorisation, the process is elegant and systematic. First, write both numbers as products of prime factors: <strong>24 = 2³ × 3</strong> and <strong>36 = 2² × 3²</strong>. Then, for each prime that appears in <em>both</em> factorisations, take the <em>lower</em> power: for prime 2, the lower power is 2² (from 36); for prime 3, the lower power is 3¹ (from 24). Multiply these together: <strong>HCF(24, 36) = 2² × 3 = 4 × 3 = 12</strong>.<br><br>
+        We can verify: 24 ÷ 12 = 2 ✓ and 36 ÷ 12 = 3 ✓. The HCF is used in real life whenever we need to split things into equal groups without any remainder — for instance, arranging tiles to fill a room exactly.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">HCF Method</span></div>
+        <p>Write both numbers as prime products → identify common primes → take the <strong>lowest power</strong> of each → multiply.<br>
+        HCF(24,36): 2³ and 2² → take 2² &nbsp;|&nbsp; 3¹ and 3² → take 3¹<br>
+        <strong>HCF = 2² × 3 = 12</strong></p>
+      </div>
+      <div class="think-box" id="think-page8">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Find HCF(48, 72). Use prime factorisation: 48 = 2⁴ × 3, 72 = 2³ × 3².</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','Take lowest powers: 2³ and 3¹ → 8×3 = 24, not 12.')">12</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'correct','Correct! Lowest powers: 2³ × 3¹ = 8 × 3 = 24.')">24</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','36 = 2² × 3², not what you get from lowest powers here.')">36</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','That is the HCF of a different pair — check your lowest powers.')">8</button>
+        </div>
+        <div class="think-result" id="think-page8-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 9 – LCM -->
+  <div class="book-page" id="page-9">
+    <div class="illustration" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD);">
+      <div class="page-num-illus">Page 9</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">LCM(12, 18) using Prime Factorisation</div>
+      <svg width="240" height="180" viewBox="0 0 240 180">
+        <text x="60" y="20" text-anchor="middle" fill="#4C1D95" font-size="12" font-weight="bold">12</text>
+        <text x="180" y="20" text-anchor="middle" fill="#4C1D95" font-size="12" font-weight="bold">18</text>
+        <text x="60" y="45" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="bold">= 2² × 3</text>
+        <text x="180" y="45" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="bold">= 2 × 3²</text>
+        <line x1="30" y1="55" x2="210" y2="55" stroke="#DDD6FE" stroke-width="1.5"/>
+        <text x="120" y="75" text-anchor="middle" fill="#4C1D95" font-size="11" font-weight="700">Take HIGHEST power of ALL primes:</text>
+        <rect x="30" y="85" width="80" height="28" fill="#6D28D9" rx="7"/>
+        <text x="70" y="104" text-anchor="middle" fill="white" font-size="12" font-weight="bold">2² (from 12)</text>
+        <rect x="130" y="85" width="80" height="28" fill="#6D28D9" rx="7"/>
+        <text x="170" y="104" text-anchor="middle" fill="white" font-size="12" font-weight="bold">3² (from 18)</text>
+        <line x1="30" y1="122" x2="210" y2="122" stroke="#DDD6FE" stroke-width="1.5"/>
+        <text x="120" y="145" text-anchor="middle" fill="#4C1D95" font-size="13" font-weight="bold">LCM = 2² × 3² = 4 × 9 = 36</text>
+        <text x="120" y="168" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="700">36 is the smallest number divisible by both 12 and 18</text>
+      </svg>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 9 · LCM Using Prime Factorisation</div>
+      <div class="story-text">
+        The vault's final numerical lock required the <strong>Lowest Common Multiple</strong> of two codes. "The LCM," explained Professor Zane, "is the <em>smallest positive number that both values divide into exactly</em>."<br><br>
+        The prime factorisation method for LCM is similar to HCF but reversed in one crucial way: instead of taking the <em>lowest</em> power of common primes, we take the <em>highest</em> power of <em>all</em> primes that appear in either number. For 12 = 2² × 3 and 18 = 2 × 3²: the prime 2 appears with highest power 2² (from 12), and prime 3 appears with highest power 3² (from 18). So <strong>LCM(12, 18) = 2² × 3² = 4 × 9 = 36</strong>.<br><br>
+        Verify: 36 ÷ 12 = 3 ✓ and 36 ÷ 18 = 2 ✓. The LCM is used whenever we need to find when two repeating events coincide — for example, if two buses leave every 12 and 18 minutes respectively, they both leave together every 36 minutes. There is also a useful relationship: <strong>HCF × LCM = a × b</strong> for any two numbers a and b.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">LCM Method</span></div>
+        <p>Write both numbers as prime products → take the <strong>highest power</strong> of every prime appearing in either number → multiply.<br>
+        LCM(12,18): 2² (higher) × 3² (higher) = <strong>36</strong><br>
+        Also: HCF × LCM = 12 × 18 = 216 = 6 × 36 ✓</p>
+      </div>
+      <div class="think-box" id="think-page9">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Find LCM(8, 12). Use: 8 = 2³, 12 = 2² × 3.</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','Take highest powers: 2³ and 3¹ → 8×3 = 24, not 96.')">96</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'correct','Correct! Highest powers: 2³ × 3¹ = 8 × 3 = 24.')">24</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','That is the HCF (lowest powers: 2² = 4), not the LCM.')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','Check: 2³×3 = 24, not 48.')">48</button>
+        </div>
+        <div class="think-result" id="think-page9-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 10 – TWIN PRIMES -->
+  <div class="book-page" id="page-10">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 10</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Twin Primes</div>
+      <svg width="240" height="190" viewBox="0 0 240 190">
+        <rect x="10" y="10" width="50" height="32" fill="#6D28D9" rx="8"/>
+        <text x="35" y="31" text-anchor="middle" fill="white" font-size="14" font-weight="bold">3</text>
+        <rect x="70" y="10" width="50" height="32" fill="#6D28D9" rx="8"/>
+        <text x="95" y="31" text-anchor="middle" fill="white" font-size="14" font-weight="bold">5</text>
+        <text x="155" y="30" fill="#4C1D95" font-size="12" font-weight="700">diff = 2 ✓</text>
+        <rect x="10" y="55" width="50" height="32" fill="#8B5CF6" rx="8"/>
+        <text x="35" y="76" text-anchor="middle" fill="white" font-size="14" font-weight="bold">5</text>
+        <rect x="70" y="55" width="50" height="32" fill="#8B5CF6" rx="8"/>
+        <text x="95" y="76" text-anchor="middle" fill="white" font-size="14" font-weight="bold">7</text>
+        <text x="155" y="75" fill="#4C1D95" font-size="12" font-weight="700">diff = 2 ✓</text>
+        <rect x="10" y="100" width="50" height="32" fill="#059669" rx="8"/>
+        <text x="35" y="121" text-anchor="middle" fill="white" font-size="14" font-weight="bold">11</text>
+        <rect x="70" y="100" width="50" height="32" fill="#059669" rx="8"/>
+        <text x="95" y="121" text-anchor="middle" fill="white" font-size="14" font-weight="bold">13</text>
+        <text x="155" y="120" fill="#4C1D95" font-size="12" font-weight="700">diff = 2 ✓</text>
+        <rect x="10" y="145" width="50" height="32" fill="#F97316" rx="8"/>
+        <text x="35" y="166" text-anchor="middle" fill="white" font-size="14" font-weight="bold">17</text>
+        <rect x="70" y="145" width="50" height="32" fill="#F97316" rx="8"/>
+        <text x="95" y="166" text-anchor="middle" fill="white" font-size="14" font-weight="bold">19</text>
+        <text x="155" y="165" fill="#4C1D95" font-size="12" font-weight="700">diff = 2 ✓</text>
+      </svg>
+      <div style="font-size:.72rem;font-weight:700;color:var(--accent-dark);background:#EDE9FE;padding:5px 10px;border-radius:8px;margin-top:4px;text-align:center;">Twin primes: pairs with difference of 2</div>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 10 · Twin Primes &amp; Goldbach's Conjecture</div>
+      <div class="story-text">
+        As the vault's mechanisms whirred, Professor Zane shared a fascinating discovery about prime pairs. <em>"Twin primes,"</em> he said, "are pairs of prime numbers that differ by exactly 2." The pairs (3, 5), (5, 7), (11, 13), (17, 19), (29, 31), (41, 43) are all twin primes.<br><br>
+        <strong>The Twin Prime Conjecture</strong> — one of the great unsolved problems in mathematics — states that there are infinitely many twin prime pairs. Despite centuries of effort, no one has yet proved or disproved this. The largest known twin prime pair contains over 300,000 digits each.<br><br>
+        Another famous unsolved puzzle is <strong>Goldbach's Conjecture</strong> (1742): every even number greater than 2 can be written as the sum of exactly two primes. For example: 4 = 2+2, 6 = 3+3, 8 = 3+5, 10 = 3+7 = 5+5, 28 = 5+23. This has been verified for all even numbers up to enormously large values, yet a complete proof remains elusive. Erin smiled — sometimes the deepest mysteries in mathematics begin with the simplest numbers.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">Twin Primes</span></div>
+        <p><strong>Twin primes:</strong> prime pairs differing by 2.<br>
+        Examples: (3,5), (5,7), (11,13), (17,19), (29,31), (41,43), (59,61) …<br>
+        <strong>Goldbach:</strong> every even n &gt; 2 = sum of two primes (unproved!)</p>
+      </div>
+      <div class="think-box" id="think-page10">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">How many twin prime pairs are there where both primes are less than 50?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','Count: (3,5),(5,7),(11,13),(17,19),(29,31),(41,43) — that is 6.')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','You may have missed one. Check all pairs up to 50 carefully.')">5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'correct','Correct! (3,5),(5,7),(11,13),(17,19),(29,31),(41,43) — six pairs.')">6</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','Too many — check which pairs both have values under 50.')">8</button>
+        </div>
+        <div class="think-result" id="think-page10-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 11 – THE VAULT CODE -->
+  <div class="book-page" id="page-11">
+    <div class="illustration" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD);">
+      <div class="page-num-illus">Page 11</div>
+      <div style="font-size:1.1rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">The Vault Code</div>
+      <div style="background:white;border-radius:14px;padding:14px;width:92%;border:2px solid #DDD6FE;">
+        <div style="font-size:.8rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">🔐 CIPHER LOCK SEQUENCE</div>
+        <div class="worked-step"><strong>Step 1:</strong> Find HCF(126, 210)<br>126 = 2 × 3² × 7 &nbsp;|&nbsp; 210 = 2 × 3 × 5 × 7<br>Common primes: 2¹, 3¹, 7¹ → HCF = 2 × 3 × 7 = <strong>42</strong></div>
+        <div class="worked-step"><strong>Step 2:</strong> Find LCM(126, 210)<br>Highest powers: 2¹, 3², 5¹, 7¹<br>LCM = 2 × 9 × 5 × 7 = <strong>630</strong></div>
+        <div class="worked-step"><strong>Step 3:</strong> Vault code = LCM ÷ HCF<br>630 ÷ 42 = <strong>15</strong></div>
+        <div class="worked-step"><strong>Step 4:</strong> Verify: HCF × LCM = 42 × 630 = 26 460 = 126 × 210 ✓</div>
+      </div>
+      <div class="illus-scene" style="margin-top:10px;">
+        <span style="font-size:1.8rem;">🕵️‍♀️</span>
+        <span style="font-size:1.6rem;margin-left:10px;">🔓</span>
+      </div>
+      <div class="illus-caption">Erin cracks the prime cipher!</div>
+    </div>
+    <div class="story-panel">
+      <div class="page-num-text">Page 11 · The Vault Code — Prime Puzzle</div>
+      <div class="story-text">
+        Erin stood before the final lock. Two numbers glowed on the screen: <strong>126</strong> and <strong>210</strong>. The instructions read: <em>"Enter LCM divided by HCF."</em><br><br>
+        She worked quickly. First: <strong>126 = 2 × 3² × 7</strong> and <strong>210 = 2 × 3 × 5 × 7</strong>. For the HCF, she took the lowest power of each common prime: 2¹ × 3¹ × 7¹ = <strong>42</strong>. For the LCM, she took the highest power of every prime that appeared: 2¹ × 3² × 5¹ × 7¹ = 2 × 9 × 5 × 7 = <strong>630</strong>. Then the vault code: 630 ÷ 42 = <strong>15</strong>.<br><br>
+        She double-checked using the identity: HCF × LCM = a × b. Indeed, 42 × 630 = 26,460 and 126 × 210 = 26,460. ✓ With confident fingers, she typed <em>15</em> and pressed Enter. The ancient lock clicked open, revealing a chamber filled with mathematical manuscripts stretching back thousands of years — the collected wisdom of number theorists across the ages.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head"><span class="math-callout-icon">💡</span><span class="math-callout-title">Key Identity</span></div>
+        <p>For any two positive integers a and b:<br>
+        <strong>HCF(a,b) × LCM(a,b) = a × b</strong><br>
+        Use this to verify your answers or find the LCM when you know the HCF.</p>
+      </div>
+      <div class="think-box" id="think-page11">
+        <div class="think-box-head"><span class="math-callout-icon">🤔</span><span class="think-box-title">Think About It!</span></div>
+        <p style="font-size:.95rem;color:var(--text-mid);">HCF(a, b) = 6 and a × b = 432. What is LCM(a, b)?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','LCM = a×b ÷ HCF = 432 ÷ 6 = 72, not 36.')">36</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'correct','Correct! LCM = a × b ÷ HCF = 432 ÷ 6 = 72.')">72</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','Check: 432 ÷ 6 = 72, not 108.')">108</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','Check: 432 ÷ 6 = 72, not 48.')">48</button>
+        </div>
+        <div class="think-result" id="think-page11-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 12 – END CARD -->
+  <div class="book-page" id="page-12">
+    <div class="end-card-wrap show" id="endWrap12" style="display:flex;padding:32px 24px;">
+      <div class="end-card">
+        <div class="end-emoji-row">🔐 🎉 🧮</div>
+        <div class="end-title">Case Closed!</div>
+        <div class="end-msg">Inspector Erin and Professor Zane have cracked the Prime Number Mystery. You have mastered the secrets of prime numbers, factor trees, HCF, LCM, and number theory. The vault is open!</div>
+        <div style="background:#F5F3FF;border-radius:14px;padding:16px;text-align:left;margin-bottom:20px;border:1px solid #DDD6FE;">
+          <div style="font-family:'Quicksand',sans-serif;font-size:.82rem;font-weight:700;color:var(--accent-dark);margin-bottom:8px;">📋 WHAT YOU LEARNED</div>
+          <div style="font-size:.85rem;color:var(--text-mid);line-height:1.8;">
+            🔢 Prime numbers have exactly 2 factors: 1 and itself<br>
+            🧮 Sieve of Eratosthenes finds all primes up to a limit<br>
+            🌳 Factor trees decompose numbers into prime products<br>
+            ² Square numbers; prime squares have exactly 3 factors<br>
+            🎯 25 primes exist between 1 and 100<br>
+            ↓ HCF: lowest powers of common primes<br>
+            ↑ LCM: highest powers of all primes<br>
+            🔗 HCF × LCM = a × b (always!)
+          </div>
+        </div>
+        <div style="margin-bottom:20px;">
+          <button class="end-btn" onclick="claimBadge()">🏅 Claim Your Badge!</button>
+          <button class="end-btn end-btn-out" onclick="restartBook12()">↺ Read Again</button>
+        </div>
+      </div>
+      <div class="badge-earned" id="badgeWrap" style="display:none;">
+        <div class="badge-icon">🔐</div>
+        <div class="badge-text-wrap">
+          <div class="badge-text-title">Prime Detective Badge</div>
+          <div class="badge-text-sub">Awarded for completing The Prime Number Mystery · Cambridge Nn6.01</div>
+        </div>
+      </div>
+      <a href="../index.html#books" class="end-btn end-btn-out" style="margin-top:4px;">← More Books</a>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAV BAR -->
+  <div class="nav-bar" id="navBar">
+    <button id="prevBtn" class="nav-btn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()">🔊 Listen</button>
+    <button id="nextBtn" class="nav-btn nav-btn-next" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 12;
+let currentPage = 1, _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) { goToPage(currentPage + dir); }
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  try {
+    localStorage.setItem('mm_book_the-prime-number-mystery', JSON.stringify({ completed: true, date: new Date().toISOString() }));
+    var badges = JSON.parse(localStorage.getItem('mm_badges') || '[]');
+    if (!badges.includes('prime-detective')) { badges.push('prime-detective'); localStorage.setItem('mm_badges', JSON.stringify(badges)); }
+  } catch(e) {}
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function claimBadge() {
+  try {
+    localStorage.setItem('mm_book_the-prime-number-mystery', JSON.stringify({ completed: true, date: new Date().toISOString() }));
+    var badges = JSON.parse(localStorage.getItem('mm_badges') || '[]');
+    if (!badges.includes('prime-detective')) { badges.push('prime-detective'); localStorage.setItem('mm_badges', JSON.stringify(badges)); }
+  } catch(e) {}
+  document.getElementById('badgeWrap').style.display = 'flex';
+}
+
+function restartBook12() {
+  document.getElementById('endWrap12').style.display = 'none';
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() { restartBook12(); }
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots(); updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

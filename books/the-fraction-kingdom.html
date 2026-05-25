@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Fraction Kingdom – MathMunch</title>
+<style>
+:root {
+  --accent:#EF4444; --accent-dark:#DC2626; --accent-light:#FEF2F2;
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #FECACA;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--purple-dark));border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL (left page) */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:16px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--green-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:.95rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:16px 18px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.92rem;color:var(--text-mid);line-height:1.6;}
+.fraction-visual{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:'Quicksand',sans-serif;font-weight:700;line-height:1;border:2px solid var(--blue);border-radius:8px;padding:4px 10px;background:white;}
+.frac-num{font-size:1.1rem;color:var(--blue-dark);border-bottom:2px solid var(--blue);padding-bottom:2px;margin-bottom:2px;}
+.frac-den{font-size:1.1rem;color:var(--blue-dark);}
+.frac-word{font-size:.9rem;font-weight:600;color:var(--text-mid);}
+
+/* WORKED EXAMPLE */
+.worked-example{background:#F0FDF4;border:2px solid var(--green);border-radius:14px;padding:14px 16px;}
+.worked-example-title{font-family:'Quicksand',sans-serif;font-size:.85rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.worked-step{display:flex;align-items:flex-start;gap:10px;margin:6px 0;font-size:.9rem;color:var(--text-mid);}
+.worked-step-num{background:var(--green);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:16px 18px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.88rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.88rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#DC2626,#9333EA);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(147,51,234,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:2rem;letter-spacing:4px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#FECACA;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#DC2626,#9333EA);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* SITE NAV */
+.site-nav{display:flex;gap:8px;}
+.site-nav a{font-size:.82rem;font-weight:600;color:var(--text-soft);text-decoration:none;padding:6px 12px;border-radius:8px;border:1px solid var(--outline);}
+.site-nav a:hover{color:var(--accent);border-color:var(--accent);}
+
+/* SVG DIAGRAM helpers */
+.svg-diagram{display:block;margin:0 auto;}
+.diagram-label{font-size:.78rem;font-weight:700;color:var(--text-mid);text-align:center;margin-top:6px;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">👑</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <nav class="site-nav" style="display:flex;gap:8px;">
+        <a href="../dashboard.html">📊 My Journey</a>
+        <a href="#">Badges</a>
+        <a href="#">Progress</a>
+      </nav>
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Fraction Kingdom
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">👑 The Fraction Kingdom</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">➗ Fractions</span>
+        <span class="book-tag">≡ Equivalence</span>
+        <span class="book-tag">± Operations</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Age 9–10 · P5</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 10</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:10%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">👑</span>
+      <div class="cover-title">The Fraction Kingdom</div>
+      <div class="cover-subtitle">A royal dispute over equivalence — and the mathematician who solved it</div>
+      <div class="cover-chars">👸 🤴 🧑‍🔬</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 10 Pages</span>
+        <span class="cover-tag">➗ Fractions</span>
+        <span class="cover-tag">Age 9–10</span>
+        <span class="cover-tag">Cambridge Nn4.05</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – THE KINGDOM IS DIVIDED
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF2F2,#FECACA);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:1.8rem;font-weight:700;color:var(--accent-dark);text-align:center;margin-bottom:12px;">Are these equal?</div>
+      <!-- Two rectangles side by side showing ½ and 2/4 -->
+      <svg width="240" height="90" viewBox="0 0 240 90" class="svg-diagram">
+        <!-- Rectangle 1: divided in 2, left half shaded -->
+        <rect x="5" y="10" width="100" height="60" rx="4" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
+        <rect x="5" y="10" width="50" height="60" rx="4" fill="#DC2626" opacity="0.7"/>
+        <line x1="55" y1="10" x2="55" y2="70" stroke="white" stroke-width="2"/>
+        <text x="30" y="45" text-anchor="middle" fill="white" font-size="16" font-weight="700">1</text>
+        <text x="80" y="45" text-anchor="middle" fill="#DC2626" font-size="16" font-weight="700">1</text>
+        <text x="55" y="85" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="700">½</text>
+
+        <!-- "=" sign -->
+        <text x="120" y="45" text-anchor="middle" fill="#374151" font-size="22" font-weight="700">=?</text>
+
+        <!-- Rectangle 2: divided in 4, left two quarters shaded -->
+        <rect x="135" y="10" width="100" height="60" rx="4" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
+        <rect x="135" y="10" width="50" height="60" fill="#DC2626" opacity="0.7"/>
+        <line x1="160" y1="10" x2="160" y2="70" stroke="white" stroke-width="2"/>
+        <line x1="185" y1="10" x2="185" y2="70" stroke="white" stroke-width="2"/>
+        <line x1="210" y1="10" x2="210" y2="70" stroke="white" stroke-width="2"/>
+        <text x="148" y="45" text-anchor="middle" fill="white" font-size="11" font-weight="700">1</text>
+        <text x="173" y="45" text-anchor="middle" fill="white" font-size="11" font-weight="700">1</text>
+        <text x="198" y="45" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">1</text>
+        <text x="223" y="45" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">1</text>
+        <text x="185" y="85" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="700">2/4</text>
+      </svg>
+      <div class="diagram-label">Both rectangles show the same shaded area</div>
+      <div class="illus-scene" style="margin-top:10px;">
+        <span class="char-xs">👸</span><span style="font-size:1.4rem;color:#DC2626;font-weight:800;padding:0 8px;">vs</span><span class="char-xs">🤴</span>
+      </div>
+      <div class="illus-caption">Queen Fracta and King Whole disagree!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · The Kingdom is Divided</div>
+      <div class="story-text">
+        Deep within the mathematical realm of Numerica, there existed a prosperous kingdom called the <strong>Fraction Kingdom</strong>. For generations, its citizens had lived in harmony, guided by the laws of arithmetic and proportion. However, on one fateful morning, a great dispute arose in the royal court that threatened to divide the kingdom in two.<br><br>
+        <strong>Queen Fracta</strong> stood on the left side of the throne room, holding a banner displaying the fraction <strong>½</strong>. Opposite her, <strong>King Whole</strong> raised his standard bearing the fraction <strong>2/4</strong>. Each monarch declared their fraction to be distinct and superior — neither would yield to the other.<br><br>
+        "½ and 2/4 are entirely different fractions!" declared Queen Fracta with absolute certainty. "The denominator is different, therefore the values must differ!"<br><br>
+        King Whole shook his head vigorously. "They look different, but I believe they represent the same quantity. However, I cannot prove it without the aid of our Royal Mathematician!"<br><br>
+        The court fell into uproar. Nobles argued on both sides, and no resolution could be found through debate alone. Only one person possessed the knowledge and analytical rigour to settle the matter definitively.
+      </div>
+      <div class="character-speech">
+        Send for Zeph, the Royal Mathematician! Only precise mathematical proof can settle this royal dispute and restore unity to the Fraction Kingdom.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">👑</span>
+          <span class="math-callout-title">Equivalent Fractions</span>
+        </div>
+        <p><strong>EQUIVALENT FRACTIONS:</strong> ½ = 2/4 = 4/8. They represent the same amount. Multiply or divide numerator AND denominator by the same number.</p>
+        <div class="fraction-visual">
+          <div class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></div>
+          <span class="frac-word">=</span>
+          <div class="frac"><span class="frac-num">2</span><span class="frac-den">4</span></div>
+          <span class="frac-word">=</span>
+          <div class="frac"><span class="frac-num">4</span><span class="frac-den">8</span></div>
+          <span class="frac-word">all equal ½</span>
+        </div>
+      </div>
+
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.92rem;color:var(--text-mid);">Which fraction is equivalent to ½?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','⅓ is smaller than ½ — dividing into 3 equal parts gives less than 2.')">⅓</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','2/4 = 2÷2 / 4÷2 = 1/2. Dividing both by 2 gives an equivalent fraction!')">2/4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','¾ equals 0.75, which is greater than ½ = 0.5.')">3/4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','3/6 equals ½ actually — but so does 2/4. Check again!')">3/6</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – FINDING EQUIVALENT FRACTIONS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF2F2,#FDE8E8);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--accent-dark);text-align:center;margin-bottom:10px;">Equivalent fraction chains</div>
+      <!-- Equivalent fraction chain: 1/3 = 2/6 = 3/9 = 4/12 -->
+      <svg width="260" height="130" viewBox="0 0 260 130" class="svg-diagram">
+        <!-- Chain boxes -->
+        <!-- 1/3 -->
+        <rect x="5" y="40" width="44" height="50" rx="6" fill="white" stroke="#DC2626" stroke-width="2"/>
+        <text x="27" y="60" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">1</text>
+        <line x1="12" y1="65" x2="42" y2="65" stroke="#DC2626" stroke-width="2"/>
+        <text x="27" y="82" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">3</text>
+
+        <!-- ×2 arrow -->
+        <path d="M52 65 L70 65" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arr)"/>
+        <text x="61" y="58" text-anchor="middle" fill="#6B7280" font-size="9" font-weight="700">×2</text>
+
+        <!-- 2/6 -->
+        <rect x="72" y="40" width="44" height="50" rx="6" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
+        <text x="94" y="60" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">2</text>
+        <line x1="79" y1="65" x2="109" y2="65" stroke="#DC2626" stroke-width="2"/>
+        <text x="94" y="82" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">6</text>
+
+        <!-- ×3 arrow -->
+        <path d="M119 65 L137 65" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arr)"/>
+        <text x="128" y="58" text-anchor="middle" fill="#6B7280" font-size="9" font-weight="700">×3</text>
+
+        <!-- 3/9 -->
+        <rect x="139" y="40" width="44" height="50" rx="6" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
+        <text x="161" y="60" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">3</text>
+        <line x1="146" y1="65" x2="176" y2="65" stroke="#DC2626" stroke-width="2"/>
+        <text x="161" y="82" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">9</text>
+
+        <!-- ×4 arrow -->
+        <path d="M186 65 L204 65" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arr)"/>
+        <text x="195" y="58" text-anchor="middle" fill="#6B7280" font-size="9" font-weight="700">×4</text>
+
+        <!-- 4/12 -->
+        <rect x="206" y="40" width="48" height="50" rx="6" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
+        <text x="230" y="60" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">4</text>
+        <line x1="213" y1="65" x2="247" y2="65" stroke="#DC2626" stroke-width="2"/>
+        <text x="230" y="82" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">12</text>
+
+        <!-- "All equal 1/3" label -->
+        <text x="130" y="115" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">All of these equal 1/3</text>
+
+        <defs>
+          <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#6B7280"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="diagram-label">Multiply numerator and denominator by the same number</div>
+      <div style="font-size:1.6rem;margin-top:8px;">🧑‍🔬</div>
+      <div class="illus-caption">Zeph demonstrates the chain of equivalents</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Zeph's Method</div>
+      <div class="story-text">
+        Royal Mathematician <strong>Zeph</strong> arrived in the throne room carrying a large scroll filled with diagrams and equations. Zeph had spent years studying at the Academy of Numerical Sciences and was renowned throughout Numerica for producing elegant, rigorous mathematical proofs.<br><br>
+        "Your Majesties," Zeph began, unrolling the scroll across the royal table, "the dispute concerns whether two fractions that appear visually different can nonetheless represent identical quantities. The answer lies in the concept of <strong>equivalent fractions</strong>."<br><br>
+        Zeph drew a rectangle and divided it first into 3 equal parts, shading one section. "This represents one third — 1/3." Then Zeph drew an identical rectangle divided into 6 equal parts and shaded two sections. "This also represents one third — but written as 2/6."<br><br>
+        "The shaded regions are identical in size," Zeph explained carefully, "because we multiplied both the numerator and the denominator by the same value — in this case, by 2. When you multiply or divide both parts of a fraction by the same non-zero number, the fraction's value is preserved exactly."<br><br>
+        The court leaned forward, beginning to understand. Zeph wrote the complete chain: <strong>1/3 = 2/6 = 3/9 = 4/12</strong>.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔗</span>
+          <span class="math-callout-title">Finding Equivalent Fractions</span>
+        </div>
+        <p>To find equivalents: <strong>MULTIPLY</strong> (or <strong>DIVIDE</strong>) both numerator and denominator by the same number.</p>
+        <div class="fraction-visual">
+          <div class="frac"><span class="frac-num">1</span><span class="frac-den">3</span></div>
+          <span class="frac-word">× 2/2 =</span>
+          <div class="frac"><span class="frac-num">2</span><span class="frac-den">6</span></div>
+          <span class="frac-word">× 3/3 =</span>
+          <div class="frac"><span class="frac-num">6</span><span class="frac-den">18</span></div>
+        </div>
+      </div>
+
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.92rem;color:var(--text-mid);">Find the missing number: <strong>3/4 = ?/16</strong></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','8/16 = ½, not ¾. Check what you multiply 4 by to get 16.')">8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','10/16 does not simplify to ¾. Try multiplying 4 × ? = 16.')">10</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','4 × 4 = 16, so 3 × 4 = 12. The missing number is 12!')">12</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','16/16 = 1 whole, not ¾. The denominator is 16, so multiply 3 × 4.')">16</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – SIMPLIFYING FRACTIONS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--accent-dark);text-align:center;margin-bottom:8px;">Simplifying 12/16 → 3/4</div>
+      <svg width="240" height="140" viewBox="0 0 240 140" class="svg-diagram">
+        <!-- 12/16 box -->
+        <rect x="5" y="20" width="70" height="80" rx="8" fill="white" stroke="#DC2626" stroke-width="2"/>
+        <text x="40" y="52" text-anchor="middle" fill="#DC2626" font-size="22" font-weight="700">12</text>
+        <line x1="15" y1="62" x2="65" y2="62" stroke="#DC2626" stroke-width="2"/>
+        <text x="40" y="88" text-anchor="middle" fill="#DC2626" font-size="22" font-weight="700">16</text>
+
+        <!-- ÷4 arrows top and bottom -->
+        <path d="M78 45 L105 45" stroke="#059669" stroke-width="2" marker-end="url(#garr)"/>
+        <text x="92" y="38" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">÷ 4</text>
+        <path d="M78 82 L105 82" stroke="#059669" stroke-width="2" marker-end="url(#garr)"/>
+        <text x="92" y="75" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">÷ 4</text>
+
+        <!-- = sign -->
+        <text x="118" y="66" text-anchor="middle" fill="#374151" font-size="20" font-weight="700">=</text>
+
+        <!-- 3/4 box -->
+        <rect x="130" y="20" width="70" height="80" rx="8" fill="#DCFCE7" stroke="#059669" stroke-width="2"/>
+        <text x="165" y="52" text-anchor="middle" fill="#059669" font-size="22" font-weight="700">3</text>
+        <line x1="140" y1="62" x2="190" y2="62" stroke="#059669" stroke-width="2"/>
+        <text x="165" y="88" text-anchor="middle" fill="#059669" font-size="22" font-weight="700">4</text>
+
+        <!-- Step labels -->
+        <text x="40" y="118" text-anchor="middle" fill="#6B7280" font-size="10">Original</text>
+        <text x="165" y="118" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">Simplest form</text>
+
+        <!-- HCF label -->
+        <text x="120" y="132" text-anchor="middle" fill="#374151" font-size="10">HCF of 12 and 16 = 4</text>
+
+        <defs>
+          <marker id="garr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#059669"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="diagram-label">Divide numerator AND denominator by the HCF</div>
+      <div style="font-size:1.6rem;margin-top:8px;">🧑‍🔬</div>
+      <div class="illus-caption">Zeph reduces fractions to their simplest form</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Simplifying Fractions</div>
+      <div class="story-text">
+        Having demonstrated that fractions can be expressed in multiple equivalent forms, Zeph moved on to the next critical skill: <strong>simplifying fractions</strong>, also known as reducing a fraction to its lowest terms.<br><br>
+        "A fraction is considered fully simplified," Zeph explained to the assembled court, "when the numerator and denominator share no common factor other than 1. To achieve this, we divide both numbers by their <strong>Highest Common Factor</strong>, abbreviated as HCF."<br><br>
+        Zeph selected the fraction 12/16 as a demonstration. "What is the HCF of 12 and 16? We list the factors of each: factors of 12 are 1, 2, 3, 4, 6, 12. Factors of 16 are 1, 2, 4, 8, 16. The highest number appearing in both lists is 4."<br><br>
+        "Therefore: 12 ÷ 4 = 3 and 16 ÷ 4 = 4. The simplified fraction is <strong>3/4</strong>. We verify that 3 and 4 share no common factor other than 1 — confirmed, so we are done."<br><br>
+        Several nobles nodded with increasing comprehension. The method was systematic, reliable, and produced a unique simplest form for every fraction.
+      </div>
+      <div class="worked-example">
+        <div class="worked-example-title">Worked Example: Simplify 18/24</div>
+        <div class="worked-step"><span class="worked-step-num">1</span><span>Factors of 18: 1, 2, 3, 6, 9, 18. Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24.</span></div>
+        <div class="worked-step"><span class="worked-step-num">2</span><span>Highest Common Factor = 6</span></div>
+        <div class="worked-step"><span class="worked-step-num">3</span><span>18 ÷ 6 = 3 &nbsp;&nbsp; 24 ÷ 6 = 4</span></div>
+        <div class="worked-step"><span class="worked-step-num">4</span><span>Answer: <strong>18/24 = 3/4</strong> (simplest form, since HCF of 3 and 4 = 1)</span></div>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">✂️</span>
+          <span class="math-callout-title">Simplifying Fractions</span>
+        </div>
+        <p>To <strong>SIMPLIFY</strong>: divide numerator and denominator by their HCF. 12/16 ÷ 4/4 = 3/4. A fraction is in simplest form when HCF = 1.</p>
+      </div>
+
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.92rem;color:var(--text-mid);">Simplify the fraction <strong>15/20</strong> to its lowest terms.</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','3/5 would come from dividing by 5 — but 5 does not divide 20 to give a denominator of 5. Check: 20÷5=4, so denominator would be 4.')">3/5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','5/7 — neither 5 nor 7 is a factor of both 15 and 20.')">5/7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','HCF of 15 and 20 is 5. 15÷5=3, 20÷5=4. Answer: 3/4!')">3/4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','1/4 would require 15÷15=1 and 20÷15, which does not give a whole number.')">1/4</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – COMPARING FRACTIONS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--blue-dark);text-align:center;margin-bottom:8px;">Comparing 2/3 vs 3/5 using LCD = 15</div>
+      <svg width="250" height="130" viewBox="0 0 250 130" class="svg-diagram">
+        <!-- 2/3 bar -->
+        <text x="28" y="18" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="700">2/3</text>
+        <rect x="5" y="22" width="120" height="24" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+        <rect x="5" y="22" width="80" height="24" rx="4" fill="#3B82F6"/>
+        <line x1="45" y1="22" x2="45" y2="46" stroke="white" stroke-width="1.5"/>
+        <line x1="85" y1="22" x2="85" y2="46" stroke="white" stroke-width="1.5"/>
+        <text x="25" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="700">1/3</text>
+        <text x="65" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="700">1/3</text>
+        <text x="105" y="38" text-anchor="middle" fill="#3B82F6" font-size="10" font-weight="700">1/3</text>
+
+        <!-- 3/5 bar -->
+        <text x="28" y="62" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="700">3/5</text>
+        <rect x="5" y="66" width="120" height="24" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+        <rect x="5" y="66" width="72" height="24" rx="4" fill="#60A5FA"/>
+        <line x1="29" y1="66" x2="29" y2="90" stroke="white" stroke-width="1.5"/>
+        <line x1="53" y1="66" x2="53" y2="90" stroke="white" stroke-width="1.5"/>
+        <line x1="77" y1="66" x2="77" y2="90" stroke="white" stroke-width="1.5"/>
+        <line x1="101" y1="66" x2="101" y2="90" stroke="white" stroke-width="1.5"/>
+        <text x="17" y="82" text-anchor="middle" fill="white" font-size="8">1/5</text>
+        <text x="41" y="82" text-anchor="middle" fill="white" font-size="8">1/5</text>
+        <text x="65" y="82" text-anchor="middle" fill="white" font-size="8">1/5</text>
+        <text x="89" y="82" text-anchor="middle" fill="#3B82F6" font-size="8">1/5</text>
+        <text x="113" y="82" text-anchor="middle" fill="#3B82F6" font-size="8">1/5</text>
+
+        <!-- Conversion to 15ths -->
+        <text x="155" y="35" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="700">= 10/15</text>
+        <text x="155" y="79" text-anchor="middle" fill="#60A5FA" font-size="13" font-weight="700">= 9/15</text>
+        <text x="155" y="108" text-anchor="middle" fill="#059669" font-size="12" font-weight="700">∴ 2/3 &gt; 3/5</text>
+        <text x="155" y="122" text-anchor="middle" fill="#6B7280" font-size="10">since 10/15 &gt; 9/15</text>
+      </svg>
+      <div class="diagram-label">Finding a common denominator to compare</div>
+      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
+      <div class="illus-caption">Zeph converts to a common denominator</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Comparing Fractions</div>
+      <div class="story-text">
+        With the concept of equivalence now established, Zeph turned to a practical application that the court immediately recognised as relevant to royal life: <strong>comparing fractions to determine which is larger</strong>.<br><br>
+        "Suppose we wish to compare 2/3 and 3/5," Zeph said, writing both fractions on the royal chalkboard. "We cannot simply compare the numerators or denominators in isolation, because the denominators are different — we are not comparing like with like."<br><br>
+        "The solution is to find a <strong>Common Denominator</strong> — specifically, the <strong>Lowest Common Denominator (LCD)</strong>, which is the smallest number that both denominators divide into evenly." Zeph calculated: "The LCD of 3 and 5 is 15, because 3 × 5 = 15 and 5 × 3 = 15."<br><br>
+        "Convert each fraction: 2/3 = 10/15 (multiplying by 5/5), and 3/5 = 9/15 (multiplying by 3/3). Now we compare: 10/15 versus 9/15. Since 10 is greater than 9, we conclude that <strong>2/3 > 3/5</strong>."<br><br>
+        The court applauded. The method was entirely systematic and free from ambiguity.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⚖️</span>
+          <span class="math-callout-title">Comparing Fractions</span>
+        </div>
+        <p>To compare fractions: find a <strong>COMMON DENOMINATOR</strong>. 2/3 = 10/15; 3/5 = 9/15. So 2/3 &gt; 3/5 because 10/15 &gt; 9/15.</p>
+      </div>
+
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.92rem;color:var(--text-mid);">Which fraction is larger: <strong>3/4</strong> or <strong>5/8</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','5/8 = 0.625, but 3/4 = 0.75. Find a common denominator to compare properly.')">5/8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','3/4 = 6/8. Compare 6/8 vs 5/8. Since 6 &gt; 5, we have 3/4 &gt; 5/8!')">3/4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','They are not equal: 3/4 = 6/8, and 5/8 ≠ 6/8.')">They are equal</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','We can compare them — convert 3/4 to eighths: 3/4 = 6/8.')">Cannot be compared</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – ADDING FRACTIONS (SAME DENOMINATOR)
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--green-dark);text-align:center;margin-bottom:8px;">2/7 + 3/7 = 5/7</div>
+      <svg width="220" height="110" viewBox="0 0 220 110" class="svg-diagram">
+        <!-- Fraction bar of 7 parts -->
+        <rect x="5" y="20" width="210" height="36" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+        <!-- 7 equal sections -->
+        <rect x="5" y="20" width="30" height="36" fill="#10B981" opacity="0.9"/>
+        <rect x="35" y="20" width="30" height="36" fill="#10B981" opacity="0.9"/>
+        <rect x="65" y="20" width="30" height="36" fill="#34D399" opacity="0.9"/>
+        <rect x="95" y="20" width="30" height="36" fill="#34D399" opacity="0.9"/>
+        <rect x="125" y="20" width="30" height="36" fill="#34D399" opacity="0.9"/>
+        <!-- dividers -->
+        <line x1="35" y1="20" x2="35" y2="56" stroke="white" stroke-width="2"/>
+        <line x1="65" y1="20" x2="65" y2="56" stroke="white" stroke-width="2"/>
+        <line x1="95" y1="20" x2="95" y2="56" stroke="white" stroke-width="2"/>
+        <line x1="125" y1="20" x2="125" y2="56" stroke="white" stroke-width="2"/>
+        <line x1="155" y1="20" x2="155" y2="56" stroke="white" stroke-width="2"/>
+        <line x1="185" y1="20" x2="185" y2="56" stroke="white" stroke-width="2"/>
+        <!-- labels -->
+        <text x="20" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
+        <text x="50" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
+        <text x="80" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
+        <text x="110" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
+        <text x="140" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
+        <text x="170" y="43" text-anchor="middle" fill="#6B7280" font-size="9">1/7</text>
+        <text x="200" y="43" text-anchor="middle" fill="#6B7280" font-size="9">1/7</text>
+
+        <!-- Brackets below -->
+        <path d="M5 60 L65 60" stroke="#059669" stroke-width="2"/>
+        <path d="M35 60 L35 70" stroke="#059669" stroke-width="2"/>
+        <text x="35" y="82" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">2/7</text>
+
+        <path d="M65 60 L155 60" stroke="#047857" stroke-width="2"/>
+        <path d="M110 60 L110 70" stroke="#047857" stroke-width="2"/>
+        <text x="110" y="82" text-anchor="middle" fill="#047857" font-size="11" font-weight="700">3/7</text>
+
+        <text x="110" y="100" text-anchor="middle" fill="#059669" font-size="12" font-weight="700">2/7 + 3/7 = 5/7</text>
+      </svg>
+      <div class="diagram-label">Add numerators, keep the denominator</div>
+      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
+      <div class="illus-caption">Zeph teaches the court about adding fractions</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Adding Fractions — Same Denominator</div>
+      <div class="story-text">
+        The court's understanding was growing with every lesson from Zeph. Now the Royal Mathematician turned to the operations that would allow the kingdom's ministers to calculate with fractions: <strong>addition and subtraction</strong>.<br><br>
+        "We begin with the simpler case," Zeph said methodically. "Adding fractions that share the same denominator — what we call <em>like fractions</em>. The rule is remarkably straightforward: add the numerators together, and keep the denominator unchanged."<br><br>
+        "Consider the Royal Treasury's grain stores: the Eastern Granary holds 2/7 of the kingdom's grain, and the Western Granary holds 3/7. What fraction of the total supply do both granaries contain together?"<br><br>
+        Zeph wrote clearly on the board: <strong>2/7 + 3/7 = (2 + 3)/7 = 5/7</strong>. "We only add the top numbers — the numerators. The denominator 7 tells us the size of each portion, and that does not change when we combine portions of the same size."<br><br>
+        "A common error is to add the denominators as well, producing 5/14 — this is incorrect. The denominator must remain 7 because each portion is still one-seventh in size," Zeph warned.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">➕</span>
+          <span class="math-callout-title">Adding Same-Denominator Fractions</span>
+        </div>
+        <p>Adding <strong>same denominator</strong> fractions: add numerators, <strong>KEEP</strong> denominator. 2/7 + 3/7 = (2+3)/7 = 5/7. Only add the TOP numbers!</p>
+        <div class="fraction-visual">
+          <div class="frac"><span class="frac-num">2</span><span class="frac-den">7</span></div>
+          <span class="frac-word">+</span>
+          <div class="frac"><span class="frac-num">3</span><span class="frac-den">7</span></div>
+          <span class="frac-word">=</span>
+          <div class="frac" style="border-color:var(--green);"><span class="frac-num" style="color:var(--green-dark);border-color:var(--green);">5</span><span class="frac-den" style="color:var(--green-dark);">7</span></div>
+        </div>
+      </div>
+
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.92rem;color:var(--text-mid);">Calculate: <strong>3/8 + 4/8 = ?</strong></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','7/16 would come from adding both numerators AND denominators — that is incorrect.')">7/16</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','3/8 + 4/8 = (3+4)/8 = 7/8. Add numerators, keep denominator!')">7/8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','1 would require 8/8. We only have 7/8 — one eighth less than a whole.')">1</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','6/8 = ¾, but 3+4=7, not 6. Count the numerators again.')">6/8</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – ADDING FRACTIONS (DIFFERENT DENOMINATORS)
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--purple-dark);text-align:center;margin-bottom:8px;">1/3 + 1/4 — Step by step</div>
+      <svg width="230" height="150" viewBox="0 0 230 150" class="svg-diagram">
+        <!-- Step 1 box -->
+        <rect x="5" y="5" width="220" height="32" rx="5" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+        <text x="15" y="18" fill="#6D28D9" font-size="10" font-weight="700">Step 1: Find LCD of 3 and 4</text>
+        <text x="15" y="30" fill="#6D28D9" font-size="10">Multiples of 3: 3,6,9,12...  Multiples of 4: 4,8,12...  LCD = 12</text>
+
+        <!-- Step 2 box -->
+        <rect x="5" y="44" width="220" height="36" rx="5" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+        <text x="15" y="57" fill="#6D28D9" font-size="10" font-weight="700">Step 2: Convert both fractions to twelfths</text>
+        <text x="15" y="72" fill="#6D28D9" font-size="10">1/3 × 4/4 = 4/12 &nbsp;&nbsp;&nbsp; 1/4 × 3/3 = 3/12</text>
+
+        <!-- Step 3 box -->
+        <rect x="5" y="87" width="220" height="32" rx="5" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+        <text x="15" y="100" fill="#6D28D9" font-size="10" font-weight="700">Step 3: Add the numerators</text>
+        <text x="15" y="115" fill="#6D28D9" font-size="10">4/12 + 3/12 = 7/12</text>
+
+        <!-- Answer -->
+        <rect x="30" y="126" width="170" height="22" rx="5" fill="#6D28D9"/>
+        <text x="115" y="141" text-anchor="middle" fill="white" font-size="12" font-weight="700">1/3 + 1/4 = 7/12</text>
+      </svg>
+      <div class="diagram-label">Find LCD → Convert → Add</div>
+      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
+      <div class="illus-caption">Three clear steps for adding unlike fractions</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Adding Fractions — Different Denominators</div>
+      <div class="story-text">
+        The treasury ministers now presented Zeph with a more challenging scenario: they needed to add fractions with <strong>different denominators</strong>. The Royal Baker required 1/3 of the flour supplies and the Royal Chef needed 1/4 — what total fraction of the flour stores would be consumed?<br><br>
+        "This is the most common challenge when working with fractions in practical situations," Zeph acknowledged. "We cannot simply add 1/3 and 1/4 directly, because the pieces are different sizes — thirds and quarters are not the same unit."<br><br>
+        "The solution follows three mandatory steps. <strong>Step 1:</strong> Find the Lowest Common Denominator. Multiples of 3: 3, 6, 9, 12 ... Multiples of 4: 4, 8, 12 ... The LCD is 12."<br><br>
+        "<strong>Step 2:</strong> Convert both fractions to twelfths. 1/3 = 4/12 (multiply by 4/4). 1/4 = 3/12 (multiply by 3/3). Now both fractions have the same denominator — we have like fractions."<br><br>
+        "<strong>Step 3:</strong> Add the numerators. 4/12 + 3/12 = 7/12. Answer: <strong>1/3 + 1/4 = 7/12</strong>."
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔢</span>
+          <span class="math-callout-title">Adding Different-Denominator Fractions</span>
+        </div>
+        <p><strong>Step 1:</strong> Find LCD. <strong>Step 2:</strong> Convert both. <strong>Step 3:</strong> Add. 1/3 + 1/4 = 4/12 + 3/12 = 7/12.</p>
+      </div>
+
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.92rem;color:var(--text-mid);">Calculate: <strong>1/2 + 1/3 = ?</strong></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','2/5 comes from incorrectly adding numerators and denominators together — never add the denominators!')">2/5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','2/6 = 1/3, but the answer should be more than ½. Find the LCD first.')">2/6</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','LCD = 6. 1/2 = 3/6, 1/3 = 2/6. So 3/6 + 2/6 = 5/6!')">5/6</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','3/6 = ½, which is just the first fraction, not the sum of both.')">3/6</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – SUBTRACTING FRACTIONS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--orange-dark);text-align:center;margin-bottom:8px;">Subtracting fractions — same and different denominators</div>
+      <svg width="230" height="145" viewBox="0 0 230 145" class="svg-diagram">
+        <!-- Example 1: Same denominator 5/6 - 1/6 -->
+        <text x="5" y="14" fill="#C2410C" font-size="11" font-weight="700">Same denominator:</text>
+        <rect x="5" y="18" width="210" height="28" rx="4" fill="#FEF3C7" stroke="#F97316" stroke-width="1.5"/>
+        <rect x="5" y="18" width="175" height="28" fill="#F97316" rx="4" opacity="0.8"/>
+        <line x1="40" y1="18" x2="40" y2="46" stroke="white" stroke-width="1.5"/>
+        <line x1="75" y1="18" x2="75" y2="46" stroke="white" stroke-width="1.5"/>
+        <line x1="110" y1="18" x2="110" y2="46" stroke="white" stroke-width="1.5"/>
+        <line x1="145" y1="18" x2="145" y2="46" stroke="white" stroke-width="1.5"/>
+        <line x1="175" y1="18" x2="175" y2="46" stroke="white" stroke-width="1.5"/>
+        <text x="115" y="58" text-anchor="middle" fill="#C2410C" font-size="11" font-weight="700">5/6 − 1/6 = 4/6 = 2/3</text>
+
+        <!-- Example 2: Different denominator 3/4 - 1/3 -->
+        <text x="5" y="78" fill="#C2410C" font-size="11" font-weight="700">Different denominator: 3/4 − 1/3</text>
+        <rect x="5" y="84" width="220" height="28" rx="4" fill="#FDE8D0" stroke="#F97316" stroke-width="1.5"/>
+        <text x="15" y="96" fill="#C2410C" font-size="10" font-weight="700">Step 1: LCD of 4 and 3 = 12</text>
+        <text x="15" y="108" fill="#C2410C" font-size="10">3/4 = 9/12 &nbsp;&nbsp; 1/3 = 4/12</text>
+
+        <rect x="30" y="118" width="170" height="22" rx="4" fill="#C2410C"/>
+        <text x="115" y="133" text-anchor="middle" fill="white" font-size="12" font-weight="700">9/12 − 4/12 = 5/12</text>
+      </svg>
+      <div class="diagram-label">Subtraction follows the same rules as addition</div>
+      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
+      <div class="illus-caption">Zeph demonstrates subtraction for the treasury</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · Subtracting Fractions</div>
+      <div class="story-text">
+        The Royal Treasury now needed to calculate how much of the kingdom's resources remained after expenditure. This required <strong>subtracting fractions</strong> — and Zeph assured the court that the rules were entirely parallel to those for addition.<br><br>
+        "For fractions with the <strong>same denominator</strong>, the process mirrors addition exactly: subtract the second numerator from the first, and retain the denominator. The Royal Library held 5/6 of its book budget. After purchasing volumes for the new wing, 1/6 was spent. Remaining budget: 5/6 − 1/6 = 4/6 = 2/3."<br><br>
+        "Notice that I simplified 4/6 to 2/3 — dividing both by 2. Always simplify your final answer when possible."<br><br>
+        "For fractions with <strong>different denominators</strong>, we again apply the three-step method: find the LCD, convert, then subtract. The Royal Stables used 3/4 of their feed allocation, but returned 1/3 to the stores. Net consumption: 3/4 − 1/3."<br><br>
+        "LCD of 4 and 3 is 12. Convert: 3/4 = 9/12 and 1/3 = 4/12. Subtract: 9/12 − 4/12 = <strong>5/12</strong>."
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">➖</span>
+          <span class="math-callout-title">Subtracting Fractions</span>
+        </div>
+        <p>Same denominator → subtract numerators. Different → find LCD first. 5/6 − 1/6 = 4/6 = 2/3. &nbsp; 3/4 − 1/3 = 9/12 − 4/12 = 5/12.</p>
+      </div>
+
+      <div class="think-box" id="think-page8">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.92rem;color:var(--text-mid);">Calculate: <strong>3/5 − 1/5 = ?</strong></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','2/0 is undefined — you never subtract the denominators. Keep the denominator as 5.')">2/0</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'correct','Same denominator: 3/5 − 1/5 = (3−1)/5 = 2/5!')">2/5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','4/5 would be the result of 4/5 − 0/5, or an addition. We are subtracting 1/5 from 3/5.')">4/5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','1 whole = 5/5, but 3/5 − 1/5 = 2/5, which is much less than 1.')">1</button>
+        </div>
+        <div class="think-result" id="think-page8-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 9 – MIXED NUMBERS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-9">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
+      <div class="page-num-illus">Page 9</div>
+      <div style="font-size:.85rem;font-weight:700;color:var(--green-dark);text-align:center;margin-bottom:8px;">1¾ as a mixed number and improper fraction</div>
+      <svg width="230" height="150" viewBox="0 0 230 150" class="svg-diagram">
+        <!-- Visual: one full rectangle + 3/4 of another -->
+        <!-- Full rectangle -->
+        <rect x="5" y="20" width="80" height="50" rx="5" fill="#10B981" stroke="#059669" stroke-width="2"/>
+        <line x1="25" y1="20" x2="25" y2="70" stroke="white" stroke-width="1.5"/>
+        <line x1="45" y1="20" x2="45" y2="70" stroke="white" stroke-width="1.5"/>
+        <line x1="65" y1="20" x2="65" y2="70" stroke="white" stroke-width="1.5"/>
+        <text x="45" y="50" text-anchor="middle" fill="white" font-size="10" font-weight="700">4/4 = 1</text>
+
+        <!-- Plus sign -->
+        <text x="100" y="50" text-anchor="middle" fill="#374151" font-size="18" font-weight="700">+</text>
+
+        <!-- 3/4 rectangle (3 shaded, 1 not) -->
+        <rect x="110" y="20" width="80" height="50" rx="5" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+        <rect x="110" y="20" width="60" height="50" fill="#34D399" rx="5" opacity="0.9"/>
+        <line x1="130" y1="20" x2="130" y2="70" stroke="white" stroke-width="1.5"/>
+        <line x1="150" y1="20" x2="150" y2="70" stroke="white" stroke-width="1.5"/>
+        <line x1="170" y1="20" x2="170" y2="70" stroke="white" stroke-width="1.5"/>
+        <text x="150" y="50" text-anchor="middle" fill="white" font-size="10" font-weight="700">¾</text>
+
+        <!-- Label below -->
+        <text x="90" y="88" text-anchor="middle" fill="#059669" font-size="13" font-weight="700">1¾</text>
+
+        <!-- Conversion working -->
+        <rect x="5" y="100" width="220" height="44" rx="5" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+        <text x="15" y="115" fill="#059669" font-size="10" font-weight="700">Convert 1¾ to improper fraction:</text>
+        <text x="15" y="129" fill="#059669" font-size="10">(Whole × denominator) + numerator = (1×4)+3 = 7</text>
+        <text x="15" y="141" fill="#059669" font-size="11" font-weight="700">1¾ = 7/4</text>
+      </svg>
+      <div class="diagram-label">One whole rectangle plus three-quarters of another</div>
+      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
+      <div class="illus-caption">Zeph explains mixed numbers to the royal court</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 9 · Mixed Numbers</div>
+      <div class="story-text">
+        The final mathematical concept Zeph needed to address before settling the royal dispute was the notion of <strong>mixed numbers</strong> — fractions that are greater than one whole.<br><br>
+        "In practical life," Zeph explained, "we frequently encounter quantities larger than a single whole unit. For instance, the Royal Baker used one and three-quarter sacks of flour — written as <strong>1¾</strong>. This is called a mixed number because it combines a whole number part with a fractional part."<br><br>
+        "Mathematicians also express such quantities as <strong>improper fractions</strong>, where the numerator is greater than the denominator. Converting 1¾ to an improper fraction requires two steps."<br><br>
+        "Multiply the whole number by the denominator: 1 × 4 = 4. Then add the numerator: 4 + 3 = 7. Place this result over the original denominator: <strong>7/4</strong>. Therefore 1¾ = 7/4."<br><br>
+        "Conversely, to convert an improper fraction back to a mixed number, divide the numerator by the denominator. 7 ÷ 4 = 1 remainder 3, giving us 1 and 3/4 — which is precisely 1¾. Both forms are mathematically equivalent."
+      </div>
+      <div class="worked-example">
+        <div class="worked-example-title">Worked Example: Convert 2½ to an improper fraction</div>
+        <div class="worked-step"><span class="worked-step-num">1</span><span>Identify: whole = 2, numerator = 1, denominator = 2</span></div>
+        <div class="worked-step"><span class="worked-step-num">2</span><span>Multiply: 2 × 2 = 4</span></div>
+        <div class="worked-step"><span class="worked-step-num">3</span><span>Add numerator: 4 + 1 = 5</span></div>
+        <div class="worked-step"><span class="worked-step-num">4</span><span>Answer: <strong>2½ = 5/2</strong></span></div>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔄</span>
+          <span class="math-callout-title">Mixed Numbers</span>
+        </div>
+        <p>A <strong>MIXED NUMBER</strong> has a whole part and a fraction: 1¾. Convert to improper fraction: (1×4)+3 = 7, so 1¾ = 7/4.</p>
+      </div>
+
+      <div class="think-box" id="think-page9">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.92rem;color:var(--text-mid);">Convert <strong>2½</strong> to an improper fraction.</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','4/2 = 2, but 2½ is more than 2. Remember to add the numerator after multiplying.')">4/2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'correct','(2×2)+1 = 5. So 2½ = 5/2!')">5/2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','6/2 = 3 whole, which is bigger than 2½. The formula gives (2×2)+1=5, not 6.')">6/2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','3/2 = 1½, not 2½. We need a numerator greater than 4.')">3/2</button>
+        </div>
+        <div class="think-result" id="think-page9-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 10 – THE KINGDOM UNITES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-10">
+    <div class="illustration" style="background:linear-gradient(135deg,#DC2626,#9333EA);">
+      <div class="page-num-illus">Page 10</div>
+      <div style="font-size:1.8rem;text-align:center;margin-bottom:10px;">👸 🤴 🧑‍🔬</div>
+      <div style="background:rgba(255,255,255,.15);border-radius:14px;padding:14px 18px;width:90%;text-align:center;">
+        <div style="font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;color:white;margin-bottom:10px;">The Proof!</div>
+        <div style="font-size:1rem;color:white;font-weight:700;line-height:2;">
+          ½ = 2/4 = 4/8 = 0.5 = 50%
+        </div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.85);margin-top:8px;line-height:1.6;">
+          Equivalent · Simplified · Compared<br>
+          Added · Subtracted · Mixed Numbers
+        </div>
+      </div>
+      <div style="font-size:2rem;margin-top:12px;">👑 ➗ 🏆</div>
+      <div class="illus-caption">The Fraction Kingdom is united at last!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 10 · The Kingdom Unites</div>
+      <div class="story-text">
+        The throne room fell completely silent as Zeph prepared to deliver the final verdict. Every noble, minister, and royal guard held their breath, waiting for the mathematical proof that would determine the kingdom's future.<br><br>
+        "Your Majesties," Zeph announced with calm authority, "I am pleased to present the definitive proof. Using the principles of equivalent fractions that we have examined today, I can demonstrate conclusively that ½ and 2/4 are, in fact, <strong>precisely equal in value</strong>."<br><br>
+        "Observe: 1/2 × 2/2 = 2/4. We have multiplied both numerator and denominator by 2 — a valid equivalence transformation — confirming that ½ = 2/4. Further, both equal 4/8, and both equal the decimal 0.5, and both represent 50% of any whole quantity."<br><br>
+        "There is no dispute. Queen Fracta's ½ and King Whole's 2/4 are two names for the same mathematical truth."<br><br>
+        Queen Fracta and King Whole looked at each other for a long moment — then both burst into warm laughter. The court erupted in celebration. The Fraction Kingdom was united, and its citizens would henceforth work together, guided by the elegant, unambiguous language of mathematics.
+      </div>
+      <div class="character-speech">
+        Mathematics does not take sides — it reveals truth. Equivalent fractions, simplifying, comparing, adding and subtracting, mixed numbers: you have now mastered the complete fraction toolkit!
+      </div>
+      <div class="math-callout" style="background:#DCFCE7;border-color:var(--green);">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🏆</span>
+          <span class="math-callout-title" style="color:var(--green-dark);">Royal Achievement!</span>
+        </div>
+        <p style="color:var(--green-dark);">You've united the Fraction Kingdom! 👑 You can now find equivalent fractions, simplify, compare, add, subtract, and work with mixed numbers.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">👑 ➗ 🏆</div>
+      <div class="end-title">Kingdom United!</div>
+      <div class="end-msg">Outstanding work! You've completed <strong>The Fraction Kingdom</strong> and mastered equivalent fractions, simplifying, comparing, adding, subtracting, and mixed numbers. Zeph is honoured by your achievement!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">👑</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Fraction Royalty Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Fraction Kingdom</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 10;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

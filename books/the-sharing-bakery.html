@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Sharing Bakery – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --accent:#8B5CF6; --accent-dark:#6D28D9; --accent-light:#F5F3FF;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #DDD6FE;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#EC4899);border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL (left page) */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:#EC4899;font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.fraction-visual{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:'Quicksand',sans-serif;font-weight:700;line-height:1;border:2px solid var(--blue);border-radius:8px;padding:4px 10px;background:white;}
+.frac-num{font-size:1.1rem;color:var(--blue-dark);border-bottom:2px solid var(--blue);padding-bottom:2px;margin-bottom:2px;}
+.frac-den{font-size:1.1rem;color:var(--blue-dark);}
+.frac-word{font-size:.9rem;font-weight:600;color:var(--text-mid);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#8B5CF6,#EC4899);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(109,40,217,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#DDD6FE;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#8B5CF6,#EC4899);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🧁</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav" style="display:flex;gap:8px;">
+      <a href="../dashboard.html">📊 My Journey</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Sharing Bakery
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 The Sharing Bakery</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">🍰 Fractions</span>
+        <span class="book-tag">½ Halves</span>
+        <span class="book-tag">¼ Quarters</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Age 6–7</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 8</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:12.5%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🧁</span>
+      <div class="cover-title">The Sharing<br>Bakery</div>
+      <div class="cover-subtitle">A maths story about halves, quarters, thirds, and fair sharing!</div>
+      <div class="cover-chars">👨‍🍳 👧 👦</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 8 Pages</span>
+        <span class="cover-tag">🍰 Fractions</span>
+        <span class="cover-tag">½ Halves · ¼ Quarters</span>
+        <span class="cover-tag">👶 Age 6–7</span>
+        <span class="cover-tag">⭐ Cambridge Nn2.06</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – BEN'S BAKERY
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:4.5rem;margin-bottom:6px;">👨‍🍳</div>
+      <div style="font-size:3rem;letter-spacing:6px;margin:6px 0;">🧁🎂🍰</div>
+      <!-- Whole cake SVG -->
+      <svg width="130" height="130" viewBox="0 0 130 130" style="margin:0 auto;">
+        <circle cx="65" cy="65" r="58" fill="#8B5CF6" stroke="#6D28D9" stroke-width="3"/>
+        <circle cx="65" cy="65" r="46" fill="#F5F3FF"/>
+        <text x="65" y="72" text-anchor="middle" font-size="28" font-weight="800" fill="#6D28D9">1</text>
+        <text x="65" y="90" text-anchor="middle" font-size="13" fill="#7C3AED" font-weight="700">whole</text>
+        <!-- decoration dots -->
+        <circle cx="40" cy="42" r="5" fill="#EC4899"/>
+        <circle cx="90" cy="38" r="4" fill="#F97316"/>
+        <circle cx="95" cy="88" r="5" fill="#FBBF24"/>
+        <circle cx="38" cy="90" r="4" fill="#10B981"/>
+      </svg>
+      <div class="illus-scene" style="margin-top:6px;">
+        <span class="char-sm">👧</span><span class="char-sm">👦</span><span class="char-sm">👧</span>
+      </div>
+      <div class="illus-caption">Ben bakes the whole cake — 1 whole!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · Ben's Bakery</div>
+      <div class="story-text">
+        <strong>Baker Ben</strong> woke up early every morning to bake cakes in his little bakery.<br><br>
+        The smell of freshly baked cakes floated down the street.<br><br>
+        One afternoon, Ben baked a beautiful big cake. He wanted to share it with his friends.<br><br>
+        <em>"A whole cake is wonderful,"</em> said Ben, <em>"but sharing makes it even better!"</em>
+      </div>
+      <div class="character-speech">
+        A fraction shows a part of a whole. This whole cake equals 1. When I cut it, each piece is a fraction!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🎂</span>
+          <span class="math-callout-title">What is a Fraction?</span>
+        </div>
+        <p>A <strong>FRACTION</strong> shows a part of a whole. The whole cake = 1. When we cut it into equal pieces, each piece is a fraction of the whole cake.</p>
+      </div>
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">If Ben cuts a cake into <strong>2 equal pieces</strong>, what fraction is each piece?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','A quarter means 4 equal pieces, not 2!')">¼</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','1 piece out of 2 equal pieces = one half = ½!')">½</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','A third means 3 equal pieces, not 2!')">⅓</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','¾ means 3 pieces out of 4 — not 1 out of 2!')">¾</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – HALVES — 2 FRIENDS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
+      <div class="page-num-illus">Page 3</div>
+      <!-- SVG cake cut in half -->
+      <div style="font-size:3rem;margin-bottom:6px;">✂️🎂</div>
+      <svg width="260" height="120" viewBox="0 0 260 120" style="margin:0 auto;">
+        <!-- Left half cake -->
+        <path d="M 10,100 A 60,60 0 0,1 130,100 Z" fill="#8B5CF6" stroke="#6D28D9" stroke-width="2"/>
+        <path d="M 22,100 A 48,48 0 0,1 118,100 Z" fill="#F5F3FF"/>
+        <text x="70" y="90" text-anchor="middle" font-size="20" font-weight="800" fill="#6D28D9">½</text>
+        <text x="70" y="112" text-anchor="middle" font-size="10" fill="#6D28D9" font-weight="700">Anya's half</text>
+        <text x="70" y="20" text-anchor="middle" font-size="22">👧</text>
+        <!-- Right half cake -->
+        <path d="M 130,100 A 60,60 0 0,1 250,100 Z" fill="#EC4899" stroke="#BE185D" stroke-width="2"/>
+        <path d="M 142,100 A 48,48 0 0,1 238,100 Z" fill="#FDF2F8"/>
+        <text x="190" y="90" text-anchor="middle" font-size="20" font-weight="800" fill="#BE185D">½</text>
+        <text x="190" y="112" text-anchor="middle" font-size="10" fill="#BE185D" font-weight="700">Sam's half</text>
+        <text x="190" y="20" text-anchor="middle" font-size="22">👦</text>
+        <!-- Dividing line -->
+        <line x1="130" y1="5" x2="130" y2="110" stroke="white" stroke-width="3" stroke-dasharray="5,3"/>
+      </svg>
+      <div style="text-align:center;margin-top:6px;font-size:.9rem;font-weight:700;color:#6D28D9;">
+        ½ + ½ = 1 whole cake
+      </div>
+      <div class="illus-caption" style="margin-top:6px;">2 equal halves — one for Anya, one for Sam!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Halves — 2 Friends</div>
+      <div class="story-text">
+        <em>Anya</em> and <em>Sam</em> arrived at the bakery together.<br><br>
+        <strong>"Hooray!"</strong> said Ben. <strong>"Two friends — so I will cut the cake into two equal pieces!"</strong><br><br>
+        He picked up his cake knife and cut straight down the middle. Two perfect halves!<br><br>
+        Anya and Sam each held up their piece proudly. <strong>"Half a cake each!"</strong> they cheered.
+      </div>
+      <div class="character-speech">
+        Each piece is called one HALF. We write it as ½. Two halves make one whole cake!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">✂️</span>
+          <span class="math-callout-title">HALF (½)</span>
+        </div>
+        <p>Cut into <strong>2 EQUAL pieces</strong>. 1 out of 2 = <strong>½</strong>. Two halves = 1 whole. Both pieces must be exactly the same size!</p>
+      </div>
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Ben has a cake. He cuts it <strong>in half</strong>. How many pieces does he have?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Halving means cutting — you get more than 1 piece!')">1</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Halving means cutting into 2 equal pieces!')">2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','3 pieces would be thirds, not halves!')">3</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','4 pieces would be quarters, not halves!')">4</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – QUARTERS — 4 FRIENDS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:3rem;margin-bottom:6px;">🎂✂️</div>
+      <!-- SVG cake cut in quarters -->
+      <svg width="180" height="180" viewBox="0 0 180 180" style="margin:0 auto;">
+        <!-- Four quarter segments -->
+        <path d="M 90,90 L 90,20 A 70,70 0 0,1 160,90 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
+        <path d="M 90,90 L 160,90 A 70,70 0 0,1 90,160 Z" fill="#EC4899" stroke="white" stroke-width="2"/>
+        <path d="M 90,90 L 90,160 A 70,70 0 0,1 20,90 Z" fill="#F97316" stroke="white" stroke-width="2"/>
+        <path d="M 90,90 L 20,90 A 70,70 0 0,1 90,20 Z" fill="#FBBF24" stroke="white" stroke-width="2"/>
+        <!-- Inner circle label zone -->
+        <circle cx="90" cy="90" r="30" fill="white" opacity="0.85"/>
+        <text x="90" y="85" text-anchor="middle" font-size="14" fill="#6D28D9" font-weight="800">¼ ¼</text>
+        <text x="90" y="102" text-anchor="middle" font-size="14" fill="#6D28D9" font-weight="800">¼ ¼</text>
+        <!-- friend emojis -->
+        <text x="125" y="55" font-size="18" text-anchor="middle">👧</text>
+        <text x="125" y="135" font-size="18" text-anchor="middle">👦</text>
+        <text x="55" y="135" font-size="18" text-anchor="middle">👧</text>
+        <text x="55" y="55" font-size="18" text-anchor="middle">👦</text>
+      </svg>
+      <div style="text-align:center;margin-top:4px;font-size:.9rem;font-weight:700;color:#6D28D9;">
+        ¼ + ¼ + ¼ + ¼ = 1 whole
+      </div>
+      <div class="illus-caption" style="margin-top:6px;">4 equal quarters — one for every friend!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Quarters — 4 Friends</div>
+      <div class="story-text">
+        Just as Anya and Sam were about to eat, <em>Zara</em> and <em>Milo</em> came rushing through the door!<br><br>
+        <strong>"Oh!"</strong> said Ben. <strong>"Now we have FOUR friends! I must cut a fresh cake into four equal pieces."</strong><br><br>
+        He cut the cake into four equal pieces — first in half, then in half again.<br><br>
+        <em>"Each piece is called a QUARTER,"</em> said Ben, handing one to each friend.
+      </div>
+      <div class="character-speech">
+        Each of us gets one quarter. We write that as ¼. Four quarters make one whole cake — everyone is happy!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🍰</span>
+          <span class="math-callout-title">QUARTER (¼)</span>
+        </div>
+        <p>Cut into <strong>4 EQUAL pieces</strong>. 1 out of 4 = <strong>¼</strong>. Four quarters = 1 whole. Each piece is smaller than a half!</p>
+      </div>
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Four friends share a cake equally. What fraction does each friend get?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','A half means only 2 equal pieces, not 4!')">½</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','A third means 3 equal pieces, but there are 4 friends!')">⅓</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','1 piece out of 4 = one quarter = ¼!')">¼</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','An eighth means 8 equal pieces — too many!')">⅛</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – THIRDS — 3 PIECES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:3rem;margin-bottom:6px;">🎂🍕</div>
+      <!-- SVG cake divided into thirds -->
+      <svg width="180" height="180" viewBox="0 0 180 180" style="margin:0 auto;">
+        <!-- Three third segments (approx 120° each) -->
+        <!-- Top third (0° to 120°) -->
+        <path d="M 90,90 L 90,20 A 70,70 0 0,1 150.6,55 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
+        <!-- Bottom-right third (120° to 240°) -->
+        <path d="M 90,90 L 150.6,55 A 70,70 0 0,1 29.4,125 Z" fill="#EC4899" stroke="white" stroke-width="2"/>
+        <!-- Bottom-left third (240° to 360°) -->
+        <path d="M 90,90 L 29.4,125 A 70,70 0 0,1 90,20 Z" fill="#F97316" stroke="white" stroke-width="2"/>
+        <!-- Inner label area -->
+        <circle cx="90" cy="90" r="28" fill="white" opacity="0.85"/>
+        <text x="90" y="96" text-anchor="middle" font-size="20" fill="#6D28D9" font-weight="800">⅓</text>
+        <!-- Labels on each slice -->
+        <text x="116" y="52" text-anchor="middle" font-size="13" fill="white" font-weight="800">⅓</text>
+        <text x="120" y="118" text-anchor="middle" font-size="13" fill="white" font-weight="800">⅓</text>
+        <text x="54" y="115" text-anchor="middle" font-size="13" fill="white" font-weight="800">⅓</text>
+        <!-- friend emojis -->
+        <text x="90" y="16" font-size="16" text-anchor="middle">👧</text>
+        <text x="160" y="72" font-size="16" text-anchor="middle">👦</text>
+        <text x="22" y="150" font-size="16" text-anchor="middle">👧</text>
+      </svg>
+      <div style="text-align:center;margin-top:4px;font-size:.9rem;font-weight:700;color:#6D28D9;">
+        ⅓ + ⅓ + ⅓ = 1 whole
+      </div>
+      <div class="illus-caption" style="margin-top:6px;">3 equal thirds — one for each friend!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Thirds — 3 Pieces</div>
+      <div class="story-text">
+        The next afternoon, Ben baked a round pizza for a change!<br><br>
+        <em>Anya</em>, <em>Sam</em>, and <em>Zara</em> arrived — exactly three friends.<br><br>
+        <strong>"Three friends — I need three equal pieces!"</strong> said Ben.<br><br>
+        He drew three lines from the centre of the pizza, each the same distance apart. <strong>"These are called thirds,"</strong> he explained.
+      </div>
+      <div class="character-speech">
+        Each piece is one THIRD of the whole pizza. We write it as ⅓. Three thirds make one whole pizza!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🍕</span>
+          <span class="math-callout-title">ONE THIRD (⅓)</span>
+        </div>
+        <p>Cut into <strong>3 EQUAL pieces</strong>. 1 out of 3 = <strong>⅓</strong>. Three thirds = 1 whole. A third is smaller than a half but bigger than a quarter!</p>
+      </div>
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Anya, Sam, and Zara share a pizza equally. What fraction does Anya get?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','A half means 2 equal pieces, but there are 3 friends!')">½</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','A quarter means 4 equal pieces, but there are 3 friends!')">¼</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','3 friends, equal shares = ⅓ each!')">⅓</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','A fifth means 5 equal pieces, but there are only 3 friends!')">⅕</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – THREE QUARTERS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:3rem;margin-bottom:6px;">🎂😋</div>
+      <!-- SVG cake with 3 shaded, 1 unshaded -->
+      <svg width="180" height="180" viewBox="0 0 180 180" style="margin:0 auto;">
+        <!-- Quarter 1 — shaded (eaten) -->
+        <path d="M 90,90 L 90,20 A 70,70 0 0,1 160,90 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
+        <!-- Quarter 2 — shaded (eaten) -->
+        <path d="M 90,90 L 160,90 A 70,70 0 0,1 90,160 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
+        <!-- Quarter 3 — shaded (eaten) -->
+        <path d="M 90,90 L 90,160 A 70,70 0 0,1 20,90 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
+        <!-- Quarter 4 — unshaded (remaining) -->
+        <path d="M 90,90 L 20,90 A 70,70 0 0,1 90,20 Z" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+        <!-- Labels -->
+        <text x="125" y="55" text-anchor="middle" font-size="12" fill="white" font-weight="800">¼</text>
+        <text x="125" y="132" text-anchor="middle" font-size="12" fill="white" font-weight="800">¼</text>
+        <text x="55" y="132" text-anchor="middle" font-size="12" fill="white" font-weight="800">¼</text>
+        <text x="55" y="55" text-anchor="middle" font-size="12" fill="#6D28D9" font-weight="800">¼</text>
+        <!-- ¾ label in centre -->
+        <circle cx="90" cy="90" r="26" fill="white" opacity="0.9"/>
+        <text x="90" y="86" text-anchor="middle" font-size="11" fill="#6D28D9" font-weight="800">Milo</text>
+        <text x="90" y="100" text-anchor="middle" font-size="15" fill="#6D28D9" font-weight="800">¾</text>
+        <!-- Milo eating -->
+        <text x="148" y="28" font-size="20" text-anchor="middle">👦</text>
+        <text x="155" y="46" font-size="12" text-anchor="middle" fill="#6D28D9" font-weight="700">yum!</text>
+      </svg>
+      <div style="text-align:center;margin-top:4px;font-size:.9rem;font-weight:700;color:#6D28D9;">
+        3 pieces out of 4 = ¾ (three quarters)
+      </div>
+      <div class="illus-caption" style="margin-top:6px;">Milo eats 3 pieces — that is three quarters!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Three Quarters</div>
+      <div class="story-text">
+        Ben baked one more cake and cut it into four equal quarters.<br><br>
+        <strong>Milo</strong> was very hungry! He asked for not one, not two, but <strong>three pieces</strong>!<br><br>
+        <em>"Three pieces out of four,"</em> said Ben. <em>"That is called three quarters — and we write it as ¾."</em><br><br>
+        <strong>"Is that more or less than half?"</strong> asked Zara curiously.
+      </div>
+      <div class="character-speech">
+        Three quarters is MORE than a half! A half is ²⁄₄ — just two quarters. Three quarters is one more piece than that!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🎂</span>
+          <span class="math-callout-title">THREE QUARTERS (¾)</span>
+        </div>
+        <p>3 out of 4 equal pieces = <strong>¾</strong>. Three quarters is <strong>more than ½</strong>! A half = 2 quarters. Three quarters = 3 quarters.</p>
+      </div>
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A cake is cut into 4 pieces. Milo eats <strong>3 pieces</strong>. What fraction did he eat?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','¼ means only 1 piece out of 4, but Milo had 3 pieces!')">¼</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','½ means 2 pieces out of 4, but Milo had 3 pieces!')">½</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','3 pieces out of 4 = three quarters = ¾!')">¾</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','1 whole means all 4 pieces — Milo left 1 piece behind!')">1 whole</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – COMPARING FRACTIONS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:3rem;margin-bottom:6px;">📊</div>
+      <!-- Four fraction circles side by side -->
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:4px 0;">
+        <!-- Whole -->
+        <div style="text-align:center;">
+          <svg width="58" height="58" viewBox="0 0 58 58">
+            <circle cx="29" cy="29" r="26" fill="#8B5CF6" stroke="#6D28D9" stroke-width="2"/>
+            <text x="29" y="34" text-anchor="middle" font-size="14" fill="white" font-weight="800">1</text>
+          </svg>
+          <div style="font-size:.7rem;font-weight:700;color:#6D28D9;margin-top:3px;">1 whole</div>
+        </div>
+        <!-- Half -->
+        <div style="text-align:center;">
+          <svg width="58" height="58" viewBox="0 0 58 58">
+            <path d="M 29,29 L 29,3 A 26,26 0 0,1 55,29 Z" fill="#EC4899" stroke="white" stroke-width="1.5"/>
+            <path d="M 29,29 L 55,29 A 26,26 0 0,1 29,55 Z" fill="#EC4899" stroke="white" stroke-width="1.5"/>
+            <path d="M 29,29 L 29,55 A 26,26 0 0,1 3,29 Z" fill="#FDF2F8" stroke="#EC4899" stroke-width="1.5"/>
+            <path d="M 29,29 L 3,29 A 26,26 0 0,1 29,3 Z" fill="#FDF2F8" stroke="#EC4899" stroke-width="1.5"/>
+            <text x="29" y="34" text-anchor="middle" font-size="11" fill="#BE185D" font-weight="800">½</text>
+          </svg>
+          <div style="font-size:.7rem;font-weight:700;color:#BE185D;margin-top:3px;">half = ½</div>
+        </div>
+        <!-- Third -->
+        <div style="text-align:center;">
+          <svg width="58" height="58" viewBox="0 0 58 58">
+            <path d="M 29,29 L 29,3 A 26,26 0 0,1 51.5,16 Z" fill="#F97316" stroke="white" stroke-width="1.5"/>
+            <path d="M 29,29 L 51.5,16 A 26,26 0 0,1 6.5,42 Z" fill="#F97316" stroke="white" stroke-width="1.5"/>
+            <path d="M 29,29 L 6.5,42 A 26,26 0 0,1 29,3 Z" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
+            <text x="29" y="34" text-anchor="middle" font-size="10" fill="#C2410C" font-weight="800">⅓</text>
+          </svg>
+          <div style="font-size:.7rem;font-weight:700;color:#C2410C;margin-top:3px;">third = ⅓</div>
+        </div>
+        <!-- Quarter -->
+        <div style="text-align:center;">
+          <svg width="58" height="58" viewBox="0 0 58 58">
+            <path d="M 29,29 L 29,3 A 26,26 0 0,1 55,29 Z" fill="#FBBF24" stroke="white" stroke-width="1.5"/>
+            <path d="M 29,29 L 55,29 A 26,26 0 0,1 29,55 Z" fill="#FEF9C3" stroke="#FBBF24" stroke-width="1.5"/>
+            <path d="M 29,29 L 29,55 A 26,26 0 0,1 3,29 Z" fill="#FEF9C3" stroke="#FBBF24" stroke-width="1.5"/>
+            <path d="M 29,29 L 3,29 A 26,26 0 0,1 29,3 Z" fill="#FEF9C3" stroke="#FBBF24" stroke-width="1.5"/>
+            <text x="29" y="34" text-anchor="middle" font-size="10" fill="#D97706" font-weight="800">¼</text>
+          </svg>
+          <div style="font-size:.7rem;font-weight:700;color:#D97706;margin-top:3px;">quarter = ¼</div>
+        </div>
+      </div>
+      <div style="background:rgba(0,0,0,.1);border-radius:12px;padding:8px 14px;margin-top:8px;text-align:center;font-size:.85rem;font-weight:800;color:#4C1D95;">
+        ¼ &lt; ⅓ &lt; ½ &lt; 1 whole
+      </div>
+      <div class="illus-scene" style="margin-top:8px;">
+        <span class="char-sm">👨‍🍳</span>
+      </div>
+      <div class="illus-caption">Smallest to largest — ordering fractions!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Comparing Fractions</div>
+      <div class="story-text">
+        At the end of the day, Ben put four fraction circles on the board.<br><br>
+        <strong>"Let us compare all the fractions we used today!"</strong> he said.<br><br>
+        Zara studied the circles carefully. <em>"The more pieces you cut the cake into, the smaller each piece gets!"</em><br><br>
+        <strong>"Exactly right!"</strong> cheered Ben. <strong>"A quarter is smaller than a third, which is smaller than a half!"</strong>
+      </div>
+      <div class="character-speech">
+        Look at the circles! ¼ is the smallest slice. ½ is the biggest of these three. More pieces means smaller slices!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⚖️</span>
+          <span class="math-callout-title">Ordering Fractions</span>
+        </div>
+        <p>Order from smallest to largest: <strong>¼ &lt; ⅓ &lt; ½ &lt; 1 whole</strong>. When the whole is the same size, more pieces means each piece is smaller!</p>
+      </div>
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Which is bigger: <strong>½ or ¼</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','¼ is a quarter — a smaller piece than a half!')">¼ is bigger</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','They are different sizes — ½ = 2 quarters, so ½ is bigger!')">They are equal</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','½ is bigger! ½ = 2 quarters. So ½ > ¼!')">½ is bigger</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','We can compare! A half is always bigger than a quarter.')">Can not tell</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – EVERYONE IS HAPPY!
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:4rem;margin-bottom:6px;">🎂❤️</div>
+      <div class="illus-scene">
+        <span class="char">👨‍🍳</span><span class="char">👧</span><span class="char">👦</span>
+      </div>
+      <div class="illus-scene" style="margin-top:4px;">
+        <span class="char">👧</span><span class="char">👦</span>
+      </div>
+      <div style="font-size:2rem;margin:8px 0;letter-spacing:4px;">❤️🧁❤️🍰❤️</div>
+      <div style="background:rgba(0,0,0,.12);border-radius:12px;padding:8px 16px;text-align:center;font-size:.85rem;font-weight:700;color:#065F46;">
+        ½ · ¼ · ⅓ · ¾
+      </div>
+      <div class="illus-caption" style="margin-top:6px;">All friends share — everyone is happy!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · Everyone is Happy!</div>
+      <div class="story-text">
+        That evening, all five friends sat together in Ben's cosy bakery, eating cake and laughing.<br><br>
+        Everyone had got their <strong>fair share</strong> — exactly the right fraction, no more, no less.<br><br>
+        <em>"Fractions are like magic,"</em> said Anya. <em>"They always make sure everyone gets the same!"</em><br><br>
+        <strong>Ben smiled and baked one more cake — just because he loved to share!</strong>
+      </div>
+      <div class="character-speech">
+        Wonderful fraction work! You are a Fair Share Champion! Halves, thirds, quarters — you know them all!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title" style="color:var(--green-dark);">What We Learned</span>
+        </div>
+        <p>✅ <strong>½</strong> = 1 out of 2 equal pieces (half)<br>
+           ✅ <strong>¼</strong> = 1 out of 4 equal pieces (quarter)<br>
+           ✅ <strong>⅓</strong> = 1 out of 3 equal pieces (third)<br>
+           ✅ <strong>¾</strong> = 3 out of 4 equal pieces (three quarters)<br>
+           ✅ Order: <strong>¼ &lt; ⅓ &lt; ½ &lt; 1</strong><br>
+           ✅ Fractions need <strong>EQUAL</strong> pieces to be fair!</p>
+      </div>
+      <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:14px;padding:14px 18px;text-align:center;font-size:1rem;font-weight:700;color:var(--accent-dark);">
+        🏆 Wonderful fraction work! You are a Fair Share Champion! 🏆
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🧁🍰🏆</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Wonderful work! You have finished <strong>The Sharing Bakery</strong> and learned all about halves, quarters, thirds, and three quarters. Baker Ben and all his friends are so proud of you!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">🧁</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Fair Share Baker Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Sharing Bakery</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 8;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+// ── AUDIO NARRATION (Web Speech API) ──
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Mia's Measurement Mission – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --accent:#F97316; --accent-dark:#C2410C; --accent-light:#FFF7ED;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #FED7AA;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#EF4444);border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL (left page) */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--blue-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.fraction-visual{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:'Quicksand',sans-serif;font-weight:700;line-height:1;border:2px solid var(--blue);border-radius:8px;padding:4px 10px;background:white;}
+.frac-num{font-size:1.1rem;color:var(--blue-dark);border-bottom:2px solid var(--blue);padding-bottom:2px;margin-bottom:2px;}
+.frac-den{font-size:1.1rem;color:var(--blue-dark);}
+.frac-word{font-size:.9rem;font-weight:600;color:var(--text-mid);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#F97316,#EF4444);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(194,65,12,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#FED7AA;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#F97316,#EF4444);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">📏</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav" style="display:flex;gap:8px;">
+      <a href="../dashboard.html">📊 My Journey</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › Mia's Measurement Mission
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 Mia's Measurement Mission</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">📏 Length</span>
+        <span class="book-tag">⚖️ Mass</span>
+        <span class="book-tag">🧪 Measurement</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Age 6–7</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 8</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:12.5%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">📏</span>
+      <div class="cover-title">Mia's Measurement<br>Mission</div>
+      <div class="cover-subtitle">A maths story about measuring length and mass in Mia's amazing science lab!</div>
+      <div class="cover-chars">👩‍🔬 🤖 📏</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 8 Pages</span>
+        <span class="cover-tag">📏 Length</span>
+        <span class="cover-tag">⚖️ Mass</span>
+        <span class="cover-tag">👶 Age 6–7</span>
+        <span class="cover-tag">⭐ Cambridge Gm2.03</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – MIA'S LAB
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:4.5rem;margin-bottom:4px;">👩‍🔬</div>
+      <div style="font-size:2.5rem;letter-spacing:8px;margin:6px 0;">🔬📏⚖️</div>
+      <div style="background:rgba(0,0,0,.1);border-radius:14px;padding:10px 18px;text-align:center;margin-top:6px;">
+        <div style="font-size:1rem;font-weight:800;color:#92400E;">MIA'S SCIENCE LAB</div>
+        <div style="font-size:.85rem;font-weight:600;color:#C2410C;">— measuring everything! —</div>
+      </div>
+      <div style="margin-top:10px;font-size:2rem;letter-spacing:4px;">📐🧪🔭</div>
+      <div class="illus-scene" style="margin-top:8px;">
+        <span class="char-sm">🤖</span>
+      </div>
+      <div class="illus-caption">Mia and Bolt — ready to measure!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · Mia's Lab</div>
+      <div class="story-text">
+        <strong>Mia the Scientist</strong> opened the door to her brand new science lab.<br><br>
+        Shelves lined the walls, filled with rulers, scales, and measuring tools of every kind.<br><br>
+        Her robot assistant <em>Bolt</em> beeped happily and spun around.<br><br>
+        <strong>"Today,"</strong> said Mia, picking up her clipboard, <em>"we are going to measure EVERYTHING we can find!"</em>
+      </div>
+      <div class="character-speech">
+        Bolt and I will measure lengths and masses. Rulers for length — scales for mass. Let's go!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📏</span>
+          <span class="math-callout-title">Measurement Tools</span>
+        </div>
+        <p>We measure <strong>LENGTH</strong> with a ruler — how long something is. We measure <strong>MASS</strong> with scales — how heavy something is.</p>
+      </div>
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Which tool measures how <strong>long</strong> something is?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Scales measure mass — how heavy something is!')">Scales</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','A ruler measures length in centimetres (cm) and metres (m)!')">Ruler</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','A thermometer measures temperature, not length!')">Thermometer</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','A clock measures time, not length!')">Clock</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – MEASURING IN CENTIMETRES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:4rem;margin-bottom:6px;">✏️</div>
+      <!-- SVG Ruler with pencil -->
+      <svg width="270" height="100" viewBox="0 0 270 100" style="margin:0 auto;">
+        <!-- Pencil above ruler -->
+        <rect x="10" y="10" width="196" height="18" rx="4" fill="#FBBF24" stroke="#D97706" stroke-width="1.5"/>
+        <polygon points="206,10 220,19 206,28" fill="#F97316"/>
+        <rect x="10" y="14" width="10" height="10" rx="2" fill="#FEF3C7"/>
+        <text x="100" y="23" text-anchor="middle" font-size="9" fill="#92400E" font-weight="700">✏️ 14 cm long</text>
+        <!-- Ruler body -->
+        <rect x="10" y="35" width="240" height="32" rx="5" fill="#FEFCE8" stroke="#D97706" stroke-width="2"/>
+        <!-- cm ticks and labels -->
+        <line x1="10" y1="35" x2="10" y2="67" stroke="#D97706" stroke-width="1.5"/>
+        <text x="10" y="78" text-anchor="middle" font-size="9" fill="#92400E" font-weight="700">0</text>
+        <line x1="58" y1="40" x2="58" y2="67" stroke="#D97706" stroke-width="1.5"/>
+        <text x="58" y="78" text-anchor="middle" font-size="9" fill="#92400E" font-weight="700">5</text>
+        <line x1="106" y1="40" x2="106" y2="67" stroke="#D97706" stroke-width="1.5"/>
+        <text x="106" y="78" text-anchor="middle" font-size="9" fill="#92400E" font-weight="700">10</text>
+        <line x1="140" y1="37" x2="140" y2="67" stroke="#F97316" stroke-width="2.5"/>
+        <text x="140" y="80" text-anchor="middle" font-size="10" fill="#C2410C" font-weight="800">14</text>
+        <line x1="154" y1="40" x2="154" y2="67" stroke="#D97706" stroke-width="1.5"/>
+        <text x="154" y="78" text-anchor="middle" font-size="9" fill="#92400E" font-weight="700">15</text>
+        <line x1="202" y1="40" x2="202" y2="67" stroke="#D97706" stroke-width="1.5"/>
+        <text x="202" y="78" text-anchor="middle" font-size="9" fill="#92400E" font-weight="700">20</text>
+        <text x="250" y="78" text-anchor="middle" font-size="9" fill="#92400E" font-weight="700">cm</text>
+        <!-- small ticks for each cm -->
+        <line x1="34" y1="50" x2="34" y2="67" stroke="#D97706" stroke-width="1"/>
+        <line x1="82" y1="50" x2="82" y2="67" stroke="#D97706" stroke-width="1"/>
+        <line x1="130" y1="50" x2="130" y2="67" stroke="#D97706" stroke-width="1"/>
+        <line x1="178" y1="50" x2="178" y2="67" stroke="#D97706" stroke-width="1"/>
+        <line x1="226" y1="50" x2="226" y2="67" stroke="#D97706" stroke-width="1"/>
+      </svg>
+      <div class="illus-scene" style="margin-top:10px;">
+        <span class="char">👩‍🔬</span><span class="char-sm" style="margin-left:6px;">🤖</span>
+      </div>
+      <div class="illus-caption">The pencil is 14 cm long!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Measuring in Centimetres</div>
+      <div class="story-text">
+        Mia picked up a yellow pencil and placed it carefully along her ruler.<br><br>
+        She lined up the end of the pencil with the zero mark on the ruler.<br><br>
+        <em>"The pencil reaches all the way to 14!"</em> she said, pointing carefully.<br><br>
+        <strong>"So the pencil is 14 centimetres long,"</strong> said Bolt. <strong>"We write that as 14 cm."</strong>
+      </div>
+      <div class="character-speech">
+        Always start measuring from zero! Line up the end of your object with the 0 mark on the ruler.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📏</span>
+          <span class="math-callout-title">Centimetres (cm)</span>
+        </div>
+        <p>Centimetres (cm) are small units of length. 1 cm is about the width of your little finger! We use cm to measure small objects like pencils and books.</p>
+      </div>
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Mia's book is <strong>20 cm</strong> long. Her eraser is <strong>5 cm</strong> long. How much longer is the book than the eraser?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Try subtracting: 20 − 5 = ?')">10 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Close! 20 − 5 is not 12.')">12 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','20 − 5 = 15 cm longer!')">15 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','That is the length of the book, not the difference!')">20 cm</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – MEASURING IN METRES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 4</div>
+      <!-- SVG door with metre markings and Mia beside it -->
+      <svg width="230" height="220" viewBox="0 0 230 220" style="margin:0 auto;">
+        <!-- Door frame -->
+        <rect x="60" y="20" width="80" height="170" rx="4" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
+        <rect x="63" y="23" width="74" height="164" rx="2" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/>
+        <!-- Door handle -->
+        <circle cx="128" cy="107" r="5" fill="#F97316"/>
+        <!-- Metre markers on door -->
+        <line x1="60" y1="190" x2="80" y2="190" stroke="#C2410C" stroke-width="2.5"/>
+        <text x="55" y="194" text-anchor="end" font-size="12" fill="#C2410C" font-weight="800">0 m</text>
+        <line x1="60" y1="105" x2="80" y2="105" stroke="#C2410C" stroke-width="2.5"/>
+        <text x="55" y="109" text-anchor="end" font-size="12" fill="#C2410C" font-weight="800">1 m</text>
+        <line x1="60" y1="20" x2="80" y2="20" stroke="#C2410C" stroke-width="2.5"/>
+        <text x="55" y="24" text-anchor="end" font-size="12" fill="#C2410C" font-weight="800">2 m</text>
+        <!-- Double arrow showing total height -->
+        <line x1="148" y1="20" x2="148" y2="190" stroke="#F97316" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="165" y="110" text-anchor="middle" font-size="13" fill="#C2410C" font-weight="800">2 m</text>
+        <!-- Mia standing next to door -->
+        <text x="195" y="185" font-size="40" text-anchor="middle">👩‍🔬</text>
+        <!-- Mia height marker -->
+        <line x1="178" y1="145" x2="190" y2="145" stroke="#059669" stroke-width="2"/>
+        <text x="215" y="148" font-size="9" fill="#059669" font-weight="700">≈1.2m</text>
+      </svg>
+      <div class="illus-caption" style="margin-top:4px;">The lab door is 2 metres tall!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Measuring in Metres</div>
+      <div class="story-text">
+        Next, Mia measured the tall lab door.<br><br>
+        She held her metre ruler up against the door frame.<br><br>
+        <strong>"One metre…"</strong> she counted, <strong>"two metres! The door is two metres tall!"</strong><br><br>
+        Bolt beeped. <em>"That is much too big for centimetres. Doors are tall, so we use metres!"</em>
+      </div>
+      <div class="character-speech">
+        When things are very long or very tall, we use metres! A door is about 2 metres — that is 200 centimetres!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📐</span>
+          <span class="math-callout-title">Centimetres and Metres</span>
+        </div>
+        <p><strong>100 centimetres = 1 metre</strong>. A door is about 2 metres tall. A ruler is 30 cm. We use <strong>metres (m)</strong> for large lengths like rooms and doors.</p>
+      </div>
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">How many centimetres are in <strong>2 metres</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','20 cm is much too small! 1 metre = 100 cm.')">20 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','100 cm = 1 metre. What about 2 metres?')">100 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','1 metre = 100 cm. 2 metres = 200 cm!')">200 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','2000 cm would be 20 metres — way too big!')">2000 cm</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – MEASURING MASS IN GRAMS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:3.5rem;margin-bottom:6px;">🍎⚖️</div>
+      <!-- SVG Balance scale -->
+      <svg width="220" height="150" viewBox="0 0 220 150" style="margin:0 auto;">
+        <!-- Stand -->
+        <rect x="105" y="80" width="10" height="60" fill="#D97706"/>
+        <rect x="80" y="135" width="60" height="12" rx="4" fill="#D97706"/>
+        <!-- Beam -->
+        <rect x="20" y="76" width="180" height="8" rx="4" fill="#FBBF24"/>
+        <!-- Left pan (apple) -->
+        <line x1="40" y1="84" x2="40" y2="110" stroke="#D97706" stroke-width="2"/>
+        <ellipse cx="40" cy="118" rx="32" ry="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+        <text x="40" y="122" text-anchor="middle" font-size="22">🍎</text>
+        <!-- Right pan (150g weight) -->
+        <line x1="180" y1="84" x2="180" y2="110" stroke="#D97706" stroke-width="2"/>
+        <ellipse cx="180" cy="118" rx="32" ry="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+        <rect x="162" y="106" width="36" height="20" rx="4" fill="#F97316"/>
+        <text x="180" y="120" text-anchor="middle" font-size="10" fill="white" font-weight="800">150 g</text>
+        <!-- Balance indicator — level beam shows equal -->
+        <circle cx="110" cy="76" r="6" fill="#C2410C"/>
+        <!-- label -->
+        <text x="40" y="145" text-anchor="middle" font-size="10" fill="#92400E" font-weight="700">Apple</text>
+        <text x="180" y="145" text-anchor="middle" font-size="10" fill="#92400E" font-weight="700">Weight</text>
+      </svg>
+      <div style="background:rgba(0,0,0,.1);border-radius:10px;padding:6px 14px;text-align:center;font-size:.9rem;font-weight:700;color:#92400E;margin-top:6px;">
+        Apple = 150 g — perfectly balanced!
+      </div>
+      <div class="illus-caption" style="margin-top:6px;">The scale balances at 150 grams!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Measuring Mass in Grams</div>
+      <div class="story-text">
+        Mia picked up a red apple from the lab bench and placed it on the scales.<br><br>
+        She added weights on the other side until the scale was perfectly balanced.<br><br>
+        <em>"The apple balances with 150 grams!"</em> she announced proudly.<br><br>
+        <strong>"Mass tells us how heavy something is,"</strong> said Bolt. <strong>"We use grams for lighter things like apples and pencils."</strong>
+      </div>
+      <div class="character-speech">
+        The apple has a mass of 150 grams. We write that as 150 g. Grams are great for small and light objects!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⚖️</span>
+          <span class="math-callout-title">Grams (g)</span>
+        </div>
+        <p>Mass is how heavy something is. We use <strong>GRAMS (g)</strong> for light objects. A feather is about 1 g. An apple is about 150 g. 150 is much bigger than 1!</p>
+      </div>
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A feather has a mass of about <strong>1 g</strong>. An apple has a mass of <strong>150 g</strong>. Which is heavier?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','The feather is much lighter — only 1 g!')">Feather</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','1 g and 150 g are very different masses!')">They are equal</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','The apple is 150 times heavier than the feather!')">Apple</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','We can tell — 150 g is much more than 1 g!')">Can not tell</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – KILOGRAMS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:3rem;margin-bottom:4px;">🥔🥔🥔</div>
+      <!-- SVG scale with 1kg shown -->
+      <svg width="200" height="160" viewBox="0 0 200 160" style="margin:0 auto;">
+        <!-- Scale platform top -->
+        <ellipse cx="100" cy="55" rx="65" ry="18" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+        <!-- Scale body / bowl -->
+        <path d="M 35,55 Q 35,95 100,95 Q 165,95 165,55" fill="#FEF9C3" stroke="#D97706" stroke-width="2"/>
+        <!-- Stand -->
+        <rect x="90" y="95" width="20" height="40" fill="#D97706"/>
+        <rect x="65" y="130" width="70" height="14" rx="5" fill="#D97706"/>
+        <!-- Dial face on scale -->
+        <circle cx="100" cy="115" r="18" fill="white" stroke="#D97706" stroke-width="2"/>
+        <text x="100" y="112" text-anchor="middle" font-size="9" fill="#92400E" font-weight="700">1 kg</text>
+        <text x="100" y="122" text-anchor="middle" font-size="7" fill="#D97706">= 1000g</text>
+        <!-- Potatoes on scale -->
+        <text x="80" y="52" font-size="26" text-anchor="middle">🥔</text>
+        <text x="105" y="48" font-size="26" text-anchor="middle">🥔</text>
+        <text x="125" y="54" font-size="22" text-anchor="middle">🥔</text>
+      </svg>
+      <div class="illus-scene" style="margin-top:6px;">
+        <span class="char">👩‍🔬</span><span class="char-sm" style="margin-left:4px;">🤖</span>
+      </div>
+      <div class="illus-caption">A bag of potatoes — 1 kilogram!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Kilograms</div>
+      <div class="story-text">
+        Mia heaved a big bag of potatoes onto the lab scales.<br><br>
+        The dial swung all the way round to the <strong>1 kilogram</strong> mark.<br><br>
+        Bolt beeped in surprise. <em>"That is 1000 grams! That is too heavy to count in grams alone!"</em><br><br>
+        <strong>"We use KILOGRAMS (kg) for heavy things,"</strong> said Mia. <strong>"Like bags of flour, your school bag, or even you!"</strong>
+      </div>
+      <div class="character-speech">
+        1000 grams equals 1 kilogram. For heavy things like bags of potatoes, we use kg instead of g!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⚖️</span>
+          <span class="math-callout-title">Kilograms (kg)</span>
+        </div>
+        <p><strong>1000 grams = 1 kilogram</strong>. We use <strong>kg</strong> for heavier things like bags and people. A small child might weigh about 20 kg!</p>
+      </div>
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A bag of flour has a mass of <strong>2 kg</strong>. A book has a mass of <strong>500 g</strong>. Which is heavier?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','500 g is less than 1 kg. The flour is heavier!')">Book</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','2 kg = 2000 g, which is much more than 500 g!')">They are equal</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','2 kg = 2000 g. 2000 g is more than 500 g. The flour bag is heavier!')">Flour bag</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','We can compare! 2 kg = 2000 g, and 2000 > 500.')">Can not tell</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – COMPARING MEASUREMENTS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:3.5rem;margin-bottom:6px;">📋</div>
+      <!-- Measurements table -->
+      <div style="background:white;border-radius:14px;border:2px solid #FED7AA;padding:10px;width:88%;margin:0 auto;">
+        <div style="font-size:.75rem;font-weight:800;color:#C2410C;text-align:center;margin-bottom:8px;border-bottom:1px solid #FED7AA;padding-bottom:4px;">Mia's Measurements</div>
+        <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #FEF3C7;">
+          <span style="font-size:1.1rem;">✏️</span>
+          <span style="font-size:.8rem;font-weight:700;color:#92400E;">Pencil</span>
+          <span style="font-size:.8rem;font-weight:800;color:#C2410C;">14 cm</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #FEF3C7;">
+          <span style="font-size:1.1rem;">🚪</span>
+          <span style="font-size:.8rem;font-weight:700;color:#92400E;">Door</span>
+          <span style="font-size:.8rem;font-weight:800;color:#C2410C;">2 m</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:4px 6px;border-bottom:1px solid #FEF3C7;">
+          <span style="font-size:1.1rem;">🍎</span>
+          <span style="font-size:.8rem;font-weight:700;color:#92400E;">Apple</span>
+          <span style="font-size:.8rem;font-weight:800;color:#C2410C;">150 g</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:4px 6px;">
+          <span style="font-size:1.1rem;">🥔</span>
+          <span style="font-size:.8rem;font-weight:700;color:#92400E;">Potatoes</span>
+          <span style="font-size:.8rem;font-weight:800;color:#C2410C;">1 kg</span>
+        </div>
+      </div>
+      <div class="illus-scene" style="margin-top:8px;">
+        <span class="char">👩‍🔬</span><span class="char-sm" style="margin-left:4px;">🤖</span>
+      </div>
+      <div class="illus-caption">All measurements — with correct units!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Comparing Measurements</div>
+      <div class="story-text">
+        Mia looked at her clipboard. She had measured so many things today!<br><br>
+        <strong>Bolt read out the results:</strong> pencil 14 cm, door 2 m, apple 150 g, potatoes 1 kg.<br><br>
+        <em>"I notice something,"</em> said Mia. <em>"Every measurement has a NUMBER and a UNIT."</em><br><br>
+        <strong>"Always write the unit!"</strong> said Bolt. <strong>"14 cm is very different from just 14!"</strong>
+      </div>
+      <div class="character-speech">
+        Without the unit, a measurement is useless! Is it 14 cm or 14 metres? Always write the unit after the number!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title">Always Write the Unit!</span>
+        </div>
+        <p>Always write the <strong>UNIT</strong> after the number! <strong>14 cm</strong> not just 14. <strong>150 g</strong> not just 150. Units tell us what we are measuring!</p>
+      </div>
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Two pencils are each <strong>14 cm</strong> long. Mia places them end to end. How long are they altogether?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','That is just one pencil, not both together!')">14 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','Try adding 14 + 14 carefully!')">20 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','14 + 14 = 28 cm. Double the length!')">28 cm</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','14 + 14 = 28, not 30!')">30 cm</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – MISSION COMPLETE!
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:4rem;margin-bottom:6px;">👩‍🔬🏆</div>
+      <div style="font-size:2.5rem;margin:6px 0;letter-spacing:4px;">📏⚖️🔬</div>
+      <div style="background:rgba(0,0,0,.12);border-radius:14px;padding:10px 16px;text-align:center;margin:8px 0;font-size:.85rem;font-weight:700;color:#065F46;">
+        cm · m · g · kg<br>
+        <span style="font-size:.8rem;color:#047857;">All units measured!</span>
+      </div>
+      <div class="illus-scene">
+        <span class="char">👩‍🔬</span><span class="char">🤖</span>
+      </div>
+      <div style="font-size:2rem;margin-top:8px;letter-spacing:4px;">🎉❤️🎊</div>
+      <div class="illus-caption">Mission complete — brilliant measuring!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · Mission Complete!</div>
+      <div class="story-text">
+        Mia sat down at her desk and looked at her full clipboard with a huge smile.<br><br>
+        Bolt spun around happily, beeping and flashing its lights.<br><br>
+        <strong>They had measured everything in the lab!</strong> Lengths in centimetres and metres. Masses in grams and kilograms.<br><br>
+        <em>"Now I know how to measure the world!"</em> laughed Mia.
+      </div>
+      <div class="character-speech">
+        Brilliant measuring! You are a Measurement Scientist! You know cm, m, g and kg — fantastic work!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title" style="color:var(--green-dark);">What We Learned</span>
+        </div>
+        <p>✅ <strong>cm</strong> — centimetres, for small lengths like pencils<br>
+           ✅ <strong>m</strong> — metres, for large lengths like doors<br>
+           ✅ <strong>g</strong> — grams, for light masses like apples<br>
+           ✅ <strong>kg</strong> — kilograms, for heavy masses like bags<br>
+           ✅ <strong>100 cm = 1 m</strong> and <strong>1000 g = 1 kg</strong><br>
+           ✅ Always write the <strong>unit</strong> after the number!</p>
+      </div>
+      <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:14px;padding:14px 18px;text-align:center;font-size:1rem;font-weight:700;color:var(--accent-dark);">
+        🔬 Brilliant measuring! You are a Measurement Scientist! 🔬
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">👩‍🔬📏🏆</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Wonderful work! You have finished <strong>Mia's Measurement Mission</strong> and learned all about measuring length in cm and m, and mass in g and kg. Mia and Bolt are so proud of you!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">📏</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Master Measurer Badge</div>
+        <div class="badge-text-sub">Awarded for completing Mia's Measurement Mission</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 8;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+// ── AUDIO NARRATION (Web Speech API) ──
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

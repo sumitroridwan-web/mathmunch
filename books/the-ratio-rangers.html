@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Ratio Rangers – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#059669; --green-dark:#065F46; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+  --accent:#059669; --accent-dark:#065F46; --accent-light:#ECFDF5;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #A7F3D0;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+/* spine gutter */
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+/* bottom-right page curl hint */
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL (left page) */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.05rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--accent);font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'\201C';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'\201D';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.fraction-visual{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:'Quicksand',sans-serif;font-weight:700;line-height:1;border:2px solid var(--blue);border-radius:8px;padding:4px 10px;background:white;}
+.frac-num{font-size:1.1rem;color:var(--blue-dark);border-bottom:2px solid var(--blue);padding-bottom:2px;margin-bottom:2px;}
+.frac-den{font-size:1.1rem;color:var(--blue-dark);}
+.frac-word{font-size:.9rem;font-weight:600;color:var(--text-mid);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--accent-light);border:2px solid var(--accent);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--accent);background:var(--accent-light);}
+.think-btn.correct{border-color:var(--accent);background:#DCFCE7;color:var(--accent-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--accent-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#065F46,#0284C7);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(4,47,36,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#A7F3D0;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#059669,#065F46);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* RATIO-SPECIFIC COMPONENTS */
+.ratio-bar{display:flex;align-items:stretch;border-radius:10px;overflow:hidden;height:36px;width:100%;}
+.ratio-segment{display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:white;}
+.prop-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;font-size:.88rem;}
+.prop-table th{background:var(--accent-dark);color:white;padding:8px 12px;text-align:center;font-family:'Quicksand',sans-serif;}
+.prop-table td{padding:8px 12px;text-align:center;border-bottom:1px solid #D1FAE5;}
+.prop-table tr:nth-child(even) td{background:#F0FDF4;}
+.prop-table tr:last-child td{border-bottom:none;}
+.worked-step{background:#F0FDF4;border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:10px 14px;margin:6px 0;font-size:.9rem;color:var(--text-mid);}
+.worked-step strong{color:var(--accent-dark);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">⚖️</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">📚 Books</a> › The Ratio Rangers
+      </span>
+      <nav class="site-nav" style="display:flex;gap:8px;">
+        <a href="../dashboard.html" style="font-size:.82rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border:1px solid var(--outline);border-radius:9999px;background:var(--white);">📊 My Journey</a>
+        <a href="#" style="font-size:.82rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border:1px solid var(--outline);border-radius:9999px;background:var(--white);">Badges</a>
+        <a href="#" style="font-size:.82rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border:1px solid var(--outline);border-radius:9999px;background:var(--white);">Progress</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">⚖️ The Ratio Rangers</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">⚖️ Ratio</span>
+        <span class="book-tag">📐 Proportion</span>
+        <span class="book-tag">🔢 Scale</span>
+        <span class="book-tag">Age 10–11</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Nn6.04 Cambridge</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 12</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:8.33%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">⚖️</span>
+      <div class="cover-title">The Ratio Rangers</div>
+      <div class="cover-subtitle">A maths adventure about ratio, proportion,<br>and the power of balanced thinking</div>
+      <div class="cover-chars">🌿 🌿</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 12 Pages</span>
+        <span class="cover-tag">⚖️ Ratio · Proportion</span>
+        <span class="cover-tag">🔢 Scale · Age 10–11</span>
+        <span class="cover-tag">⭐ Nn6.04 Cambridge</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – WHAT IS RATIO?
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--accent-dark);margin-bottom:12px;">Ratio Bar Diagram</div>
+      <!-- Ratio 2:3 bar -->
+      <div style="width:90%;">
+        <div style="font-size:.78rem;font-weight:700;color:var(--accent-dark);margin-bottom:5px;">Ratio 2 : 3</div>
+        <div class="ratio-bar" style="margin-bottom:14px;">
+          <div class="ratio-segment" style="flex:2;background:#059669;">2 parts</div>
+          <div class="ratio-segment" style="flex:3;background:#0284C7;">3 parts</div>
+        </div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--accent-dark);margin-bottom:5px;">Simplified: 6 : 9 = 2 : 3</div>
+        <div class="ratio-bar" style="margin-bottom:6px;opacity:.7;">
+          <div class="ratio-segment" style="flex:6;background:#059669;font-size:.78rem;">6 parts</div>
+          <div class="ratio-segment" style="flex:9;background:#0284C7;font-size:.78rem;">9 parts</div>
+        </div>
+        <div style="font-size:.75rem;color:var(--text-mid);text-align:center;margin-top:4px;">÷ 3 on both sides → 2 : 3</div>
+      </div>
+      <div style="margin-top:16px;font-size:.82rem;font-weight:700;color:var(--accent-dark);background:#D1FAE5;padding:8px 16px;border-radius:10px;text-align:center;">
+        Both parts divided by their HCF gives the simplest ratio
+      </div>
+      <div class="illus-scene" style="margin-top:14px;">
+        <span style="font-size:1.8rem;">🌿</span>
+        <span style="font-size:1.6rem;margin-left:8px;">🌿</span>
+      </div>
+      <div class="illus-caption">Sasha and Tom study ratio in the forest lab</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · What Is Ratio?</div>
+      <div class="story-text">
+        Deep in the Emerald Forest, two young Rangers — <strong>Sasha</strong> and <strong>Tom</strong> — have been given a critical mission. The ancient potions that protect the forest from drought have run dry, and only the Rangers know how to brew them correctly. Every ingredient must be mixed in <em>exact ratios</em>, or the potion will fail.<br><br>
+        Sasha opens the worn leather recipe book. The first line reads: <strong>"Mix green moss and blue crystal in ratio 2 : 3."</strong><br><br>
+        Tom tilts his head. "What does ratio actually mean?" he asks. Sasha smiles and pulls out a strip of bark to explain. <em>A ratio compares two or more quantities that are measured in the same units.</em> When we write 2 : 3, we mean "for every 2 parts of one thing, there are 3 parts of another." Neither number is a fraction of the other — they simply describe the relative sizes.<br><br>
+        Ratios can be simplified just like fractions. If we have 6 : 9, we find the <strong>highest common factor (HCF)</strong> of 6 and 9, which is 3. Dividing both sides by 3 gives us 2 : 3 — exactly the same ratio expressed in its simplest form. The ratio bar above shows this clearly: the proportions look identical no matter which equivalent form we use.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">Simplifying Ratios</span>
+        </div>
+        <p>To simplify a ratio, divide <strong>both parts</strong> by their HCF.<br>
+        Example: 6 : 9 → HCF = 3 → <strong>6 ÷ 3 : 9 ÷ 3 = 2 : 3</strong><br>
+        Check: the HCF of 2 and 3 is 1, so 2 : 3 is fully simplified.</p>
+      </div>
+
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Simplify the ratio <strong>15 : 20</strong> to its lowest terms.</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','The HCF of 15 and 20 is 5, not 3. Try again!')">5 : 7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','Correct! HCF of 15 and 20 = 5. So 15÷5 : 20÷5 = 3 : 4.')">3 : 4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Dividing by 10 gives 1.5 : 2, which is not a whole-number ratio.')">1.5 : 2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','You can simplify further — divide both by 5!')">15 : 20</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – EQUIVALENT RATIOS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Equivalent Ratio Chain: 2 : 3</div>
+      <!-- Equivalent ratio bars stacked -->
+      <div style="width:92%;display:flex;flex-direction:column;gap:8px;">
+        <div>
+          <div style="font-size:.72rem;font-weight:700;color:var(--accent-dark);margin-bottom:3px;">2 : 3 (simplest)</div>
+          <div class="ratio-bar">
+            <div class="ratio-segment" style="flex:2;background:#059669;font-size:.8rem;">2</div>
+            <div class="ratio-segment" style="flex:3;background:#0284C7;font-size:.8rem;">3</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.72rem;font-weight:700;color:var(--accent-dark);margin-bottom:3px;">4 : 6 (× 2)</div>
+          <div class="ratio-bar">
+            <div class="ratio-segment" style="flex:4;background:#10B981;font-size:.8rem;">4</div>
+            <div class="ratio-segment" style="flex:6;background:#0284C7;font-size:.8rem;">6</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.72rem;font-weight:700;color:var(--accent-dark);margin-bottom:3px;">6 : 9 (× 3)</div>
+          <div class="ratio-bar">
+            <div class="ratio-segment" style="flex:6;background:#34D399;font-size:.8rem;">6</div>
+            <div class="ratio-segment" style="flex:9;background:#38BDF8;font-size:.8rem;">9</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.72rem;font-weight:700;color:var(--accent-dark);margin-bottom:3px;">10 : 15 (× 5)</div>
+          <div class="ratio-bar">
+            <div class="ratio-segment" style="flex:10;background:#6EE7B7;font-size:.75rem;">10</div>
+            <div class="ratio-segment" style="flex:15;background:#7DD3FC;font-size:.75rem;">15</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:.78rem;font-weight:700;color:var(--accent-dark);text-align:center;">All bars show the same proportion — all equivalent!</div>
+      <div class="illus-caption" style="margin-top:8px;">Multiply or divide both sides by the same number</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Equivalent Ratios</div>
+      <div class="story-text">
+        Armed with the concept of ratio, the Rangers now need to scale up their recipe for a larger batch of potion. Sasha explains to Tom that equivalent ratios work exactly like equivalent fractions — they represent the <em>same relationship</em> between quantities, just expressed with different numbers.<br><br>
+        "Think of 2 : 3 as our base ratio," Sasha says. "If we multiply both parts by 2, we get 4 : 6. Multiply both by 3, and we get 6 : 9. The visual proportions — the bar lengths — always look the same, because the <strong>relative sizes haven't changed.</strong>"<br><br>
+        Tom notices the pattern immediately. "So scaling up a ratio is just like finding an equivalent fraction — but for two quantities at once!" Exactly right. This principle is what makes cooking, architecture, and map-making possible. <strong>To find an equivalent ratio, multiply or divide both terms by the same non-zero number.</strong> You can never add or subtract the same value to both sides — that would change the relationship entirely.<br><br>
+        The Rangers check the ratio 3 : 5. To find the equivalent ratio where the first part is 12, they ask: "What was 3 multiplied by to reach 12?" The answer is 4. So they multiply the second part by 4 as well: 5 × 4 = <strong>20</strong>. The equivalent ratio is <em>12 : 20</em>.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔗</span>
+          <span class="math-callout-title">Finding Equivalent Ratios</span>
+        </div>
+        <p><strong>Rule:</strong> Multiply (or divide) <em>both</em> parts by the same number.<br>
+        3 : 5 → first part must become 12 → 12 ÷ 3 = <strong>4</strong> → multiply second part: 5 × 4 = <strong>20</strong><br>
+        Answer: <strong>3 : 5 = 12 : 20</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">The ratio is <strong>3 : 5</strong>. Find the equivalent ratio where the first part equals <strong>12</strong>.</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Check: 3 × 4 = 12, so the second part is 5 × 4 = 20, not 17.')">12 : 17</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Excellent! 3 × 4 = 12 and 5 × 4 = 20. So 3 : 5 = 12 : 20.')">12 : 20</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','You added 9 to both sides — but ratio scaling requires multiplication!')">12 : 14</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','3 × 5 = 15, not 12. The multiplier here is 4, not 5.')">12 : 25</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – DIVIDING IN A RATIO
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Dividing 35 in ratio 2 : 5</div>
+      <svg width="220" height="140" viewBox="0 0 220 140" style="margin:0 auto;display:block;">
+        <!-- Total bar -->
+        <rect x="10" y="10" width="200" height="30" rx="6" fill="#E2E8F0"/>
+        <text x="110" y="30" text-anchor="middle" fill="#424754" font-size="13" font-weight="700">Total = 35</text>
+        <!-- 7 equal parts marked -->
+        <rect x="10" y="55" width="200" height="30" rx="6" fill="#E2E8F0"/>
+        <rect x="10" y="55" width="28.5" height="30" rx="0" fill="#059669"/>
+        <rect x="38.5" y="55" width="28.5" height="30" fill="#059669"/>
+        <rect x="67" y="55" width="28.5" height="30" rx="0" fill="#0284C7"/>
+        <rect x="95.5" y="55" width="28.5" height="30" fill="#0284C7"/>
+        <rect x="124" y="55" width="28.5" height="30" fill="#0284C7"/>
+        <rect x="152.5" y="55" width="28.5" height="30" fill="#0284C7"/>
+        <rect x="181" y="55" width="29" height="30" rx="0" fill="#0284C7"/>
+        <text x="10" y="100" fill="#065F46" font-size="11" font-weight="700">2 parts (green)</text>
+        <text x="10" y="115" fill="#065F46" font-size="12" font-weight="800">= 2 × 5 = 10</text>
+        <text x="120" y="100" fill="#1D4ED8" font-size="11" font-weight="700">5 parts (blue)</text>
+        <text x="120" y="115" fill="#1D4ED8" font-size="12" font-weight="800">= 5 × 5 = 25</text>
+        <text x="10" y="135" fill="#424754" font-size="10" font-weight="600">Each part = 35 ÷ 7 = 5</text>
+      </svg>
+      <div style="margin-top:8px;background:#D1FAE5;border-radius:10px;padding:8px 14px;font-size:.8rem;font-weight:700;color:var(--accent-dark);text-align:center;width:88%;">
+        Total parts = 2 + 5 = 7 &nbsp;|&nbsp; Each part = 35 ÷ 7 = 5
+      </div>
+      <div class="illus-caption" style="margin-top:10px;">35 divided in ratio 2 : 5 gives 10 and 25</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Dividing a Quantity in a Ratio</div>
+      <div class="story-text">
+        The Rangers reach a storage cave containing <strong>35 units</strong> of enchanted soil. The ancient map states that the two forest zones must receive soil in the ratio <em>2 : 5</em> — the northern zone needing less, the southern zone needing more to support larger trees.<br><br>
+        Tom counts the units nervously. "How do we split 35 in ratio 2 : 5?" Sasha draws three steps in the dirt. First, she adds the ratio parts: <strong>2 + 5 = 7 total parts</strong>. This means the 35 units must be divided into 7 equal groups. Second, she calculates the value of one part: <strong>35 ÷ 7 = 5 units per part</strong>. Third, she multiplies each ratio number by that value: the northern zone receives <strong>2 × 5 = 10 units</strong>, and the southern zone receives <strong>5 × 5 = 25 units</strong>.<br><br>
+        Tom verifies the answer by checking: <strong>10 + 25 = 35</strong> — perfect, the total is preserved. He also verifies the ratio: 10 : 25 simplifies to 2 : 5 (dividing both by 5). The distribution is correct. This method — find total parts, find one part, multiply — works for any quantity divided in any ratio, no matter how large the numbers become.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">➗</span>
+          <span class="math-callout-title">Method: Divide a Quantity in a Ratio</span>
+        </div>
+        <p><strong>Step 1:</strong> Add ratio parts → 2 + 5 = 7<br>
+        <strong>Step 2:</strong> One part = total ÷ parts → 35 ÷ 7 = 5<br>
+        <strong>Step 3:</strong> Multiply each ratio number → 2 × 5 = <strong>10</strong>; 5 × 5 = <strong>25</strong><br>
+        <strong>Check:</strong> 10 + 25 = 35 ✓ and 10 : 25 = 2 : 5 ✓</p>
+      </div>
+
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Divide <strong>48</strong> in the ratio <strong>3 : 5</strong>. What is the larger share?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','That is the smaller share (3 × 6 = 18). The larger is 5 parts.')">18</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Correct! 3 + 5 = 8 parts. Each part = 48 ÷ 8 = 6. Larger share = 5 × 6 = 30.')">30</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','Check your calculation: 48 ÷ 8 = 6, not 5.')">25</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','That is the total, not the larger share.')">48</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – PROPORTION
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#A7F3D0);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Ratio 2 : 3 → Proportion</div>
+      <svg width="200" height="160" viewBox="0 0 200 160" style="margin:0 auto;display:block;">
+        <!-- Full bar = whole -->
+        <rect x="10" y="10" width="180" height="35" rx="8" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+        <!-- 2 parts green -->
+        <rect x="10" y="10" width="72" height="35" rx="8" fill="#059669"/>
+        <text x="46" y="32" text-anchor="middle" fill="white" font-size="13" font-weight="800">2 parts</text>
+        <!-- 3 parts blue -->
+        <rect x="82" y="10" width="108" height="35" rx="8" fill="#0284C7"/>
+        <text x="136" y="32" text-anchor="middle" fill="white" font-size="13" font-weight="800">3 parts</text>
+
+        <!-- Proportion fractions -->
+        <text x="46" y="70" text-anchor="middle" fill="#065F46" font-size="12" font-weight="700">Proportion of</text>
+        <text x="46" y="84" text-anchor="middle" fill="#065F46" font-size="12" font-weight="700">green = 2/5</text>
+        <line x1="46" y1="48" x2="46" y2="58" stroke="#065F46" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+        <text x="136" y="70" text-anchor="middle" fill="#1D4ED8" font-size="12" font-weight="700">Proportion of</text>
+        <text x="136" y="84" text-anchor="middle" fill="#1D4ED8" font-size="12" font-weight="700">blue = 3/5</text>
+        <line x1="136" y1="48" x2="136" y2="58" stroke="#1D4ED8" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+        <!-- Arrow total -->
+        <text x="100" y="115" text-anchor="middle" fill="#424754" font-size="11" font-weight="600">Total parts = 2 + 3 = 5</text>
+        <text x="100" y="132" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">2/5 + 3/5 = 5/5 = 1 (whole)</text>
+
+        <rect x="10" y="140" width="180" height="16" rx="4" fill="#F0FDF4" stroke="#A7F3D0"/>
+        <text x="100" y="152" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">Ratio compares PARTS; Proportion compares PART to WHOLE</text>
+      </svg>
+      <div class="illus-scene" style="margin-top:8px;">
+        <span style="font-size:1.6rem;">🌿</span>
+        <span style="font-size:1.6rem;margin-left:8px;">🌿</span>
+      </div>
+      <div class="illus-caption">Proportion tells you each part's share of the whole</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Proportion</div>
+      <div class="story-text">
+        While measuring the soil, Tom asks a subtly different question: "Out of all the soil we have, <em>what fraction</em> goes to each zone?" This is the concept of <strong>proportion</strong> — and it is closely related to, but distinct from, ratio.<br><br>
+        Sasha explains carefully. Ratio compares one part to another part. Proportion compares one part to the <em>whole</em>. If the ratio of green to blue is 2 : 3, then the total number of parts is 2 + 3 = <strong>5</strong>. The proportion that is green is <strong>2 out of 5</strong>, which we write as the fraction 2/5. The proportion that is blue is <strong>3 out of 5</strong>, written as 3/5. And 2/5 + 3/5 = 1 — the whole — which confirms everything accounts for itself.<br><br>
+        This distinction matters enormously in real life. A class of 30 students has boys and girls in ratio 2 : 3. The proportion that are boys is 2/5. To find the actual number of boys: <strong>2/5 × 30 = 12 boys</strong>. Knowing the proportion lets us calculate exact numbers from any total — a skill the Rangers will use again and again throughout their mission in the Emerald Forest.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📊</span>
+          <span class="math-callout-title">Ratio vs Proportion</span>
+        </div>
+        <p><strong>Ratio</strong> — part : part (e.g., boys : girls = 2 : 3)<br>
+        <strong>Proportion</strong> — part out of whole (e.g., boys = 2/5 of the class)<br>
+        To find actual number: multiply proportion by total → <strong>2/5 × 30 = 12 boys</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">In a class of <strong>30 students</strong>, the ratio of boys to girls is <strong>2 : 3</strong>. How many boys are there?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Correct! Total parts = 5. Boys = 2/5 × 30 = 12.')">12</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','That is the number of girls: 3/5 × 30 = 18. Not boys.')">18</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Remember: proportion of boys is 2/5, not 2/3.')">20</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','We use ratio 2:3, not 1:1 split.')">15</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – DIRECT PROPORTION
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Direct Proportion Table</div>
+      <table class="prop-table" style="width:90%;margin:0 auto;">
+        <tr><th>Rangers</th><th>Water (L)</th><th>Ratio</th></tr>
+        <tr><td>1</td><td>3</td><td>1 : 3</td></tr>
+        <tr><td>2</td><td>6</td><td>1 : 3</td></tr>
+        <tr><td>4</td><td>12</td><td>1 : 3</td></tr>
+        <tr><td>7</td><td><strong style="color:var(--accent-dark);">21</strong></td><td>1 : 3</td></tr>
+        <tr><td>10</td><td>30</td><td>1 : 3</td></tr>
+      </table>
+      <div style="margin-top:10px;font-size:.78rem;font-weight:700;color:var(--accent-dark);text-align:center;width:88%;background:#D1FAE5;padding:8px;border-radius:8px;">
+        As Rangers double → Water doubles<br>
+        Constant: k = Water ÷ Rangers = 3
+      </div>
+      <!-- Arrow diagram -->
+      <svg width="180" height="50" viewBox="0 0 180 50" style="margin-top:6px;">
+        <text x="20" y="20" fill="#065F46" font-size="11" font-weight="700">Rangers (n)</text>
+        <text x="110" y="20" fill="#1D4ED8" font-size="11" font-weight="700">Water (W)</text>
+        <line x1="85" y1="16" x2="105" y2="16" stroke="#424754" stroke-width="1.5" marker-end="url(#arr)"/>
+        <text x="85" y="35" fill="#424754" font-size="10">W = 3n</text>
+      </svg>
+      <div class="illus-caption">Doubling rangers → water doubles (direct proportion)</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Direct Proportion</div>
+      <div class="story-text">
+        As the Rangers trek deeper into the forest, they need to calculate water supplies. The rule in the Ranger handbook states: <em>"Every ranger requires 3 litres of water per day."</em> Sasha recognises this as a situation of <strong>direct proportion</strong>.<br><br>
+        In direct proportion, when one quantity increases, the other increases at the <em>same rate</em>. Doubling the number of rangers doubles the water needed. Halving the rangers halves the water. The graph of two quantities in direct proportion is always a <strong>straight line through the origin</strong>.<br><br>
+        The key number in direct proportion is the <strong>constant of proportionality</strong>, often written as <em>k</em>. Here, k = 3 (litres per ranger). The formula is: <strong>Water = 3 × Rangers</strong>, or W = 3n. Using this, for 7 rangers: W = 3 × 7 = <strong>21 litres</strong>. The proportion table confirms every row has the same ratio 1 : 3, which proves direct proportion holds throughout.<br><br>
+        Tom checks: "If we have 12 litres, how many rangers can we supply?" He divides: 12 ÷ 3 = <strong>4 rangers</strong>. Direct proportion works in both directions — you can always divide to find k and then use it to solve for either quantity.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📈</span>
+          <span class="math-callout-title">Direct Proportion Formula</span>
+        </div>
+        <p>y is directly proportional to x: <strong>y = kx</strong><br>
+        k = constant of proportionality = y ÷ x (always the same)<br>
+        4 rangers need 12L → k = 12 ÷ 4 = <strong>3</strong> → 7 rangers: 3 × 7 = <strong>21L</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">If <strong>4 rangers</strong> need <strong>12 litres</strong> of water, how much water do <strong>7 rangers</strong> need?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Correct! k = 12 ÷ 4 = 3. Water for 7 = 3 × 7 = 21L.')">21 litres</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','12 + 7 = 19 — but proportion requires multiplication, not addition!')">19 litres</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','That would be for 8 rangers (3 × 8 = 24). We need 7.')">24 litres</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','That halves the water but increases the rangers — direction is wrong.')">6 litres</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – RECIPE SCALING
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#D1FAE5);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">Recipe Scaling: 4 → 10 portions</div>
+      <table class="prop-table" style="width:92%;margin:0 auto;font-size:.82rem;">
+        <tr><th>Ingredient</th><th>4 portions</th><th>Multiplier</th><th>10 portions</th></tr>
+        <tr><td>Moonberry juice</td><td>200 ml</td><td>× 2.5</td><td><strong>500 ml</strong></td></tr>
+        <tr><td>Star powder</td><td>3 scoops</td><td>× 2.5</td><td><strong>7.5 scoops</strong></td></tr>
+        <tr><td>Forest oil</td><td>150 ml</td><td>× 2.5</td><td><strong>375 ml</strong></td></tr>
+        <tr><td>Crystal shards</td><td>2 units</td><td>× 2.5</td><td><strong>5 units</strong></td></tr>
+      </table>
+      <div style="margin-top:10px;font-size:.78rem;font-weight:700;color:var(--accent-dark);text-align:center;background:#D1FAE5;padding:8px;border-radius:8px;width:90%;">
+        Multiplier = New portions ÷ Old portions<br>
+        = 10 ÷ 4 = <strong>2.5</strong>
+      </div>
+      <div class="illus-caption" style="margin-top:8px;">Scale every ingredient by the same multiplier</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Recipe Scaling</div>
+      <div class="story-text">
+        The Rangers have found the potion recipe in the cave, but it is written for only <strong>4 portions</strong>. With 10 forest animals to protect, they must scale the recipe up. Every ingredient must change in the <em>same proportion</em> — if one ingredient increases by more or less than the others, the potion will be dangerously unbalanced.<br><br>
+        Sasha calculates the scaling factor first. She divides the new amount by the old amount: <strong>10 ÷ 4 = 2.5</strong>. This is the multiplier. Every ingredient gets multiplied by 2.5. The recipe calls for 200 ml of Moonberry juice → <strong>200 × 2.5 = 500 ml</strong>. It calls for 3 scoops of Star powder → <strong>3 × 2.5 = 7.5 scoops</strong>. Forest oil: 150 × 2.5 = <strong>375 ml</strong>. Crystal shards: 2 × 2.5 = <strong>5 units</strong>.<br><br>
+        Tom notices that 7.5 scoops is an awkward amount. Sasha explains they can also scale using the <em>unitary method</em>: find the amount for 1 portion first (200 ÷ 4 = 50 ml), then multiply by 10 (50 × 10 = 500 ml). Both methods always give the same answer because they are both expressions of direct proportion. The key principle: <strong>every ingredient scales by the same factor</strong> so the ratio between all ingredients remains unchanged.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🧪</span>
+          <span class="math-callout-title">Two Methods for Scaling</span>
+        </div>
+        <p><strong>Method 1 (multiplier):</strong> new ÷ old = multiplier → multiply all ingredients<br>
+        <strong>Method 2 (unitary):</strong> amount ÷ old portions = 1-portion amount → × new portions<br>
+        Both give the same result — choose whichever is easier for the numbers given.</p>
+      </div>
+
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A recipe for <strong>4 portions</strong> uses <strong>200g flour, 3 eggs, 150ml milk</strong>. Scale to <strong>6 portions</strong>. How much flour is needed?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','Correct! Multiplier = 6 ÷ 4 = 1.5. Flour = 200 × 1.5 = 300g.')">300g</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','200 + 6 = 206 — adding portions to ingredient is not scaling!')">206g</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','That would be for 8 portions (200 × 2 = 400). We need 6.')">400g</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','150g is the milk amount. Flour is 200g scaled up by ×1.5.')">150g</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – MAP SCALES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">Map Scale Diagram</div>
+      <svg width="210" height="180" viewBox="0 0 210 180" style="margin:0 auto;display:block;">
+        <!-- Map background -->
+        <rect x="10" y="10" width="190" height="130" rx="10" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+        <!-- Map features -->
+        <ellipse cx="60" cy="60" rx="20" ry="14" fill="#6EE7B7" opacity=".7"/>
+        <text x="60" y="64" text-anchor="middle" fill="#065F46" font-size="8">Forest</text>
+        <circle cx="140" cy="70" r="10" fill="#86EFAC" opacity=".8"/>
+        <text x="140" y="74" text-anchor="middle" fill="#065F46" font-size="8">Cave</text>
+        <!-- Ruler line -->
+        <line x1="30" y1="110" x2="130" y2="110" stroke="#1D4ED8" stroke-width="2.5"/>
+        <line x1="30" y1="105" x2="30" y2="115" stroke="#1D4ED8" stroke-width="2"/>
+        <line x1="130" y1="105" x2="130" y2="115" stroke="#1D4ED8" stroke-width="2"/>
+        <text x="80" y="124" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">4 cm on map</text>
+        <!-- Scale label -->
+        <rect x="25" y="130" width="160" height="6" rx="3" fill="#059669" opacity=".3"/>
+        <!-- Scale box -->
+        <rect x="30" y="143" width="150" height="28" rx="6" fill="white" stroke="#059669" stroke-width="1.5"/>
+        <text x="105" y="153" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">Scale 1 : 50 000</text>
+        <text x="105" y="166" text-anchor="middle" fill="#424754" font-size="9">4 cm × 50 000 = 200 000 cm = 2 km</text>
+      </svg>
+      <div style="margin-top:8px;font-size:.78rem;font-weight:700;color:var(--accent-dark);text-align:center;background:#D1FAE5;padding:8px;border-radius:8px;width:90%;">
+        1 cm on map = 50 000 cm = 500 m = 0.5 km in reality
+      </div>
+      <div class="illus-caption" style="margin-top:6px;">Map scales use ratio to represent real distances</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · Map Scales</div>
+      <div class="story-text">
+        The Rangers unfold their map of the Emerald Forest. In the corner they see the notation <strong>1 : 50 000</strong>. Tom stares at it. "What does this mean in practice?" Sasha explains that a map scale is simply a <em>ratio between map distance and real distance</em>.<br><br>
+        The scale 1 : 50 000 means that 1 unit on the map represents 50 000 of the same units in reality. So 1 centimetre on the map corresponds to 50 000 centimetres — which equals <strong>500 metres</strong> or <strong>0.5 kilometres</strong> in the real world. When Sasha measures the path from the cave to the waterfall as <strong>4 cm</strong> on the map, the real distance is 4 × 50 000 = 200 000 cm = <strong>2 kilometres</strong>.<br><br>
+        To convert real distances back to map distances, you divide. If the real distance between two ancient oaks is 1.5 km = 150 000 cm, then the map distance is 150 000 ÷ 50 000 = <strong>3 cm</strong>. Tom practices with a new map at scale 1 : 25 000. On this map, <strong>6 cm</strong> represents 6 × 25 000 = 150 000 cm = <strong>1.5 km</strong> in reality. Map scales are one of the most practical everyday uses of ratio.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🗺️</span>
+          <span class="math-callout-title">Working With Map Scales</span>
+        </div>
+        <p><strong>Real distance</strong> = map distance × scale factor<br>
+        <strong>Map distance</strong> = real distance ÷ scale factor<br>
+        Scale 1 : 25 000 → 1 cm = 25 000 cm = 250 m = 0.25 km<br>
+        6 cm on map → 6 × 25 000 = 150 000 cm = <strong>1.5 km</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page8">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">On a map with scale <strong>1 : 25 000</strong>, a measurement of <strong>6 cm</strong> represents what real-world distance?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'correct','Correct! 6 × 25 000 = 150 000 cm = 1500 m = 1.5 km.')">1.5 km</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','That would be for a 1 : 50 000 map: 6 × 50 000 = 300 000 cm = 3 km.')">3 km</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','150 000 cm = 1500 m = 1.5 km, not 15 km.')">15 km</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','6 cm ÷ 25 000 would give the map reading, not the real distance.')">0.24 mm</button>
+        </div>
+        <div class="think-result" id="think-page8-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 9 – CURRENCY & UNIT CONVERSIONS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-9">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 9</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">Currency Conversion Table</div>
+      <table class="prop-table" style="width:90%;margin:0 auto;">
+        <tr><th>USD ($)</th><th>IDR (Rp)</th></tr>
+        <tr><td>1</td><td>15 500</td></tr>
+        <tr><td>10</td><td>155 000</td></tr>
+        <tr><td>100</td><td>1 550 000</td></tr>
+        <tr><td><strong>250</strong></td><td><strong style="color:var(--accent-dark);">3 875 000</strong></td></tr>
+      </table>
+      <div style="margin-top:10px;width:90%;">
+        <div style="font-size:.75rem;font-weight:700;color:var(--accent-dark);margin-bottom:4px;">Converting IDR → USD:</div>
+        <div class="ratio-bar" style="height:30px;">
+          <div class="ratio-segment" style="flex:1;background:#059669;font-size:.75rem;">IDR</div>
+          <div class="ratio-segment" style="flex:1;background:#0284C7;font-size:.75rem;">÷ 15 500 = USD</div>
+        </div>
+        <div style="font-size:.75rem;font-weight:700;color:var(--text-mid);margin-top:5px;text-align:center;">310 000 ÷ 15 500 = <strong style="color:var(--accent-dark);">20 USD</strong></div>
+      </div>
+      <div class="illus-caption" style="margin-top:10px;">Exchange rates are direct proportion relationships</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 9 · Currency & Unit Conversions</div>
+      <div class="story-text">
+        After sealing the potions, the Rangers discover a locked chest. Inside is a scroll explaining that rare forest crystals must be purchased from a distant merchant — and the prices are listed in <strong>US Dollars (USD)</strong>, but the Rangers only have <strong>Indonesian Rupiah (IDR)</strong>. Sasha consults the exchange chart: <em>1 USD = 15 500 IDR</em>.<br><br>
+        Currency exchange is another direct proportion relationship. The exchange rate is the constant of proportionality. To convert <strong>250 USD to IDR</strong>, Sasha multiplies: 250 × 15 500 = <strong>3 875 000 IDR</strong>. Tom records this carefully. To convert <strong>310 000 IDR back to USD</strong>, he divides: 310 000 ÷ 15 500 = <strong>20 USD</strong>.<br><br>
+        The same proportion method applies to unit conversions. If 1 inch = 2.54 cm, then 12 inches = 12 × 2.54 = 30.48 cm. If a distance is 75 cm, how many inches? 75 ÷ 2.54 ≈ 29.5 inches. In every case, you identify the <em>conversion factor</em> (the constant of proportionality), then multiply to go one direction and divide to go the other. The relationship is always <strong>linear and passes through zero</strong>, which is the hallmark of direct proportion.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💱</span>
+          <span class="math-callout-title">Currency Conversion as Proportion</span>
+        </div>
+        <p>Exchange rate: <strong>1 USD = 15 500 IDR</strong><br>
+        USD → IDR: multiply by 15 500 → 250 × 15 500 = <strong>3 875 000 IDR</strong><br>
+        IDR → USD: divide by 15 500 → 310 000 ÷ 15 500 = <strong>20 USD</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page9">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Using the rate <strong>1 USD = 15 500 IDR</strong>, convert <strong>310 000 IDR</strong> to USD.</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'correct','Correct! 310 000 ÷ 15 500 = 20 USD.')">20 USD</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','You multiplied instead of divided: 310 000 × 15 500 is far too large!')">4 805 000 000</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','Check your division: 310 000 ÷ 15 500 = 20, not 2.')">2 USD</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','200 USD × 15 500 = 3 100 000 IDR, not 310 000.')">200 USD</button>
+        </div>
+        <div class="think-result" id="think-page9-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 10 – THREE-WAY RATIO SHARING
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-10">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#D1FAE5);">
+      <div class="page-num-illus">Page 10</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:10px;">Share £360 in ratio 1 : 2 : 3</div>
+      <svg width="210" height="170" viewBox="0 0 210 170" style="margin:0 auto;display:block;">
+        <!-- Three-way bar -->
+        <rect x="10" y="10" width="190" height="35" rx="8" fill="#E2E8F0"/>
+        <!-- 1 part -->
+        <rect x="10" y="10" width="31.6" height="35" rx="6" fill="#059669"/>
+        <text x="26" y="31" text-anchor="middle" fill="white" font-size="11" font-weight="800">1</text>
+        <!-- 2 parts -->
+        <rect x="41.6" y="10" width="63.3" height="35" fill="#0284C7"/>
+        <text x="73" y="31" text-anchor="middle" fill="white" font-size="11" font-weight="800">2</text>
+        <!-- 3 parts -->
+        <rect x="104.9" y="10" width="95.1" height="35" rx="6" fill="#7C3AED"/>
+        <text x="152" y="31" text-anchor="middle" fill="white" font-size="11" font-weight="800">3</text>
+
+        <!-- Step labels -->
+        <text x="105" y="65" text-anchor="middle" fill="#424754" font-size="11" font-weight="700">Total parts = 1 + 2 + 3 = 6</text>
+        <text x="105" y="82" text-anchor="middle" fill="#424754" font-size="11" font-weight="700">Each part = £360 ÷ 6 = £60</text>
+
+        <!-- Results -->
+        <rect x="10" y="95" width="56" height="40" rx="8" fill="#DCFCE7" stroke="#059669" stroke-width="1.5"/>
+        <text x="38" y="112" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">Person A</text>
+        <text x="38" y="127" text-anchor="middle" fill="#065F46" font-size="13" font-weight="800">£60</text>
+
+        <rect x="77" y="95" width="56" height="40" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+        <text x="105" y="112" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">Person B</text>
+        <text x="105" y="127" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="800">£120</text>
+
+        <rect x="144" y="95" width="56" height="40" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+        <text x="172" y="112" text-anchor="middle" fill="#6D28D9" font-size="10" font-weight="700">Person C</text>
+        <text x="172" y="127" text-anchor="middle" fill="#6D28D9" font-size="13" font-weight="800">£180</text>
+
+        <text x="105" y="158" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">Check: 60 + 120 + 180 = £360 ✓</text>
+      </svg>
+      <div class="illus-caption">Three-way ratio shares preserve the total</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 10 · Three-Way Ratio Sharing</div>
+      <div class="story-text">
+        The Rangers have saved the Emerald Forest — and as a reward, the Forest Council awards a prize of <strong>£360</strong> to be shared among three Rangers in the ratio <em>1 : 2 : 3</em>. The Ranger who led the planning receives the smallest share, the one who gathered ingredients receives the middle share, and the one who brewed the potions receives the largest.<br><br>
+        Sasha applies the same method as before, extended to three parts. Step 1: add all ratio parts together: 1 + 2 + 3 = <strong>6 total parts</strong>. Step 2: find the value of one part: £360 ÷ 6 = <strong>£60 per part</strong>. Step 3: multiply each person's ratio number by £60. Person A: 1 × £60 = <strong>£60</strong>. Person B: 2 × £60 = <strong>£120</strong>. Person C: 3 × £60 = <strong>£180</strong>.<br><br>
+        Always verify the answer: £60 + £120 + £180 = <strong>£360</strong>. The total is preserved. Also check the ratio: 60 : 120 : 180 — dividing all by 60 gives 1 : 2 : 3. The method extends identically to four or more parts — simply add all ratio numbers to find the total parts, then proceed as before.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🏆</span>
+          <span class="math-callout-title">Three-Part Ratio Method</span>
+        </div>
+        <p><strong>Step 1:</strong> Total parts = 1 + 2 + 3 = 6<br>
+        <strong>Step 2:</strong> One part = £360 ÷ 6 = £60<br>
+        <strong>Step 3:</strong> Shares = £60, £120, £180<br>
+        <strong>Check:</strong> 60 + 120 + 180 = £360 ✓</p>
+      </div>
+
+      <div class="think-box" id="think-page10">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Share <strong>420</strong> in the ratio <strong>2 : 3 : 7</strong>. What is the <em>largest</em> share?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','That is 2 parts: 2 × 35 = 70. The largest is 7 parts.')">70</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','That is 3 parts: 3 × 35 = 105. The largest is 7 parts.')">105</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'correct','Correct! Total = 2+3+7 = 12. Each part = 420÷12 = 35. Largest = 7 × 35 = 245.')">245</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','Total parts = 12, each part = 35, not 42.')">294</button>
+        </div>
+        <div class="think-result" id="think-page10-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 11 – MIXED CHALLENGE
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-11">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+      <div class="page-num-illus">Page 11</div>
+      <div style="font-size:.82rem;font-weight:800;color:var(--accent-dark);margin-bottom:8px;">Multi-Step Worked Example</div>
+      <div style="width:90%;display:flex;flex-direction:column;gap:6px;">
+        <div class="worked-step"><strong>Given:</strong> 240 crystals split in ratio 3 : 5</div>
+        <div class="worked-step"><strong>Step 1:</strong> Total parts = 3 + 5 = 8</div>
+        <div class="worked-step"><strong>Step 2:</strong> 1 part = 240 ÷ 8 = 30 crystals</div>
+        <div class="worked-step"><strong>Step 3:</strong> Smaller share = 3 × 30 = <strong>90</strong><br>Larger share = 5 × 30 = <strong>150</strong></div>
+        <div class="worked-step"><strong>Step 4:</strong> Scale 90 by factor 4 → 90 × 4 = <strong>360</strong></div>
+        <div class="worked-step" style="background:#D1FAE5;border-color:var(--accent-dark);"><strong>Answer:</strong> 360 crystals needed for 4 batches</div>
+      </div>
+      <div class="illus-caption" style="margin-top:8px;">Combine ratio division with direct proportion</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 11 · Mixed Ratio and Proportion Challenge</div>
+      <div class="story-text">
+        The final test before receiving the Ratio Ranger Badge requires solving a complex, multi-step problem using every skill learned throughout the mission. The Forest Council presents the following scenario:<br><br>
+        <em>"The forest has 240 enchanted crystals in total. They must be divided between the northern and southern labs in the ratio 3 : 5. The northern lab's share will then be used to produce protective shields — each shield requires exactly 1 crystal per batch, and the lab needs to produce 4 complete batches. Is the northern lab's share sufficient? If not, how many extra crystals are needed?"</em><br><br>
+        Sasha works methodically. <strong>Step 1:</strong> Total parts = 3 + 5 = 8. <strong>Step 2:</strong> One part = 240 ÷ 8 = 30. <strong>Step 3:</strong> Northern lab receives 3 × 30 = <strong>90 crystals</strong>. <strong>Step 4:</strong> The lab needs crystals for 4 batches. If 1 batch requires 90 crystals, then 4 batches require 90 × 4 = <strong>360 crystals</strong>. Since the lab only has 90 but needs 360, it needs <strong>270 more crystals</strong>.<br><br>
+        Tom checks: maybe the question means each batch requires 1 crystal per shield, not 90. Context matters in multi-step problems. <em>Always re-read the question and define your variables clearly</em> before proceeding. This disciplined, step-by-step approach is what makes a Ratio Ranger.
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🧩</span>
+          <span class="math-callout-title">Multi-Step Strategy</span>
+        </div>
+        <p>1. Identify all given information and what is asked<br>
+        2. Apply ratio division to find each share<br>
+        3. Apply direct proportion to scale as required<br>
+        4. Always check your answer makes sense in context</p>
+      </div>
+
+      <div class="think-box" id="think-page11">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A prize of <strong>£500</strong> is split in ratio <strong>2 : 3</strong>. The larger share is then converted at <strong>1 USD = £0.80</strong>. How much is the larger share in USD?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'correct','Correct! Larger share = 3/5 × 500 = £300. In USD: 300 ÷ 0.80 = 375 USD.')">375 USD</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','£200 is the smaller share (2 parts). The larger share is £300.')">250 USD</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','You multiplied instead of divided: £300 × 0.80 = £240, not USD.')">240 USD</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','That converts the full £500, not just the larger share (£300).')">625 USD</button>
+        </div>
+        <div class="think-result" id="think-page11-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 12 – END CARD (celebration)
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-12">
+    <div class="illustration" style="background:linear-gradient(135deg,#065F46,#0284C7);">
+      <div class="page-num-illus" style="background:rgba(255,255,255,.25);color:white;">Page 12</div>
+      <div style="font-size:4rem;margin-bottom:8px;">🏆</div>
+      <div class="illus-scene">
+        <span style="font-size:3rem;">⚖️</span>
+      </div>
+      <div style="color:white;font-family:'Quicksand',sans-serif;font-size:1.4rem;font-weight:700;text-align:center;margin-top:12px;">Ratio Ranger<br>Badge Awarded!</div>
+      <!-- Summary badge -->
+      <div style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);border-radius:16px;padding:14px 18px;margin-top:14px;width:88%;text-align:left;">
+        <div style="color:rgba(255,255,255,.9);font-size:.78rem;font-weight:700;line-height:1.8;">
+          ✅ Simplify ratios using HCF<br>
+          ✅ Find equivalent ratios (× or ÷ both)<br>
+          ✅ Divide quantities in 2- or 3-part ratios<br>
+          ✅ Convert ratio to proportion (part/whole)<br>
+          ✅ Solve direct proportion (y = kx)<br>
+          ✅ Scale recipes with multiplier method<br>
+          ✅ Read map scales and convert distances<br>
+          ✅ Apply exchange rates as proportion
+        </div>
+      </div>
+      <div class="illus-caption" style="margin-top:10px;">You are a Ratio Ranger — mission complete!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 12 · Mission Complete</div>
+      <div class="story-text">
+        The Emerald Forest glows with a deep, healthy green as the protective potions take effect. The ancient trees stand tall once more, their leaves shimmering with restored energy. At the edge of the forest, the Forest Council assembles all the animals and Rangers for a celebration that has been generations in the making.<br><br>
+        The Elder Owl places a gleaming badge on Sasha's collar. <em>"You have mastered the ancient art of balanced thinking,"</em> she intones. <strong>"Ratio and proportion are not merely tools of mathematics — they are the principles by which the natural world maintains its harmony."</strong> Every living thing exists in proportion to every other: predator to prey, rainfall to growth, sunlight to shade.<br><br>
+        Tom holds up his notebook, filled with the methods they practised. <strong>Simplifying ratios</strong> by dividing by the HCF. <strong>Scaling ratios</strong> by multiplying both parts equally. <strong>Dividing quantities</strong> by finding one part and multiplying. <strong>Calculating proportion</strong> as a fraction of the whole. <strong>Applying direct proportion</strong> with the formula y = kx. <strong>Scaling recipes</strong> with a multiplier. <strong>Reading maps</strong> by multiplying the scale factor. <strong>Converting currencies</strong> by multiplying or dividing by the exchange rate.<br><br>
+        These eight skills together form the complete toolkit of a Ratio Ranger. Carry them with you, and no problem of fairness, balance, or scale will ever defeat you.
+      </div>
+
+      <div class="math-callout" style="background:var(--accent-light);border-color:var(--accent);">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📋</span>
+          <span class="math-callout-title" style="color:var(--accent-dark);">Complete Rules Summary</span>
+        </div>
+        <p style="line-height:1.9;">
+          <strong>Simplify:</strong> a : b → divide both by HCF<br>
+          <strong>Equivalent:</strong> multiply or divide both parts by the same number<br>
+          <strong>Divide quantity:</strong> total parts → one part → multiply each ratio term<br>
+          <strong>Proportion:</strong> part ÷ total → fraction of whole<br>
+          <strong>Direct proportion:</strong> y = kx where k is constant<br>
+          <strong>Map scales:</strong> real = map × scale factor<br>
+          <strong>Currency:</strong> multiply or divide by exchange rate
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN (shown after page 12) -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🎉⚖️🏆</div>
+      <div class="end-title">Mission Complete!</div>
+      <div class="end-msg">Outstanding work! You have finished <strong>The Ratio Rangers</strong> and mastered ratio, proportion, scale, and direct variation. Sasha and Tom are proud to call you a fellow Ranger!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">⚖️</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Ratio Ranger Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Ratio Rangers · Nn6.04</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 12;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  // Mark completion in localStorage
+  try {
+    var key = 'mm_book_the-ratio-rangers';
+    localStorage.setItem(key, JSON.stringify({ completed: true, date: new Date().toISOString() }));
+    var badges = JSON.parse(localStorage.getItem('mm_badges') || '[]');
+    if (!badges.includes('ratio-ranger')) { badges.push('ratio-ranger'); localStorage.setItem('mm_badges', JSON.stringify(badges)); }
+  } catch(e) {}
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+// Resume from ?p= query param (set by "Continue Reading" links)
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+// ── AUDIO NARRATION (Web Speech API) ──
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+// Auto-stop narration when page turns
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Decimal Dragon – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+  --accent:#3B82F6; --accent-dark:#1D4ED8; --accent-light:#EFF6FF;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #BFDBFE;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:9999px;transition:width .5s ease;}
+
+/* OPEN BOOK */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:4px;flex-wrap:wrap;}
+.char{font-size:3rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.2rem;}
+.char-xs{font-size:1.8rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL */
+.story-panel{display:flex;flex-direction:column;gap:16px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--green-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:.95rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--accent-light);border:2px solid var(--accent);border-radius:16px;padding:16px 18px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.93rem;color:var(--text-mid);line-height:1.6;}
+.fraction-visual{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:'Quicksand',sans-serif;font-weight:700;line-height:1;border:2px solid var(--accent);border-radius:8px;padding:4px 10px;background:white;}
+.frac-num{font-size:1.1rem;color:var(--accent-dark);border-bottom:2px solid var(--accent);padding-bottom:2px;margin-bottom:2px;}
+.frac-den{font-size:1.1rem;color:var(--accent-dark);}
+.frac-word{font-size:.88rem;font-weight:600;color:var(--text-mid);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:16px 18px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:11px 12px;font-size:.88rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.88rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#1E40AF,#7C3AED);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(29,78,216,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#BFDBFE;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#1E40AF,#7C3AED);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* CELEBRATION BOX */
+.celebration-box{background:linear-gradient(135deg,var(--accent-light),#DBEAFE);border:2px solid var(--accent);border-radius:16px;padding:18px 20px;text-align:center;}
+.celebration-box p{font-size:1rem;font-weight:700;color:var(--accent-dark);line-height:1.6;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav" style="display:flex;gap:8px;">
+      <a href="../dashboard.html">📊 My Journey</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Decimal Dragon
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 The Decimal Dragon</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">🔢 Decimals</span>
+        <span class="book-tag">📊 Tenths &amp; Hundredths</span>
+        <span class="book-tag">🐉 Fantasy</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:#93C5FD;">Age 8–9</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 10</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:10%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- PAGE 1 – COVER -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🐉</span>
+      <div class="cover-title">The Decimal Dragon</div>
+      <div class="cover-subtitle">An adventure through the Decimal Vault — where numbers hide their secrets between the whole and the part</div>
+      <div class="cover-chars">🧑‍🎓 🐉</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 10 Pages</span>
+        <span class="cover-tag">🔢 Decimals</span>
+        <span class="cover-tag">Age 8–9</span>
+        <span class="cover-tag">Cambridge Nn4.06</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 – WHAT IS A DECIMAL? -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:2.5rem;margin-bottom:8px;">🐉 🧑‍🎓</div>
+      <!-- SVG: whole rectangle then 10-part divided -->
+      <svg width="220" height="130" viewBox="0 0 220 130" style="margin:0 auto;">
+        <!-- Whole rectangle -->
+        <rect x="10" y="10" width="200" height="36" rx="5" fill="#1D4ED8" opacity="0.15" stroke="#1D4ED8" stroke-width="2"/>
+        <text x="110" y="33" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="700">1 whole</text>
+        <!-- 10-part rectangle, 1 shaded -->
+        <rect x="10" y="60" width="200" height="36" rx="5" fill="white" stroke="#3B82F6" stroke-width="2"/>
+        <rect x="10" y="60" width="20" height="36" rx="0" fill="#3B82F6" opacity="0.85"/>
+        <!-- dividers -->
+        <line x1="30" y1="60" x2="30" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <line x1="50" y1="60" x2="50" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <line x1="70" y1="60" x2="70" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <line x1="90" y1="60" x2="90" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <line x1="110" y1="60" x2="110" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <line x1="130" y1="60" x2="130" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <line x1="150" y1="60" x2="150" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <line x1="170" y1="60" x2="170" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <line x1="190" y1="60" x2="190" y2="96" stroke="#3B82F6" stroke-width="1"/>
+        <text x="20" y="83" text-anchor="middle" fill="white" font-size="9" font-weight="800">1</text>
+        <text x="110" y="112" text-anchor="middle" fill="#1D4ED8" font-size="12" font-weight="700">10 equal parts — 1 shaded = 0.1</text>
+      </svg>
+      <div style="margin-top:10px;font-family:'Quicksand',sans-serif;font-size:1.5rem;font-weight:700;color:#1D4ED8;text-align:center;">
+        1/10 = 0.1
+      </div>
+      <div class="illus-caption">One tenth of the whole is shaded</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · What Is a Decimal?</div>
+      <div class="story-text">
+        Deep in the Mountains of Numbers lived <strong>Dragon Decimo</strong>, a magnificent dragon who guarded the legendary Decimal Vault. The vault held treasures of great mathematical knowledge, but it was sealed with nine special keys.<br><br>
+        One bright morning, a young scholar named <strong>Sage</strong> arrived at the mountain. Sage had studied hard at the Academy of Numbers and believed that understanding decimals was the only way to unlock the vault.<br><br>
+        Decimo peered down with glowing golden eyes and said, <em>"To earn the first key, you must show me you understand what a decimal truly is."</em><br><br>
+        Sage took a deep breath and studied the diagram carved into the mountain wall. It showed a whole rectangle divided into ten equal parts, with just one part coloured in blue.
+      </div>
+      <div class="character-speech">
+        Every whole number hides tiny parts between it and the next! I call them decimals — and I guard their secrets carefully.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">Maths Word: Decimal</span>
+        </div>
+        <p>A <strong>decimal</strong> uses a <strong>DECIMAL POINT</strong> to show parts of a whole.<br>
+        <strong>0.1</strong> = one tenth = 1/10<br>
+        The digits before the point are whole numbers; the digits after show parts of a whole.</p>
+      </div>
+
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">What does <strong>0.5</strong> mean?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','0.5 is not 5 whole numbers — look at the decimal point!')">5 wholes</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','0.5 = five tenths = 5/10 = ½. The decimal point separates wholes from parts!')">Half of 1</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','0.5 is equal to ½ — five tenths and a half are the same thing!')">5 tenths only, not ½</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','50 is far too large — 0.5 is less than 1!')">50</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3 – TENTHS -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:2rem;margin-bottom:10px;">🐉</div>
+      <!-- Place value chart SVG -->
+      <svg width="220" height="140" viewBox="0 0 220 140" style="margin:0 auto;">
+        <!-- Header row -->
+        <rect x="10" y="10" width="80" height="32" rx="4" fill="#1D4ED8"/>
+        <text x="50" y="31" text-anchor="middle" fill="white" font-size="13" font-weight="700">Ones</text>
+        <rect x="94" y="10" width="24" height="32" rx="2" fill="#6D28D9"/>
+        <text x="106" y="31" text-anchor="middle" fill="white" font-size="16" font-weight="800">.</text>
+        <rect x="122" y="10" width="88" height="32" rx="4" fill="#3B82F6"/>
+        <text x="166" y="31" text-anchor="middle" fill="white" font-size="13" font-weight="700">Tenths</text>
+        <!-- Value row -->
+        <rect x="10" y="50" width="80" height="40" rx="4" fill="white" stroke="#3B82F6" stroke-width="2"/>
+        <text x="50" y="76" text-anchor="middle" fill="#1D4ED8" font-size="26" font-weight="800">2</text>
+        <rect x="94" y="50" width="24" height="40" rx="2" fill="#F3F4F6" stroke="#6D28D9" stroke-width="2"/>
+        <text x="106" y="76" text-anchor="middle" fill="#6D28D9" font-size="22" font-weight="800">.</text>
+        <rect x="122" y="50" width="88" height="40" rx="4" fill="white" stroke="#3B82F6" stroke-width="2"/>
+        <text x="166" y="76" text-anchor="middle" fill="#3B82F6" font-size="26" font-weight="800">3</text>
+        <!-- Label -->
+        <text x="50" y="108" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="600">2 ones</text>
+        <text x="166" y="108" text-anchor="middle" fill="#3B82F6" font-size="11" font-weight="600">3 tenths</text>
+        <text x="110" y="130" text-anchor="middle" fill="#374151" font-size="12" font-weight="700">2.3 = 2 + 3/10</text>
+      </svg>
+      <div class="illus-caption">Place value chart showing 2.3</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Tenths — The First Decimal Place</div>
+      <div class="story-text">
+        Decimo was impressed. Sage had earned the first key! The dragon led Sage deeper into the mountain, where a glowing chart was carved into the wall — a <strong>place value chart</strong> showing ones and tenths.<br><br>
+        <em>"Every number has a home,"</em> Decimo explained. <em>"The digits before the decimal point live in the ones, tens, and hundreds columns. The first digit after the decimal point lives in the tenths column."</em><br><br>
+        Sage looked carefully at the number <strong>2.3</strong> on the chart. The digit 2 sat in the ones column, and the digit 3 sat in the tenths column. It made perfect sense — 2.3 was two whole units and three-tenths of another unit.<br><br>
+        <em>"Imagine a ruler,"</em> Sage thought. <em>"Between 2 cm and 3 cm, there are ten equal spaces. Each space is one tenth — or 0.1!"</em>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📊</span>
+          <span class="math-callout-title">Tenths: The First Decimal Place</span>
+        </div>
+        <p>The first decimal place is <strong>TENTHS</strong>.<br>
+        <strong>2.3</strong> means 2 ones and 3 tenths.<br>
+        Think of it as 2 + 3/10.</p>
+      </div>
+
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">Which decimal has the greater value: <strong>0.7</strong> or <strong>0.3</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','0.3 is only 3 tenths — less than 7 tenths!')">0.3</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','They are not the same — count the tenths carefully!')">Same value</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','0.7 &gt; 0.3. Seven tenths is more than three tenths!')">0.7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','We can compare them — both have a 0 in the ones place!')">Can\'t tell</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4 – HUNDREDTHS -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:2rem;margin-bottom:8px;">🐉 🧑‍🎓</div>
+      <!-- 10x10 grid SVG -->
+      <svg width="180" height="180" viewBox="0 0 180 180" style="margin:0 auto;">
+        <!-- Background grid -->
+        <rect x="5" y="5" width="170" height="170" rx="4" fill="white" stroke="#3B82F6" stroke-width="2"/>
+        <!-- Grid lines horizontal -->
+        <line x1="5" y1="22" x2="175" y2="22" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="5" y1="39" x2="175" y2="39" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="5" y1="56" x2="175" y2="56" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="5" y1="73" x2="175" y2="73" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="5" y1="90" x2="175" y2="90" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="5" y1="107" x2="175" y2="107" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="5" y1="124" x2="175" y2="124" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="5" y1="141" x2="175" y2="141" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="5" y1="158" x2="175" y2="158" stroke="#BFDBFE" stroke-width="1"/>
+        <!-- Grid lines vertical -->
+        <line x1="22" y1="5" x2="22" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="39" y1="5" x2="39" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="56" y1="5" x2="56" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="73" y1="5" x2="73" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="90" y1="5" x2="90" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="107" y1="5" x2="107" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="124" y1="5" x2="124" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="141" y1="5" x2="141" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <line x1="158" y1="5" x2="158" y2="175" stroke="#BFDBFE" stroke-width="1"/>
+        <!-- Shade first 3 columns + 5 cells of row 4 = 35 cells = 0.35 -->
+        <!-- Column 1: cells (row 1-10) x=5, width=17 -->
+        <rect x="5" y="5" width="17" height="170" fill="#3B82F6" opacity="0.6"/>
+        <!-- Column 2 -->
+        <rect x="22" y="5" width="17" height="170" fill="#3B82F6" opacity="0.6"/>
+        <!-- Column 3 -->
+        <rect x="39" y="5" width="17" height="170" fill="#3B82F6" opacity="0.6"/>
+        <!-- 5 cells in column 4 rows 1-5 -->
+        <rect x="56" y="5" width="17" height="85" fill="#60A5FA" opacity="0.7"/>
+        <!-- Label -->
+        <text x="90" y="192" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">35 squares shaded = 0.35</text>
+      </svg>
+      <div class="illus-caption">10×10 grid: 35 squares = 0.35</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Hundredths — The Second Decimal Place</div>
+      <div class="story-text">
+        The third key required even more precision. Decimo unveiled a giant glowing grid — ten rows and ten columns of tiny squares, making one hundred in total.<br><br>
+        <em>"Each tiny square,"</em> Decimo said, <em>"is one hundredth of the whole. We write it as 0.01. If I shade one square, I have shaded 0.01 of the whole grid."</em><br><br>
+        Sage counted carefully. Decimo then shaded 35 squares. <em>"Now what do I have?"</em> the dragon asked, smoke rising from its nostrils.<br><br>
+        Sage thought: 35 squares out of 100. That is 35 hundredths. In the tenths column there are 3 tenths, and in the hundredths column there are 5 hundredths. So the decimal is <strong>0.35</strong>.<br><br>
+        Decimo roared with delight, and a golden key appeared on the cave wall.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💯</span>
+          <span class="math-callout-title">Hundredths: The Second Decimal Place</span>
+        </div>
+        <p>The second decimal place is <strong>HUNDREDTHS</strong>.<br>
+        <strong>0.01</strong> = one hundredth = 1/100.<br>
+        Think of a 10×10 grid: one tiny square = 0.01.<br>
+        <strong>0.35</strong> = 3 tenths + 5 hundredths = 35 hundredths.</p>
+      </div>
+
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">What is <strong>0.35</strong> in words?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','35 wholes would be a whole number, not a decimal!')">35 wholes</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','0.35 = 3 tenths + 5 hundredths = 35 hundredths!')">3 tenths and 5 hundredths</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','35 ones is the same as 35 — far too big!')">35 ones</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','350 is far too large — the decimal point shows we are less than 1!')">350</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5 – READING AND WRITING DECIMALS -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:2rem;margin-bottom:10px;">🐉</div>
+      <!-- SVG: 4.67 broken into components -->
+      <svg width="220" height="150" viewBox="0 0 220 150" style="margin:0 auto;">
+        <!-- Three boxes for each digit -->
+        <rect x="10" y="20" width="56" height="60" rx="8" fill="#1D4ED8" opacity="0.9"/>
+        <text x="38" y="60" text-anchor="middle" fill="white" font-size="32" font-weight="800">4</text>
+        <text x="38" y="92" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">ones</text>
+        <!-- decimal point -->
+        <text x="80" y="58" text-anchor="middle" fill="#6D28D9" font-size="32" font-weight="900">.</text>
+        <!-- 6 -->
+        <rect x="94" y="20" width="56" height="60" rx="8" fill="#3B82F6" opacity="0.85"/>
+        <text x="122" y="60" text-anchor="middle" fill="white" font-size="32" font-weight="800">6</text>
+        <text x="122" y="92" text-anchor="middle" fill="#3B82F6" font-size="11" font-weight="700">tenths</text>
+        <!-- 7 -->
+        <rect x="162" y="20" width="52" height="60" rx="8" fill="#60A5FA" opacity="0.85"/>
+        <text x="188" y="60" text-anchor="middle" fill="white" font-size="32" font-weight="800">7</text>
+        <text x="188" y="92" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">hundredths</text>
+        <!-- full number label -->
+        <text x="110" y="125" text-anchor="middle" fill="#374151" font-size="14" font-weight="800">4.67</text>
+        <text x="110" y="143" text-anchor="middle" fill="#6B7280" font-size="11">= 4 + 0.6 + 0.07</text>
+      </svg>
+      <div class="illus-caption">Each digit in 4.67 has a place value home</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Reading and Writing Decimals</div>
+      <div class="story-text">
+        At the entrance to the vault's inner chamber, Sage found a combination lock. But instead of numbers, it showed the decimal <strong>4.67</strong> carved in glowing stone. Decimo landed beside Sage and studied the number.<br><br>
+        <em>"This is the vault combination,"</em> Decimo said in a deep, rumbling voice. <em>"But to enter, you must tell me what each digit means. Not just what it looks like — what it truly represents."</em><br><br>
+        Sage studied the three separate boxes that appeared in the air: one for each digit. The 4 glowed in the ones column. The 6 lit up in the tenths column. The 7 shone in the hundredths column.<br><br>
+        Sage understood: <strong>4.67</strong> is not just four and sixty-seven. It is four ones, six tenths, and seven hundredths. Each digit lives in a specific column, and its place tells us its value.
+      </div>
+      <div class="character-speech">
+        To unlock my vault, you must read 4.67 correctly. Tell me — what does each digit truly mean?
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔑</span>
+          <span class="math-callout-title">Place Value in 4.67</span>
+        </div>
+        <p><strong>4.67</strong>: the <strong>4</strong> is in the ones place, <strong>6</strong> is in the tenths place, <strong>7</strong> is in the hundredths place.<br>
+        4.67 = 4 + 0.6 + 0.07</p>
+      </div>
+
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">In the number <strong>3.85</strong>, what does the digit <strong>8</strong> represent?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','The 8 is after the decimal point, so it cannot be in the ones place!')">8 ones</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','3.85: the 8 is in the TENTHS column. 8 tenths = 0.8!')">8 tenths</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','The 5 is in the hundredths column, not the 8!')">8 hundredths</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','80 is far too large — look at the place value chart!')">80</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6 – ORDERING DECIMALS -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:2rem;margin-bottom:10px;">🐉 🧑‍🎓</div>
+      <!-- Number line SVG -->
+      <svg width="220" height="120" viewBox="0 0 220 120" style="margin:0 auto;">
+        <!-- Number line -->
+        <line x1="10" y1="70" x2="210" y2="70" stroke="#1D4ED8" stroke-width="3"/>
+        <!-- Ticks and labels at 0, 0.2, 0.45, 0.7, 0.85, 1.0 -->
+        <!-- 0 -->
+        <line x1="10" y1="64" x2="10" y2="76" stroke="#1D4ED8" stroke-width="2"/>
+        <text x="10" y="90" text-anchor="middle" fill="#374151" font-size="10" font-weight="600">0</text>
+        <!-- 0.2 at x=50 -->
+        <line x1="50" y1="64" x2="50" y2="76" stroke="#3B82F6" stroke-width="2"/>
+        <text x="50" y="90" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">0.2</text>
+        <circle cx="50" cy="70" r="5" fill="#3B82F6"/>
+        <text x="50" y="58" text-anchor="middle" fill="#1D4ED8" font-size="9">0.2</text>
+        <!-- 0.45 at x=100 -->
+        <line x1="100" y1="64" x2="100" y2="76" stroke="#3B82F6" stroke-width="2"/>
+        <text x="100" y="90" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">0.45</text>
+        <circle cx="100" cy="70" r="5" fill="#60A5FA"/>
+        <text x="100" y="58" text-anchor="middle" fill="#1D4ED8" font-size="9">0.45</text>
+        <!-- 0.7 at x=150 -->
+        <line x1="150" y1="64" x2="150" y2="76" stroke="#3B82F6" stroke-width="2"/>
+        <text x="150" y="90" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">0.7</text>
+        <circle cx="150" cy="70" r="5" fill="#93C5FD"/>
+        <text x="150" y="58" text-anchor="middle" fill="#1D4ED8" font-size="9">0.7</text>
+        <!-- 0.85 at x=178 -->
+        <line x1="178" y1="64" x2="178" y2="76" stroke="#3B82F6" stroke-width="2"/>
+        <text x="178" y="90" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">0.85</text>
+        <circle cx="178" cy="70" r="5" fill="#BFDBFE"/>
+        <text x="178" y="58" text-anchor="middle" fill="#1D4ED8" font-size="9">0.85</text>
+        <!-- 1.0 -->
+        <line x1="210" y1="64" x2="210" y2="76" stroke="#1D4ED8" stroke-width="2"/>
+        <text x="210" y="90" text-anchor="middle" fill="#374151" font-size="10" font-weight="600">1</text>
+        <!-- Arrow -->
+        <polygon points="210,70 204,66 204,74" fill="#1D4ED8"/>
+        <text x="110" y="112" text-anchor="middle" fill="#374151" font-size="10" font-weight="600">0.2 &lt; 0.45 &lt; 0.7 &lt; 0.85</text>
+      </svg>
+      <div class="illus-caption">Ordering decimals on a number line</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Ordering Decimals</div>
+      <div class="story-text">
+        Four vault keys lay scattered across the cave floor, each engraved with a decimal number: <strong>0.45, 0.7, 0.2,</strong> and <strong>0.85</strong>. Decimo explained that the keys had to be placed in order from smallest to largest to open the next door.<br><br>
+        <em>"How do we order decimals?"</em> Sage asked, picking up each heavy golden key.<br><br>
+        Decimo drew a number line on the cave wall, stretching from 0 to 1. <em>"Always compare the tenths digit first,"</em> the dragon explained. <em>"The key with the fewest tenths goes first. If two numbers have the same tenths digit, then we look at the hundredths digit to decide."</em><br><br>
+        Sage arranged the keys carefully: 0.2, then 0.45, then 0.7, and finally 0.85. The door clicked open with a satisfying clunk, and cool air rushed from the vault.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📏</span>
+          <span class="math-callout-title">Ordering Decimals</span>
+        </div>
+        <p>To order decimals: <strong>compare tenths first</strong>, then hundredths.<br>
+        <strong>0.45 &lt; 0.5</strong> because 4 tenths &lt; 5 tenths.<br>
+        Write them on a number line to see their order clearly.</p>
+      </div>
+
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">Order from smallest to largest: <strong>0.7, 0.07, 0.17</strong></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','0.7 has 7 tenths — it is the largest, not the smallest!')">0.7, 0.17, 0.07</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','0.17 has 1 tenth — it should come second, not last!')">0.07, 0.7, 0.17</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Always compare tenths first: 0.07 has 0 tenths, 0.17 has 1 tenth, 0.7 has 7 tenths!')">0.07, 0.17, 0.7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Check the tenths column: 0.17 has 1 tenth, so it is larger than 0.07!')">0.17, 0.07, 0.7</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 7 – ROUNDING DECIMALS -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:2.5rem;margin-bottom:10px;">🐉</div>
+      <!-- Number line rounding SVG -->
+      <svg width="220" height="110" viewBox="0 0 220 110" style="margin:0 auto;">
+        <!-- Number line -->
+        <line x1="10" y1="60" x2="210" y2="60" stroke="#1D4ED8" stroke-width="3"/>
+        <!-- 2.3 at left -->
+        <line x1="10" y1="54" x2="10" y2="66" stroke="#1D4ED8" stroke-width="2"/>
+        <text x="10" y="80" text-anchor="middle" fill="#374151" font-size="11" font-weight="700">2.3</text>
+        <!-- 2.35 midpoint -->
+        <line x1="110" y1="54" x2="110" y2="66" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="110" y="80" text-anchor="middle" fill="#9CA3AF" font-size="10">2.35 ← halfway</text>
+        <!-- 2.36 position -->
+        <circle cx="128" cy="60" r="6" fill="#3B82F6"/>
+        <text x="128" y="48" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">2.36</text>
+        <!-- Arrow pointing to 2.4 -->
+        <line x1="128" y1="54" x2="205" y2="38" stroke="#1D4ED8" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arrowBlue)"/>
+        <!-- 2.4 at right -->
+        <line x1="210" y1="54" x2="210" y2="66" stroke="#1D4ED8" stroke-width="2"/>
+        <text x="210" y="80" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">2.4</text>
+        <text x="210" y="35" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">ROUND UP</text>
+        <defs>
+          <marker id="arrowBlue" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#1D4ED8"/>
+          </marker>
+        </defs>
+        <text x="110" y="100" text-anchor="middle" fill="#374151" font-size="10">Hundredths digit is 6 ≥ 5, so round UP</text>
+      </svg>
+      <div class="illus-caption">2.36 rounds UP to 2.4</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Rounding Decimals</div>
+      <div class="story-text">
+        The next challenge surprised Sage. Decimo produced a long scroll of numbers — measurements of the vault's treasures — and said, <em>"These numbers are too precise. I need you to round them to one decimal place."</em><br><br>
+        <em>"Rounding?"</em> Sage said. <em>"I know this rule!"</em><br><br>
+        The dragon nodded slowly. <em>"When rounding to one decimal place, you look at the second decimal place — the hundredths digit. If it is 5 or greater, you round the tenths digit up by one. If it is less than 5, you keep the tenths digit the same."</em><br><br>
+        Sage studied the number <strong>2.36</strong> on the scroll. The hundredths digit was 6 — that is greater than or equal to 5 — so the tenths digit of 3 rounds up to 4. The answer is <strong>2.4</strong>.<br><br>
+        Decimo blew a small satisfied puff of smoke and handed Sage another golden key.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔄</span>
+          <span class="math-callout-title">Rounding to 1 Decimal Place</span>
+        </div>
+        <p>Look at the <strong>hundredths digit</strong>.<br>
+        If it is <strong>5 or more</strong>, round up the tenths digit.<br>
+        If it is <strong>less than 5</strong>, keep the tenths digit the same.</p>
+      </div>
+
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">Round <strong>3.74</strong> to 1 decimal place.</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','Hundredths digit is 4 &lt; 5, so keep the tenths digit as 7. Answer: 3.7!')">3.7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','3.8 would require the hundredths digit to be 5 or more, but 4 &lt; 5!')">3.8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','We only round to 1 decimal place, not to the nearest whole number!')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','We are rounding, so we remove the hundredths digit — the answer is not 3.74!')">3.74</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 8 – ADDING DECIMALS -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:2rem;margin-bottom:10px;">🧑‍🎓</div>
+      <!-- Column addition SVG -->
+      <svg width="200" height="160" viewBox="0 0 200 160" style="margin:0 auto;">
+        <!-- Column headers -->
+        <rect x="10" y="10" width="50" height="28" rx="4" fill="#1D4ED8" opacity="0.8"/>
+        <text x="35" y="29" text-anchor="middle" fill="white" font-size="11" font-weight="700">Ones</text>
+        <rect x="64" y="10" width="24" height="28" rx="3" fill="#6D28D9" opacity="0.8"/>
+        <text x="76" y="29" text-anchor="middle" fill="white" font-size="14" font-weight="800">.</text>
+        <rect x="92" y="10" width="48" height="28" rx="4" fill="#3B82F6" opacity="0.8"/>
+        <text x="116" y="29" text-anchor="middle" fill="white" font-size="11" font-weight="700">Tenths</text>
+        <rect x="144" y="10" width="52" height="28" rx="4" fill="#60A5FA" opacity="0.8"/>
+        <text x="170" y="29" text-anchor="middle" fill="white" font-size="10" font-weight="700">Hundredths</text>
+        <!-- Row 2.35 -->
+        <text x="35" y="68" text-anchor="middle" fill="#1D4ED8" font-size="22" font-weight="800">2</text>
+        <text x="76" y="68" text-anchor="middle" fill="#6D28D9" font-size="22" font-weight="800">.</text>
+        <text x="116" y="68" text-anchor="middle" fill="#3B82F6" font-size="22" font-weight="800">3</text>
+        <text x="170" y="68" text-anchor="middle" fill="#60A5FA" font-size="22" font-weight="800">5</text>
+        <!-- + 1.42 -->
+        <text x="15" y="98" text-anchor="middle" fill="#374151" font-size="18" font-weight="700">+</text>
+        <text x="35" y="98" text-anchor="middle" fill="#1D4ED8" font-size="22" font-weight="800">1</text>
+        <text x="76" y="98" text-anchor="middle" fill="#6D28D9" font-size="22" font-weight="800">.</text>
+        <text x="116" y="98" text-anchor="middle" fill="#3B82F6" font-size="22" font-weight="800">4</text>
+        <text x="170" y="98" text-anchor="middle" fill="#60A5FA" font-size="22" font-weight="800">2</text>
+        <!-- Line -->
+        <line x1="10" y1="108" x2="196" y2="108" stroke="#374151" stroke-width="2"/>
+        <!-- Result 3.77 -->
+        <text x="35" y="135" text-anchor="middle" fill="#059669" font-size="24" font-weight="800">3</text>
+        <text x="76" y="135" text-anchor="middle" fill="#6D28D9" font-size="24" font-weight="800">.</text>
+        <text x="116" y="135" text-anchor="middle" fill="#059669" font-size="24" font-weight="800">7</text>
+        <text x="170" y="135" text-anchor="middle" fill="#059669" font-size="24" font-weight="800">7</text>
+        <text x="100" y="155" text-anchor="middle" fill="#374151" font-size="11">Line up the decimal points!</text>
+      </svg>
+      <div class="illus-caption">2.35 + 1.42 = 3.77</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · Adding Decimals</div>
+      <div class="story-text">
+        Deep inside the vault, Sage found two golden bars weighing <strong>2.35 kg</strong> and <strong>1.42 kg</strong>. To open the penultimate door, Sage needed to calculate their total weight.<br><br>
+        <em>"Adding decimals is just like adding whole numbers,"</em> Decimo explained, <em>"but you must always line up the decimal points in a column. If the decimal points are not aligned, your answer will be wrong."</em><br><br>
+        Sage wrote the calculation carefully in columns: ones, decimal point, tenths, hundredths. Starting from the right — add the hundredths: 5 + 2 = 7. Then the tenths: 3 + 4 = 7. Then the ones: 2 + 1 = 3. The decimal point stays in the same position.<br><br>
+        <strong>2.35 + 1.42 = 3.77</strong> — and the door swung open. Sage was nearly at the heart of the vault.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">➕</span>
+          <span class="math-callout-title">Adding Decimals</span>
+        </div>
+        <p>Always <strong>line up the decimal points</strong> when adding!<br>
+        2.35 + 1.42: add hundredths (7), tenths (7), ones (3) → <strong>3.77</strong>.<br>
+        Work column by column, right to left.</p>
+      </div>
+
+      <div class="think-box" id="think-page8">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);"><strong>1.5 + 2.3 = ?</strong></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','3.5 would mean 5+3=8 tenths — you have the right idea but mixed up the tenths!')">3.5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','Check again: 5 tenths + 3 tenths = 8 tenths, not 7!')">3.7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'correct','1.5 + 2.3 = 3.8. Line up the decimal points: 5+3=8 tenths, 1+2=3 ones → 3.8!')">3.8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','1+2=3 ones, and 5+3=8 tenths. That gives 3.8, not 4.8!')">4.8</button>
+        </div>
+        <div class="think-result" id="think-page8-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 9 – REAL-WORLD DECIMALS -->
+  <div class="book-page" id="page-9">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);">
+      <div class="page-num-illus">Page 9</div>
+      <!-- Real world decimals scene -->
+      <div style="display:flex;flex-direction:column;gap:14px;width:90%;margin:0 auto;">
+        <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:2px solid #BFDBFE;">
+          <span style="font-size:2rem;">💰</span>
+          <div>
+            <div style="font-size:1rem;font-weight:800;color:#1D4ED8;">£3.75</div>
+            <div style="font-size:.78rem;color:#6B7280;font-weight:600;">3 pounds and 75 hundredths = 75p</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:2px solid #BFDBFE;">
+          <span style="font-size:2rem;">📏</span>
+          <div>
+            <div style="font-size:1rem;font-weight:800;color:#1D4ED8;">15.6 cm</div>
+            <div style="font-size:.78rem;color:#6B7280;font-weight:600;">15 cm and 6 tenths of a cm</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:2px solid #BFDBFE;">
+          <span style="font-size:2rem;">🏆</span>
+          <div>
+            <div style="font-size:1rem;font-weight:800;color:#1D4ED8;">9.4 / 10</div>
+            <div style="font-size:.78rem;color:#6B7280;font-weight:600;">Sports score with tenths</div>
+          </div>
+        </div>
+      </div>
+      <div class="illus-caption">Decimals in everyday life</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 9 · Real-World Decimals</div>
+      <div class="story-text">
+        At last, Sage reached the deepest chamber of the Decimal Vault. Rather than gold or jewels, the vault was filled with something far more valuable: examples of decimals used in the real world.<br><br>
+        <em>"Decimals are not just for maths lessons,"</em> Decimo said proudly. <em>"They are everywhere you look."</em><br><br>
+        Sage gazed around the chamber. There was a price tag showing <strong>£3.75</strong> — three pounds and seventy-five hundredths of a pound. There was a ruler showing <strong>15.6 cm</strong> — fifteen centimetres and six tenths. There was a gymnastics scoreboard showing <strong>9.4 out of 10</strong> — nine and four tenths.<br><br>
+        Sage smiled with understanding. Every time someone uses money, measures an object, or checks a sports score, they are reading and writing decimals. The vault contained the whole world's relationship with this important idea.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🌍</span>
+          <span class="math-callout-title">Decimals in the Real World</span>
+        </div>
+        <p>Decimals are everywhere:<br>
+        <strong>Money</strong>: £3.75 = 3 pounds and 75p (75 hundredths)<br>
+        <strong>Length</strong>: 15.6 cm = 15 cm and 6 tenths<br>
+        <strong>Scores</strong>: 9.4 = nine and four tenths</p>
+      </div>
+
+      <div class="think-box" id="think-page9">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">A chocolate bar costs <strong>£1.35</strong>. A drink costs <strong>£0.85</strong>. What is the total cost?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','£2.00 would mean 35p + 85p = £1.00 — but 35 + 85 = 120p, not 100p!')">£2.00</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','Check again: 35p + 85p = 120p = £1.20, and £1 + £1.20 = £2.20!')">£2.10</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'correct','£1.35 + £0.85 = £2.20. Add the pence: 35 + 85 = 120p = £1.20 extra. £1 + £1.20 = £2.20!')">£2.20</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','£2.35 would mean you only added the pounds, ignoring the 85p!')">£2.35</button>
+        </div>
+        <div class="think-result" id="think-page9-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 10 – THE VAULT IS OPEN! -->
+  <div class="book-page" id="page-10">
+    <div class="illustration" style="background:linear-gradient(135deg,#1E40AF,#7C3AED);">
+      <div class="page-num-illus">Page 10</div>
+      <div style="font-size:2.5rem;margin-bottom:8px;">🧑‍🎓 🐉 ✨</div>
+      <!-- Floating decimal numbers -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0;">
+        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">0.1</span>
+        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">0.35</span>
+        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">4.67</span>
+        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">2.5</span>
+        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">0.07</span>
+        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">3.77</span>
+        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">0.01</span>
+        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">1.5</span>
+      </div>
+      <div style="font-size:2.5rem;margin:8px 0;">🏆</div>
+      <div style="background:rgba(255,255,255,0.2);border-radius:12px;padding:12px 16px;text-align:center;color:white;">
+        <div style="font-family:'Quicksand',sans-serif;font-size:.95rem;font-weight:700;">The Decimal Vault is open!</div>
+        <div style="font-size:.8rem;opacity:.85;margin-top:4px;">Sage and Decimo are friends forever</div>
+      </div>
+      <div class="illus-caption">The treasure of decimal knowledge!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 10 · The Vault is Open!</div>
+      <div class="story-text">
+        With all nine keys in hand, Sage approached the great door of the Decimal Vault. One by one, each key turned in its lock with a golden click. The door swung open with a majestic rumble, and warm light flooded out.<br><br>
+        Inside was not gold — it was something even more precious: perfect understanding. Numbers floated in the air like fireflies: <strong>0.1, 0.35, 4.67, 3.77</strong> — each one meaningful, each one part of a pattern that made the world a more precise and beautiful place.<br><br>
+        Decimo landed beside Sage, and for the first time, the great dragon smiled. <em>"You have proven yourself worthy,"</em> Decimo said. <em>"You understand what decimals truly are — not just symbols, but a language for describing the parts of our world."</em><br><br>
+        From that day on, Sage and Decimo became the greatest of friends — a scholar and a dragon who guarded the secrets of decimals together, and welcomed any young mathematician who came to learn.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title">What You Have Learned</span>
+        </div>
+        <p>You now understand: <strong>decimal notation</strong>, place value (tenths and hundredths), <strong>ordering</strong> decimals, <strong>rounding</strong> to 1 d.p., <strong>adding</strong> decimals, and real-world uses. That is the full decimal toolkit!</p>
+      </div>
+      <div class="celebration-box">
+        <p>Excellent work! You have unlocked the Decimal Vault! 🏆<br>
+        <span style="font-size:.88rem;font-weight:600;opacity:.85;">Sage and Decimo are proud of you!</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🐉 🔢 🏆</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Brilliant reading! You have finished <strong>The Decimal Dragon</strong> and mastered tenths, hundredths, place value, ordering, rounding, and adding decimals. Decimo is proud of you!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">🐉</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Decimal Warrior Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Decimal Dragon</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 10;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

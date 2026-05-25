@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Statistics Saga – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#0EA5E9; --blue-dark:#0369A1; --blue-light:#E0F2FE;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--blue-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--blue);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--blue);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--blue-light);color:var(--blue-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #BAE6FD;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-dark));border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+/* spine gutter */
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+/* bottom-right page curl hint */
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL (left page) */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.05rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--blue-dark);font-weight:700;}
+.story-text em{color:var(--green-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--blue-light);border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'\201C';font-size:1.4rem;color:var(--blue);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'\201D';font-size:1.4rem;color:var(--blue);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.fraction-visual{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:'Quicksand',sans-serif;font-weight:700;line-height:1;border:2px solid var(--blue);border-radius:8px;padding:4px 10px;background:white;}
+.frac-num{font-size:1.1rem;color:var(--blue-dark);border-bottom:2px solid var(--blue);padding-bottom:2px;margin-bottom:2px;}
+.frac-den{font-size:1.1rem;color:var(--blue-dark);}
+.frac-word{font-size:.9rem;font-weight:600;color:var(--text-mid);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#0369A1,#6D28D9);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(3,105,161,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--blue);color:var(--blue);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--blue);color:white;border-color:var(--blue);box-shadow:0 3px 0 var(--blue-dark);}
+.nav-btn-next:hover{background:var(--blue-dark);border-color:var(--blue-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--blue-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--blue);transform:scale(1.2);}
+.dot.read{background:#BAE6FD;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--blue);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--blue-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#0369A1,#6D28D9);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* DATA TABLE */
+.data-table{width:100%;border-collapse:collapse;font-size:.9rem;margin:8px 0;}
+.data-table th{background:var(--blue-dark);color:white;padding:8px 12px;text-align:center;font-family:'Quicksand',sans-serif;}
+.data-table td{border:1px solid #BAE6FD;padding:7px 12px;text-align:center;background:white;}
+.data-table tr:nth-child(even) td{background:#F0F9FF;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">📊</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">📚 Books</a> › The Statistics Saga
+      </span>
+    </div>
+    <nav class="site-nav" style="display:flex;gap:8px;">
+      <a href="../dashboard.html" style="font-size:.85rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border-radius:9999px;border:1px solid var(--outline);">📊 My Journey</a>
+      <a href="#" style="font-size:.85rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border-radius:9999px;border:1px solid var(--outline);">Badges</a>
+      <a href="#" style="font-size:.85rem;font-weight:700;color:var(--text-mid);text-decoration:none;padding:6px 14px;border-radius:9999px;border:1px solid var(--outline);">Progress</a>
+    </nav>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📊 The Statistics Saga</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">📊 Statistics</span>
+        <span class="book-tag">📈 Mean · 📉 Median · 🔢 Mode</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">Age 10–11</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 12</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:8.33%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- PAGE 1 – COVER -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">📊</span>
+      <div class="cover-title">The Statistics Saga</div>
+      <div class="cover-subtitle">A data mystery adventure — uncovering secrets<br>hidden inside numbers, charts, and averages</div>
+      <div class="cover-chars">👩‍🔬 🧑‍🔬</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 12 Pages</span>
+        <span class="cover-tag">📊 Statistics</span>
+        <span class="cover-tag">Age 10–11</span>
+        <span class="cover-tag">⭐ Cambridge St6.01</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 – WHAT IS STATISTICS? -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:2rem;margin-bottom:6px;">👩‍🔬 🧑‍🔬</div>
+      <!-- SVG: Data table of 7-day temperatures -->
+      <svg width="260" height="170" viewBox="0 0 260 170" style="margin:0 auto;">
+        <rect x="0" y="0" width="260" height="170" rx="10" fill="white" stroke="#BAE6FD" stroke-width="2"/>
+        <!-- Header row -->
+        <rect x="0" y="0" width="260" height="32" rx="10" fill="#0369A1"/>
+        <rect x="0" y="20" width="260" height="12" fill="#0369A1"/>
+        <text x="65" y="21" text-anchor="middle" fill="white" font-size="11" font-weight="700">Day</text>
+        <text x="195" y="21" text-anchor="middle" fill="white" font-size="11" font-weight="700">Temp (°C)</text>
+        <!-- Divider -->
+        <line x1="130" y1="0" x2="130" y2="170" stroke="#BAE6FD" stroke-width="1.5"/>
+        <!-- Rows -->
+        <text x="65" y="52" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Monday</text>
+        <text x="195" y="52" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">18</text>
+        <line x1="0" y1="60" x2="260" y2="60" stroke="#E0F2FE" stroke-width="1"/>
+        <rect x="0" y="60" width="260" height="22" fill="#F0F9FF"/>
+        <text x="65" y="75" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Tuesday</text>
+        <text x="195" y="75" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">22</text>
+        <line x1="0" y1="82" x2="260" y2="82" stroke="#E0F2FE" stroke-width="1"/>
+        <text x="65" y="97" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Wednesday</text>
+        <text x="195" y="97" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">18</text>
+        <line x1="0" y1="104" x2="260" y2="104" stroke="#E0F2FE" stroke-width="1"/>
+        <rect x="0" y="104" width="260" height="22" fill="#F0F9FF"/>
+        <text x="65" y="119" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Thursday</text>
+        <text x="195" y="119" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">25</text>
+        <line x1="0" y1="126" x2="260" y2="126" stroke="#E0F2FE" stroke-width="1"/>
+        <text x="65" y="141" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Friday</text>
+        <text x="195" y="141" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">22</text>
+        <line x1="0" y1="148" x2="260" y2="148" stroke="#E0F2FE" stroke-width="1"/>
+        <rect x="0" y="148" width="260" height="22" fill="#F0F9FF" rx="0"/>
+        <text x="65" y="163" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Saturday</text>
+        <text x="195" y="163" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">30</text>
+      </svg>
+      <div style="font-size:.75rem;font-weight:700;color:#0369A1;margin-top:6px;">Raw data: City temperatures over 6 days</div>
+      <div class="illus-caption">Dr Vera and Dr Rex collect city temperature data</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · What Is Statistics?</div>
+      <div class="story-text">
+        <strong>Dr Vera</strong> and <strong>Dr Rex</strong> were data scientists at the City Research Institute. Their lab was filled with whiteboards, spreadsheets, and the gentle hum of computers running calculations. One morning, the mayor sent them an urgent message: temperatures across the city had been behaving strangely, and nobody could explain why.<br><br>
+        "Before we can solve any mystery," said Dr Vera, pulling up a fresh spreadsheet, "we must collect and organise our data properly. That is the first rule of statistics."<br><br>
+        <strong>Statistics</strong> is the science of collecting, organising, and interpreting numerical data to draw meaningful conclusions. Dr Rex began recording the daily high temperature for the city — six days of raw, unprocessed numbers sitting in a table.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📋</span>
+          <span class="math-callout-title">Key Concept: Raw Data</span>
+        </div>
+        <p><strong>Raw data</strong> is information that has been collected but not yet organised or analysed. The temperature data set is: <strong>{18, 22, 18, 25, 22, 30}</strong>. To begin drawing conclusions, statisticians first <em>order</em> the data from smallest to largest — this is called an <strong>ordered data set</strong>.</p>
+      </div>
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Order the data set <strong>{18, 22, 18, 25, 22, 30}</strong> from smallest to largest. Which option is correct?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','Correct! Ordered: 18, 18, 22, 22, 25, 30 — smallest to largest.')">18, 18, 22, 22, 25, 30</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Not quite — check the order of 25 and 22.')">18, 22, 25, 22, 18, 30</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','This goes largest to smallest — reverse the order!')">30, 25, 22, 22, 18, 18</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','18 appears twice and 22 appears twice — do not drop repeats!')">18, 22, 25, 30</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3 – MODE -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:1.8rem;margin-bottom:4px;">📊</div>
+      <!-- SVG: Frequency bar chart for {3,5,3,7,3,5} -->
+      <svg width="240" height="170" viewBox="0 0 240 170" style="margin:0 auto;">
+        <!-- Axes -->
+        <line x1="30" y1="10" x2="30" y2="140" stroke="#0369A1" stroke-width="2"/>
+        <line x1="30" y1="140" x2="220" y2="140" stroke="#0369A1" stroke-width="2"/>
+        <!-- Y labels -->
+        <text x="22" y="143" text-anchor="end" fill="#0369A1" font-size="10">0</text>
+        <text x="22" y="110" text-anchor="end" fill="#0369A1" font-size="10">1</text>
+        <text x="22" y="77" text-anchor="end" fill="#0369A1" font-size="10">2</text>
+        <text x="22" y="44" text-anchor="end" fill="#0369A1" font-size="10">3</text>
+        <!-- Gridlines -->
+        <line x1="30" y1="110" x2="220" y2="110" stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="77" x2="220" y2="77" stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="44" x2="220" y2="44" stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Bar for 3: frequency 3 — tallest -->
+        <rect x="45" y="44" width="40" height="96" fill="#0EA5E9" rx="4"/>
+        <text x="65" y="155" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">3</text>
+        <text x="65" y="38" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">3</text>
+        <!-- Bar for 5: frequency 2 -->
+        <rect x="105" y="77" width="40" height="63" fill="#38BDF8" rx="4"/>
+        <text x="125" y="155" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">5</text>
+        <text x="125" y="71" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">2</text>
+        <!-- Bar for 7: frequency 1 -->
+        <rect x="165" y="110" width="40" height="30" fill="#7DD3FC" rx="4"/>
+        <text x="185" y="155" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">7</text>
+        <text x="185" y="104" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">1</text>
+        <!-- Mode label -->
+        <text x="65" y="168" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">MODE</text>
+        <!-- Axis labels -->
+        <text x="125" y="170" text-anchor="middle" fill="#0369A1" font-size="10">Value</text>
+        <text x="10" y="80" text-anchor="middle" fill="#0369A1" font-size="10" transform="rotate(-90,10,80)">Freq</text>
+      </svg>
+      <div style="font-size:.75rem;font-weight:700;color:#0369A1;margin-top:4px;">Data: {3, 5, 3, 7, 3, 5} — value 3 appears most often</div>
+      <div class="illus-caption">Frequency bar chart reveals the mode</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · The Mode</div>
+      <div class="story-text">
+        Dr Vera turned to a second data set — temperature anomalies recorded at six sensor stations: <strong>{3, 5, 3, 7, 3, 5}</strong>. "Let us look for patterns," she said, drawing a tally chart on the whiteboard. "The number that appears most frequently is called the <strong>mode</strong>."<br><br>
+        Counting each value: 3 appears <em>three times</em>, 5 appears twice, and 7 appears once. Therefore the <strong>mode is 3</strong>. Dr Rex noted that some data sets can have two modes — called <strong>bimodal</strong> — if two values share the highest frequency. A data set with no repeating value has <em>no mode</em>.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔢</span>
+          <span class="math-callout-title">The Mode — Most Frequent Value</span>
+        </div>
+        <p>The <strong>mode</strong> is the value that occurs most often in a data set.<br>
+        Data: {3, 5, 3, 7, 3, 5}<br>
+        Tally: 3 → |||, 5 → ||, 7 → |<br>
+        <strong>Mode = 3</strong> (appears 3 times)<br><br>
+        A <strong>bimodal</strong> set has two modes, e.g. {2, 4, 2, 6, 4} → modes are 2 and 4.</p>
+      </div>
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Find the mode of this data set: <strong>{9, 4, 7, 4, 9, 4, 7}</strong></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','7 appears twice, but something appears more often.')">7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Correct! 4 appears 3 times — more than any other value.')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','9 appears only twice.')">9</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Only one value appears most often here — it is not bimodal.')">Bimodal: 4 and 9</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4 – MEDIAN -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#F0F9FF);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:1.8rem;margin-bottom:6px;">📉</div>
+      <!-- SVG: Ordered data set with middle highlighted -->
+      <svg width="260" height="150" viewBox="0 0 260 150" style="margin:0 auto;">
+        <!-- Odd-length example: 5 values, median = 3rd -->
+        <text x="130" y="18" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">ODD SET (5 values): median = middle value</text>
+        <!-- Values: 4, 7, 11, 15, 19 -->
+        <rect x="8"  y="26" width="40" height="30" rx="6" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
+        <rect x="55" y="26" width="40" height="30" rx="6" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
+        <rect x="102" y="26" width="40" height="30" rx="6" fill="#0369A1" stroke="#0EA5E9" stroke-width="2"/>
+        <rect x="149" y="26" width="40" height="30" rx="6" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
+        <rect x="196" y="26" width="40" height="30" rx="6" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
+        <text x="28"  y="46" text-anchor="middle" fill="#0369A1" font-size="14" font-weight="700">4</text>
+        <text x="75"  y="46" text-anchor="middle" fill="#0369A1" font-size="14" font-weight="700">7</text>
+        <text x="122" y="46" text-anchor="middle" fill="white"   font-size="14" font-weight="700">11</text>
+        <text x="169" y="46" text-anchor="middle" fill="#0369A1" font-size="14" font-weight="700">15</text>
+        <text x="216" y="46" text-anchor="middle" fill="#0369A1" font-size="14" font-weight="700">19</text>
+        <text x="122" y="70" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">MEDIAN</text>
+        <!-- Even-length example: 6 values, median = mean of 3rd and 4th -->
+        <text x="130" y="92" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">EVEN SET (6 values): mean of two middle values</text>
+        <!-- Values: 5, 8, 12, 16, 20, 24 -->
+        <rect x="8"   y="100" width="35" height="28" rx="5" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
+        <rect x="48"  y="100" width="35" height="28" rx="5" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
+        <rect x="88"  y="100" width="35" height="28" rx="5" fill="#0369A1" stroke="#0EA5E9" stroke-width="2"/>
+        <rect x="128" y="100" width="35" height="28" rx="5" fill="#0369A1" stroke="#0EA5E9" stroke-width="2"/>
+        <rect x="168" y="100" width="35" height="28" rx="5" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
+        <rect x="208" y="100" width="35" height="28" rx="5" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
+        <text x="25"  y="119" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">5</text>
+        <text x="65"  y="119" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">8</text>
+        <text x="105" y="119" text-anchor="middle" fill="white"   font-size="12" font-weight="700">12</text>
+        <text x="145" y="119" text-anchor="middle" fill="white"   font-size="12" font-weight="700">16</text>
+        <text x="185" y="119" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">20</text>
+        <text x="225" y="119" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">24</text>
+        <text x="125" y="145" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">Median = (12+16)÷2 = 14</text>
+      </svg>
+      <div class="illus-caption">Odd sets: one middle value; even sets: average the two middles</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · The Median</div>
+      <div class="story-text">
+        "The mode tells us what is most popular," said Dr Rex, "but it does not always represent a typical value." He introduced the second measure of average — the <strong>median</strong> — which is the <em>middle value</em> when all data is arranged in order from smallest to largest.<br><br>
+        For an <strong>odd</strong> number of values, the median is simply the middle item. For an <strong>even</strong> number of values, there is no single middle — instead, you find the <em>mean of the two middle values</em>. With the ordered set {5, 8, 12, 16, 20, 24}, the two middle values are 12 and 16, so the median is (12 + 16) ÷ 2 = <strong>14</strong>. The median is useful because it is not pulled by extreme values the way a mean can be.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📉</span>
+          <span class="math-callout-title">The Median — Middle Value</span>
+        </div>
+        <p>Step 1: Order the data set smallest → largest.<br>
+        Step 2 (odd count): pick the middle value.<br>
+        Step 2 (even count): add the two middle values and divide by 2.<br><br>
+        <strong>Example:</strong> {3, 7, 9, 11, 15} → median = <strong>9</strong><br>
+        <strong>Example:</strong> {4, 6, 10, 14} → median = (6 + 10) ÷ 2 = <strong>8</strong></p>
+      </div>
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Find the median of this 8-value data set: <strong>{3, 17, 5, 11, 9, 21, 7, 13}</strong>. Remember to order first!</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','That is the mean of the wrong pair. Order is: 3,5,7,9,11,13,17,21 — middle pair is 9 and 11.')">8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Excellent! Ordered: 3,5,7,9,11,13,17,21 — middle pair is 9 and 11. (9+11)÷2 = 10.')">10</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','9 is the 4th value but with 8 values you must average the 4th and 5th.')">9</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','11 is the 5th value — you need to average both middle values.')">11</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5 – MEAN -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:1.8rem;margin-bottom:6px;">📈</div>
+      <!-- SVG: Balance scale diagram for mean -->
+      <svg width="240" height="170" viewBox="0 0 240 170" style="margin:0 auto;">
+        <!-- Stand -->
+        <rect x="112" y="100" width="16" height="50" fill="#0369A1" rx="3"/>
+        <rect x="80" y="145" width="80" height="12" fill="#0369A1" rx="4"/>
+        <!-- Beam -->
+        <rect x="30" y="95" width="180" height="10" fill="#0EA5E9" rx="4"/>
+        <!-- Left pan -->
+        <line x1="50" y1="105" x2="50" y2="128" stroke="#0369A1" stroke-width="2"/>
+        <rect x="20" y="128" width="60" height="16" fill="#BAE6FD" rx="6" stroke="#0EA5E9" stroke-width="1.5"/>
+        <text x="50" y="140" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="700">12+8+15+10+5</text>
+        <!-- Right pan -->
+        <line x1="190" y1="105" x2="190" y2="128" stroke="#0369A1" stroke-width="2"/>
+        <rect x="160" y="128" width="60" height="16" fill="#0369A1" rx="6"/>
+        <text x="190" y="140" text-anchor="middle" fill="white" font-size="11" font-weight="700">50 ÷ 5 = 10</text>
+        <!-- Labels -->
+        <text x="50" y="162" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="600">Sum of values</text>
+        <text x="190" y="162" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="600">Mean = 10</text>
+        <!-- Top label -->
+        <text x="120" y="20" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">Mean = Sum ÷ Count</text>
+        <text x="120" y="38" text-anchor="middle" fill="#0369A1" font-size="11">{12, 8, 15, 10, 5}</text>
+        <text x="120" y="56" text-anchor="middle" fill="#0C4A6E" font-size="11">Sum = 12+8+15+10+5 = 50</text>
+        <text x="120" y="74" text-anchor="middle" fill="#DC2626" font-size="12" font-weight="700">Mean = 50 ÷ 5 = 10</text>
+      </svg>
+      <div class="illus-caption">The mean balances all values equally</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · The Mean</div>
+      <div class="story-text">
+        Dr Vera introduced the most widely used average — the <strong>arithmetic mean</strong>. "Imagine you could redistribute all the values equally among every item in the data set," she explained. "The amount each item would receive is the mean."<br><br>
+        To calculate the mean, <em>add all the values together</em>, then <em>divide by the number of values</em>. For the temperature data set {12, 8, 15, 10, 5}: the sum is 12 + 8 + 15 + 10 + 5 = <strong>50</strong>, and there are <strong>5 values</strong>, so the mean is 50 ÷ 5 = <strong>10°C</strong>. The mean is a powerful tool but can be skewed by extreme outliers, which is why statisticians always consider all three averages together.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📈</span>
+          <span class="math-callout-title">The Mean — Sum ÷ Count</span>
+        </div>
+        <p><strong>Mean = (sum of all values) ÷ (number of values)</strong><br><br>
+        Data: {12, 8, 15, 10, 5}<br>
+        Sum = 12 + 8 + 15 + 10 + 5 = <strong>50</strong><br>
+        Count = 5<br>
+        Mean = 50 ÷ 5 = <strong>10</strong></p>
+      </div>
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Calculate the mean of: <strong>{6, 14, 9, 11, 8, 16}</strong></p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Check your addition: 6+14+9+11+8+16 = 64, not 60.')">10</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Correct! 6+14+9+11+8+16 = 64. 64÷6 ≈ 10.67, but rounded to nearest whole: often left as a fraction. Exact mean = 64÷6 = 32/3 ≈ 10.7')">About 10.7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','That is the median, not the mean. Sum all values and divide by 6.')">9.5</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','You may have divided by 4 rather than 6.')">16</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6 – RANGE -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:1.8rem;margin-bottom:6px;">📊</div>
+      <!-- SVG: Two data sets on a number line comparing range -->
+      <svg width="250" height="160" viewBox="0 0 250 160" style="margin:0 auto;">
+        <text x="125" y="16" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Comparing Ranges of Two Data Sets</text>
+        <!-- Set A -->
+        <text x="10" y="38" fill="#0369A1" font-size="10" font-weight="700">Set A:</text>
+        <line x1="40" y1="50" x2="230" y2="50" stroke="#0369A1" stroke-width="2"/>
+        <!-- A: values 10, 14, 16, 18, 20 — range 10 -->
+        <circle cx="65"  cy="50" r="5" fill="#0EA5E9"/><text x="65"  y="68" text-anchor="middle" fill="#0369A1" font-size="10">10</text>
+        <circle cx="105" cy="50" r="5" fill="#0EA5E9"/><text x="105" y="68" text-anchor="middle" fill="#0369A1" font-size="10">14</text>
+        <circle cx="130" cy="50" r="5" fill="#0EA5E9"/><text x="130" y="68" text-anchor="middle" fill="#0369A1" font-size="10">16</text>
+        <circle cx="155" cy="50" r="5" fill="#0EA5E9"/><text x="155" y="68" text-anchor="middle" fill="#0369A1" font-size="10">18</text>
+        <circle cx="190" cy="50" r="5" fill="#0EA5E9"/><text x="190" y="68" text-anchor="middle" fill="#0369A1" font-size="10">20</text>
+        <!-- Range A arrow -->
+        <line x1="65" y1="44" x2="190" y2="44" stroke="#0369A1" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="127" y="41" text-anchor="middle" fill="#0369A1" font-size="9" font-weight="700">Range A = 20−10 = 10</text>
+        <!-- Set B -->
+        <text x="10" y="96" fill="#DC2626" font-size="10" font-weight="700">Set B:</text>
+        <line x1="40" y1="108" x2="230" y2="108" stroke="#DC2626" stroke-width="2"/>
+        <!-- B: values 5, 14, 16, 18, 30 — range 25 -->
+        <circle cx="48"  cy="108" r="5" fill="#F97316"/><text x="48"  y="126" text-anchor="middle" fill="#DC2626" font-size="10">5</text>
+        <circle cx="105" cy="108" r="5" fill="#F97316"/><text x="105" y="126" text-anchor="middle" fill="#DC2626" font-size="10">14</text>
+        <circle cx="130" cy="108" r="5" fill="#F97316"/><text x="130" y="126" text-anchor="middle" fill="#DC2626" font-size="10">16</text>
+        <circle cx="155" cy="108" r="5" fill="#F97316"/><text x="155" y="126" text-anchor="middle" fill="#DC2626" font-size="10">18</text>
+        <circle cx="220" cy="108" r="5" fill="#F97316"/><text x="220" y="126" text-anchor="middle" fill="#DC2626" font-size="10">30</text>
+        <!-- Range B arrow -->
+        <line x1="48" y1="102" x2="220" y2="102" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="134" y="99" text-anchor="middle" fill="#DC2626" font-size="9" font-weight="700">Range B = 30−5 = 25</text>
+        <text x="125" y="150" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">Set B is more spread out (larger range)</text>
+      </svg>
+      <div class="illus-caption">Range measures the spread of a data set</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · The Range</div>
+      <div class="story-text">
+        "Averages tell us about the centre of data," said Dr Rex, "but they say nothing about the <em>spread</em>." He introduced the <strong>range</strong> — a measure of how spread out a data set is. The range is calculated simply: <em>highest value minus lowest value</em>.<br><br>
+        Comparing two data sets with the <em>same mean</em> can be misleading if their ranges differ dramatically. Set A has values {10, 14, 16, 18, 20} with a range of <strong>10</strong>, while Set B has values {5, 14, 16, 18, 30} with a range of <strong>25</strong>. Both sets have a mean of <strong>16</strong>, yet Set B's data is far more spread out — it is less consistent and more unpredictable, which is crucial information for any data scientist.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">↔️</span>
+          <span class="math-callout-title">The Range — Highest Minus Lowest</span>
+        </div>
+        <p><strong>Range = highest value − lowest value</strong><br><br>
+        Set A: {10, 14, 16, 18, 20} → Range = 20 − 10 = <strong>10</strong><br>
+        Set B: {5, 14, 16, 18, 30} → Range = 30 − 5 = <strong>25</strong><br><br>
+        A <strong>small range</strong> means data is consistent. A <strong>large range</strong> means data is spread out and variable.</p>
+      </div>
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Class A scores: {55, 60, 62, 65, 68}. Class B scores: {30, 55, 62, 75, 88}. Both have a mean near 62. Which class has a larger range, and what does that tell you?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Correct! Class B range = 88−30 = 58. Class A range = 68−55 = 13. Class B scores are much more spread out — less consistent performance.')">Class B, range 58 — more varied</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Class A range is only 13 — much smaller than Class B.')">Class A, more spread out</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Their means are similar but their ranges are very different.')">Same range — same mean means same spread</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Class B range is 58, Class A is 13 — they are definitely different.')">Both ranges are equal</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 7 – CHOOSING THE RIGHT AVERAGE -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:1.8rem;margin-bottom:6px;">🧮</div>
+      <!-- SVG: Three-column comparison table -->
+      <svg width="260" height="180" viewBox="0 0 260 180" style="margin:0 auto;">
+        <rect x="0" y="0" width="260" height="180" rx="10" fill="white" stroke="#BAE6FD" stroke-width="1.5"/>
+        <!-- Header -->
+        <rect x="0" y="0" width="260" height="28" rx="10" fill="#0369A1"/>
+        <rect x="0" y="16" width="260" height="12" fill="#0369A1"/>
+        <text x="43"  y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Average</text>
+        <text x="130" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Best For</text>
+        <text x="215" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Avoid When</text>
+        <!-- Dividers -->
+        <line x1="86"  y1="0" x2="86"  y2="180" stroke="#E0F2FE" stroke-width="1"/>
+        <line x1="172" y1="0" x2="172" y2="180" stroke="#E0F2FE" stroke-width="1"/>
+        <!-- Row 1 Mode -->
+        <rect x="0" y="28" width="260" height="44" fill="#F0F9FF"/>
+        <text x="43"  y="46" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Mode</text>
+        <text x="43"  y="60" text-anchor="middle" fill="#0369A1" font-size="9">most common</text>
+        <text x="129" y="46" text-anchor="middle" fill="#0C4A6E" font-size="9">Categorical data</text>
+        <text x="129" y="58" text-anchor="middle" fill="#0C4A6E" font-size="9">e.g. shoe sizes</text>
+        <text x="215" y="46" text-anchor="middle" fill="#0C4A6E" font-size="9">All values are</text>
+        <text x="215" y="58" text-anchor="middle" fill="#0C4A6E" font-size="9">different</text>
+        <!-- Row 2 Median -->
+        <text x="43"  y="86" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Median</text>
+        <text x="43"  y="100" text-anchor="middle" fill="#0369A1" font-size="9">middle value</text>
+        <text x="129" y="86" text-anchor="middle" fill="#0C4A6E" font-size="9">Skewed data or</text>
+        <text x="129" y="98" text-anchor="middle" fill="#0C4A6E" font-size="9">extreme outliers</text>
+        <text x="215" y="86" text-anchor="middle" fill="#0C4A6E" font-size="9">You need exact</text>
+        <text x="215" y="98" text-anchor="middle" fill="#0C4A6E" font-size="9">calculation</text>
+        <!-- Row 3 Mean -->
+        <rect x="0" y="112" width="260" height="44" fill="#F0F9FF"/>
+        <text x="43"  y="130" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Mean</text>
+        <text x="43"  y="144" text-anchor="middle" fill="#0369A1" font-size="9">sum ÷ count</text>
+        <text x="129" y="130" text-anchor="middle" fill="#0C4A6E" font-size="9">Evenly spread</text>
+        <text x="129" y="142" text-anchor="middle" fill="#0C4A6E" font-size="9">numerical data</text>
+        <text x="215" y="130" text-anchor="middle" fill="#0C4A6E" font-size="9">Large outliers</text>
+        <text x="215" y="142" text-anchor="middle" fill="#0C4A6E" font-size="9">skew the result</text>
+        <!-- Bottom note -->
+        <text x="130" y="170" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">Use all three together for a complete picture!</text>
+      </svg>
+      <div class="illus-caption">Choosing the right average for your data</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Choosing the Right Average</div>
+      <div class="story-text">
+        "Statistics would be straightforward if one average always worked," said Dr Vera, "but in the real world, context matters enormously." Each of the three averages has particular strengths and weaknesses that a skilled data scientist must understand.<br><br>
+        Consider a shoe shop owner who wants to know which size to stock most. The <strong>mode</strong> is the perfect choice — it reveals the most common shoe size purchased. For salaries at a company where one executive earns £500,000 while most staff earn £25,000, the <strong>median</strong> is fairer — the mean would be heavily distorted by that single extreme salary, an <em>outlier</em>. The <strong>mean</strong> works best when data is evenly spread without extreme values pulling it in one direction.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">Which Average to Choose?</span>
+        </div>
+        <p>
+        <strong>Mode</strong> — best for categories and popularity (shoe sizes, favourite colours).<br>
+        <strong>Median</strong> — best when data has outliers (incomes, house prices).<br>
+        <strong>Mean</strong> — best for evenly spread numerical data (test scores, temperatures).<br><br>
+        An <strong>outlier</strong> is a value that is much larger or smaller than the rest of the data.</p>
+      </div>
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Seven people's weekly earnings: <strong>{£200, £210, £215, £220, £225, £230, £2000}</strong>. The £2000 is an outlier. Which average best represents a typical weekly earning?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','The mean would be heavily pulled up by the £2000 outlier — not representative.')">Mean</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','Excellent! The median (£220) is unaffected by the £2000 outlier and best represents the typical earnings.')">Median</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','There is no repeated value, so there is no mode in this data set.')">Mode</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','The range only measures spread, not a typical value.')">Range</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 8 – FREQUENCY TABLES -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#F0F9FF);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:1.8rem;margin-bottom:6px;">📋</div>
+      <!-- SVG: Frequency table -->
+      <svg width="260" height="185" viewBox="0 0 260 185" style="margin:0 auto;">
+        <rect x="0" y="0" width="260" height="185" rx="10" fill="white" stroke="#BAE6FD" stroke-width="2"/>
+        <!-- Header -->
+        <rect x="0" y="0" width="260" height="28" rx="10" fill="#0369A1"/>
+        <rect x="0" y="16" width="260" height="12" fill="#0369A1"/>
+        <text x="40"  y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Score</text>
+        <text x="110" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Tally</text>
+        <text x="175" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Frequency</text>
+        <text x="230" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">f × x</text>
+        <!-- Dividers -->
+        <line x1="70"  y1="0" x2="70"  y2="185" stroke="#E0F2FE" stroke-width="1"/>
+        <line x1="145" y1="0" x2="145" y2="185" stroke="#E0F2FE" stroke-width="1"/>
+        <line x1="205" y1="0" x2="205" y2="185" stroke="#E0F2FE" stroke-width="1"/>
+        <!-- Row 1 -->
+        <rect x="0" y="28" width="260" height="26" fill="#F0F9FF"/>
+        <text x="40"  y="45" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">1</text>
+        <text x="107" y="45" text-anchor="middle" fill="#0C4A6E" font-size="11">||</text>
+        <text x="175" y="45" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">2</text>
+        <text x="230" y="45" text-anchor="middle" fill="#0C4A6E" font-size="11">2</text>
+        <!-- Row 2 -->
+        <text x="40"  y="71" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">2</text>
+        <text x="107" y="71" text-anchor="middle" fill="#0C4A6E" font-size="11">||||</text>
+        <text x="175" y="71" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">4</text>
+        <text x="230" y="71" text-anchor="middle" fill="#0C4A6E" font-size="11">8</text>
+        <!-- Row 3 -->
+        <rect x="0" y="80" width="260" height="26" fill="#F0F9FF"/>
+        <text x="40"  y="97" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">3</text>
+        <text x="107" y="97" text-anchor="middle" fill="#0C4A6E" font-size="10">|||| |</text>
+        <text x="175" y="97" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">6</text>
+        <text x="230" y="97" text-anchor="middle" fill="#0C4A6E" font-size="11">18</text>
+        <!-- Row 4 -->
+        <text x="40"  y="123" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">4</text>
+        <text x="107" y="123" text-anchor="middle" fill="#0C4A6E" font-size="11">|||</text>
+        <text x="175" y="123" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">3</text>
+        <text x="230" y="123" text-anchor="middle" fill="#0C4A6E" font-size="11">12</text>
+        <!-- Row 5 -->
+        <rect x="0" y="132" width="260" height="26" fill="#F0F9FF"/>
+        <text x="40"  y="149" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">5</text>
+        <text x="107" y="149" text-anchor="middle" fill="#0C4A6E" font-size="11">|</text>
+        <text x="175" y="149" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">1</text>
+        <text x="230" y="149" text-anchor="middle" fill="#0C4A6E" font-size="11">5</text>
+        <!-- Totals -->
+        <line x1="0" y1="158" x2="260" y2="158" stroke="#0369A1" stroke-width="1.5"/>
+        <text x="100" y="173" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="700">Total freq: 16</text>
+        <text x="230" y="173" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">45</text>
+        <text x="175" y="173" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">Σf·x =</text>
+      </svg>
+      <div style="font-size:.72rem;font-weight:700;color:#0369A1;margin-top:3px;">Mean = 45 ÷ 16 = 2.8125</div>
+      <div class="illus-caption">Frequency tables organise large data sets efficiently</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · Frequency Tables</div>
+      <div class="story-text">
+        Back at the lab, Dr Rex had collected data from 16 weather sensors, each reporting a storm severity score from 1 to 5. "With this many readings," he said, "a raw list becomes unwieldy. A <strong>frequency table</strong> organises the data clearly."<br><br>
+        A frequency table records each possible value and how many times it appears — the <em>frequency</em>. To calculate the mean from a frequency table, multiply each value by its frequency (f × x), sum all those products, then divide by the total frequency. This technique is far more efficient than listing every single data point and is essential for large data sets used in professional research.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📊</span>
+          <span class="math-callout-title">Mean from a Frequency Table</span>
+        </div>
+        <p><strong>Mean = Σ(f × x) ÷ Σf</strong><br>
+        where Σ means "sum of all".<br><br>
+        From the table: Σ(f × x) = 2+8+18+12+5 = <strong>45</strong><br>
+        Total frequency Σf = 2+4+6+3+1 = <strong>16</strong><br>
+        Mean = 45 ÷ 16 = <strong>2.8125 ≈ 2.8</strong></p>
+      </div>
+      <div class="think-box" id="think-page8">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A frequency table shows: value 2 appears 3 times, value 4 appears 5 times, value 6 appears 2 times. What is the mean?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','You may have only averaged the values without using frequencies. Σ(f×x) = 6+20+12=38, Σf=10, mean=3.8.')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'correct','Correct! Σ(f×x) = (2×3)+(4×5)+(6×2) = 6+20+12 = 38. Σf = 3+5+2 = 10. Mean = 38÷10 = 3.8.')">3.8</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','That is just the middle value. Use Σ(f×x) ÷ Σf.')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','Check: 6+20+12=38, divided by total frequency 10 = 3.8.')">5</button>
+        </div>
+        <div class="think-result" id="think-page8-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 9 – BAR CHARTS AND HISTOGRAMS -->
+  <div class="book-page" id="page-9">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE);">
+      <div class="page-num-illus">Page 9</div>
+      <div style="font-size:1.8rem;margin-bottom:4px;">📈</div>
+      <!-- SVG: Grouped bar chart (two groups: City A and City B, 4 months) -->
+      <svg width="255" height="175" viewBox="0 0 255 175" style="margin:0 auto;">
+        <text x="127" y="14" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Monthly Rainfall (mm) — Two Cities</text>
+        <!-- Axes -->
+        <line x1="30" y1="20" x2="30" y2="145" stroke="#0369A1" stroke-width="2"/>
+        <line x1="30" y1="145" x2="248" y2="145" stroke="#0369A1" stroke-width="2"/>
+        <!-- Y labels -->
+        <text x="26" y="148" text-anchor="end" fill="#0369A1" font-size="9">0</text>
+        <text x="26" y="120" text-anchor="end" fill="#0369A1" font-size="9">20</text>
+        <text x="26" y="92"  text-anchor="end" fill="#0369A1" font-size="9">40</text>
+        <text x="26" y="64"  text-anchor="end" fill="#0369A1" font-size="9">60</text>
+        <text x="26" y="36"  text-anchor="end" fill="#0369A1" font-size="9">80</text>
+        <!-- Gridlines -->
+        <line x1="30" y1="120" x2="248" y2="120" stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="92"  x2="248" y2="92"  stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="64"  x2="248" y2="64"  stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
+        <line x1="30" y1="36"  x2="248" y2="36"  stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- Group 1: Jan (City A=40mm, City B=55mm) -->
+        <rect x="38"  y="95"  width="18" height="50" fill="#0EA5E9" rx="2"/>
+        <rect x="58"  y="76"  width="18" height="69" fill="#7DD3FC" rx="2"/>
+        <text x="57"  y="158" text-anchor="middle" fill="#0369A1" font-size="9">Jan</text>
+        <!-- Group 2: Feb (A=30, B=45) -->
+        <rect x="88"  y="109" width="18" height="36" fill="#0EA5E9" rx="2"/>
+        <rect x="108" y="95"  width="18" height="50" fill="#7DD3FC" rx="2"/>
+        <text x="107" y="158" text-anchor="middle" fill="#0369A1" font-size="9">Feb</text>
+        <!-- Group 3: Mar (A=60, B=35) -->
+        <rect x="138" y="64"  width="18" height="81" fill="#0EA5E9" rx="2"/>
+        <rect x="158" y="103" width="18" height="42" fill="#7DD3FC" rx="2"/>
+        <text x="157" y="158" text-anchor="middle" fill="#0369A1" font-size="9">Mar</text>
+        <!-- Group 4: Apr (A=25, B=70) -->
+        <rect x="188" y="117" width="18" height="28" fill="#0EA5E9" rx="2"/>
+        <rect x="208" y="53"  width="18" height="92" fill="#7DD3FC" rx="2"/>
+        <text x="207" y="158" text-anchor="middle" fill="#0369A1" font-size="9">Apr</text>
+        <!-- Legend -->
+        <rect x="35"  y="165" width="10" height="8" fill="#0EA5E9" rx="1"/>
+        <text x="48"  y="173" fill="#0369A1" font-size="9" font-weight="600">City A</text>
+        <rect x="110" y="165" width="10" height="8" fill="#7DD3FC" rx="1"/>
+        <text x="123" y="173" fill="#0369A1" font-size="9" font-weight="600">City B</text>
+      </svg>
+      <div class="illus-caption">Grouped bar charts compare two data sets at once</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 9 · Bar Charts and Histograms</div>
+      <div class="story-text">
+        Dr Vera pinned a grouped bar chart to the lab wall, displaying monthly rainfall data for two cities. "Visual representations of data," she explained, "allow us to identify patterns and trends far more rapidly than staring at raw numbers." A well-constructed chart communicates in seconds what a table might take minutes to convey.<br><br>
+        In a <strong>grouped bar chart</strong>, two or more bars are placed side by side within each category, enabling direct comparison. Reading such charts requires attention to the key or legend, the scale on the vertical axis, and the labels along the horizontal axis. Dr Rex noted that City A had its highest rainfall in March, while City B's peak was in April — a critical difference that would affect flood-risk assessments.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📊</span>
+          <span class="math-callout-title">Reading Bar Charts</span>
+        </div>
+        <p>Steps to interpret a bar chart:<br>
+        1. Read the <strong>title</strong> — what data is shown?<br>
+        2. Check the <strong>y-axis scale</strong> — what do the heights represent?<br>
+        3. Read each <strong>bar height</strong> accurately.<br>
+        4. Look for the <strong>highest, lowest, and trends</strong>.<br>
+        5. Compare groups using the <strong>legend/key</strong>.</p>
+      </div>
+      <div class="think-box" id="think-page9">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">From the chart above: In which month did City A and City B have the <em>closest</em> rainfall totals to each other?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','In Jan, City A=40 and City B=55 — a difference of 15mm.')">January</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'correct','Correct! In February, City A=30mm and City B=45mm — closest gap of 15mm, but the bars are most visually similar. More precisely, Feb gap=15, Jan gap=15, Mar gap=25, Apr gap=45 — Jan and Feb are equally close.')">February</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','In March, City A=60 and City B=35 — a difference of 25mm.')">March</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','In April, the gap is the largest — City B is 70mm vs City A at 25mm.')">April</button>
+        </div>
+        <div class="think-result" id="think-page9-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 10 – COMPARING TWO DATA SETS -->
+  <div class="book-page" id="page-10">
+    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#F0F9FF);">
+      <div class="page-num-illus">Page 10</div>
+      <div style="font-size:1.8rem;margin-bottom:6px;">📉</div>
+      <!-- SVG: Back-to-back comparison of two classes -->
+      <svg width="255" height="180" viewBox="0 0 255 180" style="margin:0 auto;">
+        <text x="127" y="15" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Test Score Comparison: Class X vs Class Y</text>
+        <rect x="5" y="22" width="115" height="80" rx="8" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1.5"/>
+        <rect x="130" y="22" width="120" height="80" rx="8" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
+        <text x="62"  y="38" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Class X</text>
+        <text x="190" y="38" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">Class Y</text>
+        <text x="62"  y="54" text-anchor="middle" fill="#0C4A6E" font-size="10">{55, 60, 65, 70, 75}</text>
+        <text x="190" y="54" text-anchor="middle" fill="#0C4A6E" font-size="10">{40, 58, 65, 72, 90}</text>
+        <text x="62"  y="70" text-anchor="middle" fill="#0369A1" font-size="10">Mean = <tspan font-weight="700">65</tspan></text>
+        <text x="190" y="70" text-anchor="middle" fill="#059669" font-size="10">Mean = <tspan font-weight="700">65</tspan></text>
+        <text x="62"  y="86" text-anchor="middle" fill="#0369A1" font-size="10">Range = <tspan font-weight="700">20</tspan></text>
+        <text x="190" y="86" text-anchor="middle" fill="#059669" font-size="10">Range = <tspan font-weight="700">50</tspan></text>
+        <!-- Conclusion -->
+        <rect x="5" y="112" width="245" height="62" rx="8" fill="white" stroke="#BAE6FD" stroke-width="1.5"/>
+        <text x="127" y="128" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Statistical Conclusion</text>
+        <text x="127" y="144" text-anchor="middle" fill="#0C4A6E" font-size="10">Both classes have the same mean (65).</text>
+        <text x="127" y="158" text-anchor="middle" fill="#0C4A6E" font-size="10">Class X is more consistent (range 20).</text>
+        <text x="127" y="172" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">Class Y is more variable (range 50).</text>
+      </svg>
+      <div class="illus-caption">Same mean but very different ranges — statistics reveals the full story</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 10 · Comparing Two Data Sets</div>
+      <div class="story-text">
+        Dr Rex placed the test results from two school classes side by side. "This," he said, "is where statistics becomes truly powerful — not just describing one data set, but <em>comparing</em> two to draw meaningful conclusions." Both classes had a mean score of <strong>65</strong>, which might suggest identical performance. But the ranges told a very different story.<br><br>
+        Class X had scores {55, 60, 65, 70, 75} with a range of only <strong>20</strong> — a consistent, reliable group. Class Y had scores {40, 58, 65, 72, 90} with a range of <strong>50</strong> — a wide spread indicating some very strong and some struggling students. A teacher reading only the mean would miss this crucial difference entirely.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⚖️</span>
+          <span class="math-callout-title">Comparing Data Sets</span>
+        </div>
+        <p>To compare two data sets, calculate and compare:<br>
+        1. <strong>Mean</strong> — which group performed better on average?<br>
+        2. <strong>Range</strong> — which group is more consistent?<br>
+        3. <strong>Median</strong> — what is the typical middle performance?<br><br>
+        A smaller range = more consistent. A larger range = more variable.</p>
+      </div>
+      <div class="think-box" id="think-page10">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Team A sprint times (seconds): {11, 12, 12, 13, 12}. Team B: {9, 11, 12, 14, 14}. Calculate the mean and range for each. Which team is more consistent?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'correct','Correct! Team A: mean=60÷5=12, range=13−11=2. Team B: mean=60÷5=12, range=14−9=5. Same mean, but Team A range=2 vs Team B range=5 — Team A is more consistent.')">Team A — same mean, smaller range</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','Both teams actually have the same mean of 12 seconds.')">Team B — higher mean</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','Team B has a range of 5 seconds vs Team A range of 2 — Team A is more consistent.')">Team B — smaller range</button>
+          <button class="think-btn" onclick="checkAnswer('think-page10',this,'wrong','Their means are identical at 12 seconds each.')">Neither — their means differ</button>
+        </div>
+        <div class="think-result" id="think-page10-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 11 – THE MYSTERY SOLVED -->
+  <div class="book-page" id="page-11">
+    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">
+      <div class="page-num-illus">Page 11</div>
+      <div style="font-size:1.8rem;margin-bottom:4px;">🔍</div>
+      <!-- SVG: Temperature anomaly data set with annotations -->
+      <svg width="255" height="185" viewBox="0 0 255 185" style="margin:0 auto;">
+        <text x="127" y="14" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Temperature Anomaly Analysis</text>
+        <!-- Data table: 10 days of anomalies -->
+        <rect x="5" y="20" width="245" height="100" rx="8" fill="white" stroke="#BAE6FD" stroke-width="1.5"/>
+        <text x="127" y="37" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="700">Anomalies (°C above normal): 10 stations</text>
+        <text x="127" y="52" text-anchor="middle" fill="#0C4A6E" font-size="11">{2, 5, 2, 8, 2, 11, 2, 14, 2, 17}</text>
+        <line x1="20" y1="60" x2="235" y2="60" stroke="#E0F2FE" stroke-width="1"/>
+        <text x="50"  y="75" text-anchor="middle" fill="#0369A1" font-size="10">Ordered:</text>
+        <text x="160" y="75" text-anchor="middle" fill="#0C4A6E" font-size="10">{2,2,2,2,2,5,8,11,14,17}</text>
+        <text x="50"  y="90" text-anchor="middle" fill="#0369A1" font-size="10">Mode:</text>
+        <text x="160" y="90" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">2°C</text>
+        <text x="50"  y="105" text-anchor="middle" fill="#0369A1" font-size="10">Median:</text>
+        <text x="160" y="105" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">(2+5)÷2 = 3.5°C</text>
+        <text x="50"  y="120" text-anchor="middle" fill="#0369A1" font-size="10">Mean:</text>
+        <text x="160" y="120" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">65÷10 = 6.5°C</text>
+        <!-- Mystery box -->
+        <rect x="5" y="130" width="245" height="50" rx="8" fill="#FEF2F2" stroke="#F87171" stroke-width="1.5"/>
+        <text x="127" y="147" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">The Pattern Revealed!</text>
+        <text x="127" y="162" text-anchor="middle" fill="#0C4A6E" font-size="10">5 stations normal (2°C), 5 increasing by +3°C each</text>
+        <text x="127" y="176" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">Mean pulled high by outliers — median tells the truth</text>
+      </svg>
+      <div class="illus-caption">Statistics reveals the hidden temperature anomaly pattern</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 11 · The Data Mystery Solved</div>
+      <div class="story-text">
+        Dr Vera laid out all the temperature anomaly data from ten monitoring stations: <strong>{2, 5, 2, 8, 2, 11, 2, 14, 2, 17}</strong>. "Notice anything?" she asked. Dr Rex studied the ordered set carefully. Five stations showed exactly 2°C above normal, while the other five showed 5, 8, 11, 14, and 17 — increasing by 3°C each time.<br><br>
+        The <strong>mode</strong> was 2°C — misleadingly suggesting most stations were normal. The <strong>mean</strong> was 6.5°C — inflated by the high outliers. But the <strong>median</strong> was 3.5°C — and the <em>range</em> of 15°C revealed the dramatic spread. "There is a systematic fault at exactly five stations," declared Dr Vera triumphantly. "Each faulty sensor reads 3°C higher than the previous. Statistics has solved our mystery."
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔍</span>
+          <span class="math-callout-title">Full Statistical Analysis</span>
+        </div>
+        <p>Data: {2, 5, 2, 8, 2, 11, 2, 14, 2, 17}<br>
+        Ordered: {2, 2, 2, 2, 2, 5, 8, 11, 14, 17}<br>
+        <strong>Mode</strong> = 2 (appears 5 times)<br>
+        <strong>Median</strong> = (2+5) ÷ 2 = <strong>3.5</strong> (positions 5 and 6)<br>
+        <strong>Mean</strong> = 65 ÷ 10 = <strong>6.5</strong><br>
+        <strong>Range</strong> = 17 − 2 = <strong>15</strong></p>
+      </div>
+      <div class="think-box" id="think-page11">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A different data set from a new sensor grid: <strong>{4, 4, 4, 4, 4, 4, 10, 16, 22, 28}</strong>. Calculate the mode, median, mean, and range. Which average best represents the typical sensor reading?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','Mode=4, but mean=(100÷10)=10, median=(4+10)÷2=7. The median (7) best represents the central tendency without being pulled by outliers.')">Mean = 10, best measure</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'correct','Excellent! Mode=4, Median=(4+10)÷2=7, Mean=100÷10=10, Range=28−4=24. The median (7) best represents a typical reading — the mean is pulled upward by the high outliers 10–28.')">Median = 7, best measure</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','Mode=4 is the most frequent, but 6 of 10 values are above 4 — it underrepresents the data.')">Mode = 4, best measure</button>
+          <button class="think-btn" onclick="checkAnswer('think-page11',this,'wrong','Range measures spread, not a typical value.')">Range = 24, best measure</button>
+        </div>
+        <div class="think-result" id="think-page11-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 12 – END CARD -->
+  <div class="book-page" id="page-12">
+    <div class="illustration" style="background:linear-gradient(135deg,#0369A1,#6D28D9);">
+      <div class="page-num-illus" style="background:rgba(255,255,255,.2);color:white;">Page 12</div>
+      <div style="font-size:4rem;margin-bottom:8px;">🏆</div>
+      <div style="font-size:2.5rem;margin:4px 0;">📊</div>
+      <div style="color:white;font-family:'Quicksand',sans-serif;font-size:1.4rem;font-weight:700;text-align:center;margin:8px 0;">Data Scientist<br>Badge</div>
+      <div style="color:rgba(255,255,255,.85);font-size:.9rem;text-align:center;line-height:1.6;padding:0 12px;">
+        Mean · Median · Mode · Range<br>
+        Frequency Tables · Bar Charts<br>
+        Comparing Data Sets
+      </div>
+      <div style="font-size:2rem;margin-top:12px;">👩‍🔬 🧑‍🔬</div>
+      <div style="color:rgba(255,255,255,.7);font-size:.8rem;margin-top:8px;">Cambridge St6.01 — Complete</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 12 · Mission Complete</div>
+      <div class="story-text">
+        Dr Vera and Dr Rex presented their findings to the mayor the following morning. Using the full toolkit of statistics — <strong>mean, median, mode, range, frequency tables, and data visualisations</strong> — they had not only identified the faulty sensors but had pinpointed the exact pattern of the anomaly.<br><br>
+        "Statistics is not merely about numbers," Dr Vera told the assembled audience. "It is about transforming raw data into <em>understanding</em> — finding the signal within the noise." The mayor thanked them warmly, and the city's monitoring system was repaired by that afternoon.<br><br>
+        You have now mastered the essential tools of statistics. Every data scientist in the world uses exactly these techniques — and now, so do you.
+      </div>
+      <div class="math-callout" style="background:#ECFDF5;border-color:var(--green);">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title" style="color:var(--green-dark);">Statistics — Complete Summary</span>
+        </div>
+        <p>
+        ✅ <strong>Mode</strong> = most frequent value<br>
+        ✅ <strong>Median</strong> = middle value (ordered data)<br>
+        ✅ <strong>Mean</strong> = sum ÷ count<br>
+        ✅ <strong>Range</strong> = highest − lowest<br>
+        ✅ <strong>Frequency tables</strong>: mean = Σ(f·x) ÷ Σf<br>
+        ✅ Compare sets using <strong>mean AND range</strong> together
+        </p>
+      </div>
+      <div style="margin-top:8px;">
+        <button class="end-btn" onclick="finishBook()" style="background:var(--blue);border:none;box-shadow:0 3px 0 var(--blue-dark);padding:14px 28px;border-radius:9999px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;color:white;cursor:pointer;">🏆 Claim Your Badge</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🎉📊🏆</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Outstanding work! You have completed <strong>The Statistics Saga</strong> and mastered mean, median, mode, range, frequency tables, and data comparison. Dr Vera and Dr Rex would be proud!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">📊</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Data Scientist Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Statistics Saga</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 12;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  // Mark completion in localStorage
+  try {
+    const user = JSON.parse(localStorage.getItem('mm_user') || '{}');
+    const key = 'mm_complete_the-statistics-saga';
+    localStorage.setItem(key, '1');
+    if (user.badges) { user.badges.push('data-scientist'); localStorage.setItem('mm_user', JSON.stringify(user)); }
+  } catch(e) {}
+
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+// Resume from ?p= query param (set by "Continue Reading" links)
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+// ── AUDIO NARRATION (Web Speech API) ──
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+// Auto-stop narration when page turns
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

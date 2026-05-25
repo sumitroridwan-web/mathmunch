@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Area Adventure – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+  --accent:#10B981; --accent-dark:#059669; --accent-light:#ECFDF5;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #A7F3D0;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:9999px;transition:width .5s ease;}
+
+/* OPEN BOOK */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:4px;flex-wrap:wrap;}
+.char{font-size:3rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.2rem;}
+.char-xs{font-size:1.8rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL */
+.story-panel{display:flex;flex-direction:column;gap:16px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--blue-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 18px;font-size:.95rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--accent);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--accent-light);border:2px solid var(--accent);border-radius:16px;padding:16px 18px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.93rem;color:var(--text-mid);line-height:1.6;}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:16px 18px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #BFDBFE;border-radius:12px;padding:11px 12px;font-size:.88rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--blue);background:var(--blue-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.88rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#059669,#0EA5E9);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(5,150,105,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#A7F3D0;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#059669,#0EA5E9);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* CELEBRATION BOX */
+.celebration-box{background:linear-gradient(135deg,var(--accent-light),#D1FAE5);border:2px solid var(--accent);border-radius:16px;padding:18px 20px;text-align:center;}
+.celebration-box p{font-size:1rem;font-weight:700;color:var(--accent-dark);line-height:1.6;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">📐</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav" style="display:flex;gap:8px;">
+      <a href="../dashboard.html">📊 My Journey</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Area Adventure
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 The Area Adventure</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">📐 Area</span>
+        <span class="book-tag">📏 Perimeter</span>
+        <span class="book-tag">🏗️ Building</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:#93C5FD;">Age 8–9</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 10</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:10%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- PAGE 1 – COVER -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">📐</span>
+      <div class="cover-title">The Area Adventure</div>
+      <div class="cover-subtitle">Join Architect Aisha and Builder Ben as they design a school garden using the power of area and perimeter</div>
+      <div class="cover-chars">👩‍🏫 👷 🧓</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 10 Pages</span>
+        <span class="cover-tag">📐 Area &amp; Perimeter</span>
+        <span class="cover-tag">Age 8–9</span>
+        <span class="cover-tag">Cambridge Gm4.01</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 – WHAT IS AREA? -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:2rem;margin-bottom:8px;">👩‍🏫 👷</div>
+      <!-- Simple 5x4 garden grid SVG -->
+      <svg width="200" height="165" viewBox="0 0 200 165" style="margin:0 auto;">
+        <!-- Grid 5 cols x 4 rows, each cell 36x36 -->
+        <!-- Row 0 -->
+        <rect x="10" y="10" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <rect x="48" y="10" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <rect x="86" y="10" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <rect x="124" y="10" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <rect x="162" y="10" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <!-- Row 1 -->
+        <rect x="10" y="48" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <rect x="48" y="48" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <rect x="86" y="48" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <rect x="124" y="48" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <rect x="162" y="48" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <!-- Row 2 -->
+        <rect x="10" y="86" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <rect x="48" y="86" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <rect x="86" y="86" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <rect x="124" y="86" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <rect x="162" y="86" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <!-- Row 3 -->
+        <rect x="10" y="124" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <rect x="48" y="124" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <rect x="86" y="124" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <rect x="124" y="124" width="36" height="36" rx="2" fill="#86EFAC" stroke="#059669" stroke-width="1.5"/>
+        <rect x="162" y="124" width="36" height="36" rx="2" fill="#4ADE80" stroke="#059669" stroke-width="1.5"/>
+        <!-- Labels -->
+        <text x="100" y="158" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">5 columns × 4 rows = 20 squares</text>
+      </svg>
+      <div style="font-family:'Quicksand',sans-serif;font-size:.85rem;font-weight:700;color:#065F46;text-align:center;margin-top:4px;">Each square = 1 m²</div>
+      <div class="illus-caption">The school garden plan — 5 × 4 grid</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · The Garden Plan — What Is Area?</div>
+      <div class="story-text">
+        <strong>Architect Aisha</strong> and <strong>Builder Ben</strong> had been given an exciting project: designing a new school garden for <em>Mr. Park</em>, the school's head teacher.<br><br>
+        Mr. Park wanted the garden to have a vegetable patch, a flower bed, a small pond, and a winding path. He spread out the plan on a big table, and both Aisha and Ben leaned in to look carefully.<br><br>
+        The plan showed a large grid, where each small square represented exactly one square metre of ground. Aisha pointed to the grid and said, <strong>"To work out how much space each section takes up, we need to calculate its AREA."</strong><br><br>
+        <em>"Area tells us the amount of flat space inside any shape,"</em> Aisha explained to Ben. <em>"We measure area in square units — square centimetres (cm²) or, for a garden like this, square metres (m²)."</em>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📐</span>
+          <span class="math-callout-title">Maths Word: Area</span>
+        </div>
+        <p><strong>AREA</strong> is the amount of space inside a shape.<br>
+        We measure it in square units (cm², m²).<br>
+        Count the squares — or use a formula!</p>
+      </div>
+
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">A grid has <strong>4 rows</strong> and <strong>3 columns</strong> of squares. How many squares in total?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','7 is 4 + 3, but we need to multiply, not add!')">7</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','10 is not correct — try counting 4 rows of 3 squares each!')">10</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','4 × 3 = 12 squares. Area = length × width!')">12</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','14 is too many — count the rows and columns again!')">14</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3 – VEGETABLE PATCH -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:2rem;margin-bottom:8px;">👩‍🏫</div>
+      <!-- 6x4 grid numbered SVG -->
+      <svg width="200" height="145" viewBox="0 0 200 145" style="margin:0 auto;">
+        <!-- 6 cols x 4 rows, each cell 30x30 -->
+        <!-- Generate grid with numbers -->
+        <rect x="5" y="5" width="190" height="130" rx="6" fill="white" stroke="#059669" stroke-width="2"/>
+        <!-- Row 0: cells 1-6 -->
+        <rect x="8" y="8" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="22" y="27" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">1</text>
+        <rect x="39" y="8" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="53" y="27" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">2</text>
+        <rect x="70" y="8" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="84" y="27" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">3</text>
+        <rect x="101" y="8" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="115" y="27" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">4</text>
+        <rect x="132" y="8" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="146" y="27" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">5</text>
+        <rect x="163" y="8" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="177" y="27" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">6</text>
+        <!-- Row 1: 7-12 -->
+        <rect x="8" y="39" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="22" y="58" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">7</text>
+        <rect x="39" y="39" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="53" y="58" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">8</text>
+        <rect x="70" y="39" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="84" y="58" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">9</text>
+        <rect x="101" y="39" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="115" y="58" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">10</text>
+        <rect x="132" y="39" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="146" y="58" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">11</text>
+        <rect x="163" y="39" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="177" y="58" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">12</text>
+        <!-- Row 2: 13-18 -->
+        <rect x="8" y="70" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="22" y="89" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">13</text>
+        <rect x="39" y="70" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="53" y="89" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">14</text>
+        <rect x="70" y="70" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="84" y="89" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">15</text>
+        <rect x="101" y="70" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="115" y="89" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">16</text>
+        <rect x="132" y="70" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="146" y="89" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">17</text>
+        <rect x="163" y="70" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="177" y="89" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">18</text>
+        <!-- Row 3: 19-24 -->
+        <rect x="8" y="101" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="22" y="120" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">19</text>
+        <rect x="39" y="101" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="53" y="120" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">20</text>
+        <rect x="70" y="101" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="84" y="120" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">21</text>
+        <rect x="101" y="101" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="115" y="120" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">22</text>
+        <rect x="132" y="101" width="29" height="29" rx="2" fill="#4ADE80"/>
+        <text x="146" y="120" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">23</text>
+        <rect x="163" y="101" width="29" height="29" rx="2" fill="#86EFAC"/>
+        <text x="177" y="120" text-anchor="middle" fill="#065F46" font-size="10" font-weight="700">24</text>
+      </svg>
+      <div style="font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;color:#059669;text-align:center;">6 m × 4 m = 24 m²</div>
+      <div class="illus-caption">24 squares counted — the vegetable patch</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · The Vegetable Patch</div>
+      <div class="story-text">
+        The first section of the garden was the vegetable patch — a large rectangular area where Mr. Park wanted to grow tomatoes, carrots, and lettuce.<br><br>
+        Aisha measured it carefully: <strong>6 metres long</strong> and <strong>4 metres wide</strong>. She drew it on the grid plan, and both she and Ben counted the squares — there were twenty-four in total.<br><br>
+        <em>"Counting every square works,"</em> Ben said, <em>"but it would take forever for a really big garden!"</em><br><br>
+        Aisha smiled. <strong>"That is exactly why we have a formula. For any rectangle, Area = Length × Width. Six times four equals twenty-four square metres — done in one step."</strong><br><br>
+        Ben wrote <strong>24 m²</strong> on the garden plan with a green marker. The vegetable patch was officially measured.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📐</span>
+          <span class="math-callout-title">Rectangle Area Formula</span>
+        </div>
+        <p><strong>RECTANGLE AREA = Length × Width</strong><br>
+        A 6 m × 4 m vegetable patch has area = 6 × 4 = <strong>24 m²</strong>.<br>
+        The square unit (m²) tells us area is measured in squares.</p>
+      </div>
+
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">A rectangle is <strong>5 m long</strong> and <strong>3 m wide</strong>. What is its area?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','8 m² is 5 + 3 — remember, we multiply, not add, to find area!')">8 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','13 m² is not correct — use the formula: Length × Width!')">13 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Area = 5 × 3 = 15 m². Multiply length by width!')">15 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','20 m² is too large — check 5 × 3 carefully!')">20 m²</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4 – THE FLOWER BED -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:2rem;margin-bottom:8px;">👩‍🏫 👷</div>
+      <!-- 8x2 flower bed SVG -->
+      <svg width="210" height="90" viewBox="0 0 210 90" style="margin:0 auto;">
+        <!-- 8 wide x 2 tall, cells ~24x24 -->
+        <rect x="5" y="5" width="200" height="54" rx="6" fill="white" stroke="#059669" stroke-width="2"/>
+        <!-- Row 1 -->
+        <rect x="8" y="8" width="23" height="23" rx="2" fill="#FDE68A"/>
+        <text x="19" y="23" text-anchor="middle" font-size="13">🌸</text>
+        <rect x="33" y="8" width="23" height="23" rx="2" fill="#FDE68A"/>
+        <text x="44" y="23" text-anchor="middle" font-size="13">🌼</text>
+        <rect x="58" y="8" width="23" height="23" rx="2" fill="#FDE68A"/>
+        <text x="69" y="23" text-anchor="middle" font-size="13">🌺</text>
+        <rect x="83" y="8" width="23" height="23" rx="2" fill="#FDE68A"/>
+        <text x="94" y="23" text-anchor="middle" font-size="13">🌸</text>
+        <rect x="108" y="8" width="23" height="23" rx="2" fill="#FDE68A"/>
+        <text x="119" y="23" text-anchor="middle" font-size="13">🌼</text>
+        <rect x="133" y="8" width="23" height="23" rx="2" fill="#FDE68A"/>
+        <text x="144" y="23" text-anchor="middle" font-size="13">🌺</text>
+        <rect x="158" y="8" width="23" height="23" rx="2" fill="#FDE68A"/>
+        <text x="169" y="23" text-anchor="middle" font-size="13">🌸</text>
+        <rect x="183" y="8" width="23" height="23" rx="2" fill="#FDE68A"/>
+        <text x="194" y="23" text-anchor="middle" font-size="13">🌼</text>
+        <!-- Row 2 -->
+        <rect x="8" y="33" width="23" height="23" rx="2" fill="#FCD34D"/>
+        <text x="19" y="48" text-anchor="middle" font-size="13">🌺</text>
+        <rect x="33" y="33" width="23" height="23" rx="2" fill="#FCD34D"/>
+        <text x="44" y="48" text-anchor="middle" font-size="13">🌸</text>
+        <rect x="58" y="33" width="23" height="23" rx="2" fill="#FCD34D"/>
+        <text x="69" y="48" text-anchor="middle" font-size="13">🌼</text>
+        <rect x="83" y="33" width="23" height="23" rx="2" fill="#FCD34D"/>
+        <text x="94" y="48" text-anchor="middle" font-size="13">🌺</text>
+        <rect x="108" y="33" width="23" height="23" rx="2" fill="#FCD34D"/>
+        <text x="119" y="48" text-anchor="middle" font-size="13">🌸</text>
+        <rect x="133" y="33" width="23" height="23" rx="2" fill="#FCD34D"/>
+        <text x="144" y="48" text-anchor="middle" font-size="13">🌼</text>
+        <rect x="158" y="33" width="23" height="23" rx="2" fill="#FCD34D"/>
+        <text x="169" y="48" text-anchor="middle" font-size="13">🌺</text>
+        <rect x="183" y="33" width="23" height="23" rx="2" fill="#FCD34D"/>
+        <text x="194" y="48" text-anchor="middle" font-size="13">🌸</text>
+        <text x="105" y="72" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">8 m × 2 m = 16 m²</text>
+      </svg>
+      <div style="font-size:.85rem;font-weight:700;color:#065F46;text-align:center;margin-top:4px;">4 × 4 = 16 m² — same area, different shape!</div>
+      <div class="illus-caption">The flower bed: 8×2 = 16 m²</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · The Flower Bed — Area Equivalence</div>
+      <div class="story-text">
+        The flower bed was the most colourful section of the garden plan. Mr. Park wanted it packed with roses, daisies, and tulips. Aisha had designed it as a long, narrow rectangle: <strong>8 metres long and 2 metres wide</strong>.<br><br>
+        <em>"Area equals eight times two, which is sixteen square metres,"</em> Ben said confidently, writing it down.<br><br>
+        <em>"Good!"</em> said Aisha. <em>"Now here is something interesting. What if the flower bed were a square instead — four metres by four metres? What would the area be then?"</em><br><br>
+        Ben calculated quickly: 4 × 4 = 16 m². Exactly the same! He looked surprised. <strong>"Both shapes have an area of 16 m², but they look completely different. One is long and thin, the other is a square."</strong><br><br>
+        Aisha nodded. <em>"That is called area equivalence — different shapes can have equal areas. The shape changes, but the amount of space inside stays the same."</em>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔁</span>
+          <span class="math-callout-title">Area Equivalence</span>
+        </div>
+        <p>Area = 8 × 2 = <strong>16 m²</strong>. Notice: 8 × 2 = 4 × 4 = 16.<br>
+        Both rectangles have the <strong>same area</strong> but different shapes!<br>
+        This is called <strong>area equivalence</strong>.</p>
+      </div>
+
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">Two rectangles: <strong>8 × 2</strong> and <strong>4 × 4</strong>. Which has the bigger area?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','8×2 = 16 m², but 4×4 also equals 16 m² — they are the same!')">8 × 2 is bigger</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Both equal 16 m²! Same area, different shape. This is area equivalence!')">They are equal</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','4×4 = 16 m², but so does 8×2 — they are the same!')">4 × 4 is bigger</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','We can calculate both — 8×2=16 and 4×4=16, so we can tell!')">Cannot tell</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5 – THE POND -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:2rem;margin-bottom:8px;">🧓 👩‍🏫</div>
+      <!-- Pond SVG with missing dimension -->
+      <svg width="200" height="160" viewBox="0 0 200 160" style="margin:0 auto;">
+        <!-- Pond rectangle -->
+        <rect x="30" y="30" width="140" height="80" rx="8" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="2.5"/>
+        <!-- Water ripple lines -->
+        <ellipse cx="100" cy="70" rx="50" ry="20" fill="none" stroke="#7DD3FC" stroke-width="1.5"/>
+        <ellipse cx="100" cy="70" rx="30" ry="12" fill="none" stroke="#38BDF8" stroke-width="1.5"/>
+        <!-- Dimension labels -->
+        <!-- Top: 5 m (known) -->
+        <line x1="30" y1="18" x2="170" y2="18" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrowG)"/>
+        <line x1="30" y1="22" x2="30" y2="14" stroke="#0EA5E9" stroke-width="1.5"/>
+        <line x1="170" y1="22" x2="170" y2="14" stroke="#0EA5E9" stroke-width="1.5"/>
+        <text x="100" y="13" text-anchor="middle" fill="#0EA5E9" font-size="12" font-weight="700">5 m (known)</text>
+        <!-- Right: ? (unknown) -->
+        <line x1="182" y1="30" x2="182" y2="110" stroke="#059669" stroke-width="1.5"/>
+        <line x1="178" y1="30" x2="186" y2="30" stroke="#059669" stroke-width="1.5"/>
+        <line x1="178" y1="110" x2="186" y2="110" stroke="#059669" stroke-width="1.5"/>
+        <text x="195" y="74" text-anchor="middle" fill="#059669" font-size="13" font-weight="800">?</text>
+        <!-- Area label inside -->
+        <text x="100" y="68" text-anchor="middle" fill="#075985" font-size="12" font-weight="700">Area = 20 m²</text>
+        <!-- Formula below -->
+        <text x="100" y="130" text-anchor="middle" fill="#374151" font-size="11" font-weight="600">W = Area ÷ Length</text>
+        <text x="100" y="148" text-anchor="middle" fill="#059669" font-size="12" font-weight="700">W = 20 ÷ 5 = 4 m</text>
+      </svg>
+      <div class="illus-caption">Find the missing width of the pond</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · The Pond — Finding a Missing Dimension</div>
+      <div class="story-text">
+        Mr. Park had always wanted a small pond in the school garden. He told Aisha and Ben that it must have an <strong>area of exactly 20 m²</strong> to fit the number of plants he had chosen for around the edge.<br><br>
+        <em>"I also know that the pond must be 5 metres long,"</em> Mr. Park said, <em>"because of where the paths run. But I don't know how wide to make it."</em><br><br>
+        Ben scratched his head. <em>"We know the area and we know one side. How do we find the missing side?"</em><br><br>
+        Aisha reached for her pencil. <strong>"If Area = Length × Width, then Width = Area ÷ Length. We just rearrange the formula!"</strong> She wrote: Width = 20 ÷ 5 = <strong>4 metres</strong>.<br><br>
+        Ben double-checked: 5 × 4 = 20. That is correct! Mr. Park beamed with pleasure, and Aisha drew the pond on the plan — 5 metres long and 4 metres wide, with a neat blue border.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔀</span>
+          <span class="math-callout-title">Finding a Missing Dimension</span>
+        </div>
+        <p>If you know <strong>AREA</strong> and <strong>ONE SIDE</strong>, divide to find the other.<br>
+        Area = L × W, so <strong>W = Area ÷ L</strong>.<br>
+        20 ÷ 5 = <strong>4 m</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">A pond has area <strong>20 m²</strong>. It is <strong>5 m long</strong>. How wide is it?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Width = 20 ÷ 5 = 4 m. Divide area by the length you know!')">4 m</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','5 m is the length — we need to find the width using division!')">5 m</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','15 m would make the area 5 × 15 = 75 m² — far too large!')">15 m</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','25 m would make the area 5 × 25 = 125 m² — remember, we divide, not multiply!')">25 m</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6 – PERIMETER -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:2rem;margin-bottom:8px;">👷</div>
+      <!-- Rectangle with perimeter labelled -->
+      <svg width="210" height="170" viewBox="0 0 210 170" style="margin:0 auto;">
+        <!-- Rectangle 7x3 (scaled: 168x72) -->
+        <rect x="20" y="40" width="168" height="72" rx="6" fill="#D1FAE5" stroke="#059669" stroke-width="2.5"/>
+        <!-- Arrows showing direction around perimeter -->
+        <!-- Top arrow -->
+        <line x1="20" y1="28" x2="188" y2="28" stroke="#059669" stroke-width="2"/>
+        <polygon points="188,24 196,28 188,32" fill="#059669"/>
+        <text x="104" y="22" text-anchor="middle" fill="#059669" font-size="12" font-weight="700">7 m</text>
+        <!-- Bottom arrow -->
+        <line x1="188" y1="125" x2="20" y2="125" stroke="#059669" stroke-width="2"/>
+        <polygon points="20,121 12,125 20,129" fill="#059669"/>
+        <text x="104" y="142" text-anchor="middle" fill="#059669" font-size="12" font-weight="700">7 m</text>
+        <!-- Right arrow -->
+        <line x1="200" y1="40" x2="200" y2="112" stroke="#059669" stroke-width="2"/>
+        <polygon points="196,112 200,120 204,112" fill="#059669"/>
+        <text x="208" y="80" text-anchor="middle" fill="#059669" font-size="12" font-weight="700">3 m</text>
+        <!-- Left arrow -->
+        <line x1="8" y1="112" x2="8" y2="40" stroke="#059669" stroke-width="2"/>
+        <polygon points="4,40 8,32 12,40" fill="#059669"/>
+        <text x="0" y="80" text-anchor="start" fill="#059669" font-size="12" font-weight="700">3 m</text>
+        <!-- Formula -->
+        <text x="104" y="158" text-anchor="middle" fill="#374151" font-size="11" font-weight="600">P = 2 × (7 + 3) = 2 × 10 = 20 m</text>
+      </svg>
+      <div class="illus-caption">Perimeter = the path all the way around</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Perimeter — The Garden Fence</div>
+      <div class="story-text">
+        With all the garden sections planned, Ben turned to a new problem: the fence. Mr. Park needed a fence all the way around the outside of the garden to keep it safe.<br><br>
+        <em>"To order the right amount of fencing,"</em> Ben said, <em>"I need to know the total distance around the garden, not the space inside it."</em><br><br>
+        <strong>"That is the PERIMETER,"</strong> Aisha said. <em>"The perimeter is the total distance around the outside of a shape. For a rectangle, we add all four sides together."</em><br><br>
+        She drew the garden rectangle on the planning board: <strong>7 metres long and 3 metres wide</strong>. She added arrows to show the path going all the way around: 7 + 3 + 7 + 3 = 20 metres.<br><br>
+        <em>"Or,"</em> she added, <em>"we can use the formula: P = 2 × (L + W) = 2 × (7 + 3) = 2 × 10 = 20 m."</em> Ben ordered exactly 20 metres of fencing.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📏</span>
+          <span class="math-callout-title">Perimeter Formula</span>
+        </div>
+        <p><strong>PERIMETER</strong> = the total distance AROUND a shape.<br>
+        For a rectangle: <strong>P = 2 × (L + W)</strong><br>
+        P = 2 × (7 + 3) = 2 × 10 = <strong>20 m</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">A rectangle is <strong>9 m × 4 m</strong>. What is its perimeter?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','13 m is only 9 + 4 — remember, a rectangle has four sides, not two!')">13 m</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','P = 2 × (9 + 4) = 2 × 13 = 26 m. Add all four sides!')">26 m</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','36 m² is the area (9 × 4). Perimeter uses addition, not multiplication!')">36 m</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','40 m is 2 × 4 × 5 — use the correct formula: 2 × (L + W)!')">40 m</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 7 – COMPOSITE SHAPES -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:2rem;margin-bottom:8px;">👩‍🏫 👷</div>
+      <!-- L-shaped path SVG -->
+      <svg width="200" height="170" viewBox="0 0 200 170" style="margin:0 auto;">
+        <!-- Rectangle A (6x2) top section: 120x40 -->
+        <rect x="10" y="10" width="120" height="50" rx="4" fill="#86EFAC" stroke="#059669" stroke-width="2"/>
+        <text x="70" y="38" text-anchor="middle" fill="#065F46" font-size="11" font-weight="700">Rectangle A</text>
+        <text x="70" y="52" text-anchor="middle" fill="#065F46" font-size="10">6 m × 2 m = 12 m²</text>
+        <!-- Dimension labels for A -->
+        <text x="70" y="8" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">6 m</text>
+        <text x="5" y="38" text-anchor="end" fill="#059669" font-size="10" font-weight="700">2 m</text>
+        <!-- Rectangle B (4x3) lower right section: 80x60 -->
+        <rect x="50" y="62" width="80" height="75" rx="4" fill="#4ADE80" stroke="#059669" stroke-width="2"/>
+        <text x="90" y="102" text-anchor="middle" fill="#065F46" font-size="11" font-weight="700">Rectangle B</text>
+        <text x="90" y="116" text-anchor="middle" fill="#065F46" font-size="10">4 m × 3 m = 12 m²</text>
+        <!-- Dimension labels for B -->
+        <text x="155" y="103" text-anchor="start" fill="#059669" font-size="10" font-weight="700">3 m</text>
+        <text x="90" y="148" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">4 m</text>
+        <!-- Total -->
+        <text x="100" y="162" text-anchor="middle" fill="#374151" font-size="11" font-weight="700">Total = 12 + 12 = 24 m²</text>
+      </svg>
+      <div class="illus-caption">L-shaped path split into 2 rectangles</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Composite Shapes — The L-Shaped Path</div>
+      <div class="story-text">
+        The garden path wound through the garden in an L-shape — a long horizontal section along the top, then a shorter section dropping down on one side. It looked beautiful on the plan, but calculating its area was trickier than a simple rectangle.<br><br>
+        <em>"How do we find the area of an L-shape?"</em> Ben asked, turning the plan sideways and squinting at it.<br><br>
+        <strong>"We split it into rectangles!"</strong> Aisha said brightly. She drew a line across the L-shape, dividing it into two separate rectangles. <em>"Rectangle A is 6 metres by 2 metres. Rectangle B is 4 metres by 3 metres."</em><br><br>
+        Ben calculated both: 6 × 2 = 12 m² and 4 × 3 = 12 m². Then he added them: 12 + 12 = <strong>24 m²</strong>.<br><br>
+        <em>"So the rule is: split any complicated shape into rectangles, find each area, then add them up,"</em> Ben said. Aisha gave a thumbs-up.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔀</span>
+          <span class="math-callout-title">Composite Shapes</span>
+        </div>
+        <p><strong>Split</strong> composite shapes into rectangles!<br>
+        Area A = 6 × 2 = 12 m²<br>
+        Area B = 4 × 3 = 12 m²<br>
+        <strong>Total area = 12 + 12 = 24 m²</strong></p>
+      </div>
+
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">An L-shape is made of a <strong>5 × 3</strong> rectangle and a <strong>2 × 2</strong> rectangle. Total area?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','11 m² — check your calculation: 5×3=15, not 10!')">11 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','13 m² — try again: 5×3=15 and 2×2=4, add them together!')">13 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','15 m² — you calculated one rectangle, but forgot to add the second!')">15 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','(5×3) + (2×2) = 15 + 4 = 19 m²!')">19 m²</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 8 – COMPARING AREAS -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:2rem;margin-bottom:8px;">🧓 👩‍🏫</div>
+      <!-- Bar chart comparison SVG -->
+      <svg width="210" height="160" viewBox="0 0 210 160" style="margin:0 auto;">
+        <!-- Axes -->
+        <line x1="30" y1="10" x2="30" y2="130" stroke="#374151" stroke-width="2"/>
+        <line x1="30" y1="130" x2="205" y2="130" stroke="#374151" stroke-width="2"/>
+        <!-- Y-axis labels -->
+        <text x="25" y="133" text-anchor="end" fill="#6B7280" font-size="9">0</text>
+        <text x="25" y="102" text-anchor="end" fill="#6B7280" font-size="9">8</text>
+        <text x="25" y="72" text-anchor="end" fill="#6B7280" font-size="9">16</text>
+        <text x="25" y="42" text-anchor="end" fill="#6B7280" font-size="9">24</text>
+        <!-- Grid lines -->
+        <line x1="30" y1="42" x2="205" y2="42" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="30" y1="72" x2="205" y2="72" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="30" y1="102" x2="205" y2="102" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
+        <!-- Bars: veg 24m², flower 16m², pond 20m², path 24m² -->
+        <!-- Veg patch: 24m² = full 90px height -->
+        <rect x="38" y="42" width="32" height="88" rx="4" fill="#4ADE80"/>
+        <text x="54" y="38" text-anchor="middle" fill="#065F46" font-size="9" font-weight="700">24</text>
+        <text x="54" y="145" text-anchor="middle" fill="#374151" font-size="8">Veg</text>
+        <!-- Flower: 16m² = 60px height -->
+        <rect x="82" y="72" width="32" height="58" rx="4" fill="#FDE68A"/>
+        <text x="98" y="68" text-anchor="middle" fill="#92400E" font-size="9" font-weight="700">16</text>
+        <text x="98" y="145" text-anchor="middle" fill="#374151" font-size="8">Flower</text>
+        <!-- Pond: 20m² = 75px height -->
+        <rect x="126" y="55" width="32" height="75" rx="4" fill="#7DD3FC"/>
+        <text x="142" y="51" text-anchor="middle" fill="#075985" font-size="9" font-weight="700">20</text>
+        <text x="142" y="145" text-anchor="middle" fill="#374151" font-size="8">Pond</text>
+        <!-- Path: 24m² = 90px height -->
+        <rect x="170" y="42" width="32" height="88" rx="4" fill="#86EFAC"/>
+        <text x="186" y="38" text-anchor="middle" fill="#065F46" font-size="9" font-weight="700">24</text>
+        <text x="186" y="145" text-anchor="middle" fill="#374151" font-size="8">Path</text>
+        <text x="120" y="158" text-anchor="middle" fill="#374151" font-size="9">Area (m²)</text>
+      </svg>
+      <div class="illus-caption">Comparing all four garden sections</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · Comparing Areas — Which Section Is Biggest?</div>
+      <div class="story-text">
+        With all four sections designed and calculated, Aisha drew a comparison chart for Mr. Park. It was time to review the work and understand which parts of the garden were largest.<br><br>
+        She listed the areas side by side: the vegetable patch was <strong>24 m²</strong>, the flower bed was <strong>16 m²</strong>, the pond was <strong>20 m²</strong>, and the path was <strong>24 m²</strong>.<br><br>
+        <em>"The vegetable patch and the path are tied for the biggest sections — both 24 square metres,"</em> Mr. Park observed, studying the bar chart. <em>"And the flower bed is the smallest."</em><br><br>
+        Ben had one more calculation to do. <em>"If we want to know the total area of the whole garden, we simply add all four sections together,"</em> he said. <em>"24 + 16 + 20 + 24."</em> He reached for his pencil.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📊</span>
+          <span class="math-callout-title">Comparing Areas</span>
+        </div>
+        <p>Vegetable patch = Path = <strong>24 m²</strong> (tied!)<br>
+        Pond = 20 m², Flower bed = <strong>16 m²</strong><br>
+        Read bar charts by checking the height of each bar against the scale.</p>
+      </div>
+
+      <div class="think-box" id="think-page8">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">The total garden area = 24 + 16 + 20 + 24 = ?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','74 m² — check your addition again: 24+16=40, then 40+20=60, then 60+24=84!')">74 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'correct','24 + 16 + 20 + 24 = 84 m² total garden area!')">84 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','94 m² is 10 too many — check your steps again!')">94 m²</button>
+          <button class="think-btn" onclick="checkAnswer('think-page8',this,'wrong','104 m² is 20 too many — add the numbers one step at a time!')">104 m²</button>
+        </div>
+        <div class="think-result" id="think-page8-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 9 – REAL-WORLD AREA -->
+  <div class="book-page" id="page-9">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 9</div>
+      <div style="font-size:2rem;margin-bottom:8px;">👩‍🏫</div>
+      <!-- Room floor plan with tiles SVG -->
+      <svg width="200" height="165" viewBox="0 0 200 165" style="margin:0 auto;">
+        <!-- Room floor: 4x3 = 12 tiles, each 40x40 -->
+        <rect x="10" y="10" width="180" height="120" rx="6" fill="#F9FAFB" stroke="#374151" stroke-width="2.5"/>
+        <!-- Tile grid 4 cols x 3 rows -->
+        <!-- Row 0 -->
+        <rect x="10" y="10" width="45" height="40" fill="#D1FAE5" stroke="#059669" stroke-width="1"/>
+        <text x="32" y="34" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="55" y="10" width="45" height="40" fill="#A7F3D0" stroke="#059669" stroke-width="1"/>
+        <text x="77" y="34" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="100" y="10" width="45" height="40" fill="#D1FAE5" stroke="#059669" stroke-width="1"/>
+        <text x="122" y="34" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="145" y="10" width="45" height="40" fill="#A7F3D0" stroke="#059669" stroke-width="1"/>
+        <text x="167" y="34" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <!-- Row 1 -->
+        <rect x="10" y="50" width="45" height="40" fill="#A7F3D0" stroke="#059669" stroke-width="1"/>
+        <text x="32" y="74" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="55" y="50" width="45" height="40" fill="#D1FAE5" stroke="#059669" stroke-width="1"/>
+        <text x="77" y="74" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="100" y="50" width="45" height="40" fill="#A7F3D0" stroke="#059669" stroke-width="1"/>
+        <text x="122" y="74" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="145" y="50" width="45" height="40" fill="#D1FAE5" stroke="#059669" stroke-width="1"/>
+        <text x="167" y="74" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <!-- Row 2 -->
+        <rect x="10" y="90" width="45" height="40" fill="#D1FAE5" stroke="#059669" stroke-width="1"/>
+        <text x="32" y="114" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="55" y="90" width="45" height="40" fill="#A7F3D0" stroke="#059669" stroke-width="1"/>
+        <text x="77" y="114" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="100" y="90" width="45" height="40" fill="#D1FAE5" stroke="#059669" stroke-width="1"/>
+        <text x="122" y="114" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <rect x="145" y="90" width="45" height="40" fill="#A7F3D0" stroke="#059669" stroke-width="1"/>
+        <text x="167" y="114" text-anchor="middle" fill="#065F46" font-size="9" font-weight="600">1 m²</text>
+        <!-- Labels -->
+        <text x="6" y="78" text-anchor="end" fill="#374151" font-size="10" font-weight="700">3 m</text>
+        <text x="100" y="148" text-anchor="middle" fill="#374151" font-size="11" font-weight="700">4 m</text>
+        <text x="100" y="162" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">4 × 3 = 12 tiles needed</text>
+      </svg>
+      <div class="illus-caption">12 tiles for a 4 m × 3 m room</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 9 · Real-World Area — Tiles, Turf, and Carpet</div>
+      <div class="story-text">
+        As the garden project neared its end, Mr. Park had one more question. He was also renovating the school's reading room and needed to know how many floor tiles to order.<br><br>
+        The room measured <strong>4 metres wide and 3 metres long</strong>. Each tile was exactly 1 square metre. Aisha explained: <em>"To find how many tiles you need, find the area of the floor. Area = 4 × 3 = 12 m². So you need 12 tiles — one for every square metre."</em><br><br>
+        <em>"Area is incredibly useful in real life,"</em> Aisha said. <em>"When you lay turf in a garden, order carpet for a room, or buy tiles for a floor, you always need to calculate area first."</em><br><br>
+        Ben nodded thoughtfully. <em>"And if we needed to paint a wall, we'd calculate the wall's area to find out how much paint to buy!"</em> Calculating area, they both agreed, was one of the most practical skills in mathematics.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🏠</span>
+          <span class="math-callout-title">Area in the Real World</span>
+        </div>
+        <p>Area tells us how much <strong>carpet, turf, or tiles</strong> we need.<br>
+        A 4 m × 3 m room needs <strong>12 tiles</strong> that are each 1 m².<br>
+        Floor area = number of 1 m² tiles required.</p>
+      </div>
+
+      <div class="think-box" id="think-page9">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.93rem;color:var(--text-mid);">A wall is <strong>5 m × 2 m</strong>. Tins of paint cover <strong>5 m² each</strong>. How many tins are needed?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','1 tin covers 5 m², but the wall is 10 m² — you need more than 1 tin!')">1 tin</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'correct','Wall area = 10 m². 10 ÷ 5 = 2 tins needed!')">2 tins</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','3 tins would cover 15 m², but the wall is only 10 m²!')">3 tins</button>
+          <button class="think-btn" onclick="checkAnswer('think-page9',this,'wrong','4 tins is twice as many as you need — wall area is 10 m², 10 ÷ 5 = 2!')">4 tins</button>
+        </div>
+        <div class="think-result" id="think-page9-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 10 – THE GARDEN IS BUILT! -->
+  <div class="book-page" id="page-10">
+    <div class="illustration" style="background:linear-gradient(135deg,#059669,#0EA5E9);">
+      <div class="page-num-illus">Page 10</div>
+      <div style="font-size:2.5rem;margin-bottom:8px;">🌸 🌿 🌊 🦋</div>
+      <div style="font-size:2.5rem;margin-bottom:8px;">👩‍🏫 👷</div>
+      <!-- Garden plan card -->
+      <div style="background:rgba(255,255,255,0.18);border-radius:12px;padding:12px 18px;text-align:center;color:white;max-width:180px;margin:0 auto;">
+        <div style="font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:8px;">Garden Areas</div>
+        <div style="font-size:.78rem;opacity:.9;line-height:1.8;">
+          Veg patch: 24 m²<br>
+          Flower bed: 16 m²<br>
+          Pond: 20 m²<br>
+          Path: 24 m²<br>
+          <strong>Total: 84 m²</strong>
+        </div>
+      </div>
+      <div style="font-size:2rem;margin-top:10px;">🏆</div>
+      <div class="illus-caption">The school garden is complete!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 10 · The Garden Is Built!</div>
+      <div class="story-text">
+        Weeks later, standing in the sunshine beside the newly completed school garden, Aisha and Ben smiled with pride. The vegetable patch was bursting with green shoots, the flower bed blazed with colour, the pond shimmered peacefully, and the path curved elegantly between each section.<br><br>
+        Mr. Park walked through the garden slowly, taking it all in. <em>"This is everything I imagined and more,"</em> he said. <em>"And it was all made possible because you knew how to measure space."</em><br><br>
+        Aisha turned to Ben. <em>"Area tells us how much space is inside a shape — it is what we use when we plant, build, and design. Perimeter tells us the distance around a shape — essential for fencing and framing."</em><br><br>
+        <em>"Both are essential,"</em> Ben agreed. <em>"Every architect, builder, and gardener uses area and perimeter every single day."</em> The two friends shook hands, knowing they had done excellent work.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title">What You Have Learned</span>
+        </div>
+        <p><strong>Area</strong> = space inside a shape (L × W, in m² or cm²)<br>
+        <strong>Perimeter</strong> = distance around a shape (2 × (L + W))<br>
+        <strong>Composite shapes</strong>: split into rectangles and add areas.<br>
+        Both are essential for <strong>building, designing, and planning</strong>!</p>
+      </div>
+      <div class="celebration-box">
+        <p>Outstanding architect work! You have mastered area and perimeter! 🏗️<br>
+        <span style="font-size:.88rem;font-weight:600;opacity:.85;">Aisha and Ben are proud of you!</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">📐 🌿 🏆</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Brilliant work! You have finished <strong>The Area Adventure</strong> and mastered area, perimeter, composite shapes, and real-world measurement. Aisha, Ben, and Mr. Park are proud of you!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">📐</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Area Architect Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Area Adventure</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 10;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

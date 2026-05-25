@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Shape Kingdom – MathMunch</title>
+<style>
+:root {
+  --accent:#10B981; --accent-dark:#059669; --accent-light:#ECFDF5;
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--accent-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--accent);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #A7F3D0;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+
+/* BOOK PAGES */
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+
+/* ILLUSTRATION PANEL (left page) */
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+
+/* page-flip overlay */
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:4px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--accent-dark);font-weight:700;}
+.story-text em{color:var(--blue-dark);font-style:normal;font-weight:700;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#10B981,#059669);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(5,150,105,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 3px 0 var(--accent-dark);}
+.nav-btn-next:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--accent-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--accent);transform:scale(1.2);}
+.dot.read{background:#6EE7B7;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--accent);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--accent-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#10B981,#059669);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* SITE NAV */
+.site-nav{display:flex;gap:12px;align-items:center;}
+.site-nav a{font-size:.85rem;font-weight:600;color:var(--text-mid);text-decoration:none;padding:6px 14px;border-radius:9999px;border:1px solid var(--outline);}
+.site-nav a:hover{border-color:var(--accent);color:var(--accent);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🔷</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <nav class="site-nav">
+        <a href="../dashboard.html">📊 My Journey</a>
+        <a href="#">Badges</a>
+        <a href="#">Progress</a>
+      </nav>
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Shape Kingdom
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 The Shape Kingdom</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">🔷 2D Shapes</span>
+        <span class="book-tag">📐 Sides &amp; Corners</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">👶 Age 5–6</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 7</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:14.28%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🔷</span>
+      <div class="cover-title">The Shape<br>Kingdom</div>
+      <div class="cover-subtitle">Join Princess Rosie on a magical journey<br>through the land of shapes!</div>
+      <div class="cover-chars">👸 ⭕ 🔺</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 7 Pages</span>
+        <span class="cover-tag">🔷 2D Shapes</span>
+        <span class="cover-tag">👶 Ages 5–6</span>
+        <span class="cover-tag">⭐ Cambridge P1</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – MEET THE SHAPES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:10px;text-align:center;">Welcome to the Shape Kingdom!</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+        <span style="font-size:4.5rem;">⭕</span>
+        <span style="font-size:4.5rem;">🔺</span>
+        <span style="font-size:4.5rem;">🔷</span>
+        <span style="font-size:4.5rem;">🟥</span>
+        <span style="font-size:4.5rem;">⬛</span>
+        <span style="font-size:4.5rem;">⬡</span>
+      </div>
+      <div class="illus-scene" style="margin-top:10px;">
+        <span class="char">👸</span>
+      </div>
+      <div class="illus-caption">Rosie arrives at the Shape Kingdom!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · Meet the Shapes!</div>
+      <div class="story-text">
+        <strong>Princess Rosie</strong> arrives at the Shape Kingdom.<br><br>
+        She sees shapes everywhere! Big and small, round and pointy.<br><br>
+        <em>"Hello shapes!"</em> says Rosie with a smile.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">Shapes Everywhere!</span>
+        </div>
+        <p>Shapes are everywhere! <strong>Circles, triangles, squares</strong> and more.<br>Every shape has its own special name!</p>
+      </div>
+      <div class="think-box" id="think-page2">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A <strong>triangle</strong> has how many sides?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','2 sides is not enough for a triangle!')">2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','Yes! A triangle has 3 sides. Well done!')">3</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','4 sides would be a square or rectangle!')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','5 sides is a pentagon, not a triangle!')">5</button>
+        </div>
+        <div class="think-result" id="think-page2-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – THE CIRCLE KINGDOM
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 3</div>
+      <div style="font-size:6rem;margin-bottom:4px;">⭕</div>
+      <div style="font-size:3rem;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+        <span title="wheel">🎡</span>
+        <span title="coin">🪙</span>
+        <span title="clock">🕐</span>
+        <span title="sun">☀️</span>
+        <span title="ball">⚽</span>
+      </div>
+      <div style="margin-top:8px;background:rgba(255,255,255,.7);border-radius:12px;padding:8px 16px;font-weight:700;color:#1D4ED8;font-size:.9rem;">NO sides · NO corners</div>
+      <div class="illus-caption">Perfectly round — that&apos;s a circle!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · The Circle Kingdom</div>
+      <div class="story-text">
+        Rosie meets <strong>Sir Circle</strong>. He is perfectly round.<br><br>
+        "I have no sides and no corners!" he says.<br><br>
+        <em>Wheels, coins and clocks</em> are all circles!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⭕</span>
+          <span class="math-callout-title">Circle Facts</span>
+        </div>
+        <p>A <strong>CIRCLE</strong> has <strong>NO sides</strong> and <strong>NO corners</strong>.<br>It is perfectly round all the way around!</p>
+      </div>
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Which of these is shaped like a <strong>circle</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','A triangle has 3 sides — not a circle!')">🔺 triangle</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','A square has 4 sides — not a circle!')">⬛ square</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Yes! A circle is round with no sides!')">⭕ circle</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','A diamond has 4 sides — not a circle!')">🔷 diamond</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – THE TRIANGLE TOWER
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FDE68A);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="margin:0 auto;width:90%;text-align:center;">
+        <svg width="200" height="180" viewBox="0 0 200 180" style="display:block;margin:0 auto;">
+          <!-- Triangle -->
+          <polygon points="100,20 180,160 20,160" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
+          <!-- Corner dots -->
+          <circle cx="100" cy="20" r="6" fill="#DC2626"/>
+          <circle cx="180" cy="160" r="6" fill="#DC2626"/>
+          <circle cx="20" cy="160" r="6" fill="#DC2626"/>
+          <!-- Side labels -->
+          <text x="50" y="100" fill="#92400E" font-size="13" font-weight="700" transform="rotate(-58,50,100)">side 1</text>
+          <text x="140" y="100" fill="#92400E" font-size="13" font-weight="700" transform="rotate(58,140,100)">side 2</text>
+          <text x="100" y="178" fill="#92400E" font-size="13" font-weight="700" text-anchor="middle">side 3</text>
+          <!-- Corner labels -->
+          <text x="100" y="13" fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle">corner</text>
+          <text x="190" y="160" fill="#DC2626" font-size="11" font-weight="700" text-anchor="start">corner</text>
+          <text x="2" y="160" fill="#DC2626" font-size="11" font-weight="700" text-anchor="start">corner</text>
+        </svg>
+      </div>
+      <div class="illus-scene">
+        <span class="char">👸</span>
+        <span style="font-size:3rem;">🔺</span>
+      </div>
+      <div class="illus-caption">3 sides and 3 corners!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · The Triangle Tower</div>
+      <div class="story-text">
+        Rosie meets <strong>Lady Triangle</strong>. She loves her three corners!<br><br>
+        "Count my sides — one, two, three!"<br><br>
+        <em>Triangles look like mountains!</em>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔺</span>
+          <span class="math-callout-title">Triangle Facts</span>
+        </div>
+        <p>A <strong>TRIANGLE</strong> has <strong>3 SIDES</strong> and <strong>3 CORNERS</strong>.<br>It looks like a mountain or a slice of pizza!</p>
+      </div>
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">How many <strong>corners</strong> does a triangle have?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','2 corners is not enough. Count again!')">2</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Yes! A triangle has exactly 3 corners!')">3</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','4 corners would be a square or rectangle!')">4</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','1 corner is too few. Look at the triangle!')">1</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – THE SQUARE PALACE
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="margin:0 auto;width:90%;text-align:center;">
+        <svg width="200" height="200" viewBox="0 0 200 200" style="display:block;margin:0 auto;">
+          <!-- Square -->
+          <rect x="30" y="30" width="140" height="140" fill="#10B981" stroke="#059669" stroke-width="3"/>
+          <!-- Corner markers -->
+          <rect x="30" y="30" width="12" height="12" fill="white" opacity=".8"/>
+          <rect x="158" y="30" width="12" height="12" fill="white" opacity=".8"/>
+          <rect x="30" y="158" width="12" height="12" fill="white" opacity=".8"/>
+          <rect x="158" y="158" width="12" height="12" fill="white" opacity=".8"/>
+          <!-- Side labels -->
+          <text x="100" y="24" text-anchor="middle" fill="#059669" font-size="13" font-weight="700">equal</text>
+          <text x="100" y="185" text-anchor="middle" fill="#059669" font-size="13" font-weight="700">equal</text>
+          <text x="18" y="103" text-anchor="middle" fill="#059669" font-size="13" font-weight="700" transform="rotate(-90,18,103)">equal</text>
+          <text x="183" y="103" text-anchor="middle" fill="#059669" font-size="13" font-weight="700" transform="rotate(90,183,103)">equal</text>
+          <!-- Center text -->
+          <text x="100" y="108" text-anchor="middle" fill="white" font-size="20" font-weight="800">4 = 4 = 4 = 4</text>
+        </svg>
+      </div>
+      <div class="illus-scene">
+        <span class="char">👸</span>
+        <span style="font-size:3rem;">🟥</span>
+      </div>
+      <div class="illus-caption">All 4 sides are equal!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · The Square Palace</div>
+      <div class="story-text">
+        Rosie meets <strong>Duke Square</strong>. He has 4 equal sides!<br><br>
+        "All my sides are the same length!" he says proudly.<br><br>
+        <em>Windows and tiles</em> are often squares.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🟥</span>
+          <span class="math-callout-title">Square Facts</span>
+        </div>
+        <p>A <strong>SQUARE</strong> has <strong>4 SIDES</strong> and <strong>4 CORNERS</strong>.<br>All sides are the <strong>same length</strong>! That makes it special!</p>
+      </div>
+      <div class="think-box" id="think-page5">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">A <strong>square</strong> has 4 sides. A <strong>triangle</strong> has 3 sides. Which has more sides?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Triangle has only 3 sides — less than 4!')">Triangle</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','They are NOT equal — 4 is bigger than 3!')">They are equal</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Yes! Square has 4 sides — more than triangle&apos;s 3!')">Square</button>
+          <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','We CAN tell! Count the sides.')">Can&apos;t tell</button>
+        </div>
+        <div class="think-result" id="think-page5-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – THE RECTANGLE ROOM
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="margin:0 auto;width:90%;text-align:center;">
+        <svg width="210" height="160" viewBox="0 0 210 160" style="display:block;margin:0 auto;">
+          <!-- Rectangle -->
+          <rect x="10" y="40" width="190" height="90" fill="#8B5CF6" stroke="#6D28D9" stroke-width="3"/>
+          <!-- Corner markers -->
+          <rect x="10" y="40" width="10" height="10" fill="white" opacity=".8"/>
+          <rect x="190" y="40" width="10" height="10" fill="white" opacity=".8"/>
+          <rect x="10" y="120" width="10" height="10" fill="white" opacity=".8"/>
+          <rect x="190" y="120" width="10" height="10" fill="white" opacity=".8"/>
+          <!-- Side labels -->
+          <text x="105" y="33" text-anchor="middle" fill="#6D28D9" font-size="12" font-weight="700">LONG side</text>
+          <text x="105" y="153" text-anchor="middle" fill="#6D28D9" font-size="12" font-weight="700">LONG side</text>
+          <text x="4" y="88" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="700" transform="rotate(-90,4,88)">short</text>
+          <text x="207" y="88" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="700" transform="rotate(90,207,88)">short</text>
+          <!-- Center text -->
+          <text x="105" y="92" text-anchor="middle" fill="white" font-size="16" font-weight="800">RECTANGLE</text>
+        </svg>
+        <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-top:8px;">
+          <span style="font-size:1.5rem;">🟥</span>
+          <span style="font-weight:700;color:#6D28D9;">→ stretched →</span>
+          <span style="font-size:1.5rem;">▬</span>
+        </div>
+      </div>
+      <div class="illus-caption">A rectangle is like a stretched square!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · The Rectangle Room</div>
+      <div class="story-text">
+        Rosie finds the <strong>Rectangle Room</strong>. It looks like a stretched square!<br><br>
+        "Two sides are long and two sides are short," says Rosie.<br><br>
+        <em>Books and doors</em> are rectangles!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📐</span>
+          <span class="math-callout-title">Rectangle Facts</span>
+        </div>
+        <p>A <strong>RECTANGLE</strong> has <strong>4 sides</strong> and <strong>4 corners</strong>.<br>Two sides are long. Two sides are short.</p>
+      </div>
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Which shape has <strong>4 corners</strong>?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','A circle has NO corners. It is round!')">Circle</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','A triangle has only 3 corners!')">Triangle</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Yes! A rectangle has exactly 4 corners!')">Rectangle</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Rectangles DO have corners — 4 of them!')">None of them</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – SHAPE HUNT!
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:8px;text-align:center;">Shapes in YOUR world!</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:90%;">
+        <div style="background:rgba(255,255,255,.8);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:3rem;">🪟</div>
+          <div style="font-size:.8rem;font-weight:700;color:#6D28D9;">Rectangle</div>
+        </div>
+        <div style="background:rgba(255,255,255,.8);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:3rem;">🍕</div>
+          <div style="font-size:.8rem;font-weight:700;color:#D97706;">Triangle</div>
+        </div>
+        <div style="background:rgba(255,255,255,.8);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:3rem;">☀️</div>
+          <div style="font-size:.8rem;font-weight:700;color:#059669;">Circle</div>
+        </div>
+        <div style="background:rgba(255,255,255,.8);border-radius:12px;padding:10px;text-align:center;">
+          <div style="font-size:3rem;">📦</div>
+          <div style="font-size:.8rem;font-weight:700;color:#DC2626;">Square</div>
+        </div>
+      </div>
+      <div class="illus-caption">Rosie spots shapes everywhere!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · Shape Hunt!</div>
+      <div class="story-text">
+        Rosie spots shapes all around the kingdom!<br><br>
+        Windows are rectangles. Pizza slices are triangles!<br><br>
+        <em>The sun is a circle. Boxes are squares!</em>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🏠</span>
+          <span class="math-callout-title">Shapes in Your Home!</span>
+        </div>
+        <p>Shapes are in <strong>YOUR home</strong> too!<br>Windows, books, wheels — can you spot them?<br>Look around and find shapes right now!</p>
+      </div>
+      <div class="think-box" style="background:#DCFCE7;border-color:var(--green);">
+        <div class="think-box-head">
+          <span class="math-callout-icon">⭐</span>
+          <span class="think-box-title" style="color:var(--green-dark);">You are a Shape Star!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--green-dark);font-weight:600;">Amazing work! You know circles, triangles, squares and rectangles. You are a Shape Star! ⭐🔷👸</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN (shown after page 7) -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🔷👸⭐</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Amazing reading! You finished <strong>The Shape Kingdom</strong> and learned about circles, triangles, squares and rectangles. Princess Rosie is proud of you!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">🏆</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Shape Spotter Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Shape Kingdom</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 7;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>
