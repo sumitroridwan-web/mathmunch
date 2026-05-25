@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>The Pizza Fraction Adventure – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--orange-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--orange);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--orange);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--orange-light);color:var(--orange-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #FED7AA;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--red));border-radius:9999px;transition:width .5s ease;}
+
+/* BOOK PAGES */
+.book-page{display:none;animation:fadeIn .35s ease;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cover page is full-width */
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;}
+
+/* ILLUSTRATION PANEL */
+.illustration{border-radius:24px;overflow:hidden;position:relative;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* PIZZA VISUALS */
+.pizza-display{display:flex;gap:16px;justify-content:center;align-items:flex-end;margin:12px 0;}
+.pizza{position:relative;display:inline-block;font-size:1rem;}
+.pizza svg{display:block;}
+.fraction-label{text-align:center;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;color:rgba(255,255,255,.9);margin-top:6px;}
+
+/* STORY PANEL */
+.story-panel{display:flex;flex-direction:column;gap:20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.1rem;line-height:1.85;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--orange-dark);font-weight:700;}
+.story-text em{color:var(--green-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--orange);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--orange);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.fraction-visual{display:flex;align-items:center;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;font-family:'Quicksand',sans-serif;font-weight:700;line-height:1;border:2px solid var(--blue);border-radius:8px;padding:4px 10px;background:white;}
+.frac-num{font-size:1.1rem;color:var(--blue-dark);border-bottom:2px solid var(--blue);padding-bottom:2px;margin-bottom:2px;}
+.frac-den{font-size:1.1rem;color:var(--blue-dark);}
+.frac-word{font-size:.9rem;font-weight:600;color:var(--text-mid);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--green-light);border:2px solid var(--green);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #A7F3D0;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--green);background:var(--green-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#F97316,#DC2626);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(194,65,12,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--orange);color:var(--orange);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--orange);color:white;border-color:var(--orange);box-shadow:0 3px 0 var(--orange-dark);}
+.nav-btn-next:hover{background:var(--orange-dark);border-color:var(--orange-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--orange);transform:scale(1.2);}
+.dot.read{background:#FED7AA;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--orange);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--orange-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#FBBF24,#F97316);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🍕</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › The Pizza Fraction Adventure
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 The Pizza Fraction Adventure</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">🍕 Fractions</span>
+        <span class="book-tag">📐 Halves · Quarters · Thirds</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);"> Grade P2–P3</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 8</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:12.5%"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 1 – COVER
+  ══════════════════════════════════════════ -->
+  <div class="book-page cover-page active" id="page-1">
+    <div class="cover-card">
+      <span class="cover-emoji">🍕</span>
+      <div class="cover-title">The Pizza Fraction<br>Adventure</div>
+      <div class="cover-subtitle">A maths story about sharing, fairness,<br>and the magic of fractions</div>
+      <div class="cover-chars">🦊 🦁 🐻</div>
+      <div class="cover-tags">
+        <span class="cover-tag">📖 8 Pages</span>
+        <span class="cover-tag">🍕 Fractions</span>
+        <span class="cover-tag">👶 Ages 7–9</span>
+        <span class="cover-tag">⭐ Cambridge P2–P3</span>
+      </div>
+      <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 2 – INTRODUCTION
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-2">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+      <div class="page-num-illus">Page 2</div>
+      <div style="font-size:5rem;margin-bottom:8px;">🏪</div>
+      <div class="illus-scene">
+        <span class="char" style="margin-right:-10px;">🦊</span>
+        <span class="char-sm">🍕🍕</span>
+      </div>
+      <div class="illus-caption">Pip's Pizza Palace — open for business!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 2 · The Story Begins</div>
+      <div class="story-text">
+        <strong>Pip the Fox</strong> had the best pizza shop in Mathville.<br><br>
+        Every morning, Pip baked fresh pizzas with golden crusts, bubbling cheese, and colourful toppings.<br><br>
+        One sunny day, Pip's best friend <em>Leo the Lion</em> came running into the shop.
+      </div>
+      <div class="character-speech">
+        Pip! I'm so hungry and your pizzas smell amazing. Can I have one?
+      </div>
+      <div class="story-text">
+        Pip smiled warmly. <strong>"Of course, Leo! But I only have one pizza left — and we must share it fairly."</strong><br><br>
+        Leo thought for a moment. <em>"What does fairly mean?"</em>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">💡</span>
+          <span class="math-callout-title">Maths Word: Fair Share</span>
+        </div>
+        <p>A <strong>fair share</strong> means each person gets exactly the <em>same amount</em>. When we cut something into equal pieces, each piece is a <strong>fraction</strong> of the whole.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 3 – HALVES
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-3">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FDE68A);">
+      <div class="page-num-illus">Page 3</div>
+      <div class="pizza-display">
+        <!-- Left half pizza (full) -->
+        <div class="pizza">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="56" fill="#F97316" stroke="#C2410C" stroke-width="3"/>
+            <circle cx="60" cy="60" r="44" fill="#FEF9C3"/>
+            <circle cx="46" cy="50" r="6" fill="#DC2626"/>
+            <circle cx="72" cy="44" r="5" fill="#10B981"/>
+            <circle cx="60" cy="72" r="7" fill="#DC2626"/>
+            <circle cx="40" cy="72" r="4" fill="#FBBF24"/>
+            <circle cx="78" cy="68" r="5" fill="#10B981"/>
+          </svg>
+          <div class="fraction-label" style="color:var(--orange-dark);">🍕 Whole Pizza</div>
+        </div>
+        <div style="font-size:2rem;color:var(--orange-dark);font-weight:700;padding-bottom:20px;">→</div>
+        <!-- Two halves -->
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+          <svg width="120" height="64" viewBox="0 0 120 120">
+            <clipPath id="topHalf"><rect x="0" y="0" width="120" height="60"/></clipPath>
+            <circle cx="60" cy="60" r="56" fill="#F97316" stroke="#C2410C" stroke-width="3" clip-path="url(#topHalf)"/>
+            <circle cx="60" cy="60" r="44" fill="#FEF9C3" clip-path="url(#topHalf)"/>
+            <circle cx="46" cy="50" r="6" fill="#DC2626" clip-path="url(#topHalf)"/>
+            <circle cx="72" cy="44" r="5" fill="#10B981" clip-path="url(#topHalf)"/>
+            <line x1="4" y1="60" x2="116" y2="60" stroke="white" stroke-width="3" stroke-dasharray="6,3"/>
+          </svg>
+          <svg width="120" height="64" viewBox="0 0 120 60">
+            <clipPath id="botHalf"><rect x="0" y="60" width="120" height="60"/></clipPath>
+            <circle cx="60" cy="0" r="56" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
+            <circle cx="60" cy="0" r="44" fill="#FEF9C3"/>
+            <circle cx="60" cy="12" r="7" fill="#DC2626"/>
+            <circle cx="40" cy="12" r="4" fill="#FBBF24"/>
+            <circle cx="78" cy="8" r="5" fill="#10B981"/>
+          </svg>
+          <div class="fraction-label" style="color:#92400E;">½ + ½</div>
+        </div>
+      </div>
+      <div class="illus-scene" style="margin-top:8px;">
+        <span class="char">🦊</span><span class="char">🦁</span>
+      </div>
+      <div class="illus-caption">Pip cuts the pizza into 2 equal pieces</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 3 · Halves</div>
+      <div class="story-text">
+        Pip picked up a pizza cutter and sliced straight down the middle.<br><br>
+        <strong>"There!"</strong> said Pip. <em>"Now there are TWO equal pieces."</em><br><br>
+        <strong>"Each piece is called ONE HALF,"</strong> Pip explained. <strong>"We write it like this: ½"</strong>
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">✂️</span>
+          <span class="math-callout-title">Fractions: Halves</span>
+        </div>
+        <p>When we cut something into <strong>2 equal pieces</strong>, each piece is <strong>one half</strong>.</p>
+        <div class="fraction-visual">
+          <div class="frac"><span class="frac-num">1</span><span class="frac-den">2</span></div>
+          <span class="frac-word">= one half = 50% of the whole</span>
+        </div>
+        <p>The <strong>bottom number</strong> (2) tells us how many equal pieces in total.<br>The <strong>top number</strong> (1) tells us how many pieces we are talking about.</p>
+      </div>
+
+      <div class="think-box" id="think-page3">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Pip and Leo each get <strong>½</strong> of the pizza. They eat both pieces. How much pizza is left?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','½ is still a lot of pizza!')">½ of the pizza</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Exactly right! ½ + ½ = 1 whole. They ate everything!')">None — 0</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Remember: 2 × ½ = 1 whole!')">¼ of the pizza</button>
+          <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Count more carefully!')">1 whole pizza</button>
+        </div>
+        <div class="think-result" id="think-page3-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 4 – QUARTERS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-4">
+    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+      <div class="page-num-illus">Page 4</div>
+      <div style="font-size:4rem;margin-bottom:8px;">🍕</div>
+      <!-- Quarter diagram -->
+      <svg width="160" height="160" viewBox="0 0 160 160" style="margin:0 auto">
+        <circle cx="80" cy="80" r="72" fill="#F97316" stroke="#C2410C" stroke-width="3"/>
+        <circle cx="80" cy="80" r="56" fill="#FEF9C3"/>
+        <!-- Quarter lines -->
+        <line x1="80" y1="8" x2="80" y2="152" stroke="white" stroke-width="3"/>
+        <line x1="8" y1="80" x2="152" y2="80" stroke="white" stroke-width="3"/>
+        <!-- Labels -->
+        <text x="104" y="54" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">¼</text>
+        <text x="56" y="54" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">¼</text>
+        <text x="104" y="114" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">¼</text>
+        <text x="56" y="114" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">¼</text>
+        <!-- Toppings -->
+        <circle cx="104" cy="44" r="5" fill="#DC2626"/>
+        <circle cx="56" cy="52" r="5" fill="#10B981"/>
+        <circle cx="100" cy="108" r="5" fill="#FBBF24"/>
+        <circle cx="52" cy="104" r="5" fill="#DC2626"/>
+      </svg>
+      <div class="illus-scene" style="margin-top:6px;">
+        <span class="char">🦊</span><span class="char">🦁</span><span class="char">🐻</span><span class="char">🐭</span>
+      </div>
+      <div class="illus-caption">4 equal pieces — one for everyone!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 4 · Quarters</div>
+      <div class="story-text">
+        Just as Leo and Pip were about to eat, <em>Bea the Bear</em> and <em>Milo the Mouse</em> came through the door!<br><br>
+        <strong>"Oh no,"</strong> said Leo. <em>"Now there are FOUR of us and only one pizza!"</em><br><br>
+        Pip winked. <strong>"No problem! We cut it into FOUR equal pieces — called quarters!"</strong>
+      </div>
+      <div class="character-speech">
+        Each of us gets one quarter. We write that as ¼. It is fair for everyone!
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🔪</span>
+          <span class="math-callout-title">Fractions: Quarters</span>
+        </div>
+        <p>When we cut something into <strong>4 equal pieces</strong>, each piece is <strong>one quarter</strong>.</p>
+        <div class="fraction-visual">
+          <div class="frac"><span class="frac-num">1</span><span class="frac-den">4</span></div>
+          <span class="frac-word">= one quarter = 25% of the whole</span>
+        </div>
+        <div class="fraction-visual" style="margin-top:8px;">
+          <div class="frac" style="border-color:var(--green);"><span class="frac-num" style="color:var(--green-dark);border-color:var(--green);">4</span><span class="frac-den" style="color:var(--green-dark);">4</span></div>
+          <span class="frac-word">= four quarters = 1 whole pizza</span>
+        </div>
+      </div>
+
+      <div class="think-box" id="think-page4">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Leo eats <strong>2 quarters</strong> (he is very hungry!). How much pizza did Leo eat?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','Two quarters is more than one quarter!')">¼</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Yes! 2/4 = 1/2. Leo ate half the pizza!')">½</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','¾ would be three pieces out of four.')">¾</button>
+          <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','He only had 2 pieces out of 4!')">The whole pizza</button>
+        </div>
+        <div class="think-result" id="think-page4-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 5 – THIRDS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-5">
+    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+      <div class="page-num-illus">Page 5</div>
+      <div style="font-size:3rem;margin-bottom:6px;">🍕 🍕 🍕</div>
+      <!-- Third diagram -->
+      <svg width="160" height="160" viewBox="0 0 160 160" style="margin:0 auto;">
+        <circle cx="80" cy="80" r="72" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
+        <circle cx="80" cy="80" r="56" fill="#FEF9C3"/>
+        <!-- Third lines at 120° intervals -->
+        <line x1="80" y1="80" x2="80" y2="8" stroke="white" stroke-width="3"/>
+        <line x1="80" y1="80" x2="142" y2="152" stroke="white" stroke-width="3"/>
+        <line x1="80" y1="80" x2="18" y2="152" stroke="white" stroke-width="3"/>
+        <text x="80" y="46" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">⅓</text>
+        <text x="122" y="128" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">⅓</text>
+        <text x="38" y="128" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">⅓</text>
+      </svg>
+      <div class="illus-scene" style="margin-top:6px;">
+        <span class="char">🦊</span><span class="char">🦁</span><span class="char">🐻</span>
+      </div>
+      <div class="illus-caption">3 friends, 3 equal slices — thirds!</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 5 · Thirds</div>
+      <div class="story-text">
+        The next day, Pip baked a fresh pizza. This time, only <strong>three friends</strong> came — Pip, Leo, and Bea.<br><br>
+        <em>"How do we share it between THREE people?"</em> asked Bea.<br><br>
+        Pip drew three lines from the centre, each at the same angle. <strong>"We cut it into THREE equal pieces — called thirds!"</strong>
+      </div>
+      <div class="character-speech">
+        Each piece is one third of the whole pizza. We write it as ⅓. Three thirds make one whole!
+      </div>
+
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">✂️</span>
+          <span class="math-callout-title">Fractions: Thirds</span>
+        </div>
+        <p>When we cut something into <strong>3 equal pieces</strong>, each piece is <strong>one third</strong>.</p>
+        <div class="fraction-visual">
+          <div class="frac" style="border-color:var(--yellow-dark);"><span class="frac-num" style="color:var(--yellow-dark);border-color:var(--yellow-dark);">1</span><span class="frac-den" style="color:var(--yellow-dark);">3</span></div>
+          <span class="frac-word">= one third ≈ 33% of the whole</span>
+        </div>
+        <p style="margin-top:8px;">Compare the sizes:<br>
+          <strong>½ &gt; ⅓ &gt; ¼</strong> — a half is bigger than a third, which is bigger than a quarter!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 6 – COMPARING FRACTIONS
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-6">
+    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+      <div class="page-num-illus">Page 6</div>
+      <div style="font-size:3rem;margin-bottom:12px;">🔢</div>
+      <!-- Fraction bars -->
+      <div style="width:90%;display:flex;flex-direction:column;gap:10px;">
+        <div>
+          <div style="font-size:.75rem;font-weight:700;color:#6D28D9;margin-bottom:3px;">1 whole</div>
+          <div style="height:28px;background:#7C3AED;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">1</div>
+        </div>
+        <div>
+          <div style="font-size:.75rem;font-weight:700;color:#6D28D9;margin-bottom:3px;">Halves</div>
+          <div style="display:flex;gap:3px;">
+            <div style="flex:1;height:28px;background:#F97316;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">½</div>
+            <div style="flex:1;height:28px;background:#FDBA74;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">½</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.75rem;font-weight:700;color:#6D28D9;margin-bottom:3px;">Thirds</div>
+          <div style="display:flex;gap:3px;">
+            <div style="flex:1;height:28px;background:#FBBF24;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">⅓</div>
+            <div style="flex:1;height:28px;background:#FCD34D;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">⅓</div>
+            <div style="flex:1;height:28px;background:#FBBF24;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">⅓</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.75rem;font-weight:700;color:#6D28D9;margin-bottom:3px;">Quarters</div>
+          <div style="display:flex;gap:3px;">
+            <div style="flex:1;height:28px;background:#10B981;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">¼</div>
+            <div style="flex:1;height:28px;background:#34D399;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">¼</div>
+            <div style="flex:1;height:28px;background:#10B981;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">¼</div>
+            <div style="flex:1;height:28px;background:#34D399;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">¼</div>
+          </div>
+        </div>
+      </div>
+      <div class="illus-scene" style="margin-top:12px;">
+        <span class="char-sm">🦊</span><span style="font-size:1.4rem;font-weight:700;color:#6D28D9;padding:0 4px;">½ &gt; ⅓ &gt; ¼</span>
+      </div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 6 · Comparing Fractions</div>
+      <div class="story-text">
+        Bea looked at the fraction bar chart on Pip's wall and scratched her head.<br><br>
+        <em>"Pip, which slice is bigger — a half, a third, or a quarter?"</em><br><br>
+        Pip pointed to the chart. <strong>"Look — when you cut a pizza into MORE pieces, each piece gets SMALLER!"</strong>
+      </div>
+      <div class="character-speech">
+        A half is the biggest slice of these three. A quarter is the smallest — because we split the pizza into more pieces!
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">⚖️</span>
+          <span class="math-callout-title">Comparing Fractions (Same Whole)</span>
+        </div>
+        <p>When the whole is the same size, a fraction with a <strong>bigger bottom number</strong> gives you a <strong>smaller</strong> piece.</p>
+        <div class="fraction-visual" style="font-size:1.1rem;font-weight:700;gap:6px;">
+          <div class="frac" style="border-color:var(--orange);"><span class="frac-num" style="color:var(--orange-dark);border-color:var(--orange);">1</span><span class="frac-den" style="color:var(--orange-dark);">2</span></div>
+          <span style="color:var(--text-mid);font-weight:700;">&gt;</span>
+          <div class="frac" style="border-color:var(--yellow-dark);"><span class="frac-num" style="color:var(--yellow-dark);border-color:var(--yellow-dark);">1</span><span class="frac-den" style="color:var(--yellow-dark);">3</span></div>
+          <span style="color:var(--text-mid);font-weight:700;">&gt;</span>
+          <div class="frac" style="border-color:var(--green);"><span class="frac-num" style="color:var(--green-dark);border-color:var(--green);">1</span><span class="frac-den" style="color:var(--green-dark);">4</span></div>
+        </div>
+      </div>
+
+      <div class="think-box" id="think-page6">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🤔</span>
+          <span class="think-box-title">Think About It!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Pip cuts a pizza into <strong>8 equal slices</strong>. What is each slice called?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','A quarter has 4 equal pieces, not 8.')">A quarter</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Correct! 8 equal pieces each = one eighth (⅛)!')">One eighth</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','A half has only 2 equal pieces.')">A half</button>
+          <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','A third has 3 equal pieces, not 8.')">A third</button>
+        </div>
+        <div class="think-result" id="think-page6-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 7 – THE BIG CHALLENGE
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-7">
+    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+      <div class="page-num-illus">Page 7</div>
+      <div style="font-size:4rem;margin-bottom:12px;">🎉</div>
+      <!-- 3 pizzas with pieces shown -->
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <div style="text-align:center;">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="36" fill="#F97316" stroke="#C2410C" stroke-width="2"/>
+            <circle cx="40" cy="40" r="28" fill="#FEF9C3"/>
+            <line x1="40" y1="4" x2="40" y2="76" stroke="white" stroke-width="2"/>
+            <!-- top half shaded -->
+            <path d="M40,4 A36,36 0 0,1 76,40 L40,40 Z" fill="rgba(220,38,38,0.3)"/>
+            <text x="58" y="30" text-anchor="middle" fill="white" font-size="11" font-weight="800">½</text>
+          </svg>
+          <div style="font-size:.7rem;font-weight:700;color:var(--orange-dark);margin-top:4px;">Leo ate ½</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="36" fill="#FBBF24" stroke="#D97706" stroke-width="2"/>
+            <circle cx="40" cy="40" r="28" fill="#FEF9C3"/>
+            <line x1="40" y1="40" x2="40" y2="4" stroke="white" stroke-width="2"/>
+            <line x1="40" y1="40" x2="71" y2="76" stroke="white" stroke-width="2"/>
+            <line x1="40" y1="40" x2="9" y2="76" stroke="white" stroke-width="2"/>
+            <path d="M40,4 A36,36 0 0,1 71,76 L40,40 Z" fill="rgba(217,119,6,0.3)"/>
+            <text x="56" y="35" text-anchor="middle" fill="white" font-size="11" font-weight="800">⅓</text>
+          </svg>
+          <div style="font-size:.7rem;font-weight:700;color:#92400E;margin-top:4px;">Bea ate ⅓</div>
+        </div>
+        <div style="text-align:center;">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="36" fill="#10B981" stroke="#059669" stroke-width="2"/>
+            <circle cx="40" cy="40" r="28" fill="#FEF9C3"/>
+            <line x1="40" y1="4" x2="40" y2="76" stroke="white" stroke-width="2"/>
+            <line x1="4" y1="40" x2="76" y2="40" stroke="white" stroke-width="2"/>
+            <path d="M40,4 A36,36 0 0,1 76,40 L40,40 Z" fill="rgba(5,150,105,0.3)"/>
+            <text x="58" y="30" text-anchor="middle" fill="white" font-size="11" font-weight="800">¼</text>
+          </svg>
+          <div style="font-size:.7rem;font-weight:700;color:var(--green-dark);margin-top:4px;">Milo ate ¼</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:.82rem;font-weight:700;color:var(--orange-dark);text-align:center;">
+        Who ate the most? 🍕
+      </div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 7 · The Big Challenge</div>
+      <div class="story-text">
+        At the end of the day, Pip held a <strong>Fraction Challenge!</strong><br><br>
+        Pip showed three different pizzas. Each friend had eaten a different fraction:<br>
+        🦁 <strong>Leo ate ½</strong> of his pizza<br>
+        🐻 <strong>Bea ate ⅓</strong> of hers<br>
+        🐭 <strong>Milo ate ¼</strong> of his<br><br>
+        <em>"Who ate the most pizza?"</em> asked Pip with a grin.
+      </div>
+      <div class="math-callout">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">🧮</span>
+          <span class="math-callout-title">Remember: Ordering Fractions</span>
+        </div>
+        <p>Since all the pizzas started the <strong>same size</strong>:</p>
+        <div class="fraction-visual" style="font-size:1.1rem;font-weight:700;gap:6px;flex-wrap:wrap;">
+          <div class="frac" style="border-color:var(--orange);"><span class="frac-num" style="color:var(--orange-dark);border-color:var(--orange);">1</span><span class="frac-den" style="color:var(--orange-dark);">2</span></div>
+          <span style="color:var(--green-dark);font-weight:800;font-size:1.2rem;">&gt;</span>
+          <div class="frac" style="border-color:#D97706;"><span class="frac-num" style="color:#92400E;border-color:#D97706;">1</span><span class="frac-den" style="color:#92400E;">3</span></div>
+          <span style="color:var(--green-dark);font-weight:800;font-size:1.2rem;">&gt;</span>
+          <div class="frac" style="border-color:var(--green);"><span class="frac-num" style="color:var(--green-dark);border-color:var(--green);">1</span><span class="frac-den" style="color:var(--green-dark);">4</span></div>
+        </div>
+        <p style="margin-top:8px;"><strong>Leo ate the most</strong> — ½ &gt; ⅓ &gt; ¼. The bigger the bottom number, the smaller each piece becomes!</p>
+      </div>
+
+      <div class="think-box" id="think-page7">
+        <div class="think-box-head">
+          <span class="math-callout-icon">🏆</span>
+          <span class="think-box-title">Final Challenge!</span>
+        </div>
+        <p style="font-size:.95rem;color:var(--text-mid);">Pip has a pizza cut into <strong>4 equal slices</strong>. Pip eats <strong>3 slices</strong>. What fraction did Pip eat?</p>
+        <div class="think-options">
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','¼ means only 1 slice out of 4.')">¼</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','½ means 2 slices out of 4.')">½</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'correct','Yes! 3 slices out of 4 = ¾ (three quarters)!')">¾</button>
+          <button class="think-btn" onclick="checkAnswer('think-page7',this,'wrong','4/4 = 1 whole pizza — Pip only had 3 slices.')">4/4</button>
+        </div>
+        <div class="think-result" id="think-page7-result"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PAGE 8 – THE END
+  ══════════════════════════════════════════ -->
+  <div class="book-page" id="page-8">
+    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+      <div class="page-num-illus">Page 8</div>
+      <div style="font-size:4rem;margin-bottom:8px;">🎉</div>
+      <div class="illus-scene">
+        <span class="char">🦊</span><span class="char">🦁</span><span class="char">🐻</span><span class="char">🐭</span>
+      </div>
+      <div style="font-size:2rem;margin:10px 0;">🍕 ½ ⅓ ¼ ⅛</div>
+      <div class="illus-caption">Friends, pizza, and fractions — a perfect adventure!</div>
+      <div style="font-size:3rem;margin-top:8px;">🏆</div>
+    </div>
+
+    <div class="story-panel">
+      <div class="page-num-text">Page 8 · The End</div>
+      <div class="story-text">
+        That evening, all the friends sat together in Pip's cosy pizza shop.<br><br>
+        They had learned that fractions are all about <strong>sharing equally</strong> — something friends do best!<br><br>
+        <em>Halves, thirds, quarters</em> — no matter how many friends arrived, Pip always found a way to share fairly.
+      </div>
+      <div class="character-speech">
+        Fractions aren't just maths — they're how we share everything in life! Every time you split something equally, you're using fractions.
+      </div>
+      <div class="math-callout" style="background:var(--green-light);border-color:var(--green);">
+        <div class="math-callout-head">
+          <span class="math-callout-icon">📝</span>
+          <span class="math-callout-title" style="color:var(--green-dark);">What We Learned</span>
+        </div>
+        <p>✅ A <strong>fraction</strong> names equal parts of a whole<br>
+           ✅ <strong>½</strong> = 1 out of 2 equal parts (half)<br>
+           ✅ <strong>⅓</strong> = 1 out of 3 equal parts (third)<br>
+           ✅ <strong>¼</strong> = 1 out of 4 equal parts (quarter)<br>
+           ✅ More pieces = <strong>smaller</strong> each piece<br>
+           ✅ <strong>½ &gt; ⅓ &gt; ¼</strong> when the whole is the same</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN (shown after page 8) -->
+  <div class="end-card-wrap" id="endWrap">
+    <div class="end-card">
+      <div class="end-emoji-row">🎉🍕🏆</div>
+      <div class="end-title">Story Complete!</div>
+      <div class="end-msg">Amazing reading! You've finished <strong>The Pizza Fraction Adventure</strong> and learned all about halves, thirds, and quarters. Pip and friends are proud of you!</div>
+      <div>
+        <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+        <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+      </div>
+    </div>
+    <div class="badge-earned">
+      <div class="badge-icon">🍕</div>
+      <div class="badge-text-wrap">
+        <div class="badge-text-title">Fraction Explorer Badge</div>
+        <div class="badge-text-sub">Awarded for completing The Pizza Fraction Adventure</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 8;
+let currentPage = 1;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  currentPage = n;
+  document.getElementById('page-' + currentPage).classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+</script>
+</body>
+</html>
