@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<title>Capacity Cove – MathMunch</title>
+<style>
+  :root {
+    --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+    --green:#10B981;--orange:#F97316;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#D1FAE5;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--blue-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--blue);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--blue-light);color:var(--blue);}
+  .btn-play-now{background:var(--blue);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--blue-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--blue);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.8rem;font-weight:700;color:var(--blue);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--green);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .hearts{display:flex;gap:6px;font-size:1.5rem;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--blue);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(16,185,129,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
+
+  .game-card{background:rgba(255,255,255,0.85);border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:20px;position:relative;}
+  .question-label{font-size:1rem;font-weight:600;color:var(--text-mid);margin-bottom:16px;text-transform:uppercase;letter-spacing:2px;}
+  .question-text{font-family:'Quicksand',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.4;}
+  .containers-row{display:flex;justify-content:center;align-items:flex-end;gap:32px;margin-bottom:20px;flex-wrap:wrap;}
+  .container-item{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .container-emoji{font-size:3.5rem;line-height:1;}
+  .container-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:.95rem;color:var(--text-mid);}
+  .cup-row{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;max-width:120px;}
+  .cup-icon{font-size:1.1rem;}
+  .timer-wrap{margin:16px auto 24px;max-width:300px;}
+  .timer-bar-track{background:rgba(16,185,129,0.15);border-radius:99px;height:12px;overflow:hidden;}
+  .timer-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#6EE7B7,#10B981);transition:width 0.1s linear;}
+  .timer-label{font-size:0.75rem;color:var(--text-soft);margin-top:4px;font-weight:600;}
+  .answer-cards{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .answer-card{flex:1;min-width:120px;max-width:200px;border-radius:20px;padding:20px 12px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;border:none;font-family:inherit;color:white;font-size:1.1rem;font-weight:900;display:flex;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(135deg,#3B82F6,#93C5FD);box-shadow:0 8px 24px rgba(59,130,246,0.4);}
+  .answer-card:nth-child(2){background:linear-gradient(135deg,#10B981,#6EE7B7);box-shadow:0 8px 24px rgba(16,185,129,0.4);}
+  .answer-card:nth-child(3){background:linear-gradient(135deg,#F97316,#FDBA74);box-shadow:0 8px 24px rgba(249,115,22,0.4);}
+  .answer-card:hover:not(:disabled){transform:translateY(-4px) scale(1.03);}
+  .answer-card:disabled{cursor:default;opacity:0.7;}
+  .answer-card.correct{box-shadow:0 0 0 4px #10B981,0 8px 24px rgba(16,185,129,0.4)!important;transform:scale(1.05);}
+  .answer-card.wrong{opacity:0.5;transform:scale(0.95);}
+  .card-label{font-size:1.2rem;font-weight:900;}
+  .card-sub{font-size:0.8rem;opacity:0.85;font-weight:600;}
+  .speed-bonus{position:absolute;top:20px;right:20px;background:#FDCB6E;color:var(--text);font-weight:800;font-size:0.85rem;padding:4px 10px;border-radius:20px;animation:popIn 0.3s ease;display:none;}
+  .speed-bonus.show{display:block;}
+  @keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .feedback-box{border-radius:12px;padding:12px 20px;text-align:center;font-weight:700;font-size:1rem;margin-top:16px;display:none;}
+  .feedback-box.correct{background:#D1FAE5;color:#065F46;display:block;}
+  .feedback-box.wrong{background:#FEE2E2;color:#991B1B;display:block;}
+  .round-counter{text-align:center;font-size:.85rem;font-weight:700;color:var(--text-soft);margin-bottom:12px;}
+  .confetti-container{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:200;overflow:hidden;}
+  .confetti-piece{position:absolute;font-size:1.5rem;animation:confettiFly 1.2s ease-out forwards;top:50%;opacity:1;}
+  @keyframes confettiFly{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(-220px) rotate(720deg);opacity:0;}}
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;}
+  .btn-play{background:var(--blue);color:white;box-shadow:0 3px 0 var(--blue-dark);margin:0 6px;}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);margin:0 6px;}
+  @media(max-width:768px){.game-layout{grid-template-columns:1fr;padding:16px;}.sidebar{flex-direction:row;flex-wrap:wrap;}.stat-card{flex:1;min-width:140px;}.site-nav{display:none;}}
+</style>
+</head>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">🧮</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
+  </div>
+</header>
+
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Level</div>
+      <div class="stat-level-row">
+        <span class="level-icon">🏅</span>
+        <span class="stat-value-sm">Primary 2</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lives</div>
+      <div class="hearts" id="hearts">❤️❤️❤️</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Capacity Cove</div>
+      <span class="level-pill">P2</span>
+    </div>
+  </div>
+
+  <div class="game-canvas">
+    <div class="game-card" id="gameCard">
+      <div class="speed-bonus" id="speedBonus">⚡ Speed Bonus!</div>
+      <div class="round-counter" id="roundCounter">Round 1 of 10</div>
+      <div class="question-label">Capacity Challenge</div>
+      <div class="question-text" id="questionText">Loading...</div>
+      <div class="containers-row" id="containersRow"></div>
+      <div class="timer-wrap">
+        <div class="timer-bar-track">
+          <div class="timer-bar-fill" id="timerBar" style="width:100%"></div>
+        </div>
+        <div class="timer-label" id="timerLabel">8 seconds</div>
+      </div>
+      <div class="answer-cards" id="answerCards"></div>
+      <div class="feedback-box" id="feedbackBox"></div>
+    </div>
+  </div>
+</div>
+
+<div class="confetti-container" id="confettiContainer"></div>
+
+<div class="end-screen" id="endOverlay">
+  <div class="end-card">
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">🪣</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Cove Complete!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:8px;" id="endScore">0 / 10</div>
+    <div style="font-size:2rem;margin-bottom:8px;" id="endStars">★★★</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:4px;" id="endLabel">Brilliant!</div>
+    <div style="font-size:0.9rem;color:#F59E0B;font-weight:700;margin-bottom:20px;" id="endBonus"></div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
+  </div>
+</div>
+
+<script>
+const CONFETTI = ['🪣','🫗','🧴','💧','🌊','⭐','✨','🌟'];
+
+// Pre-set 10 questions covering Gm2.06
+const ALL_QUESTIONS = [
+  {
+    type: 'compare',
+    question: 'Which container holds MORE?',
+    containers: [
+      { emoji: '🫗', name: 'Jug', cups: 4 },
+      { emoji: '🧴', name: 'Bottle', cups: 7 }
+    ],
+    options: ['🫗 Jug', '🧴 Bottle'],
+    correctIndex: 1,
+    explanation: 'The Bottle holds 7 cups — more than the Jug (4 cups).'
+  },
+  {
+    type: 'compare',
+    question: 'Which container holds LESS?',
+    containers: [
+      { emoji: '🪣', name: 'Bucket', cups: 10 },
+      { emoji: '🫗', name: 'Jug', cups: 3 }
+    ],
+    options: ['🪣 Bucket', '🫗 Jug'],
+    correctIndex: 1,
+    explanation: 'The Jug holds 3 cups — less than the Bucket (10 cups).'
+  },
+  {
+    type: 'calculate',
+    question: 'A small jug holds 2 cups. A big jug holds 3× more. How many cups does the big jug hold?',
+    containers: [
+      { emoji: '🫗', name: 'Small Jug', cups: 2 },
+      { emoji: '🪣', name: 'Big Jug', cups: 6 }
+    ],
+    options: ['4 cups', '5 cups', '6 cups'],
+    correctIndex: 2,
+    explanation: '2 × 3 = 6 cups. The big jug holds 6 cups!'
+  },
+  {
+    type: 'compare',
+    question: 'Which container holds MORE?',
+    containers: [
+      { emoji: '🧴', name: 'Bottle', cups: 5 },
+      { emoji: '🪣', name: 'Bucket', cups: 8 }
+    ],
+    options: ['🧴 Bottle', '🪣 Bucket'],
+    correctIndex: 1,
+    explanation: 'The Bucket holds 8 cups — more than the Bottle (5 cups).'
+  },
+  {
+    type: 'calculate',
+    question: 'A cup holds 1 cup. A bottle holds 4× more. How many cups does the bottle hold?',
+    containers: [
+      { emoji: '🥤', name: 'Cup', cups: 1 },
+      { emoji: '🧴', name: 'Bottle', cups: 4 }
+    ],
+    options: ['3 cups', '4 cups', '5 cups'],
+    correctIndex: 1,
+    explanation: '1 × 4 = 4 cups. The bottle holds 4 cups!'
+  },
+  {
+    type: 'order',
+    question: 'Which container holds the MOST?',
+    containers: [
+      { emoji: '🥤', name: 'Glass', cups: 2 },
+      { emoji: '🫗', name: 'Jug', cups: 6 },
+      { emoji: '🪣', name: 'Bucket', cups: 9 }
+    ],
+    options: ['🥤 Glass', '🫗 Jug', '🪣 Bucket'],
+    correctIndex: 2,
+    explanation: 'The Bucket holds 9 cups — the most of all three!'
+  },
+  {
+    type: 'compare',
+    question: 'Which container holds LESS?',
+    containers: [
+      { emoji: '🪣', name: 'Bucket', cups: 12 },
+      { emoji: '🧴', name: 'Bottle', cups: 5 }
+    ],
+    options: ['🪣 Bucket', '🧴 Bottle'],
+    correctIndex: 1,
+    explanation: 'The Bottle holds 5 cups — less than the Bucket (12 cups).'
+  },
+  {
+    type: 'calculate',
+    question: 'A jug holds 3 cups. A bucket holds 4× more. How many cups does the bucket hold?',
+    containers: [
+      { emoji: '🫗', name: 'Jug', cups: 3 },
+      { emoji: '🪣', name: 'Bucket', cups: 12 }
+    ],
+    options: ['9 cups', '10 cups', '12 cups'],
+    correctIndex: 2,
+    explanation: '3 × 4 = 12 cups. The bucket holds 12 cups!'
+  },
+  {
+    type: 'order',
+    question: 'Which container holds the LEAST?',
+    containers: [
+      { emoji: '🥤', name: 'Glass', cups: 1 },
+      { emoji: '🧴', name: 'Bottle', cups: 6 },
+      { emoji: '🪣', name: 'Bucket', cups: 10 }
+    ],
+    options: ['🥤 Glass', '🧴 Bottle', '🪣 Bucket'],
+    correctIndex: 0,
+    explanation: 'The Glass holds only 1 cup — the least of all three!'
+  },
+  {
+    type: 'calculate',
+    question: 'A bottle holds 5 cups. A bucket holds 2× more. How many cups does the bucket hold?',
+    containers: [
+      { emoji: '🧴', name: 'Bottle', cups: 5 },
+      { emoji: '🪣', name: 'Bucket', cups: 10 }
+    ],
+    options: ['8 cups', '10 cups', '12 cups'],
+    correctIndex: 1,
+    explanation: '5 × 2 = 10 cups. The bucket holds 10 cups!'
+  }
+];
+
+let rounds = [];
+let currentRound = 0;
+let score = 0;
+let lives = 3;
+let bonusStarCount = 0;
+let answered = false;
+let timerInterval = null;
+let timerStart = 0;
+const TIMER_DURATION = 8000;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function generateRounds() {
+  rounds = shuffle([...ALL_QUESTIONS]).slice(0, 10);
+}
+
+function makeCupIcons(n) {
+  const max = Math.min(n, 12);
+  let html = '';
+  for (let i = 0; i < max; i++) html += '<span class="cup-icon">🥤</span>';
+  if (n > 12) html += `<span style="font-size:.8rem;font-weight:700;color:var(--text-mid)">×${n}</span>`;
+  return html;
+}
+
+function renderRound() {
+  answered = false;
+  const r = rounds[currentRound];
+  document.getElementById('roundCounter').textContent = `Round ${currentRound + 1} of 10`;
+  document.getElementById('questionText').textContent = r.question;
+
+  // Containers
+  const row = document.getElementById('containersRow');
+  row.innerHTML = '';
+  r.containers.forEach(c => {
+    const item = document.createElement('div');
+    item.className = 'container-item';
+    item.innerHTML = `
+      <div class="cup-row">${makeCupIcons(c.cups)}</div>
+      <div class="container-emoji">${c.emoji}</div>
+      <div class="container-name">${c.name}</div>
+      <div style="font-size:.8rem;font-weight:700;color:var(--text-soft)">holds ${c.cups} cup${c.cups !== 1 ? 's' : ''}</div>
+    `;
+    row.appendChild(item);
+  });
+
+  // Answer buttons
+  const cardsEl = document.getElementById('answerCards');
+  cardsEl.innerHTML = '';
+  r.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-card';
+    btn.innerHTML = `<span class="card-label">${opt}</span>`;
+    btn.onclick = () => handleAnswer(idx);
+    cardsEl.appendChild(btn);
+  });
+
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback-box';
+  fb.textContent = '';
+  document.getElementById('speedBonus').classList.remove('show');
+  updateProgress();
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerStart = Date.now();
+  const bar = document.getElementById('timerBar');
+  const label = document.getElementById('timerLabel');
+  bar.style.transition = 'none';
+  bar.style.width = '100%';
+  bar.offsetWidth;
+  bar.style.transition = 'width 0.1s linear';
+
+  timerInterval = setInterval(() => {
+    const elapsed = Date.now() - timerStart;
+    const remaining = Math.max(0, TIMER_DURATION - elapsed);
+    const pct = (remaining / TIMER_DURATION) * 100;
+    bar.style.width = pct + '%';
+    const secs = Math.ceil(remaining / 1000);
+    label.textContent = secs + (secs === 1 ? ' second' : ' seconds');
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      if (!answered) timeUp();
+    }
+  }, 100);
+}
+
+function timeUp() {
+  answered = true;
+  const r = rounds[currentRound];
+  disableButtons();
+  highlightCorrect(r.correctIndex);
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback-box wrong';
+  fb.textContent = `⏰ Time's up! ${r.explanation}`;
+  loseLife();
+  setTimeout(advance, 1600);
+}
+
+function handleAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+  const elapsed = Date.now() - timerStart;
+  const fast = elapsed < 4000;
+  const r = rounds[currentRound];
+  const correct = idx === r.correctIndex;
+  const fb = document.getElementById('feedbackBox');
+  const buttons = document.getElementById('answerCards').querySelectorAll('button');
+  disableButtons();
+
+  if (correct) {
+    score++;
+    document.getElementById('score').textContent = score;
+    buttons[idx].classList.add('correct');
+    fb.className = 'feedback-box correct';
+    fb.textContent = fast ? `✓ Correct! ⚡ Speed bonus! ${r.explanation}` : `✓ Correct! ${r.explanation}`;
+    if (fast) {
+      bonusStarCount++;
+      document.getElementById('speedBonus').classList.add('show');
+    }
+    launchConfetti();
+  } else {
+    buttons[idx].classList.add('wrong');
+    highlightCorrect(r.correctIndex);
+    fb.className = 'feedback-box wrong';
+    fb.textContent = `✗ Not quite! ${r.explanation}`;
+    loseLife();
+  }
+  setTimeout(advance, 1600);
+}
+
+function disableButtons() {
+  document.getElementById('answerCards').querySelectorAll('button').forEach(b => b.disabled = true);
+}
+
+function highlightCorrect(idx) {
+  const buttons = document.getElementById('answerCards').querySelectorAll('button');
+  if (buttons[idx]) buttons[idx].classList.add('correct');
+}
+
+function loseLife() {
+  if (lives > 0) lives--;
+  const heartsEl = document.getElementById('hearts');
+  heartsEl.textContent = '❤️'.repeat(lives) + (lives < 3 ? '🖤'.repeat(3 - lives) : '');
+}
+
+function advance() {
+  currentRound++;
+  if (currentRound < 10) renderRound();
+  else showEndScreen();
+}
+
+function updateProgress() {
+  const pct = Math.round((currentRound / 10) * 100);
+  document.getElementById('progressBar').style.width = `${pct}%`;
+}
+
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  for (let i = 0; i < 10; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    piece.textContent = CONFETTI[Math.floor(Math.random() * CONFETTI.length)];
+    piece.style.left = (10 + Math.random() * 80) + '%';
+    piece.style.animationDelay = (Math.random() * 0.4) + 's';
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), 1600);
+  }
+}
+
+function showEndScreen() {
+  clearInterval(timerInterval);
+  document.getElementById('endScore').textContent = `${score} / 10`;
+  let stars, label, emoji;
+  if (score >= 9) { stars = '★★★'; label = 'Brilliant!'; emoji = '🏆'; }
+  else if (score >= 7) { stars = '★★☆'; label = 'Well Done!'; emoji = '🌟'; }
+  else { stars = '★☆☆'; label = 'Keep Trying!'; emoji = '🪣'; }
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endLabel').textContent = label;
+  document.getElementById('endEmoji').textContent = emoji;
+  if (bonusStarCount > 0) {
+    document.getElementById('endBonus').textContent = `⚡ ${bonusStarCount} speed bonus${bonusStarCount > 1 ? 'es' : ''} earned!`;
+  }
+  // Big confetti burst
+  for (let b = 0; b < 3; b++) {
+    setTimeout(launchConfetti, b * 300);
+  }
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+function restartGame() {
+  currentRound = 0; score = 0; lives = 3; bonusStarCount = 0;
+  document.getElementById('score').textContent = 0;
+  document.getElementById('hearts').textContent = '❤️❤️❤️';
+  document.getElementById('endBonus').textContent = '';
+  document.getElementById('endOverlay').classList.remove('show');
+  generateRounds();
+  renderRound();
+}
+
+generateRounds();
+renderRound();
+</script>
+<script src="../../js/mathmunch.js"></script>
+</body>
+</html>

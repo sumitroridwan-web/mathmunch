@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<title>Data Collector – MathMunch</title>
+<style>
+  :root {
+    --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;
+    --green:#10B981;--orange:#F97316;
+    --bg:#F8FAFC;--white:#FFFFFF;--outline:#E2E8F0;
+    --text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+    --canvas:#DBEAFE;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2,h3,.logo-text,.stat-value,.game-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+  .site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+  .site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .logo-icon{width:38px;height:38px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--blue-dark);}
+  .logo-text{font-size:1.25rem;font-weight:700;color:var(--blue);}
+  .site-nav{display:flex;gap:4px;}
+  .site-nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.9rem;padding:8px 16px;border-radius:9999px;transition:.15s;}
+  .site-nav a:hover,.site-nav a.active{background:var(--blue-light);color:var(--blue);}
+  .btn-play-now{background:var(--blue);color:white;padding:10px 22px;border-radius:9999px;font-weight:700;font-size:.9rem;text-decoration:none;box-shadow:0 3px 0 var(--blue-dark);transition:.1s;}
+  .btn-play-now:hover{transform:translateY(-1px);}
+  .game-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:20px 24px 24px;max-width:1200px;margin:0 auto;flex:1;align-items:start;}
+  .sidebar{display:flex;flex-direction:column;gap:12px;}
+  .exit-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:12px 20px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+  .exit-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .stat-card{background:var(--white);border:1px solid var(--outline);border-radius:24px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+  .stat-label{font-family:'Lexend',sans-serif;font-size:.7rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+  .stat-value{font-size:2.2rem;font-weight:700;color:var(--blue);line-height:1;}
+  .stat-level-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .level-icon{font-size:1.4rem;}
+  .stat-value-sm{font-size:1.8rem;font-weight:700;color:var(--blue);}
+  .level-progress{height:10px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+  .level-progress-fill{height:100%;background:var(--green);border-radius:9999px;width:0%;transition:width .4s ease;}
+  .game-info-title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .level-pill{display:inline-block;background:var(--blue);color:white;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:9999px;}
+  .game-canvas{background:var(--canvas);border-radius:24px;padding:32px;position:relative;overflow:hidden;min-height:520px;border:1px solid rgba(59,130,246,.15);}
+  .game-canvas::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+  .game-canvas > *{position:relative;z-index:1;}
+
+  .game-card{background:rgba(255,255,255,0.88);border-radius:20px;padding:24px 20px;text-align:center;margin-bottom:20px;position:relative;}
+  .question-label{font-size:.9rem;font-weight:600;color:var(--text-mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:2px;}
+  .question-text{font-family:'Quicksand',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.4;}
+  .items-list{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:2px solid rgba(59,130,246,0.2);border-radius:14px;padding:14px 12px;margin-bottom:14px;}
+  .item-chip{display:inline-flex;align-items:center;gap:5px;background:var(--white);border:1.5px solid var(--outline);border-radius:9999px;padding:5px 12px;font-size:.9rem;font-weight:600;color:var(--text);}
+  .item-chip span.icon{font-size:1.1rem;}
+  .timer-wrap{margin:12px auto 16px;max-width:300px;}
+  .timer-bar-track{background:rgba(59,130,246,0.15);border-radius:99px;height:12px;overflow:hidden;}
+  .timer-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#93C5FD,#3B82F6);transition:width 0.1s linear;}
+  .timer-label{font-size:0.75rem;color:var(--text-soft);margin-top:4px;font-weight:600;}
+  .answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:460px;margin:0 auto;}
+  .answer-btn{border-radius:16px;padding:20px 12px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;border:3px solid transparent;font-family:'Quicksand',sans-serif;font-size:1.7rem;font-weight:700;color:white;background:linear-gradient(135deg,var(--blue),#60A5FA);box-shadow:0 6px 18px rgba(59,130,246,0.3);}
+  .answer-btn:hover:not(:disabled){transform:translateY(-3px) scale(1.03);}
+  .answer-btn:disabled{cursor:default;opacity:0.65;}
+  .answer-btn.correct{background:linear-gradient(135deg,#10B981,#34D399)!important;box-shadow:0 0 0 4px #10B981,0 8px 24px rgba(16,185,129,0.4)!important;}
+  .answer-btn.wrong{background:linear-gradient(135deg,#EF4444,#FCA5A5)!important;opacity:0.6;transform:scale(0.95);}
+  .speed-bonus{position:absolute;top:16px;right:16px;background:#FDCB6E;color:var(--text);font-weight:800;font-size:0.85rem;padding:4px 10px;border-radius:20px;animation:popIn 0.3s ease;display:none;}
+  .speed-bonus.show{display:block;}
+  @keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .feedback-box{border-radius:12px;padding:12px 20px;text-align:center;font-weight:700;font-size:1rem;margin-top:12px;display:none;}
+  .feedback-box.correct{background:#D1FAE5;color:#065F46;display:block;}
+  .feedback-box.wrong{background:#FEE2E2;color:#991B1B;display:block;}
+  .confetti-container{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:200;overflow:hidden;}
+  .confetti-piece{position:absolute;font-size:1.5rem;animation:confettiFly 1.2s ease-out forwards;top:50%;opacity:1;}
+  @keyframes confettiFly{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(-220px) rotate(720deg);opacity:0;}}
+  .end-screen{display:none;position:fixed;inset:0;background:rgba(25,28,30,.8);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;}
+  .end-screen.show{display:flex;}
+  .end-card{background:white;border-radius:28px;padding:44px;text-align:center;max-width:420px;width:90%;animation:popIn .4s cubic-bezier(.34,1.56,.64,1);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 28px;border-radius:9999px;border:none;cursor:pointer;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;transition:.1s;text-decoration:none;}
+  .btn-play{background:var(--blue);color:white;box-shadow:0 3px 0 var(--blue-dark);margin:0 6px;}
+  .btn-home{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);margin:0 6px;}
+  @media(max-width:768px){.game-layout{grid-template-columns:1fr;padding:16px;}.sidebar{flex-direction:row;flex-wrap:wrap;}.stat-card{flex:1;min-width:140px;}.site-nav{display:none;}}
+</style>
+</head>
+<body><script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../../index.html" class="logo">
+      <div class="logo-icon">🧮</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../../index.html#games" class="active">Games</a>
+      <a href="#">Badges</a>
+      <a href="#">Progress</a>
+    </nav>
+    <a href="../../index.html" class="btn-play-now">Play Now</a>
+  </div>
+</header>
+
+<div class="game-layout">
+  <div class="sidebar">
+    <button class="exit-btn" onclick="window.location.href='../../index.html'">↩ Exit Game</button>
+    <div class="stat-card">
+      <div class="stat-label">Score</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Round</div>
+      <div class="stat-level-row">
+        <span class="level-icon">📋</span>
+        <span class="stat-value-sm" id="roundDisplay">1 / 10</span>
+      </div>
+      <div class="level-progress">
+        <div class="level-progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Game</div>
+      <div class="game-info-title">Data Collector</div>
+      <span class="level-pill">P2</span>
+    </div>
+  </div>
+
+  <div class="game-canvas">
+    <div class="game-card" id="gameCard">
+      <div class="speed-bonus" id="speedBonus">⚡ Speed Bonus!</div>
+      <div class="question-label">📋 Count and sort the data</div>
+      <div class="question-text" id="questionText">How many cats are in the list?</div>
+      <div class="items-list" id="itemsList"></div>
+      <div class="timer-wrap">
+        <div class="timer-bar-track">
+          <div class="timer-bar-fill" id="timerBar" style="width:100%"></div>
+        </div>
+        <div class="timer-label" id="timerLabel">10 seconds</div>
+      </div>
+      <div class="answer-grid" id="answerGrid"></div>
+      <div class="feedback-box" id="feedbackBox"></div>
+    </div>
+  </div>
+</div>
+
+<div class="confetti-container" id="confettiContainer"></div>
+
+<div class="end-screen" id="endOverlay">
+  <div class="end-card">
+    <div style="font-size:3rem;margin-bottom:12px;" id="endEmoji">📋</div>
+    <div style="font-family:'Quicksand',sans-serif;font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Data Collected!</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:8px;" id="endScore">0 / 10</div>
+    <div style="font-size:2rem;margin-bottom:8px;" id="endStars">★★★</div>
+    <div style="font-size:1rem;color:var(--text-mid);margin-bottom:4px;" id="endLabel">Brilliant!</div>
+    <div style="font-size:0.9rem;color:#F59E0B;font-weight:700;margin-bottom:20px;" id="endBonus"></div>
+    <button class="btn btn-play" onclick="restartGame()">Play Again</button>
+    <a class="btn btn-home" href="../../index.html">← All Games</a>
+  </div>
+</div>
+
+<script>
+const CONFETTI = ['📋','⭐','✨','🌟','📊','🎯'];
+
+// Pre-set rounds. Each round has:
+//   items: array of {icon, label} (8 items displayed)
+//   question: string
+//   correct: number (the count matching the criterion)
+//   criterion: what we're counting (used to auto-generate distractors)
+const ROUNDS = [
+  {
+    items: [
+      {icon:'🐱',label:'cat'},{icon:'🐶',label:'dog'},{icon:'🐱',label:'cat'},
+      {icon:'🐰',label:'rabbit'},{icon:'🐱',label:'cat'},{icon:'🐶',label:'dog'},
+      {icon:'🐱',label:'cat'},{icon:'🐰',label:'rabbit'}
+    ],
+    question: 'How many cats are in the list?',
+    correct: 4
+  },
+  {
+    items: [
+      {icon:'🔴',label:'red'},{icon:'🔵',label:'blue'},{icon:'🔴',label:'red'},
+      {icon:'🟢',label:'green'},{icon:'🔵',label:'blue'},{icon:'🔴',label:'red'},
+      {icon:'🟢',label:'green'},{icon:'🔵',label:'blue'}
+    ],
+    question: 'How many blue items are in the list?',
+    correct: 3
+  },
+  {
+    items: [
+      {icon:'🔺',label:'triangle'},{icon:'⬛',label:'square'},{icon:'🔵',label:'circle'},
+      {icon:'🔺',label:'triangle'},{icon:'⬛',label:'square'},{icon:'🔺',label:'triangle'},
+      {icon:'🔵',label:'circle'},{icon:'⬛',label:'square'}
+    ],
+    question: 'How many triangles are in the list?',
+    correct: 3
+  },
+  {
+    items: [
+      {icon:'🐱',label:'cat'},{icon:'🐱',label:'cat'},{icon:'🐶',label:'dog'},
+      {icon:'🐠',label:'fish'},{icon:'🐶',label:'dog'},{icon:'🐶',label:'dog'},
+      {icon:'🐠',label:'fish'},{icon:'🐱',label:'cat'}
+    ],
+    question: 'How many dogs are in the list?',
+    correct: 3
+  },
+  {
+    items: [
+      {icon:'🍎',label:'apple'},{icon:'🍌',label:'banana'},{icon:'🍎',label:'apple'},
+      {icon:'🍇',label:'grapes'},{icon:'🍌',label:'banana'},{icon:'🍎',label:'apple'},
+      {icon:'🍇',label:'grapes'},{icon:'🍎',label:'apple'}
+    ],
+    question: 'How many apples are in the list?',
+    correct: 4
+  },
+  {
+    items: [
+      {icon:'🔴',label:'red'},{icon:'🟡',label:'yellow'},{icon:'🔴',label:'red'},
+      {icon:'🟡',label:'yellow'},{icon:'🟢',label:'green'},{icon:'🟡',label:'yellow'},
+      {icon:'🔴',label:'red'},{icon:'🟢',label:'green'}
+    ],
+    question: 'How many yellow items are in the list?',
+    correct: 3
+  },
+  {
+    items: [
+      {icon:'⬛',label:'square'},{icon:'🔵',label:'circle'},{icon:'⬛',label:'square'},
+      {icon:'🔵',label:'circle'},{icon:'⬛',label:'square'},{icon:'🔺',label:'triangle'},
+      {icon:'🔵',label:'circle'},{icon:'🔺',label:'triangle'}
+    ],
+    question: 'How many circles are in the list?',
+    correct: 3
+  },
+  {
+    items: [
+      {icon:'🐠',label:'fish'},{icon:'🐰',label:'rabbit'},{icon:'🐠',label:'fish'},
+      {icon:'🐱',label:'cat'},{icon:'🐠',label:'fish'},{icon:'🐰',label:'rabbit'},
+      {icon:'🐱',label:'cat'},{icon:'🐠',label:'fish'}
+    ],
+    question: 'How many fish are in the list?',
+    correct: 4
+  },
+  {
+    items: [
+      {icon:'🍌',label:'banana'},{icon:'🍇',label:'grapes'},{icon:'🍌',label:'banana'},
+      {icon:'🍎',label:'apple'},{icon:'🍌',label:'banana'},{icon:'🍇',label:'grapes'},
+      {icon:'🍌',label:'banana'},{icon:'🍎',label:'apple'}
+    ],
+    question: 'How many bananas are in the list?',
+    correct: 4
+  },
+  {
+    items: [
+      {icon:'🟢',label:'green'},{icon:'🔵',label:'blue'},{icon:'🟢',label:'green'},
+      {icon:'🔴',label:'red'},{icon:'🟢',label:'green'},{icon:'🔵',label:'blue'},
+      {icon:'🔴',label:'red'},{icon:'🟢',label:'green'}
+    ],
+    question: 'How many green items are in the list?',
+    correct: 4
+  }
+];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function makeChoices(correct) {
+  // Generate 3 distractors from correct ± 1, ± 2, ± 3, ensuring unique and in [1..8]
+  const used = new Set([correct]);
+  const offsets = shuffle([-3,-2,-1,1,2,3]);
+  const distractors = [];
+  for (const off of offsets) {
+    if (distractors.length >= 3) break;
+    const d = correct + off;
+    if (d >= 0 && d <= 8 && !used.has(d)) {
+      used.add(d);
+      distractors.push(d);
+    }
+  }
+  while (distractors.length < 3) {
+    for (let d = 0; d <= 8; d++) {
+      if (!used.has(d)) { used.add(d); distractors.push(d); break; }
+    }
+  }
+  return shuffle([correct, ...distractors]);
+}
+
+let order = [];
+let currentRound = 0;
+let score = 0;
+let bonusStarCount = 0;
+let answered = false;
+let timerInterval = null;
+let timerStart = 0;
+const TIMER_DURATION = 10000;
+
+function generateOrder() {
+  order = shuffle([...Array(10).keys()]);
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerStart = Date.now();
+  const bar = document.getElementById('timerBar');
+  const label = document.getElementById('timerLabel');
+  bar.style.transition = 'none';
+  bar.style.width = '100%';
+  bar.offsetWidth;
+  bar.style.transition = 'width 0.1s linear';
+
+  timerInterval = setInterval(() => {
+    const elapsed = Date.now() - timerStart;
+    const remaining = Math.max(0, TIMER_DURATION - elapsed);
+    const pct = (remaining / TIMER_DURATION) * 100;
+    bar.style.width = pct + '%';
+    const secs = Math.ceil(remaining / 1000);
+    label.textContent = secs + (secs === 1 ? ' second' : ' seconds');
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      if (!answered) timeUp();
+    }
+  }, 100);
+}
+
+function timeUp() {
+  answered = true;
+  disableButtons();
+  const r = ROUNDS[order[currentRound]];
+  showFeedback(false, `⏰ Time's up! The answer was ${r.correct}`);
+  highlightCorrect(r.correct);
+  setTimeout(advance, 1400);
+}
+
+function renderRound() {
+  answered = false;
+  const r = ROUNDS[order[currentRound]];
+  document.getElementById('roundDisplay').textContent = (currentRound + 1) + ' / 10';
+  document.getElementById('questionText').textContent = r.question;
+  updateProgress();
+
+  // Render items list
+  const list = document.getElementById('itemsList');
+  list.innerHTML = '';
+  const shuffledItems = shuffle([...r.items]);
+  shuffledItems.forEach(item => {
+    const chip = document.createElement('div');
+    chip.className = 'item-chip';
+    chip.innerHTML = `<span class="icon">${item.icon}</span><span>${item.label}</span>`;
+    list.appendChild(chip);
+  });
+
+  // Render answer buttons
+  const choices = makeChoices(r.correct);
+  const grid = document.getElementById('answerGrid');
+  grid.innerHTML = '';
+  choices.forEach(val => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.textContent = val;
+    btn.dataset.val = val;
+    btn.onclick = () => handleAnswer(val, r.correct);
+    grid.appendChild(btn);
+  });
+
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback-box';
+  fb.textContent = '';
+  document.getElementById('speedBonus').classList.remove('show');
+  startTimer();
+}
+
+function handleAnswer(chosen, correct) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+  const elapsed = Date.now() - timerStart;
+  const fast = elapsed < 5000;
+  const isCorrect = Number(chosen) === correct;
+
+  disableButtons();
+  highlightCorrect(correct);
+
+  const chosenBtn = [...document.querySelectorAll('.answer-btn')].find(b => Number(b.dataset.val) === Number(chosen));
+  if (chosenBtn && !isCorrect) chosenBtn.classList.add('wrong');
+
+  if (isCorrect) {
+    score++;
+    document.getElementById('score').textContent = score;
+    showFeedback(true, fast ? '✓ Correct! ⚡ Speed bonus!' : '✓ Correct! Great counting!');
+    if (fast) {
+      bonusStarCount++;
+      document.getElementById('speedBonus').classList.add('show');
+    }
+    launchConfetti();
+  } else {
+    showFeedback(false, `✗ Not quite! The answer was ${correct}`);
+  }
+
+  setTimeout(advance, 1400);
+}
+
+function disableButtons() {
+  document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+}
+
+function highlightCorrect(val) {
+  document.querySelectorAll('.answer-btn').forEach(b => {
+    if (Number(b.dataset.val) === val) b.classList.add('correct');
+  });
+}
+
+function showFeedback(ok, msg) {
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback-box ' + (ok ? 'correct' : 'wrong');
+  fb.textContent = msg;
+}
+
+function advance() {
+  currentRound++;
+  if (currentRound < 10) renderRound();
+  else showEndScreen();
+}
+
+function updateProgress() {
+  const pct = Math.round((currentRound / 10) * 100);
+  document.getElementById('progressBar').style.width = `${pct}%`;
+}
+
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  for (let i = 0; i < 8; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    piece.textContent = CONFETTI[Math.floor(Math.random() * CONFETTI.length)];
+    piece.style.left = (20 + Math.random() * 60) + '%';
+    piece.style.animationDelay = (Math.random() * 0.3) + 's';
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), 1500);
+  }
+}
+
+function showEndScreen() {
+  document.getElementById('endScore').textContent = `${score} / 10`;
+  let stars, label, emoji;
+  if (score >= 9) { stars = '★★★'; label = 'Data Expert!'; emoji = '🏆'; }
+  else if (score >= 7) { stars = '★★☆'; label = 'Well Done!'; emoji = '📋'; }
+  else { stars = '★☆☆'; label = 'Keep Collecting!'; emoji = '⭐'; }
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endLabel').textContent = label;
+  document.getElementById('endEmoji').textContent = emoji;
+  if (bonusStarCount > 0) {
+    document.getElementById('endBonus').textContent = `⚡ ${bonusStarCount} speed bonus${bonusStarCount > 1 ? 'es' : ''} earned!`;
+  }
+  document.getElementById('endOverlay').classList.add('show');
+  launchConfetti(); launchConfetti();
+}
+
+function restartGame() {
+  currentRound = 0; score = 0; bonusStarCount = 0;
+  document.getElementById('score').textContent = 0;
+  document.getElementById('endBonus').textContent = '';
+  document.getElementById('endOverlay').classList.remove('show');
+  generateOrder(); renderRound();
+}
+
+generateOrder();
+renderRound();
+</script>
+<script src="../../js/mathmunch.js"></script>
+</body>
+</html>

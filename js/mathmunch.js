@@ -572,6 +572,69 @@
         { type: 'indonesian', code: '4.B.2', text: 'Penjumlahan dan pengurangan bilangan empat angka menggunakan strategi tertulis' },
       ]
     },
+    'number-compare': {
+      grade: 'Grade 1', stageColor: '#3B82F6', indonesianGrade: 'Kelas 1 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'Nn1.02', text: 'Compare and order numbers to 20 using < > = symbols' },
+        { type: 'indonesian', code: '1.B.2', text: 'Membandingkan dan mengurutkan bilangan sampai 20 menggunakan <, >, =' },
+      ]
+    },
+    'hundred-square-hunt': {
+      grade: 'Grade 3', stageColor: '#7C3AED', indonesianGrade: 'Kelas 3 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Nn3.02', text: 'Use a 100-square to recognise number sequences and patterns' },
+        { type: 'indonesian', code: '3.B.2', text: 'Menggunakan tabel 100 untuk mengenali pola dan urutan bilangan' },
+      ]
+    },
+    'double-half-dash': {
+      grade: 'Grade 3', stageColor: '#7C3AED', indonesianGrade: 'Kelas 3 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Nn3.05', text: 'Double and halve numbers up to 100; derive related facts' },
+        { type: 'indonesian', code: '3.B.5', text: 'Menggandakan dan membagi dua bilangan sampai 100; menggunakan fakta turunan' },
+      ]
+    },
+    'column-calculator': {
+      grade: 'Grade 4', stageColor: '#EA580C', indonesianGrade: 'Kelas 4 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Nn4.02', text: 'Add and subtract 3- and 4-digit numbers using formal written column methods' },
+        { type: 'indonesian', code: '4.B.2', text: 'Menjumlahkan dan mengurangkan bilangan 3–4 angka dengan metode kolom bersusun' },
+      ]
+    },
+    'big-number-blitz': {
+      grade: 'Grade 5', stageColor: '#E11D48', indonesianGrade: 'Kelas 5 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn5.01', text: 'Read, write and order numbers up to 1 000 000; understand place value' },
+        { type: 'indonesian', code: '5.B.1', text: 'Membaca, menulis, dan mengurutkan bilangan sampai 1.000.000; memahami nilai tempat' },
+      ]
+    },
+    'long-multiplication-lab': {
+      grade: 'Grade 5', stageColor: '#E11D48', indonesianGrade: 'Kelas 5 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn5.05', text: 'Multiply 2-digit numbers by 2-digit numbers using long multiplication' },
+        { type: 'indonesian', code: '5.B.5', text: 'Mengalikan bilangan dua angka dengan dua angka menggunakan cara panjang' },
+      ]
+    },
+    'remainder-ranger': {
+      grade: 'Grade 5', stageColor: '#E11D48', indonesianGrade: 'Kelas 5 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn5.06', text: 'Divide numbers with remainders; interpret remainders in context' },
+        { type: 'indonesian', code: '5.B.6', text: 'Membagi bilangan dengan sisa; menafsirkan sisa dalam konteks masalah' },
+      ]
+    },
+    'percent-plaza': {
+      grade: 'Grade 6', stageColor: '#EA580C', indonesianGrade: 'Kelas 6 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn6.04', text: 'Calculate percentages of quantities; convert fluently between fractions, decimals and percentages' },
+        { type: 'indonesian', code: '6.B.4', text: 'Menghitung persentase suatu bilangan; mengonversi antara pecahan, desimal, dan persen' },
+      ]
+    },
+    'problem-pyramid': {
+      grade: 'Grade 6', stageColor: '#EA580C', indonesianGrade: 'Kelas 6 / Fase C',
+      objectives: [
+        { type: 'cambridge', code: 'Nn6.05', text: 'Solve multi-step word problems using all four operations; choose appropriate methods' },
+        { type: 'indonesian', code: '6.B.5', text: 'Memecahkan soal cerita bertingkat menggunakan empat operasi; memilih strategi yang tepat' },
+      ]
+    },
 
     // ── GEOMETRY ────────────────────────────────
     'shape-explorer': {
@@ -706,6 +769,27 @@
         { type: 'indonesian', code: '5.G.2', text: 'Menghitung volume kubus dan balok menggunakan rumus panjang × lebar × tinggi' },
       ]
     },
+    'capacity-cove': {
+      grade: 'Grade 2', stageColor: '#10B981', indonesianGrade: 'Kelas 2 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'Gm2.06', text: 'Compare and estimate capacity using litres and millilitres; read scales' },
+        { type: 'indonesian', code: '2.P.6', text: 'Membandingkan dan mengestimasi kapasitas dalam liter dan mililiter; membaca skala' },
+      ]
+    },
+    'turn-and-angle': {
+      grade: 'Grade 3', stageColor: '#7C3AED', indonesianGrade: 'Kelas 3 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Gm3.04', text: 'Understand whole, half and quarter turns; identify right angles and perpendicular lines' },
+        { type: 'indonesian', code: '3.G.4', text: 'Memahami putaran penuh, setengah, dan seperempat; mengenal sudut siku-siku dan garis tegak lurus' },
+      ]
+    },
+    'grid-explorer': {
+      grade: 'Grade 4', stageColor: '#EA580C', indonesianGrade: 'Kelas 4 / Fase B',
+      objectives: [
+        { type: 'cambridge', code: 'Gm4.04', text: 'Read and plot coordinates in all four quadrants of a coordinate grid' },
+        { type: 'indonesian', code: '4.G.4', text: 'Membaca dan memplot koordinat pada keempat kuadran sistem koordinat Kartesius' },
+      ]
+    },
 
     // ── STATISTICS ───────────────────────────────
     'tally-town': {
@@ -806,6 +890,13 @@
         { type: 'cambridge', code: 'St6.02', text: 'Calculate the probability of events from spinners and other random devices' },
         { type: 'indonesian', code: '5.D.3', text: 'Menentukan peluang suatu kejadian dari percobaan (dadu, spinner)' },
         { type: 'indonesian', code: '6.D.3', text: 'Menghitung dan membandingkan peluang dari berbagai kejadian' },
+      ]
+    },
+    'data-collector': {
+      grade: 'Grade 2', stageColor: '#F97316', indonesianGrade: 'Kelas 2 / Fase A',
+      objectives: [
+        { type: 'cambridge', code: 'St2.01', text: 'Collect and record data by counting objects; organise results in a simple table' },
+        { type: 'indonesian', code: '2.D.1', text: 'Mengumpulkan dan mencatat data dengan menghitung benda; menyusun dalam tabel sederhana' },
       ]
     },
 
