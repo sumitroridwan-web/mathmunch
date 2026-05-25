@@ -315,6 +315,35 @@
       margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
     }
 
+    /* ── DAILY CHALLENGE ── */
+    .daily-card {
+      background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 100%);
+      border: 2px solid #FED7AA; border-radius: var(--radius-card);
+      padding: 24px; margin-bottom: 32px;
+    }
+    .daily-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; gap: 12px; flex-wrap: wrap;
+    }
+    .daily-label { font-family: 'Quicksand', sans-serif; font-size: 1.2rem; font-weight: 700; color: #C2410C; }
+    .daily-date  { font-size: .82rem; color: var(--text-soft); font-weight: 600; margin-top: 2px; }
+    .daily-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .dc-card {
+      background: white; border-radius: 16px;
+      border: 2px solid #FED7AA; padding: 16px 18px;
+      display: flex; align-items: center; gap: 14px;
+      cursor: pointer; transition: transform .15s, box-shadow .15s;
+    }
+    .dc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(249,115,22,.18); }
+    .dc-card.done  { border-color: #10B981; background: #F0FDF4; }
+    .dc-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; flex-shrink: 0; }
+    .dc-meta { flex: 1; min-width: 0; }
+    .dc-type  { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-soft); margin-bottom: 3px; }
+    .dc-title { font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dc-sub   { font-size: .78rem; color: var(--text-soft); }
+    .dc-cta   { padding: 7px 16px; border-radius: 999px; font-size: .78rem; font-weight: 700; flex-shrink: 0; white-space: nowrap; }
+    @media (max-width: 700px) { .daily-grid { grid-template-columns: 1fr; } }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .stats-row { grid-template-columns: repeat(2, 1fr); }
@@ -429,6 +458,37 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- DAILY CHALLENGE -->
+  <div class="section-label">🔥 Today's Daily Challenge</div>
+  <div class="daily-card">
+    <div class="daily-head">
+      <div>
+        <div class="daily-label" id="dcDate"></div>
+        <div style="font-size:.82rem;color:#92400E;font-weight:600;">Complete both for a bonus badge! 🏅</div>
+      </div>
+    </div>
+    <div class="daily-grid">
+      <div class="dc-card" id="dcGameCard">
+        <div class="dc-icon" id="dcGameIcon" style="background:#DBEAFE;">🎮</div>
+        <div class="dc-meta">
+          <div class="dc-type">🎮 Game Challenge</div>
+          <div class="dc-title" id="dcGameTitle">Loading…</div>
+          <div class="dc-sub"   id="dcGameSub"></div>
+        </div>
+        <span class="dc-cta" id="dcGameCta" style="background:#3B82F6;color:white;">Play →</span>
+      </div>
+      <div class="dc-card" id="dcBookCard">
+        <div class="dc-icon" id="dcBookIcon" style="background:#F5F3FF;">📖</div>
+        <div class="dc-meta">
+          <div class="dc-type">📚 Reading Challenge</div>
+          <div class="dc-title" id="dcBookTitle">Loading…</div>
+          <div class="dc-sub"   id="dcBookSub"></div>
+        </div>
+        <span class="dc-cta" id="dcBookCta" style="background:#8B5CF6;color:white;">Read →</span>
+      </div>
+    </div>
   </div>
 
   <!-- BADGES -->
@@ -721,6 +781,91 @@
         <div class="badge-desc">${b.desc}</div>
       </div>`;
   });
+
+  // ── DAILY CHALLENGE ──
+  (function () {
+    const ALL_GAMES = [
+      { id:'counting-safari',           title:'Counting Safari',           strand:'number',     icon:'🦁', path:'games/number/counting-safari.html' },
+      { id:'add-subtract-adventure',    title:'Add & Subtract Adventure',  strand:'number',     icon:'➕', path:'games/number/add-subtract-adventure.html' },
+      { id:'decimal-diner',             title:'Decimal Diner',             strand:'number',     icon:'🍽️', path:'games/number/decimal-diner.html' },
+      { id:'division-dungeon',          title:'Division Dungeon',          strand:'number',     icon:'⚔️', path:'games/number/division-dungeon.html' },
+      { id:'fraction-forest',           title:'Fraction Forest',           strand:'number',     icon:'🌲', path:'games/number/fraction-forest.html' },
+      { id:'multiplication-mountains',  title:'Multiplication Mountains',  strand:'number',     icon:'⛰️', path:'games/number/multiplication-mountains.html' },
+      { id:'number-bonds-blaster',      title:'Number Bonds Blaster',      strand:'number',     icon:'💥', path:'games/number/number-bonds-blaster.html' },
+      { id:'number-line-hop',           title:'Number Line Hop',           strand:'number',     icon:'🐸', path:'games/number/number-line-hop.html' },
+      { id:'place-value-party',         title:'Place Value Party',         strand:'number',     icon:'🎉', path:'games/number/place-value-party.html' },
+      { id:'times-table-tornado',       title:'Times Table Tornado',       strand:'number',     icon:'🌪️', path:'games/number/times-table-tornado.html' },
+      { id:'3d-shape-safari',           title:'3D Shape Safari',           strand:'geometry',   icon:'🔷', path:'games/geometry/3d-shape-safari.html' },
+      { id:'angle-adventurer',          title:'Angle Adventurer',          strand:'geometry',   icon:'📐', path:'games/geometry/angle-adventurer.html' },
+      { id:'area-arena',                title:'Area Arena',                strand:'geometry',   icon:'🏟️', path:'games/geometry/area-arena.html' },
+      { id:'measure-mission',           title:'Measure Mission',           strand:'geometry',   icon:'📏', path:'games/geometry/measure-mission.html' },
+      { id:'shape-explorer',            title:'Shape Explorer',            strand:'geometry',   icon:'🔷', path:'games/geometry/shape-explorer.html' },
+      { id:'symmetry-lab',              title:'Symmetry Lab',              strand:'geometry',   icon:'🪞', path:'games/geometry/symmetry-lab.html' },
+      { id:'bar-chart-builder',         title:'Bar Chart Builder',         strand:'statistics', icon:'📊', path:'games/statistics/bar-chart-builder.html' },
+      { id:'chance-castle',             title:'Chance Castle',             strand:'statistics', icon:'🎲', path:'games/statistics/chance-castle.html' },
+      { id:'data-detective',            title:'Data Detective',            strand:'statistics', icon:'🔍', path:'games/statistics/data-detective.html' },
+      { id:'mean-machine',              title:'Mean Machine',              strand:'statistics', icon:'🤖', path:'games/statistics/mean-machine.html' },
+      { id:'tally-town',                title:'Tally Town',                strand:'statistics', icon:'📋', path:'games/statistics/tally-town.html' },
+    ];
+    const ALL_BOOKS = [
+      { id:'the-pizza-fraction-adventure', title:'The Pizza Fraction Adventure', topic:'Fractions',    icon:'🍕', path:'books/the-pizza-fraction-adventure.html' },
+      { id:'the-counting-caterpillar',     title:'The Counting Caterpillar',     topic:'Counting 1–10',icon:'🐛', path:'books/the-counting-caterpillar.html' },
+      { id:'shapes-all-around-us',         title:'Shapes All Around Us',         topic:'2D Shapes',    icon:'🔷', path:'books/shapes-all-around-us.html' },
+      { id:'the-great-multiplication-race',title:'The Great Multiplication Race', topic:'Times Tables', icon:'🏎️', path:'books/the-great-multiplication-race.html' },
+    ];
+
+    function dailySeed() {
+      const d = new Date();
+      return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    }
+    function seededPick(arr, offset) {
+      return arr[Math.abs(dailySeed() + offset) % arr.length];
+    }
+
+    const today = new Date().toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+    document.getElementById('dcDate').textContent = '🔥 ' + today;
+
+    const prog  = JSON.parse(localStorage.getItem('mm_progress') || '{}');
+    const g     = prog.games || {};
+    const b     = prog.books || {};
+
+    const dailyGame = seededPick(ALL_GAMES, 0);
+    const dailyBook = seededPick(ALL_BOOKS, 3);
+    const strandColors = { number:'#DBEAFE', geometry:'#D1FAE5', statistics:'#FFEDD5' };
+
+    const gameDone = g[dailyGame.id] && (g[dailyGame.id].lastPlayed > new Date().setHours(0,0,0,0));
+    const gcCard = document.getElementById('dcGameCard');
+    const gcIcon = document.getElementById('dcGameIcon');
+    document.getElementById('dcGameTitle').textContent = dailyGame.title;
+    document.getElementById('dcGameSub').textContent   = dailyGame.strand.charAt(0).toUpperCase() + dailyGame.strand.slice(1);
+    if (gcIcon) { gcIcon.textContent = dailyGame.icon; gcIcon.style.background = strandColors[dailyGame.strand] || '#F1F5F9'; }
+    if (gameDone) {
+      gcCard.classList.add('done');
+      const gcCta = document.getElementById('dcGameCta');
+      if (gcCta) { gcCta.textContent = '✅ Done!'; gcCta.style.background = '#10B981'; }
+    } else {
+      gcCard.onclick = () => { window.location.href = dailyGame.path; };
+    }
+
+    const bookData    = b[dailyBook.id];
+    const bookDone    = bookData && bookData.completed;
+    const bookStarted = bookData && bookData.lastPage > 0;
+    const bcCard = document.getElementById('dcBookCard');
+    const bcIcon = document.getElementById('dcBookIcon');
+    if (bcIcon) bcIcon.textContent = dailyBook.icon;
+    document.getElementById('dcBookTitle').textContent = dailyBook.title;
+    document.getElementById('dcBookSub').textContent   = bookStarted && !bookDone
+      ? 'Continue from page ' + bookData.lastPage + ' →' : dailyBook.topic;
+    if (bookDone) {
+      bcCard.classList.add('done');
+      const bcCta = document.getElementById('dcBookCta');
+      if (bcCta) { bcCta.textContent = '✅ Done!'; bcCta.style.background = '#10B981'; }
+    } else {
+      let bookPath = dailyBook.path;
+      if (bookStarted && bookData.lastPage) bookPath += '?p=' + bookData.lastPage;
+      bcCard.onclick = () => { window.location.href = bookPath; };
+    }
+  })();
 
   // ── SIGN OUT ──
   function signOut() {
