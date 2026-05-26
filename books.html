@@ -194,18 +194,51 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#10B981,#047857);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <circle cx="14" cy="26" r="13" fill="rgba(255,255,255,.22)"/>
-          <circle cx="9" cy="21" r="3.5" fill="white"/><circle cx="10" cy="21" r="1.8" fill="#1C1917"/>
-          <circle cx="19" cy="21" r="3.5" fill="white"/><circle cx="20" cy="21" r="1.8" fill="#1C1917"/>
-          <path d="M9 29 Q14 33 19 29" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-          <line x1="10" y1="14" x2="7" y2="6" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="5" r="3" fill="#FBBF24"/>
-          <line x1="18" y1="14" x2="21" y2="6" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round"/><circle cx="21" cy="5" r="3" fill="#FBBF24"/>
-          <circle cx="33" cy="34" r="13" fill="rgba(255,255,255,.22)"/><text x="33" y="39" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="white">1</text>
-          <circle cx="54" cy="36" r="12" fill="rgba(255,255,255,.2)"/><text x="54" y="41" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="white">2</text>
-          <circle cx="68" cy="50" r="11" fill="rgba(255,255,255,.22)"/><text x="68" y="54" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="12" fill="white">3</text>
-          <circle cx="54" cy="63" r="11" fill="rgba(255,255,255,.2)"/><text x="54" y="67" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="12" fill="white">4</text>
-          <circle cx="36" cy="68" r="10" fill="rgba(255,255,255,.22)"/><text x="36" y="72" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="12" fill="white">5</text>
-          <line x1="31" y1="46" x2="27" y2="55" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/><line x1="53" y1="47" x2="60" y2="54" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/>
+          <defs>
+            <radialGradient id="cat-seg-g" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#86EFAC"/><stop offset="55%" stop-color="#4ADE80"/><stop offset="100%" stop-color="#15803D"/></radialGradient>
+            <radialGradient id="cat-seg-y" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#FEF08A"/><stop offset="55%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#CA8A04"/></radialGradient>
+            <radialGradient id="cat-face" cx="30%" cy="28%" r="70%"><stop offset="0%" stop-color="#BBF7D0"/><stop offset="50%" stop-color="#4ADE80"/><stop offset="100%" stop-color="#15803D"/></radialGradient>
+            <filter id="cat-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+            <!-- leaves -->
+            <radialGradient id="cat-leaf" cx="40%" cy="40%" r="60%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="100%" stop-color="#065F46"/></radialGradient>
+          </defs>
+          <!-- leaves -->
+          <path d="M4 62 Q10 48 22 52 Q16 62 4 62Z" fill="url(#cat-leaf)" opacity=".85"/>
+          <path d="M60 70 Q70 56 76 66 Q68 74 60 70Z" fill="url(#cat-leaf)" opacity=".85"/>
+          <!-- caterpillar body — 5 segments -->
+          <g filter="url(#cat-sh)">
+            <!-- head segment -->
+            <circle cx="12" cy="36" r="12" fill="url(#cat-face)"/>
+            <!-- antennae -->
+            <line x1="8" y1="25" x2="5" y2="16" stroke="#4ADE80" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="5" cy="14" r="3" fill="#FDE68A" stroke="#CA8A04" stroke-width=".8"/>
+            <line x1="16" y1="24" x2="19" y2="15" stroke="#4ADE80" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="19" cy="13" r="3" fill="#FDE68A" stroke="#CA8A04" stroke-width=".8"/>
+            <!-- eyes -->
+            <circle cx="8" cy="33" r="3.5" fill="white"/>
+            <circle cx="9" cy="33" r="2" fill="#1C1917"/>
+            <circle cx="9.8" cy="32.2" r=".7" fill="white"/>
+            <circle cx="16" cy="33" r="3.5" fill="white"/>
+            <circle cx="17" cy="33" r="2" fill="#1C1917"/>
+            <circle cx="17.8" cy="32.2" r=".7" fill="white"/>
+            <!-- smile -->
+            <path d="M7 38 Q12 43 17 38" stroke="#065F46" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <!-- segment 1 (yellow) -->
+            <circle cx="30" cy="42" r="11" fill="url(#cat-seg-y)"/>
+            <text x="30" y="46.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="#78350F">1</text>
+            <!-- segment 2 (green) -->
+            <circle cx="46" cy="46" r="10" fill="url(#cat-seg-g)"/>
+            <text x="46" y="50.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">2</text>
+            <!-- segment 3 (yellow) -->
+            <circle cx="61" cy="50" r="9" fill="url(#cat-seg-y)"/>
+            <text x="61" y="54.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="#78350F">3</text>
+            <!-- segment 4 (green) -->
+            <circle cx="72" cy="60" r="8" fill="url(#cat-seg-g)"/>
+            <text x="72" y="64" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">4</text>
+            <!-- segment 5 — tail (yellow, smaller) -->
+            <circle cx="67" cy="72" r="7" fill="url(#cat-seg-y)"/>
+            <text x="67" y="76" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="#78350F">5</text>
+          </g>
         </svg>
         <div class="book-cover-title">The Counting Caterpillar</div>
       </div>
@@ -223,21 +256,52 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#F97316,#C2410C);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <ellipse cx="22" cy="22" rx="10" ry="13" fill="#EF4444"/><ellipse cx="26" cy="15" rx="3" ry="4" fill="rgba(255,255,255,.35)"/>
-          <line x1="22" y1="35" x2="34" y2="48" stroke="rgba(255,255,255,.7)" stroke-width="1.2"/>
-          <ellipse cx="40" cy="16" rx="10" ry="13" fill="#FBBF24"/><ellipse cx="44" cy="9" rx="3" ry="4" fill="rgba(255,255,255,.35)"/>
-          <line x1="40" y1="29" x2="40" y2="46" stroke="rgba(255,255,255,.7)" stroke-width="1.2"/>
-          <ellipse cx="58" cy="22" rx="10" ry="13" fill="#10B981"/><ellipse cx="62" cy="15" rx="3" ry="4" fill="rgba(255,255,255,.35)"/>
-          <line x1="58" y1="35" x2="46" y2="48" stroke="rgba(255,255,255,.7)" stroke-width="1.2"/>
-          <circle cx="24" cy="60" r="10" fill="#D97706"/><circle cx="18" cy="52" r="6" fill="#D97706"/><circle cx="18" cy="52" r="3.5" fill="#FBBF24"/>
-          <circle cx="30" cy="52" r="6" fill="#D97706"/><circle cx="30" cy="52" r="3.5" fill="#FBBF24"/>
-          <circle cx="20" cy="58" r="2.5" fill="#1C1917"/><circle cx="20.8" cy="57" r=".8" fill="white"/>
-          <circle cx="28" cy="58" r="2.5" fill="#1C1917"/><circle cx="28.8" cy="57" r=".8" fill="white"/>
-          <ellipse cx="24" cy="64" rx="5" ry="3.5" fill="#92400E"/>
-          <circle cx="56" cy="60" r="10" fill="#D97706"/><circle cx="50" cy="52" r="6" fill="#D97706"/><circle cx="50" cy="52" r="3.5" fill="#FBBF24"/>
-          <circle cx="62" cy="52" r="6" fill="#D97706"/><circle cx="62" cy="52" r="3.5" fill="#FBBF24"/>
-          <circle cx="52" cy="58" r="2.5" fill="#1C1917"/><circle cx="60" cy="58" r="2.5" fill="#1C1917"/>
-          <ellipse cx="56" cy="64" rx="5" ry="3.5" fill="#92400E"/>
+          <defs>
+            <radialGradient id="bal-bear" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="50%" stop-color="#FDE68A"/><stop offset="80%" stop-color="#D97706"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="bal-ear" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <radialGradient id="bal-r" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="55%" stop-color="#EF4444"/><stop offset="100%" stop-color="#991B1B"/></radialGradient>
+            <radialGradient id="bal-y" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FEF08A"/><stop offset="55%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#92400E"/></radialGradient>
+            <radialGradient id="bal-g" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="55%" stop-color="#10B981"/><stop offset="100%" stop-color="#064E3B"/></radialGradient>
+            <filter id="bal-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- 3 balloons -->
+          <g filter="url(#bal-sh)">
+            <!-- red balloon -->
+            <path d="M22 32 C10 28 8 8 22 6 C36 4 38 24 30 30 Q26 34 24 38Z" fill="url(#bal-r)"/>
+            <ellipse cx="19" cy="13" rx="4" ry="5" fill="rgba(255,255,255,.3)" transform="rotate(-20 19 13)"/>
+            <line x1="26" y1="38" x2="38" y2="52" stroke="rgba(255,255,255,.7)" stroke-width="1.2" stroke-linecap="round"/>
+            <!-- yellow balloon -->
+            <path d="M40 28 C28 24 26 4 40 2 C54 0 56 20 48 26 Q44 30 42 34Z" fill="url(#bal-y)"/>
+            <ellipse cx="37" cy="9" rx="4" ry="5" fill="rgba(255,255,255,.3)" transform="rotate(-20 37 9)"/>
+            <line x1="42" y1="34" x2="42" y2="50" stroke="rgba(255,255,255,.7)" stroke-width="1.2" stroke-linecap="round"/>
+            <!-- green balloon -->
+            <path d="M58 32 C46 28 44 8 58 6 C72 4 74 24 66 30 Q62 34 60 38Z" fill="url(#bal-g)"/>
+            <ellipse cx="55" cy="13" rx="4" ry="5" fill="rgba(255,255,255,.3)" transform="rotate(-20 55 13)"/>
+            <line x1="60" y1="38" x2="48" y2="52" stroke="rgba(255,255,255,.7)" stroke-width="1.2" stroke-linecap="round"/>
+          </g>
+          <!-- Benny bear face -->
+          <g filter="url(#bal-sh)">
+            <!-- ears -->
+            <circle cx="29" cy="50" r="7" fill="url(#bal-ear)"/>
+            <circle cx="29" cy="50" r="4" fill="#FDE68A"/>
+            <circle cx="51" cy="50" r="7" fill="url(#bal-ear)"/>
+            <circle cx="51" cy="50" r="4" fill="#FDE68A"/>
+            <!-- head -->
+            <circle cx="40" cy="60" r="16" fill="url(#bal-bear)"/>
+            <!-- eyes -->
+            <circle cx="34" cy="56" r="3.5" fill="white"/>
+            <circle cx="35" cy="56" r="2" fill="#1C1917"/>
+            <circle cx="35.7" cy="55.2" r=".7" fill="white"/>
+            <circle cx="46" cy="56" r="3.5" fill="white"/>
+            <circle cx="47" cy="56" r="2" fill="#1C1917"/>
+            <circle cx="47.7" cy="55.2" r=".7" fill="white"/>
+            <!-- snout -->
+            <ellipse cx="40" cy="63" rx="5" ry="3.5" fill="#B45309"/>
+            <!-- nose -->
+            <ellipse cx="40" cy="61" rx="2.5" ry="1.5" fill="#78350F"/>
+            <!-- smile -->
+            <path d="M35 65 Q40 70 45 65" stroke="#78350F" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </g>
         </svg>
         <div class="book-cover-title">Benny's Balloon Day</div>
         <span class="book-new-badge">New</span>
@@ -256,21 +320,47 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <!-- Sun (circle) -->
-          <circle cx="64" cy="14" r="12" fill="#FBBF24"/><circle cx="64" cy="14" r="7" fill="#FDE68A"/>
-          <!-- Ground -->
-          <rect y="58" width="80" height="22" rx="0" fill="rgba(5,150,105,.45)"/>
-          <!-- Circle flower -->
-          <circle cx="16" cy="50" r="10" fill="#EC4899"/>
-          <circle cx="16" cy="50" r="5.5" fill="#FDE68A"/>
-          <rect x="13" y="60" width="6" height="16" rx="3" fill="#059669"/>
-          <!-- Square flower -->
-          <rect x="32" y="40" width="18" height="18" rx="4" fill="#F97316"/>
-          <circle cx="41" cy="49" r="5" fill="#FDE68A"/>
-          <rect x="38" y="58" width="6" height="18" rx="3" fill="#059669"/>
-          <!-- Triangle tree -->
-          <polygon points="64,32 74,56 54,56" fill="#10B981"/>
-          <rect x="61" y="56" width="6" height="18" rx="3" fill="#059669"/>
+          <defs>
+            <radialGradient id="sgd-sun" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="50%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#CA8A04"/></radialGradient>
+            <radialGradient id="sgd-face" cx="30%" cy="28%" r="70%"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="55%" stop-color="#FDDCB5"/><stop offset="100%" stop-color="#D97706"/></radialGradient>
+            <radialGradient id="sgd-grass" cx="50%" cy="20%" r="80%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="100%" stop-color="#065F46"/></radialGradient>
+            <radialGradient id="sgd-tree" cx="35%" cy="25%" r="70%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="60%" stop-color="#10B981"/><stop offset="100%" stop-color="#065F46"/></radialGradient>
+            <radialGradient id="sgd-flwr" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#EC4899"/><stop offset="100%" stop-color="#9D174D"/></radialGradient>
+            <filter id="sgd-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- sun top-right -->
+          <circle cx="65" cy="13" r="11" fill="url(#sgd-sun)" filter="url(#sgd-sh)"/>
+          <!-- grass strip -->
+          <rect x="0" y="60" width="80" height="20" fill="url(#sgd-grass)"/>
+          <!-- triangle tree -->
+          <polygon points="64,30 76,60 52,60" fill="url(#sgd-tree)" filter="url(#sgd-sh)"/>
+          <rect x="61" y="60" width="6" height="8" rx="2" fill="#065F46"/>
+          <!-- circle flower -->
+          <rect x="13" y="54" width="5" height="16" rx="2.5" fill="#059669"/>
+          <circle cx="15.5" cy="50" r="9" fill="url(#sgd-flwr)" filter="url(#sgd-sh)"/>
+          <circle cx="15.5" cy="50" r="4.5" fill="#FDE68A"/>
+          <!-- Maya girl face -->
+          <g filter="url(#sgd-sh)">
+            <!-- hair pigtails -->
+            <ellipse cx="31" cy="22" rx="6" ry="8" fill="#1C1917"/>
+            <ellipse cx="49" cy="22" rx="6" ry="8" fill="#1C1917"/>
+            <!-- head -->
+            <circle cx="40" cy="30" r="14" fill="url(#sgd-face)"/>
+            <!-- hair top -->
+            <ellipse cx="40" cy="18" rx="12" ry="6" fill="#1C1917"/>
+            <!-- eyes -->
+            <circle cx="35" cy="28" r="3" fill="white"/>
+            <circle cx="35.8" cy="28" r="1.7" fill="#1C1917"/>
+            <circle cx="36.5" cy="27.2" r=".6" fill="white"/>
+            <circle cx="45" cy="28" r="3" fill="white"/>
+            <circle cx="45.8" cy="28" r="1.7" fill="#1C1917"/>
+            <circle cx="46.5" cy="27.2" r=".6" fill="white"/>
+            <!-- smile -->
+            <path d="M35 34 Q40 40 45 34" stroke="#D97706" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <!-- cheeks -->
+            <circle cx="32" cy="33" r="3" fill="#FCA5A5" opacity=".5"/>
+            <circle cx="48" cy="33" r="3" fill="#FCA5A5" opacity=".5"/>
+          </g>
         </svg>
         <div class="book-cover-title">The Shape Garden</div>
         <span class="book-new-badge">New</span>
@@ -289,24 +379,52 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#06B6D4,#0891B2);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <!-- Ella (big elephant) -->
-          <ellipse cx="34" cy="56" rx="26" ry="18" fill="#9CA3AF"/>
-          <circle cx="20" cy="42" r="16" fill="#9CA3AF"/>
-          <ellipse cx="8" cy="41" rx="10" ry="13" fill="#6B7280"/><ellipse cx="8" cy="41" rx="6" ry="8" fill="#9CA3AF"/>
-          <circle cx="18" cy="38" r="3.5" fill="#1C1917"/><circle cx="19" cy="37" r="1.2" fill="white"/>
-          <path d="M14 52 Q6 60 8 70" stroke="#6B7280" stroke-width="7" fill="none" stroke-linecap="round"/>
-          <rect x="16" y="68" width="10" height="12" rx="5" fill="#6B7280"/>
-          <rect x="32" y="68" width="10" height="12" rx="5" fill="#6B7280"/>
-          <!-- Max (tiny mouse) on Ella's back -->
-          <ellipse cx="54" cy="42" rx="8" ry="6" fill="#A16207"/>
-          <circle cx="62" cy="37" r="7" fill="#D97706"/>
-          <circle cx="57" cy="31" r="5" fill="#D97706"/><circle cx="57" cy="31" r="3" fill="#FDE68A"/>
-          <circle cx="67" cy="31" r="5" fill="#D97706"/><circle cx="67" cy="31" r="3" fill="#FDE68A"/>
-          <circle cx="59" cy="37" r="2" fill="#1C1917"/><circle cx="65" cy="37" r="2" fill="#1C1917"/>
-          <path d="M58 42 Q62 45 66 42" stroke="#1C1917" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <!-- Size labels -->
-          <text x="22" y="78" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">BIG</text>
-          <text x="60" y="28" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">small</text>
+          <defs>
+            <radialGradient id="elp-body" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#F3F4F6"/><stop offset="55%" stop-color="#D1D5DB"/><stop offset="100%" stop-color="#6B7280"/></radialGradient>
+            <radialGradient id="elp-ear" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="#D1D5DB"/><stop offset="100%" stop-color="#4B5563"/></radialGradient>
+            <radialGradient id="mse-body" cx="30%" cy="28%" r="70%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="60%" stop-color="#D97706"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <filter id="elp-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- Ella elephant body -->
+          <g filter="url(#elp-sh)">
+            <ellipse cx="32" cy="60" rx="26" ry="17" fill="url(#elp-body)"/>
+            <!-- legs -->
+            <rect x="12" y="68" width="10" height="12" rx="5" fill="#9CA3AF"/>
+            <rect x="26" y="68" width="10" height="12" rx="5" fill="#9CA3AF"/>
+            <!-- head -->
+            <circle cx="20" cy="42" r="16" fill="url(#elp-body)"/>
+            <!-- ear -->
+            <ellipse cx="6" cy="42" rx="8" ry="11" fill="url(#elp-ear)"/>
+            <!-- trunk -->
+            <path d="M14 54 Q4 62 7 72" stroke="#9CA3AF" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M14 54 Q4 62 7 72" stroke="#D1D5DB" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <!-- eye -->
+            <circle cx="18" cy="38" r="4" fill="white"/>
+            <circle cx="19" cy="38" r="2.2" fill="#1C1917"/>
+            <circle cx="19.8" cy="37.2" r=".7" fill="white"/>
+            <!-- BIG label -->
+            <rect x="6" y="73" width="24" height="8" rx="4" fill="rgba(255,255,255,.35)"/>
+            <text x="18" y="79.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">BIG</text>
+          </g>
+          <!-- Max mouse on Ella's back -->
+          <g filter="url(#elp-sh)">
+            <ellipse cx="53" cy="43" rx="8" ry="5.5" fill="url(#mse-body)"/>
+            <circle cx="62" cy="37" r="7" fill="url(#mse-body)"/>
+            <!-- ears -->
+            <circle cx="57" cy="31" r="5" fill="#D97706"/>
+            <circle cx="57" cy="31" r="3" fill="#FDE68A"/>
+            <circle cx="67" cy="31" r="5" fill="#D97706"/>
+            <circle cx="67" cy="31" r="3" fill="#FDE68A"/>
+            <!-- eyes -->
+            <circle cx="59" cy="37" r="2.2" fill="white"/>
+            <circle cx="59.8" cy="37" r="1.2" fill="#1C1917"/>
+            <circle cx="65" cy="37" r="2.2" fill="white"/>
+            <circle cx="65.8" cy="37" r="1.2" fill="#1C1917"/>
+            <!-- smile -->
+            <path d="M58 41 Q62 44 66 41" stroke="#78350F" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- small label -->
+            <text x="62" y="27" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">small</text>
+          </g>
         </svg>
         <div class="book-cover-title">Big Ella, Little Max</div>
         <span class="book-new-badge">New</span>
@@ -325,21 +443,48 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#EC4899,#BE185D);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <!-- Red group -->
-          <circle cx="16" cy="28" r="9" fill="#EF4444"/>
-          <circle cx="16" cy="44" r="7" fill="#DC2626" opacity=".85"/>
-          <rect x="8" y="54" width="18" height="6" rx="3" fill="#EF4444" opacity=".5"/>
-          <text x="17" y="67" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">RED</text>
-          <!-- Yellow group -->
-          <rect x="31" y="20" width="18" height="18" rx="4" fill="#FBBF24"/>
-          <rect x="34" y="42" width="13" height="13" rx="3" fill="#F59E0B" opacity=".85"/>
-          <rect x="30" y="58" width="22" height="6" rx="3" fill="#FBBF24" opacity=".5"/>
-          <text x="41" y="71" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">YLW</text>
-          <!-- Blue group -->
-          <polygon points="62,18 71,38 53,38" fill="#3B82F6"/>
-          <polygon points="64,42 72,58 56,58" fill="#2563EB" opacity=".85"/>
-          <rect x="53" y="62" width="20" height="6" rx="3" fill="#3B82F6" opacity=".5"/>
-          <text x="63" y="75" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">BLUE</text>
+          <defs>
+            <radialGradient id="mcs-face" cx="30%" cy="28%" r="70%"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="55%" stop-color="#FDDCB5"/><stop offset="100%" stop-color="#D97706"/></radialGradient>
+            <radialGradient id="mcs-red" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#EF4444"/><stop offset="100%" stop-color="#991B1B"/></radialGradient>
+            <radialGradient id="mcs-yel" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="60%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#92400E"/></radialGradient>
+            <radialGradient id="mcs-blu" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#BAE6FD"/><stop offset="60%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#1E3A8A"/></radialGradient>
+            <filter id="mcs-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- Mia face top-left -->
+          <g filter="url(#mcs-sh)">
+            <circle cx="18" cy="18" r="13" fill="url(#mcs-face)"/>
+            <!-- hair buns -->
+            <circle cx="10" cy="10" r="6" fill="#1C1917"/>
+            <circle cx="26" cy="10" r="6" fill="#1C1917"/>
+            <!-- eyes -->
+            <circle cx="14" cy="17" r="2.5" fill="white"/>
+            <circle cx="14.8" cy="17" r="1.4" fill="#1C1917"/>
+            <circle cx="22" cy="17" r="2.5" fill="white"/>
+            <circle cx="22.8" cy="17" r="1.4" fill="#1C1917"/>
+            <!-- smile -->
+            <path d="M13 22 Q18 27 23 22" stroke="#D97706" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- red group -->
+          <g filter="url(#mcs-sh)">
+            <circle cx="16" cy="44" r="9" fill="url(#mcs-red)"/>
+            <circle cx="16" cy="60" r="7" fill="url(#mcs-red)" opacity=".85"/>
+            <rect x="8" y="70" width="18" height="6" rx="3" fill="#EF4444"/>
+            <text x="17" y="76" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="6" fill="white">RED</text>
+          </g>
+          <!-- yellow group -->
+          <g filter="url(#mcs-sh)">
+            <rect x="34" y="38" width="14" height="14" rx="3" fill="url(#mcs-yel)"/>
+            <rect x="36" y="56" width="11" height="11" rx="2" fill="url(#mcs-yel)" opacity=".85"/>
+            <rect x="32" y="70" width="18" height="6" rx="3" fill="#FBBF24"/>
+            <text x="41" y="76" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="6" fill="white">YLW</text>
+          </g>
+          <!-- blue group -->
+          <g filter="url(#mcs-sh)">
+            <polygon points="63,36 72,55 54,55" fill="url(#mcs-blu)"/>
+            <polygon points="65,58 72,72 58,72" fill="url(#mcs-blu)" opacity=".85"/>
+            <rect x="55" y="73" width="18" height="6" rx="3" fill="#3B82F6"/>
+            <text x="64" y="79" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="6" fill="white">BLUE</text>
+          </g>
         </svg>
         <div class="book-cover-title">Mia's Colour Sort</div>
         <span class="book-new-badge">New</span>
@@ -359,14 +504,47 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <polygon points="16,6 30,32 2,32" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.8)" stroke-width="2"/>
-          <circle cx="60" cy="20" r="17" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.8)" stroke-width="2"/>
-          <rect x="4" y="46" width="28" height="28" rx="4" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.8)" stroke-width="2"/>
-          <rect x="40" y="52" width="36" height="22" rx="4" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.8)" stroke-width="2"/>
-          <text x="16" y="24" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.9)">3 sides</text>
-          <text x="60" y="23" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.9)">0 sides</text>
-          <text x="18" y="64" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.9)">4=4</text>
-          <text x="58" y="64" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.9)">2+2</text>
+          <defs>
+            <radialGradient id="shp-sun" cx="35%" cy="30%" r="68%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="55%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <radialGradient id="shp-house" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <radialGradient id="shp-tree" cx="35%" cy="25%" r="70%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="60%" stop-color="#10B981"/><stop offset="100%" stop-color="#065F46"/></radialGradient>
+            <radialGradient id="shp-wheel" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#93C5FD"/><stop offset="60%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#1E3A8A"/></radialGradient>
+            <filter id="shp-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- background grid dots -->
+          <circle cx="20" cy="20" r="1" fill="rgba(255,255,255,.25)"/>
+          <circle cx="40" cy="20" r="1" fill="rgba(255,255,255,.25)"/>
+          <circle cx="60" cy="20" r="1" fill="rgba(255,255,255,.25)"/>
+          <circle cx="20" cy="40" r="1" fill="rgba(255,255,255,.25)"/>
+          <circle cx="40" cy="40" r="1" fill="rgba(255,255,255,.25)"/>
+          <circle cx="60" cy="40" r="1" fill="rgba(255,255,255,.25)"/>
+          <circle cx="20" cy="60" r="1" fill="rgba(255,255,255,.25)"/>
+          <circle cx="40" cy="60" r="1" fill="rgba(255,255,255,.25)"/>
+          <circle cx="60" cy="60" r="1" fill="rgba(255,255,255,.25)"/>
+          <!-- golden sun circle top-right -->
+          <g filter="url(#shp-sh)">
+            <circle cx="62" cy="16" r="14" fill="url(#shp-sun)"/>
+            <text x="62" y="20" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="#78350F">circle</text>
+          </g>
+          <!-- red house rect + triangle roof -->
+          <g filter="url(#shp-sh)">
+            <rect x="4" y="22" width="24" height="20" rx="2" fill="url(#shp-house)"/>
+            <polygon points="4,22 16,10 28,22" fill="#DC2626"/>
+            <rect x="12" y="30" width="8" height="12" rx="2" fill="rgba(255,255,255,.4)"/>
+            <text x="16" y="50" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">rect</text>
+          </g>
+          <!-- green tree polygon -->
+          <g filter="url(#shp-sh)">
+            <polygon points="16,70 26,52 36,70" fill="url(#shp-tree)"/>
+            <rect x="23" y="70" width="6" height="8" rx="2" fill="#065F46"/>
+            <text x="26" y="79" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">tri</text>
+          </g>
+          <!-- blue ellipse wheel -->
+          <g filter="url(#shp-sh)">
+            <ellipse cx="56" cy="62" rx="18" ry="13" fill="url(#shp-wheel)"/>
+            <ellipse cx="56" cy="62" rx="9" ry="6.5" fill="rgba(255,255,255,.25)"/>
+            <text x="56" y="66" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="white">ellipse</text>
+          </g>
         </svg>
         <div class="book-cover-title">Shapes All Around Us</div>
       </div>
@@ -384,17 +562,43 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <circle cx="40" cy="44" r="30" fill="#D97706" opacity=".7"/>
-          <circle cx="40" cy="42" r="20" fill="#F59E0B"/>
-          <circle cx="25" cy="24" r="9" fill="#D97706"/><circle cx="25" cy="24" r="5" fill="#F59E0B"/>
-          <circle cx="55" cy="24" r="9" fill="#D97706"/><circle cx="55" cy="24" r="5" fill="#F59E0B"/>
-          <circle cx="32" cy="38" r="4.5" fill="white"/><circle cx="33" cy="38" r="2.2" fill="#1C1917"/><circle cx="33.8" cy="37" r=".7" fill="white"/>
-          <circle cx="48" cy="38" r="4.5" fill="white"/><circle cx="49" cy="38" r="2.2" fill="#1C1917"/><circle cx="49.8" cy="37" r=".7" fill="white"/>
-          <ellipse cx="40" cy="48" rx="7" ry="5" fill="#92400E"/>
-          <ellipse cx="40" cy="46" rx="3.5" ry="2.5" fill="#7C2D12"/>
-          <path d="M33 53 Q40 59 47 53" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <rect x="6" y="66" width="68" height="12" rx="6" fill="rgba(255,255,255,.22)"/>
-          <text x="40" y="76" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="white">1  2  3 … 20</text>
+          <defs>
+            <radialGradient id="leo-mane" cx="35%" cy="30%" r="68%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="55%" stop-color="#D97706"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="leo-face" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="50%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <radialGradient id="leo-ear" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#92400E"/></radialGradient>
+            <filter id="leo-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <g filter="url(#leo-sh)">
+            <!-- mane ring -->
+            <circle cx="40" cy="40" r="28" fill="url(#leo-mane)"/>
+            <!-- ears -->
+            <circle cx="24" cy="20" r="8" fill="url(#leo-ear)"/>
+            <circle cx="24" cy="20" r="4.5" fill="#FEF3C7"/>
+            <circle cx="56" cy="20" r="8" fill="url(#leo-ear)"/>
+            <circle cx="56" cy="20" r="4.5" fill="#FEF3C7"/>
+            <!-- face -->
+            <circle cx="40" cy="40" r="19" fill="url(#leo-face)"/>
+            <!-- eyes -->
+            <circle cx="33" cy="35" r="4" fill="white"/>
+            <circle cx="34" cy="35" r="2.3" fill="#1C1917"/>
+            <circle cx="34.8" cy="34.2" r=".8" fill="white"/>
+            <circle cx="47" cy="35" r="4" fill="white"/>
+            <circle cx="48" cy="35" r="2.3" fill="#1C1917"/>
+            <circle cx="48.8" cy="34.2" r=".8" fill="white"/>
+            <!-- nose -->
+            <ellipse cx="40" cy="44" rx="5" ry="3.5" fill="#B45309"/>
+            <ellipse cx="40" cy="42.5" rx="2.5" ry="1.8" fill="#78350F"/>
+            <!-- whiskers -->
+            <line x1="22" y1="43" x2="34" y2="45" stroke="#78350F" stroke-width="1" stroke-linecap="round"/>
+            <line x1="22" y1="47" x2="34" y2="47" stroke="#78350F" stroke-width="1" stroke-linecap="round"/>
+            <line x1="46" y1="45" x2="58" y2="43" stroke="#78350F" stroke-width="1" stroke-linecap="round"/>
+            <line x1="46" y1="47" x2="58" y2="47" stroke="#78350F" stroke-width="1" stroke-linecap="round"/>
+            <!-- big grin -->
+            <path d="M32 50 Q40 58 48 50" stroke="#78350F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- number strip -->
+          <rect x="6" y="69" width="68" height="10" rx="5" fill="rgba(255,255,255,.28)"/>
+          <text x="40" y="77.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">1  2  3 … 20</text>
         </svg>
         <div class="book-cover-title">Leo Counts to Twenty</div>
         <span class="book-new-badge">New</span>
@@ -413,16 +617,53 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#10B981,#059669);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <rect x="16" y="34" width="48" height="42" rx="2" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <polygon points="40,6 56,34 24,34" fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <rect x="6" y="20" width="12" height="56" rx="2" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
-          <rect x="62" y="20" width="12" height="56" rx="2" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
-          <polygon points="6,20 12,10 18,20" fill="rgba(255,255,255,.25)"/>
-          <polygon points="62,20 68,10 74,20" fill="rgba(255,255,255,.25)"/>
-          <rect x="32" y="52" width="16" height="24" rx="2" fill="rgba(255,255,255,.3)"/>
-          <circle cx="40" cy="48" r="4" fill="rgba(255,255,255,.4)"/>
-          <rect x="22" y="38" width="12" height="12" rx="2" fill="rgba(255,255,255,.3)"/>
-          <rect x="46" y="38" width="12" height="12" rx="2" fill="rgba(255,255,255,.3)"/>
+          <defs>
+            <radialGradient id="skd-wall" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#E5E7EB"/><stop offset="55%" stop-color="#9CA3AF"/><stop offset="100%" stop-color="#4B5563"/></radialGradient>
+            <radialGradient id="skd-tower" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#D1D5DB"/><stop offset="60%" stop-color="#6B7280"/><stop offset="100%" stop-color="#374151"/></radialGradient>
+            <radialGradient id="skd-roof" cx="40%" cy="20%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#991B1B"/><stop offset="100%" stop-color="#450A0A"/></radialGradient>
+            <radialGradient id="skd-royal" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#C4B5FD"/><stop offset="60%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#3B0764"/></radialGradient>
+            <filter id="skd-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- castle walls -->
+          <g filter="url(#skd-sh)">
+            <!-- left tower -->
+            <rect x="4" y="28" width="14" height="48" rx="1" fill="url(#skd-tower)"/>
+            <polygon points="4,28 11,14 18,28" fill="url(#skd-roof)"/>
+            <!-- right tower -->
+            <rect x="62" y="28" width="14" height="48" rx="1" fill="url(#skd-tower)"/>
+            <polygon points="62,28 69,14 76,28" fill="url(#skd-roof)"/>
+            <!-- battlements left -->
+            <rect x="4" y="24" width="3" height="6" rx="1" fill="#9CA3AF"/>
+            <rect x="9" y="24" width="3" height="6" rx="1" fill="#9CA3AF"/>
+            <rect x="14" y="24" width="3" height="6" rx="1" fill="#9CA3AF"/>
+            <!-- battlements right -->
+            <rect x="62" y="24" width="3" height="6" rx="1" fill="#9CA3AF"/>
+            <rect x="67" y="24" width="3" height="6" rx="1" fill="#9CA3AF"/>
+            <rect x="72" y="24" width="3" height="6" rx="1" fill="#9CA3AF"/>
+            <!-- main wall -->
+            <rect x="18" y="38" width="44" height="38" rx="1" fill="url(#skd-wall)"/>
+            <!-- window -->
+            <rect x="34" y="44" width="12" height="14" rx="6" fill="#1E40AF" opacity=".6"/>
+            <!-- arched gate -->
+            <rect x="32" y="60" width="16" height="18" rx="6" fill="#1C1917" opacity=".5"/>
+            <!-- flag -->
+            <line x1="11" y1="6" x2="11" y2="16" stroke="#D1D5DB" stroke-width="1.5"/>
+            <polygon points="11,6 20,10 11,14" fill="#FBBF24"/>
+          </g>
+          <!-- royal character in front -->
+          <g filter="url(#skd-sh)">
+            <!-- robe -->
+            <path d="M36 68 Q40 56 44 68 L46 80 H34Z" fill="url(#skd-royal)"/>
+            <!-- gold trim -->
+            <rect x="37" y="67" width="6" height="2" rx="1" fill="#FDE68A"/>
+            <!-- head -->
+            <circle cx="40" cy="60" r="6" fill="#FDDCB5"/>
+            <!-- crown -->
+            <polygon points="34,56 36,50 40,54 44,50 46,56" fill="#FBBF24" stroke="#CA8A04" stroke-width=".8"/>
+            <!-- eyes -->
+            <circle cx="38" cy="60" r="1.2" fill="#1C1917"/>
+            <circle cx="42" cy="60" r="1.2" fill="#1C1917"/>
+          </g>
         </svg>
         <div class="book-cover-title">The Shape Kingdom</div>
         <span class="book-new-badge">New</span>
@@ -441,24 +682,48 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <ellipse cx="20" cy="58" rx="18" ry="14" fill="rgba(255,255,255,.2)"/>
-          <ellipse cx="60" cy="58" rx="18" ry="14" fill="rgba(255,255,255,.2)"/>
-          <rect x="36" y="52" width="8" height="20" rx="2" fill="rgba(255,255,255,.15)"/>
-          <line x1="4" y1="58" x2="76" y2="58" stroke="rgba(255,255,255,.4)" stroke-width="1" stroke-dasharray="3 2"/>
-          <polygon points="12,58 20,42 28,58" fill="rgba(255,255,255,.2)"/>
-          <polygon points="52,58 60,42 68,58" fill="rgba(255,255,255,.2)"/>
-          <text x="11" y="56" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="white">1</text>
-          <text x="22" y="56" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="white">3</text>
-          <text x="18" y="68" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="white">5</text>
-          <text x="52" y="56" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="rgba(255,255,255,.85)">2</text>
-          <text x="63" y="56" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="rgba(255,255,255,.85)">4</text>
-          <text x="60" y="68" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="rgba(255,255,255,.85)">6</text>
-          <text x="20" y="14" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.9)">ODD</text>
-          <text x="60" y="14" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.9)">EVEN</text>
-          <circle cx="20" cy="26" r="10" fill="#FBBF24" opacity=".7"/>
-          <circle cx="60" cy="26" r="10" fill="rgba(255,255,255,.4)"/>
-          <text x="20" y="30" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">🌴</text>
-          <text x="60" y="30" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">🌴</text>
+          <defs>
+            <radialGradient id="oei-sand" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="60%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <radialGradient id="oei-ocean" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="#93C5FD"/><stop offset="60%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#1E3A8A"/></radialGradient>
+            <radialGradient id="oei-robot" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#F3F4F6"/><stop offset="55%" stop-color="#D1D5DB"/><stop offset="100%" stop-color="#6B7280"/></radialGradient>
+            <filter id="oei-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- left island — sand (ODD) -->
+          <ellipse cx="20" cy="62" rx="18" ry="12" fill="url(#oei-sand)" filter="url(#oei-sh)"/>
+          <!-- right island — ocean (EVEN) -->
+          <ellipse cx="60" cy="62" rx="18" ry="12" fill="url(#oei-ocean)" filter="url(#oei-sh)"/>
+          <!-- dividing water line -->
+          <line x1="40" y1="50" x2="40" y2="80" stroke="rgba(255,255,255,.45)" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <!-- labels -->
+          <text x="20" y="60" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="#78350F">ODD</text>
+          <text x="20" y="70" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="#92400E">1 3 5</text>
+          <text x="60" y="60" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="white">EVEN</text>
+          <text x="60" y="70" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.85)">2 4 6</text>
+          <!-- palm tree left -->
+          <line x1="20" y1="50" x2="20" y2="34" stroke="#065F46" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M20 34 Q12 26 8 22" stroke="#10B981" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M20 34 Q28 26 32 22" stroke="#10B981" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M20 34 Q16 24 18 18" stroke="#10B981" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- Zip robot centre -->
+          <g filter="url(#oei-sh)">
+            <!-- body -->
+            <rect x="34" y="28" width="12" height="14" rx="3" fill="url(#oei-robot)"/>
+            <!-- head -->
+            <rect x="33" y="14" width="14" height="13" rx="3" fill="url(#oei-robot)"/>
+            <!-- antenna -->
+            <line x1="40" y1="14" x2="40" y2="8" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="40" cy="7" r="2.5" fill="#3B82F6"/>
+            <!-- eyes (blue glow) -->
+            <circle cx="37" cy="19" r="2.5" fill="#BFDBFE"/>
+            <circle cx="37" cy="19" r="1.5" fill="#3B82F6"/>
+            <circle cx="43" cy="19" r="2.5" fill="#BFDBFE"/>
+            <circle cx="43" cy="19" r="1.5" fill="#3B82F6"/>
+            <!-- mouth grille -->
+            <rect x="36" y="23" width="8" height="2" rx="1" fill="#6B7280"/>
+            <!-- legs -->
+            <rect x="35" y="42" width="4" height="8" rx="2" fill="#9CA3AF"/>
+            <rect x="41" y="42" width="4" height="8" rx="2" fill="#9CA3AF"/>
+          </g>
         </svg>
         <div class="book-cover-title">Odd &amp; Even Island</div>
         <span class="book-new-badge">New</span>
@@ -478,23 +743,63 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#10B981,#1D4ED8);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <rect x="4" y="56" width="72" height="6" rx="3" fill="rgba(255,255,255,.3)"/>
-          <rect x="6" y="42" width="26" height="18" rx="5" fill="rgba(255,255,255,.3)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <rect x="4" y="36" width="20" height="12" rx="4" fill="rgba(255,255,255,.25)"/>
-          <circle cx="18" cy="60" r="6" fill="rgba(255,255,255,.4)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <circle cx="30" cy="60" r="6" fill="rgba(255,255,255,.4)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <rect x="36" y="44" width="20" height="16" rx="4" fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
-          <circle cx="42" cy="60" r="5" fill="rgba(255,255,255,.4)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <circle cx="54" cy="60" r="5" fill="rgba(255,255,255,.4)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <rect x="60" y="46" width="16" height="14" rx="4" fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
-          <circle cx="66" cy="60" r="4" fill="rgba(255,255,255,.4)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <text x="19" y="54" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">+</text>
-          <text x="46" y="55" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">–</text>
-          <text x="68" y="56" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">=</text>
-          <path d="M2 36 Q4 30 8 30 L18 30 Q22 30 24 36" fill="rgba(255,255,255,.25)"/>
-          <ellipse cx="6" cy="32" rx="4" ry="6" fill="rgba(255,255,255,.35)"/>
-          <line x1="6" y1="26" x2="8" y2="18" stroke="rgba(255,255,255,.5)" stroke-width="3" stroke-linecap="round"/>
-          <ellipse cx="8" cy="14" rx="5" ry="8" fill="rgba(255,255,255,.18)"/>
+          <defs>
+            <radialGradient id="trn-engine" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="55%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <radialGradient id="trn-car1" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="55%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="trn-car2" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="55%" stop-color="#10B981"/><stop offset="100%" stop-color="#064E3B"/></radialGradient>
+            <radialGradient id="trn-wheel" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#6B7280"/><stop offset="100%" stop-color="#111827"/></radialGradient>
+            <radialGradient id="trn-smoke" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="white"/><stop offset="100%" stop-color="#E5E7EB" stop-opacity=".5"/></radialGradient>
+            <filter id="trn-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- track rails -->
+          <rect x="0" y="60" width="80" height="4" rx="2" fill="rgba(255,255,255,.3)"/>
+          <line x1="8" y1="58" x2="8" y2="65" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="20" y1="58" x2="20" y2="65" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="32" y1="58" x2="32" y2="65" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="44" y1="58" x2="44" y2="65" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="56" y1="58" x2="56" y2="65" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="68" y1="58" x2="68" y2="65" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round"/>
+          <!-- smoke puffs -->
+          <ellipse cx="10" cy="14" rx="5" ry="7" fill="url(#trn-smoke)" opacity=".75"/>
+          <ellipse cx="18" cy="8" rx="4" ry="5.5" fill="url(#trn-smoke)" opacity=".55"/>
+          <!-- engine -->
+          <g filter="url(#trn-sh)">
+            <!-- cab roof -->
+            <rect x="3" y="32" width="20" height="10" rx="3" fill="url(#trn-engine)"/>
+            <!-- engine body -->
+            <rect x="3" y="40" width="30" height="18" rx="4" fill="url(#trn-engine)"/>
+            <!-- smokestack -->
+            <rect x="8" y="24" width="7" height="10" rx="3" fill="#B91C1C"/>
+            <!-- window -->
+            <rect x="10" y="35" width="9" height="8" rx="2" fill="#BFDBFE"/>
+            <!-- engineer face in window -->
+            <circle cx="14.5" cy="39" r="3.5" fill="#FDDCB5"/>
+            <circle cx="13.5" cy="38" r="1" fill="#1C1917"/>
+            <circle cx="15.5" cy="38" r="1" fill="#1C1917"/>
+            <!-- engine wheels -->
+            <circle cx="12" cy="60" r="7" fill="url(#trn-wheel)"/>
+            <circle cx="12" cy="60" r="3.5" fill="#374151"/>
+            <circle cx="28" cy="60" r="7" fill="url(#trn-wheel)"/>
+            <circle cx="28" cy="60" r="3.5" fill="#374151"/>
+          </g>
+          <!-- car 1 (yellow) -->
+          <g filter="url(#trn-sh)">
+            <rect x="36" y="44" width="20" height="14" rx="4" fill="url(#trn-car1)"/>
+            <text x="46" y="54" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="#78350F">+</text>
+            <circle cx="40" cy="60" r="5.5" fill="url(#trn-wheel)"/>
+            <circle cx="40" cy="60" r="2.5" fill="#374151"/>
+            <circle cx="52" cy="60" r="5.5" fill="url(#trn-wheel)"/>
+            <circle cx="52" cy="60" r="2.5" fill="#374151"/>
+          </g>
+          <!-- car 2 (green) -->
+          <g filter="url(#trn-sh)">
+            <rect x="58" y="46" width="18" height="12" rx="4" fill="url(#trn-car2)"/>
+            <text x="67" y="56" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="white">=</text>
+            <circle cx="63" cy="60" r="5" fill="url(#trn-wheel)"/>
+            <circle cx="63" cy="60" r="2.5" fill="#374151"/>
+            <circle cx="73" cy="60" r="5" fill="url(#trn-wheel)"/>
+            <circle cx="73" cy="60" r="2.5" fill="#374151"/>
+          </g>
         </svg>
         <div class="book-cover-title">The Number Train</div>
         <span class="book-new-badge">New</span>
@@ -513,20 +818,53 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#F97316,#EF4444);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <rect x="6" y="30" width="68" height="22" rx="5" fill="rgba(255,255,255,.28)" stroke="rgba(255,255,255,.75)" stroke-width="1.5"/>
-          <line x1="14" y1="30" x2="14" y2="52" stroke="rgba(255,255,255,.8)" stroke-width="1"/><text x="14" y="28" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="7" fill="rgba(255,255,255,.9)" font-weight="700">0</text>
-          <line x1="24" y1="30" x2="24" y2="48" stroke="rgba(255,255,255,.7)" stroke-width="1"/>
-          <line x1="34" y1="30" x2="34" y2="52" stroke="rgba(255,255,255,.8)" stroke-width="1"/><text x="34" y="28" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="7" fill="rgba(255,255,255,.9)" font-weight="700">10</text>
-          <line x1="44" y1="30" x2="44" y2="48" stroke="rgba(255,255,255,.7)" stroke-width="1"/>
-          <line x1="54" y1="30" x2="54" y2="52" stroke="rgba(255,255,255,.8)" stroke-width="1"/><text x="54" y="28" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="7" fill="rgba(255,255,255,.9)" font-weight="700">20</text>
-          <line x1="64" y1="30" x2="64" y2="48" stroke="rgba(255,255,255,.7)" stroke-width="1"/>
-          <text x="40" y="44" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">cm</text>
-          <rect x="16" y="56" width="50" height="10" rx="5" fill="rgba(255,255,255,.2)"/>
-          <line x1="16" y1="61" x2="66" y2="61" stroke="rgba(255,255,255,.6)" stroke-width="1.5" stroke-dasharray="4 2"/>
-          <polygon points="6,58 6,64 14,61" fill="rgba(255,255,255,.5)"/>
-          <circle cx="16" cy="16" r="12" fill="rgba(255,255,255,.22)"/>
-          <circle cx="12" cy="13" r="2.5" fill="white"/><circle cx="20" cy="13" r="2.5" fill="white"/>
-          <path d="M11 20 Q16 24 21 20" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <defs>
+            <radialGradient id="mms-face" cx="30%" cy="28%" r="70%"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="55%" stop-color="#FDDCB5"/><stop offset="100%" stop-color="#D97706"/></radialGradient>
+            <radialGradient id="mms-ruler" cx="25%" cy="20%" r="80%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="55%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <radialGradient id="mms-tape" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#E0F2FE"/><stop offset="60%" stop-color="#38BDF8"/><stop offset="100%" stop-color="#0C4A6E"/></radialGradient>
+            <filter id="mms-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- Mia face -->
+          <g filter="url(#mms-sh)">
+            <circle cx="16" cy="18" r="13" fill="url(#mms-face)"/>
+            <!-- hair buns -->
+            <circle cx="9" cy="10" r="5.5" fill="#1C1917"/>
+            <circle cx="23" cy="10" r="5.5" fill="#1C1917"/>
+            <!-- eyes -->
+            <circle cx="12" cy="17" r="2.5" fill="white"/>
+            <circle cx="12.8" cy="17" r="1.4" fill="#1C1917"/>
+            <circle cx="20" cy="17" r="2.5" fill="white"/>
+            <circle cx="20.8" cy="17" r="1.4" fill="#1C1917"/>
+            <!-- smile -->
+            <path d="M11 22 Q16 27 21 22" stroke="#D97706" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- ruler -->
+          <g filter="url(#mms-sh)">
+            <rect x="10" y="34" width="64" height="20" rx="4" fill="url(#mms-ruler)"/>
+            <!-- tick marks -->
+            <line x1="18" y1="34" x2="18" y2="54" stroke="#B45309" stroke-width="1"/>
+            <line x1="24" y1="34" x2="24" y2="50" stroke="#B45309" stroke-width=".8"/>
+            <line x1="30" y1="34" x2="30" y2="54" stroke="#B45309" stroke-width="1"/>
+            <line x1="36" y1="34" x2="36" y2="50" stroke="#B45309" stroke-width=".8"/>
+            <line x1="42" y1="34" x2="42" y2="54" stroke="#B45309" stroke-width="1"/>
+            <line x1="48" y1="34" x2="48" y2="50" stroke="#B45309" stroke-width=".8"/>
+            <line x1="54" y1="34" x2="54" y2="54" stroke="#B45309" stroke-width="1"/>
+            <line x1="60" y1="34" x2="60" y2="50" stroke="#B45309" stroke-width=".8"/>
+            <line x1="66" y1="34" x2="66" y2="54" stroke="#B45309" stroke-width="1"/>
+            <!-- number labels -->
+            <text x="18" y="48" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="6" fill="#78350F" font-weight="700">0</text>
+            <text x="30" y="48" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="6" fill="#78350F" font-weight="700">5</text>
+            <text x="42" y="48" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="6" fill="#78350F" font-weight="700">10</text>
+            <text x="54" y="48" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="6" fill="#78350F" font-weight="700">15</text>
+            <text x="66" y="48" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="6" fill="#78350F" font-weight="700">20</text>
+            <text x="42" y="43" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="#B45309">cm</text>
+          </g>
+          <!-- measuring tape curling -->
+          <g filter="url(#mms-sh)">
+            <path d="M16 60 Q30 56 44 62 Q58 68 70 60" stroke="url(#mms-tape)" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <circle cx="16" cy="60" r="7" fill="url(#mms-tape)"/>
+            <circle cx="16" cy="60" r="3.5" fill="#0C4A6E"/>
+          </g>
         </svg>
         <div class="book-cover-title">Mia's Measurement Mission</div>
         <span class="book-new-badge">New</span>
@@ -545,18 +883,42 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#8B5CF6,#EC4899);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <ellipse cx="40" cy="48" rx="28" ry="16" fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <path d="M12 48 L12 60 Q12 68 40 68 Q68 68 68 60 L68 48 Z" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.65)" stroke-width="1.5"/>
-          <line x1="40" y1="32" x2="40" y2="68" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-dasharray="3 2"/>
-          <line x1="12" y1="58" x2="68" y2="58" stroke="rgba(255,255,255,.55)" stroke-width="1" stroke-dasharray="3 2"/>
-          <text x="22" y="46" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">½</text>
-          <text x="58" y="46" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">½</text>
-          <text x="22" y="63" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="rgba(255,255,255,.8)">¼</text>
-          <text x="58" y="63" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="rgba(255,255,255,.8)">¼</text>
-          <ellipse cx="40" cy="32" rx="22" ry="12" fill="rgba(255,255,255,.3)"/>
-          <rect x="18" y="20" width="44" height="12" rx="6" fill="rgba(255,255,255,.22)"/>
-          <rect x="28" y="8" width="24" height="16" rx="6" fill="rgba(255,255,255,.25)"/>
-          <circle cx="40" cy="6" r="5" fill="#FBBF24" opacity=".8"/>
+          <defs>
+            <radialGradient id="bky-bot" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="55%" stop-color="#FCD34D"/><stop offset="100%" stop-color="#92400E"/></radialGradient>
+            <radialGradient id="bky-top" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FBCFE8"/><stop offset="55%" stop-color="#F9A8D4"/><stop offset="100%" stop-color="#831843"/></radialGradient>
+            <radialGradient id="bky-cherry" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <filter id="bky-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- cake bottom tier -->
+          <g filter="url(#bky-sh)">
+            <ellipse cx="40" cy="56" rx="28" ry="10" fill="url(#bky-bot)"/>
+            <path d="M12 56 L12 66 Q12 72 40 72 Q68 72 68 66 L68 56 Z" fill="url(#bky-bot)"/>
+            <!-- frosting drip bottom -->
+            <path d="M14 56 Q18 50 22 56 Q26 50 30 56 Q34 50 38 56 Q42 50 46 56 Q50 50 54 56 Q58 50 62 56 Q66 50 68 56" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+          <!-- cake top tier -->
+          <g filter="url(#bky-sh)">
+            <ellipse cx="40" cy="40" rx="20" ry="8" fill="url(#bky-top)"/>
+            <path d="M20 40 L20 56 Q20 58 40 58 Q60 58 60 56 L60 40 Z" fill="url(#bky-top)"/>
+            <!-- frosting drip top -->
+            <path d="M22 40 Q26 34 30 40 Q34 34 38 40 Q42 34 46 40 Q50 34 54 40 Q57 34 60 40" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <!-- dividing lines (quarters) -->
+          <line x1="40" y1="30" x2="40" y2="72" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <line x1="12" y1="64" x2="68" y2="64" stroke="rgba(255,255,255,.6)" stroke-width="1" stroke-dasharray="3 2"/>
+          <!-- fraction labels -->
+          <text x="26" y="49" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">½</text>
+          <text x="54" y="49" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">½</text>
+          <text x="26" y="67" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.85)">¼</text>
+          <text x="54" y="67" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.85)">¼</text>
+          <!-- cherry on top -->
+          <line x1="40" y1="30" x2="40" y2="24" stroke="#065F46" stroke-width="1.5"/>
+          <circle cx="40" cy="22" r="5" fill="url(#bky-cherry)" filter="url(#bky-sh)"/>
+          <!-- candles -->
+          <rect x="30" y="22" width="4" height="10" rx="2" fill="#FDE68A"/>
+          <circle cx="32" cy="20" r="2.5" fill="#F97316"/>
+          <rect x="46" y="22" width="4" height="10" rx="2" fill="#A5F3FC"/>
+          <circle cx="48" cy="20" r="2.5" fill="#F97316"/>
         </svg>
         <div class="book-cover-title">The Sharing Bakery</div>
         <span class="book-new-badge">New</span>
@@ -576,20 +938,42 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#F97316,#DC2626);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <circle cx="40" cy="40" r="32" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
-          <circle cx="40" cy="40" r="28" fill="#D97706" opacity=".35"/>
-          <line x1="40" y1="8" x2="40" y2="72" stroke="rgba(255,255,255,.75)" stroke-width="1.5"/>
-          <line x1="8" y1="40" x2="72" y2="40" stroke="rgba(255,255,255,.75)" stroke-width="1.5"/>
-          <line x1="17" y1="17" x2="63" y2="63" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
-          <line x1="63" y1="17" x2="17" y2="63" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
-          <circle cx="20" cy="28" r="3" fill="rgba(255,255,255,.5)"/>
-          <circle cx="54" cy="24" r="2.5" fill="rgba(255,255,255,.5)"/>
-          <circle cx="60" cy="52" r="3" fill="rgba(255,255,255,.5)"/>
-          <circle cx="30" cy="58" r="2.5" fill="rgba(255,255,255,.5)"/>
-          <text x="24" y="36" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">¼</text>
-          <text x="56" y="36" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">¼</text>
-          <text x="56" y="56" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">¼</text>
-          <text x="24" y="56" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">¼</text>
+          <defs>
+            <radialGradient id="pza-crust" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="60%" stop-color="#D97706"/><stop offset="85%" stop-color="#A16207"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="pza-sauce" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="55%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <radialGradient id="pza-olive" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#4B5563"/><stop offset="100%" stop-color="#111827"/></radialGradient>
+            <radialGradient id="pza-mush" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#D1D5DB"/><stop offset="100%" stop-color="#6B7280"/></radialGradient>
+            <filter id="pza-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- pizza crust (outer ring) -->
+          <circle cx="40" cy="42" r="32" fill="url(#pza-crust)" filter="url(#pza-sh)"/>
+          <!-- sauce fill -->
+          <circle cx="40" cy="42" r="26" fill="url(#pza-sauce)"/>
+          <!-- cheese layer hint -->
+          <circle cx="40" cy="42" r="22" fill="#FEF3C7" opacity=".2"/>
+          <!-- slice dividers -->
+          <line x1="40" y1="10" x2="40" y2="74" stroke="rgba(255,255,255,.85)" stroke-width="2"/>
+          <line x1="8" y1="42" x2="72" y2="42" stroke="rgba(255,255,255,.85)" stroke-width="2"/>
+          <!-- toppings — olives -->
+          <circle cx="28" cy="30" r="4" fill="url(#pza-olive)"/>
+          <circle cx="28" cy="30" r="2" fill="#6B7280"/>
+          <circle cx="54" cy="36" r="3.5" fill="url(#pza-olive)"/>
+          <circle cx="54" cy="36" r="1.8" fill="#6B7280"/>
+          <circle cx="32" cy="56" r="3.5" fill="url(#pza-olive)"/>
+          <circle cx="32" cy="56" r="1.8" fill="#6B7280"/>
+          <!-- toppings — mushroom blobs -->
+          <ellipse cx="52" cy="55" rx="5" ry="3.5" fill="url(#pza-mush)"/>
+          <rect x="50" y="55" width="4" height="4" rx="1" fill="#9CA3AF"/>
+          <ellipse cx="26" cy="50" rx="4" ry="3" fill="url(#pza-mush)"/>
+          <!-- fraction labels -->
+          <text x="24" y="38" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">¼</text>
+          <text x="56" y="38" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">¼</text>
+          <text x="56" y="60" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">¼</text>
+          <text x="24" y="60" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">¼</text>
+          <!-- steam wisps -->
+          <path d="M34 8 Q32 4 34 0" stroke="rgba(255,255,255,.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M40 6 Q38 2 40 -2" stroke="rgba(255,255,255,.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M46 8 Q44 4 46 0" stroke="rgba(255,255,255,.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
         </svg>
         <div class="book-cover-title">The Pizza Fraction Adventure</div>
         <span class="book-new-badge">Featured</span>
@@ -608,19 +992,46 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#FBBF24,#F97316);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <rect x="2" y="52" width="76" height="20" rx="4" fill="rgba(255,255,255,.15)"/>
-          <line x1="2" y1="62" x2="78" y2="62" stroke="rgba(255,255,255,.5)" stroke-width="1" stroke-dasharray="8 4"/>
-          <rect x="8" y="38" width="46" height="18" rx="8" fill="rgba(255,255,255,.3)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <rect x="18" y="30" width="28" height="14" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.6)" stroke-width="1.2"/>
-          <circle cx="18" cy="56" r="7" fill="rgba(255,255,255,.35)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <circle cx="44" cy="56" r="7" fill="rgba(255,255,255,.35)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <rect x="54" y="42" width="22" height="12" rx="4" fill="rgba(255,255,255,.22)"/>
-          <text x="31" y="50" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="12" fill="white">×</text>
-          <text x="8" y="22" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="rgba(255,255,255,.9)">2×3=6</text>
-          <text x="8" y="13" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="rgba(255,255,255,.9)">4×5=20</text>
-          <line x1="54" y1="38" x2="62" y2="16" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="58" y1="36" x2="70" y2="18" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="62" y1="34" x2="76" y2="20" stroke="rgba(255,255,255,.3)" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <radialGradient id="mrc-car" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="55%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <radialGradient id="mrc-wheel" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#6B7280"/><stop offset="100%" stop-color="#111827"/></radialGradient>
+            <radialGradient id="mrc-helmet" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="60%" stop-color="#F97316"/><stop offset="100%" stop-color="#7C2D12"/></radialGradient>
+            <filter id="mrc-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- track -->
+          <rect x="0" y="58" width="80" height="16" rx="4" fill="rgba(255,255,255,.18)"/>
+          <line x1="0" y1="66" x2="80" y2="66" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-dasharray="8 4"/>
+          <!-- speed lines -->
+          <line x1="0" y1="40" x2="14" y2="38" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="0" y1="46" x2="12" y2="44" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="0" y1="52" x2="14" y2="50" stroke="rgba(255,255,255,.2)" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- racing car body -->
+          <g filter="url(#mrc-sh)">
+            <path d="M14 48 L14 38 Q14 32 22 30 L50 28 Q60 28 64 34 L70 38 L70 48 Z" fill="url(#mrc-car)"/>
+            <!-- cockpit canopy -->
+            <path d="M30 30 Q36 22 50 24 L58 28 Q50 26 38 28 Q30 30 30 30Z" fill="#1E40AF" opacity=".7"/>
+            <!-- driver helmet -->
+            <circle cx="44" cy="28" r="6" fill="url(#mrc-helmet)"/>
+            <circle cx="44" cy="29" r="3" fill="rgba(255,255,255,.3)"/>
+            <!-- front wing -->
+            <path d="M62 40 L72 36 L74 44 L66 46Z" fill="#B91C1C"/>
+            <!-- rear wing -->
+            <rect x="14" y="30" width="4" height="14" rx="1" fill="#B91C1C"/>
+            <!-- x symbol on body -->
+            <text x="38" y="44" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="rgba(255,255,255,.9)">×</text>
+            <!-- wheels -->
+            <circle cx="24" cy="52" r="7" fill="url(#mrc-wheel)"/>
+            <circle cx="24" cy="52" r="3.5" fill="#374151"/>
+            <circle cx="56" cy="52" r="7" fill="url(#mrc-wheel)"/>
+            <circle cx="56" cy="52" r="3.5" fill="#374151"/>
+          </g>
+          <!-- finishing banner -->
+          <rect x="68" y="8" width="10" height="20" rx="1" fill="rgba(255,255,255,.3)"/>
+          <rect x="68" y="8" width="5" height="4" rx=".5" fill="white"/>
+          <rect x="73" y="8" width="5" height="4" rx=".5" fill="#1C1917"/>
+          <rect x="68" y="12" width="5" height="4" rx=".5" fill="#1C1917"/>
+          <rect x="73" y="12" width="5" height="4" rx=".5" fill="white"/>
+          <line x1="73" y1="8" x2="73" y2="60" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
         </svg>
         <div class="book-cover-title">The Great Multiplication Race</div>
       </div>
@@ -639,13 +1050,53 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#8B5CF6,#3B82F6);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <polygon points="40,4 50,30 76,30 55,48 63,74 40,57 17,74 25,48 4,30 30,30" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.65)" stroke-width="1.5"/>
-          <polygon points="40,14 47,34 64,34 50,44 55,64 40,53 25,64 30,44 16,34 33,34" fill="rgba(255,255,255,.18)"/>
-          <text x="40" y="38" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="white">3×4</text>
-          <text x="40" y="50" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">=12</text>
-          <line x1="60" y1="8" x2="76" y2="72" stroke="rgba(255,255,255,.45)" stroke-width="3" stroke-linecap="round"/>
-          <rect x="58" y="6" width="8" height="14" rx="4" fill="rgba(255,255,255,.5)"/>
-          <line x1="54" y1="14" x2="78" y2="14" stroke="rgba(255,255,255,.5)" stroke-width="3" stroke-linecap="round"/>
+          <defs>
+            <radialGradient id="ttq-armour" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#F3F4F6"/><stop offset="55%" stop-color="#D1D5DB"/><stop offset="100%" stop-color="#4B5563"/></radialGradient>
+            <radialGradient id="ttq-shield" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="55%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="ttq-troll" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#BEF264"/><stop offset="60%" stop-color="#65A30D"/><stop offset="100%" stop-color="#365314"/></radialGradient>
+            <radialGradient id="ttq-bridge" cx="30%" cy="20%" r="80%"><stop offset="0%" stop-color="#D1D5DB"/><stop offset="60%" stop-color="#9CA3AF"/><stop offset="100%" stop-color="#4B5563"/></radialGradient>
+            <filter id="ttq-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- stone bridge arch -->
+          <g filter="url(#ttq-sh)">
+            <path d="M0 60 L0 80 L80 80 L80 60 Q60 36 40 38 Q20 36 0 60Z" fill="url(#ttq-bridge)"/>
+            <!-- arch cutout -->
+            <path d="M18 80 L18 62 Q30 44 52 62 L52 80Z" fill="#1E40AF" opacity=".45"/>
+          </g>
+          <!-- troll peeking from under bridge -->
+          <g filter="url(#ttq-sh)">
+            <circle cx="36" cy="68" r="10" fill="url(#ttq-troll)"/>
+            <circle cx="32" cy="62" r="3" fill="url(#ttq-troll)"/>
+            <circle cx="40" cy="62" r="3" fill="url(#ttq-troll)"/>
+            <!-- troll eyes -->
+            <circle cx="33" cy="66" r="2.2" fill="#FDE68A"/>
+            <circle cx="33.6" cy="66" r="1.2" fill="#1C1917"/>
+            <circle cx="39" cy="66" r="2.2" fill="#FDE68A"/>
+            <circle cx="39.6" cy="66" r="1.2" fill="#1C1917"/>
+            <!-- troll smile/grin -->
+            <path d="M32 71 Q36 75 40 71" stroke="#365314" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- knight Kay -->
+          <g filter="url(#ttq-sh)">
+            <!-- body armour -->
+            <rect x="52" y="38" width="14" height="20" rx="3" fill="url(#ttq-armour)"/>
+            <!-- head + helmet -->
+            <rect x="53" y="24" width="12" height="14" rx="3" fill="url(#ttq-armour)"/>
+            <!-- visor slit -->
+            <rect x="55" y="30" width="8" height="3" rx="1" fill="#374151"/>
+            <!-- plume -->
+            <path d="M59 24 Q56 16 58 10" stroke="#EF4444" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- shield with × -->
+            <path d="M50 42 L46 42 L44 54 L50 58 L50 42Z" fill="url(#ttq-shield)"/>
+            <text x="47" y="54" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="#78350F">×</text>
+            <!-- sword raised -->
+            <line x1="66" y1="22" x2="66" y2="46" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+            <rect x="62" y="33" width="8" height="3" rx="1" fill="#9CA3AF"/>
+            <polygon points="66,12 64,24 68,24" fill="#E5E7EB"/>
+            <!-- legs -->
+            <rect x="52" y="57" width="5" height="12" rx="2" fill="#9CA3AF"/>
+            <rect x="59" y="57" width="5" height="12" rx="2" fill="#9CA3AF"/>
+          </g>
         </svg>
         <div class="book-cover-title">The Times Table Quest</div>
         <span class="book-new-badge">New</span>
@@ -664,23 +1115,42 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#F97316,#FBBF24);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <rect x="4" y="8" width="46" height="46" rx="3" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.55)" stroke-width="1.2"/>
-          <line x1="4" y1="17" x2="50" y2="17" stroke="rgba(255,255,255,.45)" stroke-width=".8"/>
-          <line x1="4" y1="26" x2="50" y2="26" stroke="rgba(255,255,255,.45)" stroke-width=".8"/>
-          <line x1="4" y1="35" x2="50" y2="35" stroke="rgba(255,255,255,.45)" stroke-width=".8"/>
-          <line x1="4" y1="44" x2="50" y2="44" stroke="rgba(255,255,255,.45)" stroke-width=".8"/>
-          <line x1="13" y1="8" x2="13" y2="54" stroke="rgba(255,255,255,.45)" stroke-width=".8"/>
-          <line x1="22" y1="8" x2="22" y2="54" stroke="rgba(255,255,255,.45)" stroke-width=".8"/>
-          <line x1="31" y1="8" x2="31" y2="54" stroke="rgba(255,255,255,.45)" stroke-width=".8"/>
-          <line x1="40" y1="8" x2="40" y2="54" stroke="rgba(255,255,255,.45)" stroke-width=".8"/>
-          <rect x="13" y="17" width="9" height="9" rx="1" fill="rgba(255,255,255,.4)"/>
-          <rect x="31" y="26" width="9" height="9" rx="1" fill="rgba(255,255,255,.4)"/>
-          <rect x="22" y="35" width="9" height="9" rx="1" fill="rgba(255,255,255,.4)"/>
-          <rect x="40" y="44" width="9" height="9" rx="1" fill="rgba(255,255,255,.4)"/>
-          <circle cx="56" cy="46" r="18" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-          <circle cx="56" cy="46" r="13" fill="rgba(255,255,255,.08)"/>
-          <line x1="68" y1="58" x2="78" y2="70" stroke="rgba(255,255,255,.7)" stroke-width="4" stroke-linecap="round"/>
-          <text x="56" y="50" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">100</text>
+          <defs>
+            <radialGradient id="hsq-cell" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="60%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#CA8A04"/></radialGradient>
+            <radialGradient id="hsq-lens" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="rgba(255,255,255,.3)"/><stop offset="100%" stop-color="rgba(255,255,255,.05)"/></radialGradient>
+            <filter id="hsq-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- hundred square grid -->
+          <rect x="3" y="6" width="48" height="52" rx="3" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.5)" stroke-width="1"/>
+          <!-- grid lines horizontal -->
+          <line x1="3" y1="16.4" x2="51" y2="16.4" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <line x1="3" y1="26.8" x2="51" y2="26.8" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <line x1="3" y1="37.2" x2="51" y2="37.2" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <line x1="3" y1="47.6" x2="51" y2="47.6" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <!-- grid lines vertical -->
+          <line x1="12.6" y1="6" x2="12.6" y2="58" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <line x1="22.2" y1="6" x2="22.2" y2="58" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <line x1="31.8" y1="6" x2="31.8" y2="58" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <line x1="41.4" y1="6" x2="41.4" y2="58" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <!-- highlighted cells (amber/gold) -->
+          <rect x="12.6" y="16.4" width="9.6" height="10.4" rx="1" fill="url(#hsq-cell)" opacity=".9"/>
+          <rect x="31.8" y="26.8" width="9.6" height="10.4" rx="1" fill="url(#hsq-cell)" opacity=".9"/>
+          <rect x="22.2" y="37.2" width="9.6" height="10.4" rx="1" fill="url(#hsq-cell)" opacity=".9"/>
+          <rect x="41.4" y="47.6" width="9.6" height="10.4" rx="1" fill="url(#hsq-cell)" opacity=".9"/>
+          <rect x="3" y="6" width="9.6" height="10.4" rx="1" fill="url(#hsq-cell)" opacity=".7"/>
+          <!-- magnifying glass -->
+          <g filter="url(#hsq-sh)">
+            <circle cx="57" cy="44" r="18" fill="url(#hsq-lens)" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
+            <line x1="70" y1="57" x2="78" y2="67" stroke="rgba(255,255,255,.75)" stroke-width="4" stroke-linecap="round"/>
+            <text x="57" y="49" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">100</text>
+          </g>
+          <!-- detective hat peek from top-right -->
+          <path d="M60 6 Q68 2 76 6 L76 14 Q68 10 60 14Z" fill="#1C1917" opacity=".7"/>
+          <rect x="56" y="13" width="24" height="4" rx="2" fill="#374151" opacity=".7"/>
+          <!-- small number labels in grid -->
+          <text x="8" y="13" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="6" fill="rgba(255,255,255,.7)" font-weight="700">1</text>
+          <text x="17.4" y="13" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="6" fill="rgba(255,255,255,.7)" font-weight="700">2</text>
+          <text x="27" y="13" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="6" fill="rgba(255,255,255,.7)" font-weight="700">3</text>
         </svg>
         <div class="book-cover-title">The Hundred Square Mystery</div>
         <span class="book-new-badge">New</span>
@@ -699,16 +1169,47 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#10B981,#3B82F6);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <line x1="40" y1="2" x2="40" y2="78" stroke="rgba(255,255,255,.8)" stroke-width="2" stroke-dasharray="5 3"/>
-          <ellipse cx="20" cy="32" rx="18" ry="12" fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.65)" stroke-width="1.5" transform="rotate(-30 20 32)"/>
-          <ellipse cx="60" cy="32" rx="18" ry="12" fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.65)" stroke-width="1.5" transform="rotate(30 60 32)"/>
-          <ellipse cx="16" cy="54" rx="14" ry="9" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.6)" stroke-width="1.2" transform="rotate(-20 16 54)"/>
-          <ellipse cx="64" cy="54" rx="14" ry="9" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.6)" stroke-width="1.2" transform="rotate(20 64 54)"/>
-          <ellipse cx="40" cy="44" rx="8" ry="22" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
-          <circle cx="26" cy="20" r="4" fill="rgba(255,255,255,.5)"/>
-          <circle cx="54" cy="20" r="4" fill="rgba(255,255,255,.5)"/>
-          <circle cx="22" cy="36" r="2.5" fill="rgba(255,255,255,.4)"/>
-          <circle cx="58" cy="36" r="2.5" fill="rgba(255,255,255,.4)"/>
+          <defs>
+            <radialGradient id="sym-wingL" cx="60%" cy="30%" r="70%"><stop offset="0%" stop-color="#C4B5FD"/><stop offset="55%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#3B0764"/></radialGradient>
+            <radialGradient id="sym-wingR" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="#C4B5FD"/><stop offset="55%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#3B0764"/></radialGradient>
+            <radialGradient id="sym-body" cx="40%" cy="25%" r="70%"><stop offset="0%" stop-color="#FDDCB5"/><stop offset="55%" stop-color="#D97706"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <filter id="sym-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- butterfly wings -->
+          <g filter="url(#sym-sh)">
+            <!-- left upper wing -->
+            <path d="M40 35 Q28 18 14 16 Q6 20 10 32 Q16 42 34 42Z" fill="url(#sym-wingL)"/>
+            <!-- left lower wing -->
+            <path d="M40 44 Q24 46 14 58 Q12 68 22 66 Q34 62 38 50Z" fill="url(#sym-wingL)" opacity=".85"/>
+            <!-- right upper wing (mirror) -->
+            <path d="M40 35 Q52 18 66 16 Q74 20 70 32 Q64 42 46 42Z" fill="url(#sym-wingR)"/>
+            <!-- right lower wing (mirror) -->
+            <path d="M40 44 Q56 46 66 58 Q68 68 58 66 Q46 62 42 50Z" fill="url(#sym-wingR)" opacity=".85"/>
+            <!-- wing spot details -->
+            <circle cx="22" cy="26" r="4" fill="rgba(255,255,255,.4)"/>
+            <circle cx="58" cy="26" r="4" fill="rgba(255,255,255,.4)"/>
+            <circle cx="20" cy="54" r="3" fill="rgba(255,255,255,.35)"/>
+            <circle cx="60" cy="54" r="3" fill="rgba(255,255,255,.35)"/>
+            <!-- butterfly body -->
+            <ellipse cx="40" cy="44" rx="4" ry="16" fill="url(#sym-body)"/>
+            <!-- antennae -->
+            <line x1="38" y1="30" x2="32" y2="18" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="31" cy="17" r="2.5" fill="#FBBF24"/>
+            <line x1="42" y1="30" x2="48" y2="18" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="49" cy="17" r="2.5" fill="#FBBF24"/>
+          </g>
+          <!-- symmetry line -->
+          <line x1="40" y1="4" x2="40" y2="76" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-dasharray="5 3"/>
+          <!-- Sam detective face at bottom -->
+          <g filter="url(#sym-sh)">
+            <circle cx="40" cy="72" r="7" fill="#FDDCB5"/>
+            <circle cx="37.5" cy="71" r="1.5" fill="#1C1917"/>
+            <circle cx="42.5" cy="71" r="1.5" fill="#1C1917"/>
+            <path d="M37 74 Q40 77 43 74" stroke="#D97706" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <!-- magnifying glass -->
+            <circle cx="50" cy="74" r="4" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.8"/>
+            <line x1="53" y1="77" x2="56" y2="80" stroke="rgba(255,255,255,.8)" stroke-width="2" stroke-linecap="round"/>
+          </g>
         </svg>
         <div class="book-cover-title">The Symmetry Detectives</div>
         <span class="book-new-badge">New</span>
@@ -728,18 +1229,46 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#1E40AF,#7C3AED);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <ellipse cx="38" cy="54" rx="28" ry="20" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/>
-          <circle cx="30" cy="38" r="20" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
-          <circle cx="25" cy="30" r="6" fill="rgba(255,255,255,.25)"/>
-          <circle cx="35" cy="28" r="6" fill="rgba(255,255,255,.25)"/>
-          <circle cx="24" cy="29" r="2.5" fill="#1C1917"/><circle cx="24.8" cy="28.2" r=".8" fill="white"/>
-          <circle cx="35" cy="27" r="2.5" fill="#1C1917"/><circle cx="35.8" cy="26.2" r=".8" fill="white"/>
-          <ellipse cx="29" cy="36" rx="5" ry="3.5" fill="rgba(255,255,255,.3)"/>
-          <path d="M20 42 Q30 48 40 42" stroke="rgba(255,255,255,.6)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-          <polygon points="46,22 54,14 58,26 52,28" fill="rgba(255,255,255,.35)"/>
-          <polygon points="50,10 62,6 60,20 54,16" fill="rgba(255,255,255,.28)"/>
-          <text x="52" y="52" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="14" fill="white">3.14</text>
-          <text x="52" y="65" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="rgba(255,255,255,.8)">0.5  0.75</text>
+          <defs>
+            <radialGradient id="ddr-head" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#86EFAC"/><stop offset="50%" stop-color="#4ADE80"/><stop offset="80%" stop-color="#15803D"/><stop offset="100%" stop-color="#064E3B"/></radialGradient>
+            <radialGradient id="ddr-eye" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="60%" stop-color="#F97316"/><stop offset="100%" stop-color="#7C2D12"/></radialGradient>
+            <radialGradient id="ddr-flame" cx="50%" cy="0%" r="100%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="40%" stop-color="#FBBF24"/><stop offset="80%" stop-color="#F97316"/><stop offset="100%" stop-color="#DC2626" stop-opacity=".6"/></radialGradient>
+            <radialGradient id="ddr-badge" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#E0F2FE"/><stop offset="60%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#0C4A6E"/></radialGradient>
+            <filter id="ddr-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- dragon body hint behind head -->
+          <ellipse cx="42" cy="58" rx="22" ry="16" fill="#15803D" opacity=".5"/>
+          <!-- scales detail -->
+          <path d="M30 52 Q34 46 38 52" stroke="#064E3B" stroke-width="1.2" fill="none"/>
+          <path d="M38 52 Q42 46 46 52" stroke="#064E3B" stroke-width="1.2" fill="none"/>
+          <path d="M46 52 Q50 46 54 52" stroke="#064E3B" stroke-width="1.2" fill="none"/>
+          <!-- dragon head -->
+          <g filter="url(#ddr-sh)">
+            <circle cx="32" cy="38" r="22" fill="url(#ddr-head)"/>
+            <!-- head spines/horns -->
+            <polygon points="24,18 20,6 28,16" fill="#064E3B"/>
+            <polygon points="32,16 30,4 36,14" fill="#064E3B"/>
+            <polygon points="40,18 40,6 44,16" fill="#064E3B"/>
+            <!-- eyes (orange) -->
+            <circle cx="24" cy="32" r="5.5" fill="url(#ddr-eye)"/>
+            <circle cx="24.8" cy="32" r="3" fill="#1C1917"/>
+            <circle cx="25.6" cy="31.2" r="1" fill="white"/>
+            <circle cx="38" cy="30" r="5.5" fill="url(#ddr-eye)"/>
+            <circle cx="38.8" cy="30" r="3" fill="#1C1917"/>
+            <circle cx="39.6" cy="29.2" r="1" fill="white"/>
+            <!-- nostrils -->
+            <ellipse cx="28" cy="42" rx="2.5" ry="1.8" fill="#064E3B" opacity=".7"/>
+            <ellipse cx="36" cy="41" rx="2.5" ry="1.8" fill="#064E3B" opacity=".7"/>
+            <!-- smile -->
+            <path d="M20 46 Q32 54 44 46" stroke="#064E3B" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- flame breath -->
+          <path d="M50 44 Q62 36 70 28 Q76 22 72 18 Q68 14 62 22 Q58 30 52 36Z" fill="url(#ddr-flame)" filter="url(#ddr-sh)"/>
+          <!-- number badge -->
+          <g filter="url(#ddr-sh)">
+            <rect x="52" y="54" width="26" height="16" rx="6" fill="url(#ddr-badge)"/>
+            <text x="65" y="65" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="10" fill="white">3.14</text>
+          </g>
         </svg>
         <div class="book-cover-title">The Decimal Dragon</div>
         <span class="book-new-badge">New</span>
@@ -758,19 +1287,49 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#059669,#0EA5E9);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <rect x="8" y="8" width="20" height="20" rx="2" fill="rgba(255,255,255,.35)"/>
-          <rect x="30" y="8" width="20" height="20" rx="2" fill="rgba(255,255,255,.25)"/>
-          <rect x="52" y="8" width="20" height="20" rx="2" fill="rgba(255,255,255,.35)"/>
-          <rect x="8" y="30" width="20" height="20" rx="2" fill="rgba(255,255,255,.25)"/>
-          <rect x="30" y="30" width="20" height="20" rx="2" fill="rgba(255,255,255,.4)"/>
-          <rect x="52" y="30" width="20" height="20" rx="2" fill="rgba(255,255,255,.25)"/>
-          <rect x="8" y="52" width="20" height="20" rx="2" fill="rgba(255,255,255,.35)"/>
-          <rect x="30" y="52" width="20" height="20" rx="2" fill="rgba(255,255,255,.25)"/>
-          <rect x="52" y="52" width="20" height="20" rx="2" fill="rgba(255,255,255,.35)"/>
-          <text x="40" y="43" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11" fill="white">9</text>
-          <text x="40" y="22" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.8)">3</text>
-          <text x="6" y="43" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="rgba(255,255,255,.8)">3</text>
-          <text x="40" y="76" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="9" fill="rgba(255,255,255,.9)">Area = cm²</text>
+          <defs>
+            <radialGradient id="are-cellA" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#A5F3FC"/><stop offset="60%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0C4A6E"/></radialGradient>
+            <radialGradient id="are-cellB" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#E0F2FE"/><stop offset="60%" stop-color="#7DD3FC"/><stop offset="100%" stop-color="#1E40AF"/></radialGradient>
+            <radialGradient id="are-expl" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="55%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <filter id="are-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- 4×3 grid of unit squares -->
+          <!-- row 1 -->
+          <rect x="8" y="8" width="16" height="16" rx="2" fill="url(#are-cellA)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="26" y="8" width="16" height="16" rx="2" fill="url(#are-cellB)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="44" y="8" width="16" height="16" rx="2" fill="url(#are-cellA)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="62" y="8" width="16" height="16" rx="2" fill="url(#are-cellB)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <!-- row 2 -->
+          <rect x="8" y="26" width="16" height="16" rx="2" fill="url(#are-cellB)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="26" y="26" width="16" height="16" rx="2" fill="url(#are-cellA)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="44" y="26" width="16" height="16" rx="2" fill="url(#are-cellB)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="62" y="26" width="16" height="16" rx="2" fill="url(#are-cellA)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <!-- row 3 -->
+          <rect x="8" y="44" width="16" height="16" rx="2" fill="url(#are-cellA)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="26" y="44" width="16" height="16" rx="2" fill="url(#are-cellB)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="44" y="44" width="16" height="16" rx="2" fill="url(#are-cellA)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <rect x="62" y="44" width="16" height="16" rx="2" fill="url(#are-cellB)" stroke="rgba(255,255,255,.5)" stroke-width=".8"/>
+          <!-- dimension arrows -->
+          <line x1="8" y1="64" x2="78" y2="64" stroke="rgba(255,255,255,.75)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <polygon points="8,61 8,67 2,64" fill="rgba(255,255,255,.75)"/>
+          <polygon points="78,61 78,67 84,64" fill="rgba(255,255,255,.75)"/>
+          <text x="43" y="72" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="7" fill="rgba(255,255,255,.9)">4 units</text>
+          <line x1="4" y1="8" x2="4" y2="60" stroke="rgba(255,255,255,.75)" stroke-width="1.5"/>
+          <polygon points="1,8 7,8 4,2" fill="rgba(255,255,255,.75)"/>
+          <polygon points="1,60 7,60 4,66" fill="rgba(255,255,255,.75)"/>
+          <!-- area label -->
+          <rect x="18" y="74" width="44" height="8" rx="4" fill="rgba(255,255,255,.25)"/>
+          <text x="40" y="80.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">Area = 12</text>
+          <!-- explorer figure top-right corner -->
+          <g filter="url(#are-sh)">
+            <circle cx="72" cy="48" r="5" fill="url(#are-expl)"/>
+            <!-- hat -->
+            <rect x="68" y="42" width="8" height="3" rx="1" fill="#78350F"/>
+            <rect x="70" y="39" width="4" height="4" rx="1" fill="#B45309"/>
+            <!-- magnifying glass -->
+            <circle cx="76" cy="54" r="3" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.5"/>
+            <line x1="78" y1="56" x2="80" y2="58" stroke="rgba(255,255,255,.8)" stroke-width="1.8" stroke-linecap="round"/>
+          </g>
         </svg>
         <div class="book-cover-title">The Area Adventure</div>
         <span class="book-new-badge">New</span>
@@ -789,19 +1348,47 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#C2410C,#9A3412);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <line x1="8" y1="8" x2="8" y2="64" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round"/>
-          <line x1="8" y1="64" x2="72" y2="64" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round"/>
-          <rect x="14" y="36" width="12" height="28" rx="3" fill="rgba(255,255,255,.35)"/>
-          <rect x="30" y="22" width="12" height="42" rx="3" fill="rgba(255,255,255,.45)"/>
-          <rect x="46" y="44" width="12" height="20" rx="3" fill="rgba(255,255,255,.3)"/>
-          <rect x="62" y="30" width="12" height="34" rx="3" fill="rgba(255,255,255,.4)"/>
-          <text x="20" y="33" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">4</text>
-          <text x="36" y="19" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">6</text>
-          <text x="52" y="41" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">3</text>
-          <text x="68" y="27" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">5</text>
-          <circle cx="60" cy="16" r="12" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.6)" stroke-width="2"/>
-          <circle cx="60" cy="16" r="7" fill="rgba(255,255,255,.08)"/>
-          <line x1="69" y1="25" x2="78" y2="34" stroke="rgba(255,255,255,.65)" stroke-width="3" stroke-linecap="round"/>
+          <defs>
+            <radialGradient id="dda-bar1" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#93C5FD"/><stop offset="60%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#1E3A8A"/></radialGradient>
+            <radialGradient id="dda-bar2" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="60%" stop-color="#10B981"/><stop offset="100%" stop-color="#064E3B"/></radialGradient>
+            <radialGradient id="dda-bar3" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="60%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="dda-bar4" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <radialGradient id="dda-lens" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="rgba(255,255,255,.35)"/><stop offset="100%" stop-color="rgba(255,255,255,.08)"/></radialGradient>
+            <filter id="dda-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- axes -->
+          <line x1="10" y1="8" x2="10" y2="66" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="10" y1="66" x2="74" y2="66" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round"/>
+          <!-- bars with gradients -->
+          <g filter="url(#dda-sh)">
+            <rect x="14" y="36" width="12" height="30" rx="3" fill="url(#dda-bar1)"/>
+            <text x="20" y="33" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">4</text>
+          </g>
+          <g filter="url(#dda-sh)">
+            <rect x="30" y="20" width="12" height="46" rx="3" fill="url(#dda-bar2)"/>
+            <text x="36" y="17" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">6</text>
+          </g>
+          <g filter="url(#dda-sh)">
+            <rect x="46" y="44" width="12" height="22" rx="3" fill="url(#dda-bar3)"/>
+            <text x="52" y="41" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">3</text>
+          </g>
+          <g filter="url(#dda-sh)">
+            <rect x="62" y="28" width="12" height="38" rx="3" fill="url(#dda-bar4)"/>
+            <text x="68" y="25" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="8" fill="white">5</text>
+          </g>
+          <!-- magnifying glass over tallest bar -->
+          <g filter="url(#dda-sh)">
+            <circle cx="36" cy="24" r="14" fill="url(#dda-lens)" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
+            <line x1="47" y1="35" x2="55" y2="44" stroke="rgba(255,255,255,.7)" stroke-width="3.5" stroke-linecap="round"/>
+          </g>
+          <!-- detective silhouette bottom-right -->
+          <g opacity=".8">
+            <!-- coat -->
+            <path d="M60 68 Q64 58 68 68Z" fill="rgba(255,255,255,.5)"/>
+            <!-- hat -->
+            <rect x="56" y="72" width="12" height="3" rx="1.5" fill="rgba(255,255,255,.5)"/>
+            <rect x="58" y="68" width="8" height="5" rx="1" fill="rgba(255,255,255,.5)"/>
+          </g>
         </svg>
         <div class="book-cover-title">Data Detective Academy</div>
         <span class="book-new-badge">New</span>
@@ -821,15 +1408,36 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#DC2626,#9333EA);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <!-- crown -->
-          <polygon points="10,55 10,35 22,45 40,22 58,45 70,35 70,55" fill="rgba(255,255,255,.3)" stroke="rgba(255,255,255,.7)" stroke-width="2.5" stroke-linejoin="round"/>
-          <rect x="10" y="54" width="60" height="8" rx="2" fill="rgba(255,255,255,.35)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
-          <circle cx="40" cy="22" r="4" fill="rgba(255,255,255,.7)"/>
-          <circle cx="10" cy="35" r="3" fill="rgba(255,255,255,.6)"/>
-          <circle cx="70" cy="35" r="3" fill="rgba(255,255,255,.6)"/>
-          <!-- fraction ½ below crown -->
-          <text x="32" y="74" font-family="sans-serif" font-size="11" font-weight="bold" fill="rgba(255,255,255,.85)">½</text>
-          <text x="46" y="74" font-family="sans-serif" font-size="11" font-weight="bold" fill="rgba(255,255,255,.85)">¾</text>
+          <defs>
+            <radialGradient id="frk-crown" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="50%" stop-color="#FDE68A"/><stop offset="80%" stop-color="#D97706"/><stop offset="100%" stop-color="#92400E"/></radialGradient>
+            <radialGradient id="frk-band" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#FEF3C7"/><stop offset="55%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="frk-jewR" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <radialGradient id="frk-jewB" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#93C5FD"/><stop offset="60%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#1E3A8A"/></radialGradient>
+            <radialGradient id="frk-jewG" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="60%" stop-color="#10B981"/><stop offset="100%" stop-color="#064E3B"/></radialGradient>
+            <filter id="frk-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- crown body -->
+          <g filter="url(#frk-sh)">
+            <!-- crown points -->
+            <polygon points="10,54 10,32 21,44 40,18 59,44 70,32 70,54" fill="url(#frk-crown)" stroke="#CA8A04" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- crown band -->
+            <rect x="10" y="52" width="60" height="10" rx="3" fill="url(#frk-band)" stroke="#B45309" stroke-width="1"/>
+            <!-- jewels on points -->
+            <circle cx="40" cy="18" r="5" fill="url(#frk-jewR)"/>
+            <circle cx="40" cy="18" r="2.5" fill="#FCA5A5" opacity=".5"/>
+            <circle cx="10" cy="32" r="4" fill="url(#frk-jewB)"/>
+            <circle cx="70" cy="32" r="4" fill="url(#frk-jewG)"/>
+            <circle cx="21" cy="44" r="3.5" fill="url(#frk-jewR)"/>
+            <circle cx="59" cy="44" r="3.5" fill="url(#frk-jewB)"/>
+            <!-- jewels on band -->
+            <circle cx="25" cy="57" r="4" fill="url(#frk-jewG)"/>
+            <circle cx="40" cy="57" r="4" fill="url(#frk-jewR)"/>
+            <circle cx="55" cy="57" r="4" fill="url(#frk-jewB)"/>
+          </g>
+          <!-- fraction text below crown -->
+          <rect x="18" y="70" width="44" height="10" rx="5" fill="rgba(255,255,255,.25)"/>
+          <text x="30" y="78.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="bold" fill="white">½</text>
+          <text x="50" y="78.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="bold" fill="white">¾</text>
         </svg>
         <div class="book-cover-title">The Fraction Kingdom</div>
         <span class="book-new-badge">New</span>
@@ -848,24 +1456,55 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#0284C7,#6D28D9);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
+          <defs>
+            <radialGradient id="cco-ptR" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <radialGradient id="cco-ptY" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="60%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="cco-ptG" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="60%" stop-color="#10B981"/><stop offset="100%" stop-color="#064E3B"/></radialGradient>
+            <filter id="cco-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- grid lines -->
+          <line x1="25" y1="10" x2="25" y2="70" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+          <line x1="40" y1="10" x2="40" y2="70" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+          <line x1="55" y1="10" x2="55" y2="70" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+          <line x1="10" y1="25" x2="70" y2="25" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+          <line x1="10" y1="40" x2="70" y2="40" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+          <line x1="10" y1="55" x2="70" y2="55" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
           <!-- coordinate axes -->
-          <line x1="40" y1="10" x2="40" y2="70" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
-          <line x1="10" y1="40" x2="70" y2="40" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
+          <line x1="40" y1="8" x2="40" y2="72" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+          <line x1="8" y1="40" x2="72" y2="40" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
           <!-- axis arrows -->
-          <polygon points="40,7 36,15 44,15" fill="rgba(255,255,255,.55)"/>
-          <polygon points="73,40 65,36 65,44" fill="rgba(255,255,255,.55)"/>
+          <polygon points="40,5 36,14 44,14" fill="rgba(255,255,255,.7)"/>
+          <polygon points="75,40 66,36 66,44" fill="rgba(255,255,255,.7)"/>
           <!-- axis labels -->
-          <text x="43" y="12" font-family="sans-serif" font-size="9" fill="rgba(255,255,255,.75)">y</text>
-          <text x="65" y="37" font-family="sans-serif" font-size="9" fill="rgba(255,255,255,.75)">x</text>
-          <!-- grid dots -->
-          <circle cx="55" cy="25" r="2.5" fill="rgba(255,255,255,.7)"/>
-          <circle cx="25" cy="55" r="2.5" fill="rgba(255,255,255,.7)"/>
-          <circle cx="55" cy="55" r="2.5" fill="rgba(255,255,255,.4)"/>
-          <!-- compass needle -->
-          <polygon points="40,28 37,40 40,36 43,40" fill="rgba(255,220,100,.85)"/>
-          <circle cx="40" cy="40" r="4" fill="rgba(255,255,255,.35)" stroke="rgba(255,255,255,.65)" stroke-width="1.5"/>
-          <!-- coordinate label -->
-          <text x="56" y="22" font-family="sans-serif" font-size="8" fill="rgba(255,255,255,.85)">(3,2)</text>
+          <text x="44" y="12" font-family="Quicksand,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,.85)">y</text>
+          <text x="67" y="37" font-family="Quicksand,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,.85)">x</text>
+          <!-- dashed triangle path connecting 3 points -->
+          <polyline points="25,25 55,25 55,55 25,25" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <!-- plotted points with gradient circles -->
+          <g filter="url(#cco-sh)">
+            <circle cx="25" cy="25" r="5.5" fill="url(#cco-ptR)"/>
+            <circle cx="25.8" cy="24.2" r="1.5" fill="rgba(255,255,255,.5)"/>
+            <text x="16" y="20" font-family="Quicksand,sans-serif" font-size="7" font-weight="700" fill="rgba(255,255,255,.85)">(1,2)</text>
+          </g>
+          <g filter="url(#cco-sh)">
+            <circle cx="55" cy="25" r="5.5" fill="url(#cco-ptY)"/>
+            <circle cx="55.8" cy="24.2" r="1.5" fill="rgba(255,255,255,.5)"/>
+            <text x="57" y="20" font-family="Quicksand,sans-serif" font-size="7" font-weight="700" fill="rgba(255,255,255,.85)">(3,2)</text>
+          </g>
+          <g filter="url(#cco-sh)">
+            <circle cx="55" cy="55" r="5.5" fill="url(#cco-ptG)"/>
+            <circle cx="55.8" cy="54.2" r="1.5" fill="rgba(255,255,255,.5)"/>
+            <text x="57" y="62" font-family="Quicksand,sans-serif" font-size="7" font-weight="700" fill="rgba(255,255,255,.85)">(3,0)</text>
+          </g>
+          <!-- compass rose in corner -->
+          <g opacity=".7">
+            <circle cx="16" cy="66" r="8" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <polygon points="16,58 14.5,66 16,64 17.5,66" fill="rgba(255,220,100,.9)"/>
+            <polygon points="16,74 14.5,66 16,68 17.5,66" fill="rgba(255,255,255,.5)"/>
+            <polygon points="8,66 16,64.5 14,66 16,67.5" fill="rgba(255,255,255,.5)"/>
+            <polygon points="24,66 16,64.5 18,66 16,67.5" fill="rgba(255,255,255,.5)"/>
+            <text x="16" y="57" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="5" fill="rgba(255,255,255,.8)" font-weight="700">N</text>
+          </g>
         </svg>
         <div class="book-cover-title">The Coordinate Compass</div>
         <span class="book-new-badge">New</span>
@@ -884,23 +1523,48 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#9A3412,#C2410C);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <!-- palace silhouette -->
-          <rect x="15" y="45" width="50" height="25" rx="1" fill="rgba(255,255,255,.25)" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/>
-          <!-- towers -->
-          <rect x="12" y="35" width="14" height="35" rx="1" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
-          <rect x="54" y="35" width="14" height="35" rx="1" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
-          <!-- battlements left tower -->
-          <rect x="12" y="30" width="3" height="6" fill="rgba(255,255,255,.45)"/>
-          <rect x="17" y="30" width="3" height="6" fill="rgba(255,255,255,.45)"/>
-          <rect x="22" y="30" width="3" height="6" fill="rgba(255,255,255,.45)"/>
-          <!-- battlements right tower -->
-          <rect x="54" y="30" width="3" height="6" fill="rgba(255,255,255,.45)"/>
-          <rect x="59" y="30" width="3" height="6" fill="rgba(255,255,255,.45)"/>
-          <rect x="64" y="30" width="3" height="6" fill="rgba(255,255,255,.45)"/>
-          <!-- % sign -->
-          <text x="27" y="40" font-family="sans-serif" font-size="20" font-weight="bold" fill="rgba(255,255,255,.85)">%</text>
-          <!-- door -->
-          <rect x="34" y="57" width="12" height="13" rx="5" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.5)" stroke-width="1.2"/>
+          <defs>
+            <radialGradient id="ppa-wall" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#E5E7EB"/><stop offset="55%" stop-color="#D1D5DB"/><stop offset="100%" stop-color="#6B7280"/></radialGradient>
+            <radialGradient id="ppa-col" cx="30%" cy="20%" r="75%"><stop offset="0%" stop-color="#F3F4F6"/><stop offset="60%" stop-color="#9CA3AF"/><stop offset="100%" stop-color="#4B5563"/></radialGradient>
+            <radialGradient id="ppa-arch" cx="50%" cy="0%" r="100%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="55%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <radialGradient id="ppa-pct" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="55%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <filter id="ppa-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- palace main body -->
+          <g filter="url(#ppa-sh)">
+            <rect x="14" y="44" width="52" height="30" rx="1" fill="url(#ppa-wall)"/>
+            <!-- left tower -->
+            <rect x="10" y="30" width="16" height="44" rx="1" fill="url(#ppa-wall)"/>
+            <!-- right tower -->
+            <rect x="54" y="30" width="16" height="44" rx="1" fill="url(#ppa-wall)"/>
+            <!-- battlements left -->
+            <rect x="10" y="24" width="3.5" height="7" rx="1" fill="#9CA3AF"/>
+            <rect x="15.5" y="24" width="3.5" height="7" rx="1" fill="#9CA3AF"/>
+            <rect x="21" y="24" width="3.5" height="7" rx="1" fill="#9CA3AF"/>
+            <!-- battlements right -->
+            <rect x="54" y="24" width="3.5" height="7" rx="1" fill="#9CA3AF"/>
+            <rect x="59.5" y="24" width="3.5" height="7" rx="1" fill="#9CA3AF"/>
+            <rect x="65" y="24" width="3.5" height="7" rx="1" fill="#9CA3AF"/>
+            <!-- main battlement top -->
+            <rect x="22" y="38" width="3" height="7" rx="1" fill="#9CA3AF"/>
+            <rect x="27" y="38" width="3" height="7" rx="1" fill="#9CA3AF"/>
+            <rect x="50" y="38" width="3" height="7" rx="1" fill="#9CA3AF"/>
+            <rect x="55" y="38" width="3" height="7" rx="1" fill="#9CA3AF"/>
+            <!-- columns -->
+            <rect x="20" y="44" width="6" height="30" rx="3" fill="url(#ppa-col)"/>
+            <rect x="33" y="44" width="6" height="30" rx="3" fill="url(#ppa-col)"/>
+            <rect x="41" y="44" width="6" height="30" rx="3" fill="url(#ppa-col)"/>
+            <rect x="54" y="44" width="6" height="30" rx="3" fill="url(#ppa-col)"/>
+            <!-- golden arch entrance -->
+            <path d="M32 74 L32 58 Q32 50 40 50 Q48 50 48 58 L48 74Z" fill="url(#ppa-arch)"/>
+          </g>
+          <!-- large % in gold -->
+          <g filter="url(#ppa-sh)">
+            <text x="40" y="42" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="22" font-weight="bold" fill="url(#ppa-pct)">%</text>
+          </g>
+          <!-- tiny character at entrance -->
+          <circle cx="40" cy="70" r="4" fill="#FDDCB5" filter="url(#ppa-sh)"/>
+          <rect x="37" y="73" width="6" height="5" rx="1" fill="#7C3AED"/>
         </svg>
         <div class="book-cover-title">The Percentage Palace</div>
         <span class="book-new-badge">New</span>
@@ -920,21 +1584,47 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#4C1D95,#1E40AF);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <!-- number grid background -->
-          <rect x="8" y="8" width="42" height="50" rx="3" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/>
-          <!-- numbers in grid -->
-          <text x="12" y="22" font-family="sans-serif" font-size="7" fill="rgba(255,255,255,.45)">2  3  5  7</text>
-          <text x="12" y="32" font-family="sans-serif" font-size="7" fill="rgba(255,255,255,.35)">4  6  8  9</text>
-          <text x="12" y="42" font-family="sans-serif" font-size="7" fill="rgba(255,255,255,.45)">11 13 17</text>
-          <text x="12" y="52" font-family="sans-serif" font-size="7" fill="rgba(255,255,255,.35)">10 12 14</text>
-          <!-- highlight primes -->
-          <rect x="10" y="13" width="38" height="11" rx="2" fill="rgba(255,220,100,.25)" stroke="rgba(255,220,100,.6)" stroke-width="1"/>
-          <rect x="10" y="37" width="38" height="11" rx="2" fill="rgba(255,220,100,.25)" stroke="rgba(255,220,100,.6)" stroke-width="1"/>
+          <defs>
+            <radialGradient id="prm-prime" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="55%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <radialGradient id="prm-lens" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="rgba(255,255,255,.3)"/><stop offset="100%" stop-color="rgba(255,255,255,.06)"/></radialGradient>
+            <filter id="prm-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- number grid -->
+          <rect x="4" y="6" width="50" height="58" rx="3" fill="rgba(255,255,255,.14)" stroke="rgba(255,255,255,.35)" stroke-width="1"/>
+          <!-- grid lines -->
+          <line x1="4" y1="17.6" x2="54" y2="17.6" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
+          <line x1="4" y1="29.2" x2="54" y2="29.2" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
+          <line x1="4" y1="40.8" x2="54" y2="40.8" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
+          <line x1="4" y1="52.4" x2="54" y2="52.4" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
+          <line x1="14" y1="6" x2="14" y2="64" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
+          <line x1="24" y1="6" x2="24" y2="64" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
+          <line x1="34" y1="6" x2="34" y2="64" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
+          <line x1="44" y1="6" x2="44" y2="64" stroke="rgba(255,255,255,.25)" stroke-width=".7"/>
+          <!-- prime number cells glow gold -->
+          <rect x="4" y="6" width="10" height="11.6" rx="1" fill="url(#prm-prime)" opacity=".85"/>
+          <rect x="14" y="6" width="10" height="11.6" rx="1" fill="url(#prm-prime)" opacity=".85"/>
+          <rect x="34" y="6" width="10" height="11.6" rx="1" fill="url(#prm-prime)" opacity=".85"/>
+          <rect x="4" y="17.6" width="10" height="11.6" rx="1" fill="url(#prm-prime)" opacity=".85"/>
+          <rect x="34" y="29.2" width="10" height="11.6" rx="1" fill="url(#prm-prime)" opacity=".85"/>
+          <rect x="4" y="40.8" width="10" height="11.6" rx="1" fill="url(#prm-prime)" opacity=".85"/>
+          <!-- number labels in cells -->
+          <text x="9" y="15" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="#78350F">2</text>
+          <text x="19" y="15" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="#78350F">3</text>
+          <text x="29" y="15" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="rgba(255,255,255,.5)">4</text>
+          <text x="39" y="15" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="#78350F">5</text>
+          <text x="9" y="26.6" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="#78350F">7</text>
+          <text x="19" y="26.6" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="rgba(255,255,255,.5)">8</text>
+          <text x="39" y="38.2" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="#78350F">11</text>
+          <text x="9" y="49.8" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="#78350F">13</text>
           <!-- magnifying glass -->
-          <circle cx="57" cy="35" r="14" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.7)" stroke-width="2.5"/>
-          <line x1="67" y1="46" x2="75" y2="56" stroke="rgba(255,255,255,.7)" stroke-width="3" stroke-linecap="round"/>
-          <!-- PRIME label inside lens -->
-          <text x="46" y="37" font-family="sans-serif" font-size="7" font-weight="bold" fill="rgba(255,255,255,.85)">PRIME</text>
+          <g filter="url(#prm-sh)">
+            <circle cx="57" cy="44" r="18" fill="url(#prm-lens)" stroke="rgba(255,255,255,.75)" stroke-width="2.5"/>
+            <text x="57" y="48" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="7" font-weight="700" fill="rgba(255,255,255,.9)">PRIME</text>
+            <line x1="70" y1="57" x2="78" y2="67" stroke="rgba(255,255,255,.75)" stroke-width="3.5" stroke-linecap="round"/>
+          </g>
+          <!-- inspector hat peek -->
+          <path d="M42 68 Q50 64 58 68 L58 74 Q50 70 42 74Z" fill="#1C1917" opacity=".65"/>
+          <rect x="38" y="73" width="24" height="4" rx="2" fill="#374151" opacity=".65"/>
         </svg>
         <div class="book-cover-title">The Prime Number Mystery</div>
         <span class="book-new-badge">New</span>
@@ -953,23 +1643,56 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#065F46,#0284C7);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
-          <!-- balance stand -->
-          <line x1="40" y1="15" x2="40" y2="65" stroke="rgba(255,255,255,.65)" stroke-width="2.5" stroke-linecap="round"/>
-          <line x1="28" y1="65" x2="52" y2="65" stroke="rgba(255,255,255,.65)" stroke-width="2.5" stroke-linecap="round"/>
-          <!-- beam -->
-          <line x1="14" y1="28" x2="66" y2="28" stroke="rgba(255,255,255,.65)" stroke-width="2.5" stroke-linecap="round"/>
-          <!-- pivot circle -->
-          <circle cx="40" cy="28" r="4" fill="rgba(255,255,255,.35)" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-          <!-- left pan chain + pan -->
-          <line x1="14" y1="28" x2="14" y2="44" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-dasharray="3,2"/>
-          <ellipse cx="14" cy="46" rx="11" ry="4" fill="rgba(255,255,255,.3)" stroke="rgba(255,255,255,.65)" stroke-width="1.5"/>
-          <text x="9" y="44" font-family="sans-serif" font-size="8" font-weight="bold" fill="rgba(255,255,255,.85)">1</text>
-          <!-- right pan chain + pan -->
-          <line x1="66" y1="28" x2="66" y2="44" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-dasharray="3,2"/>
-          <ellipse cx="66" cy="46" rx="11" ry="4" fill="rgba(255,255,255,.3)" stroke="rgba(255,255,255,.65)" stroke-width="1.5"/>
-          <text x="61" y="44" font-family="sans-serif" font-size="8" font-weight="bold" fill="rgba(255,255,255,.85)">2</text>
+          <defs>
+            <radialGradient id="rtr-pan" cx="30%" cy="25%" r="72%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="55%" stop-color="#FDE68A"/><stop offset="100%" stop-color="#B45309"/></radialGradient>
+            <radialGradient id="rtr-beam" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="60%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="rtr-ball" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#E0F2FE"/><stop offset="60%" stop-color="#0EA5E9"/><stop offset="100%" stop-color="#0C4A6E"/></radialGradient>
+            <radialGradient id="rtr-sasha" cx="30%" cy="25%" r="70%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="60%" stop-color="#10B981"/><stop offset="100%" stop-color="#064E3B"/></radialGradient>
+            <filter id="rtr-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- stand post and base -->
+          <g filter="url(#rtr-sh)">
+            <line x1="40" y1="20" x2="40" y2="62" stroke="#D97706" stroke-width="4" stroke-linecap="round"/>
+            <rect x="28" y="60" width="24" height="6" rx="3" fill="url(#rtr-beam)"/>
+            <!-- beam -->
+            <rect x="10" y="28" width="60" height="5" rx="2.5" fill="url(#rtr-beam)"/>
+            <!-- pivot -->
+            <circle cx="40" cy="30" r="5.5" fill="#FBBF24" stroke="#B45309" stroke-width="1.5"/>
+          </g>
+          <!-- left pan — 1 ball -->
+          <g filter="url(#rtr-sh)">
+            <line x1="14" y1="31" x2="14" y2="44" stroke="#B45309" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <ellipse cx="14" cy="46" rx="12" ry="5" fill="url(#rtr-pan)" stroke="#B45309" stroke-width="1.2"/>
+            <circle cx="14" cy="38" r="5" fill="url(#rtr-ball)"/>
+            <circle cx="14.8" cy="37.2" r="1.8" fill="rgba(255,255,255,.6)"/>
+          </g>
+          <!-- right pan — 2 balls -->
+          <g filter="url(#rtr-sh)">
+            <line x1="66" y1="31" x2="66" y2="44" stroke="#B45309" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <ellipse cx="66" cy="46" rx="12" ry="5" fill="url(#rtr-pan)" stroke="#B45309" stroke-width="1.2"/>
+            <circle cx="61" cy="38" r="4.5" fill="url(#rtr-ball)"/>
+            <circle cx="71" cy="38" r="4.5" fill="url(#rtr-ball)"/>
+            <circle cx="71.8" cy="37.2" r="1.5" fill="rgba(255,255,255,.6)"/>
+          </g>
+          <!-- Sasha ranger left -->
+          <g filter="url(#rtr-sh)">
+            <circle cx="8" cy="58" r="6" fill="#FDDCB5"/>
+            <rect x="4" y="63" width="8" height="10" rx="2" fill="url(#rtr-sasha)"/>
+            <!-- ranger hat -->
+            <rect x="4" y="54" width="8" height="3" rx="1" fill="#065F46"/>
+            <rect x="5.5" y="51" width="5" height="4" rx="1" fill="#065F46"/>
+          </g>
+          <!-- Tom ranger right -->
+          <g filter="url(#rtr-sh)">
+            <circle cx="72" cy="58" r="6" fill="#FDDCB5"/>
+            <rect x="68" y="63" width="8" height="10" rx="2" fill="url(#rtr-sasha)"/>
+            <!-- ranger hat -->
+            <rect x="68" y="54" width="8" height="3" rx="1" fill="#065F46"/>
+            <rect x="69.5" y="51" width="5" height="4" rx="1" fill="#065F46"/>
+          </g>
           <!-- ratio label -->
-          <text x="27" y="74" font-family="sans-serif" font-size="11" font-weight="bold" fill="rgba(255,255,255,.85)">1 : 2</text>
+          <rect x="24" y="70" width="32" height="9" rx="4" fill="rgba(255,255,255,.25)"/>
+          <text x="40" y="77.5" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="10" font-weight="bold" fill="white">1 : 2</text>
         </svg>
         <div class="book-cover-title">The Ratio Rangers</div>
         <span class="book-new-badge">New</span>
@@ -988,23 +1711,50 @@
       <div class="book-cover" style="background:linear-gradient(135deg,#0369A1,#6D28D9);">
         <div class="book-spine"></div>
         <svg viewBox="0 0 80 80" aria-hidden="true">
+          <defs>
+            <radialGradient id="sts-pt1" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FCA5A5"/><stop offset="60%" stop-color="#EF4444"/><stop offset="100%" stop-color="#7F1D1D"/></radialGradient>
+            <radialGradient id="sts-pt2" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FDE68A"/><stop offset="60%" stop-color="#F97316"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="sts-pt3" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#FEF9C3"/><stop offset="60%" stop-color="#FBBF24"/><stop offset="100%" stop-color="#78350F"/></radialGradient>
+            <radialGradient id="sts-pt4" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#6EE7B7"/><stop offset="60%" stop-color="#10B981"/><stop offset="100%" stop-color="#064E3B"/></radialGradient>
+            <radialGradient id="sts-pt5" cx="30%" cy="30%" r="70%"><stop offset="0%" stop-color="#93C5FD"/><stop offset="60%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#1E3A8A"/></radialGradient>
+            <filter id="sts-sh"><feDropShadow dx="0.5" dy="1.5" stdDeviation="1.5" flood-opacity="0.25"/></filter>
+          </defs>
+          <!-- landscape silhouette background -->
+          <path d="M10 62 Q20 44 30 50 Q42 38 50 48 Q58 36 70 42 L70 62Z" fill="rgba(255,255,255,.08)"/>
           <!-- axes -->
-          <line x1="12" y1="62" x2="72" y2="62" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
-          <line x1="12" y1="10" x2="12" y2="62" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
-          <!-- line chart path -->
-          <polyline points="18,55 30,38 42,44 54,22 66,30" fill="none" stroke="rgba(255,220,100,.85)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- data points -->
-          <circle cx="18" cy="55" r="3" fill="rgba(255,255,255,.8)"/>
-          <circle cx="30" cy="38" r="3" fill="rgba(255,255,255,.8)"/>
-          <circle cx="42" cy="44" r="3" fill="rgba(255,255,255,.8)"/>
-          <circle cx="54" cy="22" r="3" fill="rgba(255,255,255,.8)"/>
-          <circle cx="66" cy="30" r="3" fill="rgba(255,255,255,.8)"/>
-          <!-- mean line -->
-          <line x1="12" y1="40" x2="72" y2="40" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-dasharray="5,3"/>
-          <!-- mean label -->
-          <text x="55" y="37" font-family="sans-serif" font-size="8" fill="rgba(255,255,255,.75)">mean</text>
-          <!-- axis labels -->
-          <text x="28" y="74" font-family="sans-serif" font-size="9" font-weight="bold" fill="rgba(255,255,255,.8)">Statistics</text>
+          <line x1="12" y1="64" x2="74" y2="64" stroke="rgba(255,255,255,.65)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12" y1="8" x2="12" y2="64" stroke="rgba(255,255,255,.65)" stroke-width="2" stroke-linecap="round"/>
+          <!-- mean dashed line -->
+          <line x1="12" y1="40" x2="74" y2="40" stroke="rgba(255,255,255,.45)" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="56" y="37" font-family="Quicksand,sans-serif" font-size="7" font-weight="700" fill="rgba(255,255,255,.8)">mean</text>
+          <!-- line chart -->
+          <polyline points="18,56 30,38 42,44 54,22 66,30" fill="none" stroke="#FDE68A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- gradient data points -->
+          <g filter="url(#sts-sh)">
+            <circle cx="18" cy="56" r="4.5" fill="url(#sts-pt1)"/>
+            <circle cx="18.8" cy="55.2" r="1.4" fill="rgba(255,255,255,.5)"/>
+            <circle cx="30" cy="38" r="4.5" fill="url(#sts-pt2)"/>
+            <circle cx="30.8" cy="37.2" r="1.4" fill="rgba(255,255,255,.5)"/>
+            <circle cx="42" cy="44" r="4.5" fill="url(#sts-pt3)"/>
+            <circle cx="42.8" cy="43.2" r="1.4" fill="rgba(255,255,255,.5)"/>
+            <circle cx="54" cy="22" r="4.5" fill="url(#sts-pt4)"/>
+            <circle cx="54.8" cy="21.2" r="1.4" fill="rgba(255,255,255,.5)"/>
+            <circle cx="66" cy="30" r="4.5" fill="url(#sts-pt5)"/>
+            <circle cx="66.8" cy="29.2" r="1.4" fill="rgba(255,255,255,.5)"/>
+          </g>
+          <!-- Dr Vera with pointer -->
+          <g filter="url(#sts-sh)">
+            <circle cx="68" cy="60" r="6" fill="#FDDCB5"/>
+            <!-- coat -->
+            <rect x="64" y="65" width="8" height="10" rx="2" fill="#1E40AF"/>
+            <!-- pointer stick -->
+            <line x1="62" y1="58" x2="54" y2="22" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="54" cy="21" r="2" fill="#FDE68A"/>
+            <!-- glasses -->
+            <rect x="64" y="59" width="4" height="3" rx="1.5" fill="none" stroke="#374151" stroke-width=".8"/>
+          </g>
+          <!-- axis label -->
+          <text x="40" y="76" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="8" font-weight="700" fill="rgba(255,255,255,.8)">Statistics</text>
         </svg>
         <div class="book-cover-title">The Statistics Saga</div>
         <span class="book-new-badge">New</span>
