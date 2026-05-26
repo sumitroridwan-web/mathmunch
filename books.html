@@ -82,10 +82,10 @@
     .book-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 4px 0 rgba(109,40,217,.15),0 6px 20px rgba(0,0,0,.07);cursor:pointer;transition:transform .15s,box-shadow .15s;text-decoration:none;display:flex;flex-direction:column;}
     .book-card:hover{transform:translateY(-5px) rotate(-0.5deg);box-shadow:0 8px 0 rgba(109,40,217,.2),0 14px 32px rgba(0,0,0,.1);}
     .book-cover{position:relative;padding:28px 20px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:140px;text-align:center;}
-    .book-cover span{font-size:2.6rem;margin-bottom:8px;display:block;}
+    .book-cover > span:not(.book-new-badge){font-size:2.6rem;margin-bottom:8px;display:block;}
     .book-spine{position:absolute;left:0;top:0;bottom:0;width:10px;background:rgba(0,0,0,.15);border-radius:0;}
     .book-cover-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:white;line-height:1.3;}
-    .book-new-badge{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.25);color:white;font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:9999px;border:1px solid rgba(255,255,255,.4);}
+    .book-new-badge{position:absolute;top:10px;right:10px;background:#FBBF24;color:#191C1E;font-size:.6rem;font-weight:700;padding:3px 8px;border-radius:9999px;box-shadow:0 2px 0 #D97706;}
     .book-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:8px;}
     .book-title{font-family:'Quicksand',sans-serif;font-size:.95rem;font-weight:700;color:var(--text);line-height:1.3;}
     .book-topic{font-size:.75rem;color:var(--text-soft);line-height:1.4;}
@@ -187,7 +187,7 @@
         <div class="book-spine"></div>
         <span>🐛</span>
         <div class="book-cover-title">The Counting Caterpillar</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Counting Caterpillar</div>
@@ -221,7 +221,7 @@
         <div class="book-spine"></div>
         <span>🦁</span>
         <div class="book-cover-title">Leo Counts to Twenty</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">Leo Counts to Twenty</div>
@@ -238,7 +238,7 @@
         <div class="book-spine"></div>
         <span>🔷</span>
         <div class="book-cover-title">The Shape Kingdom</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Shape Kingdom</div>
@@ -255,7 +255,7 @@
         <div class="book-spine"></div>
         <span>🤖</span>
         <div class="book-cover-title">Odd &amp; Even Island</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">Odd &amp; Even Island</div>
@@ -273,7 +273,7 @@
         <div class="book-spine"></div>
         <span>🚂</span>
         <div class="book-cover-title">The Number Train</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Number Train</div>
@@ -290,7 +290,7 @@
         <div class="book-spine"></div>
         <span>📏</span>
         <div class="book-cover-title">Mia's Measurement Mission</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">Mia's Measurement Mission</div>
@@ -307,7 +307,7 @@
         <div class="book-spine"></div>
         <span>🧁</span>
         <div class="book-cover-title">The Sharing Bakery</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Sharing Bakery</div>
@@ -325,7 +325,7 @@
         <div class="book-spine"></div>
         <span>🍕</span>
         <div class="book-cover-title">The Pizza Fraction Adventure</div>
-        <span class="book-new-badge">⭐ Featured</span>
+        <span class="book-new-badge">Featured</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Pizza Fraction Adventure</div>
@@ -359,7 +359,7 @@
         <div class="book-spine"></div>
         <span>⚔️</span>
         <div class="book-cover-title">The Times Table Quest</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Times Table Quest</div>
@@ -376,7 +376,7 @@
         <div class="book-spine"></div>
         <span>🔍</span>
         <div class="book-cover-title">The Hundred Square Mystery</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Hundred Square Mystery</div>
@@ -393,7 +393,7 @@
         <div class="book-spine"></div>
         <span>🪞</span>
         <div class="book-cover-title">The Symmetry Detectives</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Symmetry Detectives</div>
@@ -411,7 +411,7 @@
         <div class="book-spine"></div>
         <span>🐉</span>
         <div class="book-cover-title">The Decimal Dragon</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Decimal Dragon</div>
@@ -428,7 +428,7 @@
         <div class="book-spine"></div>
         <span>📐</span>
         <div class="book-cover-title">The Area Adventure</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Area Adventure</div>
@@ -445,7 +445,7 @@
         <div class="book-spine"></div>
         <span>📊</span>
         <div class="book-cover-title">Data Detective Academy</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">Data Detective Academy</div>
@@ -463,7 +463,7 @@
         <div class="book-spine"></div>
         <span>👑</span>
         <div class="book-cover-title">The Fraction Kingdom</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Fraction Kingdom</div>
@@ -480,7 +480,7 @@
         <div class="book-spine"></div>
         <span>🧭</span>
         <div class="book-cover-title">The Coordinate Compass</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Coordinate Compass</div>
@@ -497,7 +497,7 @@
         <div class="book-spine"></div>
         <span>💯</span>
         <div class="book-cover-title">The Percentage Palace</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Percentage Palace</div>
@@ -515,7 +515,7 @@
         <div class="book-spine"></div>
         <span>🔐</span>
         <div class="book-cover-title">The Prime Number Mystery</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Prime Number Mystery</div>
@@ -532,7 +532,7 @@
         <div class="book-spine"></div>
         <span>⚖️</span>
         <div class="book-cover-title">The Ratio Rangers</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Ratio Rangers</div>
@@ -549,7 +549,7 @@
         <div class="book-spine"></div>
         <span>📊</span>
         <div class="book-cover-title">The Statistics Saga</div>
-        <span class="book-new-badge">🆕 New</span>
+        <span class="book-new-badge">New</span>
       </div>
       <div class="book-body">
         <div class="book-title">The Statistics Saga</div>
