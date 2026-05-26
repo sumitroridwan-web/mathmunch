@@ -1040,9 +1040,10 @@
     /* ── LOGGED-IN WELCOME BAR ── */
     .welcome-bar {
       background: linear-gradient(90deg, #1E40AF, #3B82F6 60%, #06B6D4);
-      color: white; padding: 12px 32px;
+      color: white; padding: 10px 32px;
       display: none; align-items: center; gap: 12px;
       font-size: .9rem;
+      position: sticky; top: 0; z-index: 101;
     }
     .welcome-bar.visible { display: flex; }
     .welcome-bar strong { font-weight: 700; }
@@ -1064,6 +1065,15 @@
 <body>
 
 <!-- ── HEADER ── -->
+<!-- ── LOGGED-IN WELCOME BAR ── -->
+<div class="welcome-bar" id="welcomeBar">
+  <span>👋 Welcome back, <strong id="wbName">Explorer</strong>!</span>
+  <span class="wb-streak" id="wbStreak">🔥 0 day streak</span>
+  <span id="wbLastPlayed" style="color:rgba(255,255,255,.8);font-size:.82rem;"></span>
+  <span class="wb-spacer"></span>
+  <a href="dashboard.html">📊 My Journey →</a>
+</div>
+
 <header>
   <div class="header-inner">
 
@@ -1091,15 +1101,6 @@
   </div>
   <div class="scroll-progress"></div>
 </header>
-
-<!-- ── LOGGED-IN WELCOME BAR ── -->
-<div class="welcome-bar" id="welcomeBar">
-  <span>👋 Welcome back, <strong id="wbName">Explorer</strong>!</span>
-  <span class="wb-streak" id="wbStreak">🔥 0 day streak</span>
-  <span id="wbLastPlayed" style="color:rgba(255,255,255,.8);font-size:.82rem;"></span>
-  <span class="wb-spacer"></span>
-  <a href="dashboard.html">📊 My Journey →</a>
-</div>
 
 <!-- ── HERO ── -->
 <section style="background:var(--white); border-bottom:1px solid var(--outline);">
