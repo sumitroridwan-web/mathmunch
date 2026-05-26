@@ -829,6 +829,7 @@
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
     }
     .books-grid .book-card:nth-child(n+9) { display: none; }
+    .books-grid.show-all .book-card { display: flex; }
 
     .book-card {
       background: var(--white); border-radius: 20px; overflow: hidden;
@@ -1870,9 +1871,9 @@
   <div class="books-header">
     <div>
       <h2 class="section-title">📚 Math Story Books</h2>
-      <p class="section-subtitle">Read illustrated stories where every page teaches a maths concept. Perfect for classroom read-alouds or independent reading.</p>
+      <p class="section-subtitle">Read illustrated stories where every page teaches a maths concept. Perfect for classroom read-alouds or independent reading. <strong style="color:#7C3AED;">22 books · P1–P6</strong></p>
     </div>
-    <a href="#books" class="btn" style="background:#7C3AED;color:white;box-shadow:0 3px 0 #5B21B6;">Browse All Books →</a>
+    <button onclick="showAllBooks(this)" class="btn" style="background:#7C3AED;color:white;box-shadow:0 3px 0 #5B21B6;border:none;cursor:pointer;">Browse All 22 Books →</button>
   </div>
 
   <div class="books-grid">
@@ -2258,7 +2259,8 @@
   </div>
 
   <div class="books-cta">
-    <p style="font-size:.9rem;color:var(--text-mid);margin-bottom:16px;">More story books added each month. Cambridge Primary curriculum aligned.</p>
+    <p style="font-size:.9rem;color:var(--text-mid);margin-bottom:16px;">Showing 8 of 22 books &nbsp;·&nbsp; Cambridge Primary aligned · P1–P6</p>
+    <button id="showAllBooksBtn" onclick="showAllBooks(this)" class="btn" style="background:#7C3AED;color:white;box-shadow:0 3px 0 #5B21B6;border:none;cursor:pointer;">Show All 22 Books ↓</button>
   </div>
 
 </section>
@@ -2798,6 +2800,14 @@
       io.observe(el);
     });
   })();
+
+  function showAllBooks(btn) {
+    document.querySelector('.books-grid').classList.add('show-all');
+    const cta = document.getElementById('showAllBooksBtn');
+    if (cta) cta.style.display = 'none';
+    document.querySelector('.books-cta p').textContent = '22 books · Cambridge Primary aligned · P1–P6';
+    if (btn && btn.id !== 'showAllBooksBtn') btn.textContent = '✓ All 22 Books Shown';
+  }
 </script>
 
 </body>
