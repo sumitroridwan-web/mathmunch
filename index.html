@@ -159,11 +159,28 @@
 
     nav a {
       text-decoration: none; color: var(--text-mid);
-      font-weight: 600; font-size: .82rem;
-      padding: 7px 11px; border-radius: var(--radius-btn);
+      font-weight: 600; font-size: .93rem;
+      padding: 8px 14px; border-radius: var(--radius-btn);
       transition: background .15s, color .15s; white-space: nowrap;
     }
     nav a:hover, nav a.active { background: var(--blue-light); color: var(--blue); }
+
+    .user-chip {
+      display: none; align-items: center; gap: 8px;
+      background: var(--blue-light); border: 1.5px solid var(--blue-mid);
+      border-radius: var(--radius-btn); padding: 7px 14px;
+      font-size: .88rem; font-weight: 600; color: var(--blue-dark);
+    }
+    .user-chip.visible { display: flex; }
+    .btn-signout {
+      display: none; background: var(--white); color: var(--text-mid);
+      border: 1.5px solid var(--outline); border-radius: var(--radius-btn);
+      padding: 8px 16px; font-size: .88rem; font-weight: 600;
+      cursor: pointer; font-family: 'Lexend', sans-serif;
+      transition: background .15s, color .15s;
+    }
+    .btn-signout:hover { background: var(--surface); color: var(--text); }
+    .btn-signout.visible { display: inline-flex; }
 
     .header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
@@ -1095,8 +1112,10 @@
     </nav>
 
     <div class="header-actions">
-      <a href="login.html" class="btn btn-outline">Sign In</a>
-      <a href="signup.html" class="btn btn-primary">✨ Join Free</a>
+      <span class="user-chip" id="userChip"></span>
+      <button class="btn-signout" id="signOutBtn" onclick="localStorage.removeItem('mm_user');location.reload()">Sign Out</button>
+      <a href="login.html" class="btn btn-outline" id="signInBtn">Sign In</a>
+      <a href="signup.html" class="btn btn-primary" id="joinFreeBtn">✨ Join Free</a>
     </div>
 
   </div>
@@ -2653,6 +2672,17 @@
       const navTeacher = document.getElementById('navTeacher');
       if (navTeacher) navTeacher.style.display = '';
     }
+
+    // Swap header actions to signed-in state
+    const chip = document.getElementById('userChip');
+    const sob  = document.getElementById('signOutBtn');
+    const sib  = document.getElementById('signInBtn');
+    const jfb  = document.getElementById('joinFreeBtn');
+    const roleEmoji = { teacher: '👩‍🏫', parent: '👨‍👩‍👧', student: '🧒', guest: '🎭' };
+    if (chip) { chip.textContent = (roleEmoji[user.role] || '🧒') + ' ' + (user.name || 'Explorer').split(' ')[0]; chip.classList.add('visible'); }
+    if (sob)  sob.classList.add('visible');
+    if (sib)  sib.style.display = 'none';
+    if (jfb)  jfb.style.display = 'none';
 
   })();
 

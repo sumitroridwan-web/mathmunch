@@ -31,9 +31,14 @@
     .logo-tagline{display:block;font-size:.68rem;font-weight:600;color:var(--text-soft);letter-spacing:.04em;text-transform:uppercase;}
     nav{display:flex;align-items:center;gap:4px;overflow-x:auto;scrollbar-width:none;}
     nav::-webkit-scrollbar{display:none}
-    nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.82rem;padding:7px 11px;border-radius:var(--radius-btn);transition:background .15s,color .15s;white-space:nowrap;}
+    nav a{text-decoration:none;color:var(--text-mid);font-weight:600;font-size:.93rem;padding:8px 14px;border-radius:var(--radius-btn);transition:background .15s,color .15s;white-space:nowrap;}
     nav a:hover,nav a.active{background:var(--blue-light);color:var(--blue);}
     .header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+    .user-chip{display:none;align-items:center;gap:8px;background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:var(--radius-btn);padding:7px 14px;font-size:.88rem;font-weight:600;color:var(--blue-dark);}
+    .user-chip.visible{display:flex;}
+    .btn-signout{display:none;background:var(--white);color:var(--text-mid);border:1.5px solid var(--outline);border-radius:var(--radius-btn);padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;font-family:'Lexend',sans-serif;transition:background .15s,color .15s;}
+    .btn-signout:hover{background:var(--surface);color:var(--text);}
+    .btn-signout.visible{display:inline-flex;}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 22px;border-radius:var(--radius-btn);font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:transform .1s,box-shadow .1s;white-space:nowrap;}
     .btn-primary{background:var(--orange);color:white;box-shadow:0 3px 0 var(--orange-dark);}
     .btn-primary:hover{transform:translateY(-1px);}
@@ -134,8 +139,10 @@
       <a href="teacher.html" id="navTeacher" style="display:none;">🏫 Class Dashboard</a>
     </nav>
     <div class="header-actions">
+      <span class="user-chip" id="userChip"></span>
+      <button class="btn-signout" id="signOutBtn" onclick="localStorage.removeItem('mm_user');location.replace('index.html')">Sign Out</button>
       <a href="login.html" class="btn btn-outline" id="signInBtn">Sign In</a>
-      <a href="signup.html" class="btn btn-primary">✨ Join Free</a>
+      <a href="signup.html" class="btn btn-primary" id="joinFreeBtn">✨ Join Free</a>
     </div>
   </div>
 </header>
@@ -587,13 +594,20 @@
     const lastBook = prog.lastBook;
     if (lastBook) document.getElementById('wbLastPlayed').textContent = 'Last read: ' + lastBook;
     bar.classList.add('visible');
-    document.getElementById('signInBtn').style.display = 'none';
     const nj = document.getElementById('navJourney');
     if (nj) nj.style.display = '';
     if (user.role === 'teacher') {
       const nt = document.getElementById('navTeacher');
       if (nt) nt.style.display = '';
     }
+    // Swap header actions to signed-in state
+    const roleEmoji = { teacher: '👩‍🏫', parent: '👨‍👩‍👧', student: '🧒', guest: '🎭' };
+    const chip = document.getElementById('userChip');
+    if (chip) { chip.textContent = (roleEmoji[user.role] || '🧒') + ' ' + (user.name || 'Explorer').split(' ')[0]; chip.classList.add('visible'); }
+    const sob = document.getElementById('signOutBtn');
+    if (sob) sob.classList.add('visible');
+    document.getElementById('signInBtn').style.display = 'none';
+    document.getElementById('joinFreeBtn').style.display = 'none';
     // Update header sticky offset when welcome bar visible
     document.querySelector('.filters-wrap').style.top = '47px';
   })();

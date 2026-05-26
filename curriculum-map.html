@@ -100,13 +100,18 @@
     nav::-webkit-scrollbar { display: none; }
 
     nav a {
-      padding: 7px 14px; border-radius: 999px;
-      font-size: .85rem; font-weight: 600;
+      padding: 8px 14px; border-radius: 999px;
+      font-size: .93rem; font-weight: 600;
       color: var(--text-mid); text-decoration: none;
       transition: background .15s, color .15s; white-space: nowrap;
     }
     nav a:hover { background: var(--blue-light); color: var(--blue); }
     nav a.active { background: var(--blue-light); color: var(--blue); }
+    .user-chip{display:none;align-items:center;gap:8px;background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:999px;padding:7px 14px;font-size:.88rem;font-weight:600;color:#1D4ED8;}
+    .user-chip.visible{display:flex;}
+    .btn-signout{display:none;background:white;color:#424754;border:1.5px solid #E2E8F0;border-radius:999px;padding:8px 16px;font-size:.88rem;font-weight:600;cursor:pointer;font-family:'Lexend',sans-serif;transition:background .15s,color .15s;}
+    .btn-signout:hover{background:#F2F4F6;color:#191C1E;}
+    .btn-signout.visible{display:inline-flex;}
 
     .header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
@@ -586,15 +591,16 @@
     <nav>
       <a href="index.html">🏠 Home</a>
       <a href="index.html#games">🎮 Games</a>
-      <a href="index.html#books">📚 Story Books</a>
-      <a href="dashboard.html">📊 My Journey</a>
-      <a href="teacher.html">👩‍🏫 Teachers</a>
-      <a href="parents.html">👨‍👩‍👧 Parents</a>
+      <a href="books.html">📚 Books</a>
       <a href="curriculum-map.html" class="active">📋 Curriculum</a>
+      <a href="dashboard.html" id="navJourney" style="display:none;">📊 My Journey</a>
+      <a href="teacher.html" id="navTeacher" style="display:none;">🏫 Class Dashboard</a>
     </nav>
     <div class="header-actions">
-      <a href="login.html" class="btn btn-outline">Log In</a>
-      <a href="signup.html" class="btn btn-blue">Sign Up</a>
+      <span class="user-chip" id="userChip"></span>
+      <button class="btn-signout" id="signOutBtn" onclick="localStorage.removeItem('mm_user');location.replace('index.html')">Sign Out</button>
+      <a href="login.html" class="btn btn-outline" id="signInBtn">Sign In</a>
+      <a href="signup.html" class="btn btn-blue" id="joinFreeBtn">✨ Join Free</a>
     </div>
   </div>
 </header>
@@ -734,6 +740,27 @@
 </div>
 
 <script>
+// ── NAV / AUTH ──
+(function() {
+  const user = JSON.parse(localStorage.getItem('mm_user') || 'null');
+  if (!user) return;
+  const nj = document.getElementById('navJourney');
+  if (nj) nj.style.display = '';
+  if (user.role === 'teacher') {
+    const nt = document.getElementById('navTeacher');
+    if (nt) nt.style.display = '';
+  }
+  const roleEmoji = { teacher: '👩‍🏫', parent: '👨‍👩‍👧', student: '🧒', guest: '🎭' };
+  const chip = document.getElementById('userChip');
+  if (chip) { chip.textContent = (roleEmoji[user.role] || '🧒') + ' ' + (user.name || 'Explorer').split(' ')[0]; chip.classList.add('visible'); }
+  const sob = document.getElementById('signOutBtn');
+  if (sob) sob.classList.add('visible');
+  const sib = document.getElementById('signInBtn');
+  if (sib) sib.style.display = 'none';
+  const jfb = document.getElementById('joinFreeBtn');
+  if (jfb) jfb.style.display = 'none';
+})();
+
 // ── GAME DATA ──
 const GAMES = {
   // Number games
