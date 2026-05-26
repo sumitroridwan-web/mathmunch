@@ -272,25 +272,160 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 2 – BEN'S BAKERY
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#4c1d95,#7c3aed);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:4.5rem;margin-bottom:6px;">👨‍🍳</div>
-      <div style="font-size:3rem;letter-spacing:6px;margin:6px 0;">🧁🎂🍰</div>
-      <!-- Whole cake SVG -->
-      <svg width="130" height="130" viewBox="0 0 130 130" style="margin:0 auto;">
-        <circle cx="65" cy="65" r="58" fill="#8B5CF6" stroke="#6D28D9" stroke-width="3"/>
-        <circle cx="65" cy="65" r="46" fill="#F5F3FF"/>
-        <text x="65" y="72" text-anchor="middle" font-size="28" font-weight="800" fill="#6D28D9">1</text>
-        <text x="65" y="90" text-anchor="middle" font-size="13" fill="#7C3AED" font-weight="700">whole</text>
-        <!-- decoration dots -->
-        <circle cx="40" cy="42" r="5" fill="#EC4899"/>
-        <circle cx="90" cy="38" r="4" fill="#F97316"/>
-        <circle cx="95" cy="88" r="5" fill="#FBBF24"/>
-        <circle cx="38" cy="90" r="4" fill="#10B981"/>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="sb2-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4c1d95"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </linearGradient>
+          <linearGradient id="sb2-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6d28d9" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#3b1f6e" stop-opacity="0.5"/>
+          </linearGradient>
+          <radialGradient id="sb2-cake-top" cx="50%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#f9a8d4"/>
+            <stop offset="60%" stop-color="#ec4899"/>
+            <stop offset="100%" stop-color="#be185d"/>
+          </radialGradient>
+          <radialGradient id="sb2-cake-mid" cx="50%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="60%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#6d28d9"/>
+          </radialGradient>
+          <radialGradient id="sb2-cake-bot" cx="50%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#fcd34d"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </radialGradient>
+          <radialGradient id="sb2-ben" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="55%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </radialGradient>
+          <filter id="sb2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#sb2-bg)"/>
+        <rect x="0" y="0" width="300" height="200" fill="url(#sb2-wall)"/>
+        <!-- Bakery shelf/counter -->
+        <rect x="0" y="200" width="300" height="14" fill="#6d28d9" opacity="0.8"/>
+        <rect x="0" y="196" width="300" height="8" rx="2" fill="#7c3aed" opacity="0.6"/>
+        <rect x="0" y="214" width="300" height="66" fill="#3b1f6e"/>
+        <!-- Shop sign -->
+        <rect x="50" y="12" width="200" height="22" rx="8" fill="#3b1f6e" stroke="#a78bfa" stroke-width="1.5" filter="url(#sb2-sh)"/>
+        <text x="150" y="26.5" text-anchor="middle" fill="#c4b5fd" font-size="10" font-weight="800">BEN'S SHARING BAKERY</text>
+        <!-- Tiered cake on counter — 3 tiers -->
+        <g filter="url(#sb2-sh)">
+          <!-- Bottom tier -->
+          <ellipse cx="150" cy="186" rx="55" ry="11" fill="#b45309"/>
+          <rect x="95" y="163" width="110" height="26" rx="6" fill="url(#sb2-cake-bot)"/>
+          <ellipse cx="150" cy="163" rx="55" ry="11" fill="#fbbf24"/>
+          <!-- Frosting drip bottom -->
+          <path d="M100,163 Q108,155 116,163 Q124,155 132,163 Q140,155 148,163 Q156,155 164,163 Q172,155 180,163 Q188,155 196,163 Q204,155 200,163" fill="white" opacity="0.85"/>
+          <!-- Middle tier -->
+          <ellipse cx="150" cy="152" rx="42" ry="9" fill="#9d174d"/>
+          <rect x="108" y="131" width="84" height="24" rx="5" fill="url(#sb2-cake-mid)"/>
+          <ellipse cx="150" cy="131" rx="42" ry="9" fill="#a78bfa"/>
+          <!-- Frosting drip middle -->
+          <path d="M112,131 Q120,122 128,131 Q136,122 144,131 Q152,122 160,131 Q168,122 176,131 Q184,122 188,131" fill="white" opacity="0.85"/>
+          <!-- Top tier -->
+          <ellipse cx="150" cy="121" rx="28" ry="6" fill="#be185d"/>
+          <rect x="122" y="103" width="56" height="21" rx="4" fill="url(#sb2-cake-top)"/>
+          <ellipse cx="150" cy="103" rx="28" ry="6" fill="#f9a8d4"/>
+          <!-- Frosting drip top -->
+          <path d="M126,103 Q132,96 138,103 Q144,96 150,103 Q156,96 162,103 Q168,96 172,103" fill="white" opacity="0.85"/>
+          <!-- Candle on top -->
+          <rect x="147" y="88" width="6" height="18" rx="2" fill="#fbbf24"/>
+          <ellipse cx="150" cy="87" rx="4" ry="6" fill="#f97316" opacity="0.9"/>
+          <ellipse cx="150" cy="85" rx="2.5" ry="4" fill="#fef9c3" opacity="0.8"/>
+          <!-- "1 whole" badge on cake -->
+          <rect x="120" y="153" width="60" height="18" rx="6" fill="white" opacity="0.92"/>
+          <text x="150" y="164.5" text-anchor="middle" fill="#6d28d9" font-size="10.5" font-weight="800">1 WHOLE CAKE</text>
+          <!-- Decoration dots on tiers -->
+          <circle cx="110" cy="175" r="4" fill="#EC4899"/>
+          <circle cx="128" cy="178" r="3" fill="#FBBF24"/>
+          <circle cx="172" cy="175" r="4" fill="#10B981"/>
+          <circle cx="190" cy="172" r="3" fill="#F97316"/>
+          <circle cx="118" cy="143" r="3.5" fill="#FBBF24"/>
+          <circle cx="182" cy="143" r="3.5" fill="#EC4899"/>
+          <circle cx="132" cy="115" r="3" fill="#FBBF24"/>
+          <circle cx="168" cy="115" r="3" fill="#10B981"/>
+        </g>
+        <!-- Ben (baker) character on right -->
+        <g filter="url(#sb2-sh)">
+          <!-- Body with apron -->
+          <ellipse cx="248" cy="228" rx="22" ry="28" fill="#1e40af"/>
+          <ellipse cx="248" cy="232" rx="15" ry="22" fill="white" opacity="0.9"/>
+          <!-- Apron strings -->
+          <line x1="236" y1="215" x2="228" y2="200" stroke="white" stroke-width="2.5" opacity="0.85"/>
+          <line x1="260" y1="215" x2="268" y2="200" stroke="white" stroke-width="2.5" opacity="0.85"/>
+          <!-- Head -->
+          <circle cx="248" cy="195" r="19" fill="url(#sb2-ben)"/>
+          <!-- Eyes -->
+          <circle cx="242" cy="192" r="3" fill="white"/>
+          <circle cx="242" cy="192" r="1.8" fill="#1c1917"/>
+          <circle cx="242.6" cy="191.4" r="0.7" fill="white"/>
+          <circle cx="254" cy="192" r="3" fill="white"/>
+          <circle cx="254" cy="192" r="1.8" fill="#1c1917"/>
+          <circle cx="254.6" cy="191.4" r="0.7" fill="white"/>
+          <!-- Smile (big) -->
+          <path d="M242,199 Q248,205 254,199" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Nose -->
+          <ellipse cx="248" cy="196" rx="2.5" ry="1.8" fill="#d97706"/>
+          <!-- Chef hat -->
+          <rect x="236" y="178" width="24" height="7" rx="3" fill="white"/>
+          <rect x="239" y="164" width="18" height="16" rx="5" fill="white"/>
+          <!-- Oven mitt / hand with cake spatula -->
+          <line x1="230" y1="215" x2="216" y2="205" stroke="#1e40af" stroke-width="6" stroke-linecap="round"/>
+          <rect x="207" y="200" width="12" height="8" rx="3" fill="#d97706"/>
+        </g>
+        <!-- Small friends below -->
+        <!-- Anya - girl, purple hair -->
+        <circle cx="52" cy="240" r="12" fill="#EC4899"/>
+        <circle cx="52" cy="240" r="8" fill="#fde68a"/>
+        <circle cx="48" cy="237" r="2" fill="white"/>
+        <circle cx="48" cy="237" r="1.2" fill="#1c1917"/>
+        <circle cx="56" cy="237" r="2" fill="white"/>
+        <circle cx="56" cy="237" r="1.2" fill="#1c1917"/>
+        <path d="M49,243 Q52,247 55,243" stroke="#be185d" stroke-width="1.2" fill="none"/>
+        <!-- purple hair -->
+        <path d="M41,235 Q44,225 52,228 Q60,225 63,235" fill="#8B5CF6"/>
+        <text x="52" y="260" text-anchor="middle" fill="#c4b5fd" font-size="7.5" font-weight="700">Anya</text>
+        <!-- Sam - boy, brown hair -->
+        <circle cx="100" cy="240" r="12" fill="#F97316"/>
+        <circle cx="100" cy="240" r="8" fill="#fde68a"/>
+        <circle cx="96" cy="237" r="2" fill="white"/>
+        <circle cx="96" cy="237" r="1.2" fill="#1c1917"/>
+        <circle cx="104" cy="237" r="2" fill="white"/>
+        <circle cx="104" cy="237" r="1.2" fill="#1c1917"/>
+        <path d="M97,243 Q100,247 103,243" stroke="#c2410c" stroke-width="1.2" fill="none"/>
+        <path d="M89,234 Q92,225 100,228 Q108,225 111,234" fill="#92400E"/>
+        <text x="100" y="260" text-anchor="middle" fill="#c4b5fd" font-size="7.5" font-weight="700">Sam</text>
+        <!-- Zara - girl, red hair -->
+        <circle cx="148" cy="240" r="12" fill="#10B981"/>
+        <circle cx="148" cy="240" r="8" fill="#fde68a"/>
+        <circle cx="144" cy="237" r="2" fill="white"/>
+        <circle cx="144" cy="237" r="1.2" fill="#1c1917"/>
+        <circle cx="152" cy="237" r="2" fill="white"/>
+        <circle cx="152" cy="237" r="1.2" fill="#1c1917"/>
+        <path d="M145,243 Q148,247 151,243" stroke="#059669" stroke-width="1.2" fill="none"/>
+        <path d="M137,234 Q140,225 148,228 Q156,225 159,234" fill="#DC2626"/>
+        <text x="148" y="260" text-anchor="middle" fill="#c4b5fd" font-size="7.5" font-weight="700">Zara</text>
+        <!-- Milo - boy, blonde hair -->
+        <circle cx="196" cy="240" r="12" fill="#FBBF24"/>
+        <circle cx="196" cy="240" r="8" fill="#fde68a"/>
+        <circle cx="192" cy="237" r="2" fill="white"/>
+        <circle cx="192" cy="237" r="1.2" fill="#1c1917"/>
+        <circle cx="200" cy="237" r="2" fill="white"/>
+        <circle cx="200" cy="237" r="1.2" fill="#1c1917"/>
+        <path d="M193,243 Q196,247 199,243" stroke="#d97706" stroke-width="1.2" fill="none"/>
+        <path d="M185,234 Q188,225 196,228 Q204,225 207,234" fill="#D97706"/>
+        <text x="196" y="260" text-anchor="middle" fill="#c4b5fd" font-size="7.5" font-weight="700">Milo</text>
       </svg>
-      <div class="illus-scene" style="margin-top:6px;">
-        <span class="char-sm">👧</span><span class="char-sm">👦</span><span class="char-sm">👧</span>
-      </div>
       <div class="illus-caption">Ben bakes the whole cake — 1 whole!</div>
     </div>
 
@@ -333,30 +468,131 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 3 – HALVES — 2 FRIENDS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
+    <div class="illustration" style="background:linear-gradient(135deg,#831843,#be185d);">
       <div class="page-num-illus">Page 3</div>
-      <!-- SVG cake cut in half -->
-      <div style="font-size:3rem;margin-bottom:6px;">✂️🎂</div>
-      <svg width="260" height="120" viewBox="0 0 260 120" style="margin:0 auto;">
-        <!-- Left half cake -->
-        <path d="M 10,100 A 60,60 0 0,1 130,100 Z" fill="#8B5CF6" stroke="#6D28D9" stroke-width="2"/>
-        <path d="M 22,100 A 48,48 0 0,1 118,100 Z" fill="#F5F3FF"/>
-        <text x="70" y="90" text-anchor="middle" font-size="20" font-weight="800" fill="#6D28D9">½</text>
-        <text x="70" y="112" text-anchor="middle" font-size="10" fill="#6D28D9" font-weight="700">Anya's half</text>
-        <text x="70" y="20" text-anchor="middle" font-size="22">👧</text>
-        <!-- Right half cake -->
-        <path d="M 130,100 A 60,60 0 0,1 250,100 Z" fill="#EC4899" stroke="#BE185D" stroke-width="2"/>
-        <path d="M 142,100 A 48,48 0 0,1 238,100 Z" fill="#FDF2F8"/>
-        <text x="190" y="90" text-anchor="middle" font-size="20" font-weight="800" fill="#BE185D">½</text>
-        <text x="190" y="112" text-anchor="middle" font-size="10" fill="#BE185D" font-weight="700">Sam's half</text>
-        <text x="190" y="20" text-anchor="middle" font-size="22">👦</text>
-        <!-- Dividing line -->
-        <line x1="130" y1="5" x2="130" y2="110" stroke="white" stroke-width="3" stroke-dasharray="5,3"/>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="sb3-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#831843"/>
+            <stop offset="100%" stop-color="#be185d"/>
+          </linearGradient>
+          <radialGradient id="sb3-cake-L" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#ddd6fe"/>
+            <stop offset="55%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#6d28d9"/>
+          </radialGradient>
+          <radialGradient id="sb3-cake-R" cx="60%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fce7f3"/>
+            <stop offset="55%" stop-color="#EC4899"/>
+            <stop offset="100%" stop-color="#be185d"/>
+          </radialGradient>
+          <radialGradient id="sb3-anya" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="55%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </radialGradient>
+          <radialGradient id="sb3-sam" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="55%" stop-color="#fb923c"/>
+            <stop offset="100%" stop-color="#c2410c"/>
+          </radialGradient>
+          <filter id="sb3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#sb3-bg)"/>
+        <!-- Bakery counter -->
+        <rect x="0" y="200" width="300" height="14" fill="#9d174d"/>
+        <rect x="0" y="196" width="300" height="8" rx="2" fill="#be185d" opacity="0.6"/>
+        <rect x="0" y="214" width="300" height="66" fill="#6b0030"/>
+        <!-- Title -->
+        <rect x="55" y="10" width="190" height="20" rx="7" fill="rgba(0,0,0,0.3)"/>
+        <text x="150" y="23.5" text-anchor="middle" fill="#fce7f3" font-size="10.5" font-weight="800">Cake cut in HALF — 2 equal pieces!</text>
+        <!-- Dashed cut line -->
+        <line x1="150" y1="40" x2="150" y2="195" stroke="white" stroke-width="2.5" stroke-dasharray="7,4"/>
+        <text x="150" y="37" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">cut here</text>
+        <!-- Left half cake (Anya's) -->
+        <g filter="url(#sb3-sh)">
+          <!-- Cake body left half -->
+          <!-- Bottom layer -->
+          <path d="M62,188 Q150,195 150,188 L150,168 Q150,175 62,168 Z" fill="#9d174d"/>
+          <path d="M62,168 Q150,175 150,168 L150,148 Q150,155 62,148 Z" fill="url(#sb3-cake-L)"/>
+          <!-- frosting drip top of bottom layer -->
+          <path d="M64,148 Q74,140 84,148 Q94,140 104,148 Q114,140 124,148 Q134,140 144,148 Q148,141 150,148" fill="white" opacity="0.88"/>
+          <!-- Middle layer -->
+          <path d="M75,148 Q150,153 150,148 L150,130 Q150,135 75,130 Z" fill="#ec4899" opacity="0.7"/>
+          <path d="M75,130 Q150,135 150,130 L150,112 Q150,117 75,112 Z" fill="url(#sb3-cake-L)"/>
+          <path d="M77,112 Q88,104 98,112 Q108,104 118,112 Q128,104 138,112 Q144,105 150,112" fill="white" opacity="0.88"/>
+          <!-- Top layer -->
+          <path d="M87,112 Q150,116 150,112 L150,96 Q150,100 87,96 Z" fill="#be185d" opacity="0.6"/>
+          <path d="M87,96 Q150,100 150,96 L150,80 Q150,84 87,80 Z" fill="url(#sb3-cake-L)"/>
+          <path d="M89,80 Q98,73 107,80 Q116,73 125,80 Q134,73 143,80 Q147,74 150,80" fill="white" opacity="0.88"/>
+          <!-- ½ label -->
+          <text x="105" y="140" text-anchor="middle" fill="white" font-size="28" font-weight="800">½</text>
+          <!-- Anya tag -->
+          <rect x="64" y="186" width="80" height="14" rx="5" fill="#8B5CF6" opacity="0.85"/>
+          <text x="104" y="196.5" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">Anya's half</text>
+        </g>
+        <!-- Right half cake (Sam's) -->
+        <g filter="url(#sb3-sh)">
+          <!-- Bottom layer right -->
+          <path d="M150,188 Q238,195 238,188 L238,168 Q238,175 150,168 Z" fill="#6d28d9"/>
+          <path d="M150,168 Q238,175 238,168 L238,148 Q238,155 150,148 Z" fill="url(#sb3-cake-R)"/>
+          <path d="M150,148 Q152,141 156,148 Q166,140 176,148 Q186,140 196,148 Q206,140 216,148 Q226,140 236,148" fill="white" opacity="0.88"/>
+          <!-- Middle layer right -->
+          <path d="M150,148 Q225,153 225,148 L225,130 Q225,135 150,130 Z" fill="#be185d" opacity="0.7"/>
+          <path d="M150,130 Q225,135 225,130 L225,112 Q225,117 150,112 Z" fill="url(#sb3-cake-R)"/>
+          <path d="M150,112 Q152,105 160,112 Q170,104 180,112 Q190,104 200,112 Q210,104 220,112" fill="white" opacity="0.88"/>
+          <!-- Top layer right -->
+          <path d="M150,112 Q213,116 213,112 L213,96 Q213,100 150,96 Z" fill="#9d174d" opacity="0.6"/>
+          <path d="M150,96 Q213,100 213,96 L213,80 Q213,84 150,80 Z" fill="url(#sb3-cake-R)"/>
+          <path d="M150,80 Q152,74 161,80 Q170,73 179,80 Q188,73 197,80 Q206,74 211,80" fill="white" opacity="0.88"/>
+          <!-- ½ label -->
+          <text x="190" y="140" text-anchor="middle" fill="white" font-size="28" font-weight="800">½</text>
+          <!-- Sam tag -->
+          <rect x="156" y="186" width="76" height="14" rx="5" fill="#EC4899" opacity="0.85"/>
+          <text x="194" y="196.5" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">Sam's half</text>
+        </g>
+        <!-- Anya character (left) -->
+        <g filter="url(#sb3-sh)">
+          <ellipse cx="60" cy="235" rx="18" ry="22" fill="#8B5CF6"/>
+          <ellipse cx="60" cy="238" rx="11" ry="15" fill="#f9a8d4" opacity="0.5"/>
+          <path d="M46,217 Q50,205 60,208 Q70,205 74,217" fill="#8B5CF6"/>
+          <circle cx="60" cy="220" r="17" fill="url(#sb3-anya)"/>
+          <circle cx="54" cy="217" r="2.8" fill="white"/>
+          <circle cx="54" cy="217" r="1.7" fill="#1c1917"/>
+          <circle cx="54.6" cy="216.4" r="0.7" fill="white"/>
+          <circle cx="66" cy="217" r="2.8" fill="white"/>
+          <circle cx="66" cy="217" r="1.7" fill="#1c1917"/>
+          <circle cx="66.6" cy="216.4" r="0.7" fill="white"/>
+          <ellipse cx="60" cy="223" rx="2.2" ry="1.6" fill="#be185d"/>
+          <path d="M55,226 Q60,231 65,226" stroke="#be185d" stroke-width="1.5" fill="none"/>
+          <!-- bow in hair -->
+          <path d="M50,209 Q56,205 60,209 Q64,205 70,209" fill="#EC4899"/>
+        </g>
+        <text x="60" y="262" text-anchor="middle" fill="#fce7f3" font-size="8" font-weight="700">Anya</text>
+        <!-- Sam character (right) -->
+        <g filter="url(#sb3-sh)">
+          <ellipse cx="240" cy="235" rx="18" ry="22" fill="#2563eb"/>
+          <ellipse cx="240" cy="238" rx="11" ry="15" fill="#bfdbfe" opacity="0.5"/>
+          <path d="M226,217 Q230,204 240,208 Q250,204 254,217" fill="#1d4ed8"/>
+          <circle cx="240" cy="220" r="17" fill="url(#sb3-sam)"/>
+          <circle cx="234" cy="217" r="2.8" fill="white"/>
+          <circle cx="234" cy="217" r="1.7" fill="#1c1917"/>
+          <circle cx="234.6" cy="216.4" r="0.7" fill="white"/>
+          <circle cx="246" cy="217" r="2.8" fill="white"/>
+          <circle cx="246" cy="217" r="1.7" fill="#1c1917"/>
+          <circle cx="246.6" cy="216.4" r="0.7" fill="white"/>
+          <ellipse cx="240" cy="223" rx="2.2" ry="1.6" fill="#92400E"/>
+          <path d="M235,226 Q240,231 245,226" stroke="#92400E" stroke-width="1.5" fill="none"/>
+        </g>
+        <text x="240" y="262" text-anchor="middle" fill="#fce7f3" font-size="8" font-weight="700">Sam</text>
+        <!-- ½ + ½ = 1 banner -->
+        <rect x="85" y="264" width="130" height="14" rx="5" fill="rgba(0,0,0,0.3)"/>
+        <text x="150" y="274" text-anchor="middle" fill="#fce7f3" font-size="9" font-weight="800">½ + ½ = 1 whole cake</text>
       </svg>
-      <div style="text-align:center;margin-top:6px;font-size:.9rem;font-weight:700;color:#6D28D9;">
-        ½ + ½ = 1 whole cake
-      </div>
-      <div class="illus-caption" style="margin-top:6px;">2 equal halves — one for Anya, one for Sam!</div>
+      <div class="illus-caption">2 equal halves — one for Anya, one for Sam!</div>
     </div>
 
     <div class="story-panel">
@@ -398,30 +634,127 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 4 – QUARTERS — 4 FRIENDS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:3rem;margin-bottom:6px;">🎂✂️</div>
-      <!-- SVG cake cut in quarters -->
-      <svg width="180" height="180" viewBox="0 0 180 180" style="margin:0 auto;">
-        <!-- Four quarter segments -->
-        <path d="M 90,90 L 90,20 A 70,70 0 0,1 160,90 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
-        <path d="M 90,90 L 160,90 A 70,70 0 0,1 90,160 Z" fill="#EC4899" stroke="white" stroke-width="2"/>
-        <path d="M 90,90 L 90,160 A 70,70 0 0,1 20,90 Z" fill="#F97316" stroke="white" stroke-width="2"/>
-        <path d="M 90,90 L 20,90 A 70,70 0 0,1 90,20 Z" fill="#FBBF24" stroke="white" stroke-width="2"/>
-        <!-- Inner circle label zone -->
-        <circle cx="90" cy="90" r="30" fill="white" opacity="0.85"/>
-        <text x="90" y="85" text-anchor="middle" font-size="14" fill="#6D28D9" font-weight="800">¼ ¼</text>
-        <text x="90" y="102" text-anchor="middle" font-size="14" fill="#6D28D9" font-weight="800">¼ ¼</text>
-        <!-- friend emojis -->
-        <text x="125" y="55" font-size="18" text-anchor="middle">👧</text>
-        <text x="125" y="135" font-size="18" text-anchor="middle">👦</text>
-        <text x="55" y="135" font-size="18" text-anchor="middle">👧</text>
-        <text x="55" y="55" font-size="18" text-anchor="middle">👦</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="sb4-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+          <radialGradient id="sb4-cake-top" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#6d28d9"/>
+          </radialGradient>
+          <radialGradient id="sb4-q1" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#ddd6fe"/>
+            <stop offset="60%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#6d28d9"/>
+          </radialGradient>
+          <radialGradient id="sb4-q2" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#fce7f3"/>
+            <stop offset="60%" stop-color="#EC4899"/>
+            <stop offset="100%" stop-color="#be185d"/>
+          </radialGradient>
+          <radialGradient id="sb4-q3" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#fed7aa"/>
+            <stop offset="60%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#c2410c"/>
+          </radialGradient>
+          <radialGradient id="sb4-q4" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#fef9c3"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </radialGradient>
+          <filter id="sb4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#sb4-bg)"/>
+        <!-- Counter -->
+        <rect x="0" y="200" width="300" height="14" fill="#1e40af"/>
+        <rect x="0" y="196" width="300" height="8" rx="2" fill="#3b82f6" opacity="0.5"/>
+        <rect x="0" y="214" width="300" height="66" fill="#1e3a5f"/>
+        <!-- Title -->
+        <rect x="42" y="10" width="216" height="20" rx="7" fill="rgba(0,0,0,0.3)"/>
+        <text x="150" y="23.5" text-anchor="middle" fill="#bfdbfe" font-size="10.5" font-weight="800">Cake cut into 4 equal QUARTERS (¼)</text>
+        <!-- Cake top-down view: 4 quarter segments -->
+        <g filter="url(#sb4-sh)">
+          <!-- Outer crust ring -->
+          <circle cx="150" cy="118" r="82" fill="#4c1d95"/>
+          <!-- Quarter 1 top-right — purple -->
+          <path d="M150,36 A82,82 0 0,1 232,118 L150,118 Z" fill="url(#sb4-q1)"/>
+          <!-- Quarter 2 bottom-right — pink -->
+          <path d="M232,118 A82,82 0 0,1 150,200 L150,118 Z" fill="url(#sb4-q2)"/>
+          <!-- Quarter 3 bottom-left — orange -->
+          <path d="M150,200 A82,82 0 0,1 68,118 L150,118 Z" fill="url(#sb4-q3)"/>
+          <!-- Quarter 4 top-left — yellow -->
+          <path d="M68,118 A82,82 0 0,1 150,36 L150,118 Z" fill="url(#sb4-q4)"/>
+          <!-- Cut lines -->
+          <line x1="150" y1="36" x2="150" y2="200" stroke="white" stroke-width="3"/>
+          <line x1="68" y1="118" x2="232" y2="118" stroke="white" stroke-width="3"/>
+          <!-- Frosting / icing ring (inner) -->
+          <circle cx="150" cy="118" r="28" fill="white" opacity="0.92"/>
+          <text x="150" y="112" text-anchor="middle" fill="#6d28d9" font-size="11" font-weight="800">¼+¼+¼+¼</text>
+          <text x="150" y="126" text-anchor="middle" fill="#6d28d9" font-size="10" font-weight="700">= 1 whole</text>
+          <!-- ¼ labels in each quadrant -->
+          <text x="192" y="85" text-anchor="middle" fill="white" font-size="20" font-weight="800">¼</text>
+          <text x="192" y="158" text-anchor="middle" fill="white" font-size="20" font-weight="800">¼</text>
+          <text x="108" y="158" text-anchor="middle" fill="white" font-size="20" font-weight="800">¼</text>
+          <text x="108" y="85" text-anchor="middle" fill="#1c1917" font-size="20" font-weight="800">¼</text>
+          <!-- Decoration dots on each quarter -->
+          <circle cx="182" cy="68" r="4" fill="white" opacity="0.7"/>
+          <circle cx="210" cy="145" r="3.5" fill="white" opacity="0.7"/>
+          <circle cx="115" cy="148" r="4" fill="white" opacity="0.7"/>
+          <circle cx="95" cy="72" r="3.5" fill="white" opacity="0.7"/>
+        </g>
+        <!-- 4 small friend character heads around the cake -->
+        <!-- Anya - top right (purple) -->
+        <circle cx="230" cy="60" r="14" fill="#EC4899"/>
+        <circle cx="230" cy="60" r="10" fill="#fde68a"/>
+        <path d="M220,50 Q226,43 230,47 Q234,43 240,50" fill="#8B5CF6"/>
+        <circle cx="226" cy="57" r="2.2" fill="white"/>
+        <circle cx="226" cy="57" r="1.3" fill="#1c1917"/>
+        <circle cx="234" cy="57" r="2.2" fill="white"/>
+        <circle cx="234" cy="57" r="1.3" fill="#1c1917"/>
+        <path d="M227,63 Q230,67 233,63" stroke="#be185d" stroke-width="1.2" fill="none"/>
+        <text x="230" y="80" text-anchor="middle" fill="#bfdbfe" font-size="7.5" font-weight="700">Anya</text>
+        <!-- Sam - bottom right (pink) -->
+        <circle cx="230" cy="168" r="14" fill="#F97316"/>
+        <circle cx="230" cy="168" r="10" fill="#fde68a"/>
+        <path d="M220,158 Q226,150 230,155 Q234,150 240,158" fill="#92400E"/>
+        <circle cx="226" cy="165" r="2.2" fill="white"/>
+        <circle cx="226" cy="165" r="1.3" fill="#1c1917"/>
+        <circle cx="234" cy="165" r="2.2" fill="white"/>
+        <circle cx="234" cy="165" r="1.3" fill="#1c1917"/>
+        <path d="M227,171 Q230,175 233,171" stroke="#c2410c" stroke-width="1.2" fill="none"/>
+        <text x="230" y="188" text-anchor="middle" fill="#bfdbfe" font-size="7.5" font-weight="700">Sam</text>
+        <!-- Zara - bottom left (orange) -->
+        <circle cx="70" cy="168" r="14" fill="#10B981"/>
+        <circle cx="70" cy="168" r="10" fill="#fde68a"/>
+        <path d="M60,158 Q66,150 70,155 Q74,150 80,158" fill="#DC2626"/>
+        <circle cx="66" cy="165" r="2.2" fill="white"/>
+        <circle cx="66" cy="165" r="1.3" fill="#1c1917"/>
+        <circle cx="74" cy="165" r="2.2" fill="white"/>
+        <circle cx="74" cy="165" r="1.3" fill="#1c1917"/>
+        <path d="M67,171 Q70,175 73,171" stroke="#059669" stroke-width="1.2" fill="none"/>
+        <text x="70" y="188" text-anchor="middle" fill="#bfdbfe" font-size="7.5" font-weight="700">Zara</text>
+        <!-- Milo - top left (yellow) -->
+        <circle cx="70" cy="60" r="14" fill="#FBBF24"/>
+        <circle cx="70" cy="60" r="10" fill="#fde68a"/>
+        <path d="M60,50 Q66,43 70,47 Q74,43 80,50" fill="#D97706"/>
+        <circle cx="66" cy="57" r="2.2" fill="white"/>
+        <circle cx="66" cy="57" r="1.3" fill="#1c1917"/>
+        <circle cx="74" cy="57" r="2.2" fill="white"/>
+        <circle cx="74" cy="57" r="1.3" fill="#1c1917"/>
+        <path d="M67,63 Q70,67 73,63" stroke="#d97706" stroke-width="1.2" fill="none"/>
+        <text x="70" y="80" text-anchor="middle" fill="#bfdbfe" font-size="7.5" font-weight="700">Milo</text>
+        <!-- Bottom label -->
+        <text x="150" y="240" text-anchor="middle" fill="#bfdbfe" font-size="9" font-weight="700">4 friends · 4 equal quarters!</text>
       </svg>
-      <div style="text-align:center;margin-top:4px;font-size:.9rem;font-weight:700;color:#6D28D9;">
-        ¼ + ¼ + ¼ + ¼ = 1 whole
-      </div>
-      <div class="illus-caption" style="margin-top:6px;">4 equal quarters — one for every friend!</div>
+      <div class="illus-caption">4 equal quarters — one for every friend!</div>
     </div>
 
     <div class="story-panel">
@@ -463,34 +796,98 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 5 – THIRDS — 3 PIECES
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
+    <div class="illustration" style="background:linear-gradient(135deg,#064e3b,#059669);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:3rem;margin-bottom:6px;">🎂🍕</div>
-      <!-- SVG cake divided into thirds -->
-      <svg width="180" height="180" viewBox="0 0 180 180" style="margin:0 auto;">
-        <!-- Three third segments (approx 120° each) -->
-        <!-- Top third (0° to 120°) -->
-        <path d="M 90,90 L 90,20 A 70,70 0 0,1 150.6,55 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
-        <!-- Bottom-right third (120° to 240°) -->
-        <path d="M 90,90 L 150.6,55 A 70,70 0 0,1 29.4,125 Z" fill="#EC4899" stroke="white" stroke-width="2"/>
-        <!-- Bottom-left third (240° to 360°) -->
-        <path d="M 90,90 L 29.4,125 A 70,70 0 0,1 90,20 Z" fill="#F97316" stroke="white" stroke-width="2"/>
-        <!-- Inner label area -->
-        <circle cx="90" cy="90" r="28" fill="white" opacity="0.85"/>
-        <text x="90" y="96" text-anchor="middle" font-size="20" fill="#6D28D9" font-weight="800">⅓</text>
-        <!-- Labels on each slice -->
-        <text x="116" y="52" text-anchor="middle" font-size="13" fill="white" font-weight="800">⅓</text>
-        <text x="120" y="118" text-anchor="middle" font-size="13" fill="white" font-weight="800">⅓</text>
-        <text x="54" y="115" text-anchor="middle" font-size="13" fill="white" font-weight="800">⅓</text>
-        <!-- friend emojis -->
-        <text x="90" y="16" font-size="16" text-anchor="middle">👧</text>
-        <text x="160" y="72" font-size="16" text-anchor="middle">👦</text>
-        <text x="22" y="150" font-size="16" text-anchor="middle">👧</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="sb5-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#064e3b"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <radialGradient id="sb5-pizza" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="70%" stop-color="#FEF9C3"/>
+            <stop offset="86%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <filter id="sb5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#sb5-bg)"/>
+        <!-- Counter -->
+        <rect x="0" y="200" width="300" height="14" fill="#065f46"/>
+        <rect x="0" y="196" width="300" height="8" rx="2" fill="#10b981" opacity="0.5"/>
+        <rect x="0" y="214" width="300" height="66" fill="#022c22"/>
+        <!-- Title -->
+        <rect x="42" y="10" width="216" height="20" rx="7" fill="rgba(0,0,0,0.3)"/>
+        <text x="150" y="23.5" text-anchor="middle" fill="#a7f3d0" font-size="10.5" font-weight="800">Pizza cut into 3 equal THIRDS (⅓)</text>
+        <!-- Pizza with 3 thirds — top-down view -->
+        <g filter="url(#sb5-sh)">
+          <!-- Crust ring -->
+          <circle cx="150" cy="118" r="82" fill="#92400E"/>
+          <circle cx="150" cy="118" r="75" fill="url(#sb5-pizza)"/>
+          <!-- Slice 1 top (12 to 4 o'clock) -->
+          <path d="M150,43 A75,75 0 0,1 214.9,155.5 L150,118 Z" fill="#8B5CF6"/>
+          <!-- Slice 2 right-bottom (4 to 8 o'clock) -->
+          <path d="M214.9,155.5 A75,75 0 0,1 85.1,155.5 L150,118 Z" fill="#EC4899"/>
+          <!-- Slice 3 left (8 to 12 o'clock) -->
+          <path d="M85.1,155.5 A75,75 0 0,1 150,43 L150,118 Z" fill="#F97316"/>
+          <!-- Cheese blobs on each slice -->
+          <circle cx="175" cy="72" r="10" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="198" cy="148" r="9" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="103" cy="148" r="9" fill="#FEF9C3" opacity="0.85"/>
+          <!-- Toppings -->
+          <circle cx="167" cy="77" r="5" fill="#10B981"/>
+          <circle cx="194" cy="138" r="4.5" fill="#1c1917"/>
+          <circle cx="108" cy="140" r="5" fill="#FBBF24"/>
+          <!-- Cut lines from centre -->
+          <line x1="150" y1="118" x2="150" y2="43" stroke="white" stroke-width="3"/>
+          <line x1="150" y1="118" x2="214.9" y2="155.5" stroke="white" stroke-width="3"/>
+          <line x1="150" y1="118" x2="85.1" y2="155.5" stroke="white" stroke-width="3"/>
+          <!-- ⅓ labels on each slice -->
+          <text x="185" y="104" text-anchor="middle" fill="white" font-size="20" font-weight="800">⅓</text>
+          <text x="178" y="162" text-anchor="middle" fill="white" font-size="20" font-weight="800">⅓</text>
+          <text x="114" y="162" text-anchor="middle" fill="white" font-size="20" font-weight="800">⅓</text>
+        </g>
+        <!-- 3 friend character heads around the pizza -->
+        <!-- Anya - top (purple hat/bow) -->
+        <circle cx="150" cy="46" r="16" fill="#8B5CF6"/>
+        <circle cx="150" cy="46" r="11" fill="#fde68a"/>
+        <path d="M138,36 Q145,29 150,33 Q155,29 162,36" fill="#ec4899"/>
+        <circle cx="145" cy="43" r="2.5" fill="white"/>
+        <circle cx="145" cy="43" r="1.5" fill="#1c1917"/>
+        <circle cx="155" cy="43" r="2.5" fill="white"/>
+        <circle cx="155" cy="43" r="1.5" fill="#1c1917"/>
+        <path d="M146,49 Q150,54 154,49" stroke="#6d28d9" stroke-width="1.5" fill="none"/>
+        <text x="150" y="70" text-anchor="middle" fill="#a7f3d0" font-size="8" font-weight="700">Anya</text>
+        <!-- Sam - bottom right (orange) -->
+        <circle cx="242" cy="172" r="16" fill="#EC4899"/>
+        <circle cx="242" cy="172" r="11" fill="#fde68a"/>
+        <path d="M231,161 Q237,153 242,158 Q247,153 253,161" fill="#92400E"/>
+        <circle cx="237" cy="169" r="2.5" fill="white"/>
+        <circle cx="237" cy="169" r="1.5" fill="#1c1917"/>
+        <circle cx="247" cy="169" r="2.5" fill="white"/>
+        <circle cx="247" cy="169" r="1.5" fill="#1c1917"/>
+        <path d="M238,175 Q242,179 246,175" stroke="#be185d" stroke-width="1.5" fill="none"/>
+        <text x="242" y="196" text-anchor="middle" fill="#a7f3d0" font-size="8" font-weight="700">Sam</text>
+        <!-- Zara - bottom left (red hair) -->
+        <circle cx="58" cy="172" r="16" fill="#F97316"/>
+        <circle cx="58" cy="172" r="11" fill="#fde68a"/>
+        <path d="M47,161 Q53,153 58,158 Q63,153 69,161" fill="#DC2626"/>
+        <circle cx="53" cy="169" r="2.5" fill="white"/>
+        <circle cx="53" cy="169" r="1.5" fill="#1c1917"/>
+        <circle cx="63" cy="169" r="2.5" fill="white"/>
+        <circle cx="63" cy="169" r="1.5" fill="#1c1917"/>
+        <path d="M54,175 Q58,179 62,175" stroke="#c2410c" stroke-width="1.5" fill="none"/>
+        <text x="58" y="196" text-anchor="middle" fill="#a7f3d0" font-size="8" font-weight="700">Zara</text>
+        <!-- Bottom banner -->
+        <rect x="72" y="220" width="156" height="16" rx="6" fill="rgba(0,0,0,0.3)"/>
+        <text x="150" y="231.5" text-anchor="middle" fill="#a7f3d0" font-size="9.5" font-weight="800">⅓ + ⅓ + ⅓ = 1 whole pizza!</text>
+        <text x="150" y="252" text-anchor="middle" fill="#6ee7b7" font-size="8" font-weight="700">3 friends · 3 equal thirds!</text>
       </svg>
-      <div style="text-align:center;margin-top:4px;font-size:.9rem;font-weight:700;color:#6D28D9;">
-        ⅓ + ⅓ + ⅓ = 1 whole
-      </div>
-      <div class="illus-caption" style="margin-top:6px;">3 equal thirds — one for each friend!</div>
+      <div class="illus-caption">3 equal thirds — one for each friend!</div>
     </div>
 
     <div class="story-panel">
@@ -532,36 +929,100 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 6 – THREE QUARTERS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#1e1b4b,#4338ca);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:3rem;margin-bottom:6px;">🎂😋</div>
-      <!-- SVG cake with 3 shaded, 1 unshaded -->
-      <svg width="180" height="180" viewBox="0 0 180 180" style="margin:0 auto;">
-        <!-- Quarter 1 — shaded (eaten) -->
-        <path d="M 90,90 L 90,20 A 70,70 0 0,1 160,90 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
-        <!-- Quarter 2 — shaded (eaten) -->
-        <path d="M 90,90 L 160,90 A 70,70 0 0,1 90,160 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
-        <!-- Quarter 3 — shaded (eaten) -->
-        <path d="M 90,90 L 90,160 A 70,70 0 0,1 20,90 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
-        <!-- Quarter 4 — unshaded (remaining) -->
-        <path d="M 90,90 L 20,90 A 70,70 0 0,1 90,20 Z" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
-        <!-- Labels -->
-        <text x="125" y="55" text-anchor="middle" font-size="12" fill="white" font-weight="800">¼</text>
-        <text x="125" y="132" text-anchor="middle" font-size="12" fill="white" font-weight="800">¼</text>
-        <text x="55" y="132" text-anchor="middle" font-size="12" fill="white" font-weight="800">¼</text>
-        <text x="55" y="55" text-anchor="middle" font-size="12" fill="#6D28D9" font-weight="800">¼</text>
-        <!-- ¾ label in centre -->
-        <circle cx="90" cy="90" r="26" fill="white" opacity="0.9"/>
-        <text x="90" y="86" text-anchor="middle" font-size="11" fill="#6D28D9" font-weight="800">Milo</text>
-        <text x="90" y="100" text-anchor="middle" font-size="15" fill="#6D28D9" font-weight="800">¾</text>
-        <!-- Milo eating -->
-        <text x="148" y="28" font-size="20" text-anchor="middle">👦</text>
-        <text x="155" y="46" font-size="12" text-anchor="middle" fill="#6D28D9" font-weight="700">yum!</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="sb6-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e1b4b"/>
+            <stop offset="100%" stop-color="#4338ca"/>
+          </linearGradient>
+          <radialGradient id="sb6-cake-top" cx="50%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#ddd6fe"/>
+            <stop offset="55%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#6d28d9"/>
+          </radialGradient>
+          <radialGradient id="sb6-milo" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="55%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </radialGradient>
+          <filter id="sb6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#sb6-bg)"/>
+        <!-- Counter -->
+        <rect x="0" y="200" width="300" height="14" fill="#312e81"/>
+        <rect x="0" y="196" width="300" height="8" rx="2" fill="#6366f1" opacity="0.5"/>
+        <rect x="0" y="214" width="300" height="66" fill="#1e1b4b"/>
+        <!-- Title -->
+        <rect x="42" y="10" width="216" height="20" rx="7" fill="rgba(0,0,0,0.3)"/>
+        <text x="150" y="23.5" text-anchor="middle" fill="#c7d2fe" font-size="10.5" font-weight="800">Milo eats THREE QUARTERS (¾)!</text>
+        <!-- Cake top-down: 3 eaten (purple), 1 remaining (pale) -->
+        <g filter="url(#sb6-sh)">
+          <!-- Crust ring -->
+          <circle cx="150" cy="118" r="82" fill="#4338ca"/>
+          <!-- Quarter 1 top-right — EATEN (purple) -->
+          <path d="M150,36 A82,82 0 0,1 232,118 L150,118 Z" fill="url(#sb6-cake-top)"/>
+          <!-- Eaten sparkle overlay -->
+          <path d="M150,36 A82,82 0 0,1 232,118 L150,118 Z" fill="white" opacity="0.15"/>
+          <!-- Quarter 2 bottom-right — EATEN (purple) -->
+          <path d="M232,118 A82,82 0 0,1 150,200 L150,118 Z" fill="url(#sb6-cake-top)"/>
+          <path d="M232,118 A82,82 0 0,1 150,200 L150,118 Z" fill="white" opacity="0.15"/>
+          <!-- Quarter 3 bottom-left — EATEN (purple) -->
+          <path d="M150,200 A82,82 0 0,1 68,118 L150,118 Z" fill="url(#sb6-cake-top)"/>
+          <path d="M150,200 A82,82 0 0,1 68,118 L150,118 Z" fill="white" opacity="0.15"/>
+          <!-- Quarter 4 top-left — REMAINING (pale/empty) -->
+          <path d="M68,118 A82,82 0 0,1 150,36 L150,118 Z" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+          <!-- Cut lines -->
+          <line x1="150" y1="36" x2="150" y2="200" stroke="white" stroke-width="3"/>
+          <line x1="68" y1="118" x2="232" y2="118" stroke="white" stroke-width="3"/>
+          <!-- ¼ labels: 3 eaten in white, 1 remaining in indigo -->
+          <text x="192" y="85" text-anchor="middle" fill="white" font-size="19" font-weight="800">¼</text>
+          <text x="192" y="158" text-anchor="middle" fill="white" font-size="19" font-weight="800">¼</text>
+          <text x="108" y="158" text-anchor="middle" fill="white" font-size="19" font-weight="800">¼</text>
+          <text x="108" y="85" text-anchor="middle" fill="#4338ca" font-size="19" font-weight="800">¼</text>
+          <!-- Decoration dots on eaten quarters -->
+          <circle cx="186" cy="68" r="5" fill="white" opacity="0.55"/>
+          <circle cx="208" cy="148" r="4.5" fill="white" opacity="0.55"/>
+          <circle cx="112" cy="152" r="5" fill="white" opacity="0.55"/>
+          <!-- Centre badge -->
+          <circle cx="150" cy="118" r="30" fill="white" opacity="0.94"/>
+          <text x="150" y="113" text-anchor="middle" fill="#4338ca" font-size="11" font-weight="800">Milo ate</text>
+          <text x="150" y="130" text-anchor="middle" fill="#6d28d9" font-size="20" font-weight="800">¾</text>
+        </g>
+        <!-- "eaten" and "left" labels -->
+        <rect x="102" y="207" width="55" height="14" rx="5" fill="#8B5CF6" opacity="0.8"/>
+        <text x="129" y="217.5" text-anchor="middle" fill="white" font-size="7.5" font-weight="800">3 eaten ✓</text>
+        <rect x="163" y="207" width="50" height="14" rx="5" fill="#e0e7ff" opacity="0.8"/>
+        <text x="188" y="217.5" text-anchor="middle" fill="#4338ca" font-size="7.5" font-weight="800">1 left</text>
+        <!-- Milo character eating on the right -->
+        <g filter="url(#sb6-sh)">
+          <ellipse cx="255" cy="175" rx="18" ry="22" fill="#1d4ed8"/>
+          <ellipse cx="255" cy="179" rx="11" ry="15" fill="#bfdbfe" opacity="0.4"/>
+          <path d="M242,155 Q248,147 255,151 Q262,147 268,155" fill="#1c1917"/>
+          <circle cx="255" cy="160" r="18" fill="url(#sb6-milo)"/>
+          <circle cx="249" cy="157" r="3" fill="white"/>
+          <circle cx="249" cy="157" r="1.8" fill="#1c1917"/>
+          <circle cx="249.6" cy="156.4" r="0.7" fill="white"/>
+          <circle cx="261" cy="157" r="3" fill="white"/>
+          <circle cx="261" cy="157" r="1.8" fill="#1c1917"/>
+          <circle cx="261.6" cy="156.4" r="0.7" fill="white"/>
+          <!-- Big happy grin -->
+          <path d="M248,165 Q255,172 262,165" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="255" cy="162" rx="2.5" ry="1.8" fill="#d97706"/>
+          <!-- Arm reaching to cake -->
+          <line x1="238" y1="168" x2="222" y2="160" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="220" cy="160" rx="7" ry="5" fill="#D97706"/>
+        </g>
+        <text x="255" y="202" text-anchor="middle" fill="#c7d2fe" font-size="8" font-weight="700">Milo (very hungry!)</text>
+        <!-- Sum label -->
+        <text x="150" y="244" text-anchor="middle" fill="#c7d2fe" font-size="9" font-weight="700">3 out of 4 pieces = ¾ (three quarters)</text>
+        <text x="150" y="258" text-anchor="middle" fill="#818cf8" font-size="8">¾ is MORE than ½ !</text>
       </svg>
-      <div style="text-align:center;margin-top:4px;font-size:.9rem;font-weight:700;color:#6D28D9;">
-        3 pieces out of 4 = ¾ (three quarters)
-      </div>
-      <div class="illus-caption" style="margin-top:6px;">Milo eats 3 pieces — that is three quarters!</div>
+      <div class="illus-caption">Milo eats 3 pieces — that is three quarters!</div>
     </div>
 
     <div class="story-panel">
@@ -603,58 +1064,113 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 7 – COMPARING FRACTIONS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
+    <div class="illustration" style="background:linear-gradient(135deg,#312e81,#6366f1);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:3rem;margin-bottom:6px;">📊</div>
-      <!-- Four fraction circles side by side -->
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:4px 0;">
-        <!-- Whole -->
-        <div style="text-align:center;">
-          <svg width="58" height="58" viewBox="0 0 58 58">
-            <circle cx="29" cy="29" r="26" fill="#8B5CF6" stroke="#6D28D9" stroke-width="2"/>
-            <text x="29" y="34" text-anchor="middle" font-size="14" fill="white" font-weight="800">1</text>
-          </svg>
-          <div style="font-size:.7rem;font-weight:700;color:#6D28D9;margin-top:3px;">1 whole</div>
-        </div>
-        <!-- Half -->
-        <div style="text-align:center;">
-          <svg width="58" height="58" viewBox="0 0 58 58">
-            <path d="M 29,29 L 29,3 A 26,26 0 0,1 55,29 Z" fill="#EC4899" stroke="white" stroke-width="1.5"/>
-            <path d="M 29,29 L 55,29 A 26,26 0 0,1 29,55 Z" fill="#EC4899" stroke="white" stroke-width="1.5"/>
-            <path d="M 29,29 L 29,55 A 26,26 0 0,1 3,29 Z" fill="#FDF2F8" stroke="#EC4899" stroke-width="1.5"/>
-            <path d="M 29,29 L 3,29 A 26,26 0 0,1 29,3 Z" fill="#FDF2F8" stroke="#EC4899" stroke-width="1.5"/>
-            <text x="29" y="34" text-anchor="middle" font-size="11" fill="#BE185D" font-weight="800">½</text>
-          </svg>
-          <div style="font-size:.7rem;font-weight:700;color:#BE185D;margin-top:3px;">half = ½</div>
-        </div>
-        <!-- Third -->
-        <div style="text-align:center;">
-          <svg width="58" height="58" viewBox="0 0 58 58">
-            <path d="M 29,29 L 29,3 A 26,26 0 0,1 51.5,16 Z" fill="#F97316" stroke="white" stroke-width="1.5"/>
-            <path d="M 29,29 L 51.5,16 A 26,26 0 0,1 6.5,42 Z" fill="#F97316" stroke="white" stroke-width="1.5"/>
-            <path d="M 29,29 L 6.5,42 A 26,26 0 0,1 29,3 Z" fill="#FFF7ED" stroke="#F97316" stroke-width="1.5"/>
-            <text x="29" y="34" text-anchor="middle" font-size="10" fill="#C2410C" font-weight="800">⅓</text>
-          </svg>
-          <div style="font-size:.7rem;font-weight:700;color:#C2410C;margin-top:3px;">third = ⅓</div>
-        </div>
-        <!-- Quarter -->
-        <div style="text-align:center;">
-          <svg width="58" height="58" viewBox="0 0 58 58">
-            <path d="M 29,29 L 29,3 A 26,26 0 0,1 55,29 Z" fill="#FBBF24" stroke="white" stroke-width="1.5"/>
-            <path d="M 29,29 L 55,29 A 26,26 0 0,1 29,55 Z" fill="#FEF9C3" stroke="#FBBF24" stroke-width="1.5"/>
-            <path d="M 29,29 L 29,55 A 26,26 0 0,1 3,29 Z" fill="#FEF9C3" stroke="#FBBF24" stroke-width="1.5"/>
-            <path d="M 29,29 L 3,29 A 26,26 0 0,1 29,3 Z" fill="#FEF9C3" stroke="#FBBF24" stroke-width="1.5"/>
-            <text x="29" y="34" text-anchor="middle" font-size="10" fill="#D97706" font-weight="800">¼</text>
-          </svg>
-          <div style="font-size:.7rem;font-weight:700;color:#D97706;margin-top:3px;">quarter = ¼</div>
-        </div>
-      </div>
-      <div style="background:rgba(0,0,0,.1);border-radius:12px;padding:8px 14px;margin-top:8px;text-align:center;font-size:.85rem;font-weight:800;color:#4C1D95;">
-        ¼ &lt; ⅓ &lt; ½ &lt; 1 whole
-      </div>
-      <div class="illus-scene" style="margin-top:8px;">
-        <span class="char-sm">👨‍🍳</span>
-      </div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="sb7-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#312e81"/>
+            <stop offset="100%" stop-color="#6366f1"/>
+          </linearGradient>
+          <radialGradient id="sb7-ben" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="55%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </radialGradient>
+          <filter id="sb7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#sb7-bg)"/>
+        <!-- Counter -->
+        <rect x="0" y="200" width="300" height="14" fill="#312e81"/>
+        <rect x="0" y="196" width="300" height="8" rx="2" fill="#818cf8" opacity="0.4"/>
+        <rect x="0" y="214" width="300" height="66" fill="#1e1b4b"/>
+        <!-- Chalkboard panel -->
+        <rect x="20" y="10" width="260" height="175" rx="10" fill="#0f0e2a" stroke="#818cf8" stroke-width="1.5" filter="url(#sb7-sh)"/>
+        <rect x="28" y="18" width="244" height="159" rx="7" fill="#0d0c26"/>
+        <!-- Board title -->
+        <text x="150" y="36" text-anchor="middle" fill="#a5b4fc" font-size="10" font-weight="800">Comparing Fractions — Same Whole</text>
+        <!-- 4 fraction circles across the board -->
+        <!-- WHOLE -->
+        <circle cx="55" cy="100" r="38" fill="#8B5CF6" filter="url(#sb7-sh)"/>
+        <text x="55" y="107" text-anchor="middle" fill="white" font-size="22" font-weight="800">1</text>
+        <text x="55" y="150" text-anchor="middle" fill="#c7d2fe" font-size="8" font-weight="700">1 whole</text>
+        <!-- HALF -->
+        <g filter="url(#sb7-sh)">
+          <circle cx="118" cy="100" r="38" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5"/>
+          <!-- right half filled = EC4899 -->
+          <path d="M118,62 A38,38 0 0,1 156,100 L118,100 Z" fill="#EC4899"/>
+          <path d="M156,100 A38,38 0 0,1 118,138 L118,100 Z" fill="#EC4899"/>
+          <!-- left half empty -->
+          <path d="M118,62 A38,38 0 1,0 118,138 L118,100 Z" fill="#f5f3ff" opacity="0.12"/>
+          <line x1="118" y1="62" x2="118" y2="138" stroke="white" stroke-width="2"/>
+          <text x="137" y="107" text-anchor="middle" fill="white" font-size="17" font-weight="800">½</text>
+        </g>
+        <text x="118" y="150" text-anchor="middle" fill="#c7d2fe" font-size="8" font-weight="700">half = ½</text>
+        <!-- THIRD -->
+        <g filter="url(#sb7-sh)">
+          <circle cx="181" cy="100" r="38" fill="#1e1b4b" stroke="#f97316" stroke-width="1.5"/>
+          <!-- top-right third filled -->
+          <path d="M181,62 A38,38 0 0,1 214,119 L181,100 Z" fill="#F97316"/>
+          <!-- bottom third filled -->
+          <path d="M214,119 A38,38 0 0,1 148,119 L181,100 Z" fill="#F97316"/>
+          <!-- left third empty -->
+          <path d="M148,119 A38,38 0 0,1 181,62 L181,100 Z" fill="#fff7ed" opacity="0.12"/>
+          <line x1="181" y1="62" x2="181" y2="100" stroke="white" stroke-width="2"/>
+          <line x1="181" y1="100" x2="214" y2="119" stroke="white" stroke-width="2"/>
+          <line x1="181" y1="100" x2="148" y2="119" stroke="white" stroke-width="2"/>
+          <text x="196" y="102" text-anchor="middle" fill="white" font-size="16" font-weight="800">⅓</text>
+        </g>
+        <text x="181" y="150" text-anchor="middle" fill="#c7d2fe" font-size="8" font-weight="700">third = ⅓</text>
+        <!-- QUARTER -->
+        <g filter="url(#sb7-sh)">
+          <circle cx="244" cy="100" r="38" fill="#1e1b4b" stroke="#fbbf24" stroke-width="1.5"/>
+          <!-- top-right quarter filled -->
+          <path d="M244,62 A38,38 0 0,1 282,100 L244,100 Z" fill="#FBBF24"/>
+          <!-- other 3 quarters empty -->
+          <path d="M282,100 A38,38 0 0,1 244,138 L244,100 Z" fill="#fef9c3" opacity="0.12"/>
+          <path d="M244,138 A38,38 0 0,1 206,100 L244,100 Z" fill="#fef9c3" opacity="0.12"/>
+          <path d="M206,100 A38,38 0 0,1 244,62 L244,100 Z" fill="#fef9c3" opacity="0.12"/>
+          <line x1="244" y1="62" x2="244" y2="138" stroke="white" stroke-width="2"/>
+          <line x1="206" y1="100" x2="282" y2="100" stroke="white" stroke-width="2"/>
+          <text x="263" y="90" text-anchor="middle" fill="white" font-size="15" font-weight="800">¼</text>
+        </g>
+        <text x="244" y="150" text-anchor="middle" fill="#c7d2fe" font-size="8" font-weight="700">quarter = ¼</text>
+        <!-- Size comparison arrows (decreasing) -->
+        <text x="55" y="168" text-anchor="middle" fill="#a5b4fc" font-size="9">biggest</text>
+        <line x1="93" y1="164" x2="106" y2="164" stroke="#818cf8" stroke-width="1" stroke-dasharray="2,2"/>
+        <polygon points="106,161 112,164 106,167" fill="#818cf8"/>
+        <text x="150" y="168" text-anchor="middle" fill="#a5b4fc" font-size="9">smaller</text>
+        <line x1="156" y1="164" x2="168" y2="164" stroke="#818cf8" stroke-width="1" stroke-dasharray="2,2"/>
+        <polygon points="168,161 174,164 168,167" fill="#818cf8"/>
+        <text x="244" y="168" text-anchor="middle" fill="#a5b4fc" font-size="9">smallest</text>
+        <!-- Key inequality banner -->
+        <rect x="32" y="175" width="236" height="18" rx="7" fill="#4338ca"/>
+        <text x="150" y="187.5" text-anchor="middle" fill="#fde68a" font-size="11.5" font-weight="800">¼  &lt;  ⅓  &lt;  ½  &lt;  1 whole</text>
+        <!-- Ben character bottom -->
+        <g filter="url(#sb7-sh)">
+          <ellipse cx="150" cy="248" rx="18" ry="20" fill="#1e40af"/>
+          <ellipse cx="150" cy="251" rx="11" ry="14" fill="white" opacity="0.88"/>
+          <circle cx="150" cy="226" r="17" fill="url(#sb7-ben)"/>
+          <!-- Chef hat -->
+          <rect x="138" y="211" width="24" height="6" rx="3" fill="white"/>
+          <rect x="141" y="199" width="18" height="14" rx="4" fill="white"/>
+          <!-- Eyes -->
+          <circle cx="144" cy="223" r="2.8" fill="white"/>
+          <circle cx="144" cy="223" r="1.7" fill="#1c1917"/>
+          <circle cx="144.6" cy="222.4" r="0.7" fill="white"/>
+          <circle cx="156" cy="223" r="2.8" fill="white"/>
+          <circle cx="156" cy="223" r="1.7" fill="#1c1917"/>
+          <circle cx="156.6" cy="222.4" r="0.7" fill="white"/>
+          <path d="M144,230 Q150,236 156,230" stroke="#92400E" stroke-width="1.8" fill="none"/>
+          <!-- Pointer arm -->
+          <line x1="134" y1="236" x2="110" y2="187" stroke="#1e40af" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="110" cy="187" r="3" fill="#FBBF24"/>
+        </g>
+        <text x="150" y="272" text-anchor="middle" fill="#c7d2fe" font-size="8" font-weight="700">Ben explains the order!</text>
+      </svg>
       <div class="illus-caption">Smallest to largest — ordering fractions!</div>
     </div>
 
@@ -697,20 +1213,142 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 8 – EVERYONE IS HAPPY!
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-8">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+    <div class="illustration" style="background:linear-gradient(135deg,#78350f,#d97706);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:4rem;margin-bottom:6px;">🎂❤️</div>
-      <div class="illus-scene">
-        <span class="char">👨‍🍳</span><span class="char">👧</span><span class="char">👦</span>
-      </div>
-      <div class="illus-scene" style="margin-top:4px;">
-        <span class="char">👧</span><span class="char">👦</span>
-      </div>
-      <div style="font-size:2rem;margin:8px 0;letter-spacing:4px;">❤️🧁❤️🍰❤️</div>
-      <div style="background:rgba(0,0,0,.12);border-radius:12px;padding:8px 16px;text-align:center;font-size:.85rem;font-weight:700;color:#065F46;">
-        ½ · ¼ · ⅓ · ¾
-      </div>
-      <div class="illus-caption" style="margin-top:6px;">All friends share — everyone is happy!</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="sb8-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#78350f"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </linearGradient>
+          <radialGradient id="sb8-glow" cx="50%" cy="50%" r="55%">
+            <stop offset="0%" stop-color="#FEF9C3" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#d97706" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="sb8-cake-top" cx="50%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#f9a8d4"/>
+            <stop offset="55%" stop-color="#ec4899"/>
+            <stop offset="100%" stop-color="#be185d"/>
+          </radialGradient>
+          <radialGradient id="sb8-cake-mid" cx="50%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#6d28d9"/>
+          </radialGradient>
+          <radialGradient id="sb8-cake-bot" cx="50%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#fcd34d"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </radialGradient>
+          <radialGradient id="sb8-ben" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="55%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </radialGradient>
+          <filter id="sb8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#sb8-bg)"/>
+        <!-- Warm glow -->
+        <ellipse cx="150" cy="130" rx="130" ry="115" fill="url(#sb8-glow)"/>
+        <!-- Counter / table -->
+        <rect x="0" y="200" width="300" height="12" fill="#92400E"/>
+        <rect x="0" y="193" width="300" height="11" rx="3" fill="#b45309"/>
+        <rect x="0" y="212" width="300" height="68" fill="#78350f"/>
+        <!-- Celebration banner top -->
+        <rect x="40" y="10" width="220" height="22" rx="8" fill="#D97706" filter="url(#sb8-sh)"/>
+        <text x="150" y="24.5" text-anchor="middle" fill="white" font-size="11" font-weight="800">Everyone is Happy! The End!</text>
+        <!-- Celebratory tiered cake (centre) -->
+        <g filter="url(#sb8-sh)">
+          <!-- Bottom tier -->
+          <ellipse cx="150" cy="190" rx="58" ry="11" fill="#92400E"/>
+          <rect x="92" y="167" width="116" height="26" rx="7" fill="url(#sb8-cake-bot)"/>
+          <ellipse cx="150" cy="167" rx="58" ry="11" fill="#fbbf24"/>
+          <path d="M97,167 Q106,158 115,167 Q124,158 133,167 Q142,158 151,167 Q160,158 169,167 Q178,158 187,167 Q196,158 203,167" fill="white" opacity="0.9"/>
+          <!-- Middle tier -->
+          <ellipse cx="150" cy="157" rx="44" ry="9" fill="#9d174d"/>
+          <rect x="106" y="135" width="88" height="25" rx="6" fill="url(#sb8-cake-mid)"/>
+          <ellipse cx="150" cy="135" rx="44" ry="9" fill="#a78bfa"/>
+          <path d="M110,135 Q119,126 128,135 Q137,126 146,135 Q155,126 164,135 Q173,126 182,135 Q188,127 192,135" fill="white" opacity="0.9"/>
+          <!-- Top tier -->
+          <ellipse cx="150" cy="126" rx="30" ry="7" fill="#be185d"/>
+          <rect x="120" y="107" width="60" height="22" rx="5" fill="url(#sb8-cake-top)"/>
+          <ellipse cx="150" cy="107" rx="30" ry="7" fill="#f9a8d4"/>
+          <path d="M124,107 Q131,99 138,107 Q145,99 152,107 Q159,99 166,107 Q172,99 176,107" fill="white" opacity="0.9"/>
+          <!-- Candle -->
+          <rect x="147" y="93" width="6" height="16" rx="2" fill="#FBBF24"/>
+          <ellipse cx="150" cy="92" rx="4" ry="5.5" fill="#F97316" opacity="0.9"/>
+          <ellipse cx="150" cy="90" rx="2.5" ry="3.5" fill="#FEF9C3" opacity="0.85"/>
+          <!-- Fraction labels on tiers -->
+          <text x="150" y="183" text-anchor="middle" fill="white" font-size="10" font-weight="800">½ · ¼ · ⅓ · ¾</text>
+        </g>
+        <!-- 5 friends around the cake -->
+        <!-- Ben (baker) - centre top -->
+        <g filter="url(#sb8-sh)">
+          <circle cx="150" cy="68" r="18" fill="url(#sb8-ben)"/>
+          <rect x="138" y="52" width="24" height="6" rx="3" fill="white"/>
+          <rect x="141" y="40" width="18" height="14" rx="4" fill="white"/>
+          <circle cx="144" cy="65" r="2.8" fill="white"/>
+          <circle cx="144" cy="65" r="1.7" fill="#1c1917"/>
+          <circle cx="144.6" cy="64.4" r="0.7" fill="white"/>
+          <circle cx="156" cy="65" r="2.8" fill="white"/>
+          <circle cx="156" cy="65" r="1.7" fill="#1c1917"/>
+          <circle cx="156.6" cy="64.4" r="0.7" fill="white"/>
+          <path d="M144,72 Q150,79 156,72" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="150" cy="69" rx="2.2" ry="1.6" fill="#d97706"/>
+        </g>
+        <text x="150" y="93" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Ben</text>
+        <!-- Anya - left -->
+        <circle cx="42" cy="180" r="14" fill="#EC4899"/>
+        <circle cx="42" cy="180" r="10" fill="#fde68a"/>
+        <path d="M32,170 Q38,162 42,166 Q46,162 52,170" fill="#8B5CF6"/>
+        <circle cx="38" cy="177" r="2.2" fill="white"/>
+        <circle cx="38" cy="177" r="1.3" fill="#1c1917"/>
+        <circle cx="46" cy="177" r="2.2" fill="white"/>
+        <circle cx="46" cy="177" r="1.3" fill="#1c1917"/>
+        <path d="M38,183 Q42,188 46,183" stroke="#be185d" stroke-width="1.3" fill="none"/>
+        <text x="42" y="200" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Anya</text>
+        <!-- Sam - left-mid -->
+        <circle cx="84" cy="225" r="13" fill="#F97316"/>
+        <circle cx="84" cy="225" r="9" fill="#fde68a"/>
+        <path d="M75,215 Q81,208 84,212 Q87,208 93,215" fill="#92400E"/>
+        <circle cx="80" cy="222" r="2" fill="white"/>
+        <circle cx="80" cy="222" r="1.2" fill="#1c1917"/>
+        <circle cx="88" cy="222" r="2" fill="white"/>
+        <circle cx="88" cy="222" r="1.2" fill="#1c1917"/>
+        <path d="M80,228 Q84,232 88,228" stroke="#c2410c" stroke-width="1.2" fill="none"/>
+        <text x="84" y="244" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Sam</text>
+        <!-- Zara - right-mid -->
+        <circle cx="216" cy="225" r="13" fill="#10B981"/>
+        <circle cx="216" cy="225" r="9" fill="#fde68a"/>
+        <path d="M207,215 Q213,208 216,212 Q219,208 225,215" fill="#DC2626"/>
+        <circle cx="212" cy="222" r="2" fill="white"/>
+        <circle cx="212" cy="222" r="1.2" fill="#1c1917"/>
+        <circle cx="220" cy="222" r="2" fill="white"/>
+        <circle cx="220" cy="222" r="1.2" fill="#1c1917"/>
+        <path d="M212,228 Q216,232 220,228" stroke="#059669" stroke-width="1.2" fill="none"/>
+        <text x="216" y="244" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Zara</text>
+        <!-- Milo - right -->
+        <circle cx="258" cy="180" r="14" fill="#FBBF24"/>
+        <circle cx="258" cy="180" r="10" fill="#fde68a"/>
+        <path d="M248,170 Q254,162 258,166 Q262,162 268,170" fill="#D97706"/>
+        <circle cx="254" cy="177" r="2.2" fill="white"/>
+        <circle cx="254" cy="177" r="1.3" fill="#1c1917"/>
+        <circle cx="262" cy="177" r="2.2" fill="white"/>
+        <circle cx="262" cy="177" r="1.3" fill="#1c1917"/>
+        <path d="M254,183 Q258,188 262,183" stroke="#d97706" stroke-width="1.3" fill="none"/>
+        <text x="258" y="200" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Milo</text>
+        <!-- Sparkles -->
+        <text x="18" y="52" fill="#FDE68A" font-size="16" opacity="0.9">★</text>
+        <text x="272" y="60" fill="#FDE68A" font-size="13" opacity="0.9">✦</text>
+        <text x="25" y="130" fill="#FBBF24" font-size="11" opacity="0.7">✦</text>
+        <text x="268" y="125" fill="#FBBF24" font-size="11" opacity="0.7">★</text>
+        <text x="10" y="175" fill="#FEF9C3" font-size="10" opacity="0.6">★</text>
+        <text x="284" y="175" fill="#FEF9C3" font-size="10" opacity="0.6">✦</text>
+      </svg>
+      <div class="illus-caption">All friends share — everyone is happy!</div>
     </div>
 
     <div class="story-panel">

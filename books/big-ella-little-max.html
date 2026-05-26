@@ -238,45 +238,79 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
     <div class="book-page cover-page active" id="page-1">
       <div class="cover-card">
         <svg viewBox="0 0 200 200" width="160" height="160" style="margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
-          <!-- Sky background -->
-          <rect width="200" height="200" rx="20" fill="rgba(255,255,255,.08)"/>
-          <!-- Ground -->
-          <ellipse cx="100" cy="185" rx="95" ry="18" fill="rgba(255,255,255,.15)"/>
-          <!-- Ella (big elephant) -->
-          <!-- Body -->
-          <ellipse cx="85" cy="150" rx="55" ry="42" fill="#9CA3AF"/>
-          <!-- Head -->
-          <circle cx="55" cy="120" r="35" fill="#9CA3AF"/>
-          <!-- Ear -->
-          <ellipse cx="30" cy="118" rx="20" ry="26" fill="#6B7280"/>
-          <ellipse cx="30" cy="118" rx="13" ry="18" fill="#9CA3AF"/>
-          <!-- Eye -->
-          <circle cx="48" cy="112" r="5" fill="#1C1917"/>
-          <circle cx="49.5" cy="110.5" r="1.8" fill="white"/>
-          <!-- Trunk -->
-          <path d="M 42 135 Q 25 150 30 168 Q 32 175 38 172" stroke="#6B7280" stroke-width="11" fill="none" stroke-linecap="round"/>
-          <!-- Smile -->
-          <path d="M50 126 Q58 132 66 128" stroke="#6B7280" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- Legs -->
-          <rect x="50" y="180" width="18" height="22" rx="9" fill="#6B7280"/>
-          <rect x="80" y="180" width="18" height="22" rx="9" fill="#6B7280"/>
-          <rect x="108" y="178" width="16" height="20" rx="8" fill="#6B7280"/>
-          <!-- Max (tiny mouse) on Ella's back -->
-          <ellipse cx="118" cy="115" rx="14" ry="10" fill="#A16207"/>
-          <!-- Max head -->
-          <circle cx="133" cy="108" r="10" fill="#D97706"/>
-          <!-- Max ears -->
-          <circle cx="127" cy="99" r="7" fill="#D97706"/><circle cx="127" cy="99" r="4" fill="#FDE68A"/>
-          <circle cx="140" cy="98" r="7" fill="#D97706"/><circle cx="140" cy="98" r="4" fill="#FDE68A"/>
-          <!-- Max eyes -->
-          <circle cx="130" cy="107" r="2.5" fill="#1C1917"/>
-          <circle cx="137" cy="107" r="2.5" fill="#1C1917"/>
-          <circle cx="130.8" cy="106.3" r=".8" fill="white"/>
-          <!-- Max smile -->
-          <path d="M128 112 Q133 116 138 112" stroke="#1C1917" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <!-- Size labels -->
-          <text x="20" y="200" font-family="Quicksand" font-weight="700" font-size="11" fill="white" opacity=".8">BIG</text>
-          <text x="128" y="94" font-family="Quicksand" font-weight="700" font-size="9" fill="white" opacity=".8">small</text>
+          <defs>
+            <linearGradient id="cov-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#A7F3FB"/>
+              <stop offset="100%" stop-color="#ECFEFF"/>
+            </linearGradient>
+            <linearGradient id="cov-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="100%" stop-color="#15803D"/>
+            </linearGradient>
+            <radialGradient id="cov-ella-body" cx="38%" cy="32%" r="62%">
+              <stop offset="0%" stop-color="#D1D5DB"/>
+              <stop offset="55%" stop-color="#9CA3AF"/>
+              <stop offset="100%" stop-color="#4B5563"/>
+            </radialGradient>
+            <radialGradient id="cov-max-body" cx="36%" cy="30%" r="64%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="55%" stop-color="#D97706"/>
+              <stop offset="100%" stop-color="#92400E"/>
+            </radialGradient>
+            <radialGradient id="cov-sun" cx="40%" cy="38%" r="60%">
+              <stop offset="0%" stop-color="#FFFBEB"/>
+              <stop offset="50%" stop-color="#FCD34D"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+            <filter id="cov-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="200" height="200" rx="20" fill="url(#cov-sky)"/>
+          <!-- Sun glow -->
+          <circle cx="168" cy="30" r="22" fill="#FEF3C7" opacity=".5"/>
+          <circle cx="168" cy="30" r="14" fill="url(#cov-sun)"/>
+          <!-- Clouds -->
+          <g opacity=".9">
+            <ellipse cx="40" cy="28" rx="18" ry="10" fill="white"/>
+            <ellipse cx="55" cy="24" rx="14" ry="9" fill="white"/>
+            <ellipse cx="26" cy="30" rx="12" ry="8" fill="white"/>
+          </g>
+          <!-- Ground wavy -->
+          <path d="M0 168 Q50 158 100 165 Q150 172 200 162 L200 200 L0 200 Z" fill="url(#cov-grass)"/>
+          <path d="M0 178 Q60 170 120 175 Q160 178 200 172 L200 200 L0 200 Z" fill="#166534" opacity=".4"/>
+          <!-- Flowers -->
+          <circle cx="14" cy="165" r="5" fill="#FBBF24"/>
+          <circle cx="14" cy="165" r="3" fill="#F97316"/>
+          <line x1="14" y1="170" x2="14" y2="178" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+          <!-- Ella body -->
+          <g filter="url(#cov-sh)">
+            <ellipse cx="88" cy="150" rx="56" ry="42" fill="url(#cov-ella-body)"/>
+            <circle cx="52" cy="117" r="36" fill="url(#cov-ella-body)"/>
+            <ellipse cx="24" cy="114" rx="20" ry="26" fill="#6B7280"/>
+            <ellipse cx="24" cy="114" rx="13" ry="17" fill="#9CA3AF"/>
+            <circle cx="44" cy="109" r="6" fill="#111827"/>
+            <circle cx="46" cy="107" r="2" fill="white"/>
+            <path d="M46 128 Q55 135 65 131" stroke="#4B5563" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M38 132 Q20 150 25 170 Q27 178 35 175" stroke="#4B5563" stroke-width="12" fill="none" stroke-linecap="round"/>
+            <rect x="52" y="178" width="18" height="22" rx="9" fill="#4B5563"/>
+            <rect x="82" y="180" width="18" height="22" rx="9" fill="#4B5563"/>
+            <rect x="112" y="178" width="16" height="20" rx="8" fill="#4B5563"/>
+          </g>
+          <!-- Max on Ella's back -->
+          <g filter="url(#cov-sh)">
+            <ellipse cx="122" cy="112" rx="14" ry="9" fill="url(#cov-max-body)"/>
+            <circle cx="136" cy="104" r="10" fill="url(#cov-max-body)"/>
+            <circle cx="129" cy="95" r="7" fill="#D97706"/><circle cx="129" cy="95" r="4" fill="#FDE68A"/>
+            <circle cx="143" cy="94" r="7" fill="#D97706"/><circle cx="143" cy="94" r="4" fill="#FDE68A"/>
+            <circle cx="132" cy="103" r="2.5" fill="#111827"/>
+            <circle cx="140" cy="103" r="2.5" fill="#111827"/>
+            <circle cx="132.8" cy="102.2" r=".9" fill="white"/>
+            <path d="M130 109 Q136 113 141 109" stroke="#92400E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <text x="18" y="198" font-family="Quicksand" font-weight="700" font-size="11" fill="white" opacity=".9">BIG</text>
+          <text x="128" y="90" font-family="Quicksand" font-weight="700" font-size="9" fill="white" opacity=".9">small</text>
         </svg>
         <div class="cover-title">Big Ella, Little Max</div>
         <div class="cover-subtitle">Exploring big and small with two best friends</div>
@@ -298,59 +332,106 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:#ECFEFF;">
         <div class="page-num-illus">Page 2</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="#ECFEFF"/>
-          <!-- Ground -->
-          <rect y="248" width="300" height="32" rx="0" fill="#A5F3FC" opacity=".5"/>
-          <!-- ELLA - big elephant (left/center) -->
-          <!-- Body -->
-          <ellipse cx="120" cy="195" rx="65" ry="50" fill="#9CA3AF"/>
-          <!-- Head -->
-          <circle cx="80" cy="148" r="45" fill="#9CA3AF"/>
-          <!-- Ear -->
-          <ellipse cx="48" cy="145" rx="26" ry="32" fill="#6B7280"/>
-          <ellipse cx="48" cy="145" rx="17" ry="22" fill="#9CA3AF"/>
-          <!-- Eye -->
-          <circle cx="70" cy="138" r="7" fill="#1C1917"/>
-          <circle cx="72" cy="136" r="2.5" fill="white"/>
-          <!-- Trunk -->
-          <path d="M 60 168 Q 38 188 44 215 Q 46 225 55 222" stroke="#6B7280" stroke-width="14" fill="none" stroke-linecap="round"/>
-          <!-- Legs -->
-          <rect x="70" y="232" width="22" height="28" rx="11" fill="#6B7280"/>
-          <rect x="106" y="232" width="22" height="28" rx="11" fill="#6B7280"/>
-          <rect x="142" y="230" width="20" height="26" rx="10" fill="#6B7280"/>
-          <!-- Tail -->
-          <path d="M180 195 Q195 200 192 215" stroke="#6B7280" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="a2-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#BAE6FD"/>
+              <stop offset="100%" stop-color="#E0F2FE"/>
+            </linearGradient>
+            <linearGradient id="a2-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="100%" stop-color="#166534"/>
+            </linearGradient>
+            <radialGradient id="a2-ella" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#E5E7EB"/>
+              <stop offset="55%" stop-color="#9CA3AF"/>
+              <stop offset="100%" stop-color="#374151"/>
+            </radialGradient>
+            <radialGradient id="a2-max" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="55%" stop-color="#D97706"/>
+              <stop offset="100%" stop-color="#78350F"/>
+            </radialGradient>
+            <radialGradient id="a2-sun" cx="40%" cy="38%" r="60%">
+              <stop offset="0%" stop-color="#FFFBEB"/>
+              <stop offset="55%" stop-color="#FCD34D"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+            <filter id="a2-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="300" height="280" fill="url(#a2-sky)"/>
+          <!-- Sun glow + sun -->
+          <circle cx="260" cy="30" r="28" fill="#FEF9C3" opacity=".6"/>
+          <circle cx="260" cy="30" r="18" fill="url(#a2-sun)"/>
+          <!-- Clouds -->
+          <g opacity=".9">
+            <ellipse cx="60" cy="32" rx="28" ry="14" fill="white"/>
+            <ellipse cx="82" cy="26" rx="20" ry="13" fill="white"/>
+            <ellipse cx="40" cy="36" rx="16" ry="10" fill="white"/>
+          </g>
+          <g opacity=".85">
+            <ellipse cx="170" cy="22" rx="22" ry="11" fill="white"/>
+            <ellipse cx="188" cy="18" rx="15" ry="10" fill="white"/>
+            <ellipse cx="154" cy="25" rx="13" ry="8" fill="white"/>
+          </g>
+          <!-- Grass wavy -->
+          <path d="M0 248 Q75 236 150 244 Q225 252 300 240 L300 280 L0 280 Z" fill="url(#a2-grass)"/>
+          <path d="M0 258 Q90 248 180 254 Q240 258 300 250 L300 280 L0 280 Z" fill="#14532D" opacity=".45"/>
+          <!-- Grass blades -->
+          <line x1="30" y1="248" x2="26" y2="238" stroke="#22C55E" stroke-width="2" stroke-linecap="round"/>
+          <line x1="38" y1="247" x2="42" y2="237" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+          <line x1="200" y1="243" x2="196" y2="233" stroke="#22C55E" stroke-width="2" stroke-linecap="round"/>
+          <!-- Flowers -->
+          <circle cx="22" cy="246" r="5" fill="#FBBF24"/>
+          <circle cx="22" cy="246" r="3" fill="#F97316"/>
+          <line x1="22" y1="251" x2="22" y2="262" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- ELLA (big elephant, left) -->
+          <g filter="url(#a2-sh)">
+            <ellipse cx="118" cy="196" rx="66" ry="51" fill="url(#a2-ella)"/>
+            <circle cx="78" cy="148" r="46" fill="url(#a2-ella)"/>
+            <ellipse cx="45" cy="144" rx="27" ry="34" fill="#6B7280"/>
+            <ellipse cx="45" cy="144" rx="17" ry="22" fill="#9CA3AF"/>
+            <circle cx="69" cy="138" r="7.5" fill="#111827"/>
+            <circle cx="71" cy="136" r="2.6" fill="white"/>
+            <circle cx="71.8" cy="136.8" r="1" fill="#BFDBFE"/>
+            <path d="M80 162 Q90 168 100 164" stroke="#4B5563" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M62 168 Q40 190 44 216 Q47 227 57 222" stroke="#4B5563" stroke-width="14" fill="none" stroke-linecap="round"/>
+            <rect x="68" y="234" width="23" height="28" rx="11" fill="#4B5563"/>
+            <rect x="105" y="234" width="23" height="28" rx="11" fill="#4B5563"/>
+            <rect x="142" y="232" width="21" height="27" rx="10" fill="#4B5563"/>
+            <path d="M182 195 Q198 200 194 216" stroke="#4B5563" stroke-width="4" fill="none" stroke-linecap="round"/>
+          </g>
           <!-- Ella label -->
-          <rect x="60" y="90" width="90" height="26" rx="13" fill="#06B6D4"/>
-          <text x="105" y="107" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="13" fill="white">BIG Ella</text>
-          <!-- Height arrow for Ella -->
-          <line x1="195" y1="103" x2="195" y2="248" stroke="#0891B2" stroke-width="2" stroke-dasharray="4 3"/>
-          <polygon points="195,98 191,108 199,108" fill="#0891B2"/>
-          <polygon points="195,253 191,243 199,243" fill="#0891B2"/>
-          <!-- MAX - tiny mouse (far right) -->
-          <!-- Body -->
-          <ellipse cx="258" cy="240" rx="20" ry="14" fill="#A16207"/>
-          <!-- Head -->
-          <circle cx="254" cy="222" r="15" fill="#D97706"/>
-          <!-- Ears -->
-          <circle cx="245" cy="210" r="10" fill="#D97706"/><circle cx="245" cy="210" r="6" fill="#FDE68A"/>
-          <circle cx="262" cy="209" r="10" fill="#D97706"/><circle cx="262" cy="209" r="6" fill="#FDE68A"/>
-          <!-- Eyes -->
-          <circle cx="248" cy="221" r="3.5" fill="#1C1917"/><circle cx="249" cy="220" r="1.2" fill="white"/>
-          <circle cx="260" cy="221" r="3.5" fill="#1C1917"/><circle cx="261" cy="220" r="1.2" fill="white"/>
-          <!-- Nose -->
-          <ellipse cx="254" cy="228" rx="4" ry="2.5" fill="#92400E"/>
-          <!-- Smile -->
-          <path d="M249 232 Q254 237 259 232" stroke="#92400E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-          <!-- Tail -->
-          <path d="M272 244 Q285 248 280 260" stroke="#A16207" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <rect x="58" y="88" width="96" height="28" rx="14" fill="#06B6D4"/>
+          <text x="106" y="107" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="13" fill="white">BIG Ella</text>
+          <!-- Height arrow Ella -->
+          <line x1="196" y1="103" x2="196" y2="248" stroke="#0891B2" stroke-width="2" stroke-dasharray="5 3"/>
+          <polygon points="196,97 192,108 200,108" fill="#0891B2"/>
+          <polygon points="196,254 192,244 200,244" fill="#0891B2"/>
+          <!-- MAX (tiny mouse, right) -->
+          <g filter="url(#a2-sh)">
+            <ellipse cx="256" cy="240" rx="20" ry="14" fill="url(#a2-max)"/>
+            <circle cx="252" cy="222" r="16" fill="url(#a2-max)"/>
+            <circle cx="242" cy="208" r="11" fill="#D97706"/><circle cx="242" cy="208" r="6.5" fill="#FDE68A"/>
+            <circle cx="261" cy="207" r="11" fill="#D97706"/><circle cx="261" cy="207" r="6.5" fill="#FDE68A"/>
+            <circle cx="246" cy="221" r="3.8" fill="#111827"/><circle cx="247" cy="220" r="1.3" fill="white"/>
+            <circle cx="258" cy="221" r="3.8" fill="#111827"/><circle cx="259" cy="220" r="1.3" fill="white"/>
+            <ellipse cx="252" cy="229" rx="4.5" ry="3" fill="#78350F"/>
+            <path d="M247 234 Q252 240 257 234" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M270 244 Q284 248 280 262" stroke="#A16207" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          </g>
           <!-- Max label -->
-          <rect x="234" y="193" width="70" height="22" rx="11" fill="#FBBF24"/>
-          <text x="269" y="208" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#92400E">small Max</text>
-          <!-- Height arrow for Max -->
-          <line x1="232" y1="208" x2="232" y2="248" stroke="#D97706" stroke-width="2" stroke-dasharray="4 3"/>
-          <polygon points="232,203 228,213 236,213" fill="#D97706"/>
-          <polygon points="232,253 228,243 236,243" fill="#D97706"/>
+          <rect x="226" y="190" width="76" height="24" rx="12" fill="#FBBF24"/>
+          <text x="264" y="206" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#78350F">small Max</text>
+          <!-- Height arrow Max -->
+          <line x1="224" y1="204" x2="224" y2="248" stroke="#D97706" stroke-width="2" stroke-dasharray="5 3"/>
+          <polygon points="224,198 220,209 228,209" fill="#D97706"/>
+          <polygon points="224,254 220,244 228,244" fill="#D97706"/>
+          <!-- Sparkle stars -->
+          <path d="M220 70 L222 76 L228 76 L223 80 L225 86 L220 82 L215 86 L217 80 L212 76 L218 76 Z" fill="#FBBF24" opacity=".8"/>
+          <circle cx="30" cy="65" r="4" fill="#FCD34D" opacity=".7"/>
         </svg>
         <div class="illus-caption">Ella is big! Max is small!</div>
       </div>
@@ -403,65 +484,120 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#ECFEFF,#A5F3FC);">
         <div class="page-num-illus">Page 3</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="transparent"/>
-          <!-- Ground -->
-          <rect y="250" width="300" height="30" fill="#A5F3FC" opacity=".5"/>
+          <defs>
+            <linearGradient id="a3-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FEF3C7"/>
+              <stop offset="100%" stop-color="#FDE68A"/>
+            </linearGradient>
+            <linearGradient id="a3-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#86EFAC"/>
+              <stop offset="100%" stop-color="#15803D"/>
+            </linearGradient>
+            <linearGradient id="a3-trunk" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#A16207"/>
+              <stop offset="100%" stop-color="#78350F"/>
+            </linearGradient>
+            <radialGradient id="a3-tree" cx="38%" cy="32%" r="62%">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="55%" stop-color="#16A34A"/>
+              <stop offset="100%" stop-color="#14532D"/>
+            </radialGradient>
+            <radialGradient id="a3-ella" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#E5E7EB"/>
+              <stop offset="55%" stop-color="#9CA3AF"/>
+              <stop offset="100%" stop-color="#374151"/>
+            </radialGradient>
+            <radialGradient id="a3-max" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="55%" stop-color="#D97706"/>
+              <stop offset="100%" stop-color="#78350F"/>
+            </radialGradient>
+            <radialGradient id="a3-sun" cx="40%" cy="38%" r="60%">
+              <stop offset="0%" stop-color="#FFFBEB"/>
+              <stop offset="55%" stop-color="#FCD34D"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <filter id="a3-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky warm afternoon -->
+          <rect width="300" height="280" fill="url(#a3-sky)"/>
+          <!-- Sun -->
+          <circle cx="265" cy="28" r="26" fill="#FEF9C3" opacity=".7"/>
+          <circle cx="265" cy="28" r="17" fill="url(#a3-sun)"/>
+          <!-- Clouds -->
+          <g opacity=".8">
+            <ellipse cx="80" cy="30" rx="26" ry="12" fill="white"/>
+            <ellipse cx="98" cy="24" rx="18" ry="11" fill="white"/>
+            <ellipse cx="62" cy="33" rx="15" ry="9" fill="white"/>
+          </g>
+          <!-- Grass -->
+          <path d="M0 250 Q75 240 150 248 Q225 256 300 244 L300 280 L0 280 Z" fill="url(#a3-grass)"/>
+          <path d="M0 260 Q90 252 180 257 Q240 260 300 254 L300 280 L0 280 Z" fill="#14532D" opacity=".45"/>
+          <!-- Grass blades -->
+          <line x1="160" y1="250" x2="156" y2="240" stroke="#22C55E" stroke-width="2" stroke-linecap="round"/>
+          <line x1="170" y1="249" x2="175" y2="239" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
           <!-- TALL TREE (left) -->
-          <!-- Trunk -->
-          <rect x="55" y="130" width="28" height="120" rx="8" fill="#92400E"/>
-          <!-- Tree top -->
-          <circle cx="69" cy="105" r="60" fill="#059669" opacity=".85"/>
-          <circle cx="48" cy="130" r="38" fill="#10B981" opacity=".7"/>
-          <circle cx="92" cy="128" r="38" fill="#10B981" opacity=".7"/>
-          <!-- Tree top highlight -->
-          <circle cx="60" cy="85" r="22" fill="#34D399" opacity=".5"/>
+          <g filter="url(#a3-sh)">
+            <rect x="57" y="135" width="26" height="116" rx="8" fill="url(#a3-trunk)"/>
+            <circle cx="70" cy="108" r="58" fill="url(#a3-tree)"/>
+            <circle cx="48" cy="132" r="36" fill="#22C55E" opacity=".75"/>
+            <circle cx="94" cy="130" r="36" fill="#22C55E" opacity=".75"/>
+            <circle cx="60" cy="88" r="20" fill="#4ADE80" opacity=".5"/>
+            <!-- Branch detail -->
+            <line x1="70" y1="140" x2="50" y2="120" stroke="#78350F" stroke-width="4" stroke-linecap="round"/>
+            <line x1="70" y1="145" x2="90" y2="125" stroke="#78350F" stroke-width="4" stroke-linecap="round"/>
+          </g>
           <!-- Tall label -->
-          <rect x="10" y="58" width="70" height="22" rx="11" fill="#0891B2"/>
-          <text x="45" y="73" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="white">TALL</text>
-          <!-- Height arrow for tree -->
-          <line x1="22" y1="75" x2="22" y2="248" stroke="#0891B2" stroke-width="2" stroke-dasharray="4 3"/>
-          <polygon points="22,70 18,80 26,80" fill="#0891B2"/>
-          <polygon points="22,253 18,243 26,243" fill="#0891B2"/>
-
+          <rect x="8" y="55" width="72" height="24" rx="12" fill="#0891B2"/>
+          <text x="44" y="71" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="white">TALL</text>
+          <line x1="20" y1="73" x2="20" y2="248" stroke="#0891B2" stroke-width="2" stroke-dasharray="5 3"/>
+          <polygon points="20,67 16,78 24,78" fill="#0891B2"/>
+          <polygon points="20,254 16,244 24,244" fill="#0891B2"/>
           <!-- SHORT FLOWER (right) -->
-          <!-- Stem -->
-          <line x1="228" y1="210" x2="228" y2="250" stroke="#059669" stroke-width="6" stroke-linecap="round"/>
-          <!-- Leaf -->
-          <ellipse cx="218" cy="234" rx="12" ry="6" fill="#10B981" transform="rotate(-30 218 234)"/>
-          <!-- Petals -->
-          <circle cx="228" cy="196" r="8" fill="#FDE68A"/>
-          <circle cx="218" cy="206" r="8" fill="#FDE68A"/>
-          <circle cx="238" cy="206" r="8" fill="#FDE68A"/>
-          <circle cx="215" cy="193" r="8" fill="#FDE68A"/>
-          <circle cx="241" cy="193" r="8" fill="#FDE68A"/>
-          <!-- Centre -->
-          <circle cx="228" cy="200" r="12" fill="#F59E0B"/>
-          <circle cx="228" cy="200" r="7" fill="#D97706"/>
-          <!-- Short label -->
-          <rect x="194" y="162" width="68" height="22" rx="11" fill="#FBBF24"/>
-          <text x="228" y="177" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#92400E">short</text>
-          <!-- Height arrow for flower -->
-          <line x1="270" y1="177" x2="270" y2="248" stroke="#D97706" stroke-width="2" stroke-dasharray="4 3"/>
-          <polygon points="270,172 266,182 274,182" fill="#D97706"/>
-          <polygon points="270,253 266,243 274,243" fill="#D97706"/>
-
-          <!-- Ella peeking (small, right of tree) -->
-          <ellipse cx="145" cy="220" rx="32" ry="24" fill="#9CA3AF"/>
-          <circle cx="130" cy="200" r="22" fill="#9CA3AF"/>
-          <ellipse cx="112" cy="198" rx="14" ry="18" fill="#6B7280"/>
-          <ellipse cx="112" cy="198" rx="9" ry="12" fill="#9CA3AF"/>
-          <circle cx="125" cy="194" r="4" fill="#1C1917"/>
-          <circle cx="126" cy="193" r="1.4" fill="white"/>
-          <path d="M118 210 Q105 222 108 235" stroke="#6B7280" stroke-width="8" fill="none" stroke-linecap="round"/>
-
-          <!-- Max standing next to flower -->
-          <ellipse cx="200" cy="244" rx="12" ry="8" fill="#A16207"/>
-          <circle cx="198" cy="232" r="9" fill="#D97706"/>
-          <circle cx="191" cy="224" r="6.5" fill="#D97706"/><circle cx="191" cy="224" r="3.5" fill="#FDE68A"/>
-          <circle cx="205" cy="224" r="6.5" fill="#D97706"/><circle cx="205" cy="224" r="3.5" fill="#FDE68A"/>
-          <circle cx="194" cy="231" r="2" fill="#1C1917"/>
-          <circle cx="202" cy="231" r="2" fill="#1C1917"/>
-          <path d="M194 237 Q198 241 202 237" stroke="#92400E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <g filter="url(#a3-sh)">
+            <line x1="232" y1="212" x2="232" y2="250" stroke="#16A34A" stroke-width="7" stroke-linecap="round"/>
+            <path d="M232 234 Q218 230 212 240" stroke="#22C55E" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- Petals -->
+            <circle cx="232" cy="197" r="9" fill="#FDE68A"/>
+            <circle cx="221" cy="207" r="9" fill="#FDE68A"/>
+            <circle cx="243" cy="207" r="9" fill="#FDE68A"/>
+            <circle cx="218" cy="194" r="9" fill="#FDE68A"/>
+            <circle cx="246" cy="194" r="9" fill="#FDE68A"/>
+            <!-- Centre -->
+            <circle cx="232" cy="202" r="13" fill="#F59E0B"/>
+            <circle cx="232" cy="202" r="7.5" fill="#D97706"/>
+          </g>
+          <rect x="196" y="163" width="72" height="24" rx="12" fill="#FBBF24"/>
+          <text x="232" y="179" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#78350F">short</text>
+          <line x1="274" y1="177" x2="274" y2="248" stroke="#D97706" stroke-width="2" stroke-dasharray="5 3"/>
+          <polygon points="274,171 270,182 278,182" fill="#D97706"/>
+          <polygon points="274,254 270,244 278,244" fill="#D97706"/>
+          <!-- Ella peeking from behind tree -->
+          <g filter="url(#a3-sh)">
+            <ellipse cx="147" cy="222" rx="33" ry="25" fill="url(#a3-ella)"/>
+            <circle cx="132" cy="202" r="23" fill="url(#a3-ella)"/>
+            <ellipse cx="114" cy="200" rx="15" ry="19" fill="#6B7280"/>
+            <ellipse cx="114" cy="200" rx="9" ry="12" fill="#9CA3AF"/>
+            <circle cx="127" cy="195" r="4.5" fill="#111827"/>
+            <circle cx="128.5" cy="193.5" r="1.6" fill="white"/>
+            <path d="M120 213 Q107 225 110 237" stroke="#4B5563" stroke-width="9" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Max next to flower -->
+          <g filter="url(#a3-sh)">
+            <ellipse cx="200" cy="244" rx="13" ry="9" fill="url(#a3-max)"/>
+            <circle cx="198" cy="232" r="10" fill="url(#a3-max)"/>
+            <circle cx="190" cy="223" r="7" fill="#D97706"/><circle cx="190" cy="223" r="4" fill="#FDE68A"/>
+            <circle cx="206" cy="222" r="7" fill="#D97706"/><circle cx="206" cy="222" r="4" fill="#FDE68A"/>
+            <circle cx="193" cy="231" r="2.5" fill="#111827"/>
+            <circle cx="203" cy="231" r="2.5" fill="#111827"/>
+            <circle cx="193.8" cy="230.2" r=".9" fill="white"/>
+            <path d="M194 238 Q198 243 203 238" stroke="#92400E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Sparkles -->
+          <circle cx="250" cy="60" r="4" fill="#F97316" opacity=".7"/>
+          <circle cx="30" cy="100" r="3.5" fill="#FBBF24" opacity=".7"/>
         </svg>
         <div class="illus-caption">Tall things go up, up, up! Short things stay low!</div>
       </div>
@@ -505,52 +641,85 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#ECFEFF,#CFFAFE);">
         <div class="page-num-illus">Page 4</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="transparent"/>
-          <!-- Ground -->
-          <rect y="248" width="300" height="32" fill="#A5F3FC" opacity=".4"/>
-
-          <!-- ELLA - showing long trunk -->
-          <!-- Body -->
-          <ellipse cx="100" cy="185" rx="60" ry="46" fill="#9CA3AF"/>
-          <!-- Head -->
-          <circle cx="62" cy="148" r="40" fill="#9CA3AF"/>
-          <!-- Ear -->
-          <ellipse cx="34" cy="145" rx="22" ry="28" fill="#6B7280"/>
-          <ellipse cx="34" cy="145" rx="14" ry="19" fill="#9CA3AF"/>
-          <!-- Eye -->
-          <circle cx="56" cy="138" r="6" fill="#1C1917"/>
-          <circle cx="57.5" cy="136.5" r="2" fill="white"/>
-          <!-- Smile -->
-          <path d="M66 158 Q76 164 86 160" stroke="#6B7280" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- LONG TRUNK curving way out -->
-          <path d="M50 166 Q20 190 18 220 Q16 240 30 248 Q44 256 55 245 Q70 232 80 248" stroke="#6B7280" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Legs -->
-          <rect x="64" y="218" width="22" height="30" rx="11" fill="#6B7280"/>
-          <rect x="100" y="220" width="22" height="28" rx="11" fill="#6B7280"/>
-          <rect x="136" y="220" width="20" height="26" rx="10" fill="#6B7280"/>
-
-          <!-- LONG label with measurement line -->
-          <rect x="6" y="248" width="100" height="8" rx="4" fill="#06B6D4" opacity=".8"/>
-          <rect x="6" y="108" width="100" height="8" rx="4" fill="#06B6D4" opacity=".4"/>
-          <line x1="6" y1="112" x2="6" y2="252" stroke="#06B6D4" stroke-width="2"/>
-          <line x1="106" y1="112" x2="106" y2="252" stroke="#06B6D4" stroke-width="2"/>
-          <rect x="24" y="78" width="80" height="24" rx="12" fill="#06B6D4"/>
-          <text x="64" y="94" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="white">LONG trunk!</text>
-
-          <!-- MAX with tiny tail -->
-          <ellipse cx="238" cy="240" rx="18" ry="12" fill="#A16207"/>
-          <circle cx="234" cy="224" r="13" fill="#D97706"/>
-          <circle cx="224" cy="213" r="9" fill="#D97706"/><circle cx="224" cy="213" r="5" fill="#FDE68A"/>
-          <circle cx="243" cy="212" r="9" fill="#D97706"/><circle cx="243" cy="212" r="5" fill="#FDE68A"/>
-          <circle cx="229" cy="222" r="3" fill="#1C1917"/><circle cx="229.8" cy="221.2" r="1" fill="white"/>
-          <circle cx="239" cy="222" r="3" fill="#1C1917"/>
-          <ellipse cx="234" cy="230" rx="4" ry="2.5" fill="#92400E"/>
-          <path d="M229 235 Q234 240 239 235" stroke="#92400E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <!-- SHORT tail -->
-          <path d="M252 244 Q260 246 258 252" stroke="#A16207" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <!-- short tail label -->
-          <rect x="220" y="196" width="68" height="22" rx="11" fill="#FBBF24"/>
-          <text x="254" y="211" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#92400E">short tail!</text>
+          <defs>
+            <linearGradient id="a4-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#CFFAFE"/>
+              <stop offset="100%" stop-color="#E0F2FE"/>
+            </linearGradient>
+            <linearGradient id="a4-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="100%" stop-color="#14532D"/>
+            </linearGradient>
+            <radialGradient id="a4-ella" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#E5E7EB"/>
+              <stop offset="55%" stop-color="#9CA3AF"/>
+              <stop offset="100%" stop-color="#374151"/>
+            </radialGradient>
+            <radialGradient id="a4-max" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="55%" stop-color="#D97706"/>
+              <stop offset="100%" stop-color="#78350F"/>
+            </radialGradient>
+            <filter id="a4-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="300" height="280" fill="url(#a4-sky)"/>
+          <!-- Clouds -->
+          <g opacity=".85">
+            <ellipse cx="55" cy="28" rx="24" ry="12" fill="white"/>
+            <ellipse cx="73" cy="22" rx="17" ry="11" fill="white"/>
+            <ellipse cx="38" cy="31" rx="14" ry="8" fill="white"/>
+          </g>
+          <g opacity=".8">
+            <ellipse cx="230" cy="35" rx="20" ry="10" fill="white"/>
+            <ellipse cx="246" cy="29" rx="15" ry="9" fill="white"/>
+            <ellipse cx="216" cy="38" rx="12" ry="8" fill="white"/>
+          </g>
+          <!-- Grass -->
+          <path d="M0 248 Q75 238 150 246 Q225 254 300 242 L300 280 L0 280 Z" fill="url(#a4-grass)"/>
+          <path d="M0 258 Q90 250 180 255 Q240 258 300 252 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+          <!-- Measurement bracket for trunk -->
+          <rect x="5" y="248" width="100" height="7" rx="3.5" fill="#06B6D4" opacity=".75"/>
+          <rect x="5" y="106" width="100" height="7" rx="3.5" fill="#06B6D4" opacity=".35"/>
+          <line x1="5" y1="110" x2="5" y2="252" stroke="#06B6D4" stroke-width="2"/>
+          <line x1="105" y1="110" x2="105" y2="252" stroke="#06B6D4" stroke-width="2"/>
+          <rect x="22" y="76" width="82" height="26" rx="13" fill="#06B6D4"/>
+          <text x="63" y="93" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="white">LONG trunk!</text>
+          <!-- ELLA -->
+          <g filter="url(#a4-sh)">
+            <ellipse cx="100" cy="185" rx="61" ry="47" fill="url(#a4-ella)"/>
+            <circle cx="62" cy="148" r="41" fill="url(#a4-ella)"/>
+            <ellipse cx="33" cy="145" rx="23" ry="29" fill="#6B7280"/>
+            <ellipse cx="33" cy="145" rx="15" ry="19" fill="#9CA3AF"/>
+            <circle cx="56" cy="138" r="6.5" fill="#111827"/>
+            <circle cx="57.5" cy="136.5" r="2.2" fill="white"/>
+            <circle cx="58.3" cy="137.3" r="0.9" fill="#BAE6FD"/>
+            <path d="M67 158 Q77 165 88 161" stroke="#4B5563" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- Long trunk curving far down -->
+            <path d="M50 165 Q20 188 17 220 Q15 240 28 248 Q42 258 55 246 Q68 233 80 248" stroke="#4B5563" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="64" y="218" width="23" height="32" rx="11" fill="#4B5563"/>
+            <rect x="100" y="220" width="23" height="30" rx="11" fill="#4B5563"/>
+            <rect x="136" y="220" width="21" height="28" rx="10" fill="#4B5563"/>
+          </g>
+          <!-- MAX with short tail -->
+          <g filter="url(#a4-sh)">
+            <ellipse cx="237" cy="240" rx="19" ry="13" fill="url(#a4-max)"/>
+            <circle cx="233" cy="224" r="14" fill="url(#a4-max)"/>
+            <circle cx="223" cy="212" r="10" fill="#D97706"/><circle cx="223" cy="212" r="5.5" fill="#FDE68A"/>
+            <circle cx="243" cy="211" r="10" fill="#D97706"/><circle cx="243" cy="211" r="5.5" fill="#FDE68A"/>
+            <circle cx="228" cy="222" r="3.5" fill="#111827"/><circle cx="229" cy="221" r="1.2" fill="white"/>
+            <circle cx="239" cy="222" r="3.5" fill="#111827"/>
+            <ellipse cx="233" cy="230" rx="4.5" ry="3" fill="#78350F"/>
+            <path d="M228 235 Q233 241 238 235" stroke="#92400E" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <!-- Short tail -->
+            <path d="M252 244 Q262 247 260 254" stroke="#A16207" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <rect x="218" y="196" width="72" height="24" rx="12" fill="#FBBF24"/>
+          <text x="254" y="212" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#78350F">short tail!</text>
+          <!-- Sparkle -->
+          <path d="M270 65 L272 71 L278 71 L273 75 L275 81 L270 77 L265 81 L267 75 L262 71 L268 71 Z" fill="#FCD34D" opacity=".85"/>
         </svg>
         <div class="illus-caption">Ella's trunk is long! Max's tail is short!</div>
       </div>
@@ -597,42 +766,89 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#ECFEFF,#A5F3FC);">
         <div class="page-num-illus">Page 5</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="#ECFEFF"/>
-          <!-- Balance stand -->
-          <rect x="138" y="190" width="24" height="70" rx="6" fill="#92400E"/>
-          <ellipse cx="150" cy="260" rx="40" ry="12" fill="#7C2D12" opacity=".5"/>
-          <!-- Pivot point -->
-          <circle cx="150" cy="190" r="10" fill="#D97706"/>
-          <!-- Scale beam (tilted — Ella side down) -->
-          <line x1="30" y1="210" x2="270" y2="170" stroke="#92400E" stroke-width="10" stroke-linecap="round"/>
-          <!-- Left platform (Ella - heavy, down) -->
-          <rect x="22" y="210" width="56" height="8" rx="4" fill="#6B7280"/>
-          <line x1="30" y1="210" x2="30" y2="220" stroke="#6B7280" stroke-width="3"/>
-          <line x1="78" y1="210" x2="78" y2="220" stroke="#6B7280" stroke-width="3"/>
-          <!-- Right platform (Max - light, up) -->
-          <rect x="222" y="170" width="56" height="8" rx="4" fill="#6B7280"/>
-          <line x1="230" y1="170" x2="230" y2="180" stroke="#6B7280" stroke-width="3"/>
-          <line x1="278" y1="170" x2="278" y2="180" stroke="#6B7280" stroke-width="3"/>
-          <!-- Ella on left platform (simplified) -->
-          <ellipse cx="50" cy="200" rx="26" ry="16" fill="#9CA3AF"/>
-          <circle cx="38" cy="188" r="14" fill="#9CA3AF"/>
-          <ellipse cx="26" cy="186" rx="10" ry="13" fill="#6B7280"/>
-          <ellipse cx="26" cy="186" rx="6" ry="8" fill="#9CA3AF"/>
-          <circle cx="36" cy="184" r="3" fill="#1C1917"/>
-          <circle cx="36.8" cy="183" r="1" fill="white"/>
-          <path d="M30 196 Q20 206 22 214" stroke="#6B7280" stroke-width="7" fill="none" stroke-linecap="round"/>
-          <!-- Max on right platform (very tiny) -->
-          <ellipse cx="250" cy="164" rx="12" ry="8" fill="#A16207"/>
-          <circle cx="248" cy="157" r="8" fill="#D97706"/>
-          <circle cx="242" cy="150" r="6" fill="#D97706"/><circle cx="242" cy="150" r="3.5" fill="#FDE68A"/>
-          <circle cx="255" cy="150" r="6" fill="#D97706"/><circle cx="255" cy="150" r="3.5" fill="#FDE68A"/>
-          <circle cx="245" cy="157" r="2" fill="#1C1917"/>
-          <circle cx="252" cy="157" r="2" fill="#1C1917"/>
+          <defs>
+            <linearGradient id="a5-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E0F2FE"/>
+              <stop offset="100%" stop-color="#BAE6FD"/>
+            </linearGradient>
+            <linearGradient id="a5-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#86EFAC"/>
+              <stop offset="100%" stop-color="#15803D"/>
+            </linearGradient>
+            <linearGradient id="a5-stand" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#B45309"/>
+              <stop offset="100%" stop-color="#78350F"/>
+            </linearGradient>
+            <radialGradient id="a5-ella" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#E5E7EB"/>
+              <stop offset="55%" stop-color="#9CA3AF"/>
+              <stop offset="100%" stop-color="#374151"/>
+            </radialGradient>
+            <radialGradient id="a5-max" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="55%" stop-color="#D97706"/>
+              <stop offset="100%" stop-color="#78350F"/>
+            </radialGradient>
+            <filter id="a5-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="300" height="280" fill="url(#a5-sky)"/>
+          <!-- Clouds -->
+          <g opacity=".85">
+            <ellipse cx="60" cy="26" rx="26" ry="13" fill="white"/>
+            <ellipse cx="78" cy="20" rx="18" ry="12" fill="white"/>
+            <ellipse cx="44" cy="29" rx="14" ry="9" fill="white"/>
+          </g>
+          <!-- Grass -->
+          <path d="M0 252 Q75 242 150 250 Q225 258 300 246 L300 280 L0 280 Z" fill="url(#a5-grass)"/>
+          <path d="M0 262 Q90 254 180 259 Q240 262 300 256 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+          <!-- Seesaw stand -->
+          <rect x="138" y="192" width="24" height="68" rx="7" fill="url(#a5-stand)"/>
+          <ellipse cx="150" cy="262" rx="38" ry="11" fill="#78350F" opacity=".5"/>
+          <circle cx="150" cy="192" r="11" fill="#D97706"/>
+          <circle cx="150" cy="192" r="6" fill="#FBBF24"/>
+          <!-- Beam (tilted - Ella side down) -->
+          <rect x="26" y="207" width="248" height="10" rx="5" fill="url(#a5-stand)" transform="rotate(-8 150 192)"/>
+          <!-- Left chain strings -->
+          <line x1="32" y1="212" x2="32" y2="224" stroke="#6B7280" stroke-width="2.5"/>
+          <line x1="76" y1="216" x2="76" y2="228" stroke="#6B7280" stroke-width="2.5"/>
+          <!-- Left platform (Ella - down) -->
+          <rect x="24" y="224" width="58" height="9" rx="4.5" fill="#6B7280"/>
+          <!-- Right chain strings -->
+          <line x1="226" y1="170" x2="226" y2="182" stroke="#6B7280" stroke-width="2.5"/>
+          <line x1="272" y1="166" x2="272" y2="178" stroke="#6B7280" stroke-width="2.5"/>
+          <!-- Right platform (Max - up) -->
+          <rect x="218" y="178" width="58" height="9" rx="4.5" fill="#6B7280"/>
+          <!-- ELLA on left platform (small but detailed) -->
+          <g filter="url(#a5-sh)">
+            <ellipse cx="52" cy="212" rx="27" ry="17" fill="url(#a5-ella)"/>
+            <circle cx="38" cy="199" r="15" fill="url(#a5-ella)"/>
+            <ellipse cx="25" cy="197" rx="11" ry="14" fill="#6B7280"/>
+            <ellipse cx="25" cy="197" rx="7" ry="9" fill="#9CA3AF"/>
+            <circle cx="36" cy="195" r="3.5" fill="#111827"/>
+            <circle cx="37" cy="194" r="1.2" fill="white"/>
+            <path d="M30 207 Q20 217 22 226" stroke="#4B5563" stroke-width="7.5" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- MAX on right platform (tiny) -->
+          <g filter="url(#a5-sh)">
+            <ellipse cx="248" cy="172" rx="13" ry="9" fill="url(#a5-max)"/>
+            <circle cx="246" cy="163" r="9" fill="url(#a5-max)"/>
+            <circle cx="238" cy="155" r="7" fill="#D97706"/><circle cx="238" cy="155" r="4" fill="#FDE68A"/>
+            <circle cx="254" cy="154" r="7" fill="#D97706"/><circle cx="254" cy="154" r="4" fill="#FDE68A"/>
+            <circle cx="242" cy="162" r="2.4" fill="#111827"/>
+            <circle cx="250" cy="162" r="2.4" fill="#111827"/>
+            <circle cx="242.7" cy="161.2" r=".9" fill="white"/>
+          </g>
           <!-- Labels -->
-          <rect x="12" y="224" width="76" height="22" rx="11" fill="#06B6D4"/>
-          <text x="50" y="239" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="white">HEAVY ⬇</text>
-          <rect x="212" y="182" width="76" height="22" rx="11" fill="#FBBF24"/>
-          <text x="250" y="197" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#92400E">light ⬆</text>
+          <rect x="10" y="238" width="80" height="24" rx="12" fill="#06B6D4"/>
+          <text x="50" y="254" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="white">HEAVY ⬇</text>
+          <rect x="208" y="188" width="80" height="24" rx="12" fill="#FBBF24"/>
+          <text x="248" y="204" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#78350F">light ⬆</text>
+          <!-- Sparkles -->
+          <circle cx="280" cy="40" r="5" fill="#FCD34D" opacity=".7"/>
+          <path d="M18 60 L20 66 L26 66 L21 70 L23 76 L18 72 L13 76 L15 70 L10 66 L16 66 Z" fill="#BAE6FD" opacity=".85"/>
         </svg>
         <div class="illus-caption">Ella is heavy! Max is light!</div>
       </div>
@@ -675,62 +891,103 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#ECFEFF,#CFFAFE);">
         <div class="page-num-illus">Page 6</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="transparent"/>
-          <!-- Four mini panels in a 2x2 grid -->
+          <defs>
+            <radialGradient id="a6-ella" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#E5E7EB"/>
+              <stop offset="55%" stop-color="#9CA3AF"/>
+              <stop offset="100%" stop-color="#374151"/>
+            </radialGradient>
+            <radialGradient id="a6-max" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="55%" stop-color="#D97706"/>
+              <stop offset="100%" stop-color="#78350F"/>
+            </radialGradient>
+            <radialGradient id="a6-tree" cx="38%" cy="32%" r="62%">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="55%" stop-color="#16A34A"/>
+              <stop offset="100%" stop-color="#14532D"/>
+            </radialGradient>
+            <filter id="a6-sh">
+              <feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-opacity="0.18"/>
+            </filter>
+          </defs>
+          <!-- Background -->
+          <rect width="300" height="280" fill="#F0FDFA"/>
           <!-- Panel 1: Big/Small -->
-          <rect x="8" y="10" width="132" height="125" rx="14" fill="#CFFAFE" stroke="#67E8F9" stroke-width="2"/>
-          <text x="74" y="30" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#0891B2">BIG ↔ small</text>
+          <rect x="8" y="10" width="132" height="127" rx="14" fill="#CFFAFE" stroke="#67E8F9" stroke-width="2"/>
+          <text x="74" y="29" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#0891B2">BIG ↔ small</text>
           <!-- Mini Ella -->
-          <ellipse cx="52" cy="100" rx="34" ry="26" fill="#9CA3AF"/>
-          <circle cx="34" cy="80" r="22" fill="#9CA3AF"/>
-          <ellipse cx="18" cy="78" rx="13" ry="16" fill="#6B7280"/>
-          <ellipse cx="18" cy="78" rx="8" ry="10" fill="#9CA3AF"/>
-          <circle cx="30" cy="75" r="4" fill="#1C1917"/>
-          <path d="M26 90 Q16 100 18 112" stroke="#6B7280" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <g filter="url(#a6-sh)">
+            <ellipse cx="52" cy="100" rx="34" ry="26" fill="url(#a6-ella)"/>
+            <circle cx="34" cy="78" r="22" fill="url(#a6-ella)"/>
+            <ellipse cx="17" cy="76" rx="13" ry="16" fill="#6B7280"/>
+            <ellipse cx="17" cy="76" rx="8" ry="10" fill="#9CA3AF"/>
+            <circle cx="30" cy="73" r="4" fill="#111827"/>
+            <circle cx="31" cy="72" r="1.4" fill="white"/>
+            <path d="M24 88 Q14 99 17 112" stroke="#4B5563" stroke-width="7.5" fill="none" stroke-linecap="round"/>
+          </g>
           <!-- Mini Max -->
-          <ellipse cx="108" cy="112" rx="12" ry="8" fill="#A16207"/>
-          <circle cx="106" cy="102" r="9" fill="#D97706"/>
-          <circle cx="99" cy="95" r="6.5" fill="#D97706"/><circle cx="99" cy="95" r="3.5" fill="#FDE68A"/>
-          <circle cx="113" cy="95" r="6.5" fill="#D97706"/><circle cx="113" cy="95" r="3.5" fill="#FDE68A"/>
-          <circle cx="103" cy="101" r="2.2" fill="#1C1917"/>
-          <circle cx="110" cy="101" r="2.2" fill="#1C1917"/>
-
+          <g filter="url(#a6-sh)">
+            <ellipse cx="108" cy="113" rx="13" ry="9" fill="url(#a6-max)"/>
+            <circle cx="106" cy="102" r="10" fill="url(#a6-max)"/>
+            <circle cx="97" cy="93" r="7" fill="#D97706"/><circle cx="97" cy="93" r="4" fill="#FDE68A"/>
+            <circle cx="114" cy="93" r="7" fill="#D97706"/><circle cx="114" cy="93" r="4" fill="#FDE68A"/>
+            <circle cx="102" cy="101" r="2.5" fill="#111827"/>
+            <circle cx="111" cy="101" r="2.5" fill="#111827"/>
+            <circle cx="102.7" cy="100.2" r=".9" fill="white"/>
+          </g>
           <!-- Panel 2: Tall/Short -->
-          <rect x="158" y="10" width="132" height="125" rx="14" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="2"/>
-          <text x="224" y="30" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#059669">TALL ↔ short</text>
+          <rect x="158" y="10" width="132" height="127" rx="14" fill="#ECFDF5" stroke="#6EE7B7" stroke-width="2"/>
+          <text x="224" y="29" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#059669">TALL ↔ short</text>
           <!-- Mini tall tree -->
-          <rect x="185" y="60" width="14" height="65" rx="5" fill="#92400E"/>
-          <circle cx="192" cy="52" r="28" fill="#10B981" opacity=".8"/>
+          <g filter="url(#a6-sh)">
+            <rect x="186" y="62" width="13" height="64" rx="5" fill="#A16207"/>
+            <circle cx="192" cy="54" r="28" fill="url(#a6-tree)"/>
+            <circle cx="176" cy="68" r="18" fill="#22C55E" opacity=".7"/>
+            <circle cx="208" cy="68" r="18" fill="#22C55E" opacity=".7"/>
+          </g>
           <!-- Mini short flower -->
-          <line x1="248" y1="100" x2="248" y2="125" stroke="#059669" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="248" cy="92" r="14" fill="#FDE68A"/>
-          <circle cx="248" cy="92" r="8" fill="#F59E0B"/>
-
+          <g filter="url(#a6-sh)">
+            <line x1="249" y1="102" x2="249" y2="127" stroke="#16A34A" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="249" cy="94" r="7" fill="#FDE68A"/>
+            <circle cx="241" cy="100" r="7" fill="#FDE68A"/>
+            <circle cx="257" cy="100" r="7" fill="#FDE68A"/>
+            <circle cx="249" cy="96" r="9" fill="#F59E0B"/>
+            <circle cx="249" cy="96" r="5" fill="#D97706"/>
+          </g>
           <!-- Panel 3: Long/Short -->
-          <rect x="8" y="148" width="132" height="122" rx="14" fill="#FFF7ED" stroke="#FDE68A" stroke-width="2"/>
-          <text x="74" y="168" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#D97706">LONG ↔ short</text>
-          <!-- Long ribbon -->
-          <path d="M18 215 Q60 200 102 215 Q120 220 130 228" stroke="#F97316" stroke-width="6" fill="none" stroke-linecap="round"/>
-          <text x="74" y="252" text-anchor="middle" font-family="Quicksand" font-weight="600" font-size="9" fill="#C2410C">long</text>
+          <rect x="8" y="148" width="132" height="124" rx="14" fill="#FFF7ED" stroke="#FDE68A" stroke-width="2"/>
+          <text x="74" y="167" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#D97706">LONG ↔ short</text>
+          <!-- Long wavy ribbon -->
+          <path d="M16 215 Q40 203 68 213 Q96 223 126 213" stroke="#F97316" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <text x="71" y="230" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#C2410C">long</text>
           <!-- Short pencil -->
-          <rect x="46" y="180" width="56" height="10" rx="5" fill="#FBBF24"/>
-          <polygon points="102,180 102,190 112,185" fill="#F97316"/>
-          <text x="74" y="200" text-anchor="middle" font-family="Quicksand" font-weight="600" font-size="9" fill="#C2410C">short</text>
-
+          <rect x="46" y="182" width="56" height="11" rx="5.5" fill="#FBBF24"/>
+          <polygon points="102,182 102,193 114,187.5" fill="#F97316"/>
+          <rect x="46" y="182" width="14" height="11" rx="3" fill="#E5E7EB"/>
+          <text x="71" y="267" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#C2410C">short</text>
           <!-- Panel 4: Heavy/Light -->
-          <rect x="158" y="148" width="132" height="122" rx="14" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="2"/>
-          <text x="224" y="168" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#6D28D9">HEAVY ↔ light</text>
-          <!-- Mini balance -->
-          <rect x="218" y="232" width="12" height="36" rx="4" fill="#92400E"/>
-          <line x1="175" y1="218" x2="255" y2="210" stroke="#92400E" stroke-width="7" stroke-linecap="round"/>
-          <!-- Heavy side (down) -->
-          <rect x="167" y="218" width="28" height="5" rx="2.5" fill="#6B7280"/>
-          <ellipse cx="181" cy="213" rx="12" ry="7" fill="#9CA3AF"/>
-          <text x="181" y="240" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9">heavy</text>
-          <!-- Light side (up) -->
-          <rect x="239" y="210" width="28" height="5" rx="2.5" fill="#6B7280"/>
-          <circle cx="253" cy="205" r="5" fill="#D97706"/>
-          <text x="253" y="230" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9">light</text>
+          <rect x="158" y="148" width="132" height="124" rx="14" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="2"/>
+          <text x="224" y="167" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#6D28D9">HEAVY ↔ light</text>
+          <!-- Mini balance stand -->
+          <rect x="218" y="228" width="12" height="38" rx="4" fill="#A16207"/>
+          <ellipse cx="224" cy="268" rx="22" ry="7" fill="#78350F" opacity=".4"/>
+          <circle cx="224" cy="228" r="6" fill="#D97706"/>
+          <!-- Tilted beam -->
+          <rect x="172" y="216" width="100" height="8" rx="4" fill="#A16207" transform="rotate(-5 224 228)"/>
+          <!-- Heavy left platform -->
+          <rect x="164" y="222" width="30" height="6" rx="3" fill="#6B7280"/>
+          <ellipse cx="179" cy="217" rx="14" ry="8" fill="url(#a6-ella)" opacity=".9"/>
+          <!-- Light right platform -->
+          <rect x="246" y="210" width="30" height="6" rx="3" fill="#6B7280"/>
+          <circle cx="261" cy="206" r="6" fill="url(#a6-max)" opacity=".9"/>
+          <text x="179" y="244" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9">heavy</text>
+          <text x="261" y="232" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9">light</text>
+          <!-- Confetti dots -->
+          <circle cx="8" cy="145" r="4" fill="#EC4899" opacity=".75"/>
+          <circle cx="158" cy="143" r="4" fill="#FBBF24" opacity=".75"/>
+          <circle cx="284" cy="145" r="4" fill="#3B82F6" opacity=".75"/>
+          <path d="M140 168 L142 174 L148 174 L143 178 L145 184 L140 180 L135 184 L137 178 L132 174 L138 174 Z" fill="#F97316" opacity=".75"/>
         </svg>
         <div class="illus-caption">We can compare everything around us!</div>
       </div>
@@ -774,49 +1031,83 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#06B6D4,#0891B2);">
         <div class="page-num-illus">Page 7</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="transparent"/>
-          <!-- Celebration scene: Ella and Max together, happy -->
-          <!-- Ground -->
-          <ellipse cx="150" cy="260" rx="130" ry="20" fill="rgba(255,255,255,.15)"/>
-          <!-- Ella (big, centre-left) -->
-          <ellipse cx="110" cy="200" rx="70" ry="52" fill="#9CA3AF"/>
-          <circle cx="68" cy="158" r="48" fill="#9CA3AF"/>
-          <ellipse cx="36" cy="155" rx="28" ry="34" fill="#6B7280"/>
-          <ellipse cx="36" cy="155" rx="18" ry="22" fill="#9CA3AF"/>
-          <circle cx="60" cy="147" r="8" fill="#1C1917"/>
-          <circle cx="62" cy="145" r="2.8" fill="white"/>
-          <!-- Ella big smile -->
-          <path d="M74 168 Q88 178 102 172" stroke="#6B7280" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <!-- Trunk curled up (happy) -->
-          <path d="M55 178 Q30 198 35 222 Q38 232 50 228 Q62 220 56 208" stroke="#6B7280" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Legs -->
-          <rect x="62" y="238" width="26" height="32" rx="13" fill="#6B7280"/>
-          <rect x="102" y="240" width="26" height="30" rx="13" fill="#6B7280"/>
-          <rect x="144" y="238" width="24" height="28" rx="12" fill="#6B7280"/>
-
-          <!-- Max standing on Ella's back, happy -->
-          <ellipse cx="150" cy="155" rx="18" ry="12" fill="#A16207"/>
-          <circle cx="148" cy="140" r="14" fill="#D97706"/>
-          <circle cx="137" cy="129" r="10" fill="#D97706"/><circle cx="137" cy="129" r="6" fill="#FDE68A"/>
-          <circle cx="159" cy="128" r="10" fill="#D97706"/><circle cx="159" cy="128" r="6" fill="#FDE68A"/>
-          <circle cx="143" cy="139" r="3.5" fill="#1C1917"/><circle cx="143.8" cy="138.2" r="1.2" fill="white"/>
-          <circle cx="153" cy="139" r="3.5" fill="#1C1917"/>
-          <!-- Max big smile -->
-          <path d="M141 147 Q148 153 155 147" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <!-- Max waving arm -->
-          <path d="M162 142 Q172 132 168 122" stroke="#A16207" stroke-width="5" fill="none" stroke-linecap="round"/>
-
-          <!-- Stars/sparkles -->
-          <text x="220" y="60" font-size="22" fill="rgba(255,255,255,.85)">⭐</text>
-          <text x="248" y="100" font-size="16" fill="rgba(255,255,255,.7)">✨</text>
-          <text x="30" y="80" font-size="18" fill="rgba(255,255,255,.7)">⭐</text>
-          <text x="14" y="120" font-size="14" fill="rgba(255,255,255,.6)">✨</text>
-          <text x="260" y="150" font-size="12" fill="rgba(255,255,255,.6)">⭐</text>
-
+          <defs>
+            <linearGradient id="a7-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0E7490"/>
+              <stop offset="100%" stop-color="#06B6D4"/>
+            </linearGradient>
+            <linearGradient id="a7-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="100%" stop-color="#14532D"/>
+            </linearGradient>
+            <radialGradient id="a7-ella" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#E5E7EB"/>
+              <stop offset="55%" stop-color="#9CA3AF"/>
+              <stop offset="100%" stop-color="#374151"/>
+            </radialGradient>
+            <radialGradient id="a7-max" cx="36%" cy="28%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="55%" stop-color="#D97706"/>
+              <stop offset="100%" stop-color="#78350F"/>
+            </radialGradient>
+            <filter id="a7-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky gradient -->
+          <rect width="300" height="280" fill="url(#a7-sky)"/>
+          <!-- Stars sparkles scattered -->
+          <path d="M225 52 L227 58 L233 58 L228 62 L230 68 L225 64 L220 68 L222 62 L217 58 L223 58 Z" fill="#FCD34D" opacity=".9"/>
+          <path d="M35 74 L37 79 L43 79 L38 83 L40 88 L35 84 L30 88 L32 83 L27 79 L33 79 Z" fill="#FCD34D" opacity=".8"/>
+          <path d="M265 128 L267 133 L272 133 L268 137 L269.5 142 L265 139 L260.5 142 L262 137 L258 133 L263 133 Z" fill="white" opacity=".7"/>
+          <circle cx="14" cy="108" r="5" fill="white" opacity=".6"/>
+          <circle cx="280" cy="60" r="4" fill="#FCD34D" opacity=".7"/>
+          <circle cx="258" cy="95" r="3" fill="white" opacity=".6"/>
+          <!-- Confetti -->
+          <rect x="200" y="80" width="8" height="8" rx="2" fill="#EC4899" opacity=".85" transform="rotate(20 204 84)"/>
+          <rect x="245" y="108" width="7" height="7" rx="2" fill="#3B82F6" opacity=".8" transform="rotate(-15 248 111)"/>
+          <rect x="40" y="95" width="8" height="8" rx="2" fill="#FBBF24" opacity=".8" transform="rotate(30 44 99)"/>
+          <!-- Grass -->
+          <path d="M0 252 Q75 242 150 250 Q225 258 300 246 L300 280 L0 280 Z" fill="url(#a7-grass)"/>
+          <path d="M0 262 Q90 254 180 259 Q240 262 300 256 L300 280 L0 280 Z" fill="#14532D" opacity=".45"/>
+          <!-- Grass blades -->
+          <line x1="180" y1="252" x2="176" y2="242" stroke="#22C55E" stroke-width="2" stroke-linecap="round"/>
+          <line x1="192" y1="250" x2="196" y2="240" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+          <!-- ELLA (big, centre-left) -->
+          <g filter="url(#a7-sh)">
+            <ellipse cx="112" cy="202" rx="70" ry="52" fill="url(#a7-ella)"/>
+            <circle cx="69" cy="159" r="49" fill="url(#a7-ella)"/>
+            <ellipse cx="34" cy="155" rx="29" ry="35" fill="#6B7280"/>
+            <ellipse cx="34" cy="155" rx="18" ry="23" fill="#9CA3AF"/>
+            <circle cx="61" cy="148" r="8.5" fill="#111827"/>
+            <circle cx="63" cy="146" r="3" fill="white"/>
+            <circle cx="64" cy="147" r="1.2" fill="#BAE6FD"/>
+            <!-- Big smile -->
+            <path d="M73 170 Q88 180 103 173" stroke="#4B5563" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <!-- Trunk curled up (happy) -->
+            <path d="M55 180 Q30 200 35 224 Q38 234 50 229 Q63 221 57 209" stroke="#4B5563" stroke-width="14.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Legs -->
+            <rect x="62" y="240" width="27" height="33" rx="13" fill="#4B5563"/>
+            <rect x="103" y="242" width="27" height="31" rx="13" fill="#4B5563"/>
+            <rect x="146" y="240" width="25" height="29" rx="12" fill="#4B5563"/>
+          </g>
+          <!-- MAX on Ella's back, happy + waving -->
+          <g filter="url(#a7-sh)">
+            <ellipse cx="152" cy="155" rx="19" ry="13" fill="url(#a7-max)"/>
+            <circle cx="149" cy="140" r="15" fill="url(#a7-max)"/>
+            <circle cx="137" cy="128" r="11" fill="#D97706"/><circle cx="137" cy="128" r="6.5" fill="#FDE68A"/>
+            <circle cx="161" cy="127" r="11" fill="#D97706"/><circle cx="161" cy="127" r="6.5" fill="#FDE68A"/>
+            <circle cx="143" cy="139" r="3.8" fill="#111827"/><circle cx="144" cy="138" r="1.3" fill="white"/>
+            <circle cx="156" cy="139" r="3.8" fill="#111827"/>
+            <path d="M141 148 Q149 154 157 148" stroke="#92400E" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            <!-- Waving arm -->
+            <path d="M165 142 Q176 130 172 119" stroke="#A16207" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+            <circle cx="172" cy="118" r="6" fill="url(#a7-max)"/>
+          </g>
           <!-- Celebration banner -->
-          <rect x="180" y="30" width="110" height="56" rx="14" fill="rgba(255,255,255,.2)"/>
-          <text x="235" y="52" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="13" fill="white">We can</text>
-          <text x="235" y="70" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="13" fill="white">COMPARE!</text>
+          <rect x="178" y="26" width="114" height="60" rx="14" fill="rgba(255,255,255,.22)"/>
+          <text x="235" y="50" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="13" fill="white">We can</text>
+          <text x="235" y="70" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="13" fill="#FCD34D">COMPARE!</text>
         </svg>
         <div class="illus-caption">Great job — you can compare sizes! 🎉</div>
       </div>

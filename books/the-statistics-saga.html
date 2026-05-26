@@ -273,42 +273,191 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 2 – WHAT IS STATISTICS? -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">
-      <div class="page-num-illus">Page 2</div>
-      <div style="font-size:2rem;margin-bottom:6px;">👩‍🔬 🧑‍🔬</div>
-      <!-- SVG: Data table of 7-day temperatures -->
-      <svg width="260" height="170" viewBox="0 0 260 170" style="margin:0 auto;">
-        <rect x="0" y="0" width="260" height="170" rx="10" fill="white" stroke="#BAE6FD" stroke-width="2"/>
-        <!-- Header row -->
-        <rect x="0" y="0" width="260" height="32" rx="10" fill="#0369A1"/>
-        <rect x="0" y="20" width="260" height="12" fill="#0369A1"/>
-        <text x="65" y="21" text-anchor="middle" fill="white" font-size="11" font-weight="700">Day</text>
-        <text x="195" y="21" text-anchor="middle" fill="white" font-size="11" font-weight="700">Temp (°C)</text>
-        <!-- Divider -->
-        <line x1="130" y1="0" x2="130" y2="170" stroke="#BAE6FD" stroke-width="1.5"/>
-        <!-- Rows -->
-        <text x="65" y="52" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Monday</text>
-        <text x="195" y="52" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">18</text>
-        <line x1="0" y1="60" x2="260" y2="60" stroke="#E0F2FE" stroke-width="1"/>
-        <rect x="0" y="60" width="260" height="22" fill="#F0F9FF"/>
-        <text x="65" y="75" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Tuesday</text>
-        <text x="195" y="75" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">22</text>
-        <line x1="0" y1="82" x2="260" y2="82" stroke="#E0F2FE" stroke-width="1"/>
-        <text x="65" y="97" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Wednesday</text>
-        <text x="195" y="97" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">18</text>
-        <line x1="0" y1="104" x2="260" y2="104" stroke="#E0F2FE" stroke-width="1"/>
-        <rect x="0" y="104" width="260" height="22" fill="#F0F9FF"/>
-        <text x="65" y="119" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Thursday</text>
-        <text x="195" y="119" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">25</text>
-        <line x1="0" y1="126" x2="260" y2="126" stroke="#E0F2FE" stroke-width="1"/>
-        <text x="65" y="141" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Friday</text>
-        <text x="195" y="141" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">22</text>
-        <line x1="0" y1="148" x2="260" y2="148" stroke="#E0F2FE" stroke-width="1"/>
-        <rect x="0" y="148" width="260" height="22" fill="#F0F9FF" rx="0"/>
-        <text x="65" y="163" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="600">Saturday</text>
-        <text x="195" y="163" text-anchor="middle" fill="#0C4A6E" font-size="12" font-weight="700">30</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="color:#7dd3fc;">Page 2</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss2-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1a2e"/>
+            <stop offset="100%" stop-color="#0a2540"/>
+          </linearGradient>
+          <linearGradient id="ss2-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2038"/>
+            <stop offset="100%" stop-color="#0d1a2e"/>
+          </linearGradient>
+          <!-- Table gradient -->
+          <linearGradient id="ss2-tblhdr" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0369a1"/>
+            <stop offset="100%" stop-color="#0c4a6e"/>
+          </linearGradient>
+          <linearGradient id="ss2-tblbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2c4a"/>
+            <stop offset="100%" stop-color="#0a1e35"/>
+          </linearGradient>
+          <!-- Vera body -->
+          <radialGradient id="ss2-vera-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="ss2-vera-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <!-- Rex body -->
+          <radialGradient id="ss2-rex-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="ss2-rex-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <!-- Monitor screen glow -->
+          <radialGradient id="ss2-screen" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="ss2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="ss2-screengl">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Lab background -->
+        <rect width="300" height="280" fill="url(#ss2-bg)"/>
+        <!-- Back wall panels -->
+        <rect x="0" y="0" width="300" height="175" fill="url(#ss2-wall)"/>
+        <!-- Wall trim lines -->
+        <line x1="0" y1="175" x2="300" y2="175" stroke="#0f2c4a" stroke-width="2"/>
+        <line x1="0" y1="5" x2="300" y2="5" stroke="#0f2c4a" stroke-width="2"/>
+
+        <!-- Computer monitor on left -->
+        <rect x="22" y="85" width="72" height="52" rx="4" fill="#0f172a" stroke="#1e3a5f" stroke-width="2"/>
+        <rect x="26" y="89" width="64" height="42" rx="2" fill="#0a2540"/>
+        <!-- Screen glow effect -->
+        <rect x="26" y="89" width="64" height="42" rx="2" fill="url(#ss2-screen)" filter="url(#ss2-screengl)"/>
+        <!-- Chart on screen -->
+        <line x1="32" y1="124" x2="85" y2="124" stroke="#0369a1" stroke-width="1"/>
+        <line x1="32" y1="97" x2="32" y2="124" stroke="#0369a1" stroke-width="1"/>
+        <rect x="36" y="110" width="8" height="14" fill="#0ea5e9"/>
+        <rect x="48" y="105" width="8" height="19" fill="#38bdf8"/>
+        <rect x="60" y="113" width="8" height="11" fill="#0ea5e9"/>
+        <rect x="72" y="99" width="8" height="25" fill="#7dd3fc"/>
+        <!-- Monitor stand -->
+        <rect x="53" y="137" width="8" height="10" fill="#1e3a5f"/>
+        <rect x="44" y="146" width="26" height="4" rx="2" fill="#1e3a5f"/>
+
+        <!-- Whiteboard on right wall -->
+        <rect x="175" y="20" width="118" height="80" rx="4" fill="#0f2c4a" stroke="#1e3a5f" stroke-width="2"/>
+        <!-- Whiteboard content - equations -->
+        <text x="195" y="38" fill="#7dd3fc" font-size="8">Statistics:</text>
+        <text x="195" y="52" fill="#38bdf8" font-size="7">Data: {18, 22, 18, 25, 22, 30}</text>
+        <text x="195" y="64" fill="#fbbf24" font-size="7">Mean = 135 ÷ 6 = 22.5</text>
+        <text x="195" y="76" fill="#a78bfa" font-size="7">Mode = 18 and 22</text>
+        <text x="195" y="88" fill="#4ade80" font-size="7">Range = 30 - 18 = 12</text>
+        <!-- Whiteboard frame handle -->
+        <rect x="175" y="100" width="118" height="4" fill="#1e3a5f"/>
+
+        <!-- LAB BENCH / TABLE -->
+        <rect x="0" y="172" width="300" height="15" rx="0" fill="#1e3a5f"/>
+        <rect x="0" y="185" width="300" height="95" fill="#0a1e35"/>
+        <!-- Lab floor -->
+        <rect x="0" y="250" width="300" height="30" fill="#060d1a"/>
+        <!-- Floor tiles -->
+        <line x1="0" y1="258" x2="300" y2="258" stroke="#0d1a2e" stroke-width="1"/>
+        <line x1="75" y1="250" x2="75" y2="280" stroke="#0d1a2e" stroke-width="1"/>
+        <line x1="150" y1="250" x2="150" y2="280" stroke="#0d1a2e" stroke-width="1"/>
+        <line x1="225" y1="250" x2="225" y2="280" stroke="#0d1a2e" stroke-width="1"/>
+
+        <!-- DATA TABLE (center stage) -->
+        <g filter="url(#ss2-sh)">
+          <rect x="75" y="48" width="148" height="120" rx="7" fill="url(#ss2-tblbg)" stroke="#0369a1" stroke-width="1.5"/>
+          <!-- Header -->
+          <rect x="75" y="48" width="148" height="22" rx="7" fill="url(#ss2-tblhdr)"/>
+          <rect x="75" y="59" width="148" height="11" fill="url(#ss2-tblhdr)"/>
+          <text x="119" y="62" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">Day</text>
+          <text x="175" y="62" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">Temp (°C)</text>
+          <line x1="148" y1="48" x2="148" y2="168" stroke="#0369a1" stroke-width="1"/>
+
+          <!-- Rows -->
+          <rect x="75" y="90" width="148" height="18" fill="#0a1e35" opacity="0.5"/>
+          <text x="111" y="103" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-weight="600">Monday</text>
+          <text x="174" y="103" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">18</text>
+          <line x1="75" y1="108" x2="223" y2="108" stroke="#0369a1" stroke-width="0.8"/>
+
+          <text x="111" y="121" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-weight="600">Tuesday</text>
+          <text x="174" y="121" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">22</text>
+          <line x1="75" y1="126" x2="223" y2="126" stroke="#0369a1" stroke-width="0.8"/>
+
+          <rect x="75" y="126" width="148" height="18" fill="#0a1e35" opacity="0.5"/>
+          <text x="111" y="139" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-weight="600">Wednesday</text>
+          <text x="174" y="139" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">18</text>
+          <line x1="75" y1="144" x2="223" y2="144" stroke="#0369a1" stroke-width="0.8"/>
+
+          <text x="111" y="157" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-weight="600">Thursday</text>
+          <text x="174" y="157" text-anchor="middle" fill="#f97316" font-size="10" font-weight="700">25</text>
+          <line x1="75" y1="162" x2="223" y2="162" stroke="#0369a1" stroke-width="0.8"/>
+
+          <text x="111" y="75" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-weight="600">Friday</text>
+          <text x="174" y="75" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">22</text>
+          <line x1="75" y1="80" x2="223" y2="80" stroke="#0369a1" stroke-width="0.8"/>
+
+          <!-- Saturday highlighted in red (highest) -->
+          <rect x="75" y="162" width="148" height="6" rx="4" fill="#0369a1" opacity="0.5"/>
+        </g>
+        <text x="149" y="42" text-anchor="middle" fill="#7dd3fc" font-size="7.5" font-weight="700">CITY TEMPERATURE DATA</text>
+
+        <!-- DR VERA (left, near monitor) -->
+        <g filter="url(#ss2-sh)">
+          <ellipse cx="38" cy="218" rx="16" ry="24" fill="url(#ss2-vera-body)"/>
+          <rect x="29" y="198" width="18" height="8" rx="5" fill="#c4b5fd"/>
+          <ellipse cx="38" cy="197" rx="14" ry="15" fill="url(#ss2-vera-skin)"/>
+          <ellipse cx="38" cy="183" rx="13" ry="8" fill="#1f2937"/>
+          <!-- Lab coat overlay -->
+          <rect x="27" y="204" width="22" height="20" rx="3" fill="white" opacity="0.15"/>
+          <!-- Eyes + glasses -->
+          <circle cx="34" cy="196" r="3" fill="white"/>
+          <circle cx="34" cy="196" r="1.8" fill="#1f2937"/>
+          <circle cx="34.5" cy="195.4" r="0.7" fill="white"/>
+          <circle cx="42" cy="196" r="3" fill="white"/>
+          <circle cx="42" cy="196" r="1.8" fill="#1f2937"/>
+          <circle cx="42.5" cy="195.4" r="0.7" fill="white"/>
+          <rect x="30" y="193" width="7" height="5" rx="2.5" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <rect x="38" y="193" width="7" height="5" rx="2.5" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <line x1="37" y1="195" x2="38" y2="195" stroke="#fde68a" stroke-width="1"/>
+          <!-- Smile -->
+          <path d="M34 201 Q38 205 42 201" fill="none" stroke="#c97a3a" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Arm pointing at monitor -->
+          <line x1="52" y1="210" x2="75" y2="120" stroke="#c4b5fd" stroke-width="5" stroke-linecap="round"/>
+        </g>
+
+        <!-- DR REX (right, near whiteboard) -->
+        <g filter="url(#ss2-sh)">
+          <ellipse cx="260" cy="218" rx="16" ry="24" fill="url(#ss2-rex-body)"/>
+          <rect x="251" y="198" width="18" height="8" rx="5" fill="#6ee7b7"/>
+          <ellipse cx="260" cy="197" rx="14" ry="15" fill="url(#ss2-rex-skin)"/>
+          <ellipse cx="260" cy="183" rx="13" ry="8" fill="#92400e"/>
+          <!-- Lab coat overlay -->
+          <rect x="249" y="204" width="22" height="20" rx="3" fill="white" opacity="0.15"/>
+          <!-- Eyes -->
+          <circle cx="256" cy="196" r="3" fill="white"/>
+          <circle cx="256" cy="196" r="1.8" fill="#1f2937"/>
+          <circle cx="256.5" cy="195.4" r="0.7" fill="white"/>
+          <circle cx="264" cy="196" r="3" fill="white"/>
+          <circle cx="264" cy="196" r="1.8" fill="#1f2937"/>
+          <circle cx="264.5" cy="195.4" r="0.7" fill="white"/>
+          <path d="M255 201 Q260 205 264 201" fill="none" stroke="#d4924a" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Arm pointing at whiteboard -->
+          <line x1="246" y1="210" x2="230" y2="80" stroke="#6ee7b7" stroke-width="5" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div style="font-size:.75rem;font-weight:700;color:#0369A1;margin-top:6px;">Raw data: City temperatures over 6 days</div>
       <div class="illus-caption">Dr Vera and Dr Rex collect city temperature data</div>
     </div>
 
@@ -345,43 +494,126 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 3 – MODE -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE);">
-      <div class="page-num-illus">Page 3</div>
-      <div style="font-size:1.8rem;margin-bottom:4px;">📊</div>
-      <!-- SVG: Frequency bar chart for {3,5,3,7,3,5} -->
-      <svg width="240" height="170" viewBox="0 0 240 170" style="margin:0 auto;">
-        <!-- Axes -->
-        <line x1="30" y1="10" x2="30" y2="140" stroke="#0369A1" stroke-width="2"/>
-        <line x1="30" y1="140" x2="220" y2="140" stroke="#0369A1" stroke-width="2"/>
-        <!-- Y labels -->
-        <text x="22" y="143" text-anchor="end" fill="#0369A1" font-size="10">0</text>
-        <text x="22" y="110" text-anchor="end" fill="#0369A1" font-size="10">1</text>
-        <text x="22" y="77" text-anchor="end" fill="#0369A1" font-size="10">2</text>
-        <text x="22" y="44" text-anchor="end" fill="#0369A1" font-size="10">3</text>
-        <!-- Gridlines -->
-        <line x1="30" y1="110" x2="220" y2="110" stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
-        <line x1="30" y1="77" x2="220" y2="77" stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
-        <line x1="30" y1="44" x2="220" y2="44" stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
-        <!-- Bar for 3: frequency 3 — tallest -->
-        <rect x="45" y="44" width="40" height="96" fill="#0EA5E9" rx="4"/>
-        <text x="65" y="155" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">3</text>
-        <text x="65" y="38" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">3</text>
-        <!-- Bar for 5: frequency 2 -->
-        <rect x="105" y="77" width="40" height="63" fill="#38BDF8" rx="4"/>
-        <text x="125" y="155" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">5</text>
-        <text x="125" y="71" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">2</text>
-        <!-- Bar for 7: frequency 1 -->
-        <rect x="165" y="110" width="40" height="30" fill="#7DD3FC" rx="4"/>
-        <text x="185" y="155" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">7</text>
-        <text x="185" y="104" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">1</text>
-        <!-- Mode label -->
-        <text x="65" y="168" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">MODE</text>
-        <!-- Axis labels -->
-        <text x="125" y="170" text-anchor="middle" fill="#0369A1" font-size="10">Value</text>
-        <text x="10" y="80" text-anchor="middle" fill="#0369A1" font-size="10" transform="rotate(-90,10,80)">Freq</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="color:#7dd3fc;">Page 3</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss3-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1a2e"/>
+            <stop offset="100%" stop-color="#0a2540"/>
+          </linearGradient>
+          <linearGradient id="ss3-chartbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2c4a"/>
+            <stop offset="100%" stop-color="#0a1e35"/>
+          </linearGradient>
+          <!-- Bar gradients -->
+          <linearGradient id="ss3-bar3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0ea5e9"/>
+            <stop offset="100%" stop-color="#0369a1"/>
+          </linearGradient>
+          <linearGradient id="ss3-bar5" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="100%" stop-color="#0ea5e9"/>
+          </linearGradient>
+          <linearGradient id="ss3-bar7" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7dd3fc"/>
+            <stop offset="100%" stop-color="#38bdf8"/>
+          </linearGradient>
+          <!-- Vera body -->
+          <radialGradient id="ss3-vera-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="ss3-vera-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <filter id="ss3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Background: lab -->
+        <rect width="300" height="280" fill="url(#ss3-bg)"/>
+        <rect x="0" y="0" width="300" height="175" fill="#0f2038"/>
+        <line x1="0" y1="175" x2="300" y2="175" stroke="#0f2c4a" stroke-width="2"/>
+
+        <!-- Lab bench -->
+        <rect x="0" y="175" width="300" height="12" fill="#1e3a5f"/>
+        <rect x="0" y="185" width="300" height="95" fill="#0a1e35"/>
+        <rect x="0" y="255" width="300" height="25" fill="#060d1a"/>
+
+        <!-- FREQUENCY BAR CHART (main visual) -->
+        <g filter="url(#ss3-sh)">
+          <rect x="52" y="38" width="218" height="175" rx="8" fill="url(#ss3-chartbg)" stroke="#0369a1" stroke-width="1.5"/>
+
+          <!-- Title -->
+          <text x="161" y="56" text-anchor="middle" fill="#7dd3fc" font-size="9" font-weight="700">FREQUENCY CHART — {3, 5, 3, 7, 3, 5}</text>
+
+          <!-- Axes -->
+          <line x1="90" y1="65" x2="90" y2="185" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="90" y1="185" x2="260" y2="185" stroke="#94a3b8" stroke-width="1.5"/>
+
+          <!-- Y labels: 0,1,2,3 (each = 40px) -->
+          <text x="86" y="188" text-anchor="end" fill="#64748b" font-size="8">0</text>
+          <text x="86" y="148" text-anchor="end" fill="#64748b" font-size="8">1</text>
+          <text x="86" y="108" text-anchor="end" fill="#64748b" font-size="8">2</text>
+          <text x="86" y="68" text-anchor="end" fill="#64748b" font-size="8">3</text>
+
+          <!-- Grid lines -->
+          <line x1="90" y1="145" x2="260" y2="145" stroke="#0f2c4a" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="90" y1="105" x2="260" y2="105" stroke="#0f2c4a" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="90" y1="65" x2="260" y2="65" stroke="#0f2c4a" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <!-- Bar value=3, freq=3: height=120, y=185-120=65 — TALLEST / MODE -->
+          <rect x="100" y="65" width="42" height="120" rx="4" fill="url(#ss3-bar3)" filter="url(#ss3-sh)"/>
+          <!-- MODE highlight ring -->
+          <rect x="99" y="64" width="44" height="122" rx="5" fill="none" stroke="#fbbf24" stroke-width="2"/>
+          <text x="121" y="61" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="800">3</text>
+          <text x="121" y="198" text-anchor="middle" fill="#0ea5e9" font-size="9" font-weight="700">3</text>
+
+          <!-- Bar value=5, freq=2: height=80, y=185-80=105 -->
+          <rect x="158" y="105" width="42" height="80" rx="4" fill="url(#ss3-bar5)" filter="url(#ss3-sh)"/>
+          <text x="179" y="101" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="700">2</text>
+          <text x="179" y="198" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="700">5</text>
+
+          <!-- Bar value=7, freq=1: height=40, y=185-40=145 -->
+          <rect x="216" y="145" width="42" height="40" rx="4" fill="url(#ss3-bar7)" filter="url(#ss3-sh)"/>
+          <text x="237" y="141" text-anchor="middle" fill="#7dd3fc" font-size="9" font-weight="700">1</text>
+          <text x="237" y="198" text-anchor="middle" fill="#7dd3fc" font-size="9" font-weight="700">7</text>
+
+          <!-- MODE badge -->
+          <rect x="90" y="207" width="60" height="16" rx="4" fill="#dc2626" opacity="0.8"/>
+          <text x="120" y="219" text-anchor="middle" fill="white" font-size="8" font-weight="800">MODE = 3</text>
+
+          <!-- Axis labels -->
+          <text x="180" y="213" text-anchor="middle" fill="#64748b" font-size="7.5">Value (x)</text>
+          <text x="64" y="128" text-anchor="middle" fill="#64748b" font-size="7.5" transform="rotate(-90,64,128)">Frequency</text>
+        </g>
+
+        <!-- DR VERA (lower right, pointing at mode bar) -->
+        <g filter="url(#ss3-sh)">
+          <ellipse cx="265" cy="238" rx="15" ry="22" fill="url(#ss3-vera-body)"/>
+          <rect x="256" y="218" width="18" height="8" rx="5" fill="#c4b5fd"/>
+          <ellipse cx="265" cy="218" rx="13" ry="14" fill="url(#ss3-vera-skin)"/>
+          <ellipse cx="265" cy="205" rx="12" ry="8" fill="#1f2937"/>
+          <rect x="258" y="204" width="22" height="20" rx="3" fill="white" opacity="0.15"/>
+          <circle cx="261" cy="217" r="2.8" fill="white"/>
+          <circle cx="261" cy="217" r="1.7" fill="#1f2937"/>
+          <circle cx="261.5" cy="216.4" r="0.6" fill="white"/>
+          <circle cx="269" cy="217" r="2.8" fill="white"/>
+          <circle cx="269" cy="217" r="1.7" fill="#1f2937"/>
+          <circle cx="269.5" cy="216.4" r="0.6" fill="white"/>
+          <rect x="258" y="214" width="6" height="4.5" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <rect x="265" y="214" width="6" height="4.5" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <path d="M261 222 Q265 226 269 222" fill="none" stroke="#c97a3a" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Arm pointing at tallest bar -->
+          <line x1="251" y1="228" x2="140" y2="170" stroke="#c4b5fd" stroke-width="5" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div style="font-size:.75rem;font-weight:700;color:#0369A1;margin-top:4px;">Data: {3, 5, 3, 7, 3, 5} — value 3 appears most often</div>
-      <div class="illus-caption">Frequency bar chart reveals the mode</div>
+      <div class="illus-caption">Frequency chart reveals value 3 as the mode (appears 3 times)</div>
     </div>
 
     <div class="story-panel">
@@ -420,41 +652,134 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 4 – MEDIAN -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#F0F9FF);">
-      <div class="page-num-illus">Page 4</div>
-      <div style="font-size:1.8rem;margin-bottom:6px;">📉</div>
-      <!-- SVG: Ordered data set with middle highlighted -->
-      <svg width="260" height="150" viewBox="0 0 260 150" style="margin:0 auto;">
-        <!-- Odd-length example: 5 values, median = 3rd -->
-        <text x="130" y="18" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">ODD SET (5 values): median = middle value</text>
-        <!-- Values: 4, 7, 11, 15, 19 -->
-        <rect x="8"  y="26" width="40" height="30" rx="6" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
-        <rect x="55" y="26" width="40" height="30" rx="6" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
-        <rect x="102" y="26" width="40" height="30" rx="6" fill="#0369A1" stroke="#0EA5E9" stroke-width="2"/>
-        <rect x="149" y="26" width="40" height="30" rx="6" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
-        <rect x="196" y="26" width="40" height="30" rx="6" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
-        <text x="28"  y="46" text-anchor="middle" fill="#0369A1" font-size="14" font-weight="700">4</text>
-        <text x="75"  y="46" text-anchor="middle" fill="#0369A1" font-size="14" font-weight="700">7</text>
-        <text x="122" y="46" text-anchor="middle" fill="white"   font-size="14" font-weight="700">11</text>
-        <text x="169" y="46" text-anchor="middle" fill="#0369A1" font-size="14" font-weight="700">15</text>
-        <text x="216" y="46" text-anchor="middle" fill="#0369A1" font-size="14" font-weight="700">19</text>
-        <text x="122" y="70" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">MEDIAN</text>
-        <!-- Even-length example: 6 values, median = mean of 3rd and 4th -->
-        <text x="130" y="92" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">EVEN SET (6 values): mean of two middle values</text>
-        <!-- Values: 5, 8, 12, 16, 20, 24 -->
-        <rect x="8"   y="100" width="35" height="28" rx="5" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
-        <rect x="48"  y="100" width="35" height="28" rx="5" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
-        <rect x="88"  y="100" width="35" height="28" rx="5" fill="#0369A1" stroke="#0EA5E9" stroke-width="2"/>
-        <rect x="128" y="100" width="35" height="28" rx="5" fill="#0369A1" stroke="#0EA5E9" stroke-width="2"/>
-        <rect x="168" y="100" width="35" height="28" rx="5" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
-        <rect x="208" y="100" width="35" height="28" rx="5" fill="#BAE6FD" stroke="#0EA5E9" stroke-width="1.5"/>
-        <text x="25"  y="119" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">5</text>
-        <text x="65"  y="119" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">8</text>
-        <text x="105" y="119" text-anchor="middle" fill="white"   font-size="12" font-weight="700">12</text>
-        <text x="145" y="119" text-anchor="middle" fill="white"   font-size="12" font-weight="700">16</text>
-        <text x="185" y="119" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">20</text>
-        <text x="225" y="119" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">24</text>
-        <text x="125" y="145" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">Median = (12+16)÷2 = 14</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="color:#7dd3fc;">Page 4</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss4-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1a2e"/>
+            <stop offset="100%" stop-color="#0a2540"/>
+          </linearGradient>
+          <linearGradient id="ss4-panel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2c4a"/>
+            <stop offset="100%" stop-color="#0a1e35"/>
+          </linearGradient>
+          <!-- Box gradient (inactive) -->
+          <linearGradient id="ss4-boxoff" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#164e63"/>
+            <stop offset="100%" stop-color="#0c4a6e"/>
+          </linearGradient>
+          <!-- Box gradient (active/median) -->
+          <linearGradient id="ss4-boxon" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#dc2626"/>
+            <stop offset="100%" stop-color="#991b1b"/>
+          </linearGradient>
+          <!-- Rex body -->
+          <radialGradient id="ss4-rex-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="ss4-rex-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <filter id="ss4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#ss4-bg)"/>
+        <rect x="0" y="0" width="300" height="175" fill="#0f2038"/>
+        <line x1="0" y1="175" x2="300" y2="175" stroke="#0f2c4a" stroke-width="2"/>
+        <rect x="0" y="175" width="300" height="12" fill="#1e3a5f"/>
+        <rect x="0" y="185" width="300" height="95" fill="#0a1e35"/>
+        <rect x="0" y="255" width="300" height="25" fill="#060d1a"/>
+
+        <!-- PANEL -->
+        <g filter="url(#ss4-sh)">
+          <rect x="20" y="28" width="260" height="168" rx="8" fill="url(#ss4-panel)" stroke="#0369a1" stroke-width="1.5"/>
+
+          <!-- ODD SET section -->
+          <text x="150" y="46" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-weight="700">ODD SET (5 values) — pick the middle</text>
+
+          <!-- 5 boxes for odd set: 4, 7, 11(median), 15, 19 -->
+          <!-- x positions: 32, 78, 124, 170, 216 (width=38, gap=8) -->
+          <rect x="32" y="52" width="38" height="30" rx="5" fill="url(#ss4-boxoff)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="51" y="72" text-anchor="middle" fill="#7dd3fc" font-size="13" font-weight="700">4</text>
+
+          <rect x="78" y="52" width="38" height="30" rx="5" fill="url(#ss4-boxoff)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="97" y="72" text-anchor="middle" fill="#7dd3fc" font-size="13" font-weight="700">7</text>
+
+          <!-- Median box (highlighted red) -->
+          <rect x="124" y="49" width="42" height="36" rx="5" fill="url(#ss4-boxon)" stroke="#fbbf24" stroke-width="2"/>
+          <text x="145" y="71" text-anchor="middle" fill="white" font-size="13" font-weight="700">11</text>
+          <text x="145" y="98" text-anchor="middle" fill="#fbbf24" font-size="8" font-weight="700">MEDIAN</text>
+
+          <rect x="174" y="52" width="38" height="30" rx="5" fill="url(#ss4-boxoff)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="193" y="72" text-anchor="middle" fill="#7dd3fc" font-size="13" font-weight="700">15</text>
+
+          <rect x="220" y="52" width="38" height="30" rx="5" fill="url(#ss4-boxoff)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="239" y="72" text-anchor="middle" fill="#7dd3fc" font-size="13" font-weight="700">19</text>
+
+          <!-- Arrow pointing down to 11 -->
+          <line x1="145" y1="46" x2="145" y2="35" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3,2"/>
+
+          <!-- Divider -->
+          <line x1="30" y1="108" x2="270" y2="108" stroke="#0369a1" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <!-- EVEN SET section -->
+          <text x="150" y="122" text-anchor="middle" fill="#7dd3fc" font-size="8.5" font-weight="700">EVEN SET (6 values) — average the two middles</text>
+
+          <!-- 6 boxes: 5, 8, 12(m1), 16(m2), 20, 24 -->
+          <!-- width=36, gap=6 -->
+          <rect x="22" y="128" width="34" height="28" rx="5" fill="url(#ss4-boxoff)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="39" y="146" text-anchor="middle" fill="#7dd3fc" font-size="12" font-weight="700">5</text>
+
+          <rect x="60" y="128" width="34" height="28" rx="5" fill="url(#ss4-boxoff)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="77" y="146" text-anchor="middle" fill="#7dd3fc" font-size="12" font-weight="700">8</text>
+
+          <!-- Middle pair (red) -->
+          <rect x="98" y="125" width="38" height="34" rx="5" fill="url(#ss4-boxon)" stroke="#fbbf24" stroke-width="2"/>
+          <text x="117" y="146" text-anchor="middle" fill="white" font-size="12" font-weight="700">12</text>
+
+          <rect x="140" y="125" width="38" height="34" rx="5" fill="url(#ss4-boxon)" stroke="#fbbf24" stroke-width="2"/>
+          <text x="159" y="146" text-anchor="middle" fill="white" font-size="12" font-weight="700">16</text>
+
+          <rect x="182" y="128" width="34" height="28" rx="5" fill="url(#ss4-boxoff)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="199" y="146" text-anchor="middle" fill="#7dd3fc" font-size="12" font-weight="700">20</text>
+
+          <rect x="220" y="128" width="38" height="28" rx="5" fill="url(#ss4-boxoff)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="239" y="146" text-anchor="middle" fill="#7dd3fc" font-size="12" font-weight="700">24</text>
+
+          <!-- Brace connecting 12 and 16 -->
+          <line x1="117" y1="162" x2="117" y2="170" stroke="#fbbf24" stroke-width="1.5"/>
+          <line x1="117" y1="170" x2="159" y2="170" stroke="#fbbf24" stroke-width="1.5"/>
+          <line x1="159" y1="162" x2="159" y2="170" stroke="#fbbf24" stroke-width="1.5"/>
+
+          <!-- Median formula result -->
+          <text x="138" y="182" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700">Median = (12+16)÷2 = 14</text>
+        </g>
+
+        <!-- DR REX (lower left) -->
+        <g filter="url(#ss4-sh)">
+          <ellipse cx="38" cy="230" rx="15" ry="22" fill="url(#ss4-rex-body)"/>
+          <rect x="29" y="210" width="18" height="8" rx="5" fill="#6ee7b7"/>
+          <ellipse cx="38" cy="210" rx="13" ry="14" fill="url(#ss4-rex-skin)"/>
+          <ellipse cx="38" cy="197" rx="12" ry="8" fill="#92400e"/>
+          <rect x="28" y="216" width="22" height="20" rx="3" fill="white" opacity="0.15"/>
+          <circle cx="34" cy="209" r="2.8" fill="white"/>
+          <circle cx="34" cy="209" r="1.7" fill="#1f2937"/>
+          <circle cx="34.5" cy="208.4" r="0.6" fill="white"/>
+          <circle cx="42" cy="209" r="2.8" fill="white"/>
+          <circle cx="42" cy="209" r="1.7" fill="#1f2937"/>
+          <circle cx="42.5" cy="208.4" r="0.6" fill="white"/>
+          <path d="M34 214 Q38 218 42 214" fill="none" stroke="#d4924a" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Arm pointing at median box -->
+          <line x1="52" y1="220" x2="120" y2="140" stroke="#6ee7b7" stroke-width="5" stroke-linecap="round"/>
+        </g>
       </svg>
       <div class="illus-caption">Odd sets: one middle value; even sets: average the two middles</div>
     </div>
@@ -495,34 +820,131 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 5 – MEAN -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE);">
-      <div class="page-num-illus">Page 5</div>
-      <div style="font-size:1.8rem;margin-bottom:6px;">📈</div>
-      <!-- SVG: Balance scale diagram for mean -->
-      <svg width="240" height="170" viewBox="0 0 240 170" style="margin:0 auto;">
-        <!-- Stand -->
-        <rect x="112" y="100" width="16" height="50" fill="#0369A1" rx="3"/>
-        <rect x="80" y="145" width="80" height="12" fill="#0369A1" rx="4"/>
-        <!-- Beam -->
-        <rect x="30" y="95" width="180" height="10" fill="#0EA5E9" rx="4"/>
-        <!-- Left pan -->
-        <line x1="50" y1="105" x2="50" y2="128" stroke="#0369A1" stroke-width="2"/>
-        <rect x="20" y="128" width="60" height="16" fill="#BAE6FD" rx="6" stroke="#0EA5E9" stroke-width="1.5"/>
-        <text x="50" y="140" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="700">12+8+15+10+5</text>
-        <!-- Right pan -->
-        <line x1="190" y1="105" x2="190" y2="128" stroke="#0369A1" stroke-width="2"/>
-        <rect x="160" y="128" width="60" height="16" fill="#0369A1" rx="6"/>
-        <text x="190" y="140" text-anchor="middle" fill="white" font-size="11" font-weight="700">50 ÷ 5 = 10</text>
-        <!-- Labels -->
-        <text x="50" y="162" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="600">Sum of values</text>
-        <text x="190" y="162" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="600">Mean = 10</text>
-        <!-- Top label -->
-        <text x="120" y="20" text-anchor="middle" fill="#0369A1" font-size="12" font-weight="700">Mean = Sum ÷ Count</text>
-        <text x="120" y="38" text-anchor="middle" fill="#0369A1" font-size="11">{12, 8, 15, 10, 5}</text>
-        <text x="120" y="56" text-anchor="middle" fill="#0C4A6E" font-size="11">Sum = 12+8+15+10+5 = 50</text>
-        <text x="120" y="74" text-anchor="middle" fill="#DC2626" font-size="12" font-weight="700">Mean = 50 ÷ 5 = 10</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="color:#7dd3fc;">Page 5</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss5-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1a2e"/>
+            <stop offset="100%" stop-color="#0a2540"/>
+          </linearGradient>
+          <linearGradient id="ss5-beam" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#0ea5e9"/>
+            <stop offset="100%" stop-color="#0369a1"/>
+          </linearGradient>
+          <linearGradient id="ss5-panL" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#164e63"/>
+            <stop offset="100%" stop-color="#0c4a6e"/>
+          </linearGradient>
+          <linearGradient id="ss5-panR" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#dc2626"/>
+            <stop offset="100%" stop-color="#991b1b"/>
+          </linearGradient>
+          <linearGradient id="ss5-stand" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#0f2c4a"/>
+          </linearGradient>
+          <linearGradient id="ss5-panel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2c4a"/>
+            <stop offset="100%" stop-color="#0a1e35"/>
+          </linearGradient>
+          <!-- Vera body -->
+          <radialGradient id="ss5-vera-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="ss5-vera-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <filter id="ss5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#ss5-bg)"/>
+        <rect x="0" y="0" width="300" height="175" fill="#0f2038"/>
+        <line x1="0" y1="175" x2="300" y2="175" stroke="#0f2c4a" stroke-width="2"/>
+        <rect x="0" y="175" width="300" height="12" fill="#1e3a5f"/>
+        <rect x="0" y="185" width="300" height="95" fill="#0a1e35"/>
+        <rect x="0" y="255" width="300" height="25" fill="#060d1a"/>
+
+        <!-- Info panel at top -->
+        <g filter="url(#ss5-sh)">
+          <rect x="25" y="22" width="250" height="58" rx="7" fill="url(#ss5-panel)" stroke="#0369a1" stroke-width="1.5"/>
+          <text x="150" y="38" text-anchor="middle" fill="#7dd3fc" font-size="9" font-weight="700">MEAN = Sum ÷ Count</text>
+          <text x="150" y="52" text-anchor="middle" fill="#94a3b8" font-size="8">Data: {12, 8, 15, 10, 5}</text>
+          <text x="150" y="65" text-anchor="middle" fill="#38bdf8" font-size="8">Sum = 12+8+15+10+5 = 50   |   Count = 5</text>
+          <text x="150" y="77" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700">Mean = 50 ÷ 5 = 10</text>
+        </g>
+
+        <!-- BALANCE SCALE (main visual) -->
+        <g filter="url(#ss5-sh)">
+          <!-- Stand pole -->
+          <rect x="143" y="115" width="14" height="58" rx="4" fill="url(#ss5-stand)"/>
+          <!-- Base -->
+          <rect x="108" y="168" width="84" height="12" rx="4" fill="url(#ss5-stand)"/>
+          <!-- Triangle fulcrum -->
+          <polygon points="150,113 138,126 162,126" fill="#0ea5e9"/>
+
+          <!-- Balance beam (level - balanced) -->
+          <rect x="42" y="108" width="216" height="9" rx="4" fill="url(#ss5-beam)"/>
+
+          <!-- Left pan strings -->
+          <line x1="68" y1="117" x2="54" y2="138" stroke="#0369a1" stroke-width="1.5"/>
+          <line x1="80" y1="117" x2="94" y2="138" stroke="#0369a1" stroke-width="1.5"/>
+          <!-- Left pan -->
+          <rect x="50" y="138" width="48" height="22" rx="6" fill="url(#ss5-panL)" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="74" y="148" text-anchor="middle" fill="#7dd3fc" font-size="7" font-weight="700">12+8+15</text>
+          <text x="74" y="157" text-anchor="middle" fill="#7dd3fc" font-size="7" font-weight="700">+10+5=50</text>
+          <text x="74" y="172" text-anchor="middle" fill="#64748b" font-size="7.5">Sum of values</text>
+
+          <!-- Right pan strings -->
+          <line x1="220" y1="117" x2="207" y2="138" stroke="#0369a1" stroke-width="1.5"/>
+          <line x1="233" y1="117" x2="247" y2="138" stroke="#0369a1" stroke-width="1.5"/>
+          <!-- Right pan -->
+          <rect x="202" y="138" width="48" height="22" rx="6" fill="url(#ss5-panR)"/>
+          <text x="226" y="148" text-anchor="middle" fill="white" font-size="7.5" font-weight="700">50 ÷ 5</text>
+          <text x="226" y="157" text-anchor="middle" fill="white" font-size="8" font-weight="800">= 10</text>
+          <text x="226" y="172" text-anchor="middle" fill="#fbbf24" font-size="7.5" font-weight="700">MEAN</text>
+        </g>
+
+        <!-- 5 number tokens on left pan visual -->
+        <circle cx="56" cy="132" r="7" fill="#0369a1" stroke="#0ea5e9" stroke-width="1"/>
+        <text x="56" y="136" text-anchor="middle" fill="white" font-size="6" font-weight="700">12</text>
+        <circle cx="69" cy="130" r="7" fill="#0369a1" stroke="#0ea5e9" stroke-width="1"/>
+        <text x="69" y="134" text-anchor="middle" fill="white" font-size="6" font-weight="700">8</text>
+        <circle cx="82" cy="132" r="7" fill="#0369a1" stroke="#0ea5e9" stroke-width="1"/>
+        <text x="82" y="136" text-anchor="middle" fill="white" font-size="6" font-weight="700">15</text>
+        <circle cx="63" cy="122" r="7" fill="#0369a1" stroke="#0ea5e9" stroke-width="1"/>
+        <text x="63" y="126" text-anchor="middle" fill="white" font-size="6" font-weight="700">10</text>
+        <circle cx="77" cy="122" r="7" fill="#0369a1" stroke="#0ea5e9" stroke-width="1"/>
+        <text x="77" y="126" text-anchor="middle" fill="white" font-size="6" font-weight="700">5</text>
+
+        <!-- DR VERA (lower right) -->
+        <g filter="url(#ss5-sh)">
+          <ellipse cx="265" cy="232" rx="15" ry="22" fill="url(#ss5-vera-body)"/>
+          <rect x="256" y="212" width="18" height="8" rx="5" fill="#c4b5fd"/>
+          <ellipse cx="265" cy="212" rx="13" ry="14" fill="url(#ss5-vera-skin)"/>
+          <ellipse cx="265" cy="199" rx="12" ry="8" fill="#1f2937"/>
+          <rect x="255" y="218" width="22" height="20" rx="3" fill="white" opacity="0.15"/>
+          <circle cx="261" cy="211" r="2.8" fill="white"/>
+          <circle cx="261" cy="211" r="1.7" fill="#1f2937"/>
+          <circle cx="261.5" cy="210.4" r="0.6" fill="white"/>
+          <circle cx="269" cy="211" r="2.8" fill="white"/>
+          <circle cx="269" cy="211" r="1.7" fill="#1f2937"/>
+          <circle cx="269.5" cy="210.4" r="0.6" fill="white"/>
+          <rect x="258" y="208" width="6" height="4.5" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <rect x="265" y="208" width="6" height="4.5" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <path d="M261 216 Q265 220 269 216" fill="none" stroke="#c97a3a" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Arm pointing at scale -->
+          <line x1="250" y1="222" x2="228" y2="155" stroke="#c4b5fd" stroke-width="5" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div class="illus-caption">The mean balances all values equally</div>
+      <div class="illus-caption">The balance scale shows: sum all values then divide by count</div>
     </div>
 
     <div class="story-panel">
@@ -561,39 +983,155 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 6 – RANGE -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">
-      <div class="page-num-illus">Page 6</div>
-      <div style="font-size:1.8rem;margin-bottom:6px;">📊</div>
-      <!-- SVG: Two data sets on a number line comparing range -->
-      <svg width="250" height="160" viewBox="0 0 250 160" style="margin:0 auto;">
-        <text x="125" y="16" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Comparing Ranges of Two Data Sets</text>
-        <!-- Set A -->
-        <text x="10" y="38" fill="#0369A1" font-size="10" font-weight="700">Set A:</text>
-        <line x1="40" y1="50" x2="230" y2="50" stroke="#0369A1" stroke-width="2"/>
-        <!-- A: values 10, 14, 16, 18, 20 — range 10 -->
-        <circle cx="65"  cy="50" r="5" fill="#0EA5E9"/><text x="65"  y="68" text-anchor="middle" fill="#0369A1" font-size="10">10</text>
-        <circle cx="105" cy="50" r="5" fill="#0EA5E9"/><text x="105" y="68" text-anchor="middle" fill="#0369A1" font-size="10">14</text>
-        <circle cx="130" cy="50" r="5" fill="#0EA5E9"/><text x="130" y="68" text-anchor="middle" fill="#0369A1" font-size="10">16</text>
-        <circle cx="155" cy="50" r="5" fill="#0EA5E9"/><text x="155" y="68" text-anchor="middle" fill="#0369A1" font-size="10">18</text>
-        <circle cx="190" cy="50" r="5" fill="#0EA5E9"/><text x="190" y="68" text-anchor="middle" fill="#0369A1" font-size="10">20</text>
-        <!-- Range A arrow -->
-        <line x1="65" y1="44" x2="190" y2="44" stroke="#0369A1" stroke-width="1.5" stroke-dasharray="3,2"/>
-        <text x="127" y="41" text-anchor="middle" fill="#0369A1" font-size="9" font-weight="700">Range A = 20−10 = 10</text>
-        <!-- Set B -->
-        <text x="10" y="96" fill="#DC2626" font-size="10" font-weight="700">Set B:</text>
-        <line x1="40" y1="108" x2="230" y2="108" stroke="#DC2626" stroke-width="2"/>
-        <!-- B: values 5, 14, 16, 18, 30 — range 25 -->
-        <circle cx="48"  cy="108" r="5" fill="#F97316"/><text x="48"  y="126" text-anchor="middle" fill="#DC2626" font-size="10">5</text>
-        <circle cx="105" cy="108" r="5" fill="#F97316"/><text x="105" y="126" text-anchor="middle" fill="#DC2626" font-size="10">14</text>
-        <circle cx="130" cy="108" r="5" fill="#F97316"/><text x="130" y="126" text-anchor="middle" fill="#DC2626" font-size="10">16</text>
-        <circle cx="155" cy="108" r="5" fill="#F97316"/><text x="155" y="126" text-anchor="middle" fill="#DC2626" font-size="10">18</text>
-        <circle cx="220" cy="108" r="5" fill="#F97316"/><text x="220" y="126" text-anchor="middle" fill="#DC2626" font-size="10">30</text>
-        <!-- Range B arrow -->
-        <line x1="48" y1="102" x2="220" y2="102" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="3,2"/>
-        <text x="134" y="99" text-anchor="middle" fill="#DC2626" font-size="9" font-weight="700">Range B = 30−5 = 25</text>
-        <text x="125" y="150" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">Set B is more spread out (larger range)</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="color:#7dd3fc;">Page 6</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss6-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1a2e"/>
+            <stop offset="100%" stop-color="#0a2540"/>
+          </linearGradient>
+          <linearGradient id="ss6-panel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2c4a"/>
+            <stop offset="100%" stop-color="#0a1e35"/>
+          </linearGradient>
+          <!-- Rex body -->
+          <radialGradient id="ss6-rex-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="ss6-rex-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <filter id="ss6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <!-- Marker arrows -->
+          <marker id="ss6-arrA" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,1 L7,4 L0,7 Z" fill="#0ea5e9"/>
+          </marker>
+          <marker id="ss6-arrB" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,1 L7,4 L0,7 Z" fill="#ef4444"/>
+          </marker>
+          <marker id="ss6-arrArev" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+            <path d="M0,1 L7,4 L0,7 Z" fill="#0ea5e9"/>
+          </marker>
+          <marker id="ss6-arrBrev" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+            <path d="M0,1 L7,4 L0,7 Z" fill="#ef4444"/>
+          </marker>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#ss6-bg)"/>
+        <rect x="0" y="0" width="300" height="175" fill="#0f2038"/>
+        <line x1="0" y1="175" x2="300" y2="175" stroke="#0f2c4a" stroke-width="2"/>
+        <rect x="0" y="175" width="300" height="12" fill="#1e3a5f"/>
+        <rect x="0" y="185" width="300" height="95" fill="#0a1e35"/>
+        <rect x="0" y="255" width="300" height="25" fill="#060d1a"/>
+
+        <!-- MAIN PANEL -->
+        <g filter="url(#ss6-sh)">
+          <rect x="20" y="22" width="260" height="170" rx="8" fill="url(#ss6-panel)" stroke="#0369a1" stroke-width="1.5"/>
+
+          <!-- Title -->
+          <text x="150" y="40" text-anchor="middle" fill="#7dd3fc" font-size="9" font-weight="700">RANGE = Highest − Lowest</text>
+
+          <!-- SET A label -->
+          <rect x="28" y="48" width="40" height="14" rx="4" fill="#0369a1"/>
+          <text x="48" y="59" text-anchor="middle" fill="white" font-size="8" font-weight="700">Set A</text>
+
+          <!-- Number line A -->
+          <line x1="72" y1="55" x2="268" y2="55" stroke="#0ea5e9" stroke-width="2"/>
+          <!-- End ticks -->
+          <line x1="72" y1="50" x2="72" y2="60" stroke="#0ea5e9" stroke-width="2"/>
+          <line x1="268" y1="50" x2="268" y2="60" stroke="#0ea5e9" stroke-width="2"/>
+
+          <!-- A values: 10, 14, 16, 18, 20 — mapped on 72-268 range; 10→72, 20→268: 1 unit = 19.6px -->
+          <!-- 10: 72, 14: 72+78=150, 16: 72+117=189, but let me map 10-20 on 72-268 = 196px/10units = 19.6px/unit -->
+          <!-- 10→72, 14→150.4, 16→188.6, 18→226.8, 20→268 -->
+          <circle cx="72" cy="55" r="5.5" fill="#0ea5e9" stroke="#7dd3fc" stroke-width="1"/>
+          <text x="72" y="72" text-anchor="middle" fill="#7dd3fc" font-size="8">10</text>
+
+          <circle cx="150" cy="55" r="5.5" fill="#0ea5e9" stroke="#7dd3fc" stroke-width="1"/>
+          <text x="150" y="72" text-anchor="middle" fill="#7dd3fc" font-size="8">14</text>
+
+          <circle cx="189" cy="55" r="5.5" fill="#0ea5e9" stroke="#7dd3fc" stroke-width="1"/>
+          <text x="189" y="72" text-anchor="middle" fill="#7dd3fc" font-size="8">16</text>
+
+          <circle cx="228" cy="55" r="5.5" fill="#0ea5e9" stroke="#7dd3fc" stroke-width="1"/>
+          <text x="228" y="72" text-anchor="middle" fill="#7dd3fc" font-size="8">18</text>
+
+          <circle cx="268" cy="55" r="5.5" fill="#0ea5e9" stroke="#7dd3fc" stroke-width="1"/>
+          <text x="268" y="72" text-anchor="middle" fill="#7dd3fc" font-size="8">20</text>
+
+          <!-- Range A arrow (double-headed above line) -->
+          <line x1="76" y1="46" x2="264" y2="46" stroke="#0ea5e9" stroke-width="1.5" marker-start="url(#ss6-arrArev)" marker-end="url(#ss6-arrA)"/>
+          <rect x="125" y="36" width="50" height="12" rx="3" fill="#0369a1"/>
+          <text x="150" y="46" text-anchor="middle" fill="white" font-size="7.5" font-weight="700">Range A = 10</text>
+
+          <!-- Divider -->
+          <line x1="30" y1="85" x2="270" y2="85" stroke="#0369a1" stroke-width="1" stroke-dasharray="4,3"/>
+
+          <!-- SET B label -->
+          <rect x="28" y="92" width="40" height="14" rx="4" fill="#dc2626"/>
+          <text x="48" y="103" text-anchor="middle" fill="white" font-size="8" font-weight="700">Set B</text>
+
+          <!-- Number line B — same scale 10-30, mapped 72-268 = 196px/20units = 9.8px/unit -->
+          <!-- but B has value 5, so extend left: 5-30 range = 268px → 1unit=10.72px. 5→47, 30→282 — too wide. Use 5-30 on 28-272 = 244/25 = 9.76px/unit -->
+          <!-- 5→28+0=28, 14→28+87.8=116, 16→28+107.4=135, 18→28+127=155, 30→28+244=272 -->
+          <line x1="28" y1="110" x2="272" y2="110" stroke="#ef4444" stroke-width="2"/>
+          <line x1="28" y1="105" x2="28" y2="115" stroke="#ef4444" stroke-width="2"/>
+          <line x1="272" y1="105" x2="272" y2="115" stroke="#ef4444" stroke-width="2"/>
+
+          <circle cx="28" cy="110" r="5.5" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+          <text x="28" y="127" text-anchor="middle" fill="#fca5a5" font-size="8">5</text>
+
+          <circle cx="116" cy="110" r="5.5" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+          <text x="116" y="127" text-anchor="middle" fill="#fca5a5" font-size="8">14</text>
+
+          <circle cx="135" cy="110" r="5.5" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+          <text x="135" y="127" text-anchor="middle" fill="#fca5a5" font-size="8">16</text>
+
+          <circle cx="155" cy="110" r="5.5" fill="#ef4444" stroke="#fca5a5" stroke-width="1"/>
+          <text x="155" y="127" text-anchor="middle" fill="#fca5a5" font-size="8">18</text>
+
+          <circle cx="272" cy="110" r="5.5" fill="#f97316" stroke="#fde68a" stroke-width="1.5"/>
+          <text x="272" y="127" text-anchor="middle" fill="#fde68a" font-size="8">30</text>
+
+          <!-- Range B arrow -->
+          <line x1="32" y1="100" x2="268" y2="100" stroke="#ef4444" stroke-width="1.5" marker-start="url(#ss6-arrBrev)" marker-end="url(#ss6-arrB)"/>
+          <rect x="114" y="90" width="72" height="12" rx="3" fill="#991b1b"/>
+          <text x="150" y="100" text-anchor="middle" fill="white" font-size="7.5" font-weight="700">Range B = 30−5 = 25</text>
+
+          <!-- Conclusion box -->
+          <rect x="28" y="140" width="244" height="44" rx="6" fill="#0a2540" stroke="#10b981" stroke-width="1.5"/>
+          <text x="150" y="156" text-anchor="middle" fill="#10b981" font-size="8.5" font-weight="700">Statistical Insight:</text>
+          <text x="150" y="170" text-anchor="middle" fill="#94a3b8" font-size="8">Both sets have the same mean = 16</text>
+          <text x="150" y="181" text-anchor="middle" fill="#fca5a5" font-size="8" font-weight="700">But Set B is far more spread out (Range 25 vs 10)</text>
+        </g>
+
+        <!-- Dr Rex (lower left) -->
+        <g filter="url(#ss6-sh)">
+          <ellipse cx="38" cy="228" rx="15" ry="22" fill="url(#ss6-rex-body)"/>
+          <rect x="29" y="208" width="18" height="8" rx="5" fill="#6ee7b7"/>
+          <ellipse cx="38" cy="208" rx="13" ry="14" fill="url(#ss6-rex-skin)"/>
+          <ellipse cx="38" cy="195" rx="12" ry="8" fill="#92400e"/>
+          <rect x="28" y="214" width="22" height="20" rx="3" fill="white" opacity="0.15"/>
+          <circle cx="34" cy="207" r="2.8" fill="white"/>
+          <circle cx="34" cy="207" r="1.7" fill="#1f2937"/>
+          <circle cx="34.5" cy="206.4" r="0.6" fill="white"/>
+          <circle cx="42" cy="207" r="2.8" fill="white"/>
+          <circle cx="42" cy="207" r="1.7" fill="#1f2937"/>
+          <circle cx="42.5" cy="206.4" r="0.6" fill="white"/>
+          <path d="M34 212 Q38 216 42 212" fill="none" stroke="#d4924a" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Arm pointing -->
+          <line x1="52" y1="218" x2="85" y2="165" stroke="#6ee7b7" stroke-width="5" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div class="illus-caption">Range measures the spread of a data set</div>
+      <div class="illus-caption">Range measures the spread — Set B is far more variable than Set A</div>
     </div>
 
     <div class="story-panel">
@@ -631,48 +1169,170 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 7 – CHOOSING THE RIGHT AVERAGE -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE);">
-      <div class="page-num-illus">Page 7</div>
-      <div style="font-size:1.8rem;margin-bottom:6px;">🧮</div>
-      <!-- SVG: Three-column comparison table -->
-      <svg width="260" height="180" viewBox="0 0 260 180" style="margin:0 auto;">
-        <rect x="0" y="0" width="260" height="180" rx="10" fill="white" stroke="#BAE6FD" stroke-width="1.5"/>
-        <!-- Header -->
-        <rect x="0" y="0" width="260" height="28" rx="10" fill="#0369A1"/>
-        <rect x="0" y="16" width="260" height="12" fill="#0369A1"/>
-        <text x="43"  y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Average</text>
-        <text x="130" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Best For</text>
-        <text x="215" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Avoid When</text>
-        <!-- Dividers -->
-        <line x1="86"  y1="0" x2="86"  y2="180" stroke="#E0F2FE" stroke-width="1"/>
-        <line x1="172" y1="0" x2="172" y2="180" stroke="#E0F2FE" stroke-width="1"/>
-        <!-- Row 1 Mode -->
-        <rect x="0" y="28" width="260" height="44" fill="#F0F9FF"/>
-        <text x="43"  y="46" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Mode</text>
-        <text x="43"  y="60" text-anchor="middle" fill="#0369A1" font-size="9">most common</text>
-        <text x="129" y="46" text-anchor="middle" fill="#0C4A6E" font-size="9">Categorical data</text>
-        <text x="129" y="58" text-anchor="middle" fill="#0C4A6E" font-size="9">e.g. shoe sizes</text>
-        <text x="215" y="46" text-anchor="middle" fill="#0C4A6E" font-size="9">All values are</text>
-        <text x="215" y="58" text-anchor="middle" fill="#0C4A6E" font-size="9">different</text>
-        <!-- Row 2 Median -->
-        <text x="43"  y="86" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Median</text>
-        <text x="43"  y="100" text-anchor="middle" fill="#0369A1" font-size="9">middle value</text>
-        <text x="129" y="86" text-anchor="middle" fill="#0C4A6E" font-size="9">Skewed data or</text>
-        <text x="129" y="98" text-anchor="middle" fill="#0C4A6E" font-size="9">extreme outliers</text>
-        <text x="215" y="86" text-anchor="middle" fill="#0C4A6E" font-size="9">You need exact</text>
-        <text x="215" y="98" text-anchor="middle" fill="#0C4A6E" font-size="9">calculation</text>
-        <!-- Row 3 Mean -->
-        <rect x="0" y="112" width="260" height="44" fill="#F0F9FF"/>
-        <text x="43"  y="130" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Mean</text>
-        <text x="43"  y="144" text-anchor="middle" fill="#0369A1" font-size="9">sum ÷ count</text>
-        <text x="129" y="130" text-anchor="middle" fill="#0C4A6E" font-size="9">Evenly spread</text>
-        <text x="129" y="142" text-anchor="middle" fill="#0C4A6E" font-size="9">numerical data</text>
-        <text x="215" y="130" text-anchor="middle" fill="#0C4A6E" font-size="9">Large outliers</text>
-        <text x="215" y="142" text-anchor="middle" fill="#0C4A6E" font-size="9">skew the result</text>
-        <!-- Bottom note -->
-        <text x="130" y="170" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">Use all three together for a complete picture!</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="background:rgba(255,255,255,.15);color:#e0f0ff;">Page 7</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <!-- Lab background gradients -->
+          <linearGradient id="ss7-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2038"/>
+            <stop offset="100%" stop-color="#0d1a2e"/>
+          </linearGradient>
+          <linearGradient id="ss7-bench" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#162d4a"/>
+          </linearGradient>
+          <linearGradient id="ss7-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a1e35"/>
+            <stop offset="100%" stop-color="#060d1a"/>
+          </linearGradient>
+          <!-- Table card gradient -->
+          <linearGradient id="ss7-hdr" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#1e3a8a"/>
+            <stop offset="100%" stop-color="#5b21b6"/>
+          </linearGradient>
+          <linearGradient id="ss7-row1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e2d4a"/>
+            <stop offset="100%" stop-color="#162540"/>
+          </linearGradient>
+          <linearGradient id="ss7-row2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#16213a"/>
+            <stop offset="100%" stop-color="#111c30"/>
+          </linearGradient>
+          <!-- Dr Vera character gradients -->
+          <radialGradient id="ss7-vera-head" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#f4d5b0"/>
+            <stop offset="55%" stop-color="#d4956a"/>
+            <stop offset="100%" stop-color="#9c5c30"/>
+          </radialGradient>
+          <radialGradient id="ss7-vera-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#c4b5fd"/>
+            <stop offset="50%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <!-- Drop shadow filter -->
+          <filter id="ss7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="ss7-glow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Lab background -->
+        <rect x="0" y="0" width="300" height="280" fill="url(#ss7-wall)"/>
+        <line x1="0" y1="180" x2="300" y2="180" stroke="#1e3a5f" stroke-width="1.5"/>
+        <rect x="0" y="180" width="300" height="55" fill="url(#ss7-bench)"/>
+        <rect x="0" y="235" width="300" height="35" fill="url(#ss7-floor)"/>
+        <rect x="0" y="258" width="300" height="22" fill="#060d1a"/>
+        <!-- Floor tiles -->
+        <line x1="60" y1="235" x2="60" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="120" y1="235" x2="120" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="180" y1="235" x2="180" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="240" y1="235" x2="240" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="0" y1="252" x2="300" y2="252" stroke="#0d2540" stroke-width="0.7"/>
+
+        <!-- Wall deco: equations -->
+        <text x="8" y="22" fill="#1e3a5f" font-size="8" font-family="monospace">MODE = most frequent</text>
+        <text x="8" y="33" fill="#1e3a5f" font-size="8" font-family="monospace">MEDIAN = middle value</text>
+        <text x="8" y="44" fill="#1e3a5f" font-size="8" font-family="monospace">MEAN = Σx ÷ n</text>
+
+        <!-- Comparison table card -->
+        <g filter="url(#ss7-sh)">
+          <rect x="22" y="14" width="210" height="158" rx="10" fill="#0f1e35" stroke="#1e3a8a" stroke-width="1.2"/>
+          <!-- Header row -->
+          <rect x="22" y="14" width="210" height="26" rx="10" fill="url(#ss7-hdr)"/>
+          <rect x="22" y="28" width="210" height="12" fill="url(#ss7-hdr)"/>
+          <text x="57"  y="32" text-anchor="middle" fill="white" font-size="9" font-weight="700">Average</text>
+          <text x="127" y="32" text-anchor="middle" fill="white" font-size="9" font-weight="700">Best For</text>
+          <text x="200" y="32" text-anchor="middle" fill="white" font-size="9" font-weight="700">Avoid When</text>
+          <!-- Column dividers -->
+          <line x1="90"  y1="14" x2="90"  y2="172" stroke="#1e3a8a" stroke-width="0.8"/>
+          <line x1="162" y1="14" x2="162" y2="172" stroke="#1e3a8a" stroke-width="0.8"/>
+          <!-- Row 1 — MODE -->
+          <rect x="22" y="40" width="210" height="38" fill="url(#ss7-row1)"/>
+          <!-- Mode badge -->
+          <rect x="27" y="44" width="58" height="28" rx="5" fill="#1e3a8a"/>
+          <text x="56" y="56" text-anchor="middle" fill="#93c5fd" font-size="9.5" font-weight="700">Mode</text>
+          <text x="56" y="67" text-anchor="middle" fill="#7dd3fc" font-size="7.5">most common</text>
+          <text x="124" y="55" text-anchor="middle" fill="#bfdbfe" font-size="8">Categorical data</text>
+          <text x="124" y="65" text-anchor="middle" fill="#93c5fd" font-size="7.5">e.g. shoe sizes</text>
+          <text x="194" y="55" text-anchor="middle" fill="#bfdbfe" font-size="8">All values are</text>
+          <text x="194" y="65" text-anchor="middle" fill="#93c5fd" font-size="7.5">different</text>
+          <!-- Row 2 — MEDIAN -->
+          <rect x="22" y="78" width="210" height="38" fill="url(#ss7-row2)"/>
+          <rect x="27" y="82" width="58" height="28" rx="5" fill="#312e81"/>
+          <text x="56" y="94" text-anchor="middle" fill="#a5b4fc" font-size="9.5" font-weight="700">Median</text>
+          <text x="56" y="105" text-anchor="middle" fill="#818cf8" font-size="7.5">middle value</text>
+          <text x="124" y="93" text-anchor="middle" fill="#bfdbfe" font-size="8">Skewed data /</text>
+          <text x="124" y="103" text-anchor="middle" fill="#93c5fd" font-size="7.5">outliers present</text>
+          <text x="194" y="93" text-anchor="middle" fill="#bfdbfe" font-size="8">Need exact</text>
+          <text x="194" y="103" text-anchor="middle" fill="#93c5fd" font-size="7.5">calculation</text>
+          <!-- Row 3 — MEAN -->
+          <rect x="22" y="116" width="210" height="38" fill="url(#ss7-row1)"/>
+          <rect x="27" y="120" width="58" height="28" rx="5" fill="#065f46"/>
+          <text x="56" y="132" text-anchor="middle" fill="#6ee7b7" font-size="9.5" font-weight="700">Mean</text>
+          <text x="56" y="143" text-anchor="middle" fill="#34d399" font-size="7.5">sum ÷ count</text>
+          <text x="124" y="131" text-anchor="middle" fill="#bfdbfe" font-size="8">Evenly spread</text>
+          <text x="124" y="141" text-anchor="middle" fill="#93c5fd" font-size="7.5">numerical data</text>
+          <text x="194" y="131" text-anchor="middle" fill="#bfdbfe" font-size="8">Large outliers</text>
+          <text x="194" y="141" text-anchor="middle" fill="#93c5fd" font-size="7.5">skew result</text>
+          <!-- Bottom tip -->
+          <rect x="22" y="154" width="210" height="18" rx="0" fill="#0f2038" rx="0"/>
+          <rect x="22" y="161" width="210" height="11" rx="0" fill="#0f2038"/>
+          <text x="127" y="167" text-anchor="middle" fill="#34d399" font-size="8" font-weight="700">Use all three together for the full picture!</text>
+        </g>
+
+        <!-- Dr Vera character -->
+        <g filter="url(#ss7-sh)" transform="translate(243,60)">
+          <!-- Body / coat -->
+          <ellipse cx="22" cy="66" rx="16" ry="22" fill="url(#ss7-vera-body)"/>
+          <!-- Head -->
+          <circle cx="22" cy="42" r="14" fill="url(#ss7-vera-head)"/>
+          <!-- Hair -->
+          <ellipse cx="22" cy="32" rx="13" ry="8" fill="#2d1a4a"/>
+          <ellipse cx="12" cy="36" rx="5" ry="9" fill="#2d1a4a"/>
+          <ellipse cx="32" cy="36" rx="5" ry="9" fill="#2d1a4a"/>
+          <!-- Glasses -->
+          <rect x="14" y="40" width="7" height="5" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="1.2"/>
+          <rect x="23" y="40" width="7" height="5" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="1.2"/>
+          <line x1="21" y1="42" x2="23" y2="42" stroke="#fbbf24" stroke-width="0.8"/>
+          <!-- Eyes -->
+          <circle cx="17" cy="43" r="1.5" fill="white"/>
+          <circle cx="26" cy="43" r="1.5" fill="white"/>
+          <circle cx="17.4" cy="43.2" r="0.8" fill="#1a0a30"/>
+          <circle cx="26.4" cy="43.2" r="0.8" fill="#1a0a30"/>
+          <circle cx="17" cy="42.8" r="0.3" fill="white"/>
+          <circle cx="26" cy="42.8" r="0.3" fill="white"/>
+          <!-- Lab coat lapels -->
+          <polygon points="14,58 20,52 20,80 8,80" fill="#e0e7ff" opacity="0.85"/>
+          <polygon points="30,58 24,52 24,80 36,80" fill="#e0e7ff" opacity="0.85"/>
+          <!-- Pointer arm -->
+          <line x1="8" y1="62" x2="-16" y2="90" stroke="#d4956a" stroke-width="3" stroke-linecap="round"/>
+          <line x1="-16" y1="90" x2="-30" y2="106" stroke="#c0a060" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Legs -->
+          <rect x="14" y="80" width="7" height="18" rx="3" fill="#4c1d95"/>
+          <rect x="23" y="80" width="7" height="18" rx="3" fill="#4c1d95"/>
+        </g>
+
+        <!-- Lab bench items -->
+        <rect x="20" y="183" width="55" height="28" rx="4" fill="#0a1e35" stroke="#1e3a5f" stroke-width="1"/>
+        <text x="47" y="196" text-anchor="middle" fill="#3b82f6" font-size="7" font-weight="700">STATISTICS</text>
+        <text x="47" y="206" text-anchor="middle" fill="#60a5fa" font-size="6">TEXTBOOK</text>
+        <rect x="22" y="181" width="51" height="3" rx="1" fill="#1e3a8a"/>
+
+        <!-- Flask -->
+        <ellipse cx="140" cy="200" rx="12" ry="7" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="134" y="185" width="12" height="16" rx="2" fill="#0a2040"/>
+        <ellipse cx="140" cy="185" rx="6" ry="2" fill="#1e3a5f"/>
+        <ellipse cx="140" cy="196" rx="8" ry="4" fill="#0d4a6e" opacity="0.7"/>
+
+        <!-- Page label -->
+        <rect x="112" y="262" width="76" height="14" rx="7" fill="#1e3a8a" opacity="0.8"/>
+        <text x="150" y="272" text-anchor="middle" fill="#93c5fd" font-size="8" font-weight="700">Page 7</text>
       </svg>
-      <div class="illus-caption">Choosing the right average for your data</div>
+      <div class="illus-caption" style="color:#93c5fd;">Choosing the right average for your data</div>
     </div>
 
     <div class="story-panel">
@@ -711,59 +1371,163 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 8 – FREQUENCY TABLES -->
   <div class="book-page" id="page-8">
-    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#F0F9FF);">
-      <div class="page-num-illus">Page 8</div>
-      <div style="font-size:1.8rem;margin-bottom:6px;">📋</div>
-      <!-- SVG: Frequency table -->
-      <svg width="260" height="185" viewBox="0 0 260 185" style="margin:0 auto;">
-        <rect x="0" y="0" width="260" height="185" rx="10" fill="white" stroke="#BAE6FD" stroke-width="2"/>
-        <!-- Header -->
-        <rect x="0" y="0" width="260" height="28" rx="10" fill="#0369A1"/>
-        <rect x="0" y="16" width="260" height="12" fill="#0369A1"/>
-        <text x="40"  y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Score</text>
-        <text x="110" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Tally</text>
-        <text x="175" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">Frequency</text>
-        <text x="230" y="19" text-anchor="middle" fill="white" font-size="10" font-weight="700">f × x</text>
-        <!-- Dividers -->
-        <line x1="70"  y1="0" x2="70"  y2="185" stroke="#E0F2FE" stroke-width="1"/>
-        <line x1="145" y1="0" x2="145" y2="185" stroke="#E0F2FE" stroke-width="1"/>
-        <line x1="205" y1="0" x2="205" y2="185" stroke="#E0F2FE" stroke-width="1"/>
-        <!-- Row 1 -->
-        <rect x="0" y="28" width="260" height="26" fill="#F0F9FF"/>
-        <text x="40"  y="45" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">1</text>
-        <text x="107" y="45" text-anchor="middle" fill="#0C4A6E" font-size="11">||</text>
-        <text x="175" y="45" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">2</text>
-        <text x="230" y="45" text-anchor="middle" fill="#0C4A6E" font-size="11">2</text>
-        <!-- Row 2 -->
-        <text x="40"  y="71" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">2</text>
-        <text x="107" y="71" text-anchor="middle" fill="#0C4A6E" font-size="11">||||</text>
-        <text x="175" y="71" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">4</text>
-        <text x="230" y="71" text-anchor="middle" fill="#0C4A6E" font-size="11">8</text>
-        <!-- Row 3 -->
-        <rect x="0" y="80" width="260" height="26" fill="#F0F9FF"/>
-        <text x="40"  y="97" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">3</text>
-        <text x="107" y="97" text-anchor="middle" fill="#0C4A6E" font-size="10">|||| |</text>
-        <text x="175" y="97" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">6</text>
-        <text x="230" y="97" text-anchor="middle" fill="#0C4A6E" font-size="11">18</text>
-        <!-- Row 4 -->
-        <text x="40"  y="123" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">4</text>
-        <text x="107" y="123" text-anchor="middle" fill="#0C4A6E" font-size="11">|||</text>
-        <text x="175" y="123" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">3</text>
-        <text x="230" y="123" text-anchor="middle" fill="#0C4A6E" font-size="11">12</text>
-        <!-- Row 5 -->
-        <rect x="0" y="132" width="260" height="26" fill="#F0F9FF"/>
-        <text x="40"  y="149" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">5</text>
-        <text x="107" y="149" text-anchor="middle" fill="#0C4A6E" font-size="11">|</text>
-        <text x="175" y="149" text-anchor="middle" fill="#0C4A6E" font-size="11" font-weight="700">1</text>
-        <text x="230" y="149" text-anchor="middle" fill="#0C4A6E" font-size="11">5</text>
-        <!-- Totals -->
-        <line x1="0" y1="158" x2="260" y2="158" stroke="#0369A1" stroke-width="1.5"/>
-        <text x="100" y="173" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="700">Total freq: 16</text>
-        <text x="230" y="173" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">45</text>
-        <text x="175" y="173" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">Σf·x =</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="background:rgba(255,255,255,.15);color:#e0f0ff;">Page 8</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss8-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2038"/>
+            <stop offset="100%" stop-color="#0d1a2e"/>
+          </linearGradient>
+          <linearGradient id="ss8-bench" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#162d4a"/>
+          </linearGradient>
+          <linearGradient id="ss8-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a1e35"/>
+            <stop offset="100%" stop-color="#060d1a"/>
+          </linearGradient>
+          <linearGradient id="ss8-hdr" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#065f46"/>
+            <stop offset="100%" stop-color="#0369a1"/>
+          </linearGradient>
+          <linearGradient id="ss8-totrow" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7c2d12"/>
+            <stop offset="100%" stop-color="#9a3412"/>
+          </linearGradient>
+          <!-- Dr Rex body -->
+          <radialGradient id="ss8-rex-head" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#f4d5b0"/>
+            <stop offset="55%" stop-color="#c8865c"/>
+            <stop offset="100%" stop-color="#8c4a22"/>
+          </radialGradient>
+          <radialGradient id="ss8-rex-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a7f3d0"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <filter id="ss8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Lab background -->
+        <rect x="0" y="0" width="300" height="280" fill="url(#ss8-wall)"/>
+        <line x1="0" y1="180" x2="300" y2="180" stroke="#1e3a5f" stroke-width="1.5"/>
+        <rect x="0" y="180" width="300" height="55" fill="url(#ss8-bench)"/>
+        <rect x="0" y="235" width="300" height="35" fill="url(#ss8-floor)"/>
+        <rect x="0" y="258" width="300" height="22" fill="#060d1a"/>
+        <!-- floor tiles -->
+        <line x1="60" y1="235" x2="60" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="120" y1="235" x2="120" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="180" y1="235" x2="180" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="240" y1="235" x2="240" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="0" y1="252" x2="300" y2="252" stroke="#0d2540" stroke-width="0.7"/>
+
+        <!-- Sensor data display — wall monitor context -->
+        <rect x="14" y="5" width="228" height="12" rx="3" fill="#062a15" stroke="#065f46" stroke-width="0.8"/>
+        <text x="128" y="14" text-anchor="middle" fill="#34d399" font-size="8" font-weight="700">STORM SEVERITY — 16 SENSOR READINGS</text>
+
+        <!-- Frequency table card -->
+        <g filter="url(#ss8-sh)">
+          <rect x="14" y="20" width="228" height="155" rx="9" fill="#0a1825" stroke="#0369a1" stroke-width="1.2"/>
+          <!-- Header -->
+          <rect x="14" y="20" width="228" height="24" rx="9" fill="url(#ss8-hdr)"/>
+          <rect x="14" y="32" width="228" height="12" fill="url(#ss8-hdr)"/>
+          <text x="40"  y="36" text-anchor="middle" fill="white" font-size="9" font-weight="700">Score</text>
+          <text x="95"  y="36" text-anchor="middle" fill="white" font-size="9" font-weight="700">Tally</text>
+          <text x="162" y="36" text-anchor="middle" fill="white" font-size="9" font-weight="700">Freq (f)</text>
+          <text x="220" y="36" text-anchor="middle" fill="white" font-size="9" font-weight="700">f × x</text>
+          <!-- Column dividers -->
+          <line x1="62"  y1="20" x2="62"  y2="175" stroke="#0d3060" stroke-width="0.8"/>
+          <line x1="130" y1="20" x2="130" y2="175" stroke="#0d3060" stroke-width="0.8"/>
+          <line x1="195" y1="20" x2="195" y2="175" stroke="#0d3060" stroke-width="0.8"/>
+          <!-- Row separators -->
+          <line x1="14" y1="44" x2="242" y2="44" stroke="#0d3060" stroke-width="0.6"/>
+          <line x1="14" y1="66" x2="242" y2="66" stroke="#0d3060" stroke-width="0.6"/>
+          <line x1="14" y1="88" x2="242" y2="88" stroke="#0d3060" stroke-width="0.6"/>
+          <line x1="14" y1="110" x2="242" y2="110" stroke="#0d3060" stroke-width="0.6"/>
+          <line x1="14" y1="132" x2="242" y2="132" stroke="#0d3060" stroke-width="0.6"/>
+          <!-- Row 1 — Score 1, f=2, fx=2 -->
+          <rect x="14" y="44" width="228" height="22" fill="#0d2040" opacity="0.5"/>
+          <text x="40"  y="59" text-anchor="middle" fill="#7dd3fc" font-size="11" font-weight="700">1</text>
+          <text x="95"  y="59" text-anchor="middle" fill="#60a5fa" font-size="11">||</text>
+          <text x="162" y="59" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="700">2</text>
+          <text x="220" y="59" text-anchor="middle" fill="#bfdbfe" font-size="11">2</text>
+          <!-- Row 2 — Score 2, f=4, fx=8 -->
+          <text x="40"  y="81" text-anchor="middle" fill="#7dd3fc" font-size="11" font-weight="700">2</text>
+          <text x="95"  y="81" text-anchor="middle" fill="#60a5fa" font-size="11">||||</text>
+          <text x="162" y="81" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="700">4</text>
+          <text x="220" y="81" text-anchor="middle" fill="#bfdbfe" font-size="11">8</text>
+          <!-- Row 3 — Score 3, f=6, fx=18 — highlighted as MODE -->
+          <rect x="14" y="88" width="228" height="22" fill="#1a3a1a" opacity="0.8"/>
+          <text x="40"  y="103" text-anchor="middle" fill="#7dd3fc" font-size="11" font-weight="700">3</text>
+          <text x="90"  y="103" text-anchor="middle" fill="#60a5fa" font-size="10">|||| |</text>
+          <text x="162" y="103" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">6</text>
+          <text x="220" y="103" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="700">18</text>
+          <text x="242" y="100" fill="#fbbf24" font-size="7" font-weight="700">MODE</text>
+          <!-- Row 4 — Score 4, f=3, fx=12 -->
+          <rect x="14" y="110" width="228" height="22" fill="#0d2040" opacity="0.5"/>
+          <text x="40"  y="125" text-anchor="middle" fill="#7dd3fc" font-size="11" font-weight="700">4</text>
+          <text x="95"  y="125" text-anchor="middle" fill="#60a5fa" font-size="11">|||</text>
+          <text x="162" y="125" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="700">3</text>
+          <text x="220" y="125" text-anchor="middle" fill="#bfdbfe" font-size="11">12</text>
+          <!-- Row 5 — Score 5, f=1, fx=5 -->
+          <text x="40"  y="147" text-anchor="middle" fill="#7dd3fc" font-size="11" font-weight="700">5</text>
+          <text x="95"  y="147" text-anchor="middle" fill="#60a5fa" font-size="11">|</text>
+          <text x="162" y="147" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="700">1</text>
+          <text x="220" y="147" text-anchor="middle" fill="#bfdbfe" font-size="11">5</text>
+          <!-- Totals row -->
+          <rect x="14" y="154" width="228" height="21" rx="0" fill="url(#ss8-totrow)" opacity="0.85"/>
+          <rect x="14" y="161" width="228" height="14" fill="url(#ss8-totrow)" opacity="0.85"/>
+          <text x="95"  y="169" text-anchor="middle" fill="white" font-size="9" font-weight="700">Σf = 16</text>
+          <text x="198" y="169" text-anchor="middle" fill="white" font-size="9" font-weight="700">Σ(f·x) =</text>
+          <text x="228" y="169" text-anchor="middle" fill="#fde68a" font-size="10" font-weight="700">45</text>
+        </g>
+
+        <!-- Mean result banner -->
+        <g filter="url(#ss8-sh)">
+          <rect x="14" y="178" width="228" height="20" rx="5" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1"/>
+          <text x="128" y="192" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700">Mean = 45 ÷ 16 = 2.8125</text>
+        </g>
+
+        <!-- Dr Rex character (right side) -->
+        <g filter="url(#ss8-sh)" transform="translate(248,55)">
+          <!-- Body coat -->
+          <ellipse cx="20" cy="66" rx="15" ry="22" fill="url(#ss8-rex-body)"/>
+          <!-- Head -->
+          <circle cx="20" cy="40" r="13" fill="url(#ss8-rex-head)"/>
+          <!-- Hair — brown -->
+          <ellipse cx="20" cy="31" rx="12" ry="7" fill="#7c3a1a"/>
+          <ellipse cx="10" cy="34" rx="4" ry="8" fill="#7c3a1a"/>
+          <ellipse cx="30" cy="34" rx="4" ry="8" fill="#7c3a1a"/>
+          <!-- Eyes -->
+          <circle cx="15" cy="42" r="1.5" fill="white"/>
+          <circle cx="25" cy="42" r="1.5" fill="white"/>
+          <circle cx="15.4" cy="42.2" r="0.8" fill="#1a0a00"/>
+          <circle cx="25.4" cy="42.2" r="0.8" fill="#1a0a00"/>
+          <circle cx="15" cy="42" r="0.3" fill="white"/>
+          <circle cx="25" cy="42" r="0.3" fill="white"/>
+          <!-- Coat lapels -->
+          <polygon points="12,57 18,52 18,80 6,80" fill="#ecfdf5" opacity="0.85"/>
+          <polygon points="28,57 22,52 22,80 34,80" fill="#ecfdf5" opacity="0.85"/>
+          <!-- Pointing arm left -->
+          <line x1="6" y1="62" x2="-20" y2="72" stroke="#c8865c" stroke-width="3" stroke-linecap="round"/>
+          <!-- Legs -->
+          <rect x="12" y="80" width="6" height="18" rx="3" fill="#064e3b"/>
+          <rect x="22" y="80" width="6" height="18" rx="3" fill="#064e3b"/>
+        </g>
+
+        <!-- Bench items -->
+        <rect x="16" y="184" width="40" height="28" rx="3" fill="#0a1e35" stroke="#1e3a5f" stroke-width="0.8"/>
+        <text x="36" y="197" text-anchor="middle" fill="#3b82f6" font-size="6.5" font-weight="700">DATA</text>
+        <text x="36" y="207" text-anchor="middle" fill="#60a5fa" font-size="6">SENSORS</text>
+
+        <!-- Page label -->
+        <rect x="112" y="262" width="76" height="14" rx="7" fill="#065f46" opacity="0.8"/>
+        <text x="150" y="272" text-anchor="middle" fill="#6ee7b7" font-size="8" font-weight="700">Page 8</text>
       </svg>
-      <div style="font-size:.72rem;font-weight:700;color:#0369A1;margin-top:3px;">Mean = 45 ÷ 16 = 2.8125</div>
-      <div class="illus-caption">Frequency tables organise large data sets efficiently</div>
+      <div class="illus-caption" style="color:#6ee7b7;">Frequency tables organise large data sets efficiently</div>
     </div>
 
     <div class="story-panel">
@@ -802,49 +1566,158 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 9 – BAR CHARTS AND HISTOGRAMS -->
   <div class="book-page" id="page-9">
-    <div class="illustration" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE);">
-      <div class="page-num-illus">Page 9</div>
-      <div style="font-size:1.8rem;margin-bottom:4px;">📈</div>
-      <!-- SVG: Grouped bar chart (two groups: City A and City B, 4 months) -->
-      <svg width="255" height="175" viewBox="0 0 255 175" style="margin:0 auto;">
-        <text x="127" y="14" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Monthly Rainfall (mm) — Two Cities</text>
-        <!-- Axes -->
-        <line x1="30" y1="20" x2="30" y2="145" stroke="#0369A1" stroke-width="2"/>
-        <line x1="30" y1="145" x2="248" y2="145" stroke="#0369A1" stroke-width="2"/>
-        <!-- Y labels -->
-        <text x="26" y="148" text-anchor="end" fill="#0369A1" font-size="9">0</text>
-        <text x="26" y="120" text-anchor="end" fill="#0369A1" font-size="9">20</text>
-        <text x="26" y="92"  text-anchor="end" fill="#0369A1" font-size="9">40</text>
-        <text x="26" y="64"  text-anchor="end" fill="#0369A1" font-size="9">60</text>
-        <text x="26" y="36"  text-anchor="end" fill="#0369A1" font-size="9">80</text>
-        <!-- Gridlines -->
-        <line x1="30" y1="120" x2="248" y2="120" stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
-        <line x1="30" y1="92"  x2="248" y2="92"  stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
-        <line x1="30" y1="64"  x2="248" y2="64"  stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
-        <line x1="30" y1="36"  x2="248" y2="36"  stroke="#E0F2FE" stroke-width="1" stroke-dasharray="4,3"/>
-        <!-- Group 1: Jan (City A=40mm, City B=55mm) -->
-        <rect x="38"  y="95"  width="18" height="50" fill="#0EA5E9" rx="2"/>
-        <rect x="58"  y="76"  width="18" height="69" fill="#7DD3FC" rx="2"/>
-        <text x="57"  y="158" text-anchor="middle" fill="#0369A1" font-size="9">Jan</text>
-        <!-- Group 2: Feb (A=30, B=45) -->
-        <rect x="88"  y="109" width="18" height="36" fill="#0EA5E9" rx="2"/>
-        <rect x="108" y="95"  width="18" height="50" fill="#7DD3FC" rx="2"/>
-        <text x="107" y="158" text-anchor="middle" fill="#0369A1" font-size="9">Feb</text>
-        <!-- Group 3: Mar (A=60, B=35) -->
-        <rect x="138" y="64"  width="18" height="81" fill="#0EA5E9" rx="2"/>
-        <rect x="158" y="103" width="18" height="42" fill="#7DD3FC" rx="2"/>
-        <text x="157" y="158" text-anchor="middle" fill="#0369A1" font-size="9">Mar</text>
-        <!-- Group 4: Apr (A=25, B=70) -->
-        <rect x="188" y="117" width="18" height="28" fill="#0EA5E9" rx="2"/>
-        <rect x="208" y="53"  width="18" height="92" fill="#7DD3FC" rx="2"/>
-        <text x="207" y="158" text-anchor="middle" fill="#0369A1" font-size="9">Apr</text>
-        <!-- Legend -->
-        <rect x="35"  y="165" width="10" height="8" fill="#0EA5E9" rx="1"/>
-        <text x="48"  y="173" fill="#0369A1" font-size="9" font-weight="600">City A</text>
-        <rect x="110" y="165" width="10" height="8" fill="#7DD3FC" rx="1"/>
-        <text x="123" y="173" fill="#0369A1" font-size="9" font-weight="600">City B</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="background:rgba(255,255,255,.15);color:#e0f0ff;">Page 9</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss9-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2038"/>
+            <stop offset="100%" stop-color="#0d1a2e"/>
+          </linearGradient>
+          <linearGradient id="ss9-bench" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#162d4a"/>
+          </linearGradient>
+          <linearGradient id="ss9-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a1e35"/>
+            <stop offset="100%" stop-color="#060d1a"/>
+          </linearGradient>
+          <!-- Chart bar gradients City A (blue) -->
+          <linearGradient id="ss9-barA" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#38bdf8"/>
+            <stop offset="100%" stop-color="#0369a1"/>
+          </linearGradient>
+          <!-- Chart bar gradients City B (teal/cyan) -->
+          <linearGradient id="ss9-barB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#5eead4"/>
+            <stop offset="100%" stop-color="#0f766e"/>
+          </linearGradient>
+          <!-- Bar highlight for March A (peak) -->
+          <linearGradient id="ss9-barA-hi" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </linearGradient>
+          <!-- Dr Vera body -->
+          <radialGradient id="ss9-vera-head" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#f4d5b0"/>
+            <stop offset="55%" stop-color="#d4956a"/>
+            <stop offset="100%" stop-color="#9c5c30"/>
+          </radialGradient>
+          <radialGradient id="ss9-vera-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#c4b5fd"/>
+            <stop offset="50%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <filter id="ss9-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Lab background -->
+        <rect x="0" y="0" width="300" height="280" fill="url(#ss9-wall)"/>
+        <line x1="0" y1="182" x2="300" y2="182" stroke="#1e3a5f" stroke-width="1.5"/>
+        <rect x="0" y="182" width="300" height="55" fill="url(#ss9-bench)"/>
+        <rect x="0" y="237" width="300" height="35" fill="url(#ss9-floor)"/>
+        <rect x="0" y="260" width="300" height="20" fill="#060d1a"/>
+        <!-- floor tiles -->
+        <line x1="60" y1="237" x2="60" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="120" y1="237" x2="120" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="180" y1="237" x2="180" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="240" y1="237" x2="240" y2="270" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="0" y1="254" x2="300" y2="254" stroke="#0d2540" stroke-width="0.7"/>
+
+        <!-- Chart panel pinned to lab wall -->
+        <g filter="url(#ss9-sh)">
+          <rect x="14" y="6" width="245" height="168" rx="8" fill="#091420" stroke="#0369a1" stroke-width="1.2"/>
+          <!-- Chart title -->
+          <rect x="14" y="6" width="245" height="20" rx="8" fill="#0369a1"/>
+          <rect x="14" y="16" width="245" height="10" fill="#0369a1"/>
+          <text x="136" y="20" text-anchor="middle" fill="white" font-size="9" font-weight="700">Monthly Rainfall (mm) — Two Cities</text>
+          <!-- Y axis -->
+          <line x1="40" y1="28" x2="40" y2="155" stroke="#1e3a5f" stroke-width="1.5"/>
+          <!-- X axis -->
+          <line x1="40" y1="155" x2="250" y2="155" stroke="#1e3a5f" stroke-width="1.5"/>
+          <!-- Y grid and labels (scale 0-80, each 20 = 31.75px) -->
+          <line x1="40" y1="29" x2="250" y2="29" stroke="#0d2a4a" stroke-width="0.8" stroke-dasharray="4,3"/>
+          <line x1="40" y1="60" x2="250" y2="60" stroke="#0d2a4a" stroke-width="0.8" stroke-dasharray="4,3"/>
+          <line x1="40" y1="91" x2="250" y2="91" stroke="#0d2a4a" stroke-width="0.8" stroke-dasharray="4,3"/>
+          <line x1="40" y1="123" x2="250" y2="123" stroke="#0d2a4a" stroke-width="0.8" stroke-dasharray="4,3"/>
+          <text x="37" y="32"  text-anchor="end" fill="#60a5fa" font-size="7.5">80</text>
+          <text x="37" y="63"  text-anchor="end" fill="#60a5fa" font-size="7.5">60</text>
+          <text x="37" y="94"  text-anchor="end" fill="#60a5fa" font-size="7.5">40</text>
+          <text x="37" y="126" text-anchor="end" fill="#60a5fa" font-size="7.5">20</text>
+          <text x="37" y="158" text-anchor="end" fill="#60a5fa" font-size="7.5">0</text>
+
+          <!-- scale: 80mm = 126px top(29) to bottom(155) → 126/80 = 1.575px/mm -->
+          <!-- Group 1: Jan (A=40→63px, B=55→86.6px) -->
+          <rect x="50"  y="92"  width="16" height="63" fill="url(#ss9-barA)" rx="2"/>
+          <rect x="68"  y="69"  width="16" height="86" fill="url(#ss9-barB)" rx="2"/>
+          <text x="67"  y="166" text-anchor="middle" fill="#60a5fa" font-size="8">Jan</text>
+          <!-- Group 2: Feb (A=30→47px, B=45→71px) -->
+          <rect x="99"  y="108" width="16" height="47" fill="url(#ss9-barA)" rx="2"/>
+          <rect x="117" y="84"  width="16" height="71" fill="url(#ss9-barB)" rx="2"/>
+          <text x="116" y="166" text-anchor="middle" fill="#60a5fa" font-size="8">Feb</text>
+          <!-- Group 3: Mar (A=60→94.5px highlight, B=35→55px) -->
+          <rect x="148" y="60"  width="16" height="95" fill="url(#ss9-barA-hi)" rx="2"/>
+          <rect x="166" y="100" width="16" height="55" fill="url(#ss9-barB)" rx="2"/>
+          <text x="165" y="166" text-anchor="middle" fill="#60a5fa" font-size="8">Mar</text>
+          <!-- Peak annotation for City A March -->
+          <text x="156" y="57" text-anchor="middle" fill="#fde68a" font-size="7" font-weight="700">60!</text>
+          <!-- Group 4: Apr (A=25→39px, B=70→110px) -->
+          <rect x="197" y="116" width="16" height="39" fill="url(#ss9-barA)" rx="2"/>
+          <rect x="215" y="45"  width="16" height="110" fill="url(#ss9-barB)" rx="2"/>
+          <text x="214" y="166" text-anchor="middle" fill="#60a5fa" font-size="8">Apr</text>
+          <!-- City B April peak -->
+          <text x="223" y="42" text-anchor="middle" fill="#5eead4" font-size="7" font-weight="700">70!</text>
+
+          <!-- Legend -->
+          <rect x="44"  y="174" width="10" height="8" fill="url(#ss9-barA)" rx="1"/>
+          <text x="57"  y="181" fill="#7dd3fc" font-size="8" font-weight="600">City A</text>
+          <rect x="110" y="174" width="10" height="8" fill="url(#ss9-barB)" rx="1"/>
+          <text x="123" y="181" fill="#5eead4" font-size="8" font-weight="600">City B</text>
+          <text x="200" y="181" fill="#fde68a" font-size="7.5">A peaks Mar, B peaks Apr</text>
+        </g>
+
+        <!-- Dr Vera character (right side, near bench) -->
+        <g filter="url(#ss9-sh)" transform="translate(252,110)">
+          <ellipse cx="20" cy="60" rx="14" ry="20" fill="url(#ss9-vera-body)"/>
+          <circle cx="20" cy="36" r="13" fill="url(#ss9-vera-head)"/>
+          <!-- Hair -->
+          <ellipse cx="20" cy="27" rx="12" ry="7" fill="#2d1a4a"/>
+          <ellipse cx="10" cy="31" rx="4.5" ry="8" fill="#2d1a4a"/>
+          <ellipse cx="30" cy="31" rx="4.5" ry="8" fill="#2d1a4a"/>
+          <!-- Glasses -->
+          <rect x="13" y="34" width="6" height="4.5" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="1"/>
+          <rect x="21" y="34" width="6" height="4.5" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="1"/>
+          <line x1="19" y1="36" x2="21" y2="36" stroke="#fbbf24" stroke-width="0.8"/>
+          <!-- Eyes -->
+          <circle cx="16" cy="37" r="1.4" fill="white"/>
+          <circle cx="24" cy="37" r="1.4" fill="white"/>
+          <circle cx="16.3" cy="37.2" r="0.7" fill="#1a0a30"/>
+          <circle cx="24.3" cy="37.2" r="0.7" fill="#1a0a30"/>
+          <circle cx="16" cy="37" r="0.3" fill="white"/>
+          <circle cx="24" cy="37" r="0.3" fill="white"/>
+          <!-- Coat lapels -->
+          <polygon points="12,52 17,47 17,74 6,74" fill="#ede9fe" opacity="0.85"/>
+          <polygon points="28,52 23,47 23,74 34,74" fill="#ede9fe" opacity="0.85"/>
+          <!-- Pointer arm pointing left at chart -->
+          <line x1="6" y1="56" x2="-22" y2="44" stroke="#d4956a" stroke-width="3" stroke-linecap="round"/>
+          <line x1="-22" y1="44" x2="-36" y2="40" stroke="#b07840" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Legs -->
+          <rect x="13" y="74" width="6" height="16" rx="3" fill="#4c1d95"/>
+          <rect x="21" y="74" width="6" height="16" rx="3" fill="#4c1d95"/>
+        </g>
+
+        <!-- Lab bench items -->
+        <rect x="16" y="186" width="50" height="28" rx="3" fill="#0a1e35" stroke="#1e3a5f" stroke-width="0.8"/>
+        <text x="41" y="199" text-anchor="middle" fill="#3b82f6" font-size="6.5" font-weight="700">RAINFALL</text>
+        <text x="41" y="209" text-anchor="middle" fill="#60a5fa" font-size="6">DATA LOGS</text>
+
+        <!-- Page label -->
+        <rect x="112" y="264" width="76" height="13" rx="6" fill="#0369a1" opacity="0.8"/>
+        <text x="150" y="273" text-anchor="middle" fill="#bae6fd" font-size="7.5" font-weight="700">Page 9</text>
       </svg>
-      <div class="illus-caption">Grouped bar charts compare two data sets at once</div>
+      <div class="illus-caption" style="color:#7dd3fc;">Grouped bar charts compare two data sets at once</div>
     </div>
 
     <div class="story-panel">
@@ -884,30 +1757,200 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 10 – COMPARING TWO DATA SETS -->
   <div class="book-page" id="page-10">
-    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#F0F9FF);">
-      <div class="page-num-illus">Page 10</div>
-      <div style="font-size:1.8rem;margin-bottom:6px;">📉</div>
-      <!-- SVG: Back-to-back comparison of two classes -->
-      <svg width="255" height="180" viewBox="0 0 255 180" style="margin:0 auto;">
-        <text x="127" y="15" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Test Score Comparison: Class X vs Class Y</text>
-        <rect x="5" y="22" width="115" height="80" rx="8" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1.5"/>
-        <rect x="130" y="22" width="120" height="80" rx="8" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
-        <text x="62"  y="38" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Class X</text>
-        <text x="190" y="38" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">Class Y</text>
-        <text x="62"  y="54" text-anchor="middle" fill="#0C4A6E" font-size="10">{55, 60, 65, 70, 75}</text>
-        <text x="190" y="54" text-anchor="middle" fill="#0C4A6E" font-size="10">{40, 58, 65, 72, 90}</text>
-        <text x="62"  y="70" text-anchor="middle" fill="#0369A1" font-size="10">Mean = <tspan font-weight="700">65</tspan></text>
-        <text x="190" y="70" text-anchor="middle" fill="#059669" font-size="10">Mean = <tspan font-weight="700">65</tspan></text>
-        <text x="62"  y="86" text-anchor="middle" fill="#0369A1" font-size="10">Range = <tspan font-weight="700">20</tspan></text>
-        <text x="190" y="86" text-anchor="middle" fill="#059669" font-size="10">Range = <tspan font-weight="700">50</tspan></text>
-        <!-- Conclusion -->
-        <rect x="5" y="112" width="245" height="62" rx="8" fill="white" stroke="#BAE6FD" stroke-width="1.5"/>
-        <text x="127" y="128" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Statistical Conclusion</text>
-        <text x="127" y="144" text-anchor="middle" fill="#0C4A6E" font-size="10">Both classes have the same mean (65).</text>
-        <text x="127" y="158" text-anchor="middle" fill="#0C4A6E" font-size="10">Class X is more consistent (range 20).</text>
-        <text x="127" y="172" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">Class Y is more variable (range 50).</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="background:rgba(255,255,255,.15);color:#e0f0ff;">Page 10</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss10-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2038"/>
+            <stop offset="100%" stop-color="#0d1a2e"/>
+          </linearGradient>
+          <linearGradient id="ss10-bench" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#162d4a"/>
+          </linearGradient>
+          <linearGradient id="ss10-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a1e35"/>
+            <stop offset="100%" stop-color="#060d1a"/>
+          </linearGradient>
+          <!-- Class X card (blue) -->
+          <linearGradient id="ss10-cardX" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a8a"/>
+            <stop offset="100%" stop-color="#1e40af"/>
+          </linearGradient>
+          <!-- Class Y card (green) -->
+          <linearGradient id="ss10-cardY" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#065f46"/>
+            <stop offset="100%" stop-color="#047857"/>
+          </linearGradient>
+          <!-- Dot plot number lines -->
+          <linearGradient id="ss10-lineX" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#1e3a8a"/>
+            <stop offset="100%" stop-color="#3b82f6"/>
+          </linearGradient>
+          <linearGradient id="ss10-lineY" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#065f46"/>
+            <stop offset="100%" stop-color="#10b981"/>
+          </linearGradient>
+          <!-- Range arrows -->
+          <linearGradient id="ss10-arrX" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#60a5fa"/>
+          </linearGradient>
+          <linearGradient id="ss10-arrY" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#f97316"/>
+            <stop offset="100%" stop-color="#fb923c"/>
+          </linearGradient>
+          <!-- Dr Rex body -->
+          <radialGradient id="ss10-rex-head" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#f4d5b0"/>
+            <stop offset="55%" stop-color="#c8865c"/>
+            <stop offset="100%" stop-color="#8c4a22"/>
+          </radialGradient>
+          <radialGradient id="ss10-rex-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a7f3d0"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <!-- Range arrow markers -->
+          <marker id="ss10-mX" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#3b82f6"/>
+          </marker>
+          <marker id="ss10-mXrev" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto-start-reverse">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#3b82f6"/>
+          </marker>
+          <marker id="ss10-mY" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#fb923c"/>
+          </marker>
+          <marker id="ss10-mYrev" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto-start-reverse">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#fb923c"/>
+          </marker>
+          <filter id="ss10-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Lab background -->
+        <rect x="0" y="0" width="300" height="280" fill="url(#ss10-wall)"/>
+        <line x1="0" y1="188" x2="300" y2="188" stroke="#1e3a5f" stroke-width="1.5"/>
+        <rect x="0" y="188" width="300" height="55" fill="url(#ss10-bench)"/>
+        <rect x="0" y="243" width="300" height="30" fill="url(#ss10-floor)"/>
+        <rect x="0" y="265" width="300" height="15" fill="#060d1a"/>
+        <!-- floor tiles -->
+        <line x1="60" y1="243" x2="60" y2="273" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="120" y1="243" x2="120" y2="273" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="180" y1="243" x2="180" y2="273" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="240" y1="243" x2="240" y2="273" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="0" y1="258" x2="300" y2="258" stroke="#0d2540" stroke-width="0.7"/>
+
+        <!-- Header title board on wall -->
+        <rect x="14" y="5" width="235" height="16" rx="3" fill="#0d2040" stroke="#1e3a8a" stroke-width="0.8"/>
+        <text x="131" y="16" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700">Test Score Comparison: Class X vs Class Y</text>
+
+        <!-- Class X card -->
+        <g filter="url(#ss10-sh)">
+          <rect x="14" y="24" width="124" height="78" rx="8" fill="#091420" stroke="#1e3a8a" stroke-width="1.2"/>
+          <rect x="14" y="24" width="124" height="20" rx="8" fill="url(#ss10-cardX)"/>
+          <rect x="14" y="34" width="124" height="10" fill="url(#ss10-cardX)"/>
+          <text x="76" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="700">Class X</text>
+          <text x="76" y="54" text-anchor="middle" fill="#bfdbfe" font-size="8.5">{55, 60, 65, 70, 75}</text>
+          <text x="76" y="67" text-anchor="middle" fill="#93c5fd" font-size="9">Mean = <tspan fill="white" font-weight="700">65</tspan></text>
+          <text x="76" y="80" text-anchor="middle" fill="#60a5fa" font-size="9">Range = <tspan fill="#fbbf24" font-weight="700">20</tspan></text>
+          <text x="76" y="93" text-anchor="middle" fill="#34d399" font-size="8" font-weight="700">Consistent</text>
+        </g>
+
+        <!-- Class Y card -->
+        <g filter="url(#ss10-sh)">
+          <rect x="150" y="24" width="126" height="78" rx="8" fill="#091420" stroke="#065f46" stroke-width="1.2"/>
+          <rect x="150" y="24" width="126" height="20" rx="8" fill="url(#ss10-cardY)"/>
+          <rect x="150" y="34" width="126" height="10" fill="url(#ss10-cardY)"/>
+          <text x="213" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="700">Class Y</text>
+          <text x="213" y="54" text-anchor="middle" fill="#d1fae5" font-size="8.5">{40, 58, 65, 72, 90}</text>
+          <text x="213" y="67" text-anchor="middle" fill="#6ee7b7" font-size="9">Mean = <tspan fill="white" font-weight="700">65</tspan></text>
+          <text x="213" y="80" text-anchor="middle" fill="#34d399" font-size="9">Range = <tspan fill="#fb923c" font-weight="700">50</tspan></text>
+          <text x="213" y="93" text-anchor="middle" fill="#f87171" font-size="8" font-weight="700">Variable</text>
+        </g>
+
+        <!-- Dot-plot number line for Class X -->
+        <!-- Scale: 40 to 90, width 180px (x from 30 to 210), each unit = 3.6px -->
+        <text x="14" y="115" fill="#7dd3fc" font-size="8" font-weight="700">Class X scores:</text>
+        <line x1="26" y1="125" x2="260" y2="125" stroke="url(#ss10-lineX)" stroke-width="1.5"/>
+        <!-- Tick marks at 40,50,60,70,80,90 -->
+        <line x1="26" y1="121" x2="26" y2="129" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="62" y1="121" x2="62" y2="129" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="98" y1="121" x2="98" y2="129" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="134" y1="121" x2="134" y2="129" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="170" y1="121" x2="170" y2="129" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="206" y1="121" x2="206" y2="129" stroke="#3b82f6" stroke-width="1"/>
+        <text x="26" y="137" text-anchor="middle" fill="#60a5fa" font-size="7">40</text>
+        <text x="62" y="137" text-anchor="middle" fill="#60a5fa" font-size="7">50</text>
+        <text x="98" y="137" text-anchor="middle" fill="#60a5fa" font-size="7">60</text>
+        <text x="134" y="137" text-anchor="middle" fill="#60a5fa" font-size="7">70</text>
+        <text x="170" y="137" text-anchor="middle" fill="#60a5fa" font-size="7">80</text>
+        <text x="206" y="137" text-anchor="middle" fill="#60a5fa" font-size="7">90</text>
+        <!-- Class X data points: 55=80.6, 60=98, 65=116, 70=134, 75=152 -->
+        <circle cx="80"  cy="125" r="4" fill="#3b82f6" stroke="#93c5fd" stroke-width="1"/>
+        <circle cx="98"  cy="125" r="4" fill="#3b82f6" stroke="#93c5fd" stroke-width="1"/>
+        <circle cx="116" cy="125" r="4" fill="#60a5fa" stroke="white" stroke-width="1.2"/>
+        <circle cx="134" cy="125" r="4" fill="#3b82f6" stroke="#93c5fd" stroke-width="1"/>
+        <circle cx="152" cy="125" r="4" fill="#3b82f6" stroke="#93c5fd" stroke-width="1"/>
+        <!-- Range=20 arrow: 55→75 = x80→x152 -->
+        <line x1="80" y1="112" x2="152" y2="112" stroke="#3b82f6" stroke-width="1.5"
+              marker-start="url(#ss10-mXrev)" marker-end="url(#ss10-mX)"/>
+        <text x="116" y="110" text-anchor="middle" fill="#fbbf24" font-size="7" font-weight="700">Range=20</text>
+
+        <!-- Dot-plot for Class Y -->
+        <text x="14" y="151" fill="#6ee7b7" font-size="8" font-weight="700">Class Y scores:</text>
+        <line x1="26" y1="161" x2="260" y2="161" stroke="url(#ss10-lineY)" stroke-width="1.5"/>
+        <line x1="26" y1="157" x2="26" y2="165" stroke="#059669" stroke-width="1"/>
+        <line x1="62" y1="157" x2="62" y2="165" stroke="#059669" stroke-width="1"/>
+        <line x1="98" y1="157" x2="98" y2="165" stroke="#059669" stroke-width="1"/>
+        <line x1="134" y1="157" x2="134" y2="165" stroke="#059669" stroke-width="1"/>
+        <line x1="170" y1="157" x2="170" y2="165" stroke="#059669" stroke-width="1"/>
+        <line x1="206" y1="157" x2="206" y2="165" stroke="#059669" stroke-width="1"/>
+        <!-- Class Y data points: 40=26, 58=73, 65=90, 72=108, 90=152 (scale same) -->
+        <circle cx="26"  cy="161" r="4" fill="#f97316" stroke="#fdba74" stroke-width="1"/>
+        <circle cx="73"  cy="161" r="4" fill="#10b981" stroke="#6ee7b7" stroke-width="1"/>
+        <circle cx="91"  cy="161" r="4" fill="#34d399" stroke="white" stroke-width="1.2"/>
+        <circle cx="109" cy="161" r="4" fill="#10b981" stroke="#6ee7b7" stroke-width="1"/>
+        <circle cx="170" cy="161" r="4" fill="#f97316" stroke="#fdba74" stroke-width="1"/>
+        <!-- Range=50 arrow: 40→90 = x26→x206 -->
+        <line x1="26" y1="148" x2="206" y2="148" stroke="#f97316" stroke-width="1.5"
+              marker-start="url(#ss10-mYrev)" marker-end="url(#ss10-mY)"/>
+        <text x="116" y="146" text-anchor="middle" fill="#fb923c" font-size="7" font-weight="700">Range=50</text>
+
+        <!-- Conclusion box -->
+        <g filter="url(#ss10-sh)">
+          <rect x="14" y="173" width="258" height="28" rx="6" fill="#0d2040" stroke="#1e3a8a" stroke-width="1"/>
+          <text x="143" y="184" text-anchor="middle" fill="#93c5fd" font-size="8" font-weight="700">Same mean (65) — but X is consistent, Y is variable!</text>
+          <text x="143" y="196" text-anchor="middle" fill="#7dd3fc" font-size="7.5">Mean alone misses the full picture — range reveals the truth.</text>
+        </g>
+
+        <!-- Dr Rex character (right side, lower) -->
+        <g filter="url(#ss10-sh)" transform="translate(255,186)">
+          <ellipse cx="20" cy="56" rx="14" ry="20" fill="url(#ss10-rex-body)"/>
+          <circle cx="20" cy="33" r="13" fill="url(#ss10-rex-head)"/>
+          <ellipse cx="20" cy="24" rx="12" ry="7" fill="#7c3a1a"/>
+          <ellipse cx="10" cy="27" rx="4" ry="8" fill="#7c3a1a"/>
+          <ellipse cx="30" cy="27" rx="4" ry="8" fill="#7c3a1a"/>
+          <circle cx="15" cy="35" r="1.4" fill="white"/>
+          <circle cx="25" cy="35" r="1.4" fill="white"/>
+          <circle cx="15.3" cy="35.2" r="0.7" fill="#1a0a00"/>
+          <circle cx="25.3" cy="35.2" r="0.7" fill="#1a0a00"/>
+          <circle cx="15" cy="35" r="0.3" fill="white"/>
+          <circle cx="25" cy="35" r="0.3" fill="white"/>
+          <polygon points="12,49 17,44 17,70 6,70" fill="#ecfdf5" opacity="0.85"/>
+          <polygon points="28,49 23,44 23,70 34,70" fill="#ecfdf5" opacity="0.85"/>
+          <line x1="6" y1="54" x2="-20" y2="46" stroke="#c8865c" stroke-width="3" stroke-linecap="round"/>
+          <rect x="13" y="70" width="6" height="16" rx="3" fill="#064e3b"/>
+          <rect x="21" y="70" width="6" height="16" rx="3" fill="#064e3b"/>
+        </g>
+
+        <!-- Page label -->
+        <rect x="112" y="266" width="76" height="12" rx="6" fill="#1e3a8a" opacity="0.8"/>
+        <text x="150" y="275" text-anchor="middle" fill="#93c5fd" font-size="7.5" font-weight="700">Page 10</text>
       </svg>
-      <div class="illus-caption">Same mean but very different ranges — statistics reveals the full story</div>
+      <div class="illus-caption" style="color:#7dd3fc;">Same mean but very different ranges — statistics reveals the full story</div>
     </div>
 
     <div class="story-panel">
@@ -946,32 +1989,179 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 11 – THE MYSTERY SOLVED -->
   <div class="book-page" id="page-11">
-    <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">
-      <div class="page-num-illus">Page 11</div>
-      <div style="font-size:1.8rem;margin-bottom:4px;">🔍</div>
-      <!-- SVG: Temperature anomaly data set with annotations -->
-      <svg width="255" height="185" viewBox="0 0 255 185" style="margin:0 auto;">
-        <text x="127" y="14" text-anchor="middle" fill="#0369A1" font-size="11" font-weight="700">Temperature Anomaly Analysis</text>
-        <!-- Data table: 10 days of anomalies -->
-        <rect x="5" y="20" width="245" height="100" rx="8" fill="white" stroke="#BAE6FD" stroke-width="1.5"/>
-        <text x="127" y="37" text-anchor="middle" fill="#0369A1" font-size="10" font-weight="700">Anomalies (°C above normal): 10 stations</text>
-        <text x="127" y="52" text-anchor="middle" fill="#0C4A6E" font-size="11">{2, 5, 2, 8, 2, 11, 2, 14, 2, 17}</text>
-        <line x1="20" y1="60" x2="235" y2="60" stroke="#E0F2FE" stroke-width="1"/>
-        <text x="50"  y="75" text-anchor="middle" fill="#0369A1" font-size="10">Ordered:</text>
-        <text x="160" y="75" text-anchor="middle" fill="#0C4A6E" font-size="10">{2,2,2,2,2,5,8,11,14,17}</text>
-        <text x="50"  y="90" text-anchor="middle" fill="#0369A1" font-size="10">Mode:</text>
-        <text x="160" y="90" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">2°C</text>
-        <text x="50"  y="105" text-anchor="middle" fill="#0369A1" font-size="10">Median:</text>
-        <text x="160" y="105" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">(2+5)÷2 = 3.5°C</text>
-        <text x="50"  y="120" text-anchor="middle" fill="#0369A1" font-size="10">Mean:</text>
-        <text x="160" y="120" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">65÷10 = 6.5°C</text>
-        <!-- Mystery box -->
-        <rect x="5" y="130" width="245" height="50" rx="8" fill="#FEF2F2" stroke="#F87171" stroke-width="1.5"/>
-        <text x="127" y="147" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">The Pattern Revealed!</text>
-        <text x="127" y="162" text-anchor="middle" fill="#0C4A6E" font-size="10">5 stations normal (2°C), 5 increasing by +3°C each</text>
-        <text x="127" y="176" text-anchor="middle" fill="#DC2626" font-size="10" font-weight="700">Mean pulled high by outliers — median tells the truth</text>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="background:rgba(255,255,255,.15);color:#e0f0ff;">Page 11</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="ss11-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2038"/>
+            <stop offset="100%" stop-color="#0d1a2e"/>
+          </linearGradient>
+          <linearGradient id="ss11-bench" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#162d4a"/>
+          </linearGradient>
+          <linearGradient id="ss11-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a1e35"/>
+            <stop offset="100%" stop-color="#060d1a"/>
+          </linearGradient>
+          <!-- Data panel gradient -->
+          <linearGradient id="ss11-pnl" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#0d2040"/>
+            <stop offset="100%" stop-color="#0a1830"/>
+          </linearGradient>
+          <!-- Alert reveal box -->
+          <linearGradient id="ss11-alert" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7c1010"/>
+            <stop offset="100%" stop-color="#991b1b"/>
+          </linearGradient>
+          <!-- Vera head + body -->
+          <radialGradient id="ss11-vera-head" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#f4d5b0"/>
+            <stop offset="55%" stop-color="#d4956a"/>
+            <stop offset="100%" stop-color="#9c5c30"/>
+          </radialGradient>
+          <radialGradient id="ss11-vera-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#c4b5fd"/>
+            <stop offset="50%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <!-- Glow for sensor data points -->
+          <filter id="ss11-glow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="ss11-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Lab background -->
+        <rect x="0" y="0" width="300" height="280" fill="url(#ss11-wall)"/>
+        <line x1="0" y1="188" x2="300" y2="188" stroke="#1e3a5f" stroke-width="1.5"/>
+        <rect x="0" y="188" width="300" height="55" fill="url(#ss11-bench)"/>
+        <rect x="0" y="243" width="300" height="30" fill="url(#ss11-floor)"/>
+        <rect x="0" y="265" width="300" height="15" fill="#060d1a"/>
+        <line x1="60" y1="243" x2="60" y2="273" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="120" y1="243" x2="120" y2="273" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="180" y1="243" x2="180" y2="273" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="240" y1="243" x2="240" y2="273" stroke="#0d2540" stroke-width="0.7"/>
+        <line x1="0" y1="258" x2="300" y2="258" stroke="#0d2540" stroke-width="0.7"/>
+
+        <!-- Data analysis panel -->
+        <g filter="url(#ss11-sh)">
+          <rect x="12" y="6" width="240" height="106" rx="8" fill="url(#ss11-pnl)" stroke="#1e3a8a" stroke-width="1.2"/>
+          <!-- Panel title -->
+          <rect x="12" y="6" width="240" height="20" rx="8" fill="#0369a1"/>
+          <rect x="12" y="16" width="240" height="10" fill="#0369a1"/>
+          <text x="132" y="20" text-anchor="middle" fill="white" font-size="9" font-weight="700">Temperature Anomaly Analysis</text>
+          <!-- Data line -->
+          <text x="132" y="36" text-anchor="middle" fill="#fbbf24" font-size="8" font-weight="700">10 Stations (°C above normal):</text>
+          <text x="132" y="49" text-anchor="middle" fill="#fde68a" font-size="9.5" font-weight="700">{2, 5, 2, 8, 2, 11, 2, 14, 2, 17}</text>
+          <line x1="20" y1="55" x2="244" y2="55" stroke="#1e3a8a" stroke-width="0.8"/>
+          <!-- Ordered line -->
+          <text x="42" y="67" fill="#7dd3fc" font-size="8">Ordered:</text>
+          <text x="100" y="67" fill="#bfdbfe" font-size="8">{2,2,2,2,2, 5,8,11,14,17}</text>
+          <!-- Stats row -->
+          <text x="16" y="80" fill="#60a5fa" font-size="8">Mode:</text>
+          <text x="52" y="80" fill="#f87171" font-size="8.5" font-weight="700">2°C</text>
+          <text x="80" y="80" fill="#94a3b8" font-size="7">(appears 5×)</text>
+          <text x="16" y="92" fill="#60a5fa" font-size="8">Median:</text>
+          <text x="62" y="92" fill="#fb923c" font-size="8.5" font-weight="700">3.5°C</text>
+          <text x="96" y="92" fill="#94a3b8" font-size="7">(2+5)÷2</text>
+          <text x="16" y="104" fill="#60a5fa" font-size="8">Mean:</text>
+          <text x="48" y="104" fill="#f97316" font-size="8.5" font-weight="700">6.5°C</text>
+          <text x="80" y="104" fill="#94a3b8" font-size="7">65÷10 — inflated!</text>
+          <text x="168" y="80" fill="#60a5fa" font-size="8">Range:</text>
+          <text x="204" y="80" fill="#ef4444" font-size="8.5" font-weight="700">15°C</text>
+          <text x="222" y="80" fill="#94a3b8" font-size="7">17-2</text>
+        </g>
+
+        <!-- Dot-plot of the 10 station readings -->
+        <!-- Scale: 2 to 17, width=220 (x14 to x234), per unit = 14.67px -->
+        <text x="14" y="122" fill="#7dd3fc" font-size="7.5" font-weight="700">Station readings (dot plot):</text>
+        <line x1="14" y1="132" x2="252" y2="132" stroke="#1e3a5f" stroke-width="1.5"/>
+        <!-- Ticks at 2,5,8,11,14,17 using scale: x = 14 + (val-2)*14.67 -->
+        <!-- val 2 → x=14; val 5 → x=58; val 8 → x=102; val 11 → x=146; val 14 → x=190; val 17 → x=234 -->
+        <line x1="14"  y1="128" x2="14"  y2="136" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="58"  y1="128" x2="58"  y2="136" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="102" y1="128" x2="102" y2="136" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="146" y1="128" x2="146" y2="136" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="190" y1="128" x2="190" y2="136" stroke="#3b82f6" stroke-width="1"/>
+        <line x1="234" y1="128" x2="234" y2="136" stroke="#3b82f6" stroke-width="1"/>
+        <text x="14"  y="143" text-anchor="middle" fill="#60a5fa" font-size="7">2</text>
+        <text x="58"  y="143" text-anchor="middle" fill="#60a5fa" font-size="7">5</text>
+        <text x="102" y="143" text-anchor="middle" fill="#60a5fa" font-size="7">8</text>
+        <text x="146" y="143" text-anchor="middle" fill="#60a5fa" font-size="7">11</text>
+        <text x="190" y="143" text-anchor="middle" fill="#60a5fa" font-size="7">14</text>
+        <text x="234" y="143" text-anchor="middle" fill="#60a5fa" font-size="7">17</text>
+        <!-- 5 normal stations (green) stacked at x=14 (value 2) -->
+        <circle cx="14" cy="132" r="5" fill="#22c55e" stroke="#4ade80" stroke-width="1" filter="url(#ss11-glow)"/>
+        <circle cx="14" cy="120" r="4" fill="#22c55e" stroke="#4ade80" stroke-width="1"/>
+        <circle cx="14" cy="110" r="4" fill="#22c55e" stroke="#4ade80" stroke-width="1"/>
+        <circle cx="14" cy="100" r="4" fill="#22c55e" stroke="#4ade80" stroke-width="1"/>
+        <circle cx="14" cy="90"  r="4" fill="#22c55e" stroke="#4ade80" stroke-width="1"/>
+        <text x="14" y="83" text-anchor="middle" fill="#4ade80" font-size="6.5">×5</text>
+        <!-- 5 faulty stations (orange-red) at increasing values -->
+        <circle cx="58"  cy="132" r="5" fill="#f97316" stroke="#fb923c" stroke-width="1" filter="url(#ss11-glow)"/>
+        <circle cx="102" cy="132" r="5" fill="#ef4444" stroke="#f87171" stroke-width="1" filter="url(#ss11-glow)"/>
+        <circle cx="146" cy="132" r="5" fill="#dc2626" stroke="#ef4444" stroke-width="1" filter="url(#ss11-glow)"/>
+        <circle cx="190" cy="132" r="5" fill="#b91c1c" stroke="#dc2626" stroke-width="1" filter="url(#ss11-glow)"/>
+        <circle cx="234" cy="132" r="5" fill="#7f1d1d" stroke="#b91c1c" stroke-width="1" filter="url(#ss11-glow)"/>
+
+        <!-- Pattern reveal box -->
+        <g filter="url(#ss11-sh)">
+          <rect x="12" y="150" width="240" height="34" rx="7" fill="url(#ss11-alert)" stroke="#ef4444" stroke-width="1.2"/>
+          <text x="132" y="163" text-anchor="middle" fill="#fde68a" font-size="9" font-weight="700">Pattern Revealed!</text>
+          <text x="132" y="176" text-anchor="middle" fill="#fca5a5" font-size="8">5 normal + 5 each +3°C — Mode misleads, Median=3.5 tells truth</text>
+        </g>
+
+        <!-- Dr Vera character (right) raising fist in triumph -->
+        <g filter="url(#ss11-sh)" transform="translate(253,120)">
+          <ellipse cx="20" cy="58" rx="14" ry="20" fill="url(#ss11-vera-body)"/>
+          <circle cx="20" cy="35" r="13" fill="url(#ss11-vera-head)"/>
+          <!-- Hair -->
+          <ellipse cx="20" cy="25" rx="12" ry="7" fill="#2d1a4a"/>
+          <ellipse cx="10" cy="29" rx="4" ry="8" fill="#2d1a4a"/>
+          <ellipse cx="30" cy="29" rx="4" ry="8" fill="#2d1a4a"/>
+          <!-- Glasses -->
+          <rect x="13" y="33" width="6" height="5" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="1"/>
+          <rect x="21" y="33" width="6" height="5" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="1"/>
+          <line x1="19" y1="35" x2="21" y2="35" stroke="#fbbf24" stroke-width="0.8"/>
+          <!-- Eyes - excited wide -->
+          <circle cx="16" cy="36" r="2" fill="white"/>
+          <circle cx="24" cy="36" r="2" fill="white"/>
+          <circle cx="16.5" cy="36.5" r="1" fill="#1a0a30"/>
+          <circle cx="24.5" cy="36.5" r="1" fill="#1a0a30"/>
+          <circle cx="16" cy="36" r="0.4" fill="white"/>
+          <circle cx="24" cy="36" r="0.4" fill="white"/>
+          <!-- Coat lapels -->
+          <polygon points="12,52 17,47 17,72 6,72" fill="#ede9fe" opacity="0.85"/>
+          <polygon points="28,52 23,47 23,72 34,72" fill="#ede9fe" opacity="0.85"/>
+          <!-- Triumph raised arm -->
+          <line x1="6" y1="55" x2="-6" y2="30" stroke="#d4956a" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="-6" cy="26" r="5" fill="#d4956a"/>
+          <!-- Legs -->
+          <rect x="13" y="72" width="6" height="16" rx="3" fill="#4c1d95"/>
+          <rect x="21" y="72" width="6" height="16" rx="3" fill="#4c1d95"/>
+        </g>
+
+        <!-- Bench items -->
+        <rect x="14" y="192" width="44" height="26" rx="3" fill="#0a1e35" stroke="#1e3a5f" stroke-width="0.8"/>
+        <text x="36" y="204" text-anchor="middle" fill="#f97316" font-size="6" font-weight="700">SENSOR</text>
+        <text x="36" y="213" text-anchor="middle" fill="#fb923c" font-size="6">LOG-10</text>
+
+        <!-- "SOLVED!" stamp -->
+        <g transform="rotate(-12, 175, 155)">
+          <rect x="140" y="140" width="70" height="28" rx="5" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+          <text x="175" y="159" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="700" font-family="monospace">SOLVED!</text>
+        </g>
+
+        <!-- Page label -->
+        <rect x="112" y="266" width="76" height="12" rx="6" fill="#991b1b" opacity="0.8"/>
+        <text x="150" y="275" text-anchor="middle" fill="#fca5a5" font-size="7.5" font-weight="700">Page 11</text>
       </svg>
-      <div class="illus-caption">Statistics reveals the hidden temperature anomaly pattern</div>
+      <div class="illus-caption" style="color:#fca5a5;">Statistics reveals the hidden temperature anomaly pattern</div>
     </div>
 
     <div class="story-panel">
@@ -1011,18 +2201,222 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 12 – END CARD -->
   <div class="book-page" id="page-12">
-    <div class="illustration" style="background:linear-gradient(135deg,#0369A1,#6D28D9);">
-      <div class="page-num-illus" style="background:rgba(255,255,255,.2);color:white;">Page 12</div>
-      <div style="font-size:4rem;margin-bottom:8px;">🏆</div>
-      <div style="font-size:2.5rem;margin:4px 0;">📊</div>
-      <div style="color:white;font-family:'Quicksand',sans-serif;font-size:1.4rem;font-weight:700;text-align:center;margin:8px 0;">Data Scientist<br>Badge</div>
-      <div style="color:rgba(255,255,255,.85);font-size:.9rem;text-align:center;line-height:1.6;padding:0 12px;">
-        Mean · Median · Mode · Range<br>
-        Frequency Tables · Bar Charts<br>
-        Comparing Data Sets
-      </div>
-      <div style="font-size:2rem;margin-top:12px;">👩‍🔬 🧑‍🔬</div>
-      <div style="color:rgba(255,255,255,.7);font-size:.8rem;margin-top:8px;">Cambridge St6.01 — Complete</div>
+    <div class="illustration" style="background:#0d1a2e;">
+      <div class="page-num-illus" style="background:rgba(255,255,255,.15);color:#e0f0ff;">Page 12</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <!-- Celebration gradient background (deep blue to purple) -->
+          <linearGradient id="ss12-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1a2e"/>
+            <stop offset="50%" stop-color="#1a0a3e"/>
+            <stop offset="100%" stop-color="#0a1020"/>
+          </linearGradient>
+          <!-- Trophy body gradient -->
+          <linearGradient id="ss12-trophy" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="50%" stop-color="#d97706"/>
+            <stop offset="100%" stop-color="#92400e"/>
+          </linearGradient>
+          <!-- Badge gradient -->
+          <linearGradient id="ss12-badge" x1="0" y1="0" x2="0.7" y2="1">
+            <stop offset="0%" stop-color="#7c3aed"/>
+            <stop offset="50%" stop-color="#1d4ed8"/>
+            <stop offset="100%" stop-color="#0c4a6e"/>
+          </linearGradient>
+          <!-- Dr Vera head + body -->
+          <radialGradient id="ss12-vera-head" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#f4d5b0"/>
+            <stop offset="55%" stop-color="#d4956a"/>
+            <stop offset="100%" stop-color="#9c5c30"/>
+          </radialGradient>
+          <radialGradient id="ss12-vera-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#c4b5fd"/>
+            <stop offset="50%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <!-- Dr Rex head + body -->
+          <radialGradient id="ss12-rex-head" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#f4d5b0"/>
+            <stop offset="55%" stop-color="#c8865c"/>
+            <stop offset="100%" stop-color="#8c4a22"/>
+          </radialGradient>
+          <radialGradient id="ss12-rex-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a7f3d0"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <!-- Star burst glow -->
+          <filter id="ss12-glow">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="ss12-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="ss12-goldglow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect x="0" y="0" width="300" height="280" fill="url(#ss12-bg)"/>
+
+        <!-- Confetti/celebration stars -->
+        <circle cx="20"  cy="20"  r="3" fill="#fbbf24" filter="url(#ss12-glow)" opacity="0.9"/>
+        <circle cx="50"  cy="12"  r="2" fill="#f472b6" filter="url(#ss12-glow)" opacity="0.8"/>
+        <circle cx="85"  cy="8"   r="2.5" fill="#34d399" filter="url(#ss12-glow)" opacity="0.9"/>
+        <circle cx="130" cy="14"  r="2" fill="#a78bfa" filter="url(#ss12-glow)" opacity="0.8"/>
+        <circle cx="170" cy="6"   r="3" fill="#fbbf24" filter="url(#ss12-glow)" opacity="0.9"/>
+        <circle cx="210" cy="14"  r="2" fill="#60a5fa" filter="url(#ss12-glow)" opacity="0.8"/>
+        <circle cx="255" cy="8"   r="2.5" fill="#f472b6" filter="url(#ss12-glow)" opacity="0.9"/>
+        <circle cx="280" cy="20"  r="3" fill="#34d399" filter="url(#ss12-glow)" opacity="0.8"/>
+        <circle cx="35"  cy="50"  r="2" fill="#60a5fa" opacity="0.6"/>
+        <circle cx="270" cy="45"  r="2" fill="#fbbf24" opacity="0.6"/>
+        <circle cx="10"  cy="80"  r="1.5" fill="#f472b6" opacity="0.5"/>
+        <circle cx="290" cy="70"  r="1.5" fill="#34d399" opacity="0.5"/>
+        <!-- Diagonal streaks -->
+        <line x1="15" y1="30" x2="30" y2="45" stroke="#fbbf24" stroke-width="1" opacity="0.4"/>
+        <line x1="280" y1="30" x2="265" y2="50" stroke="#f472b6" stroke-width="1" opacity="0.4"/>
+        <line x1="140" y1="0" x2="148" y2="18" stroke="#a78bfa" stroke-width="1" opacity="0.4"/>
+
+        <!-- Trophy (centre top) -->
+        <g filter="url(#ss12-goldglow)" transform="translate(105, 14)">
+          <!-- Cup body -->
+          <path d="M25,8 Q10,16 12,36 L38,36 Q40,16 25,8 Z" fill="url(#ss12-trophy)"/>
+          <!-- Handles -->
+          <path d="M12,16 Q4,20 6,30 L12,28" fill="none" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+          <path d="M38,16 Q46,20 44,30 L38,28" fill="none" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+          <!-- Star on trophy -->
+          <text x="25" y="26" text-anchor="middle" fill="#92400e" font-size="10" font-weight="700">★</text>
+          <!-- Base -->
+          <rect x="18" y="36" width="14" height="4" rx="1" fill="#d97706"/>
+          <rect x="14" y="40" width="22" height="5" rx="2" fill="#92400e"/>
+          <!-- Glow ring -->
+          <circle cx="25" cy="22" r="18" fill="none" stroke="#fde68a" stroke-width="1.5" opacity="0.5"/>
+        </g>
+
+        <!-- Data Scientist Badge (centre) -->
+        <g filter="url(#ss12-sh)" transform="translate(80, 70)">
+          <!-- Outer badge hex shape (approximated as polygon) -->
+          <polygon points="70,4 110,4 135,42 120,82 20,82 5,42 30,4" fill="url(#ss12-badge)" stroke="#a78bfa" stroke-width="2"/>
+          <!-- Inner badge ring -->
+          <polygon points="70,10 108,10 130,44 116,76 24,76 10,44 32,10" fill="none" stroke="#c4b5fd" stroke-width="1" opacity="0.6"/>
+          <!-- Chart icon inside badge -->
+          <!-- Mini bar chart -->
+          <rect x="48" y="40" width="8" height="18" rx="2" fill="#34d399"/>
+          <rect x="58" y="32" width="8" height="26" rx="2" fill="#60a5fa"/>
+          <rect x="68" y="36" width="8" height="22" rx="2" fill="#f472b6"/>
+          <rect x="78" y="25" width="8" height="33" rx="2" fill="#fbbf24"/>
+          <line x1="44" y1="58" x2="92" y2="58" stroke="#c4b5fd" stroke-width="1.5"/>
+          <!-- Badge text -->
+          <text x="70" y="18" text-anchor="middle" fill="white" font-size="9.5" font-weight="700">DATA</text>
+          <text x="70" y="74" text-anchor="middle" fill="#fde68a" font-size="8" font-weight="700">SCIENTIST</text>
+        </g>
+
+        <!-- Skill badges row -->
+        <!-- Badge 1: Mean -->
+        <g transform="translate(12, 162)">
+          <rect x="0" y="0" width="46" height="24" rx="6" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1"/>
+          <text x="23" y="10" text-anchor="middle" fill="#93c5fd" font-size="7" font-weight="700">MEAN</text>
+          <text x="23" y="20" text-anchor="middle" fill="#60a5fa" font-size="6">Σx ÷ n</text>
+        </g>
+        <!-- Badge 2: Median -->
+        <g transform="translate(64, 162)">
+          <rect x="0" y="0" width="46" height="24" rx="6" fill="#312e81" stroke="#818cf8" stroke-width="1"/>
+          <text x="23" y="10" text-anchor="middle" fill="#a5b4fc" font-size="7" font-weight="700">MEDIAN</text>
+          <text x="23" y="20" text-anchor="middle" fill="#818cf8" font-size="6">middle val</text>
+        </g>
+        <!-- Badge 3: Mode -->
+        <g transform="translate(116, 162)">
+          <rect x="0" y="0" width="46" height="24" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1"/>
+          <text x="23" y="10" text-anchor="middle" fill="#6ee7b7" font-size="7" font-weight="700">MODE</text>
+          <text x="23" y="20" text-anchor="middle" fill="#34d399" font-size="6">most freq</text>
+        </g>
+        <!-- Badge 4: Range -->
+        <g transform="translate(168, 162)">
+          <rect x="0" y="0" width="46" height="24" rx="6" fill="#7c1d1d" stroke="#f87171" stroke-width="1"/>
+          <text x="23" y="10" text-anchor="middle" fill="#fca5a5" font-size="7" font-weight="700">RANGE</text>
+          <text x="23" y="20" text-anchor="middle" fill="#f87171" font-size="6">max − min</text>
+        </g>
+        <!-- Badge 5: Frequency -->
+        <g transform="translate(220, 162)">
+          <rect x="0" y="0" width="68" height="24" rx="6" fill="#0c4a6e" stroke="#7dd3fc" stroke-width="1"/>
+          <text x="34" y="10" text-anchor="middle" fill="#bae6fd" font-size="7" font-weight="700">FREQ TABLE</text>
+          <text x="34" y="20" text-anchor="middle" fill="#7dd3fc" font-size="6">Σ(f·x) ÷ Σf</text>
+        </g>
+
+        <!-- Dr Vera (left side) holding diploma -->
+        <g filter="url(#ss12-sh)" transform="translate(18, 190)">
+          <ellipse cx="22" cy="60" rx="15" ry="22" fill="url(#ss12-vera-body)"/>
+          <circle cx="22" cy="36" r="14" fill="url(#ss12-vera-head)"/>
+          <!-- Hair -->
+          <ellipse cx="22" cy="25" rx="13" ry="7.5" fill="#2d1a4a"/>
+          <ellipse cx="10" cy="30" rx="5" ry="9" fill="#2d1a4a"/>
+          <ellipse cx="34" cy="30" rx="5" ry="9" fill="#2d1a4a"/>
+          <!-- Glasses -->
+          <rect x="13" y="34" width="7" height="5" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="1.2"/>
+          <rect x="22" y="34" width="7" height="5" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="1.2"/>
+          <line x1="20" y1="36" x2="22" y2="36" stroke="#fbbf24" stroke-width="0.8"/>
+          <!-- Happy eyes -->
+          <circle cx="16" cy="37" r="1.8" fill="white"/>
+          <circle cx="27" cy="37" r="1.8" fill="white"/>
+          <circle cx="16.5" cy="37.5" r="0.9" fill="#1a0a30"/>
+          <circle cx="27.5" cy="37.5" r="0.9" fill="#1a0a30"/>
+          <circle cx="16" cy="37" r="0.4" fill="white"/>
+          <circle cx="27" cy="37" r="0.4" fill="white"/>
+          <!-- Smile -->
+          <path d="M15,43 Q22,48 29,43" stroke="#d4956a" stroke-width="1.2" fill="none"/>
+          <!-- Diploma in hand -->
+          <rect x="34" y="54" width="30" height="22" rx="3" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+          <line x1="37" y1="61" x2="61" y2="61" stroke="#d97706" stroke-width="0.8"/>
+          <line x1="37" y1="66" x2="61" y2="66" stroke="#d97706" stroke-width="0.8"/>
+          <text x="49" y="72" text-anchor="middle" fill="#92400e" font-size="5" font-weight="700">CERTIFIED</text>
+          <!-- Coat lapels -->
+          <polygon points="13,54 19,48 19,78 6,78" fill="#ede9fe" opacity="0.85"/>
+          <polygon points="31,54 25,48 25,78 38,78" fill="#ede9fe" opacity="0.85"/>
+          <!-- Arm holding diploma -->
+          <line x1="36" y1="58" x2="34" y2="54" stroke="#d4956a" stroke-width="3" stroke-linecap="round"/>
+          <!-- Legs -->
+          <rect x="14" y="78" width="7" height="18" rx="3" fill="#4c1d95"/>
+          <rect x="23" y="78" width="7" height="18" rx="3" fill="#4c1d95"/>
+        </g>
+
+        <!-- Dr Rex (right side) arms raised in celebration -->
+        <g filter="url(#ss12-sh)" transform="translate(228, 190)">
+          <ellipse cx="22" cy="60" rx="15" ry="22" fill="url(#ss12-rex-body)"/>
+          <circle cx="22" cy="36" r="14" fill="url(#ss12-rex-head)"/>
+          <!-- Hair -->
+          <ellipse cx="22" cy="25" rx="13" ry="7.5" fill="#7c3a1a"/>
+          <ellipse cx="10" cy="30" rx="5" ry="9" fill="#7c3a1a"/>
+          <ellipse cx="34" cy="30" rx="5" ry="9" fill="#7c3a1a"/>
+          <!-- Eyes excited wide -->
+          <circle cx="16" cy="37" r="2" fill="white"/>
+          <circle cx="27" cy="37" r="2" fill="white"/>
+          <circle cx="16.5" cy="37.5" r="1" fill="#1a0a00"/>
+          <circle cx="27.5" cy="37.5" r="1" fill="#1a0a00"/>
+          <circle cx="16" cy="37" r="0.4" fill="white"/>
+          <circle cx="27" cy="37" r="0.4" fill="white"/>
+          <!-- Big smile -->
+          <path d="M14,43 Q22,50 30,43" stroke="#8c4a22" stroke-width="1.5" fill="none"/>
+          <!-- Coat lapels -->
+          <polygon points="13,54 19,48 19,78 6,78" fill="#ecfdf5" opacity="0.85"/>
+          <polygon points="31,54 25,48 25,78 38,78" fill="#ecfdf5" opacity="0.85"/>
+          <!-- Arms raised in celebration -->
+          <line x1="6" y1="54" x2="-10" y2="30" stroke="#c8865c" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="38" y1="54" x2="54" y2="30" stroke="#c8865c" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="-12" cy="27" r="5" fill="#c8865c"/>
+          <circle cx="56" cy="27" r="5" fill="#c8865c"/>
+          <!-- Legs -->
+          <rect x="14" y="78" width="7" height="18" rx="3" fill="#064e3b"/>
+          <rect x="23" y="78" width="7" height="18" rx="3" fill="#064e3b"/>
+        </g>
+
+        <!-- "Cambridge St6.01 — Complete" banner at bottom -->
+        <rect x="60" y="264" width="180" height="14" rx="7" fill="#1e3a8a" opacity="0.8"/>
+        <text x="150" y="274" text-anchor="middle" fill="#bfdbfe" font-size="7.5" font-weight="700">Cambridge St6.01 — Complete</text>
+      </svg>
+      <div class="illus-caption" style="color:#a78bfa;">Mission complete — you are now a Data Scientist!</div>
     </div>
 
     <div class="story-panel">

@@ -233,27 +233,101 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
     <div class="book-page cover-page active" id="page-1">
       <div class="cover-card">
         <svg viewBox="0 0 200 200" width="160" height="160" style="margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
-          <!-- Sky -->
-          <rect width="200" height="200" rx="24" fill="rgba(255,255,255,.08)"/>
-          <!-- Sun (circle) -->
-          <circle cx="160" cy="35" r="22" fill="#FBBF24"/>
-          <circle cx="160" cy="35" r="14" fill="#FDE68A"/>
-          <!-- Ground -->
-          <rect y="150" width="200" height="50" rx="0" fill="#059669" opacity=".5"/>
-          <!-- Circle flower (pink) -->
-          <circle cx="50" cy="130" r="18" fill="#EC4899"/>
-          <circle cx="50" cy="130" r="10" fill="#FDE68A"/>
-          <rect x="46" y="148" width="8" height="30" rx="4" fill="#059669"/>
-          <!-- Square flower (orange) -->
-          <rect x="86" y="110" width="36" height="36" rx="6" fill="#F97316"/>
-          <circle cx="104" cy="128" r="10" fill="#FDE68A"/>
-          <rect x="100" y="146" width="8" height="32" rx="4" fill="#059669"/>
-          <!-- Triangle tree/flower -->
-          <polygon points="155,100 175,145 135,145" fill="#10B981"/>
-          <rect x="151" y="145" width="8" height="28" rx="4" fill="#059669"/>
-          <!-- Maya -->
-          <circle cx="20" cy="170" r="14" fill="#FBBF24"/>
-          <ellipse cx="20" cy="190" rx="10" ry="10" fill="#EC4899"/>
+          <defs>
+            <radialGradient id="sgc-sun" cx="35%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#FFF9C4"/>
+              <stop offset="50%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <radialGradient id="sgc-sky" cx="50%" cy="0%" r="100%">
+              <stop offset="0%" stop-color="#C4B5FD"/>
+              <stop offset="100%" stop-color="#7C3AED"/>
+            </radialGradient>
+            <radialGradient id="sgc-grass" cx="50%" cy="0%" r="100%">
+              <stop offset="0%" stop-color="#34D399"/>
+              <stop offset="100%" stop-color="#065F46"/>
+            </radialGradient>
+            <radialGradient id="sgc-maya-skin" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="60%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <radialGradient id="sgc-pink-fl" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#F9A8D4"/>
+              <stop offset="60%" stop-color="#EC4899"/>
+              <stop offset="100%" stop-color="#9D174D"/>
+            </radialGradient>
+            <radialGradient id="sgc-orange-fl" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FED7AA"/>
+              <stop offset="60%" stop-color="#F97316"/>
+              <stop offset="100%" stop-color="#C2410C"/>
+            </radialGradient>
+            <radialGradient id="sgc-green-tri" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#6EE7B7"/>
+              <stop offset="60%" stop-color="#10B981"/>
+              <stop offset="100%" stop-color="#065F46"/>
+            </radialGradient>
+            <filter id="sgc-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky background -->
+          <rect width="200" height="200" rx="20" fill="url(#sgc-sky)"/>
+          <!-- Stars -->
+          <circle cx="30" cy="20" r="1.5" fill="white" opacity=".7"/>
+          <circle cx="80" cy="12" r="1" fill="white" opacity=".6"/>
+          <circle cx="120" cy="18" r="1.5" fill="white" opacity=".5"/>
+          <!-- Sun with glow -->
+          <circle cx="162" cy="34" r="26" fill="#FBBF24" opacity=".18"/>
+          <g filter="url(#sgc-sh)">
+            <circle cx="162" cy="34" r="20" fill="url(#sgc-sun)"/>
+          </g>
+          <!-- Clouds -->
+          <g opacity=".85">
+            <ellipse cx="50" cy="50" rx="18" ry="9" fill="white"/>
+            <ellipse cx="65" cy="46" rx="14" ry="9" fill="white"/>
+            <ellipse cx="38" cy="48" rx="12" ry="7" fill="white"/>
+          </g>
+          <!-- Ground wavy path -->
+          <path d="M0 148 Q25 140 50 148 Q75 156 100 148 Q125 140 150 148 Q175 156 200 148 L200 200 L0 200 Z" fill="url(#sgc-grass)"/>
+          <path d="M0 158 Q30 152 60 158 Q90 164 120 158 Q150 152 180 158 Q195 162 200 160 L200 200 L0 200 Z" fill="#065F46" opacity=".4"/>
+          <!-- Circle flower (pink) with shadow -->
+          <g filter="url(#sgc-sh)">
+            <rect x="46" y="145" width="8" height="32" rx="4" fill="#059669"/>
+            <circle cx="50" cy="128" r="18" fill="url(#sgc-pink-fl)"/>
+            <circle cx="50" cy="128" r="9" fill="#FDE68A"/>
+          </g>
+          <!-- Square flower (orange) with shadow -->
+          <g filter="url(#sgc-sh)">
+            <rect x="100" y="145" width="7" height="28" rx="3.5" fill="#059669"/>
+            <rect x="88" y="108" width="34" height="34" rx="6" fill="url(#sgc-orange-fl)"/>
+            <circle cx="105" cy="125" r="9" fill="#FDE68A"/>
+          </g>
+          <!-- Triangle tree with shadow -->
+          <g filter="url(#sgc-sh)">
+            <rect x="151" y="143" width="8" height="26" rx="4" fill="#059669"/>
+            <polygon points="155,97 177,143 133,143" fill="url(#sgc-green-tri)"/>
+          </g>
+          <!-- Maya character -->
+          <g filter="url(#sgc-sh)">
+            <!-- Body dress -->
+            <ellipse cx="20" cy="190" rx="11" ry="11" fill="#EC4899"/>
+            <!-- Head -->
+            <circle cx="20" cy="172" r="13" fill="url(#sgc-maya-skin)"/>
+            <!-- Hair pigtails -->
+            <rect x="10" y="162" width="20" height="12" rx="10" fill="#92400E"/>
+            <ellipse cx="10" cy="167" rx="5" ry="7" fill="#92400E"/>
+            <ellipse cx="30" cy="167" rx="5" ry="7" fill="#92400E"/>
+            <!-- Eyes -->
+            <circle cx="16" cy="172" r="2.2" fill="#1C1917"/>
+            <circle cx="24" cy="172" r="2.2" fill="#1C1917"/>
+            <circle cx="16.6" cy="171.3" r=".7" fill="white"/>
+            <circle cx="24.6" cy="171.3" r=".7" fill="white"/>
+          </g>
+          <!-- Sparkles -->
+          <circle cx="140" cy="100" r="2" fill="#FBBF24"/>
+          <circle cx="135" cy="95" r="1" fill="white"/>
+          <circle cx="145" cy="92" r="1.5" fill="#EC4899"/>
         </svg>
         <div class="cover-title">The Shape Garden</div>
         <div class="cover-subtitle">Find shapes everywhere with Maya!</div>
@@ -284,43 +358,96 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);">
         <div class="page-num-illus">Page 2</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="#F5F3FF"/>
-          <!-- Big circle (sun) in center -->
-          <circle cx="150" cy="100" r="70" fill="#FBBF24" opacity=".9"/>
-          <circle cx="150" cy="100" r="50" fill="#FDE68A"/>
-          <!-- Sun rays (lines) -->
-          <line x1="150" y1="20" x2="150" y2="5" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-          <line x1="150" y1="180" x2="150" y2="195" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-          <line x1="70" y1="100" x2="55" y2="100" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-          <line x1="230" y1="100" x2="245" y2="100" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-          <line x1="100" y1="50" x2="88" y2="38" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-          <line x1="200" y1="50" x2="212" y2="38" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-          <line x1="100" y1="150" x2="88" y2="162" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-          <line x1="200" y1="150" x2="212" y2="162" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-          <!-- Label -->
-          <text x="150" y="107" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="22" fill="#D97706">CIRCLE</text>
-          <!-- Maya (simple girl figure) -->
-          <circle cx="75" cy="230" r="18" fill="#FBBF24"/>
-          <!-- Hair -->
-          <path d="M60 220 Q75 210 90 220" fill="#92400E" stroke="none"/>
-          <rect x="60" y="210" width="30" height="15" rx="15" fill="#92400E"/>
-          <!-- Eyes -->
-          <circle cx="70" cy="228" r="2.5" fill="#1C1917"/>
-          <circle cx="80" cy="228" r="2.5" fill="#1C1917"/>
-          <circle cx="70.8" cy="227" r=".8" fill="white"/>
-          <circle cx="80.8" cy="227" r=".8" fill="white"/>
-          <!-- Smile -->
-          <path d="M69 234 Q75 239 81 234" stroke="#1C1917" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <!-- Body -->
-          <ellipse cx="75" cy="260" rx="16" ry="18" fill="#EC4899"/>
-          <!-- Arms pointing at circle -->
-          <line x1="87" y1="248" x2="115" y2="215" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
-          <!-- Ground -->
-          <ellipse cx="150" cy="278" rx="140" ry="6" fill="#C4B5FD" opacity=".4"/>
-          <!-- Small circles decoration -->
-          <circle cx="240" cy="220" r="12" fill="#EC4899" opacity=".5"/>
-          <circle cx="260" cy="250" r="8" fill="#8B5CF6" opacity=".4"/>
-          <circle cx="220" cy="255" r="6" fill="#FBBF24" opacity=".5"/>
+          <defs>
+            <linearGradient id="sg2-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFF9E6"/>
+              <stop offset="100%" stop-color="#FDE68A"/>
+            </linearGradient>
+            <linearGradient id="sg2-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="100%" stop-color="#14532D"/>
+            </linearGradient>
+            <radialGradient id="sg2-sun" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FFFDE4"/>
+              <stop offset="45%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <radialGradient id="sg2-maya-skin" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="60%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+            <filter id="sg2-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="300" height="280" fill="url(#sg2-sky)"/>
+          <!-- Clouds -->
+          <g opacity=".9">
+            <ellipse cx="230" cy="35" rx="30" ry="13" fill="white"/>
+            <ellipse cx="255" cy="30" rx="22" ry="13" fill="white"/>
+            <ellipse cx="210" cy="33" rx="18" ry="10" fill="white"/>
+          </g>
+          <g opacity=".75">
+            <ellipse cx="40" cy="28" rx="22" ry="10" fill="white"/>
+            <ellipse cx="58" cy="24" rx="16" ry="10" fill="white"/>
+            <ellipse cx="25" cy="26" rx="14" ry="8" fill="white"/>
+          </g>
+          <!-- Sun glow + sun -->
+          <circle cx="150" cy="100" r="82" fill="#FBBF24" opacity=".12"/>
+          <g filter="url(#sg2-sh)">
+            <circle cx="150" cy="100" r="68" fill="url(#sg2-sun)"/>
+          </g>
+          <!-- Sparkle rays -->
+          <line x1="150" y1="22" x2="150" y2="8" stroke="#F97316" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="150" y1="178" x2="150" y2="192" stroke="#F97316" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="72" y1="100" x2="58" y2="100" stroke="#F97316" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="228" y1="100" x2="242" y2="100" stroke="#F97316" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="102" y1="52" x2="91" y2="41" stroke="#F97316" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="198" y1="52" x2="209" y2="41" stroke="#F97316" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="102" y1="148" x2="91" y2="159" stroke="#F97316" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="198" y1="148" x2="209" y2="159" stroke="#F97316" stroke-width="3.5" stroke-linecap="round"/>
+          <!-- Label on sun -->
+          <text x="150" y="106" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="20" fill="#7C2D12">CIRCLE</text>
+          <!-- Wavy ground -->
+          <path d="M0 216 Q38 206 75 216 Q112 226 150 216 Q188 206 225 216 Q262 226 300 216 L300 280 L0 280 Z" fill="url(#sg2-grass)"/>
+          <path d="M0 228 Q50 220 100 228 Q150 236 200 228 Q250 220 300 228 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+          <!-- Decorative circles in scene -->
+          <g filter="url(#sg2-sh)">
+            <circle cx="240" cy="210" r="13" fill="#EC4899" opacity=".85"/>
+            <circle cx="240" cy="210" r="7" fill="#FDE68A"/>
+          </g>
+          <g filter="url(#sg2-sh)">
+            <circle cx="265" cy="238" r="9" fill="#8B5CF6" opacity=".8"/>
+            <circle cx="265" cy="238" r="4.5" fill="#DDD6FE"/>
+          </g>
+          <g filter="url(#sg2-sh)">
+            <circle cx="218" cy="243" r="7" fill="#FBBF24" opacity=".9"/>
+            <circle cx="218" cy="243" r="3.5" fill="white"/>
+          </g>
+          <!-- Maya character -->
+          <g filter="url(#sg2-sh)">
+            <!-- Dress body -->
+            <ellipse cx="75" cy="258" rx="17" ry="20" fill="#EC4899"/>
+            <!-- Arm pointing up -->
+            <line x1="88" y1="248" x2="112" y2="218" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+            <!-- Head -->
+            <circle cx="75" cy="228" r="19" fill="url(#sg2-maya-skin)"/>
+            <!-- Hair -->
+            <rect x="59" y="210" width="32" height="15" rx="16" fill="#78350F"/>
+            <ellipse cx="60" cy="218" rx="6" ry="8" fill="#78350F"/>
+            <ellipse cx="90" cy="218" rx="6" ry="8" fill="#78350F"/>
+            <!-- Eyes -->
+            <circle cx="70" cy="228" r="2.8" fill="#1C1917"/>
+            <circle cx="82" cy="228" r="2.8" fill="#1C1917"/>
+            <circle cx="70.8" cy="227" r=".9" fill="white"/>
+            <circle cx="82.8" cy="227" r=".9" fill="white"/>
+            <!-- Smile -->
+            <path d="M69 235 Q76 241 83 235" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Ground shadow -->
+          <ellipse cx="150" cy="277" rx="135" ry="5" fill="#14532D" opacity=".25"/>
         </svg>
         <div class="illus-caption">A circle is perfectly round — no corners!</div>
       </div>
@@ -370,42 +497,119 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
         <div class="page-num-illus">Page 3</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="#F5F3FF"/>
-          <!-- Grass -->
-          <rect y="220" width="300" height="60" rx="0" fill="#A7F3D0" opacity=".6"/>
-          <!-- Square house body -->
-          <rect x="80" y="80" width="140" height="140" rx="6" fill="#F97316"/>
-          <rect x="84" y="84" width="132" height="132" rx="4" fill="#FED7AA"/>
-          <!-- Door (rectangle inside) -->
-          <rect x="127" y="165" width="46" height="55" rx="6" fill="#92400E"/>
-          <circle cx="165" cy="193" r="4" fill="#D97706"/>
-          <!-- Square windows -->
-          <rect x="92" y="100" width="44" height="44" rx="4" fill="white"/>
-          <rect x="164" y="100" width="44" height="44" rx="4" fill="white"/>
-          <!-- Window cross lines -->
-          <line x1="114" y1="100" x2="114" y2="144" stroke="#CBD5E1" stroke-width="2"/>
-          <line x1="92" y1="122" x2="136" y2="122" stroke="#CBD5E1" stroke-width="2"/>
-          <line x1="186" y1="100" x2="186" y2="144" stroke="#CBD5E1" stroke-width="2"/>
-          <line x1="164" y1="122" x2="208" y2="122" stroke="#CBD5E1" stroke-width="2"/>
-          <!-- Roof triangle -->
-          <polygon points="65,85 150,25 235,85" fill="#EF4444"/>
+          <defs>
+            <linearGradient id="sg3-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFF7ED"/>
+              <stop offset="100%" stop-color="#FED7AA"/>
+            </linearGradient>
+            <linearGradient id="sg3-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="100%" stop-color="#14532D"/>
+            </linearGradient>
+            <radialGradient id="sg3-house-wall" cx="35%" cy="25%" r="75%">
+              <stop offset="0%" stop-color="#FDDCB0"/>
+              <stop offset="60%" stop-color="#FED7AA"/>
+              <stop offset="100%" stop-color="#C2410C" stop-opacity=".3"/>
+            </radialGradient>
+            <radialGradient id="sg3-house-frame" cx="35%" cy="25%" r="75%">
+              <stop offset="0%" stop-color="#FEC58A"/>
+              <stop offset="60%" stop-color="#F97316"/>
+              <stop offset="100%" stop-color="#7C2D12"/>
+            </radialGradient>
+            <radialGradient id="sg3-roof" cx="50%" cy="25%" r="75%">
+              <stop offset="0%" stop-color="#FCA5A5"/>
+              <stop offset="60%" stop-color="#EF4444"/>
+              <stop offset="100%" stop-color="#7F1D1D"/>
+            </radialGradient>
+            <radialGradient id="sg3-maya-skin" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="60%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+            <radialGradient id="sg3-sun" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FFFDE4"/>
+              <stop offset="45%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <filter id="sg3-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="300" height="280" fill="url(#sg3-sky)"/>
+          <!-- Sun -->
+          <circle cx="255" cy="38" r="28" fill="#FBBF24" opacity=".15"/>
+          <g filter="url(#sg3-sh)">
+            <circle cx="255" cy="38" r="22" fill="url(#sg3-sun)"/>
+          </g>
+          <!-- Clouds -->
+          <g opacity=".9">
+            <ellipse cx="60" cy="38" rx="28" ry="12" fill="white"/>
+            <ellipse cx="82" cy="33" rx="20" ry="12" fill="white"/>
+            <ellipse cx="42" cy="36" rx="16" ry="9" fill="white"/>
+          </g>
+          <!-- Wavy ground -->
+          <path d="M0 218 Q37 210 75 218 Q112 226 150 218 Q188 210 225 218 Q262 226 300 218 L300 280 L0 280 Z" fill="url(#sg3-grass)"/>
+          <path d="M0 230 Q50 222 100 230 Q150 238 200 230 Q250 222 300 230 L300 280 L0 280 Z" fill="#14532D" opacity=".35"/>
+          <!-- Flowers in garden -->
+          <rect x="240" y="202" width="6" height="22" rx="3" fill="#059669"/>
+          <circle cx="243" cy="200" r="8" fill="#EC4899"/>
+          <circle cx="243" cy="200" r="4.5" fill="#FDE68A"/>
+          <rect x="262" y="210" width="6" height="14" rx="3" fill="#059669"/>
+          <circle cx="265" cy="207" r="7" fill="#8B5CF6"/>
+          <circle cx="265" cy="207" r="3.5" fill="#FDE68A"/>
+          <!-- Square house frame with gradient -->
+          <g filter="url(#sg3-sh)">
+            <rect x="78" y="78" width="144" height="144" rx="6" fill="url(#sg3-house-frame)"/>
+            <rect x="83" y="83" width="134" height="134" rx="4" fill="url(#sg3-house-wall)"/>
+          </g>
+          <!-- Corner markers (purple dots) -->
+          <circle cx="78" cy="78" r="8" fill="#8B5CF6"/>
+          <circle cx="222" cy="78" r="8" fill="#8B5CF6"/>
+          <circle cx="78" cy="222" r="8" fill="#8B5CF6"/>
+          <circle cx="222" cy="222" r="8" fill="#8B5CF6"/>
+          <text x="150" y="70" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">= same =</text>
+          <!-- Door -->
+          <g filter="url(#sg3-sh)">
+            <rect x="127" y="162" width="46" height="60" rx="6" fill="#92400E"/>
+            <rect x="131" y="166" width="18" height="50" rx="3" fill="#A16207"/>
+            <circle cx="165" cy="194" r="4.5" fill="#D97706"/>
+          </g>
+          <!-- Windows -->
+          <rect x="90" y="97" width="47" height="47" rx="4" fill="white"/>
+          <rect x="163" y="97" width="47" height="47" rx="4" fill="white"/>
+          <rect x="92" y="99" width="43" height="43" rx="3" fill="#BAE6FD" opacity=".6"/>
+          <rect x="165" y="99" width="43" height="43" rx="3" fill="#BAE6FD" opacity=".6"/>
+          <line x1="113" y1="97" x2="113" y2="144" stroke="#CBD5E1" stroke-width="2"/>
+          <line x1="90" y1="120" x2="137" y2="120" stroke="#CBD5E1" stroke-width="2"/>
+          <line x1="186" y1="97" x2="186" y2="144" stroke="#CBD5E1" stroke-width="2"/>
+          <line x1="163" y1="120" x2="210" y2="120" stroke="#CBD5E1" stroke-width="2"/>
+          <!-- Roof -->
+          <g filter="url(#sg3-sh)">
+            <polygon points="63,83 150,22 237,83" fill="url(#sg3-roof)"/>
+          </g>
           <!-- Chimney -->
-          <rect x="185" y="38" width="20" height="30" rx="3" fill="#D97706"/>
+          <g filter="url(#sg3-sh)">
+            <rect x="184" y="34" width="22" height="32" rx="4" fill="#D97706"/>
+            <rect x="181" y="32" width="28" height="8" rx="3" fill="#B45309"/>
+          </g>
+          <!-- Smoke puffs -->
+          <circle cx="192" cy="26" r="6" fill="#CBD5E1" opacity=".55"/>
+          <circle cx="200" cy="19" r="5" fill="#CBD5E1" opacity=".4"/>
           <!-- Maya beside house -->
-          <circle cx="40" cy="218" r="16" fill="#FBBF24"/>
-          <rect x="28" y="204" width="24" height="15" rx="12" fill="#92400E"/>
-          <circle cx="35" cy="215" r="2.5" fill="#1C1917"/>
-          <circle cx="45" cy="215" r="2.5" fill="#1C1917"/>
-          <path d="M34 221 Q40 226 46 221" stroke="#1C1917" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <ellipse cx="40" cy="248" rx="14" ry="16" fill="#EC4899"/>
-          <line x1="52" y1="238" x2="75" y2="210" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
-          <!-- Corner dots showing 4 equal sides -->
-          <circle cx="80" cy="80" r="7" fill="#8B5CF6"/>
-          <circle cx="220" cy="80" r="7" fill="#8B5CF6"/>
-          <circle cx="80" cy="220" r="7" fill="#8B5CF6"/>
-          <circle cx="220" cy="220" r="7" fill="#8B5CF6"/>
-          <!-- Labels for sides -->
-          <text x="150" y="72" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#6D28D9">= same =</text>
+          <g filter="url(#sg3-sh)">
+            <ellipse cx="40" cy="247" rx="14" ry="17" fill="#EC4899"/>
+            <line x1="51" y1="237" x2="75" y2="210" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="40" cy="217" r="17" fill="url(#sg3-maya-skin)"/>
+            <rect x="26" y="204" width="28" height="14" rx="14" fill="#78350F"/>
+            <ellipse cx="27" cy="212" rx="6" ry="8" fill="#78350F"/>
+            <ellipse cx="53" cy="212" rx="6" ry="8" fill="#78350F"/>
+            <circle cx="35" cy="216" r="2.8" fill="#1C1917"/>
+            <circle cx="46" cy="216" r="2.8" fill="#1C1917"/>
+            <circle cx="35.8" cy="215" r=".9" fill="white"/>
+            <circle cx="46.8" cy="215" r=".9" fill="white"/>
+            <path d="M34 222 Q40 228 47 222" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </g>
         </svg>
         <div class="illus-caption">A square has 4 equal sides and 4 corners!</div>
       </div>
@@ -459,36 +663,94 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
         <div class="page-num-illus">Page 4</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="#F5F3FF"/>
-          <!-- Sky gradient -->
-          <rect width="300" height="200" fill="#EDE9FE" opacity=".5"/>
+          <defs>
+            <linearGradient id="sg4-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#DBEAFE"/>
+              <stop offset="100%" stop-color="#EDE9FE"/>
+            </linearGradient>
+            <linearGradient id="sg4-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="100%" stop-color="#14532D"/>
+            </linearGradient>
+            <linearGradient id="sg4-mountain" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6EE7B7"/>
+              <stop offset="60%" stop-color="#10B981"/>
+              <stop offset="100%" stop-color="#065F46"/>
+            </linearGradient>
+            <radialGradient id="sg4-sun" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FFFDE4"/>
+              <stop offset="45%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <radialGradient id="sg4-maya-skin" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="60%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+            <filter id="sg4-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="300" height="280" fill="url(#sg4-sky)"/>
           <!-- Sun -->
-          <circle cx="250" cy="40" r="28" fill="#FBBF24" opacity=".9"/>
-          <circle cx="250" cy="40" r="18" fill="#FDE68A"/>
-          <!-- Big green triangle mountain -->
-          <polygon points="150,30 280,220 20,220" fill="#10B981"/>
-          <polygon points="150,30 280,220 20,220" fill="url(#mountainShad)" opacity=".2"/>
-          <!-- Mountain shadow detail -->
-          <polygon points="150,30 210,220 150,220" fill="#059669" opacity=".35"/>
-          <!-- Path going up the mountain -->
-          <polyline points="150,220 148,180 152,140 149,100 150,60" stroke="white" stroke-width="3" stroke-dasharray="6 4" fill="none" opacity=".7"/>
-          <!-- Small white triangle clouds -->
-          <polygon points="60,60 90,100 30,100" fill="white" opacity=".7"/>
-          <polygon points="230,80 255,115 205,115" fill="white" opacity=".7"/>
-          <!-- Ground -->
-          <rect y="220" width="300" height="60" fill="#A7F3D0" opacity=".6"/>
-          <!-- Maya as tiny figure at base -->
-          <circle cx="55" cy="212" r="12" fill="#FBBF24"/>
-          <rect x="45" y="201" width="20" height="12" rx="10" fill="#92400E"/>
-          <ellipse cx="55" cy="230" rx="10" ry="12" fill="#EC4899"/>
-          <!-- Corner dots on triangle -->
-          <circle cx="150" cy="30" r="8" fill="#8B5CF6"/>
-          <circle cx="20" cy="220" r="8" fill="#8B5CF6"/>
-          <circle cx="280" cy="220" r="8" fill="#8B5CF6"/>
+          <circle cx="252" cy="40" r="32" fill="#FBBF24" opacity=".15"/>
+          <g filter="url(#sg4-sh)">
+            <circle cx="252" cy="40" r="24" fill="url(#sg4-sun)"/>
+          </g>
+          <!-- Clouds -->
+          <g opacity=".9">
+            <ellipse cx="55" cy="55" rx="26" ry="11" fill="white"/>
+            <ellipse cx="76" cy="50" rx="18" ry="11" fill="white"/>
+            <ellipse cx="37" cy="53" rx="15" ry="8" fill="white"/>
+          </g>
+          <g opacity=".8">
+            <ellipse cx="215" cy="75" rx="22" ry="9" fill="white"/>
+            <ellipse cx="233" cy="71" rx="14" ry="9" fill="white"/>
+            <ellipse cx="199" cy="73" rx="12" ry="7" fill="white"/>
+          </g>
+          <!-- Small background triangles (mountains) -->
+          <polygon points="240,100 280,195 200,195" fill="#34D399" opacity=".5"/>
+          <polygon points="40,110 75,195 5,195" fill="#34D399" opacity=".4"/>
+          <!-- Main big triangle mountain -->
+          <g filter="url(#sg4-sh)">
+            <polygon points="150,28 282,222 18,222" fill="url(#sg4-mountain)"/>
+            <!-- Shadow side of mountain -->
+            <polygon points="150,28 212,222 150,222" fill="#065F46" opacity=".3"/>
+          </g>
+          <!-- Snow cap on peak -->
+          <polygon points="150,28 165,72 135,72" fill="white" opacity=".75"/>
+          <!-- Path dashed up mountain -->
+          <polyline points="150,222 149,182 152,142 149,102 150,62" stroke="white" stroke-width="2.5" stroke-dasharray="5,4" fill="none" opacity=".6"/>
+          <!-- Corner dots -->
+          <g filter="url(#sg4-sh)">
+            <circle cx="150" cy="28" r="9" fill="#8B5CF6"/>
+            <circle cx="18" cy="222" r="9" fill="#8B5CF6"/>
+            <circle cx="282" cy="222" r="9" fill="#8B5CF6"/>
+          </g>
           <!-- Corner labels -->
-          <text x="150" y="22" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#6D28D9">corner 3</text>
-          <text x="14" y="240" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#6D28D9">corner 1</text>
-          <text x="286" y="240" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#6D28D9">corner 2</text>
+          <text x="150" y="20" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">corner 3</text>
+          <text x="12" y="242" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">corner 1</text>
+          <text x="288" y="242" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">corner 2</text>
+          <!-- Wavy ground -->
+          <path d="M0 220 Q37 212 75 220 Q112 228 150 220 Q188 212 225 220 Q262 228 300 220 L300 280 L0 280 Z" fill="url(#sg4-grass)"/>
+          <path d="M0 232 Q50 224 100 232 Q150 240 200 232 Q250 224 300 232 L300 280 L0 280 Z" fill="#14532D" opacity=".35"/>
+          <!-- Tiny flowers at base -->
+          <rect x="192" y="210" width="5" height="15" rx="2.5" fill="#059669"/>
+          <circle cx="194" cy="208" r="6" fill="#EC4899"/>
+          <circle cx="194" cy="208" r="3" fill="#FDE68A"/>
+          <!-- Maya at base of mountain -->
+          <g filter="url(#sg4-sh)">
+            <ellipse cx="56" cy="232" rx="11" ry="13" fill="#EC4899"/>
+            <circle cx="56" cy="213" r="13" fill="url(#sg4-maya-skin)"/>
+            <rect x="45" y="202" width="22" height="12" rx="11" fill="#78350F"/>
+            <ellipse cx="46" cy="208" rx="5" ry="7" fill="#78350F"/>
+            <ellipse cx="67" cy="208" rx="5" ry="7" fill="#78350F"/>
+            <circle cx="51" cy="213" r="2.2" fill="#1C1917"/>
+            <circle cx="61" cy="213" r="2.2" fill="#1C1917"/>
+            <circle cx="51.7" cy="212.2" r=".7" fill="white"/>
+            <circle cx="61.7" cy="212.2" r=".7" fill="white"/>
+          </g>
         </svg>
         <div class="illus-caption">A triangle has 3 sides and 3 corners!</div>
       </div>
@@ -531,42 +793,110 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);">
         <div class="page-num-illus">Page 5</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="#F5F3FF"/>
-          <!-- Ground -->
-          <rect y="230" width="300" height="50" fill="#A7F3D0" opacity=".5"/>
-          <!-- Big rectangle gate/door -->
-          <rect x="80" y="40" width="140" height="210" rx="8" fill="#8B5CF6"/>
-          <rect x="85" y="45" width="130" height="200" rx="6" fill="#7C3AED"/>
-          <!-- Gate decorative panels (rectangles within) -->
-          <rect x="95" y="55" width="50" height="85" rx="4" fill="#A78BFA" opacity=".7"/>
-          <rect x="155" y="55" width="50" height="85" rx="4" fill="#A78BFA" opacity=".7"/>
-          <rect x="95" y="150" width="50" height="85" rx="4" fill="#A78BFA" opacity=".7"/>
-          <rect x="155" y="150" width="50" height="85" rx="4" fill="#A78BFA" opacity=".7"/>
-          <!-- Door handle -->
-          <circle cx="148" cy="148" r="6" fill="#FBBF24"/>
-          <!-- Top arc decoration -->
-          <path d="M90 55 Q150 20 210 55" fill="none" stroke="#FBBF24" stroke-width="3"/>
+          <defs>
+            <linearGradient id="sg5-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#F5F3FF"/>
+              <stop offset="100%" stop-color="#DDD6FE"/>
+            </linearGradient>
+            <linearGradient id="sg5-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ADE80"/>
+              <stop offset="100%" stop-color="#14532D"/>
+            </linearGradient>
+            <linearGradient id="sg5-gate-frame" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#7C3AED"/>
+              <stop offset="50%" stop-color="#8B5CF6"/>
+              <stop offset="100%" stop-color="#6D28D9"/>
+            </linearGradient>
+            <linearGradient id="sg5-gate-face" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#A78BFA"/>
+              <stop offset="100%" stop-color="#6D28D9"/>
+            </linearGradient>
+            <radialGradient id="sg5-panel" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#C4B5FD"/>
+              <stop offset="60%" stop-color="#A78BFA"/>
+              <stop offset="100%" stop-color="#7C3AED"/>
+            </radialGradient>
+            <radialGradient id="sg5-post" cx="30%" cy="25%" r="70%">
+              <stop offset="0%" stop-color="#A78BFA"/>
+              <stop offset="60%" stop-color="#7C3AED"/>
+              <stop offset="100%" stop-color="#4C1D95"/>
+            </radialGradient>
+            <radialGradient id="sg5-sun" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FFFDE4"/>
+              <stop offset="45%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <radialGradient id="sg5-maya-skin" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="60%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+            <filter id="sg5-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="300" height="280" fill="url(#sg5-sky)"/>
+          <!-- Clouds -->
+          <g opacity=".9">
+            <ellipse cx="48" cy="38" rx="26" ry="11" fill="white"/>
+            <ellipse cx="68" cy="33" rx="18" ry="11" fill="white"/>
+            <ellipse cx="30" cy="36" rx="15" ry="8" fill="white"/>
+          </g>
+          <!-- Sun -->
+          <circle cx="250" cy="40" r="22" fill="#FBBF24" opacity=".15"/>
+          <g filter="url(#sg5-sh)">
+            <circle cx="250" cy="40" r="18" fill="url(#sg5-sun)"/>
+          </g>
           <!-- Side posts -->
-          <rect x="65" y="30" width="16" height="225" rx="6" fill="#6D28D9"/>
-          <rect x="219" y="30" width="16" height="225" rx="6" fill="#6D28D9"/>
-          <!-- Post tops -->
-          <circle cx="73" cy="28" r="9" fill="#FBBF24"/>
-          <circle cx="227" cy="28" r="9" fill="#FBBF24"/>
-          <!-- Side labels showing long vs short -->
-          <text x="56" y="145" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9" transform="rotate(-90,56,145)">LONG</text>
-          <text x="150" y="270" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">SHORT</text>
-          <!-- Corner markers -->
-          <circle cx="80" cy="40" r="6" fill="#EC4899"/>
-          <circle cx="220" cy="40" r="6" fill="#EC4899"/>
-          <circle cx="80" cy="250" r="6" fill="#EC4899"/>
-          <circle cx="220" cy="250" r="6" fill="#EC4899"/>
+          <g filter="url(#sg5-sh)">
+            <rect x="62" y="28" width="18" height="226" rx="7" fill="url(#sg5-post)"/>
+            <rect x="220" y="28" width="18" height="226" rx="7" fill="url(#sg5-post)"/>
+            <!-- Post tops (golden orbs) -->
+            <circle cx="71" cy="26" r="11" fill="#D97706"/>
+            <circle cx="71" cy="26" r="7" fill="#FBBF24"/>
+            <circle cx="229" cy="26" r="11" fill="#D97706"/>
+            <circle cx="229" cy="26" r="7" fill="#FBBF24"/>
+          </g>
+          <!-- Gate door (rectangle) -->
+          <g filter="url(#sg5-sh)">
+            <rect x="80" y="38" width="140" height="212" rx="8" fill="url(#sg5-gate-frame)"/>
+            <rect x="84" y="42" width="132" height="204" rx="6" fill="url(#sg5-gate-face)"/>
+            <!-- Decorative panels (rectangles in grid) -->
+            <rect x="92" y="52" width="52" height="88" rx="5" fill="url(#sg5-panel)" opacity=".8"/>
+            <rect x="154" y="52" width="52" height="88" rx="5" fill="url(#sg5-panel)" opacity=".8"/>
+            <rect x="92" y="150" width="52" height="88" rx="5" fill="url(#sg5-panel)" opacity=".8"/>
+            <rect x="154" y="150" width="52" height="88" rx="5" fill="url(#sg5-panel)" opacity=".8"/>
+            <!-- Arch decoration at top -->
+            <path d="M88 52 Q150 12 212 52" fill="none" stroke="#FBBF24" stroke-width="3.5"/>
+            <!-- Door handle -->
+            <circle cx="147" cy="148" r="7" fill="#D97706"/>
+            <circle cx="147" cy="148" r="4" fill="#FBBF24"/>
+          </g>
+          <!-- Corner markers (pink) -->
+          <circle cx="80" cy="38" r="7" fill="#EC4899"/>
+          <circle cx="220" cy="38" r="7" fill="#EC4899"/>
+          <circle cx="80" cy="250" r="7" fill="#EC4899"/>
+          <circle cx="220" cy="250" r="7" fill="#EC4899"/>
+          <!-- Side labels -->
+          <text x="54" y="145" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9" transform="rotate(-90,54,145)">LONG</text>
+          <text x="150" y="272" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9">SHORT</text>
+          <!-- Wavy ground -->
+          <path d="M0 230 Q37 222 75 230 Q112 238 150 230 Q188 222 225 230 Q262 238 300 230 L300 280 L0 280 Z" fill="url(#sg5-grass)"/>
+          <path d="M0 242 Q50 234 100 242 Q150 250 200 242 Q250 234 300 242 L300 280 L0 280 Z" fill="#14532D" opacity=".35"/>
           <!-- Maya peeking from side -->
-          <circle cx="260" cy="200" r="16" fill="#FBBF24"/>
-          <rect x="248" y="187" width="24" height="14" rx="12" fill="#92400E"/>
-          <circle cx="255" cy="198" r="2.5" fill="#1C1917"/>
-          <circle cx="265" cy="198" r="2.5" fill="#1C1917"/>
-          <path d="M254 205 Q260 210 266 205" stroke="#1C1917" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <ellipse cx="260" cy="228" rx="13" ry="15" fill="#EC4899"/>
+          <g filter="url(#sg5-sh)">
+            <ellipse cx="261" cy="228" rx="14" ry="16" fill="#EC4899"/>
+            <circle cx="261" cy="200" r="17" fill="url(#sg5-maya-skin)"/>
+            <rect x="248" y="187" width="26" height="14" rx="13" fill="#78350F"/>
+            <ellipse cx="249" cy="194" rx="5.5" ry="7" fill="#78350F"/>
+            <ellipse cx="274" cy="194" rx="5.5" ry="7" fill="#78350F"/>
+            <circle cx="255" cy="199" r="2.5" fill="#1C1917"/>
+            <circle cx="267" cy="199" r="2.5" fill="#1C1917"/>
+            <circle cx="255.8" cy="198.2" r=".8" fill="white"/>
+            <circle cx="267.8" cy="198.2" r=".8" fill="white"/>
+            <path d="M254 206 Q261 212 268 206" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </g>
         </svg>
         <div class="illus-caption">A rectangle has 4 sides — but 2 pairs of equal sides!</div>
       </div>
@@ -609,49 +939,119 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
         <div class="page-num-illus">Page 6</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="#EDE9FE"/>
+          <defs>
+            <linearGradient id="sg6-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FDF4FF"/>
+              <stop offset="100%" stop-color="#DDD6FE"/>
+            </linearGradient>
+            <linearGradient id="sg6-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#34D399"/>
+              <stop offset="100%" stop-color="#065F46"/>
+            </linearGradient>
+            <radialGradient id="sg6-sun" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FFFDE4"/>
+              <stop offset="45%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <radialGradient id="sg6-house" cx="35%" cy="25%" r="75%">
+              <stop offset="0%" stop-color="#FED7AA"/>
+              <stop offset="60%" stop-color="#F97316"/>
+              <stop offset="100%" stop-color="#7C2D12"/>
+            </radialGradient>
+            <radialGradient id="sg6-mountain" cx="30%" cy="20%" r="75%">
+              <stop offset="0%" stop-color="#6EE7B7"/>
+              <stop offset="60%" stop-color="#10B981"/>
+              <stop offset="100%" stop-color="#065F46"/>
+            </radialGradient>
+            <radialGradient id="sg6-rect" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#93C5FD"/>
+              <stop offset="60%" stop-color="#3B82F6"/>
+              <stop offset="100%" stop-color="#1D4ED8"/>
+            </radialGradient>
+            <radialGradient id="sg6-maya-skin" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="60%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+            <filter id="sg6-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
           <!-- Sky -->
-          <rect width="300" height="180" fill="#C4B5FD" opacity=".3"/>
-          <!-- Circle sun -->
-          <circle cx="240" cy="45" r="30" fill="#FBBF24"/>
-          <circle cx="240" cy="45" r="20" fill="#FDE68A"/>
-          <text x="240" y="50" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#D97706">circle</text>
-          <!-- Ground -->
-          <rect y="195" width="300" height="85" fill="#A7F3D0" opacity=".7"/>
-          <!-- Square house -->
-          <rect x="15" y="110" width="80" height="80" rx="4" fill="#F97316"/>
-          <rect x="20" y="115" width="70" height="70" rx="3" fill="#FED7AA"/>
-          <rect x="34" y="145" width="22" height="28" rx="3" fill="#92400E"/>
-          <rect x="27" y="123" width="20" height="20" rx="2" fill="white"/>
-          <rect x="53" y="123" width="20" height="20" rx="2" fill="white"/>
-          <polygon points="10,114 55,72 100,114" fill="#EF4444"/>
-          <text x="55" y="207" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9">square</text>
-          <!-- Rectangle fence -->
-          <rect x="108" y="145" width="70" height="42" rx="4" fill="#3B82F6"/>
-          <rect x="113" y="150" width="26" height="32" rx="3" fill="#93C5FD"/>
-          <rect x="147" y="150" width="26" height="32" rx="3" fill="#93C5FD"/>
-          <text x="143" y="207" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9">rectangle</text>
+          <rect width="300" height="280" fill="url(#sg6-sky)"/>
+          <!-- Sun glow + circle shape label -->
+          <circle cx="241" cy="45" r="36" fill="#FBBF24" opacity=".12"/>
+          <g filter="url(#sg6-sh)">
+            <circle cx="241" cy="45" r="28" fill="url(#sg6-sun)"/>
+          </g>
+          <text x="241" y="50" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#7C2D12">circle</text>
+          <!-- Clouds -->
+          <g opacity=".85">
+            <ellipse cx="95" cy="32" rx="22" ry="9" fill="white"/>
+            <ellipse cx="113" cy="28" rx="16" ry="9" fill="white"/>
+            <ellipse cx="79" cy="30" rx="13" ry="7" fill="white"/>
+          </g>
           <!-- Triangle mountains -->
-          <polygon points="240,80 285,170 195,170" fill="#10B981"/>
-          <polygon points="215,100 250,165 180,165" fill="#059669" opacity=".5"/>
-          <text x="240" y="207" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9">triangle</text>
+          <g filter="url(#sg6-sh)">
+            <polygon points="240,78 287,172 193,172" fill="url(#sg6-mountain)"/>
+            <polygon points="213,100 250,168 178,168" fill="#059669" opacity=".45"/>
+          </g>
+          <text x="240" y="207" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#065F46">triangle</text>
+          <!-- Wavy ground -->
+          <path d="M0 193 Q37 185 75 193 Q112 201 150 193 Q188 185 225 193 Q262 201 300 193 L300 280 L0 280 Z" fill="url(#sg6-grass)"/>
+          <path d="M0 205 Q50 197 100 205 Q150 213 200 205 Q250 197 300 205 L300 280 L0 280 Z" fill="#065F46" opacity=".3"/>
+          <!-- Square house -->
+          <g filter="url(#sg6-sh)">
+            <polygon points="8,114 55,70 102,114" fill="#EF4444"/>
+            <rect x="13" y="109" width="82" height="82" rx="4" fill="url(#sg6-house)"/>
+            <rect x="18" y="114" width="72" height="72" rx="3" fill="#FED7AA"/>
+            <rect x="32" y="144" width="24" height="30" rx="3" fill="#92400E"/>
+            <rect x="25" y="122" width="22" height="22" rx="2" fill="#BAE6FD" opacity=".8"/>
+            <rect x="52" y="122" width="22" height="22" rx="2" fill="#BAE6FD" opacity=".8"/>
+          </g>
+          <text x="55" y="207" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#7C2D12">square</text>
+          <!-- Rectangle fence -->
+          <g filter="url(#sg6-sh)">
+            <rect x="106" y="143" width="74" height="44" rx="4" fill="url(#sg6-rect)"/>
+            <rect x="111" y="148" width="28" height="34" rx="3" fill="#BFDBFE"/>
+            <rect x="147" y="148" width="28" height="34" rx="3" fill="#BFDBFE"/>
+          </g>
+          <text x="143" y="207" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#1D4ED8">rectangle</text>
           <!-- Circle flowers -->
-          <circle cx="110" cy="190" r="10" fill="#EC4899"/>
-          <circle cx="110" cy="190" r="6" fill="#FDE68A"/>
-          <rect x="107" y="200" width="6" height="15" rx="3" fill="#059669"/>
-          <circle cx="135" cy="192" r="8" fill="#8B5CF6"/>
-          <circle cx="135" cy="192" r="5" fill="#FDE68A"/>
-          <rect x="132" y="200" width="6" height="13" rx="3" fill="#059669"/>
-          <!-- Maya centre front -->
-          <circle cx="175" cy="210" r="16" fill="#FBBF24"/>
-          <rect x="163" y="197" width="24" height="14" rx="12" fill="#92400E"/>
-          <circle cx="170" cy="208" r="2.5" fill="#1C1917"/>
-          <circle cx="180" cy="208" r="2.5" fill="#1C1917"/>
-          <path d="M169 215 Q175 220 181 215" stroke="#1C1917" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-          <ellipse cx="175" cy="240" rx="14" ry="16" fill="#EC4899"/>
-          <!-- Maya arms spread wide -->
-          <line x1="162" y1="230" x2="142" y2="218" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
-          <line x1="188" y1="230" x2="208" y2="218" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+          <g filter="url(#sg6-sh)">
+            <rect x="107" y="200" width="6" height="16" rx="3" fill="#059669"/>
+            <circle cx="110" cy="188" r="11" fill="#EC4899"/>
+            <circle cx="110" cy="188" r="6" fill="#FDE68A"/>
+          </g>
+          <g filter="url(#sg6-sh)">
+            <rect x="132" y="202" width="6" height="14" rx="3" fill="#059669"/>
+            <circle cx="135" cy="191" r="9" fill="#8B5CF6"/>
+            <circle cx="135" cy="191" r="5" fill="#FDE68A"/>
+          </g>
+          <!-- Sparkles in sky -->
+          <circle cx="30" cy="55" r="2" fill="#FBBF24"/>
+          <circle cx="38" cy="48" r="1.2" fill="white"/>
+          <circle cx="150" cy="25" r="1.5" fill="#C4B5FD"/>
+          <circle cx="200" cy="38" r="1.2" fill="white"/>
+          <!-- Maya centre front arms spread -->
+          <g filter="url(#sg6-sh)">
+            <ellipse cx="175" cy="238" rx="15" ry="17" fill="#EC4899"/>
+            <!-- Arms spread wide -->
+            <line x1="162" y1="228" x2="140" y2="216" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+            <line x1="188" y1="228" x2="210" y2="216" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+            <!-- Head -->
+            <circle cx="175" cy="210" r="17" fill="url(#sg6-maya-skin)"/>
+            <rect x="162" y="196" width="26" height="14" rx="13" fill="#78350F"/>
+            <ellipse cx="163" cy="203" rx="5.5" ry="7" fill="#78350F"/>
+            <ellipse cx="188" cy="203" rx="5.5" ry="7" fill="#78350F"/>
+            <!-- Eyes -->
+            <circle cx="170" cy="210" r="2.8" fill="#1C1917"/>
+            <circle cx="181" cy="210" r="2.8" fill="#1C1917"/>
+            <circle cx="170.8" cy="209.2" r=".9" fill="white"/>
+            <circle cx="181.8" cy="209.2" r=".9" fill="white"/>
+            <!-- Big smile -->
+            <path d="M168 217 Q176 224 183 217" stroke="#7C2D12" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
         </svg>
         <div class="illus-caption">Shapes are everywhere in the garden!</div>
       </div>
@@ -709,35 +1109,112 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
       <div class="illustration" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD);">
         <div class="page-num-illus">Page 7</div>
         <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
-          <rect width="300" height="280" fill="#EDE9FE"/>
-          <!-- Celebration banner ribbon -->
-          <path d="M20 60 Q150 30 280 60" stroke="#8B5CF6" stroke-width="3" fill="none" stroke-dasharray="8 4"/>
+          <defs>
+            <linearGradient id="sg7-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#EDE9FE"/>
+              <stop offset="100%" stop-color="#C4B5FD"/>
+            </linearGradient>
+            <linearGradient id="sg7-grass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#34D399"/>
+              <stop offset="100%" stop-color="#065F46"/>
+            </linearGradient>
+            <radialGradient id="sg7-circle-sh" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#F9A8D4"/>
+              <stop offset="60%" stop-color="#EC4899"/>
+              <stop offset="100%" stop-color="#9D174D"/>
+            </radialGradient>
+            <radialGradient id="sg7-square-sh" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FDBA74"/>
+              <stop offset="60%" stop-color="#F97316"/>
+              <stop offset="100%" stop-color="#7C2D12"/>
+            </radialGradient>
+            <radialGradient id="sg7-tri-sh" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#6EE7B7"/>
+              <stop offset="60%" stop-color="#10B981"/>
+              <stop offset="100%" stop-color="#065F46"/>
+            </radialGradient>
+            <radialGradient id="sg7-rect-sh" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#93C5FD"/>
+              <stop offset="60%" stop-color="#3B82F6"/>
+              <stop offset="100%" stop-color="#1D4ED8"/>
+            </radialGradient>
+            <radialGradient id="sg7-star" cx="50%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#FFF9C4"/>
+              <stop offset="60%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#D97706"/>
+            </radialGradient>
+            <radialGradient id="sg7-maya-skin" cx="35%" cy="30%" r="65%">
+              <stop offset="0%" stop-color="#FDE68A"/>
+              <stop offset="60%" stop-color="#FBBF24"/>
+              <stop offset="100%" stop-color="#B45309"/>
+            </radialGradient>
+            <filter id="sg7-sh">
+              <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+            </filter>
+          </defs>
+          <!-- Sky -->
+          <rect width="300" height="280" fill="url(#sg7-sky)"/>
+          <!-- Confetti dots -->
+          <circle cx="28" cy="25" r="4" fill="#EC4899" opacity=".8"/>
+          <circle cx="50" cy="15" r="3" fill="#FBBF24" opacity=".9"/>
+          <circle cx="80" cy="30" r="3.5" fill="#10B981" opacity=".8"/>
+          <circle cx="120" cy="18" r="3" fill="#8B5CF6" opacity=".7"/>
+          <circle cx="210" cy="22" r="4" fill="#3B82F6" opacity=".8"/>
+          <circle cx="258" cy="16" r="3" fill="#EC4899" opacity=".9"/>
+          <circle cx="280" cy="35" r="3.5" fill="#FBBF24" opacity=".7"/>
+          <circle cx="240" cy="45" r="2.5" fill="#10B981" opacity=".6"/>
+          <circle cx="30" cy="60" r="2.5" fill="#3B82F6" opacity=".7"/>
+          <circle cx="270" cy="68" r="3" fill="#8B5CF6" opacity=".6"/>
+          <!-- Banner ribbon -->
+          <path d="M20 62 Q80 42 150 48 Q220 42 280 62" stroke="#8B5CF6" stroke-width="3.5" fill="none" stroke-dasharray="8,4"/>
           <!-- Big star burst -->
-          <polygon points="150,80 158,105 185,105 163,120 171,145 150,130 129,145 137,120 115,105 142,105" fill="#FBBF24"/>
-          <!-- 4 shapes in a row below star -->
-          <circle cx="60" cy="190" r="25" fill="#EC4899"/>
-          <text x="60" y="196" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">circle</text>
-          <rect x="95" y="167" width="48" height="48" rx="5" fill="#F97316"/>
-          <text x="119" y="196" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">square</text>
-          <polygon points="175,167 200,215 150,215" fill="#10B981"/>
-          <text x="175" y="202" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="white">tri</text>
-          <rect x="210" y="177" width="56" height="30" rx="5" fill="#3B82F6"/>
-          <text x="238" y="197" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="white">rectangle</text>
-          <!-- Maya celebrating -->
-          <circle cx="150" cy="245" r="16" fill="#FBBF24"/>
-          <rect x="138" y="232" width="24" height="14" rx="12" fill="#92400E"/>
-          <circle cx="145" cy="243" r="2.5" fill="#1C1917"/>
-          <circle cx="155" cy="243" r="2.5" fill="#1C1917"/>
-          <path d="M144 250 Q150 256 156 250" stroke="#1C1917" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <ellipse cx="150" cy="268" rx="14" ry="12" fill="#EC4899"/>
-          <!-- Arms up celebrating -->
-          <line x1="138" y1="258" x2="120" y2="240" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
-          <line x1="162" y1="258" x2="180" y2="240" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
-          <!-- Sparkles -->
-          <circle cx="110" cy="145" r="4" fill="#FBBF24"/>
-          <circle cx="190" cy="148" r="3" fill="#EC4899"/>
-          <circle cx="250" cy="165" r="4" fill="#8B5CF6"/>
-          <circle cx="45" cy="155" r="3" fill="#10B981"/>
+          <g filter="url(#sg7-sh)">
+            <polygon points="150,55 159,83 189,83 165,100 174,128 150,112 126,128 135,100 111,83 141,83" fill="url(#sg7-star)"/>
+          </g>
+          <!-- Sparkles around star -->
+          <circle cx="105" cy="70" r="4" fill="#FBBF24"/>
+          <circle cx="196" cy="72" r="3" fill="#EC4899"/>
+          <circle cx="248" cy="120" r="4" fill="#8B5CF6"/>
+          <circle cx="45" cy="115" r="3" fill="#10B981"/>
+          <!-- 4 shapes in a row with gradients -->
+          <g filter="url(#sg7-sh)">
+            <circle cx="58" cy="183" r="26" fill="url(#sg7-circle-sh)"/>
+            <text x="58" y="188" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="white">circle</text>
+          </g>
+          <g filter="url(#sg7-sh)">
+            <rect x="94" y="160" width="50" height="50" rx="5" fill="url(#sg7-square-sh)"/>
+            <text x="119" y="190" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="white">square</text>
+          </g>
+          <g filter="url(#sg7-sh)">
+            <polygon points="175,160 202,210 148,210" fill="url(#sg7-tri-sh)"/>
+            <text x="175" y="200" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="white">tri</text>
+          </g>
+          <g filter="url(#sg7-sh)">
+            <rect x="210" y="172" width="60" height="32" rx="5" fill="url(#sg7-rect-sh)"/>
+            <text x="240" y="193" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="white">rectangle</text>
+          </g>
+          <!-- Wavy ground -->
+          <path d="M0 228 Q37 220 75 228 Q112 236 150 228 Q188 220 225 228 Q262 236 300 228 L300 280 L0 280 Z" fill="url(#sg7-grass)"/>
+          <path d="M0 240 Q50 232 100 240 Q150 248 200 240 Q250 232 300 240 L300 280 L0 280 Z" fill="#065F46" opacity=".3"/>
+          <!-- Maya celebrating arms up -->
+          <g filter="url(#sg7-sh)">
+            <ellipse cx="150" cy="266" rx="14" ry="13" fill="#EC4899"/>
+            <!-- Arms up -->
+            <line x1="138" y1="257" x2="118" y2="238" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+            <line x1="162" y1="257" x2="182" y2="238" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+            <!-- Head -->
+            <circle cx="150" cy="243" r="17" fill="url(#sg7-maya-skin)"/>
+            <rect x="137" y="229" width="26" height="14" rx="13" fill="#78350F"/>
+            <ellipse cx="138" cy="236" rx="5.5" ry="7" fill="#78350F"/>
+            <ellipse cx="163" cy="236" rx="5.5" ry="7" fill="#78350F"/>
+            <!-- Eyes (wide happy) -->
+            <circle cx="145" cy="242" r="3" fill="#1C1917"/>
+            <circle cx="156" cy="242" r="3" fill="#1C1917"/>
+            <circle cx="145.9" cy="241" r="1" fill="white"/>
+            <circle cx="156.9" cy="241" r="1" fill="white"/>
+            <!-- Big smile -->
+            <path d="M143 250 Q150 258 158 250" stroke="#7C2D12" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </g>
         </svg>
         <div class="illus-caption">Maya knows all the shapes!</div>
       </div>

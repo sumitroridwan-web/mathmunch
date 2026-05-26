@@ -272,20 +272,141 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 2 – STATION 10 — BOARDING!
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+    <div class="illustration" style="background:linear-gradient(160deg,#0EA5E9 0%,#38BDF8 45%,#A7F3D0 100%);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:4.5rem;margin-bottom:4px;">🚂</div>
-      <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin:6px 0;">
-        <span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span>
-        <span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span><span style="font-size:1.8rem;">🔵</span>
-      </div>
-      <div style="background:rgba(0,0,0,.12);border-radius:12px;padding:10px 20px;margin-top:8px;text-align:center;">
-        <div style="font-size:1.5rem;font-weight:800;color:#065F46;">Station 0 → 10</div>
-        <div style="font-size:.85rem;font-weight:700;color:#047857;">10 passengers on board!</div>
-      </div>
-      <div class="illus-scene" style="margin-top:10px;">
-        <span class="char">👩‍✈️</span><span class="char-sm" style="margin-left:6px;">🧑‍✈️</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="nt2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0EA5E9"/>
+            <stop offset="100%" stop-color="#BAE6FD"/>
+          </linearGradient>
+          <linearGradient id="nt2-ground" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6EE7B7"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="nt2-loco" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#EF4444"/>
+            <stop offset="60%" stop-color="#DC2626"/>
+            <stop offset="100%" stop-color="#991B1B"/>
+          </linearGradient>
+          <linearGradient id="nt2-cab" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3B82F6"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </linearGradient>
+          <radialGradient id="nt2-wheel" cx="50%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#9CA3AF"/>
+            <stop offset="60%" stop-color="#4B5563"/>
+            <stop offset="100%" stop-color="#1F2937"/>
+          </radialGradient>
+          <radialGradient id="nt2-ella" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="nt2-max" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="nt2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky background -->
+        <rect width="300" height="280" fill="url(#nt2-sky)"/>
+        <!-- Clouds -->
+        <ellipse cx="60" cy="40" rx="28" ry="14" fill="white" opacity=".85"/>
+        <ellipse cx="80" cy="34" rx="20" ry="12" fill="white" opacity=".9"/>
+        <ellipse cx="220" cy="50" rx="24" ry="12" fill="white" opacity=".8"/>
+        <ellipse cx="240" cy="44" rx="18" ry="10" fill="white" opacity=".85"/>
+        <!-- Ground -->
+        <rect x="0" y="200" width="300" height="80" fill="url(#nt2-ground)"/>
+        <!-- Track rail lines -->
+        <rect x="0" y="204" width="300" height="5" rx="2" fill="#374151"/>
+        <rect x="0" y="218" width="300" height="5" rx="2" fill="#374151"/>
+        <!-- Track sleepers -->
+        <rect x="10" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="40" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="70" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="100" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="130" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="160" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="190" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="220" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="260" y="202" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <!-- Station sign -->
+        <rect x="220" y="100" width="68" height="32" rx="6" fill="#1D4ED8" filter="url(#nt2-sh)"/>
+        <text x="254" y="120" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="sans-serif">STATION 10</text>
+        <rect x="248" y="130" width="5" height="70" fill="#374151"/>
+        <!-- TRAIN -->
+        <g filter="url(#nt2-sh)">
+          <!-- Tender/coal car -->
+          <rect x="18" y="158" width="52" height="40" rx="5" fill="#1D4ED8"/>
+          <rect x="22" y="162" width="44" height="28" rx="4" fill="#3B82F6"/>
+          <text x="44" y="181" text-anchor="middle" font-size="9" font-weight="700" fill="white" font-family="sans-serif">10</text>
+          <!-- wheels tender -->
+          <circle cx="30" cy="198" r="9" fill="url(#nt2-wheel)"/>
+          <circle cx="30" cy="198" r="4" fill="#9CA3AF"/>
+          <circle cx="58" cy="198" r="9" fill="url(#nt2-wheel)"/>
+          <circle cx="58" cy="198" r="4" fill="#9CA3AF"/>
+          <!-- Locomotive body -->
+          <rect x="72" y="148" width="90" height="52" rx="8" fill="url(#nt2-loco)"/>
+          <!-- Boiler dome -->
+          <ellipse cx="148" cy="148" rx="16" ry="10" fill="#B91C1C"/>
+          <!-- Cab window -->
+          <rect x="76" y="154" width="28" height="22" rx="4" fill="url(#nt2-cab)"/>
+          <rect x="80" y="158" width="10" height="9" rx="2" fill="#BFDBFE"/>
+          <rect x="92" y="158" width="10" height="9" rx="2" fill="#BFDBFE"/>
+          <!-- Chimney -->
+          <rect x="148" y="128" width="10" height="20" rx="3" fill="#374151"/>
+          <rect x="143" y="124" width="20" height="8" rx="4" fill="#1F2937"/>
+          <!-- Smoke puffs -->
+          <circle cx="153" cy="110" r="12" fill="white" opacity=".7"/>
+          <circle cx="165" cy="96" r="9" fill="white" opacity=".55"/>
+          <circle cx="172" cy="84" r="7" fill="white" opacity=".4"/>
+          <!-- Loco wheels -->
+          <circle cx="88" cy="198" r="12" fill="url(#nt2-wheel)"/>
+          <circle cx="88" cy="198" r="5" fill="#9CA3AF"/>
+          <circle cx="115" cy="198" r="12" fill="url(#nt2-wheel)"/>
+          <circle cx="115" cy="198" r="5" fill="#9CA3AF"/>
+          <circle cx="142" cy="198" r="10" fill="url(#nt2-wheel)"/>
+          <circle cx="142" cy="198" r="4" fill="#9CA3AF"/>
+          <!-- Connecting rod -->
+          <rect x="88" y="195" width="54" height="5" rx="2" fill="#6B7280"/>
+          <!-- Headlight -->
+          <circle cx="160" cy="170" r="6" fill="#FEF9C3"/>
+          <circle cx="160" cy="170" r="3" fill="#FBBF24"/>
+        </g>
+        <!-- Engineer Ella on cab -->
+        <g filter="url(#nt2-sh)">
+          <!-- Body/overalls (blue) -->
+          <rect x="80" y="175" width="18" height="18" rx="3" fill="#1D4ED8"/>
+          <!-- Head -->
+          <circle cx="89" cy="168" r="8" fill="url(#nt2-ella)"/>
+          <!-- Eyes -->
+          <circle cx="86" cy="167" r="1.5" fill="white"/>
+          <circle cx="92" cy="167" r="1.5" fill="white"/>
+          <circle cx="86.5" cy="167" r="0.8" fill="#1F2937"/>
+          <circle cx="92.5" cy="167" r="0.8" fill="#1F2937"/>
+          <circle cx="86.8" cy="166.5" r="0.35" fill="white"/>
+          <circle cx="92.8" cy="166.5" r="0.35" fill="white"/>
+          <!-- Smile -->
+          <path d="M86 171 Q89 174 92 171" stroke="#92400E" stroke-width="1.2" fill="none"/>
+          <!-- Engineer cap -->
+          <ellipse cx="89" cy="161" rx="9" ry="4" fill="#059669"/>
+          <rect x="81" y="158" width="16" height="5" rx="2" fill="#047857"/>
+          <rect x="85" y="154" width="8" height="5" rx="2" fill="#059669"/>
+        </g>
+        <!-- Station number badge -->
+        <rect x="200" y="155" width="80" height="38" rx="10" fill="white" opacity=".9" filter="url(#nt2-sh)"/>
+        <text x="240" y="172" text-anchor="middle" font-size="10" font-weight="700" fill="#059669" font-family="sans-serif">Station 0→10</text>
+        <text x="240" y="186" text-anchor="middle" font-size="9" font-weight="600" fill="#047857" font-family="sans-serif">10 aboard!</text>
+        <!-- Passengers dots on platform -->
+        <circle cx="205" cy="195" r="6" fill="#FBBF24" filter="url(#nt2-sh)"/>
+        <circle cx="218" cy="192" r="6" fill="#F87171" filter="url(#nt2-sh)"/>
+        <circle cx="230" cy="196" r="6" fill="#818CF8" filter="url(#nt2-sh)"/>
+        <circle cx="242" cy="193" r="6" fill="#34D399" filter="url(#nt2-sh)"/>
+      </svg>
       <div class="illus-caption">Engineer Ella and Conductor Max at Station 10!</div>
     </div>
 
@@ -328,37 +449,109 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 3 – STATION 25 — ADDING TENS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+    <div class="illustration" style="background:linear-gradient(160deg,#10B981 0%,#34D399 50%,#A7F3D0 100%);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:4rem;margin-bottom:8px;">🚂</div>
-      <!-- SVG Number line 0–50 with train at 25, jumps shown -->
-      <svg width="260" height="90" viewBox="0 0 260 90" style="margin:0 auto;">
-        <!-- line -->
-        <line x1="10" y1="50" x2="250" y2="50" stroke="#059669" stroke-width="3"/>
-        <!-- ticks and labels -->
-        <line x1="10" y1="44" x2="10" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="10" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">0</text>
-        <line x1="60" y1="44" x2="60" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="60" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">10</text>
-        <line x1="110" y1="44" x2="110" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="110" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">20</text>
-        <line x1="135" y1="40" x2="135" y2="60" stroke="#059669" stroke-width="3"/>
-        <text x="135" y="75" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800">25</text>
-        <line x1="160" y1="44" x2="160" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="160" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">30</text>
-        <line x1="210" y1="44" x2="210" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="210" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">40</text>
-        <line x1="235" y1="40" x2="235" y2="60" stroke="#10B981" stroke-width="3"/>
-        <text x="235" y="75" text-anchor="middle" font-size="12" fill="#059669" font-weight="800">35</text>
-        <!-- jump arc +10 -->
-        <path d="M 135,46 Q 185,10 235,46" stroke="#F97316" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
-        <text x="185" y="20" text-anchor="middle" font-size="12" fill="#C2410C" font-weight="800">+10</text>
-        <!-- train emoji position -->
-        <text x="130" y="35" font-size="18" text-anchor="middle">🚂</text>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="nt3-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#6EE7B7"/>
+          </linearGradient>
+          <linearGradient id="nt3-loco" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#F97316"/>
+            <stop offset="60%" stop-color="#DC2626"/>
+            <stop offset="100%" stop-color="#991B1B"/>
+          </linearGradient>
+          <radialGradient id="nt3-wheel" cx="50%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#9CA3AF"/>
+            <stop offset="60%" stop-color="#4B5563"/>
+            <stop offset="100%" stop-color="#1F2937"/>
+          </radialGradient>
+          <filter id="nt3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#nt3-sky)"/>
+        <!-- Track -->
+        <rect x="0" y="210" width="300" height="6" rx="2" fill="#374151"/>
+        <rect x="0" y="224" width="300" height="6" rx="2" fill="#374151"/>
+        <rect x="8" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <rect x="38" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <rect x="68" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <rect x="98" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <rect x="128" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <rect x="158" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <rect x="188" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <rect x="218" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <rect x="260" y="208" width="10" height="26" rx="2" fill="#5C3D11"/>
+        <!-- Hills far background -->
+        <ellipse cx="80" cy="185" rx="70" ry="35" fill="#A7F3D0" opacity=".5"/>
+        <ellipse cx="230" cy="195" rx="80" ry="30" fill="#6EE7B7" opacity=".4"/>
+        <!-- Number line visual panel -->
+        <rect x="10" y="60" width="280" height="110" rx="14" fill="white" opacity=".85" filter="url(#nt3-sh)"/>
+        <text x="150" y="82" text-anchor="middle" font-size="10" font-weight="700" fill="#059669" font-family="sans-serif">NUMBER LINE — ADDING TENS!</text>
+        <!-- Line -->
+        <line x1="24" y1="120" x2="282" y2="120" stroke="#059669" stroke-width="3"/>
+        <!-- Ticks -->
+        <line x1="24" y1="113" x2="24" y2="127" stroke="#059669" stroke-width="2"/>
+        <text x="24" y="140" text-anchor="middle" font-size="9" fill="#065F46" font-weight="700" font-family="sans-serif">0</text>
+        <line x1="67" y1="113" x2="67" y2="127" stroke="#059669" stroke-width="2"/>
+        <text x="67" y="140" text-anchor="middle" font-size="9" fill="#065F46" font-weight="700" font-family="sans-serif">10</text>
+        <line x1="110" y1="113" x2="110" y2="127" stroke="#059669" stroke-width="2"/>
+        <text x="110" y="140" text-anchor="middle" font-size="9" fill="#065F46" font-weight="700" font-family="sans-serif">20</text>
+        <line x1="152" y1="109" x2="152" y2="131" stroke="#059669" stroke-width="3"/>
+        <text x="152" y="143" text-anchor="middle" font-size="11" fill="#059669" font-weight="800" font-family="sans-serif">25</text>
+        <line x1="195" y1="109" x2="195" y2="131" stroke="#10B981" stroke-width="3"/>
+        <text x="195" y="143" text-anchor="middle" font-size="11" fill="#10B981" font-weight="800" font-family="sans-serif">35</text>
+        <line x1="237" y1="109" x2="237" y2="131" stroke="#10B981" stroke-width="3"/>
+        <text x="237" y="143" text-anchor="middle" font-size="11" fill="#10B981" font-weight="800" font-family="sans-serif">45</text>
+        <!-- Jump arcs -->
+        <path d="M152,115 Q174,88 195,115" stroke="#F97316" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
+        <text x="174" y="86" text-anchor="middle" font-size="11" fill="#C2410C" font-weight="800" font-family="sans-serif">+10</text>
+        <path d="M195,115 Q216,88 237,115" stroke="#F97316" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
+        <text x="216" y="86" text-anchor="middle" font-size="11" fill="#C2410C" font-weight="800" font-family="sans-serif">+10</text>
+        <!-- Mini train on line -->
+        <rect x="138" y="93" width="28" height="14" rx="4" fill="#DC2626"/>
+        <circle cx="143" cy="107" r="4" fill="#374151"/>
+        <circle cx="161" cy="107" r="4" fill="#374151"/>
+        <rect x="142" y="96" width="8" height="7" rx="2" fill="#3B82F6"/>
+        <!-- TRAIN on track -->
+        <g filter="url(#nt3-sh)">
+          <rect x="30" y="168" width="78" height="42" rx="7" fill="url(#nt3-loco)"/>
+          <rect x="33" y="172" width="30" height="24" rx="4" fill="#3B82F6"/>
+          <rect x="36" y="175" width="12" height="10" rx="2" fill="#BFDBFE"/>
+          <rect x="50" y="175" width="10" height="10" rx="2" fill="#BFDBFE"/>
+          <ellipse cx="96" cy="168" rx="13" ry="8" fill="#B91C1C"/>
+          <rect x="96" y="145" width="9" height="23" rx="3" fill="#374151"/>
+          <rect x="90" y="141" width="21" height="7" rx="4" fill="#1F2937"/>
+          <!-- Smoke -->
+          <circle cx="100" cy="128" r="10" fill="white" opacity=".75"/>
+          <circle cx="111" cy="116" r="8" fill="white" opacity=".55"/>
+          <circle cx="119" cy="106" r="6" fill="white" opacity=".4"/>
+          <!-- Wheels -->
+          <circle cx="50" cy="210" r="11" fill="url(#nt3-wheel)"/>
+          <circle cx="50" cy="210" r="5" fill="#9CA3AF"/>
+          <circle cx="77" cy="210" r="11" fill="url(#nt3-wheel)"/>
+          <circle cx="77" cy="210" r="5" fill="#9CA3AF"/>
+          <circle cx="100" cy="210" r="9" fill="url(#nt3-wheel)"/>
+          <circle cx="100" cy="210" r="4" fill="#9CA3AF"/>
+          <rect x="50" y="207" width="50" height="4" rx="2" fill="#6B7280"/>
+        </g>
+        <!-- Ella character waving -->
+        <g filter="url(#nt3-sh)">
+          <circle cx="44" cy="178" r="7" fill="#FBBF24"/>
+          <circle cx="42" cy="177" r="1.3" fill="white"/><circle cx="42.4" cy="177" r="0.7" fill="#1F2937"/>
+          <circle cx="47" cy="177" r="1.3" fill="white"/><circle cx="47.4" cy="177" r="0.7" fill="#1F2937"/>
+          <path d="M42 181 Q44 183 47 181" stroke="#92400E" stroke-width="1" fill="none"/>
+          <ellipse cx="44" cy="171" rx="8" ry="3.5" fill="#059669"/>
+          <rect x="37" y="168" width="14" height="4" rx="2" fill="#047857"/>
+        </g>
+        <!-- Station label -->
+        <rect x="195" y="170" width="95" height="32" rx="8" fill="#065F46" opacity=".9" filter="url(#nt3-sh)"/>
+        <text x="242" y="184" text-anchor="middle" font-size="9" font-weight="700" fill="white" font-family="sans-serif">Station 25 → 35</text>
+        <text x="242" y="196" text-anchor="middle" font-size="8" fill="#A7F3D0" font-family="sans-serif">Adding tens!</text>
       </svg>
-      <div class="illus-scene" style="margin-top:10px;">
-        <span class="char">👩‍✈️</span><span style="font-size:2rem;padding:0 4px;">➡️</span><span class="char-sm">🧑‍✈️</span>
-      </div>
       <div class="illus-caption">The train jumps forward — adding tens!</div>
     </div>
 
@@ -401,33 +594,104 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 4 – STATION 40 — SUBTRACTING
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+    <div class="illustration" style="background:linear-gradient(160deg,#1D4ED8 0%,#3B82F6 50%,#BFDBFE 100%);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:4rem;margin-bottom:4px;">🚂</div>
-      <div style="display:flex;gap:6px;justify-content:center;margin:4px 0;font-size:2.2rem;">
-        <span>🚶‍♂️</span><span>🚶‍♀️</span><span>🚶</span>
-      </div>
-      <!-- Number line showing subtraction -->
-      <svg width="260" height="90" viewBox="0 0 260 90" style="margin:0 auto;">
-        <line x1="10" y1="50" x2="250" y2="50" stroke="#059669" stroke-width="3"/>
-        <line x1="10" y1="44" x2="10" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="10" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">20</text>
-        <line x1="85" y1="44" x2="85" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="85" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">30</text>
-        <line x1="130" y1="40" x2="130" y2="60" stroke="#10B981" stroke-width="3"/>
-        <text x="130" y="75" text-anchor="middle" font-size="12" fill="#059669" font-weight="800">30</text>
-        <line x1="160" y1="44" x2="160" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="160" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">35</text>
-        <line x1="205" y1="40" x2="205" y2="60" stroke="#059669" stroke-width="3"/>
-        <text x="205" y="75" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800">40</text>
-        <line x1="250" y1="44" x2="250" y2="56" stroke="#059669" stroke-width="2"/>
-        <text x="250" y="68" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">45</text>
-        <!-- jump arc back -10 -->
-        <path d="M 205,46 Q 167,8 130,46" stroke="#DC2626" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
-        <text x="167" y="18" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="800">−10</text>
-        <text x="200" y="35" font-size="18" text-anchor="middle">🚂</text>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="nt4-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#BFDBFE"/>
+            <stop offset="100%" stop-color="#93C5FD"/>
+          </linearGradient>
+          <linearGradient id="nt4-loco" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#3B82F6"/>
+            <stop offset="60%" stop-color="#1D4ED8"/>
+            <stop offset="100%" stop-color="#1E3A8A"/>
+          </linearGradient>
+          <radialGradient id="nt4-wheel" cx="50%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#9CA3AF"/>
+            <stop offset="60%" stop-color="#4B5563"/>
+            <stop offset="100%" stop-color="#1F2937"/>
+          </radialGradient>
+          <filter id="nt4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#nt4-sky)"/>
+        <!-- Clouds -->
+        <ellipse cx="50" cy="45" rx="26" ry="12" fill="white" opacity=".8"/>
+        <ellipse cx="70" cy="38" rx="18" ry="10" fill="white" opacity=".85"/>
+        <ellipse cx="230" cy="52" rx="22" ry="11" fill="white" opacity=".75"/>
+        <!-- Ground -->
+        <rect x="0" y="210" width="300" height="70" fill="#059669"/>
+        <!-- Track -->
+        <rect x="0" y="212" width="300" height="5" rx="2" fill="#374151"/>
+        <rect x="0" y="225" width="300" height="5" rx="2" fill="#374151"/>
+        <rect x="10" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="40" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="70" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="100" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="130" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="160" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="190" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="220" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <!-- Number line -->
+        <rect x="10" y="60" width="280" height="104" rx="14" fill="white" opacity=".87" filter="url(#nt4-sh)"/>
+        <text x="150" y="80" text-anchor="middle" font-size="10" font-weight="700" fill="#DC2626" font-family="sans-serif">SUBTRACTING — COUNT BACK!</text>
+        <line x1="24" y1="118" x2="282" y2="118" stroke="#DC2626" stroke-width="3"/>
+        <line x1="24" y1="111" x2="24" y2="125" stroke="#DC2626" stroke-width="2"/>
+        <text x="24" y="136" text-anchor="middle" font-size="9" fill="#991B1B" font-weight="700" font-family="sans-serif">20</text>
+        <line x1="80" y1="111" x2="80" y2="125" stroke="#DC2626" stroke-width="2"/>
+        <text x="80" y="136" text-anchor="middle" font-size="9" fill="#991B1B" font-weight="700" font-family="sans-serif">30</text>
+        <line x1="137" y1="107" x2="137" y2="129" stroke="#10B981" stroke-width="3"/>
+        <text x="137" y="140" text-anchor="middle" font-size="11" fill="#059669" font-weight="800" font-family="sans-serif">30</text>
+        <line x1="197" y1="107" x2="197" y2="129" stroke="#DC2626" stroke-width="3"/>
+        <text x="197" y="140" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="800" font-family="sans-serif">40</text>
+        <line x1="255" y1="111" x2="255" y2="125" stroke="#DC2626" stroke-width="2"/>
+        <text x="255" y="136" text-anchor="middle" font-size="9" fill="#991B1B" font-weight="700" font-family="sans-serif">45</text>
+        <!-- Arc backward -10 -->
+        <path d="M197,112 Q167,80 137,112" stroke="#DC2626" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
+        <text x="167" y="78" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="800" font-family="sans-serif">−10</text>
+        <!-- Mini train at 40 -->
+        <rect x="183" y="90" width="24" height="12" rx="3" fill="#1D4ED8"/>
+        <circle cx="187" cy="102" r="3.5" fill="#374151"/>
+        <circle cx="203" cy="102" r="3.5" fill="#374151"/>
+        <!-- Walking passengers -->
+        <!-- Person 1 -->
+        <circle cx="260" cy="190" r="7" fill="#FBBF24" filter="url(#nt4-sh)"/>
+        <rect x="256" y="197" width="8" height="12" rx="3" fill="#F87171"/>
+        <line x1="256" y1="203" x2="252" y2="212" stroke="#F87171" stroke-width="2"/>
+        <line x1="264" y1="203" x2="268" y2="212" stroke="#F87171" stroke-width="2"/>
+        <!-- Person 2 -->
+        <circle cx="244" cy="188" r="7" fill="#34D399" filter="url(#nt4-sh)"/>
+        <rect x="240" y="195" width="8" height="12" rx="3" fill="#6EE7B7"/>
+        <line x1="240" y1="201" x2="236" y2="210" stroke="#6EE7B7" stroke-width="2"/>
+        <line x1="248" y1="201" x2="252" y2="210" stroke="#6EE7B7" stroke-width="2"/>
+        <!-- Person 3 -->
+        <circle cx="278" cy="192" r="7" fill="#818CF8" filter="url(#nt4-sh)"/>
+        <rect x="274" y="199" width="8" height="12" rx="3" fill="#A5B4FC"/>
+        <!-- Arrow showing them leaving -->
+        <path d="M228 194 L250 194" stroke="#DC2626" stroke-width="2" marker-end="url(#arr)"/>
+        <!-- Train (blue loco) -->
+        <g filter="url(#nt4-sh)">
+          <rect x="30" y="170" width="82" height="42" rx="7" fill="url(#nt4-loco)"/>
+          <rect x="33" y="174" width="32" height="24" rx="4" fill="#60A5FA"/>
+          <rect x="36" y="178" width="13" height="10" rx="2" fill="#DBEAFE"/>
+          <rect x="52" y="178" width="10" height="10" rx="2" fill="#DBEAFE"/>
+          <ellipse cx="98" cy="170" rx="13" ry="8" fill="#1E3A8A"/>
+          <rect x="98" y="147" width="9" height="23" rx="3" fill="#374151"/>
+          <rect x="91" y="143" width="21" height="7" rx="4" fill="#1F2937"/>
+          <circle cx="102" cy="130" r="9" fill="white" opacity=".7"/>
+          <circle cx="112" cy="119" r="7" fill="white" opacity=".5"/>
+          <circle cx="50" cy="212" r="11" fill="url(#nt4-wheel)"/>
+          <circle cx="50" cy="212" r="5" fill="#9CA3AF"/>
+          <circle cx="78" cy="212" r="11" fill="url(#nt4-wheel)"/>
+          <circle cx="78" cy="212" r="5" fill="#9CA3AF"/>
+          <circle cx="102" cy="212" r="9" fill="url(#nt4-wheel)"/>
+          <circle cx="102" cy="212" r="4" fill="#9CA3AF"/>
+          <rect x="50" y="209" width="52" height="4" rx="2" fill="#6B7280"/>
+        </g>
       </svg>
-      <div class="illus-caption" style="margin-top:6px;">Passengers leave at Station 40!</div>
+      <div class="illus-caption">Passengers leave at Station 40!</div>
     </div>
 
     <div class="story-panel">
@@ -469,36 +733,96 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 5 – STATION 57 — BRIDGING THROUGH 10
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+    <div class="illustration" style="background:linear-gradient(160deg,#6D28D9 0%,#8B5CF6 50%,#C4B5FD 100%);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:3.5rem;margin-bottom:4px;">🚂💨</div>
-      <!-- Number line bridging 57 + 6 → 60 + 3 = 63 -->
-      <svg width="270" height="110" viewBox="0 0 270 110" style="margin:0 auto;">
-        <line x1="10" y1="60" x2="260" y2="60" stroke="#059669" stroke-width="3"/>
-        <!-- ticks -->
-        <line x1="30" y1="54" x2="30" y2="66" stroke="#059669" stroke-width="2"/>
-        <text x="30" y="78" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">55</text>
-        <line x1="75" y1="50" x2="75" y2="70" stroke="#059669" stroke-width="3"/>
-        <text x="75" y="82" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800">57</text>
-        <line x1="155" y1="50" x2="155" y2="70" stroke="#1D4ED8" stroke-width="3"/>
-        <text x="155" y="82" text-anchor="middle" font-size="12" fill="#1D4ED8" font-weight="800">60</text>
-        <line x1="230" y1="50" x2="230" y2="70" stroke="#10B981" stroke-width="3"/>
-        <text x="230" y="82" text-anchor="middle" font-size="12" fill="#059669" font-weight="800">63</text>
-        <!-- arc 1: +3 to reach 60 -->
-        <path d="M 75,56 Q 115,15 155,56" stroke="#F97316" stroke-width="2.5" fill="none"/>
-        <text x="115" y="14" text-anchor="middle" font-size="12" fill="#C2410C" font-weight="800">+3</text>
-        <!-- arc 2: +3 to reach 63 -->
-        <path d="M 155,56 Q 192,25 230,56" stroke="#10B981" stroke-width="2.5" fill="none"/>
-        <text x="192" y="26" text-anchor="middle" font-size="12" fill="#059669" font-weight="800">+3</text>
-        <!-- bridge label -->
-        <text x="75" y="100" font-size="10" fill="#065F46" font-weight="700" text-anchor="middle">START</text>
-        <text x="155" y="100" font-size="10" fill="#1D4ED8" font-weight="700" text-anchor="middle">BRIDGE!</text>
-        <text x="230" y="100" font-size="10" fill="#059669" font-weight="700" text-anchor="middle">DONE!</text>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="nt5-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#EDE9FE"/>
+            <stop offset="100%" stop-color="#C4B5FD"/>
+          </linearGradient>
+          <linearGradient id="nt5-loco" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#8B5CF6"/>
+            <stop offset="60%" stop-color="#6D28D9"/>
+            <stop offset="100%" stop-color="#4C1D95"/>
+          </linearGradient>
+          <radialGradient id="nt5-wheel" cx="50%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#9CA3AF"/>
+            <stop offset="100%" stop-color="#1F2937"/>
+          </radialGradient>
+          <filter id="nt5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#nt5-sky)"/>
+        <!-- Night-ish sky stars -->
+        <circle cx="30" cy="25" r="2" fill="white" opacity=".7"/>
+        <circle cx="80" cy="15" r="1.5" fill="white" opacity=".6"/>
+        <circle cx="180" cy="20" r="2" fill="white" opacity=".8"/>
+        <circle cx="250" cy="30" r="1.5" fill="white" opacity=".6"/>
+        <circle cx="270" cy="12" r="2" fill="white" opacity=".7"/>
+        <!-- Ground -->
+        <rect x="0" y="210" width="300" height="70" fill="#7C3AED"/>
+        <!-- Track -->
+        <rect x="0" y="212" width="300" height="5" rx="2" fill="#374151"/>
+        <rect x="0" y="225" width="300" height="5" rx="2" fill="#374151"/>
+        <rect x="10" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <rect x="42" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <rect x="74" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <rect x="106" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <rect x="138" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <rect x="170" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <rect x="202" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <rect x="234" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <rect x="266" y="210" width="10" height="24" rx="2" fill="#4C1D95"/>
+        <!-- Bridge panel -->
+        <rect x="8" y="55" width="284" height="120" rx="14" fill="white" opacity=".88" filter="url(#nt5-sh)"/>
+        <text x="150" y="75" text-anchor="middle" font-size="10" font-weight="700" fill="#6D28D9" font-family="sans-serif">BRIDGE THROUGH 60!</text>
+        <!-- Line -->
+        <line x1="22" y1="128" x2="284" y2="128" stroke="#6D28D9" stroke-width="3"/>
+        <!-- Ticks -->
+        <line x1="22" y1="121" x2="22" y2="135" stroke="#6D28D9" stroke-width="2"/>
+        <text x="22" y="147" text-anchor="middle" font-size="8.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">55</text>
+        <line x1="72" y1="117" x2="72" y2="139" stroke="#F97316" stroke-width="3"/>
+        <text x="72" y="150" text-anchor="middle" font-size="11" fill="#C2410C" font-weight="800" font-family="sans-serif">57</text>
+        <line x1="160" y1="117" x2="160" y2="139" stroke="#1D4ED8" stroke-width="3"/>
+        <text x="160" y="150" text-anchor="middle" font-size="11" fill="#1D4ED8" font-weight="800" font-family="sans-serif">60</text>
+        <line x1="248" y1="117" x2="248" y2="139" stroke="#10B981" stroke-width="3"/>
+        <text x="248" y="150" text-anchor="middle" font-size="11" fill="#059669" font-weight="800" font-family="sans-serif">63</text>
+        <!-- Arc 1: +3 to 60 -->
+        <path d="M72,122 Q116,82 160,122" stroke="#F97316" stroke-width="2.5" fill="none"/>
+        <text x="116" y="80" text-anchor="middle" font-size="12" fill="#C2410C" font-weight="800" font-family="sans-serif">+3</text>
+        <!-- Arc 2: +3 to 63 -->
+        <path d="M160,122 Q204,93 248,122" stroke="#10B981" stroke-width="2.5" fill="none"/>
+        <text x="204" y="91" text-anchor="middle" font-size="12" fill="#059669" font-weight="800" font-family="sans-serif">+3</text>
+        <!-- Labels -->
+        <text x="72" y="165" text-anchor="middle" font-size="8" fill="#C2410C" font-weight="700" font-family="sans-serif">START</text>
+        <text x="160" y="165" text-anchor="middle" font-size="8" fill="#1D4ED8" font-weight="700" font-family="sans-serif">BRIDGE!</text>
+        <text x="248" y="165" text-anchor="middle" font-size="8" fill="#059669" font-weight="700" font-family="sans-serif">DONE!</text>
+        <!-- Train on track -->
+        <g filter="url(#nt5-sh)">
+          <rect x="28" y="168" width="82" height="44" rx="7" fill="url(#nt5-loco)"/>
+          <rect x="31" y="172" width="32" height="26" rx="4" fill="#7C3AED"/>
+          <rect x="34" y="176" width="13" height="11" rx="2" fill="#DDD6FE"/>
+          <rect x="50" y="176" width="10" height="11" rx="2" fill="#DDD6FE"/>
+          <ellipse cx="96" cy="168" rx="13" ry="8" fill="#4C1D95"/>
+          <rect x="97" y="145" width="8" height="23" rx="3" fill="#374151"/>
+          <rect x="90" y="141" width="22" height="7" rx="3" fill="#1F2937"/>
+          <!-- Speed lines / steam -->
+          <circle cx="100" cy="128" r="9" fill="#C4B5FD" opacity=".7"/>
+          <circle cx="111" cy="117" r="7" fill="#DDD6FE" opacity=".55"/>
+          <circle cx="120" cy="108" r="5" fill="white" opacity=".4"/>
+          <!-- Wheels -->
+          <circle cx="48" cy="212" r="11" fill="url(#nt5-wheel)"/>
+          <circle cx="48" cy="212" r="5" fill="#9CA3AF"/>
+          <circle cx="76" cy="212" r="11" fill="url(#nt5-wheel)"/>
+          <circle cx="76" cy="212" r="5" fill="#9CA3AF"/>
+          <circle cx="100" cy="212" r="9" fill="url(#nt5-wheel)"/>
+          <circle cx="100" cy="212" r="4" fill="#9CA3AF"/>
+          <rect x="48" y="209" width="52" height="4" rx="2" fill="#6B7280"/>
+        </g>
       </svg>
-      <div style="background:rgba(0,0,0,.1);border-radius:10px;padding:6px 14px;margin-top:6px;text-align:center;font-size:.85rem;font-weight:700;color:#065F46;">
-        57 + 3 = 60 → 60 + 3 = 63
-      </div>
-      <div class="illus-caption" style="margin-top:6px;">Bridging through 60 — the clever trick!</div>
+      <div class="illus-caption">Bridging through 60 — the clever trick!</div>
     </div>
 
     <div class="story-panel">
@@ -540,35 +864,83 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 6 – STATION 72 — COLUMN METHOD
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+    <div class="illustration" style="background:linear-gradient(160deg,#0F766E 0%,#10B981 50%,#6EE7B7 100%);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:4rem;margin-bottom:6px;">📝</div>
-      <!-- Column addition SVG -->
-      <svg width="200" height="160" viewBox="0 0 200 160" style="margin:0 auto;">
-        <rect x="20" y="10" width="160" height="140" rx="12" fill="white" stroke="#059669" stroke-width="2"/>
-        <!-- Header row -->
-        <text x="90" y="35" text-anchor="middle" font-size="13" fill="#065F46" font-weight="800">Tens</text>
-        <text x="150" y="35" text-anchor="middle" font-size="13" fill="#065F46" font-weight="800">Ones</text>
-        <line x1="30" y1="40" x2="170" y2="40" stroke="#A7F3D0" stroke-width="1.5"/>
-        <line x1="120" y1="10" x2="120" y2="150" stroke="#A7F3D0" stroke-width="1.5"/>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="nt6-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#A7F3D0"/>
+          </linearGradient>
+          <linearGradient id="nt6-panel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#F0FDF4"/>
+          </linearGradient>
+          <radialGradient id="nt6-ella" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="nt6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#nt6-bg)"/>
+        <!-- Station interior wall -->
+        <rect x="0" y="200" width="300" height="80" fill="#0F766E"/>
+        <!-- Platform/floor -->
+        <rect x="0" y="224" width="300" height="8" fill="#134E4A"/>
+        <!-- Notebook panel - big column method visual -->
+        <rect x="34" y="30" width="168" height="168" rx="14" fill="url(#nt6-panel)" stroke="#059669" stroke-width="2.5" filter="url(#nt6-sh)"/>
+        <!-- Notebook title -->
+        <text x="118" y="55" text-anchor="middle" font-size="11" font-weight="800" fill="#065F46" font-family="sans-serif">COLUMN METHOD</text>
+        <!-- Column headers -->
+        <text x="88" y="80" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800" font-family="sans-serif">Tens</text>
+        <text x="152" y="80" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800" font-family="sans-serif">Ones</text>
+        <line x1="46" y1="85" x2="190" y2="85" stroke="#A7F3D0" stroke-width="1.5"/>
+        <line x1="118" y1="58" x2="118" y2="190" stroke="#A7F3D0" stroke-width="1.5"/>
         <!-- Row 1: 35 -->
-        <text x="90" y="65" text-anchor="middle" font-size="22" fill="#1D4ED8" font-weight="800">3</text>
-        <text x="150" y="65" text-anchor="middle" font-size="22" fill="#1D4ED8" font-weight="800">5</text>
+        <text x="88" y="110" text-anchor="middle" font-size="26" fill="#1D4ED8" font-weight="800" font-family="sans-serif">3</text>
+        <text x="152" y="110" text-anchor="middle" font-size="26" fill="#1D4ED8" font-weight="800" font-family="sans-serif">5</text>
         <!-- Row 2: + 47 -->
-        <text x="40" y="90" text-anchor="end" font-size="18" fill="#059669" font-weight="800">+</text>
-        <text x="90" y="90" text-anchor="middle" font-size="22" fill="#1D4ED8" font-weight="800">4</text>
-        <text x="150" y="90" text-anchor="middle" font-size="22" fill="#1D4ED8" font-weight="800">7</text>
-        <line x1="30" y1="97" x2="170" y2="97" stroke="#059669" stroke-width="2"/>
+        <text x="52" y="136" text-anchor="end" font-size="20" fill="#059669" font-weight="800" font-family="sans-serif">+</text>
+        <text x="88" y="136" text-anchor="middle" font-size="26" fill="#1D4ED8" font-weight="800" font-family="sans-serif">4</text>
+        <text x="152" y="136" text-anchor="middle" font-size="26" fill="#1D4ED8" font-weight="800" font-family="sans-serif">7</text>
+        <line x1="46" y1="144" x2="190" y2="144" stroke="#059669" stroke-width="2.5"/>
         <!-- Result: 82 -->
-        <text x="90" y="125" text-anchor="middle" font-size="22" fill="#059669" font-weight="800">8</text>
-        <text x="150" y="125" text-anchor="middle" font-size="22" fill="#059669" font-weight="800">2</text>
-        <!-- carry indicator -->
-        <text x="72" y="55" font-size="11" fill="#DC2626" font-weight="700">1</text>
-        <text x="55" y="55" font-size="9" fill="#DC2626">carry</text>
+        <text x="88" y="172" text-anchor="middle" font-size="26" fill="#059669" font-weight="800" font-family="sans-serif">8</text>
+        <text x="152" y="172" text-anchor="middle" font-size="26" fill="#059669" font-weight="800" font-family="sans-serif">2</text>
+        <!-- Carry indicator -->
+        <text x="72" y="98" font-size="13" fill="#DC2626" font-weight="800" font-family="sans-serif">1</text>
+        <text x="52" y="98" font-size="9" fill="#DC2626" font-family="sans-serif">carry</text>
+        <!-- Arrow pointing to ones column -->
+        <ellipse cx="152" cy="155" rx="16" ry="8" fill="none" stroke="#F97316" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="218" y="135" text-anchor="middle" font-size="9" fill="#C2410C" font-weight="700" font-family="sans-serif">Add ones</text>
+        <text x="218" y="146" text-anchor="middle" font-size="9" fill="#C2410C" font-weight="700" font-family="sans-serif">FIRST!</text>
+        <line x1="193" y1="140" x2="170" y2="145" stroke="#C2410C" stroke-width="1.5"/>
+        <!-- Ella character at right -->
+        <g filter="url(#nt6-sh)">
+          <!-- Body/overalls -->
+          <rect x="220" y="195" width="22" height="26" rx="4" fill="#1D4ED8"/>
+          <!-- Head -->
+          <circle cx="231" cy="187" r="10" fill="url(#nt6-ella)"/>
+          <!-- Eyes -->
+          <circle cx="228" cy="185" r="1.8" fill="white"/>
+          <circle cx="234" cy="185" r="1.8" fill="white"/>
+          <circle cx="228.4" cy="185" r="0.9" fill="#1F2937"/>
+          <circle cx="234.4" cy="185" r="0.9" fill="#1F2937"/>
+          <circle cx="228.7" cy="184.5" r="0.4" fill="white"/>
+          <circle cx="234.7" cy="184.5" r="0.4" fill="white"/>
+          <!-- Smile -->
+          <path d="M228 189 Q231 192 234 189" stroke="#92400E" stroke-width="1.2" fill="none"/>
+          <!-- Cap -->
+          <ellipse cx="231" cy="178" rx="11" ry="4.5" fill="#059669"/>
+          <rect x="221" y="175" width="20" height="5" rx="2" fill="#047857"/>
+          <rect x="227" y="170" width="8" height="6" rx="2" fill="#059669"/>
+          <!-- Arm holding notebook -->
+          <line x1="222" y1="205" x2="210" y2="215" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div class="illus-scene" style="margin-top:8px;">
-        <span class="char">👩‍✈️</span>
-      </div>
       <div class="illus-caption">35 + 47 — always add the ones first!</div>
     </div>
 
@@ -611,28 +983,88 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 7 – STATION 89 — ALMOST THERE!
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
+    <div class="illustration" style="background:linear-gradient(160deg,#F59E0B 0%,#FBBF24 50%,#FEF9C3 100%);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:4.5rem;margin-bottom:4px;">🚂💨</div>
-      <div style="background:rgba(5,150,105,.15);border-radius:16px;padding:14px 24px;text-align:center;margin-bottom:8px;">
-        <div style="font-size:3rem;font-weight:800;color:#065F46;">89</div>
-        <div style="font-size:.9rem;font-weight:700;color:#047857;">on the engine display</div>
-      </div>
-      <!-- Number line near 100 -->
-      <svg width="260" height="80" viewBox="0 0 260 80" style="margin:0 auto;">
-        <line x1="10" y1="45" x2="250" y2="45" stroke="#059669" stroke-width="3"/>
-        <line x1="10" y1="39" x2="10" y2="51" stroke="#059669" stroke-width="2"/>
-        <text x="10" y="64" text-anchor="middle" font-size="11" fill="#065F46" font-weight="700">85</text>
-        <line x1="75" y1="39" x2="75" y2="51" stroke="#059669" stroke-width="3"/>
-        <text x="75" y="64" text-anchor="middle" font-size="12" fill="#065F46" font-weight="800">89</text>
-        <line x1="250" y1="36" x2="250" y2="54" stroke="#F97316" stroke-width="4"/>
-        <text x="250" y="68" text-anchor="middle" font-size="13" fill="#C2410C" font-weight="800">100</text>
-        <!-- arc +11 -->
-        <path d="M 75,40 Q 162,5 250,40" stroke="#F97316" stroke-width="2.5" fill="none" stroke-dasharray="7,3"/>
-        <text x="162" y="12" text-anchor="middle" font-size="13" fill="#C2410C" font-weight="800">+11</text>
-        <text x="68" y="30" font-size="18" text-anchor="middle">🚂</text>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="nt7-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="100%" stop-color="#FDE68A"/>
+          </linearGradient>
+          <linearGradient id="nt7-loco" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#F97316"/>
+            <stop offset="60%" stop-color="#C2410C"/>
+            <stop offset="100%" stop-color="#7C2D12"/>
+          </linearGradient>
+          <radialGradient id="nt7-wheel" cx="50%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#9CA3AF"/>
+            <stop offset="100%" stop-color="#1F2937"/>
+          </radialGradient>
+          <filter id="nt7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#nt7-sky)"/>
+        <!-- Horizon glow -->
+        <ellipse cx="270" cy="185" rx="55" ry="30" fill="#FEF9C3" opacity=".6"/>
+        <!-- Ground -->
+        <rect x="0" y="210" width="300" height="70" fill="#78350F"/>
+        <!-- Track -->
+        <rect x="0" y="212" width="300" height="5" rx="2" fill="#374151"/>
+        <rect x="0" y="225" width="300" height="5" rx="2" fill="#374151"/>
+        <rect x="10" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="42" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="74" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="106" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="138" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="170" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="202" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="234" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="266" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <!-- Number 89 big display -->
+        <rect x="90" y="28" width="120" height="68" rx="14" fill="#C2410C" filter="url(#nt7-sh)"/>
+        <text x="150" y="62" text-anchor="middle" font-size="38" font-weight="800" fill="white" font-family="sans-serif">89</text>
+        <text x="150" y="84" text-anchor="middle" font-size="9" fill="#FED7AA" font-family="sans-serif">engine display</text>
+        <!-- Destination 100 sign -->
+        <rect x="226" y="90" width="68" height="38" rx="8" fill="#065F46" filter="url(#nt7-sh)"/>
+        <text x="260" y="113" text-anchor="middle" font-size="14" font-weight="800" fill="white" font-family="sans-serif">100</text>
+        <rect x="255" y="128" width="6" height="80" fill="#374151"/>
+        <!-- Number line panel -->
+        <rect x="8" y="118" width="215" height="70" rx="12" fill="white" opacity=".88" filter="url(#nt7-sh)"/>
+        <line x1="20" y1="148" x2="215" y2="148" stroke="#C2410C" stroke-width="3"/>
+        <line x1="20" y1="141" x2="20" y2="155" stroke="#C2410C" stroke-width="2"/>
+        <text x="20" y="167" text-anchor="middle" font-size="9" fill="#7C2D12" font-weight="700" font-family="sans-serif">85</text>
+        <line x1="70" y1="137" x2="70" y2="159" stroke="#F97316" stroke-width="3"/>
+        <text x="70" y="168" text-anchor="middle" font-size="11" fill="#C2410C" font-weight="800" font-family="sans-serif">89</text>
+        <line x1="210" y1="134" x2="210" y2="162" stroke="#059669" stroke-width="4"/>
+        <text x="210" y="172" text-anchor="middle" font-size="11" fill="#059669" font-weight="800" font-family="sans-serif">100</text>
+        <!-- Arc +11 -->
+        <path d="M70,142 Q140,108 210,142" stroke="#F97316" stroke-width="2.5" fill="none" stroke-dasharray="7,3"/>
+        <text x="140" y="106" text-anchor="middle" font-size="13" fill="#C2410C" font-weight="800" font-family="sans-serif">+11</text>
+        <!-- Train at 89 -->
+        <g filter="url(#nt7-sh)">
+          <rect x="22" y="168" width="84" height="44" rx="7" fill="url(#nt7-loco)"/>
+          <rect x="25" y="172" width="32" height="26" rx="4" fill="#7C3AED"/>
+          <rect x="28" y="176" width="13" height="11" rx="2" fill="#DDD6FE"/>
+          <rect x="44" y="176" width="10" height="11" rx="2" fill="#DDD6FE"/>
+          <ellipse cx="92" cy="168" rx="13" ry="8" fill="#7C2D12"/>
+          <rect x="92" y="145" width="9" height="23" rx="3" fill="#374151"/>
+          <rect x="85" y="141" width="22" height="7" rx="3" fill="#1F2937"/>
+          <!-- Steam puffs -->
+          <circle cx="96" cy="128" r="9" fill="white" opacity=".7"/>
+          <circle cx="107" cy="116" r="8" fill="white" opacity=".55"/>
+          <circle cx="116" cy="106" r="6" fill="white" opacity=".4"/>
+          <!-- Wheels -->
+          <circle cx="42" cy="212" r="11" fill="url(#nt7-wheel)"/>
+          <circle cx="42" cy="212" r="5" fill="#9CA3AF"/>
+          <circle cx="70" cy="212" r="11" fill="url(#nt7-wheel)"/>
+          <circle cx="70" cy="212" r="5" fill="#9CA3AF"/>
+          <circle cx="94" cy="212" r="9" fill="url(#nt7-wheel)"/>
+          <circle cx="94" cy="212" r="4" fill="#9CA3AF"/>
+          <rect x="42" y="209" width="52" height="4" rx="2" fill="#6B7280"/>
+        </g>
       </svg>
-      <div class="illus-caption" style="margin-top:6px;">So close to Station 100!</div>
+      <div class="illus-caption">So close to Station 100!</div>
     </div>
 
     <div class="story-panel">
@@ -674,17 +1106,119 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 8 – STATION 100 — WE MADE IT!
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-8">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+    <div class="illustration" style="background:linear-gradient(160deg,#059669 0%,#10B981 40%,#FEF9C3 100%);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:4.5rem;margin-bottom:4px;">🚂🎉🎊</div>
-      <div style="background:rgba(0,0,0,.12);border-radius:16px;padding:14px 24px;text-align:center;margin:8px 0;">
-        <div style="font-size:3.5rem;font-weight:800;color:#065F46;">100</div>
-        <div style="font-size:.9rem;font-weight:700;color:#047857;">STATION ONE HUNDRED!</div>
-      </div>
-      <div style="font-size:2rem;letter-spacing:4px;margin:8px 0;">🎊🏆🎉🎊🏆🎉</div>
-      <div class="illus-scene">
-        <span class="char">👩‍✈️</span><span class="char">🧑‍✈️</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="nt8-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#FEF9C3"/>
+          </linearGradient>
+          <linearGradient id="nt8-loco" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#10B981"/>
+            <stop offset="60%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </linearGradient>
+          <radialGradient id="nt8-wheel" cx="50%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#9CA3AF"/>
+            <stop offset="100%" stop-color="#1F2937"/>
+          </radialGradient>
+          <radialGradient id="nt8-ella" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="nt8-max" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="nt8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#nt8-sky)"/>
+        <!-- Fireworks / celebration stars -->
+        <circle cx="40" cy="30" r="3" fill="#FBBF24"/>
+        <circle cx="55" cy="18" r="2" fill="#F97316"/>
+        <circle cx="28" cy="48" r="2" fill="#10B981"/>
+        <circle cx="260" cy="25" r="3" fill="#FBBF24"/>
+        <circle cx="275" cy="40" r="2" fill="#F87171"/>
+        <circle cx="245" cy="14" r="2" fill="#818CF8"/>
+        <!-- Confetti shapes -->
+        <rect x="70" y="20" width="8" height="4" rx="1" fill="#F97316" transform="rotate(25 70 20)"/>
+        <rect x="200" y="15" width="8" height="4" rx="1" fill="#818CF8" transform="rotate(-15 200 15)"/>
+        <rect x="140" y="22" width="8" height="4" rx="1" fill="#F87171" transform="rotate(10 140 22)"/>
+        <!-- Station 100 grand arch/sign -->
+        <rect x="185" y="90" width="106" height="60" rx="10" fill="#1D4ED8" filter="url(#nt8-sh)"/>
+        <text x="238" y="116" text-anchor="middle" font-size="10" font-weight="700" fill="#BFDBFE" font-family="sans-serif">STATION</text>
+        <text x="238" y="138" text-anchor="middle" font-size="24" font-weight="800" fill="white" font-family="sans-serif">100</text>
+        <rect x="233" y="150" width="10" height="65" fill="#374151"/>
+        <!-- Platform -->
+        <rect x="180" y="215" width="120" height="20" rx="4" fill="#1E3A8A"/>
+        <!-- Ground/Grass -->
+        <rect x="0" y="215" width="185" height="65" fill="#059669"/>
+        <!-- Track -->
+        <rect x="0" y="212" width="300" height="5" rx="2" fill="#374151"/>
+        <rect x="0" y="225" width="185" height="5" rx="2" fill="#374151"/>
+        <rect x="10" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="42" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="74" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="106" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="138" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <rect x="160" y="210" width="10" height="24" rx="2" fill="#5C3D11"/>
+        <!-- Celebration banner -->
+        <path d="M30 75 Q150 60 270 75" stroke="#FBBF24" stroke-width="3" fill="none"/>
+        <rect x="88" y="60" width="124" height="28" rx="6" fill="#FBBF24" filter="url(#nt8-sh)"/>
+        <text x="150" y="79" text-anchor="middle" font-size="12" font-weight="800" fill="#78350F" font-family="sans-serif">WE MADE IT! 🎉</text>
+        <!-- Train arriving -->
+        <g filter="url(#nt8-sh)">
+          <rect x="20" y="162" width="86" height="50" rx="8" fill="url(#nt8-loco)"/>
+          <rect x="24" y="167" width="34" height="28" rx="4" fill="#065F46"/>
+          <rect x="27" y="170" width="14" height="11" rx="2" fill="#A7F3D0"/>
+          <rect x="44" y="170" width="11" height="11" rx="2" fill="#A7F3D0"/>
+          <ellipse cx="92" cy="162" rx="13" ry="8" fill="#064E3B"/>
+          <rect x="92" y="136" width="9" height="26" rx="3" fill="#374151"/>
+          <rect x="85" y="132" width="22" height="7" rx="4" fill="#1F2937"/>
+          <!-- Confetti puffs from chimney -->
+          <circle cx="96" cy="120" r="9" fill="#FBBF24" opacity=".8"/>
+          <circle cx="107" cy="108" r="7" fill="#F97316" opacity=".7"/>
+          <circle cx="115" cy="98" r="5" fill="#818CF8" opacity=".6"/>
+          <!-- Wheels -->
+          <circle cx="42" cy="212" r="11" fill="url(#nt8-wheel)"/>
+          <circle cx="42" cy="212" r="5" fill="#9CA3AF"/>
+          <circle cx="70" cy="212" r="11" fill="url(#nt8-wheel)"/>
+          <circle cx="70" cy="212" r="5" fill="#9CA3AF"/>
+          <circle cx="94" cy="212" r="9" fill="url(#nt8-wheel)"/>
+          <circle cx="94" cy="212" r="4" fill="#9CA3AF"/>
+          <rect x="42" y="209" width="52" height="4" rx="2" fill="#6B7280"/>
+        </g>
+        <!-- Ella character waving -->
+        <g filter="url(#nt8-sh)">
+          <rect x="30" y="175" width="18" height="22" rx="3" fill="#1D4ED8"/>
+          <circle cx="39" cy="166" r="8" fill="url(#nt8-ella)"/>
+          <circle cx="37" cy="164" r="1.4" fill="white"/><circle cx="37.4" cy="164" r="0.7" fill="#1F2937"/>
+          <circle cx="42" cy="164" r="1.4" fill="white"/><circle cx="42.4" cy="164" r="0.7" fill="#1F2937"/>
+          <path d="M37 168 Q39 171 42 168" stroke="#92400E" stroke-width="1.2" fill="none"/>
+          <ellipse cx="39" cy="158" rx="9" ry="3.5" fill="#059669"/>
+          <rect x="31" y="155" width="16" height="4.5" rx="2" fill="#047857"/>
+          <!-- Waving arm -->
+          <line x1="30" y1="182" x2="18" y2="172" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <!-- Max character -->
+        <g filter="url(#nt8-sh)">
+          <rect x="58" y="172" width="18" height="24" rx="3" fill="#374151"/>
+          <circle cx="67" cy="163" r="8" fill="url(#nt8-max)"/>
+          <circle cx="65" cy="161" r="1.4" fill="white"/><circle cx="65.4" cy="161" r="0.7" fill="#1F2937"/>
+          <circle cx="70" cy="161" r="1.4" fill="white"/><circle cx="70.4" cy="161" r="0.7" fill="#1F2937"/>
+          <path d="M65 165 Q67 168 70 165" stroke="#92400E" stroke-width="1.2" fill="none"/>
+          <!-- Conductor hat -->
+          <ellipse cx="67" cy="155" rx="10" ry="4" fill="#1F2937"/>
+          <rect x="58" y="152" width="18" height="5" rx="2" fill="#374151"/>
+          <!-- Waving arm -->
+          <line x1="76" y1="179" x2="88" y2="169" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+        </g>
+      </svg>
       <div class="illus-caption">We made it — Station 100!</div>
     </div>
 

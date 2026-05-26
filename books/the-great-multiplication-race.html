@@ -291,25 +291,175 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 2 – RACE DAY ARRIVES
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FEF3C7);">
+    <div class="illustration" style="background:linear-gradient(160deg,#FFF7ED 0%,#FBBF24 55%,#FEF3C7 100%);">
       <div class="page-num-illus">Page 2</div>
-      <!-- Race track scene -->
-      <div style="width:88%;background:rgba(0,0,0,.07);border-radius:14px;padding:14px 10px;margin-bottom:10px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-end;font-size:2.2rem;padding:0 6px;">
-          <span title="Hector the Hare">🐇</span>
-          <span title="Tara the Tortoise">🐢</span>
-          <span title="Felix the Fox">🦊</span>
-          <span title="Bella the Bear">🐻</span>
-        </div>
-        <!-- Track lines -->
-        <div style="margin-top:8px;display:flex;flex-direction:column;gap:4px;">
-          <div style="height:5px;background:linear-gradient(90deg,#FBBF24,#F97316);border-radius:9999px;opacity:.7;"></div>
-          <div style="height:5px;background:linear-gradient(90deg,#FBBF24,#F97316);border-radius:9999px;opacity:.5;"></div>
-          <div style="height:5px;background:linear-gradient(90deg,#FBBF24,#F97316);border-radius:9999px;opacity:.7;"></div>
-          <div style="height:5px;background:linear-gradient(90deg,#FBBF24,#F97316);border-radius:9999px;opacity:.5;"></div>
-        </div>
-      </div>
-      <div style="font-size:3rem;">🏁</div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="mr2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="100%" stop-color="#FDE68A"/>
+          </linearGradient>
+          <linearGradient id="mr2-track" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </linearGradient>
+          <radialGradient id="mr2-hector" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#F3F4F6"/>
+            <stop offset="55%" stop-color="#D1D5DB"/>
+            <stop offset="100%" stop-color="#9CA3AF"/>
+          </radialGradient>
+          <radialGradient id="mr2-tara" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#D1FAE5"/>
+            <stop offset="55%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </radialGradient>
+          <radialGradient id="mr2-felix" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <radialGradient id="mr2-bella" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <filter id="mr2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky background -->
+        <rect width="300" height="280" fill="url(#mr2-sky)"/>
+        <!-- Crowd stands in background -->
+        <rect x="0" y="30" width="300" height="50" fill="#FEF3C7" opacity=".6"/>
+        <rect x="0" y="30" width="300" height="6" fill="#FBBF24" opacity=".5"/>
+        <!-- Crowd dots (audience) -->
+        <circle cx="22" cy="48" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="38" cy="44" r="5" fill="#3B82F6" opacity=".7"/>
+        <circle cx="54" cy="50" r="5" fill="#10B981" opacity=".7"/>
+        <circle cx="70" cy="45" r="5" fill="#8B5CF6" opacity=".7"/>
+        <circle cx="86" cy="49" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="102" cy="44" r="5" fill="#FBBF24" opacity=".7"/>
+        <circle cx="118" cy="50" r="5" fill="#3B82F6" opacity=".7"/>
+        <circle cx="134" cy="46" r="5" fill="#10B981" opacity=".7"/>
+        <circle cx="150" cy="49" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="166" cy="44" r="5" fill="#8B5CF6" opacity=".7"/>
+        <circle cx="182" cy="50" r="5" fill="#FBBF24" opacity=".7"/>
+        <circle cx="198" cy="45" r="5" fill="#3B82F6" opacity=".7"/>
+        <circle cx="214" cy="49" r="5" fill="#10B981" opacity=".7"/>
+        <circle cx="230" cy="44" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="246" cy="50" r="5" fill="#8B5CF6" opacity=".7"/>
+        <circle cx="262" cy="46" r="5" fill="#FBBF24" opacity=".7"/>
+        <circle cx="278" cy="49" r="5" fill="#3B82F6" opacity=".7"/>
+        <!-- Race track surface -->
+        <rect x="0" y="80" width="300" height="160" fill="#D97706"/>
+        <!-- Track lanes (4 horizontal bands) -->
+        <rect x="0" y="82" width="300" height="36" fill="#F59E0B" rx="0"/>
+        <rect x="0" y="120" width="300" height="36" fill="#FBBF24" rx="0"/>
+        <rect x="0" y="158" width="300" height="36" fill="#F59E0B" rx="0"/>
+        <rect x="0" y="196" width="300" height="36" fill="#FBBF24" rx="0"/>
+        <!-- Lane dividers (dashed) -->
+        <line x1="0" y1="118" x2="300" y2="118" stroke="white" stroke-width="1.5" stroke-dasharray="12,6" opacity=".5"/>
+        <line x1="0" y1="156" x2="300" y2="156" stroke="white" stroke-width="1.5" stroke-dasharray="12,6" opacity=".5"/>
+        <line x1="0" y1="194" x2="300" y2="194" stroke="white" stroke-width="1.5" stroke-dasharray="12,6" opacity=".5"/>
+        <!-- Starting line (left side) -->
+        <rect x="18" y="80" width="8" height="155" fill="white" opacity=".6"/>
+        <!-- Chequered flag banner at top -->
+        <rect x="235" y="16" width="60" height="18" rx="4" fill="#1F2937"/>
+        <text x="265" y="29" text-anchor="middle" font-size="9" fill="white" font-weight="700" font-family="sans-serif">MATHVILLE RACE</text>
+        <!-- Hector the Hare in lane 1 -->
+        <g filter="url(#mr2-sh)">
+          <!-- Hare body: oval, grey gradient -->
+          <ellipse cx="56" cy="106" rx="12" ry="10" fill="url(#mr2-hector)"/>
+          <!-- Hare head -->
+          <circle cx="70" cy="101" r="9" fill="url(#mr2-hector)"/>
+          <!-- Tall ears -->
+          <ellipse cx="66" cy="88" rx="3" ry="9" fill="#E5E7EB"/>
+          <ellipse cx="74" cy="86" rx="3" ry="10" fill="#E5E7EB"/>
+          <!-- Eyes -->
+          <circle cx="73" cy="99" r="1.8" fill="white"/><circle cx="73.5" cy="99" r="0.9" fill="#1F2937"/><circle cx="73.8" cy="98.6" r="0.35" fill="white"/>
+          <!-- Nose -->
+          <circle cx="78" cy="101" r="1.5" fill="#FCA5A5"/>
+          <!-- Running legs -->
+          <line x1="50" y1="112" x2="42" y2="122" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="115" x2="52" y2="126" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+          <!-- Race number bib -->
+          <rect x="54" y="100" width="12" height="10" rx="2" fill="#F97316"/>
+          <text x="60" y="109" text-anchor="middle" font-size="7" fill="white" font-weight="700" font-family="sans-serif">1</text>
+        </g>
+        <!-- Tara the Tortoise in lane 2 -->
+        <g filter="url(#mr2-sh)">
+          <!-- Shell -->
+          <ellipse cx="58" cy="144" rx="14" ry="10" fill="url(#mr2-tara)"/>
+          <!-- Shell pattern -->
+          <ellipse cx="58" cy="144" rx="8" ry="6" fill="none" stroke="#059669" stroke-width="1.2"/>
+          <line x1="58" y1="134" x2="58" y2="154" stroke="#059669" stroke-width="1" opacity=".5"/>
+          <!-- Head -->
+          <circle cx="73" cy="140" r="8" fill="url(#mr2-tara)"/>
+          <circle cx="77" cy="138" r="1.5" fill="white"/><circle cx="77.4" cy="138" r="0.8" fill="#1F2937"/>
+          <!-- Legs -->
+          <line x1="50" y1="152" x2="44" y2="160" stroke="#34D399" stroke-width="3" stroke-linecap="round"/>
+          <line x1="66" y1="154" x2="60" y2="162" stroke="#34D399" stroke-width="3" stroke-linecap="round"/>
+          <!-- Race bib -->
+          <rect x="55" y="138" width="12" height="10" rx="2" fill="#059669"/>
+          <text x="61" y="147" text-anchor="middle" font-size="7" fill="white" font-weight="700" font-family="sans-serif">2</text>
+        </g>
+        <!-- Felix the Fox in lane 3 -->
+        <g filter="url(#mr2-sh)">
+          <!-- Body -->
+          <ellipse cx="58" cy="182" rx="12" ry="9" fill="url(#mr2-felix)"/>
+          <!-- Head -->
+          <circle cx="71" cy="177" r="9" fill="url(#mr2-felix)"/>
+          <!-- Pointed ears -->
+          <polygon points="66,170 63,160 70,167" fill="#F59E0B"/>
+          <polygon points="76,170 79,160 72,168" fill="#F59E0B"/>
+          <!-- Eye -->
+          <circle cx="75" cy="175" r="1.8" fill="white"/><circle cx="75.5" cy="175" r="0.9" fill="#1F2937"/>
+          <!-- Tail -->
+          <path d="M46 182 Q35 195 44 202" stroke="#F59E0B" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <!-- Race bib -->
+          <rect x="55" y="178" width="12" height="10" rx="2" fill="#B45309"/>
+          <text x="61" y="187" text-anchor="middle" font-size="7" fill="white" font-weight="700" font-family="sans-serif">3</text>
+        </g>
+        <!-- Bella the Bear in lane 4 -->
+        <g filter="url(#mr2-sh)">
+          <!-- Body -->
+          <ellipse cx="56" cy="220" rx="14" ry="11" fill="url(#mr2-bella)"/>
+          <!-- Head -->
+          <circle cx="71" cy="215" r="10" fill="url(#mr2-bella)"/>
+          <!-- Round ears -->
+          <circle cx="64" cy="207" r="5" fill="#D97706"/>
+          <circle cx="78" cy="207" r="5" fill="#D97706"/>
+          <!-- Eye -->
+          <circle cx="74" cy="213" r="2" fill="white"/><circle cx="74.5" cy="213" r="1" fill="#1F2937"/>
+          <!-- Snout -->
+          <ellipse cx="76" cy="217" rx="4" ry="3" fill="#FDE68A"/>
+          <!-- Race bib -->
+          <rect x="52" y="216" width="12" height="10" rx="2" fill="#78350F"/>
+          <text x="58" y="225" text-anchor="middle" font-size="7" fill="white" font-weight="700" font-family="sans-serif">4</text>
+        </g>
+        <!-- Name labels on right -->
+        <rect x="100" y="93" width="50" height="14" rx="4" fill="rgba(0,0,0,.3)"/>
+        <text x="125" y="104" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="sans-serif">HECTOR</text>
+        <rect x="100" y="131" width="46" height="14" rx="4" fill="rgba(0,0,0,.3)"/>
+        <text x="123" y="142" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="sans-serif">TARA</text>
+        <rect x="100" y="169" width="44" height="14" rx="4" fill="rgba(0,0,0,.3)"/>
+        <text x="122" y="180" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="sans-serif">FELIX</text>
+        <rect x="100" y="207" width="46" height="14" rx="4" fill="rgba(0,0,0,.3)"/>
+        <text x="123" y="218" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="sans-serif">BELLA</text>
+        <!-- Gates ahead (right side) -->
+        <rect x="220" y="80" width="10" height="155" fill="white" opacity=".5"/>
+        <rect x="256" y="80" width="8" height="155" fill="white" opacity=".5"/>
+        <!-- Gate labels -->
+        <rect x="220" y="82" width="44" height="14" rx="3" fill="#F97316"/>
+        <text x="242" y="92" text-anchor="middle" font-size="7" fill="white" font-weight="700" font-family="sans-serif">GATE 1</text>
+        <!-- Finish line checkered flag post -->
+        <rect x="280" y="80" width="6" height="155" fill="white" opacity=".4"/>
+        <rect x="278" y="76" width="14" height="8" rx="2" fill="#1F2937"/>
+        <text x="285" y="83" text-anchor="middle" font-size="6" fill="white" font-family="sans-serif">🏁</text>
+        <!-- Title banner -->
+        <rect x="10" y="244" width="280" height="30" rx="10" fill="#92400E" opacity=".9"/>
+        <text x="150" y="264" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="sans-serif">ANNUAL MATHVILLE MULTIPLICATION RACE!</text>
+      </svg>
       <div class="illus-caption">The Annual Mathville Multiplication Race!</div>
     </div>
 
@@ -338,30 +488,109 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 3 – GATE 1: ARRAYS (2× table)
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFFBEB,#FDE68A);">
+    <div class="illustration" style="background:linear-gradient(160deg,#FFFBEB 0%,#FDE68A 55%,#FEF3C7 100%);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:1.5rem;font-weight:700;color:#92400E;margin-bottom:12px;">GATE 1: 2 × 5 = ?</div>
-      <!-- Array visual: 2 rows × 5 columns -->
-      <div style="background:rgba(255,255,255,.55);border-radius:16px;padding:20px 24px;text-align:center;">
-        <div style="font-size:.75rem;font-weight:700;color:#92400E;margin-bottom:8px;">2 rows × 5 columns</div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 auto;width:fit-content;">
-          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#D97706;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
-          <div style="width:22px;height:22px;border-radius:50%;background:#F97316;"></div>
-        </div>
-        <div style="margin-top:12px;font-size:1.2rem;font-weight:700;color:#92400E;">2 × 5 = <span style="font-size:1.6rem;color:var(--orange-dark);">10</span></div>
-        <div style="font-size:.8rem;color:#78350F;margin-top:4px;">Count: 5 … 10 ✓</div>
-      </div>
-      <div class="illus-scene" style="margin-top:12px;">
-        <span class="char-sm">🐇</span><span style="font-size:1.1rem;color:#78350F;font-weight:700;padding:0 8px;">vs</span><span class="char-sm">🐢</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="mr3-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="100%" stop-color="#FDE68A"/>
+          </linearGradient>
+          <radialGradient id="mr3-hector" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#F3F4F6"/>
+            <stop offset="55%" stop-color="#D1D5DB"/>
+            <stop offset="100%" stop-color="#9CA3AF"/>
+          </radialGradient>
+          <radialGradient id="mr3-tara" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#D1FAE5"/>
+            <stop offset="55%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </radialGradient>
+          <radialGradient id="mr3-dot1" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="mr3-dot2" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FED7AA"/>
+            <stop offset="100%" stop-color="#F97316"/>
+          </radialGradient>
+          <filter id="mr3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background: sunny meadow -->
+        <rect width="300" height="280" fill="url(#mr3-bg)"/>
+        <!-- Ground -->
+        <rect x="0" y="210" width="300" height="70" fill="#86EFAC" opacity=".5"/>
+        <rect x="0" y="210" width="300" height="8" fill="#34D399" opacity=".6"/>
+        <!-- Gate sign post -->
+        <rect x="18" y="20" width="10" height="165" fill="#92400E"/>
+        <rect x="280" y="20" width="10" height="165" fill="#92400E"/>
+        <rect x="14" y="16" width="280" height="30" rx="6" fill="#1F2937"/>
+        <text x="154" y="36" text-anchor="middle" font-size="13" font-weight="700" fill="#FBBF24" font-family="sans-serif">GATE 1 — 2 × 5 = ?</text>
+        <!-- Field: rows 1 (amber) and row 2 (orange) — 2 rows × 5 cols -->
+        <!-- Row brace label: left side -->
+        <text x="28" y="88" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">Row 1</text>
+        <text x="28" y="128" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">Row 2</text>
+        <!-- Row 1 dots: 5 amber circles -->
+        <circle cx="80" cy="84" r="14" fill="url(#mr3-dot1)"/>
+        <circle cx="116" cy="84" r="14" fill="url(#mr3-dot1)"/>
+        <circle cx="152" cy="84" r="14" fill="url(#mr3-dot1)"/>
+        <circle cx="188" cy="84" r="14" fill="url(#mr3-dot1)"/>
+        <circle cx="224" cy="84" r="14" fill="url(#mr3-dot1)"/>
+        <!-- Row 2 dots: 5 orange circles -->
+        <circle cx="80" cy="124" r="14" fill="url(#mr3-dot2)"/>
+        <circle cx="116" cy="124" r="14" fill="url(#mr3-dot2)"/>
+        <circle cx="152" cy="124" r="14" fill="url(#mr3-dot2)"/>
+        <circle cx="188" cy="124" r="14" fill="url(#mr3-dot2)"/>
+        <circle cx="224" cy="124" r="14" fill="url(#mr3-dot2)"/>
+        <!-- Column numbers across top -->
+        <text x="80" y="66" text-anchor="middle" font-size="8" fill="#92400E" font-family="sans-serif">1</text>
+        <text x="116" y="66" text-anchor="middle" font-size="8" fill="#92400E" font-family="sans-serif">2</text>
+        <text x="152" y="66" text-anchor="middle" font-size="8" fill="#92400E" font-family="sans-serif">3</text>
+        <text x="188" y="66" text-anchor="middle" font-size="8" fill="#92400E" font-family="sans-serif">4</text>
+        <text x="224" y="66" text-anchor="middle" font-size="8" fill="#92400E" font-family="sans-serif">5</text>
+        <!-- Count markers: 5 ... 10 -->
+        <text x="224" y="106" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">5</text>
+        <text x="224" y="146" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">10</text>
+        <!-- Answer box -->
+        <g filter="url(#mr3-sh)">
+          <rect x="60" y="150" width="180" height="40" rx="10" fill="#F97316"/>
+          <text x="150" y="166" text-anchor="middle" font-size="11" fill="white" font-weight="700" font-family="sans-serif">2 × 5 = 10</text>
+          <text x="150" y="181" text-anchor="middle" font-size="8.5" fill="#FEF3C7" font-family="sans-serif">Count: 5 ... 10  ✓  (2 groups of 5)</text>
+        </g>
+        <!-- Hector the Hare character (puzzled) -->
+        <g filter="url(#mr3-sh)">
+          <ellipse cx="36" cy="240" rx="12" ry="9" fill="url(#mr3-hector)"/>
+          <circle cx="48" cy="234" r="9" fill="url(#mr3-hector)"/>
+          <ellipse cx="44" cy="223" rx="3" ry="8" fill="#E5E7EB"/>
+          <ellipse cx="52" cy="221" rx="3" ry="9" fill="#E5E7EB"/>
+          <circle cx="52" cy="232" r="1.8" fill="white"/><circle cx="52.5" cy="232" r="0.9" fill="#1F2937"/>
+          <circle cx="56" cy="235" r="1.2" fill="#FCA5A5"/>
+          <!-- Puzzled brow -->
+          <path d="M49 228 Q52 225 55 228" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Tara the Tortoise character (raising hand/celebrating) -->
+        <g filter="url(#mr3-sh)">
+          <ellipse cx="248" cy="240" rx="14" ry="10" fill="url(#mr3-tara)"/>
+          <ellipse cx="248" cy="240" rx="8" ry="5.5" fill="none" stroke="#059669" stroke-width="1.2"/>
+          <circle cx="264" cy="234" r="9" fill="url(#mr3-tara)"/>
+          <circle cx="268" cy="232" r="1.8" fill="white"/><circle cx="268.5" cy="232" r="0.9" fill="#1F2937"/>
+          <!-- Arm raised -->
+          <line x1="264" y1="240" x2="275" y2="224" stroke="#34D399" stroke-width="4" stroke-linecap="round"/>
+          <!-- Happy smile -->
+          <path d="M260 236 Q264 240 268 236" stroke="#065F46" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Speech bubbles -->
+        <rect x="60" y="214" width="90" height="28" rx="8" fill="white" stroke="#9CA3AF" stroke-width="1.5"/>
+        <path d="M70 214 L64 206 L82 214" fill="white" stroke="#9CA3AF" stroke-width="1.5"/>
+        <text x="105" y="226" text-anchor="middle" font-size="7.5" fill="#6B7280" font-family="sans-serif">Hmm... how</text>
+        <text x="105" y="237" text-anchor="middle" font-size="7.5" fill="#6B7280" font-family="sans-serif">many is that?</text>
+        <rect x="152" y="214" width="96" height="28" rx="8" fill="#10B981"/>
+        <path d="M230 214 L236 206 L218 214" fill="#10B981"/>
+        <text x="200" y="226" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="sans-serif">2 rows × 5 =</text>
+        <text x="200" y="237" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="sans-serif">10! I know this!</text>
+      </svg>
       <div class="illus-caption">Tara answers first — she knew her arrays!</div>
     </div>
 
@@ -407,41 +636,110 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 4 – GATE 2: 5× AND 10× TABLES
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+    <div class="illustration" style="background:linear-gradient(160deg,#FFF7ED 0%,#FDBA74 55%,#FEF3C7 100%);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:3rem;margin-bottom:8px;">🕐 🪙</div>
-      <!-- 5× table chips -->
-      <div style="background:rgba(255,255,255,.55);border-radius:14px;padding:14px 16px;width:90%;text-align:center;">
-        <div style="font-size:.72rem;font-weight:700;color:#92400E;margin-bottom:6px;">5× TABLE</div>
-        <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;">
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">5</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">10</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">15</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">20</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">25</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">30</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">35</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">40</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">45</span>
-          <span style="background:#FBBF24;color:#78350F;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #D97706;">50</span>
-        </div>
-        <div style="font-size:.72rem;font-weight:700;color:#92400E;margin:10px 0 6px;">10× TABLE</div>
-        <div style="display:flex;flex-wrap:wrap;gap:5px;justify-content:center;">
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">10</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">20</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">30</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">40</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">50</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">60</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">70</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">80</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">90</span>
-          <span style="background:#F97316;color:white;font-size:.78rem;font-weight:700;padding:4px 8px;border-radius:7px;border:2px solid #C2410C;">100</span>
-        </div>
-      </div>
-      <div class="illus-scene" style="margin-top:10px;">
-        <span class="char-sm">🦊</span><span class="char-sm">🐻</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="mr4-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFF7ED"/>
+            <stop offset="100%" stop-color="#FDBA74"/>
+          </linearGradient>
+          <radialGradient id="mr4-felix" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <radialGradient id="mr4-bella" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <filter id="mr4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background: track checkpoint -->
+        <rect width="300" height="280" fill="url(#mr4-bg)"/>
+        <!-- Track surface -->
+        <rect x="0" y="192" width="300" height="88" fill="#FBBF24" opacity=".4"/>
+        <rect x="0" y="192" width="300" height="6" fill="#F97316" opacity=".5"/>
+        <!-- Gate post -->
+        <rect x="14" y="12" width="8" height="170" fill="#92400E"/>
+        <rect x="278" y="12" width="8" height="170" fill="#92400E"/>
+        <rect x="10" y="10" width="280" height="28" rx="6" fill="#C2410C"/>
+        <text x="150" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">GATE 2 — 5× AND 10× TABLES</text>
+        <!-- 5× table panel (left) -->
+        <rect x="16" y="46" width="130" height="138" rx="10" fill="#FBBF24" opacity=".9"/>
+        <rect x="16" y="46" width="130" height="22" rx="10" fill="#D97706"/>
+        <rect x="16" y="56" width="130" height="12" fill="#D97706"/>
+        <text x="81" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="sans-serif">5× TABLE</text>
+        <!-- 5× multiples in 2 cols -->
+        <rect x="22" y="72" width="36" height="14" rx="3" fill="white"/><text x="40" y="83" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">1×5=5</text>
+        <rect x="62" y="72" width="36" height="14" rx="3" fill="white"/><text x="80" y="83" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">2×5=10</text>
+        <rect x="102" y="72" width="38" height="14" rx="3" fill="white"/><text x="121" y="83" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">3×5=15</text>
+        <rect x="22" y="90" width="36" height="14" rx="3" fill="white"/><text x="40" y="101" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">4×5=20</text>
+        <rect x="62" y="90" width="36" height="14" rx="3" fill="white"/><text x="80" y="101" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">5×5=25</text>
+        <rect x="102" y="90" width="38" height="14" rx="3" fill="white"/><text x="121" y="101" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">6×5=30</text>
+        <rect x="22" y="108" width="36" height="14" rx="3" fill="white"/><text x="40" y="119" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">7×5=35</text>
+        <rect x="62" y="108" width="36" height="14" rx="3" fill="white"/><text x="80" y="119" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">8×5=40</text>
+        <rect x="102" y="108" width="38" height="14" rx="3" fill="white"/><text x="121" y="119" text-anchor="middle" font-size="8.5" fill="#92400E" font-weight="700" font-family="sans-serif">9×5=45</text>
+        <rect x="42" y="126" width="60" height="14" rx="3" fill="#F97316"/>
+        <text x="72" y="137" text-anchor="middle" font-size="8.5" fill="white" font-weight="700" font-family="sans-serif">10×5=50</text>
+        <text x="81" y="158" text-anchor="middle" font-size="8" fill="#78350F" font-weight="700" font-family="sans-serif">Ends in 0 or 5!</text>
+        <text x="81" y="170" text-anchor="middle" font-size="7.5" fill="#92400E" font-family="sans-serif">Always ends in 5 or 0</text>
+        <!-- 10× table panel (right) -->
+        <rect x="154" y="46" width="130" height="138" rx="10" fill="#F97316" opacity=".9"/>
+        <rect x="154" y="46" width="130" height="22" rx="10" fill="#C2410C"/>
+        <rect x="154" y="56" width="130" height="12" fill="#C2410C"/>
+        <text x="219" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="sans-serif">10× TABLE</text>
+        <!-- 10× multiples -->
+        <rect x="160" y="72" width="36" height="14" rx="3" fill="white"/><text x="178" y="83" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">1×10=10</text>
+        <rect x="200" y="72" width="36" height="14" rx="3" fill="white"/><text x="218" y="83" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">2×10=20</text>
+        <rect x="240" y="72" width="38" height="14" rx="3" fill="white"/><text x="259" y="83" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">3×10=30</text>
+        <rect x="160" y="90" width="36" height="14" rx="3" fill="white"/><text x="178" y="101" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">4×10=40</text>
+        <rect x="200" y="90" width="36" height="14" rx="3" fill="white"/><text x="218" y="101" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">5×10=50</text>
+        <rect x="240" y="90" width="38" height="14" rx="3" fill="white"/><text x="259" y="101" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">6×10=60</text>
+        <rect x="160" y="108" width="36" height="14" rx="3" fill="white"/><text x="178" y="119" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">7×10=70</text>
+        <rect x="200" y="108" width="36" height="14" rx="3" fill="white"/><text x="218" y="119" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">8×10=80</text>
+        <rect x="240" y="108" width="38" height="14" rx="3" fill="white"/><text x="259" y="119" text-anchor="middle" font-size="8.5" fill="#C2410C" font-weight="700" font-family="sans-serif">9×10=90</text>
+        <rect x="178" y="126" width="82" height="14" rx="3" fill="#92400E"/>
+        <text x="219" y="137" text-anchor="middle" font-size="8.5" fill="white" font-weight="700" font-family="sans-serif">10×10=100</text>
+        <text x="219" y="158" text-anchor="middle" font-size="8" fill="#78350F" font-weight="700" font-family="sans-serif">Just add a zero!</text>
+        <text x="219" y="170" text-anchor="middle" font-size="7.5" fill="#92400E" font-family="sans-serif">7 × 10 = 70 ← easy!</text>
+        <!-- Felix the Fox character -->
+        <g filter="url(#mr4-sh)">
+          <ellipse cx="55" cy="240" rx="12" ry="9" fill="url(#mr4-felix)"/>
+          <circle cx="68" cy="234" r="9" fill="url(#mr4-felix)"/>
+          <polygon points="63,226 60,216 67,223" fill="#F59E0B"/>
+          <polygon points="73,226 76,216 69,224" fill="#F59E0B"/>
+          <circle cx="72" cy="232" r="1.8" fill="white"/><circle cx="72.5" cy="232" r="0.9" fill="#1F2937"/>
+          <path d="M43 240 Q32 252 42 258" stroke="#F59E0B" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <!-- Arm raised -->
+          <line x1="68" y1="242" x2="80" y2="226" stroke="#B45309" stroke-width="4" stroke-linecap="round"/>
+          <path d="M64 236 Q68 240 72 236" stroke="#78350F" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Bella the Bear character -->
+        <g filter="url(#mr4-sh)">
+          <ellipse cx="240" cy="242" rx="14" ry="11" fill="url(#mr4-bella)"/>
+          <circle cx="256" cy="235" r="10" fill="url(#mr4-bella)"/>
+          <circle cx="249" cy="226" r="5" fill="#D97706"/>
+          <circle cx="263" cy="226" r="5" fill="#D97706"/>
+          <circle cx="260" cy="232" r="2" fill="white"/><circle cx="260.5" cy="232" r="1" fill="#1F2937"/>
+          <ellipse cx="261" cy="237" rx="4" ry="3" fill="#FDE68A"/>
+          <!-- Arm up -->
+          <line x1="256" y1="243" x2="268" y2="228" stroke="#D97706" stroke-width="5" stroke-linecap="round"/>
+          <path d="M252 237 Q256 241 260 237" stroke="#78350F" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Speech bubbles -->
+        <rect x="76" y="218" width="80" height="28" rx="8" fill="#FBBF24"/>
+        <path d="M84 218 L78 210 L98 218" fill="#FBBF24"/>
+        <text x="116" y="230" text-anchor="middle" font-size="7.5" fill="#78350F" font-weight="700" font-family="sans-serif">5, 10, 15, 20</text>
+        <text x="116" y="241" text-anchor="middle" font-size="7.5" fill="#78350F" font-weight="700" font-family="sans-serif">— I know 5×!</text>
+        <rect x="162" y="218" width="76" height="28" rx="8" fill="#F97316"/>
+        <path d="M218 218 L224 210 L206 218" fill="#F97316"/>
+        <text x="200" y="230" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="sans-serif">×10? Just</text>
+        <text x="200" y="241" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="sans-serif">add a zero!</text>
+      </svg>
       <div class="illus-caption">Felix knows 5×, Bella knows 10×!</div>
     </div>
 
@@ -487,54 +785,116 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 5 – GATE 3: COMMUTATIVITY
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+    <div class="illustration" style="background:linear-gradient(160deg,#ECFDF5 0%,#34D399 55%,#A7F3D0 100%);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:1.3rem;font-weight:700;color:#065F46;margin-bottom:10px;">Are these the same?</div>
-      <div style="display:flex;gap:16px;align-items:flex-start;justify-content:center;">
-        <!-- Array 1: 3 rows × 4 cols -->
-        <div style="background:rgba(255,255,255,.6);border-radius:12px;padding:12px;text-align:center;">
-          <div style="font-size:.7rem;font-weight:700;color:#065F46;margin-bottom:6px;">3 × 4</div>
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:fit-content;margin:0 auto;">
-            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
-          </div>
-          <div style="margin-top:8px;font-size:.85rem;font-weight:700;color:#065F46;">= 12</div>
-        </div>
-        <div style="font-size:1.8rem;color:#059669;font-weight:700;padding-top:30px;">=</div>
-        <!-- Array 2: 4 rows × 3 cols -->
-        <div style="background:rgba(255,255,255,.6);border-radius:12px;padding:12px;text-align:center;">
-          <div style="font-size:.7rem;font-weight:700;color:#065F46;margin-bottom:6px;">4 × 3</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:fit-content;margin:0 auto;">
-            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#059669;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#34D399;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#10B981;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#6EE7B7;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#6EE7B7;"></div>
-            <div style="width:18px;height:18px;border-radius:50%;background:#6EE7B7;"></div>
-          </div>
-          <div style="margin-top:8px;font-size:.85rem;font-weight:700;color:#065F46;">= 12</div>
-        </div>
-      </div>
-      <div style="margin-top:10px;font-size:1rem;font-weight:700;color:#065F46;background:rgba(255,255,255,.5);padding:6px 14px;border-radius:9999px;">3 × 4 = 4 × 3 = 12 ✓</div>
-      <div class="illus-scene" style="margin-top:8px;">
-        <span class="char-sm">🐇</span><span class="char-sm">🐢</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="mr5-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#34D399"/>
+          </linearGradient>
+          <radialGradient id="mr5-hector" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#F3F4F6"/>
+            <stop offset="55%" stop-color="#D1D5DB"/>
+            <stop offset="100%" stop-color="#9CA3AF"/>
+          </radialGradient>
+          <radialGradient id="mr5-tara" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#D1FAE5"/>
+            <stop offset="55%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </radialGradient>
+          <filter id="mr5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#mr5-bg)"/>
+        <!-- Track surface -->
+        <rect x="0" y="200" width="300" height="80" fill="#6EE7B7" opacity=".5"/>
+        <rect x="0" y="200" width="300" height="6" fill="#10B981" opacity=".6"/>
+        <!-- Gate sign -->
+        <rect x="12" y="12" width="8" height="162" fill="#065F46"/>
+        <rect x="280" y="12" width="8" height="162" fill="#065F46"/>
+        <rect x="8" y="10" width="284" height="28" rx="6" fill="#059669"/>
+        <text x="150" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">GATE 3 — SAME OR DIFFERENT?</text>
+        <!-- Left array panel: 3 × 4 -->
+        <rect x="16" y="46" width="118" height="144" rx="10" fill="white" opacity=".88"/>
+        <rect x="16" y="46" width="118" height="22" rx="10" fill="#059669"/>
+        <rect x="16" y="56" width="118" height="12" fill="#059669"/>
+        <text x="75" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="sans-serif">3 × 4 = 12</text>
+        <text x="75" y="78" text-anchor="middle" font-size="7.5" fill="#065F46" font-family="sans-serif">3 rows, 4 in each row</text>
+        <!-- Array 1: 3 rows × 4 cols (green circles) -->
+        <circle cx="38" cy="92" r="9" fill="#059669"/>
+        <circle cx="62" cy="92" r="9" fill="#059669"/>
+        <circle cx="86" cy="92" r="9" fill="#059669"/>
+        <circle cx="110" cy="92" r="9" fill="#059669"/>
+        <circle cx="38" cy="116" r="9" fill="#34D399"/>
+        <circle cx="62" cy="116" r="9" fill="#34D399"/>
+        <circle cx="86" cy="116" r="9" fill="#34D399"/>
+        <circle cx="110" cy="116" r="9" fill="#34D399"/>
+        <circle cx="38" cy="140" r="9" fill="#10B981"/>
+        <circle cx="62" cy="140" r="9" fill="#10B981"/>
+        <circle cx="86" cy="140" r="9" fill="#10B981"/>
+        <circle cx="110" cy="140" r="9" fill="#10B981"/>
+        <text x="75" y="168" text-anchor="middle" font-size="9" fill="#065F46" font-weight="700" font-family="sans-serif">= 12  ✓</text>
+        <text x="75" y="181" text-anchor="middle" font-size="7.5" fill="#059669" font-family="sans-serif">Count: 4, 8, 12</text>
+        <!-- Equals sign between panels -->
+        <text x="150" y="112" text-anchor="middle" font-size="22" fill="#059669" font-weight="700" font-family="sans-serif">=</text>
+        <!-- Right array panel: 4 × 3 -->
+        <rect x="166" y="46" width="118" height="144" rx="10" fill="white" opacity=".88"/>
+        <rect x="166" y="46" width="118" height="22" rx="10" fill="#065F46"/>
+        <rect x="166" y="56" width="118" height="12" fill="#065F46"/>
+        <text x="225" y="62" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="sans-serif">4 × 3 = 12</text>
+        <text x="225" y="78" text-anchor="middle" font-size="7.5" fill="#065F46" font-family="sans-serif">4 rows, 3 in each row</text>
+        <!-- Array 2: 4 rows × 3 cols (teal circles) -->
+        <circle cx="188" cy="92" r="9" fill="#059669"/>
+        <circle cx="216" cy="92" r="9" fill="#059669"/>
+        <circle cx="244" cy="92" r="9" fill="#059669"/>
+        <circle cx="188" cy="116" r="9" fill="#34D399"/>
+        <circle cx="216" cy="116" r="9" fill="#34D399"/>
+        <circle cx="244" cy="116" r="9" fill="#34D399"/>
+        <circle cx="188" cy="140" r="9" fill="#10B981"/>
+        <circle cx="216" cy="140" r="9" fill="#10B981"/>
+        <circle cx="244" cy="140" r="9" fill="#10B981"/>
+        <circle cx="188" cy="164" r="9" fill="#6EE7B7"/>
+        <circle cx="216" cy="164" r="9" fill="#6EE7B7"/>
+        <circle cx="244" cy="164" r="9" fill="#6EE7B7"/>
+        <text x="225" y="183" text-anchor="middle" font-size="9" fill="#065F46" font-weight="700" font-family="sans-serif">= 12  ✓</text>
+        <!-- Commutative law banner -->
+        <g filter="url(#mr5-sh)">
+          <rect x="16" y="196" width="268" height="28" rx="10" fill="#059669"/>
+          <text x="150" y="208" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="sans-serif">3 × 4 = 4 × 3 = 12  ✓</text>
+          <text x="150" y="219" text-anchor="middle" font-size="8" fill="#D1FAE5" font-family="sans-serif">The ORDER doesn't change the ANSWER!</text>
+        </g>
+        <!-- Hector the Hare character (puzzled) -->
+        <g filter="url(#mr5-sh)">
+          <ellipse cx="36" cy="248" rx="12" ry="9" fill="url(#mr5-hector)"/>
+          <circle cx="50" cy="242" r="9" fill="url(#mr5-hector)"/>
+          <ellipse cx="46" cy="231" rx="3" ry="8" fill="#E5E7EB"/>
+          <ellipse cx="54" cy="229" rx="3" ry="9" fill="#E5E7EB"/>
+          <circle cx="54" cy="240" r="1.8" fill="white"/><circle cx="54.5" cy="240" r="0.9" fill="#1F2937"/>
+          <!-- Confused brow -->
+          <path d="M48 236 Q52 233 56 236" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+          <path d="M46 244 Q50 248 54 244" stroke="#9CA3AF" stroke-width="1.2" fill="none"/>
+        </g>
+        <!-- Tara the Tortoise character (smiling) -->
+        <g filter="url(#mr5-sh)">
+          <ellipse cx="250" cy="248" rx="14" ry="10" fill="url(#mr5-tara)"/>
+          <ellipse cx="250" cy="248" rx="8" ry="5.5" fill="none" stroke="#059669" stroke-width="1.2"/>
+          <circle cx="266" cy="242" r="9" fill="url(#mr5-tara)"/>
+          <circle cx="270" cy="240" r="1.8" fill="white"/><circle cx="270.5" cy="240" r="0.9" fill="#1F2937"/>
+          <path d="M262 245 Q266 249 270 245" stroke="#065F46" stroke-width="1.5" fill="none"/>
+        </g>
+        <!-- Speech bubbles -->
+        <rect x="60" y="232" width="80" height="30" rx="8" fill="white" stroke="#9CA3AF" stroke-width="1.5"/>
+        <path d="M66 232 L60 224 L80 232" fill="white" stroke="#9CA3AF" stroke-width="1.5"/>
+        <text x="100" y="244" text-anchor="middle" font-size="7.5" fill="#6B7280" font-family="sans-serif">They look</text>
+        <text x="100" y="255" text-anchor="middle" font-size="7.5" fill="#6B7280" font-family="sans-serif">different!</text>
+        <rect x="148" y="232" width="96" height="30" rx="8" fill="#10B981"/>
+        <path d="M238 232 L244 224 L226 232" fill="#10B981"/>
+        <text x="196" y="244" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="sans-serif">Both = 12! Order</text>
+        <text x="196" y="255" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="sans-serif">doesn't matter!</text>
+      </svg>
       <div class="illus-caption">The order doesn't matter!</div>
     </div>
 
@@ -581,76 +941,119 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 6 – GATE 4: THE 9× FINGER TRICK
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+    <div class="illustration" style="background:linear-gradient(160deg,#F5F3FF 0%,#A78BFA 55%,#DDD6FE 100%);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:1.3rem;font-weight:700;color:#4C1D95;margin-bottom:12px;">9 × 4 — Finger Trick!</div>
-      <!-- Finger trick diagram: 10 fingers, 4th folded -->
-      <div style="background:rgba(255,255,255,.55);border-radius:14px;padding:14px 18px;text-align:center;">
-        <div style="font-size:.72rem;font-weight:700;color:#4C1D95;margin-bottom:8px;">Hold up both hands, palms facing you</div>
-        <div style="display:flex;gap:5px;justify-content:center;align-items:flex-end;">
-          <!-- Fingers 1–3: left of fold (tens) -->
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#6D28D9;font-weight:700;">1</div>
-            <div style="width:20px;height:46px;background:#8B5CF6;border-radius:8px 8px 4px 4px;border:2px solid #6D28D9;"></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#6D28D9;font-weight:700;">2</div>
-            <div style="width:20px;height:46px;background:#8B5CF6;border-radius:8px 8px 4px 4px;border:2px solid #6D28D9;"></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#6D28D9;font-weight:700;">3</div>
-            <div style="width:20px;height:46px;background:#8B5CF6;border-radius:8px 8px 4px 4px;border:2px solid #6D28D9;"></div>
-          </div>
-          <!-- Finger 4: FOLDED DOWN -->
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#DC2626;font-weight:700;">4✗</div>
-            <div style="width:20px;height:22px;background:#D1D5DB;border-radius:4px;border:2px solid #9CA3AF;"></div>
-          </div>
-          <!-- Fingers 5–10: right of fold (ones) -->
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#D97706;font-weight:700;">5</div>
-            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#D97706;font-weight:700;">6</div>
-            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#D97706;font-weight:700;">7</div>
-            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#D97706;font-weight:700;">8</div>
-            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#D97706;font-weight:700;">9</div>
-            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-            <div style="font-size:.5rem;color:#D97706;font-weight:700;">10</div>
-            <div style="width:20px;height:46px;background:#F59E0B;border-radius:8px 8px 4px 4px;border:2px solid #D97706;"></div>
-          </div>
-        </div>
-        <div style="margin-top:10px;display:flex;gap:12px;justify-content:center;font-size:.72rem;font-weight:700;">
-          <span style="color:#6D28D9;">Purple = 3 tens = 30</span>
-          <span style="color:#92400E;">Amber = 6 ones = 6</span>
-        </div>
-        <div style="margin-top:6px;font-size:1rem;font-weight:700;color:#4C1D95;">9 × 4 = 30 + 6 = <span style="font-size:1.3rem;color:#6D28D9;">36</span></div>
-      </div>
-      <!-- 9× table -->
-      <div style="width:90%;margin-top:10px;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;">
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×1=9</div>
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×2=18</div>
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×3=27</div>
-        <div style="background:#C4B5FD;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#3730A3;">9×4=36</div>
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×5=45</div>
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×6=54</div>
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×7=63</div>
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×8=72</div>
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×9=81</div>
-        <div style="background:#DDD6FE;border-radius:6px;padding:4px;text-align:center;font-size:.68rem;font-weight:700;color:#4C1D95;">9×10=90</div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="mr6-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F5F3FF"/>
+            <stop offset="100%" stop-color="#A78BFA"/>
+          </linearGradient>
+          <radialGradient id="mr6-hector" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#F3F4F6"/>
+            <stop offset="55%" stop-color="#D1D5DB"/>
+            <stop offset="100%" stop-color="#9CA3AF"/>
+          </radialGradient>
+          <radialGradient id="mr6-hand" cx="30%" cy="25%" r="70%">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="60%" stop-color="#FDE68A"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="mr6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#mr6-bg)"/>
+        <!-- Track surface -->
+        <rect x="0" y="198" width="300" height="82" fill="#C4B5FD" opacity=".4"/>
+        <rect x="0" y="198" width="300" height="6" fill="#8B5CF6" opacity=".6"/>
+        <!-- Gate sign -->
+        <rect x="12" y="10" width="8" height="166" fill="#4C1D95"/>
+        <rect x="280" y="10" width="8" height="166" fill="#4C1D95"/>
+        <rect x="8" y="8" width="284" height="28" rx="6" fill="#6D28D9"/>
+        <text x="150" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">GATE 4 — 9× FINGER TRICK</text>
+        <!-- Finger diagram panel -->
+        <rect x="14" y="44" width="272" height="105" rx="10" fill="white" opacity=".9"/>
+        <text x="150" y="60" text-anchor="middle" font-size="9" fill="#4C1D95" font-weight="700" font-family="sans-serif">9 × 4 = ?  Fold down finger 4!</text>
+        <!-- 10 finger rects: fingers 1-3 purple (tens), 4 folded grey, 5-10 amber (ones) -->
+        <!-- Finger 1 (purple) -->
+        <rect x="20" y="66" width="18" height="44" rx="6" fill="#8B5CF6"/>
+        <text x="29" y="62" text-anchor="middle" font-size="7" fill="#6D28D9" font-weight="700" font-family="sans-serif">1</text>
+        <!-- Finger 2 (purple) -->
+        <rect x="41" y="66" width="18" height="44" rx="6" fill="#8B5CF6"/>
+        <text x="50" y="62" text-anchor="middle" font-size="7" fill="#6D28D9" font-weight="700" font-family="sans-serif">2</text>
+        <!-- Finger 3 (purple) -->
+        <rect x="62" y="66" width="18" height="44" rx="6" fill="#8B5CF6"/>
+        <text x="71" y="62" text-anchor="middle" font-size="7" fill="#6D28D9" font-weight="700" font-family="sans-serif">3</text>
+        <!-- Finger 4 FOLDED (grey, shorter) -->
+        <rect x="83" y="88" width="18" height="22" rx="4" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1.5"/>
+        <text x="92" y="84" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700" font-family="sans-serif">4✗</text>
+        <!-- Label: FOLD -->
+        <text x="92" y="118" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700" font-family="sans-serif">FOLD</text>
+        <!-- Gap/divider at fold -->
+        <line x1="100" y1="60" x2="100" y2="115" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <!-- Fingers 5-10 (amber, ones) -->
+        <rect x="105" y="66" width="18" height="44" rx="6" fill="#F59E0B"/>
+        <text x="114" y="62" text-anchor="middle" font-size="7" fill="#D97706" font-weight="700" font-family="sans-serif">5</text>
+        <rect x="126" y="66" width="18" height="44" rx="6" fill="#F59E0B"/>
+        <text x="135" y="62" text-anchor="middle" font-size="7" fill="#D97706" font-weight="700" font-family="sans-serif">6</text>
+        <rect x="147" y="66" width="18" height="44" rx="6" fill="#F59E0B"/>
+        <text x="156" y="62" text-anchor="middle" font-size="7" fill="#D97706" font-weight="700" font-family="sans-serif">7</text>
+        <rect x="168" y="66" width="18" height="44" rx="6" fill="#F59E0B"/>
+        <text x="177" y="62" text-anchor="middle" font-size="7" fill="#D97706" font-weight="700" font-family="sans-serif">8</text>
+        <rect x="189" y="66" width="18" height="44" rx="6" fill="#F59E0B"/>
+        <text x="198" y="62" text-anchor="middle" font-size="7" fill="#D97706" font-weight="700" font-family="sans-serif">9</text>
+        <rect x="210" y="66" width="18" height="44" rx="6" fill="#D97706"/>
+        <text x="219" y="62" text-anchor="middle" font-size="7" fill="#D97706" font-weight="700" font-family="sans-serif">10</text>
+        <!-- Label annotations below fingers -->
+        <rect x="18" y="116" width="76" height="18" rx="4" fill="#8B5CF6"/>
+        <text x="56" y="129" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="sans-serif">3 tens = 30</text>
+        <rect x="104" y="116" width="126" height="18" rx="4" fill="#F59E0B"/>
+        <text x="167" y="129" text-anchor="middle" font-size="8" fill="#78350F" font-weight="700" font-family="sans-serif">6 ones = 6</text>
+        <!-- Answer formula -->
+        <rect x="230" y="56" width="55" height="76" rx="8" fill="#4C1D95"/>
+        <text x="257" y="76" text-anchor="middle" font-size="9.5" fill="white" font-weight="700" font-family="sans-serif">9×4</text>
+        <text x="257" y="92" text-anchor="middle" font-size="8.5" fill="#DDD6FE" font-family="sans-serif">30 + 6</text>
+        <text x="257" y="110" text-anchor="middle" font-size="14" fill="#FBBF24" font-weight="700" font-family="sans-serif">= 36</text>
+        <!-- 9× table grid -->
+        <rect x="14" y="154" width="272" height="40" rx="8" fill="#EDE9FE"/>
+        <text x="14" y="149" font-size="8" fill="#4C1D95" font-weight="700" font-family="sans-serif">9× TABLE: digits always add to 9!</text>
+        <!-- Table entries -->
+        <rect x="18" y="158" width="40" height="14" rx="3" fill="#DDD6FE"/><text x="38" y="169" text-anchor="middle" font-size="6.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">9×1=9</text>
+        <rect x="62" y="158" width="42" height="14" rx="3" fill="#DDD6FE"/><text x="83" y="169" text-anchor="middle" font-size="6.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">9×2=18</text>
+        <rect x="108" y="158" width="42" height="14" rx="3" fill="#DDD6FE"/><text x="129" y="169" text-anchor="middle" font-size="6.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">9×3=27</text>
+        <rect x="154" y="158" width="42" height="14" rx="3" fill="#8B5CF6"/><text x="175" y="169" text-anchor="middle" font-size="6.5" fill="white" font-weight="700" font-family="sans-serif">9×4=36</text>
+        <rect x="200" y="158" width="42" height="14" rx="3" fill="#DDD6FE"/><text x="221" y="169" text-anchor="middle" font-size="6.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">9×5=45</text>
+        <rect x="18" y="175" width="40" height="14" rx="3" fill="#DDD6FE"/><text x="38" y="186" text-anchor="middle" font-size="6.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">9×6=54</text>
+        <rect x="62" y="175" width="42" height="14" rx="3" fill="#DDD6FE"/><text x="83" y="186" text-anchor="middle" font-size="6.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">9×7=63</text>
+        <rect x="108" y="175" width="42" height="14" rx="3" fill="#DDD6FE"/><text x="129" y="186" text-anchor="middle" font-size="6.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">9×8=72</text>
+        <rect x="154" y="175" width="42" height="14" rx="3" fill="#DDD6FE"/><text x="175" y="186" text-anchor="middle" font-size="6.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">9×9=81</text>
+        <rect x="200" y="175" width="56" height="14" rx="3" fill="#6D28D9"/><text x="228" y="186" text-anchor="middle" font-size="6.5" fill="white" font-weight="700" font-family="sans-serif">9×10=90</text>
+        <!-- Hector character (triumphant, holding up finger trick) -->
+        <g filter="url(#mr6-sh)">
+          <ellipse cx="46" cy="240" rx="13" ry="10" fill="url(#mr6-hector)"/>
+          <circle cx="60" cy="232" r="10" fill="url(#mr6-hector)"/>
+          <ellipse cx="55" cy="220" rx="3.5" ry="9" fill="#E5E7EB"/>
+          <ellipse cx="64" cy="218" rx="3" ry="10" fill="#E5E7EB"/>
+          <circle cx="64" cy="230" r="2" fill="white"/><circle cx="64.5" cy="230" r="1" fill="#1F2937"/>
+          <circle cx="68" cy="233" r="1.5" fill="#FCA5A5"/>
+          <!-- Happy smile -->
+          <path d="M56 235 Q60 240 65 235" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+          <!-- Arm raised with hand showing finger -->
+          <line x1="64" y1="240" x2="82" y2="222" stroke="#9CA3AF" stroke-width="5" stroke-linecap="round"/>
+          <rect x="82" y="210" width="10" height="16" rx="4" fill="url(#mr6-hand)"/>
+          <!-- Race bib -->
+          <rect x="40" y="240" width="14" height="12" rx="3" fill="#8B5CF6"/>
+          <text x="47" y="250" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="sans-serif">1</text>
+        </g>
+        <!-- Speech bubble -->
+        <rect x="98" y="218" width="170" height="46" rx="10" fill="#6D28D9"/>
+        <path d="M108 218 L100 210 L122 218" fill="#6D28D9"/>
+        <text x="183" y="233" text-anchor="middle" font-size="8.5" fill="white" font-weight="700" font-family="sans-serif">Fold finger 4!</text>
+        <text x="183" y="245" text-anchor="middle" font-size="8" fill="#DDD6FE" font-family="sans-serif">3 left = 30 (tens)</text>
+        <text x="183" y="257" text-anchor="middle" font-size="8" fill="#FBBF24" font-weight="700" font-family="sans-serif">6 right = 6  →  36!</text>
+      </svg>
     </div>
 
     <div class="story-panel">
@@ -696,65 +1099,139 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 7 – THE FINAL SPRINT
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FBBF24);">
+    <div class="illustration" style="background:linear-gradient(160deg,#FFF7ED 0%,#F97316 55%,#FBBF24 100%);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:3rem;margin-bottom:6px;">🎉 🏁 🎉</div>
-      <!-- Doubling strategy visual -->
-      <div style="background:rgba(255,255,255,.6);border-radius:14px;padding:16px 18px;width:88%;text-align:center;">
-        <div style="font-size:.75rem;font-weight:700;color:#92400E;margin-bottom:10px;">DOUBLING STRATEGY: 6 × 8</div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
-          <div style="background:#FBBF24;color:#78350F;padding:8px 12px;border-radius:10px;font-weight:700;font-size:.9rem;border:2px solid #D97706;">6 × 8</div>
-          <span style="font-size:1.2rem;color:#92400E;">→</span>
-          <div style="background:#F97316;color:white;padding:8px 12px;border-radius:10px;font-weight:700;font-size:.9rem;border:2px solid #C2410C;">6 × 4 = 24</div>
-          <span style="font-size:1.2rem;color:#92400E;">×2</span>
-          <div style="background:#DC2626;color:white;padding:8px 12px;border-radius:10px;font-weight:700;font-size:.85rem;border:2px solid #B91C1C;">24 × 2 = <span style="font-size:1.1rem;">48</span></div>
-        </div>
-      </div>
-      <!-- Times table grid -->
-      <div style="width:90%;margin-top:10px;">
-        <div style="font-size:.68rem;font-weight:700;color:#92400E;margin-bottom:6px;text-align:center;">Key Multiplication Facts</div>
-        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;">
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">×</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">2</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">3</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">4</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">5</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">6</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">2</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">4</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">6</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">8</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">10</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">12</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">3</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">6</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">9</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">12</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">15</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">18</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">4</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">8</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">12</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">16</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">20</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">24</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">5</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">10</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">15</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">20</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">25</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">30</div>
-          <div style="background:#D97706;color:white;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">6</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">12</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">18</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">24</div>
-          <div style="background:#FEF3C7;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;">30</div>
-          <div style="background:#FBBF24;color:#78350F;border-radius:5px;padding:3px 2px;text-align:center;font-size:.6rem;font-weight:700;border:1px solid #D97706;">36</div>
-        </div>
-      </div>
-      <div class="illus-scene" style="margin-top:8px;">
-        <span class="char-sm">🐇</span><span class="char-sm">🐢</span><span class="char-sm">🦊</span><span class="char-sm">🐻</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="mr7-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFF7ED"/>
+            <stop offset="60%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#FBBF24"/>
+          </linearGradient>
+          <radialGradient id="mr7-hector" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#F3F4F6"/>
+            <stop offset="55%" stop-color="#D1D5DB"/>
+            <stop offset="100%" stop-color="#9CA3AF"/>
+          </radialGradient>
+          <filter id="mr7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background: final stretch -->
+        <rect width="300" height="280" fill="url(#mr7-bg)"/>
+        <!-- Crowd stands in background -->
+        <rect x="0" y="20" width="300" height="40" fill="#FEF3C7" opacity=".5"/>
+        <!-- Crowd dots -->
+        <circle cx="20" cy="34" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="40" cy="30" r="5" fill="#3B82F6" opacity=".7"/>
+        <circle cx="60" cy="36" r="5" fill="#10B981" opacity=".7"/>
+        <circle cx="80" cy="32" r="5" fill="#8B5CF6" opacity=".7"/>
+        <circle cx="100" cy="36" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="120" cy="30" r="5" fill="#FBBF24" opacity=".7"/>
+        <circle cx="140" cy="35" r="5" fill="#3B82F6" opacity=".7"/>
+        <circle cx="160" cy="31" r="5" fill="#10B981" opacity=".7"/>
+        <circle cx="180" cy="36" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="200" cy="30" r="5" fill="#8B5CF6" opacity=".7"/>
+        <circle cx="220" cy="35" r="5" fill="#FBBF24" opacity=".7"/>
+        <circle cx="240" cy="31" r="5" fill="#3B82F6" opacity=".7"/>
+        <circle cx="260" cy="36" r="5" fill="#10B981" opacity=".7"/>
+        <circle cx="280" cy="32" r="5" fill="#F97316" opacity=".7"/>
+        <!-- Race track (final stretch) -->
+        <rect x="0" y="64" width="300" height="136" fill="#D97706"/>
+        <!-- Four lanes -->
+        <rect x="0" y="66" width="300" height="30" fill="#F59E0B"/>
+        <rect x="0" y="98" width="300" height="30" fill="#FBBF24"/>
+        <rect x="0" y="130" width="300" height="30" fill="#F59E0B"/>
+        <rect x="0" y="162" width="300" height="30" fill="#FBBF24"/>
+        <!-- Lane dividers -->
+        <line x1="0" y1="96" x2="300" y2="96" stroke="white" stroke-width="1.5" stroke-dasharray="10,6" opacity=".5"/>
+        <line x1="0" y1="128" x2="300" y2="128" stroke="white" stroke-width="1.5" stroke-dasharray="10,6" opacity=".5"/>
+        <line x1="0" y1="160" x2="300" y2="160" stroke="white" stroke-width="1.5" stroke-dasharray="10,6" opacity=".5"/>
+        <!-- Finish line (chequered strip) -->
+        <rect x="238" y="64" width="14" height="136" fill="white" opacity=".4"/>
+        <!-- FINAL GATE banner -->
+        <rect x="8" y="8" width="284" height="28" rx="6" fill="#C2410C"/>
+        <text x="150" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="sans-serif">FINAL GATE — 6 × 8 = ?</text>
+        <!-- Doubling strategy panel (floating above track) -->
+        <g filter="url(#mr7-sh)">
+          <rect x="40" y="72" width="196" height="48" rx="10" fill="white" opacity=".95"/>
+          <!-- Step 1 -->
+          <rect x="46" y="78" width="50" height="20" rx="5" fill="#FBBF24"/>
+          <text x="71" y="92" text-anchor="middle" font-size="9.5" fill="#78350F" font-weight="700" font-family="sans-serif">6 × 8</text>
+          <!-- Arrow -->
+          <text x="104" y="92" text-anchor="middle" font-size="14" fill="#C2410C" font-family="sans-serif">→</text>
+          <!-- Step 2 -->
+          <rect x="116" y="78" width="62" height="20" rx="5" fill="#F97316"/>
+          <text x="147" y="92" text-anchor="middle" font-size="9.5" fill="white" font-weight="700" font-family="sans-serif">6×4=24</text>
+          <!-- ×2 label -->
+          <text x="185" y="92" text-anchor="middle" font-size="10" fill="#C2410C" font-weight="700" font-family="sans-serif">×2</text>
+          <!-- Step 3 -->
+          <rect x="196" y="78" width="34" height="20" rx="5" fill="#DC2626"/>
+          <text x="213" y="92" text-anchor="middle" font-size="9.5" fill="white" font-weight="700" font-family="sans-serif">= 48</text>
+          <text x="150" y="112" text-anchor="middle" font-size="8" fill="#92400E" font-family="sans-serif">DOUBLING: 6×4=24, then 24×2=48!</text>
+        </g>
+        <!-- Hector the Hare sprinting in lane 1 (very far ahead) -->
+        <g filter="url(#mr7-sh)">
+          <ellipse cx="210" cy="82" rx="14" ry="10" fill="url(#mr7-hector)"/>
+          <circle cx="226" cy="76" r="10" fill="url(#mr7-hector)"/>
+          <ellipse cx="221" cy="63" rx="3.5" ry="9" fill="#E5E7EB"/>
+          <ellipse cx="229" cy="61" rx="3" ry="10" fill="#E5E7EB"/>
+          <circle cx="230" cy="74" r="2" fill="white"/><circle cx="230.5" cy="74" r="1" fill="#1F2937"/>
+          <!-- Happy smile, big -->
+          <path d="M222 80 Q227 85 232 80" stroke="#9CA3AF" stroke-width="1.8" fill="none"/>
+          <!-- Running legs -->
+          <line x1="202" y1="90" x2="192" y2="102" stroke="#9CA3AF" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="214" y1="92" x2="204" y2="105" stroke="#9CA3AF" stroke-width="3.5" stroke-linecap="round"/>
+          <!-- Race bib -->
+          <rect x="208" y="78" width="14" height="12" rx="3" fill="#F97316"/>
+          <text x="215" y="88" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="sans-serif">1</text>
+        </g>
+        <!-- Tara far back in lane 2 -->
+        <g filter="url(#mr7-sh)">
+          <ellipse cx="64" cy="114" rx="14" ry="10" fill="#34D399"/>
+          <ellipse cx="64" cy="114" rx="8" ry="5.5" fill="none" stroke="#059669" stroke-width="1.2"/>
+          <circle cx="80" cy="108" r="8" fill="#34D399"/>
+          <circle cx="84" cy="106" r="1.5" fill="white"/><circle cx="84.5" cy="106" r="0.8" fill="#1F2937"/>
+        </g>
+        <!-- Felix in lane 3 -->
+        <g filter="url(#mr7-sh)">
+          <ellipse cx="100" cy="146" rx="12" ry="9" fill="#F59E0B"/>
+          <circle cx="114" cy="140" r="9" fill="#F59E0B"/>
+          <polygon points="109,132 106,122 114,130" fill="#F59E0B"/>
+          <polygon points="119,132 122,122 114,130" fill="#F59E0B"/>
+          <circle cx="118" cy="138" r="1.5" fill="white"/><circle cx="118.5" cy="138" r="0.8" fill="#1F2937"/>
+        </g>
+        <!-- Bella in lane 4 -->
+        <g filter="url(#mr7-sh)">
+          <ellipse cx="78" cy="178" rx="14" ry="11" fill="#D97706"/>
+          <circle cx="94" cy="171" r="10" fill="#D97706"/>
+          <circle cx="87" cy="162" r="5" fill="#D97706"/>
+          <circle cx="101" cy="162" r="5" fill="#D97706"/>
+          <circle cx="98" cy="169" r="1.8" fill="white"/><circle cx="98.5" cy="169" r="0.9" fill="#1F2937"/>
+        </g>
+        <!-- "48!" buzzer bubble from Hector -->
+        <rect x="232" y="56" width="58" height="28" rx="10" fill="#FBBF24"/>
+        <path d="M236 60 L232 50 L248 60" fill="#FBBF24"/>
+        <text x="261" y="69" text-anchor="middle" font-size="11" fill="#78350F" font-weight="700" font-family="sans-serif">48!</text>
+        <text x="261" y="79" text-anchor="middle" font-size="7" fill="#92400E" font-family="sans-serif">correct!</text>
+        <!-- Floor / celebration area -->
+        <rect x="0" y="200" width="300" height="80" fill="#F97316" opacity=".5"/>
+        <rect x="0" y="200" width="300" height="6" fill="#C2410C" opacity=".5"/>
+        <!-- Confetti -->
+        <circle cx="30" cy="218" r="4" fill="#10B981" opacity=".8"/>
+        <circle cx="270" cy="212" r="4" fill="#3B82F6" opacity=".8"/>
+        <circle cx="150" cy="215" r="4" fill="#8B5CF6" opacity=".8"/>
+        <rect x="60" y="210" width="8" height="8" rx="1" fill="#FBBF24" opacity=".8" transform="rotate(30,64,214)"/>
+        <rect x="230" y="210" width="8" height="8" rx="1" fill="#F97316" opacity=".8" transform="rotate(-20,234,214)"/>
+        <!-- Finish celebration panel -->
+        <g filter="url(#mr7-sh)">
+          <rect x="16" y="210" width="268" height="58" rx="12" fill="#C2410C"/>
+          <text x="150" y="230" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="sans-serif">DOUBLING STRATEGY</text>
+          <text x="150" y="244" text-anchor="middle" font-size="8.5" fill="#FEF3C7" font-family="sans-serif">×8? Multiply by 4, then DOUBLE!</text>
+          <text x="150" y="256" text-anchor="middle" font-size="8.5" fill="#FEF3C7" font-family="sans-serif">×6? Multiply by 3, then DOUBLE!</text>
+          <text x="150" y="263" text-anchor="middle" font-size="7.5" fill="#FBBF24" font-family="sans-serif">Hector: 6×4=24 → 24×2=48 ✓</text>
+        </g>
+      </svg>
     </div>
 
     <div class="story-panel">
@@ -800,33 +1277,142 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 8 – THE END: ALL WINNERS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-8">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+    <div class="illustration" style="background:linear-gradient(160deg,#FEF9C3 0%,#FBBF24 50%,#F97316 100%);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:3.5rem;margin-bottom:6px;">🏆 🎉 🏆</div>
-      <!-- All characters with medals -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:88%;">
-        <div style="background:rgba(255,255,255,.65);border-radius:12px;padding:10px;text-align:center;">
-          <div style="font-size:2rem;">🐇</div>
-          <div style="font-size:.65rem;font-weight:700;color:#92400E;margin-top:4px;">Hector</div>
-          <div style="background:#FBBF24;color:#78350F;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:9999px;margin-top:3px;border:1px solid #D97706;">🥇 Champion Multiplier</div>
-        </div>
-        <div style="background:rgba(255,255,255,.65);border-radius:12px;padding:10px;text-align:center;">
-          <div style="font-size:2rem;">🐢</div>
-          <div style="font-size:.65rem;font-weight:700;color:#92400E;margin-top:4px;">Tara</div>
-          <div style="background:#A7F3D0;color:#065F46;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:9999px;margin-top:3px;border:1px solid #6EE7B7;">🥈 Problem Solver</div>
-        </div>
-        <div style="background:rgba(255,255,255,.65);border-radius:12px;padding:10px;text-align:center;">
-          <div style="font-size:2rem;">🦊</div>
-          <div style="font-size:.65rem;font-weight:700;color:#92400E;margin-top:4px;">Felix</div>
-          <div style="background:#BFDBFE;color:#1D4ED8;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:9999px;margin-top:3px;border:1px solid #93C5FD;">🥉 Speed Star</div>
-        </div>
-        <div style="background:rgba(255,255,255,.65);border-radius:12px;padding:10px;text-align:center;">
-          <div style="font-size:2rem;">🐻</div>
-          <div style="font-size:.65rem;font-weight:700;color:#92400E;margin-top:4px;">Bella</div>
-          <div style="background:#DDD6FE;color:#4C1D95;font-size:.6rem;font-weight:700;padding:3px 7px;border-radius:9999px;margin-top:3px;border:1px solid #C4B5FD;">🏅 Pattern Spotter</div>
-        </div>
-      </div>
-      <div class="illus-caption" style="margin-top:10px;">Everyone who tries is a winner!</div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="mr8-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#F97316"/>
+          </linearGradient>
+          <radialGradient id="mr8-glow" cx="50%" cy="40%" r="55%">
+            <stop offset="0%" stop-color="#FBBF24" stop-opacity=".5"/>
+            <stop offset="100%" stop-color="#F97316" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="mr8-hector" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#F3F4F6"/>
+            <stop offset="55%" stop-color="#D1D5DB"/>
+            <stop offset="100%" stop-color="#9CA3AF"/>
+          </radialGradient>
+          <radialGradient id="mr8-tara" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#D1FAE5"/>
+            <stop offset="55%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </radialGradient>
+          <radialGradient id="mr8-felix" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <radialGradient id="mr8-bella" cx="35%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <filter id="mr8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#mr8-bg)"/>
+        <!-- Celebration glow -->
+        <ellipse cx="150" cy="140" rx="130" ry="100" fill="url(#mr8-glow)"/>
+        <!-- Confetti -->
+        <circle cx="18" cy="20" r="4" fill="#10B981" opacity=".8"/>
+        <circle cx="282" cy="18" r="4" fill="#3B82F6" opacity=".8"/>
+        <circle cx="32" cy="60" r="3.5" fill="#8B5CF6" opacity=".7"/>
+        <circle cx="268" cy="55" r="4" fill="#F97316" opacity=".7"/>
+        <rect x="12" y="38" width="8" height="8" rx="1" fill="#FBBF24" opacity=".8" transform="rotate(30,16,42)"/>
+        <rect x="280" y="36" width="8" height="8" rx="1" fill="#EC4899" opacity=".8" transform="rotate(-20,284,40)"/>
+        <circle cx="150" cy="14" r="4" fill="#F97316" opacity=".8"/>
+        <!-- Trophy banner -->
+        <g filter="url(#mr8-sh)">
+          <rect x="12" y="8" width="276" height="26" rx="8" fill="#92400E"/>
+          <text x="150" y="25" text-anchor="middle" font-size="12" font-weight="700" fill="#FBBF24" font-family="sans-serif">RACE COMPLETE! ALL WINNERS!</text>
+        </g>
+        <!-- Podium structure -->
+        <!-- 2nd place podium -->
+        <rect x="20" y="164" width="70" height="48" rx="6" fill="#D1D5DB"/>
+        <text x="55" y="184" text-anchor="middle" font-size="28" font-family="sans-serif">2</text>
+        <text x="55" y="202" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700" font-family="sans-serif">2nd</text>
+        <!-- 1st place podium (tallest, centre) -->
+        <rect x="100" y="146" width="100" height="66" rx="6" fill="#FBBF24"/>
+        <text x="150" y="168" text-anchor="middle" font-size="32" font-family="sans-serif">1</text>
+        <text x="150" y="192" text-anchor="middle" font-size="11" fill="#78350F" font-weight="700" font-family="sans-serif">1st Place</text>
+        <text x="150" y="204" text-anchor="middle" font-size="9" fill="#92400E" font-family="sans-serif">CHAMPION!</text>
+        <!-- 3rd place podium -->
+        <rect x="210" y="176" width="70" height="36" rx="6" fill="#FDBA74"/>
+        <text x="245" y="196" text-anchor="middle" font-size="22" font-family="sans-serif">3</text>
+        <text x="245" y="206" text-anchor="middle" font-size="8" fill="#92400E" font-weight="700" font-family="sans-serif">3rd</text>
+        <!-- Hector on top (1st) with arms raised -->
+        <g filter="url(#mr8-sh)">
+          <ellipse cx="134" cy="138" rx="13" ry="10" fill="url(#mr8-hector)"/>
+          <circle cx="148" cy="130" r="10" fill="url(#mr8-hector)"/>
+          <ellipse cx="143" cy="118" rx="3.5" ry="9" fill="#E5E7EB"/>
+          <ellipse cx="153" cy="116" rx="3" ry="10" fill="#E5E7EB"/>
+          <circle cx="152" cy="128" r="2" fill="white"/><circle cx="152.5" cy="128" r="1" fill="#1F2937"/>
+          <path d="M143 135 Q148 140 153 135" stroke="#9CA3AF" stroke-width="1.8" fill="none"/>
+          <!-- Both arms raised in V shape -->
+          <line x1="135" y1="140" x2="120" y2="122" stroke="#9CA3AF" stroke-width="5" stroke-linecap="round"/>
+          <line x1="160" y1="138" x2="175" y2="120" stroke="#9CA3AF" stroke-width="5" stroke-linecap="round"/>
+          <!-- Trophy in right paw -->
+          <rect x="176" y="112" width="14" height="16" rx="3" fill="#FBBF24"/>
+          <rect x="180" y="108" width="6" height="6" rx="2" fill="#D97706"/>
+          <!-- Gold medal bib -->
+          <rect x="134" y="138" width="14" height="12" rx="3" fill="#D97706"/>
+          <text x="141" y="148" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="sans-serif">1</text>
+        </g>
+        <!-- Tara on 2nd place -->
+        <g filter="url(#mr8-sh)">
+          <ellipse cx="40" cy="158" rx="14" ry="10" fill="url(#mr8-tara)"/>
+          <ellipse cx="40" cy="158" rx="8" ry="5.5" fill="none" stroke="#059669" stroke-width="1.2"/>
+          <circle cx="56" cy="150" r="9" fill="url(#mr8-tara)"/>
+          <circle cx="60" cy="148" r="1.8" fill="white"/><circle cx="60.5" cy="148" r="0.9" fill="#1F2937"/>
+          <path d="M52 154 Q56 158 60 154" stroke="#065F46" stroke-width="1.5" fill="none"/>
+          <!-- Arm raised -->
+          <line x1="56" y1="156" x2="68" y2="142" stroke="#34D399" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <!-- Felix on 3rd place -->
+        <g filter="url(#mr8-sh)">
+          <ellipse cx="228" cy="170" rx="12" ry="9" fill="url(#mr8-felix)"/>
+          <circle cx="242" cy="164" r="9" fill="url(#mr8-felix)"/>
+          <polygon points="237,156 234,146 242,153" fill="#F59E0B"/>
+          <polygon points="247,156 250,146 242,153" fill="#F59E0B"/>
+          <circle cx="246" cy="162" r="1.8" fill="white"/><circle cx="246.5" cy="162" r="0.9" fill="#1F2937"/>
+          <path d="M238 167 Q242 171 246 167" stroke="#78350F" stroke-width="1.3" fill="none"/>
+        </g>
+        <!-- Bella — standing beside podium celebrating (no podium spot for 4th) -->
+        <g filter="url(#mr8-sh)">
+          <ellipse cx="278" cy="226" rx="13" ry="10" fill="url(#mr8-bella)"/>
+          <circle cx="265" cy="218" r="10" fill="url(#mr8-bella)"/>
+          <circle cx="259" cy="210" r="5" fill="#D97706"/>
+          <circle cx="272" cy="210" r="5" fill="#D97706"/>
+          <circle cx="261" cy="216" r="1.8" fill="white"/><circle cx="261.5" cy="216" r="0.9" fill="#1F2937"/>
+          <ellipse cx="263" cy="221" rx="4" ry="3" fill="#FDE68A"/>
+          <path d="M259 221 Q263 225 267 221" stroke="#78350F" stroke-width="1.3" fill="none"/>
+          <!-- Arms up -->
+          <line x1="265" y1="228" x2="252" y2="216" stroke="#D97706" stroke-width="5" stroke-linecap="round"/>
+          <line x1="278" y1="236" x2="290" y2="220" stroke="#D97706" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <!-- Name badges / medals below podium -->
+        <rect x="12" y="218" width="80" height="28" rx="8" fill="#D1FAE5"/>
+        <text x="52" y="229" text-anchor="middle" font-size="7.5" fill="#065F46" font-weight="700" font-family="sans-serif">TARA</text>
+        <text x="52" y="240" text-anchor="middle" font-size="7" fill="#059669" font-family="sans-serif">Problem Solver</text>
+        <rect x="104" y="218" width="92" height="28" rx="8" fill="#FBBF24"/>
+        <text x="150" y="229" text-anchor="middle" font-size="8" fill="#78350F" font-weight="700" font-family="sans-serif">HECTOR</text>
+        <text x="150" y="240" text-anchor="middle" font-size="7" fill="#92400E" font-family="sans-serif">Champion Multiplier!</text>
+        <rect x="204" y="218" width="82" height="28" rx="8" fill="#BFDBFE"/>
+        <text x="245" y="229" text-anchor="middle" font-size="7.5" fill="#1D4ED8" font-weight="700" font-family="sans-serif">FELIX</text>
+        <text x="245" y="240" text-anchor="middle" font-size="7" fill="#3B82F6" font-family="sans-serif">Speed Star</text>
+        <!-- Bella badge row 2 -->
+        <rect x="104" y="250" width="92" height="22" rx="8" fill="#DDD6FE"/>
+        <text x="150" y="262" text-anchor="middle" font-size="7.5" fill="#4C1D95" font-weight="700" font-family="sans-serif">BELLA — Pattern Spotter!</text>
+        <!-- Everyone wins banner -->
+        <rect x="10" y="256" width="88" height="18" rx="6" fill="#F97316"/>
+        <text x="54" y="268" text-anchor="middle" font-size="7.5" fill="white" font-weight="700" font-family="sans-serif">Everyone wins!</text>
+      </svg>
+      <div class="illus-caption">Everyone who tries is a winner!</div>
     </div>
 
     <div class="story-panel">

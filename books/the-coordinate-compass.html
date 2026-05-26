@@ -194,53 +194,144 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-2">
     <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--accent-dark);text-align:center;margin-bottom:8px;">The coordinate grid — axes and origin</div>
-      <svg width="220" height="200" viewBox="0 0 220 200">
-        <!-- Grid lines -->
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="arrowC" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#0284C7"/></marker>
+          <radialGradient id="cc2-bg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#E0F2FE"/>
+            <stop offset="100%" stop-color="#7DD3FC"/>
+          </radialGradient>
+          <linearGradient id="cc2-nav-table" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#1E3A5F"/>
+            <stop offset="100%" stop-color="#0F2240"/>
+          </linearGradient>
+          <linearGradient id="cc2-map" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="100%" stop-color="#FEF08A"/>
+          </linearGradient>
+          <radialGradient id="cc2-cora-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FECACA"/>
+            <stop offset="55%" stop-color="#FCA5A5"/>
+            <stop offset="100%" stop-color="#F87171"/>
+          </radialGradient>
+          <radialGradient id="cc2-nate-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="cc2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
         </defs>
-        <!-- Grid background -->
-        <rect x="20" y="10" width="165" height="165" fill="white" opacity="0.5"/>
-        <!-- Vertical grid lines -->
-        <line x1="53" y1="10" x2="53" y2="175" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="86" y1="10" x2="86" y2="175" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="119" y1="10" x2="119" y2="175" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="152" y1="10" x2="152" y2="175" stroke="#BAE6FD" stroke-width="1"/>
-        <!-- Horizontal grid lines -->
-        <line x1="20" y1="142" x2="185" y2="142" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="20" y1="109" x2="185" y2="109" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="20" y1="76" x2="185" y2="76" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="20" y1="43" x2="185" y2="43" stroke="#BAE6FD" stroke-width="1"/>
-        <!-- Axes -->
-        <line x1="20" y1="175" x2="188" y2="175" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrowC)"/>
-        <line x1="20" y1="175" x2="20" y2="7" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrowC)"/>
-        <!-- Axis labels -->
-        <text x="190" y="178" fill="#0284C7" font-size="12" font-weight="700">x</text>
-        <text x="14" y="6" fill="#0284C7" font-size="12" font-weight="700">y</text>
-        <!-- Number labels x-axis -->
-        <text x="18" y="190" fill="#374151" font-size="10">0</text>
-        <text x="50" y="190" fill="#374151" font-size="10">1</text>
-        <text x="83" y="190" fill="#374151" font-size="10">2</text>
-        <text x="116" y="190" fill="#374151" font-size="10">3</text>
-        <text x="149" y="190" fill="#374151" font-size="10">4</text>
-        <text x="181" y="190" fill="#374151" font-size="10">5</text>
-        <!-- Number labels y-axis -->
-        <text x="8" y="178" fill="#374151" font-size="10">0</text>
-        <text x="8" y="145" fill="#374151" font-size="10">1</text>
-        <text x="8" y="112" fill="#374151" font-size="10">2</text>
-        <text x="8" y="79" fill="#374151" font-size="10">3</text>
-        <text x="8" y="46" fill="#374151" font-size="10">4</text>
-        <!-- Point (3,2) -->
-        <circle cx="119" cy="109" r="6" fill="#EF4444" stroke="white" stroke-width="2"/>
-        <text x="124" y="103" fill="#DC2626" font-size="11" font-weight="700">(3, 2)</text>
-        <!-- Dotted guide lines -->
-        <line x1="20" y1="109" x2="119" y2="109" stroke="#EF4444" stroke-width="1" stroke-dasharray="4,3"/>
-        <line x1="119" y1="175" x2="119" y2="109" stroke="#EF4444" stroke-width="1" stroke-dasharray="4,3"/>
-        <!-- Origin label -->
-        <text x="24" y="170" fill="#0284C7" font-size="9" font-weight="700">Origin</text>
+        <!-- Ocean background -->
+        <rect width="300" height="280" fill="url(#cc2-bg)"/>
+        <!-- Wave shapes -->
+        <path d="M0 230 Q 50 215 100 230 Q 150 245 200 230 Q 250 215 300 230 L300 280 L0 280 Z" fill="#0284C7" opacity="0.35"/>
+        <path d="M0 248 Q 60 235 120 248 Q 180 262 240 248 Q 270 238 300 248 L300 280 L0 280 Z" fill="#0369A1" opacity="0.3"/>
+        <!-- Navigation table / chart desk -->
+        <rect x="18" y="120" width="195" height="8" rx="3" fill="url(#cc2-nav-table)"/>
+        <!-- Grid / coordinate map on the table -->
+        <g filter="url(#cc2-sh)">
+          <rect x="22" y="28" width="188" height="90" rx="5" fill="url(#cc2-map)" stroke="#D97706" stroke-width="1.5"/>
+          <!-- Grid lines (5x4) -->
+          <line x1="22" y1="51" x2="210" y2="51" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="22" y1="72" x2="210" y2="72" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="22" y1="95" x2="210" y2="95" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="58" y1="28" x2="58" y2="118" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="96" y1="28" x2="96" y2="118" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="134" y1="28" x2="134" y2="118" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="172" y1="28" x2="172" y2="118" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <!-- X and Y axes bold -->
+          <line x1="22" y1="118" x2="210" y2="118" stroke="#0284C7" stroke-width="2"/>
+          <line x1="22" y1="118" x2="22" y2="28" stroke="#0284C7" stroke-width="2"/>
+          <polygon points="210,115 215,118 210,121" fill="#0284C7"/>
+          <polygon points="19,28 22,23 25,28" fill="#0284C7"/>
+          <!-- Axis labels -->
+          <text x="217" y="121" font-size="9" fill="#0284C7" font-weight="700">x</text>
+          <text x="17" y="26" font-size="9" fill="#0284C7" font-weight="700">y</text>
+          <!-- Number labels -->
+          <text x="20" y="130" font-size="7" fill="#374151">0</text>
+          <text x="55" y="130" font-size="7" fill="#374151">1</text>
+          <text x="93" y="130" font-size="7" fill="#374151">2</text>
+          <text x="131" y="130" font-size="7" fill="#374151">3</text>
+          <text x="169" y="130" font-size="7" fill="#374151">4</text>
+          <text x="10" y="121" font-size="7" fill="#374151">0</text>
+          <text x="10" y="98" font-size="7" fill="#374151">1</text>
+          <text x="10" y="75" font-size="7" fill="#374151">2</text>
+          <text x="10" y="52" font-size="7" fill="#374151">3</text>
+          <!-- Guide lines to (3,2) -->
+          <line x1="22" y1="72" x2="134" y2="72" stroke="#EF4444" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="134" y1="118" x2="134" y2="72" stroke="#EF4444" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <!-- Point (3,2) -->
+          <circle cx="134" cy="72" r="6" fill="#EF4444" stroke="white" stroke-width="2"/>
+          <text x="138" y="67" font-size="9" fill="#DC2626" font-weight="700">(3,2)</text>
+          <!-- Origin label -->
+          <text x="25" y="116" font-size="7" fill="#0284C7" font-weight="700">O</text>
+        </g>
+        <!-- Compass rose (decorative) -->
+        <g transform="translate(252,52)">
+          <circle cx="0" cy="0" r="22" fill="white" opacity="0.85" filter="url(#cc2-sh)"/>
+          <polygon points="0,-18 4,-4 0,-8 -4,-4" fill="#DC2626"/>
+          <polygon points="0,18 4,4 0,8 -4,4" fill="#374151"/>
+          <polygon points="-18,0 -4,-4 -8,0 -4,4" fill="#374151"/>
+          <polygon points="18,0 4,-4 8,0 4,4" fill="#374151"/>
+          <text x="0" y="-10" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700">N</text>
+          <circle cx="0" cy="0" r="4" fill="white" stroke="#374151" stroke-width="1"/>
+        </g>
+        <!-- Captain Cora character (pilot cap, navy) -->
+        <g filter="url(#cc2-sh)" transform="translate(255,148)">
+          <!-- Pilot cap -->
+          <rect x="-16" y="-12" width="32" height="10" rx="3" fill="#1D4ED8"/>
+          <rect x="-12" y="-14" width="24" height="5" rx="2" fill="#2563EB"/>
+          <ellipse cx="0" cy="-12" rx="14" ry="4" fill="#1D4ED8"/>
+          <!-- Head -->
+          <circle cx="0" cy="8" r="13" fill="url(#cc2-cora-skin)"/>
+          <!-- Brown hair sides -->
+          <ellipse cx="-11" cy="5" rx="5" ry="9" fill="#92400E"/>
+          <ellipse cx="11" cy="5" rx="5" ry="9" fill="#92400E"/>
+          <!-- Eyes -->
+          <circle cx="-4" cy="7" r="2.5" fill="white"/>
+          <circle cx="-4" cy="7" r="1.5" fill="#1E1B4B"/>
+          <circle cx="-5" cy="6" r="0.5" fill="white"/>
+          <circle cx="4" cy="7" r="2.5" fill="white"/>
+          <circle cx="4" cy="7" r="1.5" fill="#1E1B4B"/>
+          <circle cx="3" cy="6" r="0.5" fill="white"/>
+          <path d="M-3,12 Q0,15 3,12" fill="none" stroke="#92400E" stroke-width="1"/>
+          <!-- Navy jacket -->
+          <rect x="-13" y="20" width="26" height="28" rx="4" fill="#1D4ED8"/>
+          <!-- Epaulette stripes -->
+          <rect x="-13" y="20" width="8" height="4" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="20" width="8" height="4" rx="1" fill="#FBBF24"/>
+          <!-- Arm with pencil -->
+          <rect x="-23" y="24" width="12" height="5" rx="2" fill="url(#cc2-cora-skin)"/>
+          <rect x="-38" y="23" width="3" height="10" rx="1" fill="#FBBF24"/>
+          <rect x="11" y="24" width="12" height="5" rx="2" fill="url(#cc2-cora-skin)"/>
+          <rect x="-10" y="46" width="7" height="12" rx="3" fill="#1E3A5F"/>
+          <rect x="3" y="46" width="7" height="12" rx="3" fill="#1E3A5F"/>
+        </g>
+        <!-- Nate character (younger, darker skin) -->
+        <g filter="url(#cc2-sh)" transform="translate(255,225)">
+          <!-- Pilot cap -->
+          <rect x="-14" y="-10" width="28" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-10" rx="12" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc2-nate-skin)"/>
+          <ellipse cx="-10" cy="5" rx="4" ry="7" fill="#1E1B4B"/>
+          <ellipse cx="10" cy="5" rx="4" ry="7" fill="#1E1B4B"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="-5" cy="7" r="0.5" fill="white"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="3" cy="7" r="0.5" fill="white"/>
+          <path d="M-3,12 Q0,15 3,12" fill="none" stroke="#D97706" stroke-width="1"/>
+          <rect x="-11" y="19" width="22" height="24" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="-20" y="22" width="11" height="5" rx="2" fill="url(#cc2-nate-skin)"/>
+          <rect x="9" y="22" width="11" height="5" rx="2" fill="url(#cc2-nate-skin)"/>
+          <rect x="-8" y="41" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="41" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
       </svg>
-      <div style="font-size:1.6rem;margin-top:6px;">👩‍✈️ 🧑‍✈️</div>
       <div class="illus-caption">Captain Cora plots the first coordinate</div>
     </div>
 
@@ -284,66 +375,134 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-3">
     <div class="illustration" style="background:linear-gradient(135deg,#E0F2FE,#BAE6FD);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--accent-dark);text-align:center;margin-bottom:6px;">Reading coordinates — treasure locations</div>
-      <svg width="210" height="195" viewBox="0 0 210 195">
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="arrowR" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#0284C7"/></marker>
+          <radialGradient id="cc3-bg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#E0F2FE"/>
+            <stop offset="100%" stop-color="#BAE6FD"/>
+          </radialGradient>
+          <linearGradient id="cc3-map" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="100%" stop-color="#FEF3C7"/>
+          </linearGradient>
+          <radialGradient id="cc3-star" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="100%" stop-color="#FBBF24"/>
+          </radialGradient>
+          <radialGradient id="cc3-gem" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#A5F3FC"/>
+            <stop offset="100%" stop-color="#0EA5E9"/>
+          </radialGradient>
+          <radialGradient id="cc3-cora-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FECACA"/>
+            <stop offset="55%" stop-color="#FCA5A5"/>
+            <stop offset="100%" stop-color="#F87171"/>
+          </radialGradient>
+          <filter id="cc3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
         </defs>
-        <!-- Grid lines (8x8) -->
-        <rect x="18" y="8" width="160" height="160" fill="white" opacity="0.4"/>
-        <!-- vertical -->
-        <line x1="38" y1="8" x2="38" y2="168" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="58" y1="8" x2="58" y2="168" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="78" y1="8" x2="78" y2="168" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="98" y1="8" x2="98" y2="168" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="118" y1="8" x2="118" y2="168" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="138" y1="8" x2="138" y2="168" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="158" y1="8" x2="158" y2="168" stroke="#BAE6FD" stroke-width="1"/>
-        <!-- horizontal -->
-        <line x1="18" y1="148" x2="178" y2="148" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="18" y1="128" x2="178" y2="128" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="18" y1="108" x2="178" y2="108" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="18" y1="88" x2="178" y2="88" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="18" y1="68" x2="178" y2="68" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="18" y1="48" x2="178" y2="48" stroke="#BAE6FD" stroke-width="1"/>
-        <line x1="18" y1="28" x2="178" y2="28" stroke="#BAE6FD" stroke-width="1"/>
-        <!-- Axes -->
-        <line x1="18" y1="168" x2="180" y2="168" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrowR)"/>
-        <line x1="18" y1="168" x2="18" y2="5" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrowR)"/>
-        <!-- x labels -->
-        <text x="16" y="180" fill="#374151" font-size="9">0</text>
-        <text x="36" y="180" fill="#374151" font-size="9">1</text>
-        <text x="56" y="180" fill="#374151" font-size="9">2</text>
-        <text x="76" y="180" fill="#374151" font-size="9">3</text>
-        <text x="96" y="180" fill="#374151" font-size="9">4</text>
-        <text x="116" y="180" fill="#374151" font-size="9">5</text>
-        <text x="136" y="180" fill="#374151" font-size="9">6</text>
-        <text x="156" y="180" fill="#374151" font-size="9">7</text>
-        <!-- y labels -->
-        <text x="6" y="171" fill="#374151" font-size="9">0</text>
-        <text x="6" y="151" fill="#374151" font-size="9">1</text>
-        <text x="6" y="131" fill="#374151" font-size="9">2</text>
-        <text x="6" y="111" fill="#374151" font-size="9">3</text>
-        <text x="6" y="91" fill="#374151" font-size="9">4</text>
-        <text x="6" y="71" fill="#374151" font-size="9">5</text>
-        <text x="6" y="51" fill="#374151" font-size="9">6</text>
-        <text x="6" y="31" fill="#374151" font-size="9">7</text>
-        <!-- Treasures: (1,3) (4,6) (7,2) (3,5) (6,4) -->
-        <!-- (1,3): x=1→38, y=3→108 -->
-        <text x="32" y="105" font-size="13">⭐</text>
-        <text x="22" y="98" fill="#0284C7" font-size="8">(1,3)</text>
-        <!-- (4,6): x=4→98, y=6→48 -->
-        <text x="92" y="45" font-size="13">💎</text>
-        <text x="82" y="38" fill="#0284C7" font-size="8">(4,6)</text>
-        <!-- (7,2): x=7→158, y=2→128 -->
-        <text x="152" y="125" font-size="13">🏺</text>
-        <text x="142" y="118" fill="#0284C7" font-size="8">(7,2)</text>
-        <!-- (3,5): x=3→78, y=5→68 -->
-        <text x="72" y="65" font-size="13">📜</text>
-        <text x="62" y="58" fill="#0284C7" font-size="8">(3,5)</text>
-        <!-- (6,4): x=6→138, y=4→88 -->
-        <text x="132" y="85" font-size="13">🗡️</text>
-        <text x="122" y="78" fill="#0284C7" font-size="8">(6,4)</text>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#cc3-bg)"/>
+        <!-- Treasure map grid (main panel) -->
+        <g filter="url(#cc3-sh)">
+          <rect x="16" y="16" width="200" height="200" rx="6" fill="url(#cc3-map)" stroke="#D97706" stroke-width="2"/>
+          <!-- Grid lines 0-7 on both axes; each unit = ~25px; origin at (16+0=16, 16+175=191) -->
+          <!-- Vertical lines x=1..7 -->
+          <line x1="41" y1="16" x2="41" y2="216" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="66" y1="16" x2="66" y2="216" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="91" y1="16" x2="91" y2="216" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="116" y1="16" x2="116" y2="216" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="141" y1="16" x2="141" y2="216" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="166" y1="16" x2="166" y2="216" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="191" y1="16" x2="191" y2="216" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <!-- Horizontal lines y=1..7 -->
+          <line x1="16" y1="191" x2="216" y2="191" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="16" y1="166" x2="216" y2="166" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="16" y1="141" x2="216" y2="141" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="16" y1="116" x2="216" y2="116" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="16" y1="91" x2="216" y2="91" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="16" y1="66" x2="216" y2="66" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <line x1="16" y1="41" x2="216" y2="41" stroke="#D97706" stroke-width="0.6" opacity="0.5"/>
+          <!-- Axes bold -->
+          <line x1="16" y1="216" x2="216" y2="216" stroke="#0284C7" stroke-width="2.5"/>
+          <line x1="16" y1="216" x2="16" y2="16" stroke="#0284C7" stroke-width="2.5"/>
+          <polygon points="213,212 218,216 213,220" fill="#0284C7"/>
+          <polygon points="12,19 16,14 20,19" fill="#0284C7"/>
+          <text x="218" y="219" font-size="9" fill="#0284C7" font-weight="700">x</text>
+          <text x="10" y="15" font-size="9" fill="#0284C7" font-weight="700">y</text>
+          <!-- Axis number labels -->
+          <text x="14" y="228" font-size="7" fill="#374151">0</text>
+          <text x="38" y="228" font-size="7" fill="#374151">1</text>
+          <text x="63" y="228" font-size="7" fill="#374151">2</text>
+          <text x="88" y="228" font-size="7" fill="#374151">3</text>
+          <text x="113" y="228" font-size="7" fill="#374151">4</text>
+          <text x="138" y="228" font-size="7" fill="#374151">5</text>
+          <text x="163" y="228" font-size="7" fill="#374151">6</text>
+          <text x="188" y="228" font-size="7" fill="#374151">7</text>
+          <text x="5" y="219" font-size="7" fill="#374151">0</text>
+          <text x="5" y="194" font-size="7" fill="#374151">1</text>
+          <text x="5" y="169" font-size="7" fill="#374151">2</text>
+          <text x="5" y="144" font-size="7" fill="#374151">3</text>
+          <text x="5" y="119" font-size="7" fill="#374151">4</text>
+          <text x="5" y="94" font-size="7" fill="#374151">5</text>
+          <text x="5" y="69" font-size="7" fill="#374151">6</text>
+          <text x="5" y="44" font-size="7" fill="#374151">7</text>
+          <!-- Treasure artefacts at grid positions -->
+          <!-- (1,3): x=1→41, y=3→141 from bottom → SVG y = 216-3*25=141 -->
+          <circle cx="41" cy="141" r="8" fill="url(#cc3-star)" stroke="#D97706" stroke-width="1.5"/>
+          <polygon points="41,134 43,138 47,139 44,142 45,146 41,144 37,146 38,142 35,139 39,138" fill="#FBBF24" opacity="0.7"/>
+          <text x="46" y="134" font-size="7" fill="#0284C7" font-weight="700">(1,3)</text>
+          <!-- (4,6): x=4→116, y=6→66 → SVG y=216-6*25=66 -->
+          <circle cx="116" cy="66" r="8" fill="url(#cc3-gem)" stroke="#0284C7" stroke-width="1.5"/>
+          <polygon points="116,59 121,66 116,73 111,66" fill="#38BDF8" opacity="0.7"/>
+          <text x="120" y="60" font-size="7" fill="#0284C7" font-weight="700">(4,6)</text>
+          <!-- (7,2): x=7→191, y=2→166 → SVG y=216-2*25=166 -->
+          <circle cx="191" cy="166" r="8" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+          <text x="182" y="186" font-size="7" fill="#0284C7" font-weight="700">(7,2)</text>
+          <!-- (3,5): x=3→91, y=5→91 → SVG y=216-5*25=91 -->
+          <circle cx="91" cy="91" r="8" fill="#A7F3D0" stroke="#059669" stroke-width="1.5"/>
+          <text x="95" y="85" font-size="7" fill="#059669" font-weight="700">(3,5)</text>
+          <!-- (6,4): x=6→166, y=4→116 → SVG y=216-4*25=116 -->
+          <circle cx="166" cy="116" r="8" fill="#C4B5FD" stroke="#7C3AED" stroke-width="1.5"/>
+          <text x="170" y="110" font-size="7" fill="#7C3AED" font-weight="700">(6,4)</text>
+        </g>
+        <!-- Cora character reading map -->
+        <g filter="url(#cc3-sh)" transform="translate(262,130)">
+          <rect x="-15" y="-12" width="30" height="10" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-12" rx="13" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="13" fill="url(#cc3-cora-skin)"/>
+          <ellipse cx="-10" cy="5" rx="5" ry="8" fill="#92400E"/>
+          <ellipse cx="10" cy="5" rx="5" ry="8" fill="#92400E"/>
+          <circle cx="-4" cy="7" r="2.5" fill="white"/>
+          <circle cx="-4" cy="7" r="1.5" fill="#1E1B4B"/>
+          <circle cx="-5" cy="6" r="0.5" fill="white"/>
+          <circle cx="4" cy="7" r="2.5" fill="white"/>
+          <circle cx="4" cy="7" r="1.5" fill="#1E1B4B"/>
+          <circle cx="3" cy="6" r="0.5" fill="white"/>
+          <path d="M-3,12 Q0,15 3,12" fill="none" stroke="#92400E" stroke-width="1"/>
+          <rect x="-12" y="20" width="24" height="26" rx="4" fill="#1D4ED8"/>
+          <rect x="-12" y="20" width="7" height="4" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="20" width="7" height="4" rx="1" fill="#FBBF24"/>
+          <!-- holding magnifying glass -->
+          <circle cx="-20" cy="26" r="7" fill="none" stroke="#D97706" stroke-width="2"/>
+          <line x1="-15" y1="31" x2="-10" y2="36" stroke="#D97706" stroke-width="2"/>
+          <rect x="-23" y="24" width="5" height="5" rx="2" fill="url(#cc3-cora-skin)"/>
+          <rect x="9" y="24" width="12" height="5" rx="2" fill="url(#cc3-cora-skin)"/>
+          <rect x="-9" y="44" width="7" height="12" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="44" width="7" height="12" rx="3" fill="#1E3A5F"/>
+        </g>
+        <!-- Legend box -->
+        <rect x="224" y="192" width="68" height="78" rx="6" fill="white" opacity="0.9" filter="url(#cc3-sh)"/>
+        <text x="258" y="204" text-anchor="middle" font-size="7" fill="#374151" font-weight="700">Artefacts</text>
+        <circle cx="232" cy="216" r="5" fill="url(#cc3-star)"/>
+        <text x="240" y="220" font-size="7" fill="#374151">Star (1,3)</text>
+        <circle cx="232" cy="232" r="5" fill="url(#cc3-gem)"/>
+        <text x="240" y="236" font-size="7" fill="#374151">Gem (4,6)</text>
+        <circle cx="232" cy="248" r="5" fill="#A7F3D0" stroke="#059669" stroke-width="1"/>
+        <text x="240" y="252" font-size="7" fill="#374151">Orb (3,5)</text>
+        <circle cx="232" cy="264" r="5" fill="#C4B5FD" stroke="#7C3AED" stroke-width="1"/>
+        <text x="240" y="268" font-size="7" fill="#374151">Gem (6,4)</text>
       </svg>
       <div class="illus-caption">Five artefacts hidden at secret coordinates</div>
     </div>
@@ -385,58 +544,116 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-4">
     <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--blue-dark);text-align:center;margin-bottom:6px;">Plotting (4, 5) — step by step</div>
-      <svg width="210" height="195" viewBox="0 0 210 195">
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="arrowP" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#0284C7"/></marker>
-          <marker id="arrowPg" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#059669"/></marker>
-          <marker id="arrowPr" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#DC2626"/></marker>
+          <radialGradient id="cc4-bg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#EFF6FF"/>
+            <stop offset="100%" stop-color="#BFDBFE"/>
+          </radialGradient>
+          <linearGradient id="cc4-grid-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="100%" stop-color="#FEF3C7"/>
+          </linearGradient>
+          <radialGradient id="cc4-nate-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="cc4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
         </defs>
-        <!-- Grid -->
-        <rect x="18" y="8" width="160" height="160" fill="white" opacity="0.4"/>
-        <line x1="38" y1="8" x2="38" y2="168" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="58" y1="8" x2="58" y2="168" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="78" y1="8" x2="78" y2="168" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="98" y1="8" x2="98" y2="168" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="118" y1="8" x2="118" y2="168" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="138" y1="8" x2="138" y2="168" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="158" y1="8" x2="158" y2="168" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="18" y1="148" x2="178" y2="148" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="18" y1="128" x2="178" y2="128" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="18" y1="108" x2="178" y2="108" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="18" y1="88" x2="178" y2="88" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="18" y1="68" x2="178" y2="68" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="18" y1="48" x2="178" y2="48" stroke="#DBEAFE" stroke-width="1"/>
-        <line x1="18" y1="28" x2="178" y2="28" stroke="#DBEAFE" stroke-width="1"/>
-        <!-- Axes -->
-        <line x1="18" y1="168" x2="180" y2="168" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrowP)"/>
-        <line x1="18" y1="168" x2="18" y2="5" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrowP)"/>
-        <!-- Labels -->
-        <text x="16" y="180" fill="#374151" font-size="9">0</text>
-        <text x="36" y="180" fill="#374151" font-size="9">1</text>
-        <text x="56" y="180" fill="#374151" font-size="9">2</text>
-        <text x="76" y="180" fill="#374151" font-size="9">3</text>
-        <text x="96" y="180" fill="#374151" font-size="9">4</text>
-        <text x="116" y="180" fill="#374151" font-size="9">5</text>
-        <text x="136" y="180" fill="#374151" font-size="9">6</text>
-        <text x="156" y="180" fill="#374151" font-size="9">7</text>
-        <text x="6" y="171" fill="#374151" font-size="9">0</text>
-        <text x="6" y="151" fill="#374151" font-size="9">1</text>
-        <text x="6" y="131" fill="#374151" font-size="9">2</text>
-        <text x="6" y="111" fill="#374151" font-size="9">3</text>
-        <text x="6" y="91" fill="#374151" font-size="9">4</text>
-        <text x="6" y="71" fill="#374151" font-size="9">5</text>
-        <text x="6" y="51" fill="#374151" font-size="9">6</text>
-        <text x="6" y="31" fill="#374151" font-size="9">7</text>
-        <!-- Step 1: arrow right to x=4 (98) -->
-        <path d="M18 168 L95 168" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowPr)"/>
-        <text x="52" y="163" fill="#DC2626" font-size="9" font-weight="700">4 right</text>
-        <!-- Step 2: arrow up to y=5 (68) -->
-        <path d="M98 168 L98 71" stroke="#059669" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowPg)"/>
-        <text x="101" y="120" fill="#059669" font-size="9" font-weight="700">5 up</text>
-        <!-- Point -->
-        <circle cx="98" cy="68" r="7" fill="#EF4444" stroke="white" stroke-width="2"/>
-        <text x="104" y="62" fill="#DC2626" font-size="11" font-weight="700">(4, 5)</text>
+        <rect width="300" height="280" fill="url(#cc4-bg)"/>
+        <!-- Grid map panel -->
+        <g filter="url(#cc4-sh)">
+          <rect x="16" y="16" width="200" height="200" rx="6" fill="url(#cc4-grid-bg)" stroke="#D97706" stroke-width="2"/>
+          <!-- Grid lines 0-7, each unit 25px, origin at (16, 216) -->
+          <line x1="41" y1="16" x2="41" y2="216" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="66" y1="16" x2="66" y2="216" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="91" y1="16" x2="91" y2="216" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="116" y1="16" x2="116" y2="216" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="141" y1="16" x2="141" y2="216" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="166" y1="16" x2="166" y2="216" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="191" y1="16" x2="191" y2="216" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="16" y1="191" x2="216" y2="191" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="16" y1="166" x2="216" y2="166" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="16" y1="141" x2="216" y2="141" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="16" y1="116" x2="216" y2="116" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="16" y1="91" x2="216" y2="91" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="16" y1="66" x2="216" y2="66" stroke="#DBEAFE" stroke-width="0.8"/>
+          <line x1="16" y1="41" x2="216" y2="41" stroke="#DBEAFE" stroke-width="0.8"/>
+          <!-- Axes -->
+          <line x1="16" y1="216" x2="216" y2="216" stroke="#0284C7" stroke-width="2.5"/>
+          <line x1="16" y1="216" x2="16" y2="16" stroke="#0284C7" stroke-width="2.5"/>
+          <polygon points="213,212 218,216 213,220" fill="#0284C7"/>
+          <polygon points="12,19 16,14 20,19" fill="#0284C7"/>
+          <!-- Axis labels -->
+          <text x="14" y="228" font-size="7" fill="#374151">0</text>
+          <text x="38" y="228" font-size="7" fill="#374151">1</text>
+          <text x="63" y="228" font-size="7" fill="#374151">2</text>
+          <text x="88" y="228" font-size="7" fill="#374151">3</text>
+          <text x="113" y="228" font-size="7" fill="#374151">4</text>
+          <text x="138" y="228" font-size="7" fill="#374151">5</text>
+          <text x="163" y="228" font-size="7" fill="#374151">6</text>
+          <text x="188" y="228" font-size="7" fill="#374151">7</text>
+          <text x="5" y="219" font-size="7" fill="#374151">0</text>
+          <text x="5" y="194" font-size="7" fill="#374151">1</text>
+          <text x="5" y="169" font-size="7" fill="#374151">2</text>
+          <text x="5" y="144" font-size="7" fill="#374151">3</text>
+          <text x="5" y="119" font-size="7" fill="#374151">4</text>
+          <text x="5" y="94" font-size="7" fill="#374151">5</text>
+          <text x="5" y="69" font-size="7" fill="#374151">6</text>
+          <text x="5" y="44" font-size="7" fill="#374151">7</text>
+          <!-- Step 1: right arrow from origin to x=4 (116,216) -->
+          <line x1="16" y1="213" x2="113" y2="213" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,3"/>
+          <polygon points="113,209 119,213 113,217" fill="#DC2626"/>
+          <text x="60" y="210" text-anchor="middle" font-size="8" fill="#DC2626" font-weight="700">4 right</text>
+          <!-- Step 2: up arrow from x=4 to y=5 (116,91) -->
+          <line x1="119" y1="213" x2="119" y2="94" stroke="#059669" stroke-width="2" stroke-dasharray="5,3"/>
+          <polygon points="115,94 119,88 123,94" fill="#059669"/>
+          <text x="128" y="155" font-size="8" fill="#059669" font-weight="700">5 up</text>
+          <!-- Final point (4,5): x=4→116, y=5→91 -->
+          <circle cx="116" cy="91" r="8" fill="#EF4444" stroke="white" stroke-width="2"/>
+          <text x="122" y="84" font-size="10" fill="#DC2626" font-weight="700">(4, 5)</text>
+          <!-- Steps summary box -->
+          <rect x="20" y="20" width="90" height="55" rx="5" fill="white" opacity="0.85"/>
+          <text x="65" y="32" text-anchor="middle" font-size="7" fill="#0284C7" font-weight="700">HOW TO PLOT</text>
+          <text x="25" y="44" font-size="7" fill="#374151">1. Start at origin</text>
+          <text x="25" y="55" font-size="7" fill="#DC2626">2. Move 4 right (x)</text>
+          <text x="25" y="66" font-size="7" fill="#059669">3. Move 5 up (y)</text>
+        </g>
+        <!-- Nate character plotting -->
+        <g filter="url(#cc4-sh)" transform="translate(260,140)">
+          <rect x="-14" y="-10" width="28" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-10" rx="12" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc4-nate-skin)"/>
+          <ellipse cx="-9" cy="4" rx="4" ry="7" fill="#1E1B4B"/>
+          <ellipse cx="9" cy="4" rx="4" ry="7" fill="#1E1B4B"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="-5" cy="7" r="0.5" fill="white"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="3" cy="7" r="0.5" fill="white"/>
+          <path d="M-3,12 Q0,15 3,12" fill="none" stroke="#D97706" stroke-width="1"/>
+          <rect x="-11" y="19" width="22" height="25" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <!-- Pencil arm pointing left -->
+          <rect x="-22" y="22" width="12" height="5" rx="2" fill="url(#cc4-nate-skin)"/>
+          <rect x="-37" y="20" width="3" height="10" rx="1" fill="#FBBF24"/>
+          <rect x="9" y="22" width="12" height="5" rx="2" fill="url(#cc4-nate-skin)"/>
+          <rect x="-8" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
+        <!-- Step badges -->
+        <rect x="224" y="208" width="68" height="64" rx="6" fill="white" opacity="0.9" filter="url(#cc4-sh)"/>
+        <text x="258" y="220" text-anchor="middle" font-size="7" fill="#374151" font-weight="700">Quick Steps</text>
+        <text x="228" y="233" font-size="7" fill="#DC2626">① Right x=4</text>
+        <text x="228" y="246" font-size="7" fill="#059669">② Up y=5</text>
+        <text x="228" y="259" font-size="7" fill="#374151">③ Mark (4,5)</text>
+        <circle cx="270" cy="256" r="6" fill="#EF4444"/>
+        <text x="270" y="259" text-anchor="middle" font-size="6" fill="white" font-weight="700">!</text>
       </svg>
       <div class="illus-caption">Start at origin → 4 right → 5 up → mark point</div>
     </div>
@@ -484,52 +701,110 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-5">
     <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--green-dark);text-align:center;margin-bottom:6px;">Rectangle from four coordinate vertices</div>
-      <svg width="210" height="195" viewBox="0 0 210 195">
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="arrowS" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#059669"/></marker>
+          <radialGradient id="cc5-bg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#A7F3D0"/>
+          </radialGradient>
+          <linearGradient id="cc5-grid-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="100%" stop-color="#FEF3C7"/>
+          </linearGradient>
+          <linearGradient id="cc5-rect-fill" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6EE7B7" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#059669" stop-opacity="0.3"/>
+          </linearGradient>
+          <radialGradient id="cc5-cora-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FECACA"/>
+            <stop offset="55%" stop-color="#FCA5A5"/>
+            <stop offset="100%" stop-color="#F87171"/>
+          </radialGradient>
+          <filter id="cc5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
         </defs>
-        <rect x="18" y="8" width="160" height="160" fill="white" opacity="0.4"/>
-        <line x1="38" y1="8" x2="38" y2="168" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="58" y1="8" x2="58" y2="168" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="78" y1="8" x2="78" y2="168" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="98" y1="8" x2="98" y2="168" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="118" y1="8" x2="118" y2="168" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="138" y1="8" x2="138" y2="168" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="158" y1="8" x2="158" y2="168" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="18" y1="148" x2="178" y2="148" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="18" y1="128" x2="178" y2="128" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="18" y1="108" x2="178" y2="108" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="18" y1="88" x2="178" y2="88" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="18" y1="68" x2="178" y2="68" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="18" y1="48" x2="178" y2="48" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="18" y1="28" x2="178" y2="28" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="18" y1="168" x2="180" y2="168" stroke="#059669" stroke-width="2" marker-end="url(#arrowS)"/>
-        <line x1="18" y1="168" x2="18" y2="5" stroke="#059669" stroke-width="2" marker-end="url(#arrowS)"/>
-        <!-- Labels -->
-        <text x="16" y="180" fill="#374151" font-size="9">0</text>
-        <text x="36" y="180" fill="#374151" font-size="9">1</text>
-        <text x="56" y="180" fill="#374151" font-size="9">2</text>
-        <text x="76" y="180" fill="#374151" font-size="9">3</text>
-        <text x="96" y="180" fill="#374151" font-size="9">4</text>
-        <text x="116" y="180" fill="#374151" font-size="9">5</text>
-        <text x="136" y="180" fill="#374151" font-size="9">6</text>
-        <text x="6" y="151" fill="#374151" font-size="9">1</text>
-        <text x="6" y="131" fill="#374151" font-size="9">2</text>
-        <text x="6" y="111" fill="#374151" font-size="9">3</text>
-        <text x="6" y="91" fill="#374151" font-size="9">4</text>
-        <!-- Rectangle: (1,1)(5,1)(5,3)(1,3) -->
-        <!-- x: 1→38, 5→118; y: 1→148, 3→108 -->
-        <rect x="38" y="108" width="80" height="40" fill="rgba(16,185,129,0.2)" stroke="#059669" stroke-width="2.5"/>
-        <!-- Vertices -->
-        <circle cx="38" cy="148" r="5" fill="#059669"/>
-        <text x="20" y="157" fill="#059669" font-size="9" font-weight="700">(1,1)</text>
-        <circle cx="118" cy="148" r="5" fill="#059669"/>
-        <text x="110" y="157" fill="#059669" font-size="9" font-weight="700">(5,1)</text>
-        <circle cx="118" cy="108" r="5" fill="#059669"/>
-        <text x="110" y="103" fill="#059669" font-size="9" font-weight="700">(5,3)</text>
-        <circle cx="38" cy="108" r="5" fill="#059669"/>
-        <text x="8" y="103" fill="#059669" font-size="9" font-weight="700">(1,3)</text>
+        <rect width="300" height="280" fill="url(#cc5-bg)"/>
+        <!-- Grid panel -->
+        <g filter="url(#cc5-sh)">
+          <rect x="16" y="16" width="200" height="200" rx="6" fill="url(#cc5-grid-bg)" stroke="#059669" stroke-width="1.5"/>
+          <!-- Grid lines 0-6, each unit 28px, origin at (16,216) -->
+          <line x1="44" y1="16" x2="44" y2="216" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="72" y1="16" x2="72" y2="216" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="100" y1="16" x2="100" y2="216" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="128" y1="16" x2="128" y2="216" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="156" y1="16" x2="156" y2="216" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="184" y1="16" x2="184" y2="216" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="16" y1="188" x2="216" y2="188" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="16" y1="160" x2="216" y2="160" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="16" y1="132" x2="216" y2="132" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="16" y1="104" x2="216" y2="104" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="16" y1="76" x2="216" y2="76" stroke="#A7F3D0" stroke-width="0.8"/>
+          <line x1="16" y1="48" x2="216" y2="48" stroke="#A7F3D0" stroke-width="0.8"/>
+          <!-- Axes -->
+          <line x1="16" y1="216" x2="216" y2="216" stroke="#059669" stroke-width="2.5"/>
+          <line x1="16" y1="216" x2="16" y2="16" stroke="#059669" stroke-width="2.5"/>
+          <polygon points="212,212 217,216 212,220" fill="#059669"/>
+          <polygon points="12,19 16,14 20,19" fill="#059669"/>
+          <!-- Axis labels -->
+          <text x="14" y="228" font-size="7" fill="#374151">0</text>
+          <text x="40" y="228" font-size="7" fill="#374151">1</text>
+          <text x="68" y="228" font-size="7" fill="#374151">2</text>
+          <text x="96" y="228" font-size="7" fill="#374151">3</text>
+          <text x="124" y="228" font-size="7" fill="#374151">4</text>
+          <text x="152" y="228" font-size="7" fill="#374151">5</text>
+          <text x="180" y="228" font-size="7" fill="#374151">6</text>
+          <text x="5" y="219" font-size="7" fill="#374151">0</text>
+          <text x="5" y="191" font-size="7" fill="#374151">1</text>
+          <text x="5" y="163" font-size="7" fill="#374151">2</text>
+          <text x="5" y="135" font-size="7" fill="#374151">3</text>
+          <text x="5" y="107" font-size="7" fill="#374151">4</text>
+          <!-- Rectangle (1,1)(5,1)(5,3)(1,3) -->
+          <!-- x=1→44, x=5→156; y=1→188, y=3→132 -->
+          <rect x="44" y="132" width="112" height="56" fill="url(#cc5-rect-fill)" stroke="#059669" stroke-width="2.5" stroke-dasharray="5,3"/>
+          <!-- Vertices -->
+          <circle cx="44" cy="188" r="7" fill="#059669" stroke="white" stroke-width="2"/>
+          <text x="28" y="200" font-size="9" fill="#059669" font-weight="700">(1,1)</text>
+          <circle cx="156" cy="188" r="7" fill="#059669" stroke="white" stroke-width="2"/>
+          <text x="142" y="200" font-size="9" fill="#059669" font-weight="700">(5,1)</text>
+          <circle cx="156" cy="132" r="7" fill="#059669" stroke="white" stroke-width="2"/>
+          <text x="158" y="128" font-size="9" fill="#059669" font-weight="700">(5,3)</text>
+          <circle cx="44" cy="132" r="7" fill="#059669" stroke="white" stroke-width="2"/>
+          <text x="8" y="128" font-size="9" fill="#059669" font-weight="700">(1,3)</text>
+          <!-- Dimension labels -->
+          <text x="100" y="210" text-anchor="middle" font-size="8" fill="#059669" font-weight="600">Width = 5−1 = 4 units</text>
+          <text x="165" y="162" font-size="7" fill="#059669" font-weight="600">H=2</text>
+          <!-- Area inside -->
+          <text x="100" y="163" text-anchor="middle" font-size="9" fill="#065F46" font-weight="700">A = 4 × 2 = 8 units²</text>
+        </g>
+        <!-- Cora character -->
+        <g filter="url(#cc5-sh)" transform="translate(260,145)">
+          <rect x="-14" y="-11" width="28" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-11" rx="12" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc5-cora-skin)"/>
+          <ellipse cx="-9" cy="4" rx="4" ry="8" fill="#92400E"/>
+          <ellipse cx="9" cy="4" rx="4" ry="8" fill="#92400E"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="-5" cy="7" r="0.5" fill="white"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="3" cy="7" r="0.5" fill="white"/>
+          <path d="M-3,12 Q0,15 3,12" fill="none" stroke="#92400E" stroke-width="1"/>
+          <rect x="-11" y="19" width="22" height="26" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="-21" y="22" width="12" height="5" rx="2" fill="url(#cc5-cora-skin)"/>
+          <rect x="9" y="22" width="12" height="5" rx="2" fill="url(#cc5-cora-skin)"/>
+          <rect x="-8" y="43" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="43" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
+        <!-- Info badge -->
+        <rect x="224" y="216" width="68" height="56" rx="6" fill="white" opacity="0.9" filter="url(#cc5-sh)"/>
+        <text x="258" y="228" text-anchor="middle" font-size="7" fill="#059669" font-weight="700">Rectangle</text>
+        <text x="228" y="241" font-size="7" fill="#374151">4 corners</text>
+        <text x="228" y="253" font-size="7" fill="#374151">W=4, H=2</text>
+        <text x="228" y="265" font-size="7" fill="#059669" font-weight="700">Area=8 sq</text>
       </svg>
       <div class="illus-caption">Rectangle with corners at (1,1), (5,1), (5,3), (1,3)</div>
     </div>
@@ -571,32 +846,118 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-6">
     <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--purple-dark);text-align:center;margin-bottom:6px;">Finding the midpoint between two points</div>
-      <svg width="220" height="180" viewBox="0 0 220 180">
-        <!-- Simple number line style midpoint diagram -->
-        <!-- Example 1: (2,4) and (6,4) midpoint (4,4) -->
-        <rect x="10" y="10" width="200" height="65" rx="6" fill="white" opacity="0.5"/>
-        <text x="15" y="26" fill="#6D28D9" font-size="10" font-weight="700">Midpoint of (2,4) and (6,4):</text>
-        <!-- Line -->
-        <line x1="20" y1="50" x2="190" y2="50" stroke="#8B5CF6" stroke-width="2"/>
-        <!-- Left point -->
-        <circle cx="60" cy="50" r="5" fill="#6D28D9"/>
-        <text x="44" y="44" fill="#6D28D9" font-size="9">(2, 4)</text>
-        <!-- Right point -->
-        <circle cx="150" cy="50" r="5" fill="#6D28D9"/>
-        <text x="134" y="44" fill="#6D28D9" font-size="9">(6, 4)</text>
-        <!-- Midpoint -->
-        <circle cx="105" cy="50" r="7" fill="#EF4444" stroke="white" stroke-width="2"/>
-        <text x="92" y="44" fill="#DC2626" font-size="9" font-weight="700">(4, 4)</text>
-        <text x="76" y="68" fill="#6D28D9" font-size="9">( (2+6)/2, (4+4)/2 ) = (4, 4)</text>
-
-        <!-- Example 2: (3,1) and (3,7) midpoint (3,4) -->
-        <rect x="10" y="85" width="200" height="85" rx="6" fill="white" opacity="0.5"/>
-        <text x="15" y="100" fill="#6D28D9" font-size="10" font-weight="700">Midpoint of (1,3) and (5,7):</text>
-        <text x="15" y="116" fill="#6D28D9" font-size="10">x: (1+5) ÷ 2 = 6 ÷ 2 = 3</text>
-        <text x="15" y="132" fill="#6D28D9" font-size="10">y: (3+7) ÷ 2 = 10 ÷ 2 = 5</text>
-        <rect x="30" y="140" width="160" height="24" rx="4" fill="#6D28D9"/>
-        <text x="110" y="156" text-anchor="middle" fill="white" font-size="12" font-weight="700">Midpoint = (3, 5)</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <radialGradient id="cc6-bg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#F5F3FF"/>
+            <stop offset="100%" stop-color="#DDD6FE"/>
+          </radialGradient>
+          <linearGradient id="cc6-grid-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="100%" stop-color="#FEF3C7"/>
+          </linearGradient>
+          <radialGradient id="cc6-nate-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="cc6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#cc6-bg)"/>
+        <!-- Grid panel -->
+        <g filter="url(#cc6-sh)">
+          <rect x="16" y="16" width="200" height="200" rx="6" fill="url(#cc6-grid-bg)" stroke="#8B5CF6" stroke-width="1.5"/>
+          <!-- Grid lines 0-7, each unit 25px, origin at (16,216) -->
+          <line x1="41" y1="16" x2="41" y2="216" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="66" y1="16" x2="66" y2="216" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="91" y1="16" x2="91" y2="216" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="116" y1="16" x2="116" y2="216" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="141" y1="16" x2="141" y2="216" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="166" y1="16" x2="166" y2="216" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="191" y1="16" x2="191" y2="216" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="16" y1="191" x2="216" y2="191" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="16" y1="166" x2="216" y2="166" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="16" y1="141" x2="216" y2="141" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="16" y1="116" x2="216" y2="116" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="16" y1="91" x2="216" y2="91" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="16" y1="66" x2="216" y2="66" stroke="#EDE9FE" stroke-width="0.8"/>
+          <line x1="16" y1="41" x2="216" y2="41" stroke="#EDE9FE" stroke-width="0.8"/>
+          <!-- Axes -->
+          <line x1="16" y1="216" x2="216" y2="216" stroke="#8B5CF6" stroke-width="2.5"/>
+          <line x1="16" y1="216" x2="16" y2="16" stroke="#8B5CF6" stroke-width="2.5"/>
+          <polygon points="212,212 217,216 212,220" fill="#8B5CF6"/>
+          <polygon points="12,19 16,14 20,19" fill="#8B5CF6"/>
+          <!-- Axis labels -->
+          <text x="14" y="228" font-size="7" fill="#374151">0</text>
+          <text x="38" y="228" font-size="7" fill="#374151">1</text>
+          <text x="63" y="228" font-size="7" fill="#374151">2</text>
+          <text x="88" y="228" font-size="7" fill="#374151">3</text>
+          <text x="113" y="228" font-size="7" fill="#374151">4</text>
+          <text x="138" y="228" font-size="7" fill="#374151">5</text>
+          <text x="163" y="228" font-size="7" fill="#374151">6</text>
+          <text x="188" y="228" font-size="7" fill="#374151">7</text>
+          <text x="5" y="219" font-size="7" fill="#374151">0</text>
+          <text x="5" y="194" font-size="7" fill="#374151">1</text>
+          <text x="5" y="169" font-size="7" fill="#374151">2</text>
+          <text x="5" y="144" font-size="7" fill="#374151">3</text>
+          <text x="5" y="119" font-size="7" fill="#374151">4</text>
+          <text x="5" y="94" font-size="7" fill="#374151">5</text>
+          <text x="5" y="69" font-size="7" fill="#374151">6</text>
+          <text x="5" y="44" font-size="7" fill="#374151">7</text>
+          <!-- Example 1: (2,4) and (6,4) — horizontal midpoint -->
+          <!-- x=2→66, x=6→166, y=4→116 -->
+          <line x1="66" y1="116" x2="166" y2="116" stroke="#8B5CF6" stroke-width="2"/>
+          <circle cx="66" cy="116" r="6" fill="#6D28D9" stroke="white" stroke-width="2"/>
+          <text x="60" y="108" font-size="8" fill="#6D28D9" font-weight="700">(2,4)</text>
+          <circle cx="166" cy="116" r="6" fill="#6D28D9" stroke="white" stroke-width="2"/>
+          <text x="158" y="108" font-size="8" fill="#6D28D9" font-weight="700">(6,4)</text>
+          <!-- Midpoint (4,4): x=4→116, y=4→116 -->
+          <circle cx="116" cy="116" r="8" fill="#EF4444" stroke="white" stroke-width="2"/>
+          <text x="120" y="107" font-size="9" fill="#DC2626" font-weight="700">(4,4)</text>
+          <!-- Midpoint label above -->
+          <text x="116" y="100" text-anchor="middle" font-size="7" fill="#DC2626">midpoint</text>
+          <!-- Example 2: (1,3) and (5,7) — diagonal midpoint -->
+          <!-- (1,3): x=41, y=141. (5,7): x=141, y=41 -->
+          <line x1="41" y1="141" x2="141" y2="41" stroke="#F97316" stroke-width="2" stroke-dasharray="5,3"/>
+          <circle cx="41" cy="141" r="6" fill="#F97316" stroke="white" stroke-width="2"/>
+          <text x="18" y="136" font-size="8" fill="#F97316" font-weight="700">(1,3)</text>
+          <circle cx="141" cy="41" r="6" fill="#F97316" stroke="white" stroke-width="2"/>
+          <text x="144" y="36" font-size="8" fill="#F97316" font-weight="700">(5,7)</text>
+          <!-- Midpoint of (1,3)+(5,7) = (3,5): x=91, y=91 -->
+          <circle cx="91" cy="91" r="8" fill="#EF4444" stroke="white" stroke-width="2"/>
+          <text x="95" y="83" font-size="9" fill="#DC2626" font-weight="700">(3,5)</text>
+          <text x="91" y="76" text-anchor="middle" font-size="7" fill="#DC2626">midpoint</text>
+        </g>
+        <!-- Formula box -->
+        <g filter="url(#cc6-sh)">
+          <rect x="16" y="234" width="200" height="38" rx="6" fill="white" opacity="0.95"/>
+          <text x="116" y="248" text-anchor="middle" font-size="8" fill="#6D28D9" font-weight="700">Midpoint = ((x₁+x₂)÷2, (y₁+y₂)÷2)</text>
+          <text x="116" y="263" text-anchor="middle" font-size="8" fill="#374151">(2+6)÷2=4, (4+4)÷2=4 → (4,4)</text>
+        </g>
+        <!-- Nate character -->
+        <g filter="url(#cc6-sh)" transform="translate(260,150)">
+          <rect x="-13" y="-10" width="26" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-10" rx="11" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc6-nate-skin)"/>
+          <ellipse cx="-9" cy="4" rx="4" ry="7" fill="#1E1B4B"/>
+          <ellipse cx="9" cy="4" rx="4" ry="7" fill="#1E1B4B"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="-5" cy="7" r="0.5" fill="white"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="3" cy="7" r="0.5" fill="white"/>
+          <path d="M-3,12 Q0,15 3,12" fill="none" stroke="#D97706" stroke-width="1"/>
+          <rect x="-11" y="19" width="22" height="25" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="-20" y="22" width="11" height="5" rx="2" fill="url(#cc6-nate-skin)"/>
+          <rect x="9" y="22" width="11" height="5" rx="2" fill="url(#cc6-nate-skin)"/>
+          <rect x="-8" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
       </svg>
       <div class="illus-caption">Average each coordinate to find the middle point</div>
     </div>
@@ -638,44 +999,115 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-7">
     <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--orange-dark);text-align:center;margin-bottom:6px;">Translating a triangle 4 right and 2 up</div>
-      <svg width="215" height="195" viewBox="0 0 215 195">
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="arrowT" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#F97316"/></marker>
+          <radialGradient id="cc7-bg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#FFF7ED"/>
+            <stop offset="100%" stop-color="#FED7AA"/>
+          </radialGradient>
+          <linearGradient id="cc7-grid-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="100%" stop-color="#FEF3C7"/>
+          </linearGradient>
+          <radialGradient id="cc7-cora-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FECACA"/>
+            <stop offset="55%" stop-color="#FCA5A5"/>
+            <stop offset="100%" stop-color="#F87171"/>
+          </radialGradient>
+          <filter id="cc7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
         </defs>
-        <rect x="15" y="5" width="195" height="175" fill="white" opacity="0.3"/>
-        <!-- Sparse grid -->
-        <line x1="35" y1="5" x2="35" y2="180" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="55" y1="5" x2="55" y2="180" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="75" y1="5" x2="75" y2="180" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="95" y1="5" x2="95" y2="180" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="115" y1="5" x2="115" y2="180" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="135" y1="5" x2="135" y2="180" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="155" y1="5" x2="155" y2="180" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="175" y1="5" x2="175" y2="180" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="15" y1="160" x2="210" y2="160" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="15" y1="140" x2="210" y2="140" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="15" y1="120" x2="210" y2="120" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="15" y1="100" x2="210" y2="100" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="15" y1="80" x2="210" y2="80" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="15" y1="60" x2="210" y2="60" stroke="#FED7AA" stroke-width="1"/>
-        <line x1="15" y1="40" x2="210" y2="40" stroke="#FED7AA" stroke-width="1"/>
-        <!-- Axes -->
-        <line x1="15" y1="180" x2="210" y2="180" stroke="#C2410C" stroke-width="2"/>
-        <line x1="15" y1="180" x2="15" y2="5" stroke="#C2410C" stroke-width="2"/>
-        <!-- Original triangle: (1,1)(3,1)(2,3) → x: 35,75,55; y: 160,160,120 -->
-        <polygon points="35,160 75,160 55,120" fill="rgba(249,115,22,0.3)" stroke="#F97316" stroke-width="2"/>
-        <text x="35" y="174" fill="#C2410C" font-size="8">(1,1)</text>
-        <text x="68" y="174" fill="#C2410C" font-size="8">(3,1)</text>
-        <text x="40" y="116" fill="#C2410C" font-size="8">(2,3)</text>
-        <!-- Translated triangle: (5,3)(7,3)(6,5) → x: 115,155,135; y: 120,120,80 -->
-        <polygon points="115,120 155,120 135,80" fill="rgba(249,115,22,0.7)" stroke="#C2410C" stroke-width="2"/>
-        <text x="107" y="134" fill="#C2410C" font-size="8">(5,3)</text>
-        <text x="147" y="134" fill="#C2410C" font-size="8">(7,3)</text>
-        <text x="128" y="75" fill="#C2410C" font-size="8">(6,5)</text>
-        <!-- Translation arrow -->
-        <path d="M55 140 L115 100" stroke="#F97316" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowT)"/>
-        <text x="72" y="115" fill="#C2410C" font-size="9" font-weight="700">+4, +2</text>
+        <rect width="300" height="280" fill="url(#cc7-bg)"/>
+        <!-- Grid panel -->
+        <g filter="url(#cc7-sh)">
+          <rect x="16" y="16" width="200" height="200" rx="6" fill="url(#cc7-grid-bg)" stroke="#F97316" stroke-width="1.5"/>
+          <!-- Grid lines 0-8, each unit 22px, origin at (16,216) -->
+          <line x1="38" y1="16" x2="38" y2="216" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="60" y1="16" x2="60" y2="216" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="82" y1="16" x2="82" y2="216" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="104" y1="16" x2="104" y2="216" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="126" y1="16" x2="126" y2="216" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="148" y1="16" x2="148" y2="216" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="170" y1="16" x2="170" y2="216" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="192" y1="16" x2="192" y2="216" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="16" y1="194" x2="216" y2="194" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="16" y1="172" x2="216" y2="172" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="16" y1="150" x2="216" y2="150" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="16" y1="128" x2="216" y2="128" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="16" y1="106" x2="216" y2="106" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="16" y1="84" x2="216" y2="84" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="16" y1="62" x2="216" y2="62" stroke="#FED7AA" stroke-width="0.7"/>
+          <line x1="16" y1="40" x2="216" y2="40" stroke="#FED7AA" stroke-width="0.7"/>
+          <!-- Axes -->
+          <line x1="16" y1="216" x2="216" y2="216" stroke="#C2410C" stroke-width="2"/>
+          <line x1="16" y1="216" x2="16" y2="16" stroke="#C2410C" stroke-width="2"/>
+          <!-- Axis labels (0-8) -->
+          <text x="14" y="228" font-size="6.5" fill="#374151">0</text>
+          <text x="35" y="228" font-size="6.5" fill="#374151">1</text>
+          <text x="57" y="228" font-size="6.5" fill="#374151">2</text>
+          <text x="79" y="228" font-size="6.5" fill="#374151">3</text>
+          <text x="101" y="228" font-size="6.5" fill="#374151">4</text>
+          <text x="123" y="228" font-size="6.5" fill="#374151">5</text>
+          <text x="145" y="228" font-size="6.5" fill="#374151">6</text>
+          <text x="167" y="228" font-size="6.5" fill="#374151">7</text>
+          <text x="5" y="219" font-size="6.5" fill="#374151">0</text>
+          <text x="5" y="197" font-size="6.5" fill="#374151">1</text>
+          <text x="5" y="175" font-size="6.5" fill="#374151">2</text>
+          <text x="5" y="153" font-size="6.5" fill="#374151">3</text>
+          <text x="5" y="131" font-size="6.5" fill="#374151">4</text>
+          <text x="5" y="109" font-size="6.5" fill="#374151">5</text>
+          <!-- Original triangle: (1,1)(3,1)(2,3) → SVG x=x*22+16, y=216-y*22 -->
+          <!-- (1,1)→(38,194); (3,1)→(82,194); (2,3)→(60,150) -->
+          <polygon points="38,194 82,194 60,150" fill="#F97316" fill-opacity="0.3" stroke="#F97316" stroke-width="2"/>
+          <text x="28" y="207" font-size="7" fill="#C2410C" font-weight="700">(1,1)</text>
+          <text x="74" y="207" font-size="7" fill="#C2410C" font-weight="700">(3,1)</text>
+          <text x="40" y="146" font-size="7" fill="#C2410C" font-weight="700">(2,3)</text>
+          <!-- Translated triangle: +4 right, +2 up → (5,3)(7,3)(6,5) -->
+          <!-- (5,3)→(126,150); (7,3)→(170,150); (6,5)→(148,106) -->
+          <polygon points="126,150 170,150 148,106" fill="#F97316" fill-opacity="0.8" stroke="#C2410C" stroke-width="2"/>
+          <text x="116" y="163" font-size="7" fill="#C2410C" font-weight="700">(5,3)</text>
+          <text x="162" y="163" font-size="7" fill="#C2410C" font-weight="700">(7,3)</text>
+          <text x="150" y="102" font-size="7" fill="#C2410C" font-weight="700">(6,5)</text>
+          <!-- Translation arrow (centroid to centroid roughly) -->
+          <line x1="60" y1="175" x2="140" y2="135" stroke="#F97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+          <polygon points="135,131 143,131 139,139" fill="#F97316"/>
+          <text x="85" y="148" font-size="8" fill="#C2410C" font-weight="700">+4, +2</text>
+          <!-- Vector box -->
+          <rect x="18" y="18" width="80" height="28" rx="4" fill="white" opacity="0.85"/>
+          <text x="58" y="28" text-anchor="middle" font-size="7" fill="#C2410C" font-weight="700">Translation</text>
+          <text x="58" y="40" text-anchor="middle" font-size="7" fill="#F97316">+4 right, +2 up</text>
+        </g>
+        <!-- Cora character -->
+        <g filter="url(#cc7-sh)" transform="translate(260,145)">
+          <rect x="-14" y="-11" width="28" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-11" rx="12" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc7-cora-skin)"/>
+          <ellipse cx="-9" cy="4" rx="4" ry="8" fill="#92400E"/>
+          <ellipse cx="9" cy="4" rx="4" ry="8" fill="#92400E"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="-5" cy="7" r="0.5" fill="white"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="3" cy="7" r="0.5" fill="white"/>
+          <path d="M-3,12 Q0,15 3,12" fill="none" stroke="#92400E" stroke-width="1"/>
+          <rect x="-11" y="19" width="22" height="25" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="-21" y="22" width="12" height="5" rx="2" fill="url(#cc7-cora-skin)"/>
+          <rect x="9" y="22" width="12" height="5" rx="2" fill="url(#cc7-cora-skin)"/>
+          <rect x="-8" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
+        <!-- Info badge -->
+        <rect x="225" y="195" width="68" height="75" rx="6" fill="white" opacity="0.9" filter="url(#cc7-sh)"/>
+        <text x="259" y="207" text-anchor="middle" font-size="7" fill="#C2410C" font-weight="700">Translation</text>
+        <text x="229" y="220" font-size="7" fill="#374151">Slides shape</text>
+        <text x="229" y="232" font-size="7" fill="#374151">Same size</text>
+        <text x="229" y="244" font-size="7" fill="#374151">Same angle</text>
+        <text x="229" y="256" font-size="7" fill="#F97316" font-weight="700">x+4, y+2</text>
+        <text x="229" y="265" font-size="7" fill="#374151">for ALL pts</text>
       </svg>
       <div class="illus-caption">Every point moves by the same vector (4 right, 2 up)</div>
     </div>
@@ -716,43 +1148,100 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-8">
     <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--green-dark);text-align:center;margin-bottom:6px;">Reflection across the y-axis and x-axis</div>
-      <svg width="215" height="185" viewBox="0 0 215 185">
-        <!-- Reflection diagram — showing both axes, positive quadrant only for simplicity -->
-        <rect x="10" y="5" width="200" height="170" fill="white" opacity="0.4"/>
-        <!-- Grid -->
-        <line x1="30" y1="5" x2="30" y2="175" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="70" y1="5" x2="70" y2="175" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="110" y1="5" x2="110" y2="175" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="150" y1="5" x2="150" y2="175" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="190" y1="5" x2="190" y2="175" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="10" y1="45" x2="210" y2="45" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="10" y1="85" x2="210" y2="85" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="10" y1="125" x2="210" y2="125" stroke="#A7F3D0" stroke-width="1"/>
-        <line x1="10" y1="165" x2="210" y2="165" stroke="#A7F3D0" stroke-width="1"/>
-        <!-- y-axis (reflection line) bold -->
-        <line x1="110" y1="5" x2="110" y2="175" stroke="#059669" stroke-width="3" stroke-dasharray="6,3"/>
-        <text x="112" y="16" fill="#059669" font-size="10" font-weight="700">y-axis</text>
-        <!-- x-axis (reflection line) bold below -->
-        <line x1="10" y1="125" x2="210" y2="125" stroke="#3B82F6" stroke-width="2" stroke-dasharray="6,3"/>
-        <text x="158" y="122" fill="#3B82F6" font-size="10" font-weight="700">x-axis</text>
-        <!-- Original point (3,2) in upper right: x=3→3×40+10=130, y=2 up from x-axis→125-2×40=45 -->
-        <circle cx="150" cy="45" r="6" fill="#F97316" stroke="white" stroke-width="2"/>
-        <text x="153" y="40" fill="#C2410C" font-size="10" font-weight="700">(3,2)</text>
-        <!-- Reflected in y-axis: (-3,2) → x=110-40=70 -->
-        <circle cx="70" cy="45" r="6" fill="#EF4444" stroke="white" stroke-width="2" stroke-dasharray="3,2"/>
-        <text x="28" y="40" fill="#DC2626" font-size="10" font-weight="700">(−3,2)</text>
-        <!-- Arrow between them -->
-        <path d="M140 45 L80 45" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowRefG)"/>
-        <!-- Reflected in x-axis: (3,-2) → y=125+40=165 -->
-        <circle cx="150" cy="165" r="6" fill="#6D28D9" stroke="white" stroke-width="2" stroke-dasharray="3,2"/>
-        <text x="153" y="178" fill="#6D28D9" font-size="10" font-weight="700">(3,−2)</text>
-        <!-- Arrow -->
-        <path d="M150 55 L150 155" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowRefB)"/>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="arrowRefG" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#059669"/></marker>
-          <marker id="arrowRefB" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3B82F6"/></marker>
+          <radialGradient id="cc8-bg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#F0FDF4"/>
+            <stop offset="100%" stop-color="#BBF7D0"/>
+          </radialGradient>
+          <linearGradient id="cc8-grid-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F8FAFC"/>
+            <stop offset="100%" stop-color="#F0FDF4"/>
+          </linearGradient>
+          <radialGradient id="cc8-nate-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="cc8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
         </defs>
+        <rect width="300" height="280" fill="url(#cc8-bg)"/>
+        <!-- Grid panel with 4-quadrant feel (but only positive for simplicity) -->
+        <g filter="url(#cc8-sh)">
+          <rect x="16" y="16" width="205" height="205" rx="6" fill="url(#cc8-grid-bg)" stroke="#059669" stroke-width="1.5"/>
+          <!-- Grid lines (each cell 40px, centre at ~116,116) -->
+          <line x1="36" y1="16" x2="36" y2="221" stroke="#A7F3D0" stroke-width="0.7"/>
+          <line x1="76" y1="16" x2="76" y2="221" stroke="#A7F3D0" stroke-width="0.7"/>
+          <line x1="116" y1="16" x2="116" y2="221" stroke="#059669" stroke-width="2" stroke-dasharray="6,4"/>
+          <line x1="156" y1="16" x2="156" y2="221" stroke="#A7F3D0" stroke-width="0.7"/>
+          <line x1="196" y1="16" x2="196" y2="221" stroke="#A7F3D0" stroke-width="0.7"/>
+          <line x1="16" y1="36" x2="221" y2="36" stroke="#A7F3D0" stroke-width="0.7"/>
+          <line x1="16" y1="76" x2="221" y2="76" stroke="#A7F3D0" stroke-width="0.7"/>
+          <line x1="16" y1="116" x2="221" y2="116" stroke="#3B82F6" stroke-width="2" stroke-dasharray="6,4"/>
+          <line x1="16" y1="156" x2="221" y2="156" stroke="#A7F3D0" stroke-width="0.7"/>
+          <line x1="16" y1="196" x2="221" y2="196" stroke="#A7F3D0" stroke-width="0.7"/>
+          <!-- Axis labels -->
+          <text x="110" y="13" font-size="9" fill="#059669" font-weight="700">y-axis</text>
+          <text x="166" y="113" font-size="9" fill="#3B82F6" font-weight="700">x-axis</text>
+          <!-- Original point (3,2) — quadrant I: x=3→156, y=2→76 (from x-axis centre at y=116, each unit=40, so y=116-2*40=36...
+               Let's say x-axis is at y=116, y-axis at x=116; scale=20px/unit
+               (3,2): x=116+3*20=176, y=116-2*20=76 -->
+          <circle cx="176" cy="76" r="8" fill="#F97316" stroke="white" stroke-width="2"/>
+          <text x="180" y="70" font-size="9" fill="#C2410C" font-weight="700">(3,2)</text>
+          <text x="180" y="80" font-size="7" fill="#C2410C">original</text>
+          <!-- Reflected across y-axis: (-3,2): x=116-3*20=56, y=76 -->
+          <circle cx="56" cy="76" r="8" fill="#EF4444" stroke="white" stroke-width="2" opacity="0.75"/>
+          <text x="18" y="70" font-size="9" fill="#DC2626" font-weight="700">(−3,2)</text>
+          <!-- Arrow between them (y-axis reflection) -->
+          <line x1="165" y1="76" x2="67" y2="76" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <polygon points="67,72 57,76 67,80" fill="#059669"/>
+          <text x="116" y="72" text-anchor="middle" font-size="7" fill="#059669" font-weight="700">reflect y-axis</text>
+          <!-- Reflected across x-axis: (3,-2): x=176, y=116+2*20=156 -->
+          <circle cx="176" cy="156" r="8" fill="#6D28D9" stroke="white" stroke-width="2" opacity="0.75"/>
+          <text x="180" y="165" font-size="9" fill="#6D28D9" font-weight="700">(3,−2)</text>
+          <!-- Arrow for x-axis reflection -->
+          <line x1="176" y1="87" x2="176" y2="145" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <polygon points="172,145 176,155 180,145" fill="#3B82F6"/>
+          <text x="182" y="118" font-size="7" fill="#3B82F6" font-weight="700">reflect</text>
+          <text x="182" y="128" font-size="7" fill="#3B82F6" font-weight="700">x-axis</text>
+          <!-- Rules box -->
+          <rect x="18" y="190" width="198" height="28" rx="5" fill="white" opacity="0.85"/>
+          <text x="117" y="202" text-anchor="middle" font-size="7" fill="#059669" font-weight="700">y-axis: x changes sign (3,2)→(−3,2)</text>
+          <text x="117" y="213" text-anchor="middle" font-size="7" fill="#3B82F6" font-weight="700">x-axis: y changes sign (3,2)→(3,−2)</text>
+        </g>
+        <!-- Nate character -->
+        <g filter="url(#cc8-sh)" transform="translate(260,140)">
+          <rect x="-13" y="-10" width="26" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-10" rx="11" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc8-nate-skin)"/>
+          <ellipse cx="-9" cy="4" rx="4" ry="7" fill="#1E1B4B"/>
+          <ellipse cx="9" cy="4" rx="4" ry="7" fill="#1E1B4B"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="-5" cy="7" r="0.5" fill="white"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="3" cy="7" r="0.5" fill="white"/>
+          <path d="M-3,12 Q0,15 3,12" fill="none" stroke="#D97706" stroke-width="1"/>
+          <rect x="-11" y="19" width="22" height="25" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="-20" y="22" width="11" height="5" rx="2" fill="url(#cc8-nate-skin)"/>
+          <rect x="9" y="22" width="11" height="5" rx="2" fill="url(#cc8-nate-skin)"/>
+          <rect x="-8" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
+        <!-- Mirror icon -->
+        <rect x="224" y="215" width="68" height="60" rx="6" fill="white" opacity="0.9" filter="url(#cc8-sh)"/>
+        <text x="258" y="227" text-anchor="middle" font-size="7" fill="#374151" font-weight="700">Mirror Rules</text>
+        <circle cx="235" cy="240" r="5" fill="#F97316"/>
+        <text x="243" y="243" font-size="7" fill="#374151">(3,2) orig</text>
+        <circle cx="235" cy="254" r="5" fill="#EF4444" opacity="0.75"/>
+        <text x="243" y="257" font-size="7" fill="#DC2626">(−3,2) y</text>
+        <circle cx="235" cy="268" r="5" fill="#6D28D9" opacity="0.75"/>
+        <text x="243" y="271" font-size="7" fill="#6D28D9">(3,−2) x</text>
       </svg>
       <div class="illus-caption">Reflecting changes the sign of one coordinate</div>
     </div>
@@ -794,56 +1283,129 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-9">
     <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
       <div class="page-num-illus">Page 9</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--blue-dark);text-align:center;margin-bottom:6px;">A coordinate path — navigating to the final artefact</div>
-      <svg width="215" height="195" viewBox="0 0 215 195">
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="arrowPath" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#0284C7"/></marker>
+          <radialGradient id="cc9-bg" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#EFF6FF"/>
+            <stop offset="100%" stop-color="#BFDBFE"/>
+          </radialGradient>
+          <linearGradient id="cc9-grid-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="100%" stop-color="#FEF3C7"/>
+          </linearGradient>
+          <radialGradient id="cc9-compass" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="100%" stop-color="#FBBF24"/>
+          </radialGradient>
+          <radialGradient id="cc9-cora-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FECACA"/>
+            <stop offset="55%" stop-color="#FCA5A5"/>
+            <stop offset="100%" stop-color="#F87171"/>
+          </radialGradient>
+          <filter id="cc9-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="cc9-glow">
+            <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#FBBF24" flood-opacity="0.8"/>
+          </filter>
         </defs>
-        <!-- 10×10 grid (compact) -->
-        <rect x="15" y="5" width="190" height="175" fill="white" opacity="0.3"/>
-        <!-- Every 19px = 1 unit -->
-        <line x1="15" y1="180" x2="205" y2="180" stroke="#0284C7" stroke-width="2"/>
-        <line x1="15" y1="180" x2="15" y2="5" stroke="#0284C7" stroke-width="2"/>
-        <!-- Grid lines -->
-        <line x1="34" y1="5" x2="34" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="53" y1="5" x2="53" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="72" y1="5" x2="72" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="91" y1="5" x2="91" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="110" y1="5" x2="110" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="129" y1="5" x2="129" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="148" y1="5" x2="148" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="167" y1="5" x2="167" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="186" y1="5" x2="186" y2="180" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="15" y1="161" x2="205" y2="161" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="15" y1="142" x2="205" y2="142" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="15" y1="123" x2="205" y2="123" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="15" y1="104" x2="205" y2="104" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="15" y1="85" x2="205" y2="85" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="15" y1="66" x2="205" y2="66" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="15" y1="47" x2="205" y2="47" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="15" y1="28" x2="205" y2="28" stroke="#BFDBFE" stroke-width="1"/>
-        <!-- Axis labels -->
-        <text x="12" y="192" fill="#374151" font-size="8">0</text>
-        <text x="32" y="192" fill="#374151" font-size="8">1</text>
-        <text x="51" y="192" fill="#374151" font-size="8">2</text>
-        <text x="70" y="192" fill="#374151" font-size="8">3</text>
-        <text x="89" y="192" fill="#374151" font-size="8">4</text>
-        <text x="108" y="192" fill="#374151" font-size="8">5</text>
-        <!-- Path: (0,0)→(3,2)→(7,2)→(7,8)→(5,5) -->
-        <!-- Units: x*19+15, y: 180-y*19 -->
-        <!-- (0,0)=15,180 (3,2)=72,142 (7,2)=148,142 (7,8)=148,28 (5,5)=110,85 -->
-        <polyline points="15,180 72,142 148,142 148,28 110,85" fill="none" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrowPath)"/>
-        <!-- Points -->
-        <circle cx="15" cy="180" r="5" fill="#059669"/>
-        <text x="18" y="175" fill="#059669" font-size="8" font-weight="700">Start (0,0)</text>
-        <circle cx="72" cy="142" r="4" fill="#0284C7"/>
-        <text x="55" y="137" fill="#0284C7" font-size="8">(3,2)</text>
-        <circle cx="148" cy="142" r="4" fill="#0284C7"/>
-        <text x="150" y="137" fill="#0284C7" font-size="8">(7,2)</text>
-        <circle cx="148" cy="28" r="4" fill="#0284C7"/>
-        <text x="150" y="24" fill="#0284C7" font-size="8">(7,8)</text>
-        <circle cx="110" cy="85" r="7" fill="#F59E0B" stroke="white" stroke-width="2"/>
-        <text x="113" y="80" fill="#92400E" font-size="8" font-weight="700">(5,5) ★</text>
+        <rect width="300" height="280" fill="url(#cc9-bg)"/>
+        <!-- Grid panel: 10×9 grid, unit=20px, origin at (16,196) -->
+        <g filter="url(#cc9-sh)">
+          <rect x="16" y="16" width="205" height="195" rx="6" fill="url(#cc9-grid-bg)" stroke="#0284C7" stroke-width="1.5"/>
+          <!-- Grid lines vertical x=1..9 -->
+          <line x1="36" y1="16" x2="36" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="56" y1="16" x2="56" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="76" y1="16" x2="76" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="96" y1="16" x2="96" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="116" y1="16" x2="116" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="136" y1="16" x2="136" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="156" y1="16" x2="156" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="176" y1="16" x2="176" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="196" y1="16" x2="196" y2="211" stroke="#BFDBFE" stroke-width="0.7"/>
+          <!-- Grid lines horizontal y=1..8 -->
+          <line x1="16" y1="191" x2="221" y2="191" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="16" y1="171" x2="221" y2="171" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="16" y1="151" x2="221" y2="151" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="16" y1="131" x2="221" y2="131" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="16" y1="111" x2="221" y2="111" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="16" y1="91" x2="221" y2="91" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="16" y1="71" x2="221" y2="71" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="16" y1="51" x2="221" y2="51" stroke="#BFDBFE" stroke-width="0.7"/>
+          <line x1="16" y1="31" x2="221" y2="31" stroke="#BFDBFE" stroke-width="0.7"/>
+          <!-- Axes -->
+          <line x1="16" y1="211" x2="221" y2="211" stroke="#0284C7" stroke-width="2.5"/>
+          <line x1="16" y1="211" x2="16" y2="16" stroke="#0284C7" stroke-width="2.5"/>
+          <polygon points="217,207 222,211 217,215" fill="#0284C7"/>
+          <polygon points="12,19 16,14 20,19" fill="#0284C7"/>
+          <!-- Axis labels -->
+          <text x="14" y="223" font-size="7" fill="#374151">0</text>
+          <text x="33" y="223" font-size="7" fill="#374151">1</text>
+          <text x="53" y="223" font-size="7" fill="#374151">2</text>
+          <text x="73" y="223" font-size="7" fill="#374151">3</text>
+          <text x="93" y="223" font-size="7" fill="#374151">4</text>
+          <text x="113" y="223" font-size="7" fill="#374151">5</text>
+          <text x="133" y="223" font-size="7" fill="#374151">6</text>
+          <text x="153" y="223" font-size="7" fill="#374151">7</text>
+          <text x="173" y="223" font-size="7" fill="#374151">8</text>
+          <text x="5" y="214" font-size="7" fill="#374151">0</text>
+          <text x="5" y="194" font-size="7" fill="#374151">1</text>
+          <text x="5" y="174" font-size="7" fill="#374151">2</text>
+          <text x="5" y="134" font-size="7" fill="#374151">4</text>
+          <text x="5" y="94" font-size="7" fill="#374151">6</text>
+          <text x="5" y="74" font-size="7" fill="#374151">7</text>
+          <text x="5" y="54" font-size="7" fill="#374151">8</text>
+          <!-- Path: (0,0)→(3,2)→(7,2)→(7,8)→(5,5) scaled x*20+16, y: 211-y*20 -->
+          <!-- (0,0)=16,211 (3,2)=76,171 (7,2)=156,171 (7,8)=156,51 (5,5)=116,111 -->
+          <polyline points="16,211 76,171 156,171 156,51 116,111" fill="none" stroke="#0284C7" stroke-width="3"/>
+          <polygon points="112,107 116,99 120,107" fill="#0284C7"/>
+          <!-- Waypoints -->
+          <circle cx="16" cy="211" r="6" fill="#059669" stroke="white" stroke-width="2"/>
+          <text x="20" y="206" font-size="7" fill="#059669" font-weight="700">Start</text>
+          <text x="20" y="215" font-size="7" fill="#059669">(0,0)</text>
+          <circle cx="76" cy="171" r="5" fill="#0284C7" stroke="white" stroke-width="2"/>
+          <text x="55" y="166" font-size="7" fill="#0284C7" font-weight="700">(3,2)</text>
+          <circle cx="156" cy="171" r="5" fill="#0284C7" stroke="white" stroke-width="2"/>
+          <text x="158" y="166" font-size="7" fill="#0284C7" font-weight="700">(7,2)</text>
+          <circle cx="156" cy="51" r="5" fill="#0284C7" stroke="white" stroke-width="2"/>
+          <text x="158" y="47" font-size="7" fill="#0284C7" font-weight="700">(7,8)</text>
+          <!-- Final treasure point (5,5) with glow -->
+          <circle cx="116" cy="111" r="10" fill="url(#cc9-compass)" stroke="white" stroke-width="2" filter="url(#cc9-glow)"/>
+          <text x="120" y="104" font-size="8" fill="#92400E" font-weight="700">(5,5) ✦</text>
+          <text x="116" y="124" text-anchor="middle" font-size="7" fill="#92400E" font-weight="700">ARTEFACT!</text>
+        </g>
+        <!-- Compass rose on right -->
+        <g transform="translate(255,75)" filter="url(#cc9-sh)">
+          <circle cx="0" cy="0" r="26" fill="white" opacity="0.9"/>
+          <polygon points="0,-20 4,-5 0,-10 -4,-5" fill="#DC2626"/>
+          <polygon points="0,20 4,5 0,10 -4,5" fill="#374151"/>
+          <polygon points="-20,0 -5,-4 -10,0 -5,4" fill="#374151"/>
+          <polygon points="20,0 5,-4 10,0 5,4" fill="#374151"/>
+          <text x="0" y="-12" text-anchor="middle" font-size="8" fill="#DC2626" font-weight="700">N</text>
+          <circle cx="0" cy="0" r="4" fill="white" stroke="#374151" stroke-width="1"/>
+        </g>
+        <!-- Cora character -->
+        <g filter="url(#cc9-sh)" transform="translate(260,180)">
+          <rect x="-14" y="-11" width="28" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-11" rx="12" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc9-cora-skin)"/>
+          <ellipse cx="-9" cy="4" rx="4" ry="8" fill="#92400E"/>
+          <ellipse cx="9" cy="4" rx="4" ry="8" fill="#92400E"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="-5" cy="7" r="0.5" fill="white"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="3" cy="7" r="0.5" fill="white"/>
+          <path d="M-4,13 Q0,16 4,13" fill="none" stroke="#92400E" stroke-width="1.2"/>
+          <rect x="-11" y="19" width="22" height="25" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="-21" y="22" width="12" height="5" rx="2" fill="url(#cc9-cora-skin)"/>
+          <rect x="9" y="22" width="12" height="5" rx="2" fill="url(#cc9-cora-skin)"/>
+          <rect x="-8" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
       </svg>
       <div class="illus-caption">Follow the coordinate path to the final artefact</div>
     </div>
@@ -884,30 +1446,155 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <!-- PAGE 10 – MISSION COMPLETE -->
   <div class="book-page" id="page-10">
     <div class="illustration" style="background:linear-gradient(135deg,#0284C7,#6D28D9);">
-      <div class="page-num-illus">Page 10</div>
-      <div style="font-size:1.8rem;text-align:center;margin-bottom:10px;">👩‍✈️ 🧑‍✈️ 🗺️</div>
-      <div style="background:rgba(255,255,255,.15);border-radius:14px;padding:14px;width:90%;text-align:center;">
-        <div style="font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:white;margin-bottom:8px;">9 Artefacts Recovered!</div>
-        <!-- Mini grid with all points -->
-        <svg width="160" height="130" viewBox="0 0 160 130">
-          <rect x="5" y="5" width="150" height="115" fill="rgba(255,255,255,0.1)" rx="4"/>
-          <line x1="5" y1="120" x2="155" y2="120" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
-          <line x1="5" y1="120" x2="5" y2="5" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
-          <!-- 9 artefact dots -->
-          <circle cx="25" cy="100" r="4" fill="#FBBF24"/>
-          <circle cx="50" cy="60" r="4" fill="#34D399"/>
-          <circle cx="90" cy="90" r="4" fill="#F87171"/>
-          <circle cx="70" cy="45" r="4" fill="#60A5FA"/>
-          <circle cx="110" cy="75" r="4" fill="#A78BFA"/>
-          <circle cx="35" cy="75" r="4" fill="#FB923C"/>
-          <circle cx="120" cy="35" r="4" fill="#34D399"/>
-          <circle cx="80" cy="55" r="4" fill="#F472B6"/>
-          <circle cx="55" cy="105" r="4" fill="#FBBF24"/>
-          <text x="83" y="125" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="9">All 9 artefact locations</text>
-        </svg>
-      </div>
-      <div style="font-size:2rem;margin-top:10px;">🧭 📍 🏆</div>
-      <div class="illus-caption">Navigation complete — every artefact found!</div>
+      <div class="page-num-illus" style="color:white;">Page 10</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <radialGradient id="cc10-sky" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#1D4ED8"/>
+            <stop offset="100%" stop-color="#6D28D9"/>
+          </radialGradient>
+          <radialGradient id="cc10-trophy" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="cc10-compass" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#E0F2FE"/>
+            <stop offset="50%" stop-color="#7DD3FC"/>
+            <stop offset="100%" stop-color="#0284C7"/>
+          </radialGradient>
+          <radialGradient id="cc10-cora-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FECACA"/>
+            <stop offset="55%" stop-color="#FCA5A5"/>
+            <stop offset="100%" stop-color="#F87171"/>
+          </radialGradient>
+          <radialGradient id="cc10-nate-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="cc10-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="cc10-glow">
+            <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#FBBF24" flood-opacity="0.9"/>
+          </filter>
+        </defs>
+        <!-- Deep blue/purple sky background -->
+        <rect width="300" height="280" fill="url(#cc10-sky)"/>
+        <!-- Stars in sky -->
+        <circle cx="25" cy="20" r="2" fill="white" opacity="0.7"/>
+        <circle cx="60" cy="10" r="1.5" fill="white" opacity="0.6"/>
+        <circle cx="100" cy="25" r="2" fill="white" opacity="0.7"/>
+        <circle cx="140" cy="8" r="1.5" fill="white" opacity="0.5"/>
+        <circle cx="200" cy="18" r="2" fill="white" opacity="0.7"/>
+        <circle cx="240" cy="30" r="1.5" fill="white" opacity="0.6"/>
+        <circle cx="280" cy="12" r="2" fill="white" opacity="0.7"/>
+        <circle cx="45" cy="40" r="1.5" fill="white" opacity="0.5"/>
+        <circle cx="170" cy="35" r="2" fill="white" opacity="0.6"/>
+        <!-- Mini coordinate grid (summary) -->
+        <g filter="url(#cc10-sh)">
+          <rect x="16" y="60" width="150" height="130" rx="6" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+          <line x1="16" y1="190" x2="166" y2="190" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+          <line x1="16" y1="190" x2="16" y2="60" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+          <!-- Grid lines faint -->
+          <line x1="31" y1="60" x2="31" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="46" y1="60" x2="46" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="61" y1="60" x2="61" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="76" y1="60" x2="76" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="91" y1="60" x2="91" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="106" y1="60" x2="106" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="121" y1="60" x2="121" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="136" y1="60" x2="136" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="151" y1="60" x2="151" y2="190" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="16" y1="175" x2="166" y2="175" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="16" y1="160" x2="166" y2="160" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="16" y1="145" x2="166" y2="145" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="16" y1="130" x2="166" y2="130" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="16" y1="115" x2="166" y2="115" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="16" y1="100" x2="166" y2="100" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="16" y1="85" x2="166" y2="85" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <line x1="16" y1="70" x2="166" y2="70" stroke="rgba(255,255,255,.15)" stroke-width="0.6"/>
+          <!-- 9 colourful artefact dots -->
+          <circle cx="31" cy="175" r="5" fill="#FBBF24"/>
+          <circle cx="61" cy="145" r="5" fill="#34D399"/>
+          <circle cx="91" cy="175" r="5" fill="#F87171"/>
+          <circle cx="76" cy="115" r="5" fill="#60A5FA"/>
+          <circle cx="121" cy="145" r="5" fill="#A78BFA"/>
+          <circle cx="46" cy="130" r="5" fill="#FB923C"/>
+          <circle cx="136" cy="85" r="5" fill="#34D399"/>
+          <circle cx="91" cy="100" r="5" fill="#F472B6"/>
+          <circle cx="61" cy="190" r="5" fill="#FBBF24"/>
+          <text x="91" y="202" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="8">9 artefacts recovered!</text>
+          <!-- grid label -->
+          <text x="91" y="73" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="7">Academy Grid</text>
+        </g>
+        <!-- Golden Compass trophy -->
+        <g filter="url(#cc10-glow)" transform="translate(220,105)">
+          <circle cx="0" cy="0" r="28" fill="url(#cc10-compass)" stroke="#FBBF24" stroke-width="2"/>
+          <!-- Compass face -->
+          <circle cx="0" cy="0" r="22" fill="#0C4A6E" opacity="0.7"/>
+          <polygon points="0,-18 3,-4 0,-8 -3,-4" fill="#DC2626"/>
+          <polygon points="0,18 3,4 0,8 -3,4" fill="white"/>
+          <polygon points="-18,0 -4,-3 -8,0 -4,3" fill="white"/>
+          <polygon points="18,0 4,-3 8,0 4,3" fill="white"/>
+          <text x="0" y="-9" text-anchor="middle" font-size="7" fill="#DC2626" font-weight="700">N</text>
+          <circle cx="0" cy="0" r="4" fill="#FBBF24"/>
+        </g>
+        <!-- Mission complete banner -->
+        <rect x="16" y="200" width="268" height="40" rx="8" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" filter="url(#cc10-sh)"/>
+        <text x="150" y="215" text-anchor="middle" font-size="10" fill="white" font-weight="700" font-family="Quicksand,sans-serif">MISSION COMPLETE!</text>
+        <text x="150" y="231" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.85)">All 9 artefacts recovered — Coordinate Masters!</text>
+        <!-- Cora character celebrating (arms raised) -->
+        <g filter="url(#cc10-sh)" transform="translate(55,225)">
+          <rect x="-13" y="-11" width="26" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-11" rx="11" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc10-cora-skin)"/>
+          <ellipse cx="-9" cy="4" rx="4" ry="8" fill="#92400E"/>
+          <ellipse cx="9" cy="4" rx="4" ry="8" fill="#92400E"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <path d="M-4,13 Q0,17 4,13" fill="none" stroke="#92400E" stroke-width="1.2"/>
+          <rect x="-11" y="19" width="22" height="25" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <!-- Arms raised -->
+          <rect x="-24" y="10" width="14" height="5" rx="2" fill="url(#cc10-cora-skin)" transform="rotate(-50,-18,12)"/>
+          <rect x="10" y="10" width="14" height="5" rx="2" fill="url(#cc10-cora-skin)" transform="rotate(50,18,12)"/>
+          <rect x="-8" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
+        <!-- Nate character celebrating -->
+        <g filter="url(#cc10-sh)" transform="translate(145,225)">
+          <rect x="-13" y="-11" width="26" height="9" rx="3" fill="#1D4ED8"/>
+          <ellipse cx="0" cy="-11" rx="11" ry="4" fill="#2563EB"/>
+          <circle cx="0" cy="8" r="12" fill="url(#cc10-nate-skin)"/>
+          <ellipse cx="-9" cy="4" rx="4" ry="7" fill="#1E1B4B"/>
+          <ellipse cx="9" cy="4" rx="4" ry="7" fill="#1E1B4B"/>
+          <circle cx="-4" cy="8" r="2.3" fill="white"/>
+          <circle cx="-4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <circle cx="4" cy="8" r="2.3" fill="white"/>
+          <circle cx="4" cy="8" r="1.4" fill="#1E1B4B"/>
+          <path d="M-4,13 Q0,17 4,13" fill="none" stroke="#D97706" stroke-width="1.2"/>
+          <rect x="-11" y="19" width="22" height="25" rx="4" fill="#1D4ED8"/>
+          <rect x="-11" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <rect x="5" y="19" width="6" height="3" rx="1" fill="#FBBF24"/>
+          <!-- Arms raised -->
+          <rect x="-24" y="10" width="14" height="5" rx="2" fill="url(#cc10-nate-skin)" transform="rotate(-50,-18,12)"/>
+          <rect x="10" y="10" width="14" height="5" rx="2" fill="url(#cc10-nate-skin)" transform="rotate(50,18,12)"/>
+          <rect x="-8" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+          <rect x="2" y="42" width="6" height="11" rx="3" fill="#1E3A5F"/>
+        </g>
+        <!-- Confetti -->
+        <circle cx="20" cy="55" r="3" fill="#FBBF24" opacity="0.8"/>
+        <circle cx="35" cy="45" r="2.5" fill="#EC4899" opacity="0.8"/>
+        <circle cx="180" cy="50" r="3" fill="#34D399" opacity="0.8"/>
+        <circle cx="260" cy="58" r="2.5" fill="#FBBF24" opacity="0.8"/>
+        <circle cx="290" cy="40" r="3" fill="#EC4899" opacity="0.7"/>
+      </svg>
+      <div class="illus-caption" style="color:white;">Navigation complete — every artefact found!</div>
     </div>
 
     <div class="story-panel">

@@ -271,46 +271,111 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-2">
     <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:6px;">Symmetric vs Lopsided</div>
-      <!-- Two butterflies with mirror SVG -->
-      <svg width="220" height="180" viewBox="0 0 220 180" style="margin:0 auto;">
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sd2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#A7F3D0"/>
+          </linearGradient>
+          <linearGradient id="sd2-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </linearGradient>
+          <radialGradient id="sd2-wing-green" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6EE7B7"/>
+            <stop offset="55%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </radialGradient>
+          <radialGradient id="sd2-wing-orange" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDBA74"/>
+            <stop offset="55%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#7C2D12"/>
+          </radialGradient>
+          <radialGradient id="sd2-sam-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <filter id="sd2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sd2-sky)"/>
+        <!-- Labels at top -->
+        <text x="72" y="22" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#059669">Symmetric</text>
+        <text x="228" y="22" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#DC2626">Lopsided</text>
         <!-- Symmetric butterfly (left) -->
-        <text x="55" y="14" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">Symmetric</text>
-        <!-- Left wing -->
-        <ellipse cx="32" cy="60" rx="28" ry="18" fill="#10B981" opacity=".8" transform="rotate(-20,32,60)"/>
-        <ellipse cx="34" cy="84" rx="20" ry="12" fill="#34D399" opacity=".8" transform="rotate(10,34,84)"/>
-        <!-- Right wing (mirror) -->
-        <ellipse cx="78" cy="60" rx="28" ry="18" fill="#10B981" opacity=".8" transform="rotate(20,78,60)"/>
-        <ellipse cx="76" cy="84" rx="20" ry="12" fill="#34D399" opacity=".8" transform="rotate(-10,76,84)"/>
-        <!-- Body -->
-        <ellipse cx="55" cy="70" rx="5" ry="22" fill="#065F46"/>
-        <!-- Mirror line -->
-        <line x1="55" y1="30" x2="55" y2="105" stroke="#10B981" stroke-width="2" stroke-dasharray="5,3"/>
-        <text x="55" y="118" text-anchor="middle" fill="#059669" font-size="8">line of symmetry</text>
-        <!-- Mirror symbol -->
-        <text x="55" y="50" text-anchor="middle" font-size="18">🦋</text>
-
+        <g filter="url(#sd2-sh)">
+          <!-- Upper wings -->
+          <ellipse cx="48" cy="72" rx="30" ry="20" fill="url(#sd2-wing-green)" transform="rotate(-22,48,72)"/>
+          <ellipse cx="96" cy="72" rx="30" ry="20" fill="url(#sd2-wing-green)" transform="rotate(22,96,72)"/>
+          <!-- Lower wings -->
+          <ellipse cx="50" cy="100" rx="22" ry="14" fill="#34D399" transform="rotate(12,50,100)"/>
+          <ellipse cx="94" cy="100" rx="22" ry="14" fill="#34D399" transform="rotate(-12,94,100)"/>
+          <!-- Body -->
+          <ellipse cx="72" cy="84" rx="6" ry="26" fill="#065F46"/>
+          <!-- Antennae -->
+          <line x1="68" y1="58" x2="56" y2="44" stroke="#065F46" stroke-width="2"/>
+          <circle cx="56" cy="44" r="3" fill="#10B981"/>
+          <line x1="76" y1="58" x2="88" y2="44" stroke="#065F46" stroke-width="2"/>
+          <circle cx="88" cy="44" r="3" fill="#10B981"/>
+          <!-- Eye dots on wings -->
+          <circle cx="52" cy="75" r="5" fill="#FBBF24" opacity=".7"/>
+          <circle cx="92" cy="75" r="5" fill="#FBBF24" opacity=".7"/>
+        </g>
+        <!-- Mirror line (dashed) -->
+        <line x1="72" y1="30" x2="72" y2="126" stroke="#059669" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <text x="72" y="138" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#059669">line of symmetry</text>
+        <text x="72" y="148" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#059669">✓</text>
         <!-- Lopsided butterfly (right) -->
-        <text x="165" y="14" text-anchor="middle" fill="#DC2626" font-size="9" font-weight="700">Lopsided</text>
-        <!-- Uneven wings -->
-        <ellipse cx="138" cy="60" rx="36" ry="14" fill="#F97316" opacity=".8" transform="rotate(-10,138,60)"/>
-        <ellipse cx="140" cy="82" rx="14" ry="8" fill="#FBBF24" opacity=".8"/>
-        <ellipse cx="188" cy="65" rx="18" ry="22" fill="#F97316" opacity=".8" transform="rotate(15,188,65)"/>
-        <ellipse cx="186" cy="86" rx="26" ry="8" fill="#FBBF24" opacity=".8"/>
-        <!-- Body -->
-        <ellipse cx="163" cy="72" rx="5" ry="22" fill="#92400E"/>
-        <!-- Cross = not symmetric -->
-        <text x="163" y="118" text-anchor="middle" fill="#DC2626" font-size="8">not symmetric</text>
-        <text x="163" y="132" text-anchor="middle" fill="#DC2626" font-size="10">✗</text>
-
-        <!-- Mirror in middle -->
-        <text x="110" y="80" text-anchor="middle" font-size="20">🪞</text>
-        <!-- Label -->
-        <text x="110" y="160" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">Can you fold it to match exactly?</text>
+        <g filter="url(#sd2-sh)">
+          <!-- Uneven wings — left much bigger -->
+          <ellipse cx="188" cy="72" rx="42" ry="16" fill="url(#sd2-wing-orange)" transform="rotate(-12,188,72)"/>
+          <ellipse cx="190" cy="96" rx="16" ry="10" fill="#FBBF24" opacity=".8"/>
+          <!-- Right wing much smaller -->
+          <ellipse cx="252" cy="78" rx="18" ry="26" fill="url(#sd2-wing-orange)" transform="rotate(18,252,78)"/>
+          <ellipse cx="248" cy="100" rx="28" ry="9" fill="#FBBF24" opacity=".8"/>
+          <!-- Body -->
+          <ellipse cx="220" cy="84" rx="6" ry="26" fill="#92400E"/>
+        </g>
+        <text x="220" y="138" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#DC2626">not symmetric</text>
+        <text x="220" y="148" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#DC2626">✗</text>
+        <!-- Mirror object between -->
+        <rect x="140" y="50" width="20" height="80" rx="5" fill="#BAE6FD" opacity=".8"/>
+        <rect x="143" y="50" width="14" height="80" rx="4" fill="white" opacity=".5"/>
+        <rect x="137" y="45" width="26" height="8" rx="3" fill="#94A3B8"/>
+        <rect x="137" y="128" width="26" height="8" rx="3" fill="#94A3B8"/>
+        <text x="150" y="165" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#059669">mirror</text>
+        <!-- Wavy ground -->
+        <path d="M0 195 Q37 187 75 195 Q112 203 150 195 Q188 187 225 195 Q262 203 300 195 L300 280 L0 280 Z" fill="url(#sd2-grass)"/>
+        <!-- Sam detective at base -->
+        <g filter="url(#sd2-sh)">
+          <ellipse cx="150" cy="248" rx="14" ry="16" fill="#065F46"/>
+          <!-- Magnifying glass -->
+          <circle cx="178" cy="212" r="13" fill="none" stroke="#FBBF24" stroke-width="3"/>
+          <line x1="187" y1="221" x2="195" y2="230" stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+          <!-- Arm holding glass -->
+          <line x1="162" y1="238" x2="180" y2="220" stroke="url(#sd2-sam-skin)" stroke-width="5" stroke-linecap="round"/>
+          <!-- Head -->
+          <circle cx="150" cy="226" r="17" fill="url(#sd2-sam-skin)"/>
+          <!-- Hat (detective) -->
+          <rect x="136" y="210" width="28" height="6" rx="3" fill="#1C1917"/>
+          <rect x="139" y="198" width="22" height="14" rx="3" fill="#1C1917"/>
+          <!-- Eyes -->
+          <circle cx="144" cy="225" r="2.5" fill="#1C1917"/>
+          <circle cx="156" cy="225" r="2.5" fill="#1C1917"/>
+          <circle cx="144.9" cy="224" r=".9" fill="white"/>
+          <circle cx="156.9" cy="224" r=".9" fill="white"/>
+          <path d="M143 232 Q150 238 157 232" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Question label bottom -->
+        <text x="150" y="178" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#059669">Can you fold it to match exactly?</text>
+        <!-- Sparkles -->
+        <circle cx="25" cy="165" r="3" fill="#FBBF24"/>
+        <circle cx="278" cy="168" r="2.5" fill="#EC4899"/>
+        <circle cx="150" cy="20" r="2" fill="#8B5CF6"/>
       </svg>
-      <div class="illus-scene" style="margin-top:4px;">
-        <span class="char">🕵️‍♀️</span>
-      </div>
       <div class="illus-caption">A symmetric butterfly has a line of symmetry!</div>
     </div>
 
@@ -358,31 +423,88 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-3">
     <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:1rem;font-weight:700;color:#1D4ED8;margin-bottom:6px;">A square has 4 lines of symmetry</div>
-      <!-- Square with 4 symmetry lines SVG -->
-      <svg width="220" height="200" viewBox="0 0 220 200" style="margin:0 auto;">
-        <!-- Square -->
-        <rect x="60" y="30" width="100" height="100" rx="4" fill="#BFDBFE" stroke="#3B82F6" stroke-width="3"/>
-        <!-- Horizontal line of symmetry -->
-        <line x1="50" y1="80" x2="170" y2="80" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="6,3"/>
-        <text x="175" y="84" font-size="9" fill="#EF4444" font-weight="700">H</text>
-        <!-- Vertical line of symmetry -->
-        <line x1="110" y1="20" x2="110" y2="140" stroke="#10B981" stroke-width="2.5" stroke-dasharray="6,3"/>
-        <text x="112" y="16" font-size="9" fill="#10B981" font-weight="700">V</text>
-        <!-- Diagonal 1 (top-left to bottom-right) -->
-        <line x1="60" y1="30" x2="160" y2="130" stroke="#8B5CF6" stroke-width="2.5" stroke-dasharray="6,3"/>
-        <!-- Diagonal 2 (top-right to bottom-left) -->
-        <line x1="160" y1="30" x2="60" y2="130" stroke="#F97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sd3-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#EFF6FF"/>
+            <stop offset="100%" stop-color="#BFDBFE"/>
+          </linearGradient>
+          <linearGradient id="sd3-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </linearGradient>
+          <radialGradient id="sd3-square" cx="30%" cy="28%" r="72%">
+            <stop offset="0%" stop-color="#BFDBFE"/>
+            <stop offset="55%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1E3A8A"/>
+          </radialGradient>
+          <radialGradient id="sd3-rect" cx="30%" cy="28%" r="72%">
+            <stop offset="0%" stop-color="#93C5FD"/>
+            <stop offset="55%" stop-color="#3B82F6"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </radialGradient>
+          <filter id="sd3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sd3-sky)"/>
+        <!-- Title -->
+        <text x="150" y="22" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#1D4ED8">A square has 4 lines of symmetry</text>
+        <!-- Square with gradient fill -->
+        <g filter="url(#sd3-sh)">
+          <rect x="55" y="32" width="100" height="100" rx="5" fill="url(#sd3-square)"/>
+          <!-- Highlight -->
+          <rect x="60" y="37" width="30" height="25" rx="3" fill="white" opacity=".18"/>
+        </g>
+        <!-- 4 symmetry lines -->
+        <line x1="42" y1="82" x2="168" y2="82" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <text x="174" y="86" font-family="Quicksand" font-size="10" fill="#EF4444" font-weight="700">H</text>
+        <line x1="105" y1="20" x2="105" y2="144" stroke="#10B981" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <text x="107" y="16" font-family="Quicksand" font-size="10" fill="#10B981" font-weight="700">V</text>
+        <line x1="55" y1="32" x2="155" y2="132" stroke="#8B5CF6" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <line x1="155" y1="32" x2="55" y2="132" stroke="#F97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <!-- Corner dot markers -->
+        <circle cx="55" cy="32" r="5" fill="#8B5CF6" opacity=".7"/>
+        <circle cx="155" cy="32" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="55" cy="132" r="5" fill="#F97316" opacity=".7"/>
+        <circle cx="155" cy="132" r="5" fill="#8B5CF6" opacity=".7"/>
         <!-- Legend -->
-        <rect x="20" y="150" width="10" height="8" rx="1" fill="#EF4444"/>
-        <text x="35" y="158" font-size="9" fill="#1D4ED8">Horizontal (H)</text>
-        <rect x="20" y="164" width="10" height="8" rx="1" fill="#10B981"/>
-        <text x="35" y="172" font-size="9" fill="#1D4ED8">Vertical (V)</text>
-        <rect x="120" y="150" width="10" height="8" rx="1" fill="#8B5CF6"/>
-        <text x="135" y="158" font-size="9" fill="#1D4ED8">Diagonal 1</text>
-        <rect x="120" y="164" width="10" height="8" rx="1" fill="#F97316"/>
-        <text x="135" y="172" font-size="9" fill="#1D4ED8">Diagonal 2</text>
-        <text x="110" y="192" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">4 lines of symmetry!</text>
+        <rect x="15" y="148" width="10" height="8" rx="1" fill="#EF4444"/>
+        <text x="30" y="156" font-family="Quicksand" font-size="9" fill="#1D4ED8">Horizontal (H)</text>
+        <rect x="15" y="162" width="10" height="8" rx="1" fill="#10B981"/>
+        <text x="30" y="170" font-family="Quicksand" font-size="9" fill="#1D4ED8">Vertical (V)</text>
+        <rect x="125" y="148" width="10" height="8" rx="1" fill="#8B5CF6"/>
+        <text x="140" y="156" font-family="Quicksand" font-size="9" fill="#1D4ED8">Diagonal 1</text>
+        <rect x="125" y="162" width="10" height="8" rx="1" fill="#F97316"/>
+        <text x="140" y="170" font-family="Quicksand" font-size="9" fill="#1D4ED8">Diagonal 2</text>
+        <text x="105" y="188" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#1D4ED8">4 lines of symmetry!</text>
+        <!-- Rectangle below with only 2 lines -->
+        <g filter="url(#sd3-sh)">
+          <rect x="170" y="40" width="110" height="65" rx="5" fill="url(#sd3-rect)"/>
+          <rect x="175" y="45" width="35" height="20" rx="3" fill="white" opacity=".18"/>
+          <text x="225" y="62" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="white">RECTANGLE</text>
+          <text x="225" y="75" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#DBEAFE">only 2 lines</text>
+        </g>
+        <line x1="162" y1="72.5" x2="288" y2="72.5" stroke="#EF4444" stroke-width="2" stroke-dasharray="5,3"/>
+        <line x1="225" y1="30" x2="225" y2="115" stroke="#10B981" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="225" y="125" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#1D4ED8">2 lines only — no diagonals!</text>
+        <!-- Wavy ground -->
+        <path d="M0 202 Q37 194 75 202 Q112 210 150 202 Q188 194 225 202 Q262 210 300 202 L300 280 L0 280 Z" fill="url(#sd3-grass)"/>
+        <!-- Sam small detective -->
+        <g filter="url(#sd3-sh)">
+          <ellipse cx="150" cy="252" rx="12" ry="14" fill="#065F46"/>
+          <circle cx="150" cy="232" r="14" fill="#FBBF24"/>
+          <rect x="138" y="218" width="24" height="8" rx="3" fill="#1C1917"/>
+          <rect x="140" y="210" width="20" height="10" rx="3" fill="#1C1917"/>
+          <circle cx="145" cy="231" r="2.2" fill="#1C1917"/>
+          <circle cx="155" cy="231" r="2.2" fill="#1C1917"/>
+          <path d="M144 238 Q150 243 156 238" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Sparkles -->
+        <circle cx="22" cy="28" r="2.5" fill="#FBBF24"/>
+        <circle cx="282" cy="28" r="2" fill="#EC4899"/>
+        <circle cx="150" cy="14" r="1.8" fill="#8B5CF6"/>
       </svg>
       <div class="illus-caption">Square: 4 lines · Rectangle: only 2!</div>
     </div>
@@ -431,26 +553,84 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-4">
     <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:1rem;font-weight:700;color:#6D28D9;margin-bottom:6px;">Equilateral triangle: 3 lines of symmetry</div>
-      <!-- Equilateral triangle with 3 lines SVG -->
-      <svg width="220" height="200" viewBox="0 0 220 200" style="margin:0 auto;">
-        <!-- Equilateral triangle: vertices at (110,20), (20,160), (200,160) -->
-        <polygon points="110,20 20,160 200,160" fill="#DDD6FE" stroke="#8B5CF6" stroke-width="3"/>
-        <!-- Side midpoints: top-left=(65,90), top-right=(155,90), bottom=(110,160) -->
-        <!-- Line 1: from top vertex (110,20) to bottom midpoint (110,160) -->
-        <line x1="110" y1="20" x2="110" y2="160" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="6,3"/>
-        <!-- Line 2: from bottom-left vertex (20,160) to midpoint of right side (155,90) -->
-        <line x1="20" y1="160" x2="155" y2="90" stroke="#10B981" stroke-width="2.5" stroke-dasharray="6,3"/>
-        <!-- Line 3: from bottom-right vertex (200,160) to midpoint of left side (65,90) -->
-        <line x1="200" y1="160" x2="65" y2="90" stroke="#F97316" stroke-width="2.5" stroke-dasharray="6,3"/>
-        <!-- Labels at vertices -->
-        <text x="110" y="14" text-anchor="middle" font-size="9" fill="#6D28D9" font-weight="700">top vertex</text>
-        <text x="14" y="174" font-size="9" fill="#6D28D9" font-weight="700">BL</text>
-        <text x="192" y="174" font-size="9" fill="#6D28D9" font-weight="700">BR</text>
-        <!-- Label midpoints -->
-        <text x="110" y="183" text-anchor="middle" fill="#6D28D9" font-size="8">bottom mid</text>
-        <!-- Legend -->
-        <text x="110" y="196" text-anchor="middle" fill="#6D28D9" font-size="10" font-weight="700">3 lines — one from each corner!</text>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sd4-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F5F3FF"/>
+            <stop offset="100%" stop-color="#DDD6FE"/>
+          </linearGradient>
+          <linearGradient id="sd4-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </linearGradient>
+          <radialGradient id="sd4-tri" cx="35%" cy="28%" r="72%">
+            <stop offset="0%" stop-color="#EDE9FE"/>
+            <stop offset="55%" stop-color="#A78BFA"/>
+            <stop offset="100%" stop-color="#4C1D95"/>
+          </radialGradient>
+          <filter id="sd4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sd4-sky)"/>
+        <!-- Title -->
+        <text x="150" y="20" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">Equilateral triangle: 3 lines of symmetry</text>
+        <!-- Equilateral triangle with gradient fill -->
+        <g filter="url(#sd4-sh)">
+          <polygon points="150,35 268,208 32,208" fill="url(#sd4-tri)"/>
+          <!-- Highlight on upper-left face -->
+          <polygon points="150,35 90,140 150,140" fill="white" opacity=".12"/>
+        </g>
+        <!-- 3 symmetry lines -->
+        <!-- Line 1: top vertex to bottom midpoint -->
+        <line x1="150" y1="35" x2="150" y2="208" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <!-- Line 2: bottom-left vertex to midpoint of right side -->
+        <line x1="32" y1="208" x2="209" y2="121.5" stroke="#10B981" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <!-- Line 3: bottom-right vertex to midpoint of left side -->
+        <line x1="268" y1="208" x2="91" y2="121.5" stroke="#F97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+        <!-- Vertex markers -->
+        <g filter="url(#sd4-sh)">
+          <circle cx="150" cy="35" r="7" fill="#EF4444"/>
+          <circle cx="32" cy="208" r="7" fill="#10B981"/>
+          <circle cx="268" cy="208" r="7" fill="#F97316"/>
+        </g>
+        <!-- Midpoint markers -->
+        <circle cx="150" cy="208" r="5" fill="#EF4444" opacity=".6"/>
+        <circle cx="209" cy="121.5" r="5" fill="#10B981" opacity=".6"/>
+        <circle cx="91" cy="121.5" r="5" fill="#F97316" opacity=".6"/>
+        <!-- Labels -->
+        <text x="150" y="27" text-anchor="middle" font-family="Quicksand" font-size="9" fill="#6D28D9" font-weight="700">top</text>
+        <text x="16" y="220" font-family="Quicksand" font-size="9" fill="#6D28D9" font-weight="700">BL</text>
+        <text x="272" y="220" font-family="Quicksand" font-size="9" fill="#6D28D9" font-weight="700">BR</text>
+        <!-- Legend bottom -->
+        <text x="150" y="232" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">3 lines — one from each corner!</text>
+        <!-- Wavy ground -->
+        <path d="M0 248 Q37 240 75 248 Q112 256 150 248 Q188 240 225 248 Q262 256 300 248 L300 280 L0 280 Z" fill="url(#sd4-grass)"/>
+        <!-- Sam detective small -->
+        <g filter="url(#sd4-sh)">
+          <ellipse cx="25" cy="264" rx="10" ry="12" fill="#065F46"/>
+          <circle cx="25" cy="248" r="12" fill="#FBBF24"/>
+          <rect x="15" y="236" width="20" height="6" rx="3" fill="#1C1917"/>
+          <rect x="17" y="230" width="16" height="8" rx="3" fill="#1C1917"/>
+          <circle cx="21" cy="248" r="1.8" fill="#1C1917"/>
+          <circle cx="29" cy="248" r="1.8" fill="#1C1917"/>
+          <path d="M20 254 Q25 258 30 254" stroke="#7C2D12" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Kit detective small (partner) -->
+        <g filter="url(#sd4-sh)">
+          <ellipse cx="275" cy="264" rx="10" ry="12" fill="#3B82F6"/>
+          <circle cx="275" cy="248" r="12" fill="#FCA5A5"/>
+          <rect x="265" y="236" width="20" height="6" rx="3" fill="#1C1917"/>
+          <rect x="267" y="230" width="16" height="8" rx="3" fill="#1C1917"/>
+          <circle cx="271" cy="248" r="1.8" fill="#1C1917"/>
+          <circle cx="279" cy="248" r="1.8" fill="#1C1917"/>
+          <path d="M270 254 Q275 258 280 254" stroke="#7C2D12" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Sparkles -->
+        <circle cx="60" cy="25" r="2.5" fill="#FBBF24"/>
+        <circle cx="248" cy="22" r="2" fill="#EC4899"/>
+        <circle cx="150" cy="12" r="1.8" fill="#8B5CF6"/>
       </svg>
       <div class="illus-caption">3 lines, one from each corner to opposite side!</div>
     </div>
@@ -499,26 +679,73 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-5">
     <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:4px;">A circle has INFINITE lines of symmetry!</div>
-      <!-- Circle with many symmetry lines SVG -->
-      <svg width="200" height="200" viewBox="0 0 200 200" style="margin:0 auto;">
-        <!-- Circle -->
-        <circle cx="100" cy="100" r="80" fill="#A7F3D0" stroke="#10B981" stroke-width="3"/>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sd5-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#A7F3D0"/>
+          </linearGradient>
+          <linearGradient id="sd5-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </linearGradient>
+          <radialGradient id="sd5-circle" cx="30%" cy="28%" r="72%">
+            <stop offset="0%" stop-color="#D1FAE5"/>
+            <stop offset="45%" stop-color="#6EE7B7"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </radialGradient>
+          <filter id="sd5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sd5-sky)"/>
+        <!-- Title -->
+        <text x="150" y="20" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#059669">A circle has INFINITE lines of symmetry!</text>
+        <!-- Outer glow ring -->
+        <circle cx="150" cy="118" r="88" fill="#10B981" opacity=".1"/>
+        <!-- Main circle with gradient -->
+        <g filter="url(#sd5-sh)">
+          <circle cx="150" cy="118" r="78" fill="url(#sd5-circle)"/>
+          <!-- Shiny highlight -->
+          <ellipse cx="120" cy="88" rx="22" ry="14" fill="white" opacity=".22"/>
+        </g>
         <!-- Many symmetry lines through centre -->
-        <line x1="20" y1="100" x2="180" y2="100" stroke="#10B981" stroke-width="1.5" opacity=".7"/>
-        <line x1="100" y1="20" x2="100" y2="180" stroke="#10B981" stroke-width="1.5" opacity=".7"/>
-        <line x1="43" y1="43" x2="157" y2="157" stroke="#3B82F6" stroke-width="1.5" opacity=".7"/>
-        <line x1="157" y1="43" x2="43" y2="157" stroke="#3B82F6" stroke-width="1.5" opacity=".7"/>
-        <line x1="30" y1="69" x2="170" y2="131" stroke="#8B5CF6" stroke-width="1.5" opacity=".6"/>
-        <line x1="30" y1="131" x2="170" y2="69" stroke="#8B5CF6" stroke-width="1.5" opacity=".6"/>
-        <line x1="69" y1="20" x2="131" y2="180" stroke="#F97316" stroke-width="1.5" opacity=".6"/>
-        <line x1="131" y1="20" x2="69" y2="180" stroke="#F97316" stroke-width="1.5" opacity=".6"/>
+        <line x1="72" y1="118" x2="228" y2="118" stroke="#10B981" stroke-width="2" opacity=".7"/>
+        <line x1="150" y1="40" x2="150" y2="196" stroke="#10B981" stroke-width="2" opacity=".7"/>
+        <line x1="95" y1="63" x2="205" y2="173" stroke="#3B82F6" stroke-width="1.8" opacity=".7"/>
+        <line x1="205" y1="63" x2="95" y2="173" stroke="#3B82F6" stroke-width="1.8" opacity=".7"/>
+        <line x1="80" y1="87" x2="220" y2="149" stroke="#8B5CF6" stroke-width="1.6" opacity=".6"/>
+        <line x1="80" y1="149" x2="220" y2="87" stroke="#8B5CF6" stroke-width="1.6" opacity=".6"/>
+        <line x1="110" y1="43" x2="190" y2="193" stroke="#F97316" stroke-width="1.6" opacity=".6"/>
+        <line x1="190" y1="43" x2="110" y2="193" stroke="#F97316" stroke-width="1.6" opacity=".6"/>
         <!-- Centre dot -->
-        <circle cx="100" cy="100" r="5" fill="#059669"/>
-        <!-- Infinity symbol -->
-        <text x="100" y="107" text-anchor="middle" font-size="16" font-weight="700" fill="#065F46">∞</text>
-        <!-- Labels -->
-        <text x="100" y="190" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">Any line through the centre works!</text>
+        <circle cx="150" cy="118" r="7" fill="#059669"/>
+        <!-- Infinity symbol in centre -->
+        <text x="150" y="122" text-anchor="middle" font-family="Quicksand" font-size="14" font-weight="700" fill="white">∞</text>
+        <!-- Labels around -->
+        <text x="150" y="208" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#059669">Any line through the centre works!</text>
+        <!-- Wavy ground -->
+        <path d="M0 228 Q37 220 75 228 Q112 236 150 228 Q188 220 225 228 Q262 236 300 228 L300 280 L0 280 Z" fill="url(#sd5-grass)"/>
+        <!-- Sam detective -->
+        <g filter="url(#sd5-sh)">
+          <ellipse cx="150" cy="258" rx="13" ry="15" fill="#065F46"/>
+          <!-- Magnifying glass -->
+          <circle cx="178" cy="238" r="10" fill="none" stroke="#FBBF24" stroke-width="2.5"/>
+          <line x1="185" y1="245" x2="192" y2="252" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="162" y1="248" x2="172" y2="242" stroke="#FBBF24" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Head -->
+          <circle cx="150" cy="238" r="14" fill="#FBBF24"/>
+          <rect x="138" y="224" width="24" height="8" rx="3" fill="#1C1917"/>
+          <rect x="140" y="216" width="20" height="10" rx="3" fill="#1C1917"/>
+          <circle cx="145" cy="237" r="2.2" fill="#1C1917"/>
+          <circle cx="155" cy="237" r="2.2" fill="#1C1917"/>
+          <path d="M144 244 Q150 249 156 244" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Sparkles -->
+        <circle cx="25" cy="32" r="3" fill="#FBBF24"/>
+        <circle cx="278" cy="28" r="2.5" fill="#EC4899"/>
+        <circle cx="150" cy="12" r="2" fill="#8B5CF6"/>
       </svg>
       <div class="illus-caption">∞ = infinite lines of symmetry!</div>
     </div>
@@ -567,48 +794,178 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-6">
     <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:1rem;font-weight:700;color:#C2410C;margin-bottom:4px;">Which letters are symmetric?</div>
-      <!-- Letters with/without symmetry SVG -->
-      <svg width="220" height="190" viewBox="0 0 220 190" style="margin:0 auto;">
-        <!-- Letter A — vertical symmetry -->
-        <text x="30" y="55" text-anchor="middle" font-size="36" font-weight="700" fill="#10B981" font-family="'Quicksand',sans-serif">A</text>
-        <line x1="30" y1="20" x2="30" y2="60" stroke="#10B981" stroke-width="2" stroke-dasharray="4,2"/>
-        <text x="30" y="72" text-anchor="middle" font-size="9" fill="#059669" font-weight="700">✓ vertical</text>
+      <svg width="100%" viewBox="0 0 300 280" style="max-width:300px;display:block;margin:0 auto;">
+        <defs>
+          <!-- Sky gradient: warm amber -->
+          <linearGradient id="sd6-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFF7ED"/>
+            <stop offset="100%" stop-color="#FDBA74"/>
+          </linearGradient>
+          <!-- Ground gradient -->
+          <linearGradient id="sd6-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="100%" stop-color="#166534"/>
+          </linearGradient>
+          <!-- Card tile background: symmetric -->
+          <linearGradient id="sd6-cardA" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#D1FAE5"/>
+            <stop offset="100%" stop-color="#6EE7B7"/>
+          </linearGradient>
+          <linearGradient id="sd6-cardB" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#DBEAFE"/>
+            <stop offset="100%" stop-color="#93C5FD"/>
+          </linearGradient>
+          <linearGradient id="sd6-cardH" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#EDE9FE"/>
+            <stop offset="100%" stop-color="#C4B5FD"/>
+          </linearGradient>
+          <linearGradient id="sd6-cardO" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="100%" stop-color="#FCD34D"/>
+          </linearGradient>
+          <linearGradient id="sd6-cardS" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#F3F4F6"/>
+            <stop offset="100%" stop-color="#D1D5DB"/>
+          </linearGradient>
+          <!-- Sam skin radial -->
+          <radialGradient id="sd6-skin" cx="38%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#FDE8C8"/>
+            <stop offset="55%" stop-color="#F5C07A"/>
+            <stop offset="100%" stop-color="#C07830"/>
+          </radialGradient>
+          <!-- Drop shadow filter -->
+          <filter id="sd6-sh" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
 
-        <!-- Letter B — horizontal symmetry -->
-        <text x="80" y="55" text-anchor="middle" font-size="36" font-weight="700" fill="#3B82F6" font-family="'Quicksand',sans-serif">B</text>
-        <line x1="62" y1="38" x2="98" y2="38" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4,2"/>
-        <text x="80" y="72" text-anchor="middle" font-size="9" fill="#1D4ED8" font-weight="700">✓ horizontal</text>
+        <!-- Sky background -->
+        <rect width="300" height="280" fill="url(#sd6-sky)"/>
 
-        <!-- Letter H — both -->
-        <text x="130" y="55" text-anchor="middle" font-size="36" font-weight="700" fill="#8B5CF6" font-family="'Quicksand',sans-serif">H</text>
-        <line x1="130" y1="20" x2="130" y2="60" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="4,2"/>
-        <line x1="112" y1="38" x2="148" y2="38" stroke="#F97316" stroke-width="1.5" stroke-dasharray="4,2"/>
-        <text x="130" y="72" text-anchor="middle" font-size="9" fill="#6D28D9" font-weight="700">✓ both!</text>
+        <!-- Decorative sparkles -->
+        <circle cx="260" cy="22" r="3" fill="#FBBF24" opacity=".7"/>
+        <circle cx="270" cy="14" r="2" fill="#F97316" opacity=".6"/>
+        <circle cx="250" cy="30" r="1.5" fill="#FBBF24" opacity=".5"/>
+        <circle cx="40" cy="18" r="2.5" fill="#FCD34D" opacity=".6"/>
+        <circle cx="28" cy="28" r="1.5" fill="#FBBF24" opacity=".5"/>
 
-        <!-- Letter S — none -->
-        <text x="185" y="55" text-anchor="middle" font-size="36" font-weight="700" fill="#6B7280" font-family="'Quicksand',sans-serif">S</text>
-        <text x="185" y="72" text-anchor="middle" font-size="9" fill="#DC2626" font-weight="700">✗ none</text>
+        <!-- Title banner -->
+        <rect x="18" y="14" width="264" height="28" rx="10" fill="#C2410C" opacity=".15"/>
+        <text x="150" y="32" text-anchor="middle" font-size="11" font-weight="700" fill="#C2410C" font-family="'Quicksand',sans-serif">Which letters are symmetric?</text>
 
-        <!-- Letter O — infinite -->
-        <text x="30" y="130" text-anchor="middle" font-size="36" font-weight="700" fill="#10B981" font-family="'Quicksand',sans-serif">O</text>
-        <text x="30" y="147" text-anchor="middle" font-size="9" fill="#059669" font-weight="700">✓ infinite!</text>
+        <!-- === TOP ROW: A  B  H  S === -->
 
-        <!-- Letter Z — none -->
-        <text x="80" y="130" text-anchor="middle" font-size="36" font-weight="700" fill="#6B7280" font-family="'Quicksand',sans-serif">Z</text>
-        <text x="80" y="147" text-anchor="middle" font-size="9" fill="#DC2626" font-weight="700">✗ none</text>
+        <!-- Card A (symmetric — green) -->
+        <g filter="url(#sd6-sh)">
+          <rect x="16" y="52" width="58" height="76" rx="10" fill="url(#sd6-cardA)" stroke="#10B981" stroke-width="1.5"/>
+        </g>
+        <text x="45" y="104" text-anchor="middle" font-size="44" font-weight="700" fill="#059669" font-family="'Quicksand',sans-serif">A</text>
+        <!-- Vertical symmetry line on A -->
+        <line x1="45" y1="56" x2="45" y2="108" stroke="#10B981" stroke-width="2" stroke-dasharray="4,2.5" opacity=".9"/>
+        <rect x="16" y="116" width="58" height="12" rx="6" fill="#10B981"/>
+        <text x="45" y="126" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">V line</text>
 
-        <!-- Letter M — vertical -->
-        <text x="130" y="130" text-anchor="middle" font-size="36" font-weight="700" fill="#10B981" font-family="'Quicksand',sans-serif">M</text>
-        <line x1="130" y1="95" x2="130" y2="133" stroke="#10B981" stroke-width="2" stroke-dasharray="4,2"/>
-        <text x="130" y="147" text-anchor="middle" font-size="9" fill="#059669" font-weight="700">✓ vertical</text>
+        <!-- Card B (symmetric — blue) -->
+        <g filter="url(#sd6-sh)">
+          <rect x="82" y="52" width="58" height="76" rx="10" fill="url(#sd6-cardB)" stroke="#3B82F6" stroke-width="1.5"/>
+        </g>
+        <text x="111" y="104" text-anchor="middle" font-size="44" font-weight="700" fill="#1D4ED8" font-family="'Quicksand',sans-serif">B</text>
+        <!-- Horizontal symmetry line on B -->
+        <line x1="85" y1="82" x2="137" y2="82" stroke="#3B82F6" stroke-width="2" stroke-dasharray="4,2.5" opacity=".9"/>
+        <rect x="82" y="116" width="58" height="12" rx="6" fill="#3B82F6"/>
+        <text x="111" y="126" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">H line</text>
 
-        <!-- Letter F — none -->
-        <text x="185" y="130" text-anchor="middle" font-size="36" font-weight="700" fill="#6B7280" font-family="'Quicksand',sans-serif">F</text>
-        <text x="185" y="147" text-anchor="middle" font-size="9" fill="#DC2626" font-weight="700">✗ none</text>
+        <!-- Card H (both — purple) -->
+        <g filter="url(#sd6-sh)">
+          <rect x="148" y="52" width="58" height="76" rx="10" fill="url(#sd6-cardH)" stroke="#8B5CF6" stroke-width="1.5"/>
+        </g>
+        <text x="177" y="104" text-anchor="middle" font-size="44" font-weight="700" fill="#6D28D9" font-family="'Quicksand',sans-serif">H</text>
+        <!-- Both symmetry lines on H -->
+        <line x1="177" y1="56" x2="177" y2="108" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="4,2.5" opacity=".9"/>
+        <line x1="151" y1="82" x2="203" y2="82" stroke="#F97316" stroke-width="2" stroke-dasharray="4,2.5" opacity=".9"/>
+        <rect x="148" y="116" width="58" height="12" rx="6" fill="#8B5CF6"/>
+        <text x="177" y="126" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">H + V lines!</text>
 
-        <!-- Legend -->
-        <text x="110" y="170" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">✓ = symmetric   ✗ = not symmetric</text>
+        <!-- Card S (none — grey) -->
+        <g filter="url(#sd6-sh)">
+          <rect x="214" y="52" width="68" height="76" rx="10" fill="url(#sd6-cardS)" stroke="#9CA3AF" stroke-width="1.5"/>
+        </g>
+        <text x="248" y="104" text-anchor="middle" font-size="44" font-weight="700" fill="#6B7280" font-family="'Quicksand',sans-serif">S</text>
+        <!-- X mark on S -->
+        <line x1="228" y1="60" x2="268" y2="100" stroke="#DC2626" stroke-width="2.5" opacity=".6"/>
+        <line x1="268" y1="60" x2="228" y2="100" stroke="#DC2626" stroke-width="2.5" opacity=".6"/>
+        <rect x="214" y="116" width="68" height="12" rx="6" fill="#DC2626"/>
+        <text x="248" y="126" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">no lines</text>
+
+        <!-- === BOTTOM ROW: O  M  (wide cards) === -->
+
+        <!-- Card O (infinite — yellow) -->
+        <g filter="url(#sd6-sh)">
+          <rect x="16" y="142" width="90" height="76" rx="10" fill="url(#sd6-cardO)" stroke="#FBBF24" stroke-width="1.5"/>
+        </g>
+        <text x="61" y="196" text-anchor="middle" font-size="44" font-weight="700" fill="#D97706" font-family="'Quicksand',sans-serif">O</text>
+        <!-- Multiple symmetry lines radiating on O -->
+        <line x1="61" y1="146" x2="61" y2="214" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3,2" opacity=".7"/>
+        <line x1="20" y1="180" x2="102" y2="180" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3,2" opacity=".7"/>
+        <line x1="32" y1="152" x2="90" y2="208" stroke="#F97316" stroke-width="1.5" stroke-dasharray="3,2" opacity=".5"/>
+        <line x1="90" y1="152" x2="32" y2="208" stroke="#F97316" stroke-width="1.5" stroke-dasharray="3,2" opacity=".5"/>
+        <rect x="16" y="207" width="90" height="11" rx="6" fill="#D97706"/>
+        <text x="61" y="216" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">infinite lines!</text>
+
+        <!-- Card M (vertical — green) -->
+        <g filter="url(#sd6-sh)">
+          <rect x="116" y="142" width="90" height="76" rx="10" fill="url(#sd6-cardA)" stroke="#10B981" stroke-width="1.5"/>
+        </g>
+        <text x="161" y="196" text-anchor="middle" font-size="44" font-weight="700" fill="#059669" font-family="'Quicksand',sans-serif">M</text>
+        <line x1="161" y1="146" x2="161" y2="214" stroke="#10B981" stroke-width="2" stroke-dasharray="4,2.5" opacity=".9"/>
+        <rect x="116" y="207" width="90" height="11" rx="6" fill="#10B981"/>
+        <text x="161" y="216" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">V line</text>
+
+        <!-- Card F (none — grey) -->
+        <g filter="url(#sd6-sh)">
+          <rect x="216" y="142" width="68" height="76" rx="10" fill="url(#sd6-cardS)" stroke="#9CA3AF" stroke-width="1.5"/>
+        </g>
+        <text x="250" y="196" text-anchor="middle" font-size="44" font-weight="700" fill="#6B7280" font-family="'Quicksand',sans-serif">F</text>
+        <line x1="228" y1="152" x2="268" y2="192" stroke="#DC2626" stroke-width="2.5" opacity=".6"/>
+        <line x1="268" y1="152" x2="228" y2="192" stroke="#DC2626" stroke-width="2.5" opacity=".6"/>
+        <rect x="216" y="207" width="68" height="11" rx="6" fill="#DC2626"/>
+        <text x="250" y="216" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">no lines</text>
+
+        <!-- Ground -->
+        <path d="M0 235 Q38 225 75 235 Q112 245 150 235 Q188 225 225 235 Q262 245 300 235 L300 280 L0 280 Z" fill="url(#sd6-grass)"/>
+        <path d="M0 248 Q50 240 100 248 Q150 256 200 248 Q250 240 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+
+        <!-- Sam detective at bottom right -->
+        <g filter="url(#sd6-sh)">
+          <!-- Body / dress -->
+          <ellipse cx="256" cy="263" rx="14" ry="16" fill="#F97316"/>
+          <!-- Head -->
+          <circle cx="256" cy="244" r="11" fill="url(#sd6-skin)"/>
+          <!-- Hair -->
+          <ellipse cx="256" cy="236" rx="11" ry="5" fill="#7C2D12"/>
+          <ellipse cx="248" cy="239" rx="4" ry="7" fill="#7C2D12"/>
+          <ellipse cx="264" cy="239" rx="4" ry="7" fill="#7C2D12"/>
+          <!-- Eyes -->
+          <circle cx="252" cy="244" r="2.5" fill="#1E293B"/>
+          <circle cx="260" cy="244" r="2.5" fill="#1E293B"/>
+          <circle cx="253" cy="243" r="1" fill="white"/>
+          <circle cx="261" cy="243" r="1" fill="white"/>
+          <!-- Smile -->
+          <path d="M253 249 Q256 252 259 249" stroke="#7C2D12" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <!-- Hat (detective) -->
+          <rect x="246" y="231" width="20" height="4" rx="2" fill="#292524"/>
+          <rect x="250" y="224" width="12" height="8" rx="3" fill="#44403C"/>
+          <!-- Magnifying glass -->
+          <circle cx="240" cy="258" r="7" stroke="#D97706" stroke-width="2.5" fill="rgba(251,191,36,0.2)"/>
+          <line x1="246" y1="263" x2="252" y2="269" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Legs -->
+          <rect x="249" y="277" width="5" height="3" rx="2" fill="#1E3A5F"/>
+          <rect x="258" y="277" width="5" height="3" rx="2" fill="#1E3A5F"/>
+        </g>
+
+        <!-- Legend bar at bottom -->
+        <rect x="16" y="230" width="74" height="12" rx="6" fill="#10B981"/>
+        <text x="53" y="239" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">green/blue = symmetric</text>
       </svg>
       <div class="illus-caption">Some letters are symmetric — can you see the lines?</div>
     </div>
@@ -657,31 +1014,153 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-7">
     <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:4px;">Complete the other half by reflecting!</div>
-      <!-- Half butterfly with mirror line SVG -->
-      <svg width="220" height="200" viewBox="0 0 220 200" style="margin:0 auto;">
-        <!-- Mirror line (vertical centre) -->
-        <line x1="110" y1="10" x2="110" y2="190" stroke="#10B981" stroke-width="3" stroke-dasharray="8,4"/>
-        <text x="110" y="6" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">mirror line</text>
-        <!-- Left half of butterfly wing (given) -->
-        <path d="M108,50 Q70,30 40,55 Q20,75 35,100 Q55,120 100,110 Z" fill="#10B981" opacity=".8"/>
-        <path d="M108,110 Q65,115 45,140 Q35,160 60,170 Q85,178 105,155 Z" fill="#34D399" opacity=".8"/>
-        <!-- Body -->
-        <ellipse cx="108" cy="110" rx="6" ry="50" fill="#065F46"/>
-        <!-- Right half (reflected — shown faded/dotted to indicate "to be drawn") -->
-        <path d="M112,50 Q150,30 180,55 Q200,75 185,100 Q165,120 120,110 Z" fill="#A7F3D0" opacity=".5" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1.5"/>
-        <path d="M112,110 Q155,115 175,140 Q185,160 160,170 Q135,178 115,155 Z" fill="#A7F3D0" opacity=".5" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1.5"/>
-        <!-- Labels -->
-        <text x="60" y="175" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">given half</text>
-        <text x="162" y="175" text-anchor="middle" fill="#059669" font-size="9">reflected half</text>
-        <!-- Arrow showing reflection -->
-        <path d="M85,130 Q110,145 135,130" stroke="#059669" stroke-width="2" fill="none" marker-end="url(#arrG)"/>
+      <svg width="100%" viewBox="0 0 300 280" style="max-width:300px;display:block;margin:0 auto;">
         <defs>
-          <marker id="arrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <!-- Sky gradient: mint green -->
+          <linearGradient id="sd7-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#A7F3D0"/>
+          </linearGradient>
+          <!-- Ground -->
+          <linearGradient id="sd7-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <!-- Left wing gradient (solid, vibrant) -->
+          <linearGradient id="sd7-wing-l" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <!-- Right wing gradient (faded, to show "to be completed") -->
+          <linearGradient id="sd7-wing-r" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#A7F3D0"/>
+            <stop offset="100%" stop-color="#6EE7B7"/>
+          </linearGradient>
+          <!-- Lower wing left -->
+          <linearGradient id="sd7-lwing-l" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#6EE7B7"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </linearGradient>
+          <!-- Body gradient -->
+          <radialGradient id="sd7-body" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#064E3B"/>
+          </radialGradient>
+          <!-- Mirror / frame card -->
+          <linearGradient id="sd7-mirror" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#D1FAE5"/>
+            <stop offset="100%" stop-color="#6EE7B7"/>
+          </linearGradient>
+          <!-- Sam skin -->
+          <radialGradient id="sd7-skin" cx="38%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#FDE8C8"/>
+            <stop offset="55%" stop-color="#F5C07A"/>
+            <stop offset="100%" stop-color="#C07830"/>
+          </radialGradient>
+          <!-- Drop shadow -->
+          <filter id="sd7-sh" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <!-- Arrow marker -->
+          <marker id="sd7-arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
             <path d="M0,0 L0,6 L8,3 z" fill="#059669"/>
           </marker>
         </defs>
-        <text x="110" y="192" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">REFLECT across the mirror line</text>
+
+        <!-- Sky background -->
+        <rect width="300" height="280" fill="url(#sd7-sky)"/>
+
+        <!-- Decorative sparkles top -->
+        <circle cx="18" cy="22" r="3" fill="#34D399" opacity=".6"/>
+        <circle cx="28" cy="12" r="2" fill="#10B981" opacity=".5"/>
+        <circle cx="280" cy="20" r="3" fill="#6EE7B7" opacity=".6"/>
+        <circle cx="268" cy="10" r="2" fill="#34D399" opacity=".5"/>
+
+        <!-- Title banner -->
+        <rect x="18" y="10" width="264" height="26" rx="10" fill="#059669" opacity=".18"/>
+        <text x="150" y="27" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46" font-family="'Quicksand',sans-serif">Complete the other half by reflecting!</text>
+
+        <!-- Mirror frame card -->
+        <g filter="url(#sd7-sh)">
+          <rect x="22" y="42" width="256" height="168" rx="14" fill="white" stroke="#10B981" stroke-width="2"/>
+        </g>
+
+        <!-- Mirror line (dashed, green, strong) -->
+        <line x1="150" y1="44" x2="150" y2="208" stroke="#059669" stroke-width="3" stroke-dasharray="8,4"/>
+        <rect x="130" y="44" width="40" height="14" rx="7" fill="#059669"/>
+        <text x="150" y="54" text-anchor="middle" font-size="8.5" font-weight="700" fill="white" font-family="sans-serif">mirror line</text>
+
+        <!-- Left upper wing (GIVEN — solid) -->
+        <path d="M148 70 Q110 52 82 72 Q62 90 72 118 Q94 136 140 124 Z" fill="url(#sd7-wing-l)" opacity="0.92"/>
+        <!-- Wing spots -->
+        <circle cx="105" cy="85" r="7" fill="#D1FAE5" opacity=".7"/>
+        <circle cx="90" cy="105" r="4" fill="#D1FAE5" opacity=".5"/>
+
+        <!-- Left lower wing (GIVEN — solid) -->
+        <path d="M148 124 Q104 130 86 154 Q74 172 96 180 Q120 187 144 164 Z" fill="url(#sd7-lwing-l)" opacity="0.9"/>
+        <circle cx="110" cy="154" r="5" fill="#A7F3D0" opacity=".6"/>
+
+        <!-- Right upper wing (REFLECTED — faded/dotted) -->
+        <path d="M152 70 Q190 52 218 72 Q238 90 228 118 Q206 136 160 124 Z" fill="url(#sd7-wing-r)" opacity="0.55" stroke="#10B981" stroke-dasharray="5,3" stroke-width="1.8"/>
+        <!-- Question marks on right side -->
+        <text x="196" y="95" text-anchor="middle" font-size="20" fill="#059669" opacity=".5" font-family="sans-serif">?</text>
+
+        <!-- Right lower wing (REFLECTED — faded/dotted) -->
+        <path d="M152 124 Q196 130 214 154 Q226 172 204 180 Q180 187 156 164 Z" fill="url(#sd7-wing-r)" opacity="0.55" stroke="#10B981" stroke-dasharray="5,3" stroke-width="1.8"/>
+        <text x="196" y="158" text-anchor="middle" font-size="20" fill="#059669" opacity=".5" font-family="sans-serif">?</text>
+
+        <!-- Body -->
+        <ellipse cx="150" cy="124" rx="7" ry="58" fill="url(#sd7-body)"/>
+        <!-- Body segments -->
+        <line x1="143" y1="100" x2="157" y2="100" stroke="#A7F3D0" stroke-width="1" opacity=".5"/>
+        <line x1="143" y1="114" x2="157" y2="114" stroke="#A7F3D0" stroke-width="1" opacity=".5"/>
+        <line x1="143" y1="128" x2="157" y2="128" stroke="#A7F3D0" stroke-width="1" opacity=".5"/>
+        <line x1="143" y1="142" x2="157" y2="142" stroke="#A7F3D0" stroke-width="1" opacity=".5"/>
+        <!-- Antennae -->
+        <line x1="148" y1="68" x2="136" y2="54" stroke="#065F46" stroke-width="1.5"/>
+        <circle cx="134" cy="52" r="3" fill="#34D399"/>
+        <line x1="152" y1="68" x2="164" y2="54" stroke="#065F46" stroke-width="1.5"/>
+        <circle cx="166" cy="52" r="3" fill="#34D399" opacity=".5"/>
+
+        <!-- Arrow showing reflection direction -->
+        <path d="M118,150 Q150,165 182,150" stroke="#059669" stroke-width="2" fill="none" marker-end="url(#sd7-arr)"/>
+
+        <!-- Labels -->
+        <rect x="44" y="197" width="74" height="12" rx="6" fill="#10B981"/>
+        <text x="81" y="206" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">given half</text>
+        <rect x="182" y="197" width="80" height="12" rx="6" fill="#A7F3D0" stroke="#10B981" stroke-width="1"/>
+        <text x="222" y="206" text-anchor="middle" font-size="8" font-weight="700" fill="#059669" font-family="sans-serif">reflected half</text>
+
+        <!-- REFLECT label -->
+        <rect x="84" y="210" width="132" height="13" rx="7" fill="#059669"/>
+        <text x="150" y="220" text-anchor="middle" font-size="8.5" font-weight="700" fill="white" font-family="sans-serif">REFLECT across the mirror line</text>
+
+        <!-- Ground -->
+        <path d="M0 232 Q38 222 75 232 Q112 242 150 232 Q188 222 225 232 Q262 242 300 232 L300 280 L0 280 Z" fill="url(#sd7-grass)"/>
+        <path d="M0 246 Q50 238 100 246 Q150 254 200 246 Q250 238 300 246 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+
+        <!-- Sam detective at bottom left -->
+        <g filter="url(#sd7-sh)">
+          <ellipse cx="46" cy="263" rx="14" ry="16" fill="#F97316"/>
+          <circle cx="46" cy="244" r="11" fill="url(#sd7-skin)"/>
+          <ellipse cx="46" cy="236" rx="11" ry="5" fill="#7C2D12"/>
+          <ellipse cx="38" cy="239" rx="4" ry="7" fill="#7C2D12"/>
+          <ellipse cx="54" cy="239" rx="4" ry="7" fill="#7C2D12"/>
+          <circle cx="42" cy="244" r="2.5" fill="#1E293B"/>
+          <circle cx="50" cy="244" r="2.5" fill="#1E293B"/>
+          <circle cx="43" cy="243" r="1" fill="white"/>
+          <circle cx="51" cy="243" r="1" fill="white"/>
+          <path d="M43 249 Q46 252 49 249" stroke="#7C2D12" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <rect x="36" y="231" width="20" height="4" rx="2" fill="#292524"/>
+          <rect x="40" y="224" width="12" height="8" rx="3" fill="#44403C"/>
+          <!-- Tracing paper in hand -->
+          <rect x="24" y="256" width="16" height="12" rx="3" fill="white" stroke="#10B981" stroke-width="1.5" opacity=".8"/>
+          <line x1="27" y1="260" x2="37" y2="260" stroke="#10B981" stroke-width="1" opacity=".7"/>
+          <line x1="27" y1="264" x2="37" y2="264" stroke="#10B981" stroke-width="1" opacity=".7"/>
+          <rect x="249" y="277" width="5" height="3" rx="2" fill="#1E3A5F"/>
+          <rect x="38" y="277" width="5" height="3" rx="2" fill="#1E3A5F"/>
+          <rect x="47" y="277" width="5" height="3" rx="2" fill="#1E3A5F"/>
+        </g>
       </svg>
       <div class="illus-caption">Reflect one half to find the other!</div>
     </div>
@@ -730,33 +1209,227 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-8">
     <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:1rem;font-weight:700;color:#C2410C;margin-bottom:6px;">Symmetry is everywhere!</div>
-      <!-- Symmetric items collage -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:90%;margin:0 auto;">
-        <div style="text-align:center;background:white;border-radius:12px;padding:10px;border:2px solid #10B981;">
-          <div style="font-size:2.5rem;">🦋</div>
-          <div style="font-size:.75rem;font-weight:700;color:#059669;margin-top:4px;">Butterfly</div>
-          <div style="font-size:.65rem;color:#059669;">vertical line</div>
-        </div>
-        <div style="text-align:center;background:white;border-radius:12px;padding:10px;border:2px solid #10B981;">
-          <div style="font-size:2.5rem;">⭐</div>
-          <div style="font-size:.75rem;font-weight:700;color:#059669;margin-top:4px;">Star</div>
-          <div style="font-size:.65rem;color:#059669;">5 lines</div>
-        </div>
-        <div style="text-align:center;background:white;border-radius:12px;padding:10px;border:2px solid #10B981;">
-          <div style="font-size:2.5rem;">🌸</div>
-          <div style="font-size:.75rem;font-weight:700;color:#059669;margin-top:4px;">Flower</div>
-          <div style="font-size:.65rem;color:#059669;">many lines</div>
-        </div>
-        <div style="text-align:center;background:white;border-radius:12px;padding:10px;border:2px solid #10B981;">
-          <div style="font-size:2.5rem;">✈️</div>
-          <div style="font-size:.75rem;font-weight:700;color:#059669;margin-top:4px;">Aeroplane</div>
-          <div style="font-size:.65rem;color:#059669;">vertical line</div>
-        </div>
-      </div>
-      <div class="illus-scene" style="margin-top:10px;">
-        <span class="char">🕵️‍♀️</span><span class="char">🧑</span>
-      </div>
+      <svg width="100%" viewBox="0 0 300 280" style="max-width:300px;display:block;margin:0 auto;">
+        <defs>
+          <!-- Sky: warm golden -->
+          <linearGradient id="sd8-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFF7ED"/>
+            <stop offset="100%" stop-color="#FED7AA"/>
+          </linearGradient>
+          <!-- Ground -->
+          <linearGradient id="sd8-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <!-- Butterfly left wing gradient -->
+          <linearGradient id="sd8-bwl" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#C084FC"/>
+            <stop offset="100%" stop-color="#7C3AED"/>
+          </linearGradient>
+          <!-- Butterfly right wing (mirror) -->
+          <linearGradient id="sd8-bwr" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#C084FC"/>
+            <stop offset="100%" stop-color="#7C3AED"/>
+          </linearGradient>
+          <!-- Star gradient -->
+          <radialGradient id="sd8-star" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <!-- Flower petal gradient -->
+          <radialGradient id="sd8-petal" cx="50%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FCA5A5"/>
+            <stop offset="100%" stop-color="#DC2626"/>
+          </radialGradient>
+          <!-- Plane body -->
+          <linearGradient id="sd8-plane" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#BFDBFE"/>
+            <stop offset="100%" stop-color="#3B82F6"/>
+          </linearGradient>
+          <!-- Card backgrounds -->
+          <linearGradient id="sd8-cardV" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#EDE9FE"/>
+            <stop offset="100%" stop-color="#DDD6FE"/>
+          </linearGradient>
+          <linearGradient id="sd8-cardY" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="100%" stop-color="#FEF08A"/>
+          </linearGradient>
+          <linearGradient id="sd8-cardP" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFF1F2"/>
+            <stop offset="100%" stop-color="#FFC0CB"/>
+          </linearGradient>
+          <linearGradient id="sd8-cardB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#EFF6FF"/>
+            <stop offset="100%" stop-color="#BFDBFE"/>
+          </linearGradient>
+          <!-- Sam skin -->
+          <radialGradient id="sd8-skin" cx="38%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#FDE8C8"/>
+            <stop offset="55%" stop-color="#F5C07A"/>
+            <stop offset="100%" stop-color="#C07830"/>
+          </radialGradient>
+          <!-- Kit skin -->
+          <radialGradient id="sd8-skin2" cx="38%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#FDDCAA"/>
+            <stop offset="55%" stop-color="#E89A44"/>
+            <stop offset="100%" stop-color="#A05A1A"/>
+          </radialGradient>
+          <!-- Drop shadow -->
+          <filter id="sd8-sh" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Sky background -->
+        <rect width="300" height="280" fill="url(#sd8-sky)"/>
+
+        <!-- Title banner -->
+        <rect x="16" y="10" width="268" height="26" rx="10" fill="#C2410C" opacity=".14"/>
+        <text x="150" y="27" text-anchor="middle" font-size="11" font-weight="700" fill="#C2410C" font-family="'Quicksand',sans-serif">Symmetry is everywhere in nature!</text>
+
+        <!-- === TOP ROW: Butterfly | Star === -->
+
+        <!-- Card: Butterfly -->
+        <g filter="url(#sd8-sh)">
+          <rect x="14" y="42" width="130" height="96" rx="12" fill="url(#sd8-cardV)" stroke="#8B5CF6" stroke-width="1.5"/>
+        </g>
+        <!-- Butterfly body -->
+        <ellipse cx="79" cy="90" rx="5" ry="34" fill="#5B21B6"/>
+        <!-- Left upper wing -->
+        <path d="M77 72 Q55 56 38 68 Q24 82 32 100 Q48 114 74 104 Z" fill="url(#sd8-bwl)" opacity=".92"/>
+        <circle cx="52" cy="78" r="5" fill="#EDE9FE" opacity=".6"/>
+        <!-- Right upper wing (mirror) -->
+        <path d="M81 72 Q103 56 120 68 Q134 82 126 100 Q110 114 84 104 Z" fill="url(#sd8-bwr)" opacity=".92"/>
+        <circle cx="106" cy="78" r="5" fill="#EDE9FE" opacity=".6"/>
+        <!-- Left lower wing -->
+        <path d="M77 104 Q48 110 36 128 Q28 144 50 150 Q68 156 76 138 Z" fill="#A78BFA" opacity=".85"/>
+        <!-- Right lower wing (mirror) -->
+        <path d="M81 104 Q110 110 122 128 Q130 144 108 150 Q90 156 82 138 Z" fill="#A78BFA" opacity=".85"/>
+        <!-- Symmetry line on butterfly -->
+        <line x1="79" y1="46" x2="79" y2="130" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="4,2.5" opacity=".8"/>
+        <!-- Antennae -->
+        <line x1="77" y1="60" x2="65" y2="48" stroke="#5B21B6" stroke-width="1.5"/>
+        <circle cx="63" cy="46" r="3" fill="#C084FC"/>
+        <line x1="81" y1="60" x2="93" y2="48" stroke="#5B21B6" stroke-width="1.5"/>
+        <circle cx="95" cy="46" r="3" fill="#C084FC"/>
+        <!-- Card label -->
+        <rect x="22" y="126" width="114" height="12" rx="6" fill="#8B5CF6"/>
+        <text x="79" y="135" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">Butterfly — 1 vertical line</text>
+
+        <!-- Card: Star -->
+        <g filter="url(#sd8-sh)">
+          <rect x="154" y="42" width="130" height="96" rx="12" fill="url(#sd8-cardY)" stroke="#D97706" stroke-width="1.5"/>
+        </g>
+        <!-- 5-pointed star (symmetric) centred at 219, 90 r≈36 -->
+        <polygon points="219,56 226,80 252,80 231,96 238,120 219,105 200,120 207,96 186,80 212,80" fill="url(#sd8-star)"/>
+        <!-- 5 symmetry lines on star -->
+        <line x1="219" y1="46" x2="219" y2="124" stroke="#D97706" stroke-width="1.2" stroke-dasharray="3,2" opacity=".7"/>
+        <line x1="186" y1="64" x2="252" y2="116" stroke="#D97706" stroke-width="1.2" stroke-dasharray="3,2" opacity=".5"/>
+        <line x1="252" y1="64" x2="186" y2="116" stroke="#D97706" stroke-width="1.2" stroke-dasharray="3,2" opacity=".5"/>
+        <line x1="192" y1="102" x2="246" y2="78" stroke="#D97706" stroke-width="1.2" stroke-dasharray="3,2" opacity=".4"/>
+        <line x1="246" y1="102" x2="192" y2="78" stroke="#D97706" stroke-width="1.2" stroke-dasharray="3,2" opacity=".4"/>
+        <!-- Card label -->
+        <rect x="162" y="126" width="114" height="12" rx="6" fill="#D97706"/>
+        <text x="219" y="135" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">Star — 5 lines of symmetry</text>
+
+        <!-- === BOTTOM ROW: Flower | Aeroplane === -->
+
+        <!-- Card: Flower -->
+        <g filter="url(#sd8-sh)">
+          <rect x="14" y="148" width="130" height="82" rx="12" fill="url(#sd8-cardP)" stroke="#DC2626" stroke-width="1.5"/>
+        </g>
+        <!-- 8 petals centred at 79, 185 -->
+        <g transform="translate(79,185)">
+          <ellipse cx="0" cy="-20" rx="8" ry="16" fill="url(#sd8-petal)" opacity=".9" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-20" rx="8" ry="16" fill="url(#sd8-petal)" opacity=".85" transform="rotate(45)"/>
+          <ellipse cx="0" cy="-20" rx="8" ry="16" fill="url(#sd8-petal)" opacity=".9" transform="rotate(90)"/>
+          <ellipse cx="0" cy="-20" rx="8" ry="16" fill="url(#sd8-petal)" opacity=".85" transform="rotate(135)"/>
+          <ellipse cx="0" cy="-20" rx="8" ry="16" fill="url(#sd8-petal)" opacity=".9" transform="rotate(180)"/>
+          <ellipse cx="0" cy="-20" rx="8" ry="16" fill="url(#sd8-petal)" opacity=".85" transform="rotate(225)"/>
+          <ellipse cx="0" cy="-20" rx="8" ry="16" fill="url(#sd8-petal)" opacity=".9" transform="rotate(270)"/>
+          <ellipse cx="0" cy="-20" rx="8" ry="16" fill="url(#sd8-petal)" opacity=".85" transform="rotate(315)"/>
+          <!-- Centre -->
+          <circle r="12" fill="#FCD34D"/>
+          <circle r="7" fill="#F59E0B"/>
+          <!-- Symmetry lines on flower (many) -->
+          <line x1="0" y1="-36" x2="0" y2="36" stroke="#DC2626" stroke-width="1" stroke-dasharray="3,2" opacity=".5"/>
+          <line x1="-36" y1="0" x2="36" y2="0" stroke="#DC2626" stroke-width="1" stroke-dasharray="3,2" opacity=".5"/>
+          <line x1="-25" y1="-25" x2="25" y2="25" stroke="#F97316" stroke-width="1" stroke-dasharray="3,2" opacity=".4"/>
+          <line x1="25" y1="-25" x2="-25" y2="25" stroke="#F97316" stroke-width="1" stroke-dasharray="3,2" opacity=".4"/>
+        </g>
+        <!-- Card label -->
+        <rect x="22" y="218" width="114" height="12" rx="6" fill="#DC2626"/>
+        <text x="79" y="227" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">Flower — many lines!</text>
+
+        <!-- Card: Aeroplane -->
+        <g filter="url(#sd8-sh)">
+          <rect x="154" y="148" width="130" height="82" rx="12" fill="url(#sd8-cardB)" stroke="#3B82F6" stroke-width="1.5"/>
+        </g>
+        <!-- Aeroplane centred at 219, 189 -->
+        <!-- Fuselage -->
+        <ellipse cx="219" cy="189" rx="44" ry="10" fill="url(#sd8-plane)" transform="rotate(-10, 219, 189)"/>
+        <!-- Nose -->
+        <ellipse cx="259" cy="181" rx="8" ry="6" fill="#93C5FD" transform="rotate(-10, 259, 181)"/>
+        <!-- Left wing -->
+        <path d="M215 189 Q200 170 178 175 Q190 188 210 192 Z" fill="#60A5FA" opacity=".9"/>
+        <!-- Right wing (mirror) -->
+        <path d="M223 189 Q238 170 260 175 Q248 188 228 192 Z" fill="#60A5FA" opacity=".9"/>
+        <!-- Left tail -->
+        <path d="M188 192 Q182 180 178 185 Q183 195 190 196 Z" fill="#3B82F6" opacity=".8"/>
+        <!-- Right tail (mirror) -->
+        <path d="M196 192 Q188 180 184 185 Q189 195 198 196 Z" fill="#3B82F6" opacity=".8"/>
+        <!-- Windows -->
+        <circle cx="228" cy="186" r="3" fill="white" opacity=".8"/>
+        <circle cx="238" cy="184" r="3" fill="white" opacity=".8"/>
+        <circle cx="248" cy="182" r="3" fill="white" opacity=".8"/>
+        <!-- Symmetry line (horizontal, through fuselage centre) -->
+        <line x1="165" y1="189" x2="270" y2="189" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="4,2.5" opacity=".7" transform="rotate(-10, 219, 189)"/>
+        <!-- Card label -->
+        <rect x="162" y="218" width="114" height="12" rx="6" fill="#3B82F6"/>
+        <text x="219" y="227" text-anchor="middle" font-size="8" font-weight="700" fill="white" font-family="sans-serif">Aeroplane — 1 vertical line</text>
+
+        <!-- Ground -->
+        <path d="M0 238 Q38 228 75 238 Q112 248 150 238 Q188 228 225 238 Q262 248 300 238 L300 280 L0 280 Z" fill="url(#sd8-grass)"/>
+        <path d="M0 252 Q50 244 100 252 Q150 260 200 252 Q250 244 300 252 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+
+        <!-- Sam detective (bottom left) -->
+        <g filter="url(#sd8-sh)">
+          <ellipse cx="40" cy="266" rx="13" ry="14" fill="#F97316"/>
+          <circle cx="40" cy="250" r="10" fill="url(#sd8-skin)"/>
+          <ellipse cx="40" cy="242" rx="10" ry="5" fill="#7C2D12"/>
+          <ellipse cx="33" cy="245" rx="3.5" ry="6" fill="#7C2D12"/>
+          <ellipse cx="47" cy="245" rx="3.5" ry="6" fill="#7C2D12"/>
+          <circle cx="37" cy="250" r="2" fill="#1E293B"/>
+          <circle cx="43" cy="250" r="2" fill="#1E293B"/>
+          <circle cx="38" cy="249" r=".8" fill="white"/>
+          <circle cx="44" cy="249" r=".8" fill="white"/>
+          <path d="M38 255 Q40 257 42 255" stroke="#7C2D12" stroke-width="1" fill="none"/>
+          <rect x="32" y="238" width="16" height="3" rx="1.5" fill="#292524"/>
+          <rect x="35" y="232" width="10" height="7" rx="2.5" fill="#44403C"/>
+          <!-- Magnifying glass -->
+          <circle cx="28" cy="262" r="6" stroke="#D97706" stroke-width="2" fill="rgba(251,191,36,0.2)"/>
+          <line x1="33" y1="267" x2="38" y2="272" stroke="#D97706" stroke-width="2" stroke-linecap="round"/>
+        </g>
+
+        <!-- Kit (bottom right) -->
+        <g filter="url(#sd8-sh)">
+          <ellipse cx="262" cy="266" rx="13" ry="14" fill="#3B82F6"/>
+          <circle cx="262" cy="250" r="10" fill="url(#sd8-skin2)"/>
+          <ellipse cx="262" cy="242" rx="10" ry="4" fill="#92400E"/>
+          <circle cx="259" cy="250" r="2" fill="#1E293B"/>
+          <circle cx="265" cy="250" r="2" fill="#1E293B"/>
+          <circle cx="260" cy="249" r=".8" fill="white"/>
+          <circle cx="266" cy="249" r=".8" fill="white"/>
+          <path d="M260 255 Q262 257 264 255" stroke="#92400E" stroke-width="1" fill="none"/>
+          <rect x="256" y="238" width="12" height="3" rx="1.5" fill="#92400E"/>
+          <!-- Notebook -->
+          <rect x="268" y="258" width="14" height="12" rx="2" fill="white" stroke="#3B82F6" stroke-width="1.5"/>
+          <line x1="270" y1="262" x2="280" y2="262" stroke="#3B82F6" stroke-width="1" opacity=".6"/>
+          <line x1="270" y1="265" x2="280" y2="265" stroke="#3B82F6" stroke-width="1" opacity=".6"/>
+        </g>
+      </svg>
       <div class="illus-caption">Symmetry is in nature and design!</div>
     </div>
 
@@ -804,24 +1477,241 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-9">
     <div class="illustration" style="background:linear-gradient(135deg,#10B981,#3B82F6);">
       <div class="page-num-illus">Page 9</div>
-      <div class="illus-scene">
-        <span class="char">🕵️‍♀️</span><span class="char">🧑</span>
-      </div>
-      <div style="font-size:2.5rem;margin:8px 0;">🪞🔍🏆</div>
-      <!-- Symmetric city miniature -->
-      <svg width="180" height="80" viewBox="0 0 180 80" style="margin:0 auto;">
-        <!-- Simple symmetric city skyline -->
-        <rect x="10" y="40" width="20" height="38" rx="2" fill="white" opacity=".8"/>
-        <rect x="32" y="28" width="16" height="50" rx="2" fill="white" opacity=".9"/>
-        <rect x="50" y="20" width="20" height="58" rx="2" fill="white"/>
-        <rect x="72" y="10" width="36" height="68" rx="2" fill="white"/>
-        <!-- Mirror image right side -->
-        <rect x="150" y="40" width="20" height="38" rx="2" fill="white" opacity=".8"/>
-        <rect x="132" y="28" width="16" height="50" rx="2" fill="white" opacity=".9"/>
-        <rect x="110" y="20" width="20" height="58" rx="2" fill="white"/>
-        <!-- Mirror line -->
-        <line x1="90" y1="5" x2="90" y2="78" stroke="white" stroke-width="2" stroke-dasharray="5,3" opacity=".7"/>
-        <text x="90" y="4" text-anchor="middle" fill="white" font-size="8" opacity=".8">mirror</text>
+      <svg width="100%" viewBox="0 0 300 280" style="max-width:300px;display:block;margin:0 auto;">
+        <defs>
+          <!-- Sky: teal → blue celebration gradient -->
+          <linearGradient id="sd9-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#3B82F6"/>
+          </linearGradient>
+          <!-- Ground -->
+          <linearGradient id="sd9-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <!-- Building gradients -->
+          <linearGradient id="sd9-bldA" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.9)"/>
+            <stop offset="100%" stop-color="rgba(219,234,254,0.9)"/>
+          </linearGradient>
+          <linearGradient id="sd9-bldB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.95)"/>
+            <stop offset="100%" stop-color="rgba(209,250,229,0.95)"/>
+          </linearGradient>
+          <!-- Trophy gradient -->
+          <radialGradient id="sd9-trophy" cx="38%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="50%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <!-- Star burst -->
+          <radialGradient id="sd9-burst" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".9"/>
+            <stop offset="60%" stop-color="#FEF08A" stop-opacity=".6"/>
+            <stop offset="100%" stop-color="#FBBF24" stop-opacity=".0"/>
+          </radialGradient>
+          <!-- Sam skin -->
+          <radialGradient id="sd9-skin" cx="38%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#FDE8C8"/>
+            <stop offset="55%" stop-color="#F5C07A"/>
+            <stop offset="100%" stop-color="#C07830"/>
+          </radialGradient>
+          <!-- Kit skin -->
+          <radialGradient id="sd9-skin2" cx="38%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#FDDCAA"/>
+            <stop offset="55%" stop-color="#E89A44"/>
+            <stop offset="100%" stop-color="#A05A1A"/>
+          </radialGradient>
+          <!-- Celebration shapes -->
+          <radialGradient id="sd9-circle" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#A7F3D0"/>
+            <stop offset="60%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </radialGradient>
+          <radialGradient id="sd9-sq" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#BFDBFE"/>
+            <stop offset="60%" stop-color="#3B82F6"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </radialGradient>
+          <!-- Drop shadow -->
+          <filter id="sd9-sh" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="1" dy="3" stdDeviation="4" flood-opacity="0.25"/>
+          </filter>
+          <!-- Glow filter for trophy -->
+          <filter id="sd9-glow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Sky / celebration background -->
+        <rect width="300" height="280" fill="url(#sd9-sky)"/>
+
+        <!-- Star burst glow behind trophy -->
+        <circle cx="150" cy="90" r="70" fill="url(#sd9-burst)"/>
+
+        <!-- Confetti dots scattered around -->
+        <circle cx="30" cy="30" r="5" fill="#FEF08A" opacity=".85"/>
+        <circle cx="55" cy="18" r="4" fill="#F97316" opacity=".8"/>
+        <circle cx="80" cy="35" r="3" fill="#A78BFA" opacity=".8"/>
+        <circle cx="18" cy="60" r="4" fill="#34D399" opacity=".7"/>
+        <circle cx="270" cy="25" r="5" fill="#FCA5A5" opacity=".85"/>
+        <circle cx="250" cy="40" r="4" fill="#60A5FA" opacity=".8"/>
+        <circle cx="285" cy="55" r="3" fill="#FEF08A" opacity=".7"/>
+        <circle cx="240" cy="15" r="3" fill="#34D399" opacity=".75"/>
+        <circle cx="120" cy="18" r="4" fill="#F97316" opacity=".7"/>
+        <circle cx="175" cy="22" r="3" fill="#C084FC" opacity=".75"/>
+        <circle cx="40" cy="15" r="3" fill="#60A5FA" opacity=".65"/>
+
+        <!-- Confetti rectangles (tilted) -->
+        <rect x="100" y="14" width="10" height="5" rx="2" fill="#FBBF24" opacity=".8" transform="rotate(30,100,14)"/>
+        <rect x="200" y="18" width="10" height="5" rx="2" fill="#DC2626" opacity=".7" transform="rotate(-20,200,18)"/>
+        <rect x="60" y="42" width="8" height="4" rx="2" fill="#8B5CF6" opacity=".7" transform="rotate(45,60,42)"/>
+        <rect x="240" y="60" width="8" height="4" rx="2" fill="#10B981" opacity=".7" transform="rotate(-35,240,60)"/>
+
+        <!-- Trophy cup -->
+        <g filter="url(#sd9-glow)">
+          <!-- Cup body -->
+          <path d="M130 48 L128 88 Q128 104 150 106 Q172 104 172 88 L170 48 Z" fill="url(#sd9-trophy)"/>
+          <!-- Cup rim -->
+          <rect x="126" y="44" width="48" height="8" rx="4" fill="#FBBF24"/>
+          <!-- Handles -->
+          <path d="M128 56 Q110 56 110 72 Q110 88 128 88" stroke="#D97706" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M172 56 Q190 56 190 72 Q190 88 172 88" stroke="#D97706" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <!-- Stem -->
+          <rect x="142" y="104" width="16" height="14" rx="3" fill="#D97706"/>
+          <!-- Base -->
+          <rect x="132" y="116" width="36" height="8" rx="4" fill="#D97706"/>
+          <!-- Star on trophy -->
+          <polygon points="150,58 153,68 163,68 155,74 158,84 150,78 142,84 145,74 137,68 147,68" fill="white" opacity=".8"/>
+        </g>
+
+        <!-- Mirror line label on trophy -->
+        <line x1="150" y1="40" x2="150" y2="128" stroke="white" stroke-width="2" stroke-dasharray="5,3" opacity=".5"/>
+        <text x="150" y="38" text-anchor="middle" font-size="8" fill="white" opacity=".8" font-family="sans-serif">mirror</text>
+
+        <!-- Symmetric city skyline -->
+        <!-- Left side buildings -->
+        <g filter="url(#sd9-sh)">
+          <rect x="8"  y="158" width="22" height="68" rx="3" fill="url(#sd9-bldA)"/>
+          <rect x="32" y="144" width="18" height="82" rx="3" fill="url(#sd9-bldB)"/>
+          <rect x="52" y="130" width="24" height="96" rx="3" fill="url(#sd9-bldA)"/>
+          <rect x="78" y="118" width="34" height="108" rx="3" fill="url(#sd9-bldB)"/>
+        </g>
+        <!-- Right side buildings (mirror) -->
+        <g filter="url(#sd9-sh)">
+          <rect x="270" y="158" width="22" height="68" rx="3" fill="url(#sd9-bldA)"/>
+          <rect x="250" y="144" width="18" height="82" rx="3" fill="url(#sd9-bldB)"/>
+          <rect x="224" y="130" width="24" height="96" rx="3" fill="url(#sd9-bldA)"/>
+          <rect x="188" y="118" width="34" height="108" rx="3" fill="url(#sd9-bldB)"/>
+        </g>
+
+        <!-- Windows on buildings (left) -->
+        <rect x="12"  y="168" width="6" height="6" rx="1" fill="#BFDBFE"/>
+        <rect x="20"  y="168" width="6" height="6" rx="1" fill="#BFDBFE"/>
+        <rect x="12"  y="180" width="6" height="6" rx="1" fill="#BFDBFE"/>
+        <rect x="20"  y="180" width="6" height="6" rx="1" fill="#BFDBFE"/>
+        <rect x="35"  y="152" width="5" height="5" rx="1" fill="#A7F3D0"/>
+        <rect x="43"  y="152" width="5" height="5" rx="1" fill="#A7F3D0"/>
+        <rect x="35"  y="162" width="5" height="5" rx="1" fill="#A7F3D0"/>
+        <rect x="43"  y="162" width="5" height="5" rx="1" fill="#A7F3D0"/>
+        <rect x="56"  y="136" width="7" height="7" rx="1" fill="#BFDBFE"/>
+        <rect x="66"  y="136" width="7" height="7" rx="1" fill="#BFDBFE"/>
+        <rect x="56"  y="150" width="7" height="7" rx="1" fill="#BFDBFE"/>
+        <rect x="66"  y="150" width="7" height="7" rx="1" fill="#BFDBFE"/>
+        <!-- Windows (right — mirror) -->
+        <rect x="274" y="168" width="6" height="6" rx="1" fill="#BFDBFE"/>
+        <rect x="282" y="168" width="6" height="6" rx="1" fill="#BFDBFE"/>
+        <rect x="274" y="180" width="6" height="6" rx="1" fill="#BFDBFE"/>
+        <rect x="282" y="180" width="6" height="6" rx="1" fill="#BFDBFE"/>
+        <rect x="252" y="152" width="5" height="5" rx="1" fill="#A7F3D0"/>
+        <rect x="260" y="152" width="5" height="5" rx="1" fill="#A7F3D0"/>
+        <rect x="252" y="162" width="5" height="5" rx="1" fill="#A7F3D0"/>
+        <rect x="260" y="162" width="5" height="5" rx="1" fill="#A7F3D0"/>
+        <rect x="227" y="136" width="7" height="7" rx="1" fill="#BFDBFE"/>
+        <rect x="237" y="136" width="7" height="7" rx="1" fill="#BFDBFE"/>
+        <rect x="227" y="150" width="7" height="7" rx="1" fill="#BFDBFE"/>
+        <rect x="237" y="150" width="7" height="7" rx="1" fill="#BFDBFE"/>
+
+        <!-- Mirror line through city -->
+        <line x1="150" y1="130" x2="150" y2="230" stroke="white" stroke-width="2.5" stroke-dasharray="7,4" opacity=".65"/>
+
+        <!-- Ground -->
+        <path d="M0 224 Q38 214 75 224 Q112 234 150 224 Q188 214 225 224 Q262 234 300 224 L300 280 L0 280 Z" fill="url(#sd9-grass)"/>
+        <path d="M0 238 Q50 230 100 238 Q150 246 200 238 Q250 230 300 238 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+
+        <!-- Sam detective — arms up celebrating -->
+        <g filter="url(#sd9-sh)">
+          <!-- Body -->
+          <ellipse cx="98" cy="258" rx="14" ry="15" fill="#F97316"/>
+          <!-- Arms up -->
+          <line x1="84" y1="252" x2="70" y2="232" stroke="#F97316" stroke-width="6" stroke-linecap="round"/>
+          <line x1="112" y1="252" x2="126" y2="232" stroke="#F97316" stroke-width="6" stroke-linecap="round"/>
+          <!-- Hands -->
+          <circle cx="70" cy="230" r="5" fill="url(#sd9-skin)"/>
+          <circle cx="126" cy="230" r="5" fill="url(#sd9-skin)"/>
+          <!-- Head -->
+          <circle cx="98" cy="242" r="11" fill="url(#sd9-skin)"/>
+          <!-- Hair -->
+          <ellipse cx="98" cy="233" rx="11" ry="5" fill="#7C2D12"/>
+          <ellipse cx="90" cy="236" rx="4" ry="7" fill="#7C2D12"/>
+          <ellipse cx="106" cy="236" rx="4" ry="7" fill="#7C2D12"/>
+          <!-- Eyes (wide with joy) -->
+          <circle cx="94" cy="242" r="3" fill="#1E293B"/>
+          <circle cx="102" cy="242" r="3" fill="#1E293B"/>
+          <circle cx="95" cy="241" r="1.2" fill="white"/>
+          <circle cx="103" cy="241" r="1.2" fill="white"/>
+          <!-- Big smile -->
+          <path d="M93 248 Q98 254 103 248" stroke="#7C2D12" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Detective hat -->
+          <rect x="88" y="229" width="20" height="4" rx="2" fill="#292524"/>
+          <rect x="92" y="222" width="12" height="8" rx="3" fill="#44403C"/>
+          <!-- Legs -->
+          <rect x="91" y="272" width="5" height="4" rx="2" fill="#1E3A5F"/>
+          <rect x="100" y="272" width="5" height="4" rx="2" fill="#1E3A5F"/>
+        </g>
+
+        <!-- Kit — arms up celebrating -->
+        <g filter="url(#sd9-sh)">
+          <ellipse cx="202" cy="258" rx="14" ry="15" fill="#3B82F6"/>
+          <!-- Arms up -->
+          <line x1="188" y1="252" x2="174" y2="232" stroke="#3B82F6" stroke-width="6" stroke-linecap="round"/>
+          <line x1="216" y1="252" x2="230" y2="232" stroke="#3B82F6" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="174" cy="230" r="5" fill="url(#sd9-skin2)"/>
+          <circle cx="230" cy="230" r="5" fill="url(#sd9-skin2)"/>
+          <!-- Head -->
+          <circle cx="202" cy="242" r="11" fill="url(#sd9-skin2)"/>
+          <!-- Hair -->
+          <ellipse cx="202" cy="233" rx="11" ry="4" fill="#92400E"/>
+          <!-- Eyes -->
+          <circle cx="198" cy="242" r="3" fill="#1E293B"/>
+          <circle cx="206" cy="242" r="3" fill="#1E293B"/>
+          <circle cx="199" cy="241" r="1.2" fill="white"/>
+          <circle cx="207" cy="241" r="1.2" fill="white"/>
+          <path d="M198 248 Q202 254 206 248" stroke="#92400E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <rect x="196" y="229" width="12" height="3" rx="1.5" fill="#92400E"/>
+          <!-- Legs -->
+          <rect x="195" y="272" width="5" height="4" rx="2" fill="#1E3A5F"/>
+          <rect x="204" y="272" width="5" height="4" rx="2" fill="#1E3A5F"/>
+        </g>
+
+        <!-- Floating celebration shape icons above characters -->
+        <!-- Circle icon -->
+        <circle cx="50" cy="210" r="10" fill="url(#sd9-circle)" opacity=".9"/>
+        <circle cx="50" cy="210" r="10" fill="none" stroke="white" stroke-width="1" opacity=".5"/>
+        <!-- Square icon -->
+        <rect x="118" y="200" width="20" height="20" rx="3" fill="url(#sd9-sq)" opacity=".9"/>
+        <!-- Triangle icon -->
+        <polygon points="182,200 192,220 172,220" fill="#FBBF24" opacity=".9"/>
+        <!-- Star sparkles near trophy -->
+        <circle cx="116" cy="68" r="3" fill="white" opacity=".9"/>
+        <circle cx="184" cy="68" r="3" fill="white" opacity=".9"/>
+        <circle cx="116" cy="108" r="3" fill="white" opacity=".8"/>
+        <circle cx="184" cy="108" r="3" fill="white" opacity=".8"/>
+
+        <!-- "Mission Complete!" banner -->
+        <rect x="66" y="132" width="168" height="20" rx="10" fill="rgba(255,255,255,0.25)"/>
+        <text x="150" y="145" text-anchor="middle" font-size="11" font-weight="700" fill="white" font-family="'Quicksand',sans-serif">Mission Complete!</text>
       </svg>
       <div class="illus-caption">Shapeworld restored — perfectly symmetric!</div>
     </div>

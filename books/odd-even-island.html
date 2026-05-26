@@ -267,14 +267,100 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 2 – ZIP LANDS ON THE ISLAND
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+    <div class="illustration" style="background:linear-gradient(160deg,#0EA5E9 0%,#38BDF8 50%,#BAE6FD 100%);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:1rem;font-weight:700;color:#6D28D9;margin-bottom:6px;text-align:center;">Everything is in a muddle!</div>
-      <div style="font-size:2.8rem;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:95%;">
-        <span>🐧</span><span>🐧</span><span>🦀</span><span>🦀</span><span>🦀</span><span>🌺</span><span>🌺</span><span>🤖</span><span>🐚</span><span>🦋</span><span>🌴</span><span>🐠</span>
-      </div>
-      <div style="font-size:4.5rem;margin-top:8px;">🤖</div>
-      <div style="background:rgba(255,255,255,.7);border-radius:12px;padding:6px 14px;font-weight:700;color:#6D28D9;font-size:.9rem;margin-top:4px;">😕 "What a mess!"</div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="oe2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0EA5E9"/>
+            <stop offset="55%" stop-color="#38BDF8"/>
+            <stop offset="100%" stop-color="#BAE6FD"/>
+          </linearGradient>
+          <linearGradient id="oe2-sea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#0369A1"/>
+          </linearGradient>
+          <linearGradient id="oe2-sand" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="100%" stop-color="#F59E0B"/>
+          </linearGradient>
+          <radialGradient id="oe2-zip" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#E2E8F0"/>
+            <stop offset="55%" stop-color="#CBD5E1"/>
+            <stop offset="100%" stop-color="#94A3B8"/>
+          </radialGradient>
+          <filter id="oe2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#oe2-sky)"/>
+        <!-- Sun -->
+        <circle cx="260" cy="40" r="22" fill="#FBBF24" opacity=".9" filter="url(#oe2-sh)"/>
+        <circle cx="260" cy="40" r="15" fill="#FDE68A"/>
+        <!-- Clouds -->
+        <ellipse cx="60" cy="42" rx="28" ry="14" fill="white" opacity=".85"/>
+        <ellipse cx="80" cy="35" rx="20" ry="12" fill="white" opacity=".9"/>
+        <!-- Sea -->
+        <rect x="0" y="200" width="300" height="80" fill="url(#oe2-sea)"/>
+        <!-- Waves -->
+        <path d="M0 205 Q38 198 75 205 Q113 212 150 205 Q188 198 225 205 Q262 212 300 205" stroke="#BAE6FD" stroke-width="2" fill="none" opacity=".7"/>
+        <path d="M0 218 Q38 211 75 218 Q113 225 150 218 Q188 211 225 218 Q262 225 300 218" stroke="#BAE6FD" stroke-width="1.5" fill="none" opacity=".5"/>
+        <!-- Sandy island mound -->
+        <ellipse cx="150" cy="210" rx="130" ry="35" fill="url(#oe2-sand)"/>
+        <!-- Palm tree -->
+        <rect x="230" y="148" width="10" height="68" rx="4" fill="#78350F"/>
+        <ellipse cx="235" cy="148" rx="28" ry="14" fill="#16A34A" transform="rotate(-20 235 148)"/>
+        <ellipse cx="235" cy="148" rx="26" ry="12" fill="#15803D" transform="rotate(15 235 148)"/>
+        <ellipse cx="235" cy="152" rx="22" ry="10" fill="#16A34A" transform="rotate(-40 235 152)"/>
+        <!-- Palm 2 small -->
+        <rect x="52" y="168" width="7" height="50" rx="3" fill="#92400E"/>
+        <ellipse cx="55" cy="168" rx="20" ry="10" fill="#16A34A" transform="rotate(-15 55 168)"/>
+        <ellipse cx="55" cy="168" rx="18" ry="9" fill="#15803D" transform="rotate(20 55 168)"/>
+        <!-- Mixed-up objects scattered -->
+        <text x="50" y="190" font-size="18" text-anchor="middle">🐚</text>
+        <text x="90" y="185" font-size="16" text-anchor="middle">🦋</text>
+        <text x="130" y="192" font-size="17" text-anchor="middle">🌺</text>
+        <text x="175" y="188" font-size="15" text-anchor="middle">🐠</text>
+        <text x="205" y="193" font-size="16" text-anchor="middle">🦀</text>
+        <!-- ZIP THE ROBOT -->
+        <g filter="url(#oe2-sh)">
+          <!-- Body -->
+          <rect x="118" y="130" width="44" height="48" rx="10" fill="url(#oe2-zip)"/>
+          <!-- Body highlight -->
+          <rect x="122" y="134" width="14" height="20" rx="4" fill="white" opacity=".35"/>
+          <!-- Head -->
+          <rect x="122" y="104" width="36" height="32" rx="8" fill="url(#oe2-zip)"/>
+          <!-- LED eyes - glowing blue -->
+          <circle cx="133" cy="118" r="6" fill="#1D4ED8"/>
+          <circle cx="133" cy="118" r="4" fill="#3B82F6"/>
+          <circle cx="133" cy="118" r="2" fill="#BFDBFE"/>
+          <circle cx="147" cy="118" r="6" fill="#1D4ED8"/>
+          <circle cx="147" cy="118" r="4" fill="#3B82F6"/>
+          <circle cx="147" cy="118" r="2" fill="#BFDBFE"/>
+          <!-- Eye specular -->
+          <circle cx="134.5" cy="116.5" r="1" fill="white" opacity=".8"/>
+          <circle cx="148.5" cy="116.5" r="1" fill="white" opacity=".8"/>
+          <!-- Mouth -->
+          <rect x="131" y="127" width="18" height="5" rx="2" fill="#475569"/>
+          <!-- Antenna -->
+          <line x1="140" y1="104" x2="140" y2="90" stroke="#94A3B8" stroke-width="3"/>
+          <circle cx="140" cy="86" r="5" fill="#FBBF24"/>
+          <!-- Arms -->
+          <rect x="96" y="138" width="22" height="10" rx="5" fill="url(#oe2-zip)"/>
+          <rect x="162" y="138" width="22" height="10" rx="5" fill="url(#oe2-zip)"/>
+          <!-- Legs -->
+          <rect x="122" y="175" width="14" height="20" rx="5" fill="url(#oe2-zip)"/>
+          <rect x="144" y="175" width="14" height="20" rx="5" fill="url(#oe2-zip)"/>
+          <!-- Feet -->
+          <rect x="119" y="192" width="18" height="8" rx="4" fill="#64748B"/>
+          <rect x="141" y="192" width="18" height="8" rx="4" fill="#64748B"/>
+        </g>
+        <!-- Speech bubble -->
+        <rect x="62" y="88" width="82" height="28" rx="10" fill="white" opacity=".92" filter="url(#oe2-sh)"/>
+        <text x="103" y="107" text-anchor="middle" font-size="10" font-weight="700" fill="#6D28D9" font-family="sans-serif">What a mess!</text>
+        <polygon points="108,116 114,124 118,116" fill="white" opacity=".92"/>
+      </svg>
       <div class="illus-caption">Zip lands on the island!</div>
     </div>
 
@@ -313,41 +399,85 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 3 – EVEN NUMBERS 2, 4, 6!
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+    <div class="illustration" style="background:linear-gradient(160deg,#059669 0%,#10B981 50%,#A7F3D0 100%);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:.9rem;font-weight:700;color:#059669;margin-bottom:8px;text-align:center;">Even numbers — always in pairs!</div>
-      <div style="width:90%;display:flex;flex-direction:column;gap:10px;">
-        <!-- 2 penguins in a pair -->
-        <div style="background:rgba(255,255,255,.7);border-radius:10px;padding:8px 12px;">
-          <div style="font-size:.8rem;font-weight:700;color:#059669;margin-bottom:4px;">2 = 1 pair</div>
-          <div style="display:flex;gap:4px;">
-            <span style="font-size:2.2rem;background:#D1FAE5;border-radius:8px;padding:2px 6px;">🐧</span>
-            <span style="font-size:2.2rem;background:#D1FAE5;border-radius:8px;padding:2px 6px;">🐧</span>
-          </div>
-        </div>
-        <!-- 4 crabs in 2 pairs -->
-        <div style="background:rgba(255,255,255,.7);border-radius:10px;padding:8px 12px;">
-          <div style="font-size:.8rem;font-weight:700;color:#059669;margin-bottom:4px;">4 = 2 pairs</div>
-          <div style="display:flex;gap:4px;">
-            <span style="font-size:2.2rem;background:#D1FAE5;border-radius:8px;padding:2px 6px;">🦀</span>
-            <span style="font-size:2.2rem;background:#D1FAE5;border-radius:8px;padding:2px 6px;">🦀</span>
-            <span style="font-size:2.2rem;background:#BBF7D0;border-radius:8px;padding:2px 6px;">🦀</span>
-            <span style="font-size:2.2rem;background:#BBF7D0;border-radius:8px;padding:2px 6px;">🦀</span>
-          </div>
-        </div>
-        <!-- 6 flowers in 3 pairs -->
-        <div style="background:rgba(255,255,255,.7);border-radius:10px;padding:8px 12px;">
-          <div style="font-size:.8rem;font-weight:700;color:#059669;margin-bottom:4px;">6 = 3 pairs</div>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;">
-            <span style="font-size:2.2rem;background:#D1FAE5;border-radius:8px;padding:2px 6px;">🌺</span>
-            <span style="font-size:2.2rem;background:#D1FAE5;border-radius:8px;padding:2px 6px;">🌺</span>
-            <span style="font-size:2.2rem;background:#BBF7D0;border-radius:8px;padding:2px 6px;">🌺</span>
-            <span style="font-size:2.2rem;background:#BBF7D0;border-radius:8px;padding:2px 6px;">🌺</span>
-            <span style="font-size:2.2rem;background:#6EE7B7;border-radius:8px;padding:2px 6px;">🌺</span>
-            <span style="font-size:2.2rem;background:#6EE7B7;border-radius:8px;padding:2px 6px;">🌺</span>
-          </div>
-        </div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="oe3-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#A7F3D0"/>
+          </linearGradient>
+          <linearGradient id="oe3-panel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#F0FDF4"/>
+          </linearGradient>
+          <radialGradient id="oe3-zip" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#E2E8F0"/>
+            <stop offset="55%" stop-color="#CBD5E1"/>
+            <stop offset="100%" stop-color="#94A3B8"/>
+          </radialGradient>
+          <filter id="oe3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#oe3-bg)"/>
+        <!-- Ocean and beach at bottom -->
+        <rect x="0" y="238" width="300" height="42" fill="#0284C7" opacity=".6"/>
+        <ellipse cx="150" cy="240" rx="145" ry="25" fill="#FDE68A"/>
+        <!-- Palm -->
+        <rect x="256" y="185" width="8" height="58" rx="3" fill="#78350F"/>
+        <ellipse cx="260" cy="185" rx="22" ry="11" fill="#16A34A" transform="rotate(-18 260 185)"/>
+        <ellipse cx="260" cy="185" rx="20" ry="9" fill="#15803D" transform="rotate(16 260 185)"/>
+        <!-- Title band -->
+        <rect x="8" y="14" width="284" height="24" rx="8" fill="#059669" filter="url(#oe3-sh)"/>
+        <text x="150" y="31" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="sans-serif">EVEN = pairs with NO leftover!</text>
+        <!-- Panel: 2 = 1 pair -->
+        <rect x="8" y="46" width="284" height="50" rx="10" fill="url(#oe3-panel)" filter="url(#oe3-sh)"/>
+        <text x="18" y="63" font-size="10" font-weight="800" fill="#059669" font-family="sans-serif">2 = 1 pair</text>
+        <circle cx="50" cy="76" r="14" fill="#10B981"/>
+        <text x="50" y="81" text-anchor="middle" font-size="14">🐧</text>
+        <line x1="68" y1="76" x2="82" y2="76" stroke="#059669" stroke-width="2.5" stroke-dasharray="4,2"/>
+        <circle cx="100" cy="76" r="14" fill="#10B981"/>
+        <text x="100" y="81" text-anchor="middle" font-size="14">🐧</text>
+        <rect x="46" y="58" width="72" height="36" rx="8" fill="none" stroke="#059669" stroke-width="2" stroke-dasharray="5,2"/>
+        <text x="220" y="74" text-anchor="middle" font-size="22" font-weight="800" fill="#059669" font-family="sans-serif">✓</text>
+        <text x="265" y="74" text-anchor="middle" font-size="10" font-weight="700" fill="#059669" font-family="sans-serif">EVEN!</text>
+        <!-- Panel: 4 = 2 pairs -->
+        <rect x="8" y="104" width="284" height="52" rx="10" fill="url(#oe3-panel)" filter="url(#oe3-sh)"/>
+        <text x="18" y="121" font-size="10" font-weight="800" fill="#059669" font-family="sans-serif">4 = 2 pairs</text>
+        <circle cx="50" cy="132" r="13" fill="#6EE7B7"/>
+        <text x="50" y="137" text-anchor="middle" font-size="13">🦀</text>
+        <circle cx="76" cy="132" r="13" fill="#6EE7B7"/>
+        <text x="76" y="137" text-anchor="middle" font-size="13">🦀</text>
+        <rect x="36" y="118" width="56" height="28" rx="6" fill="none" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <circle cx="112" cy="132" r="13" fill="#34D399"/>
+        <text x="112" y="137" text-anchor="middle" font-size="13">🦀</text>
+        <circle cx="138" cy="132" r="13" fill="#34D399"/>
+        <text x="138" y="137" text-anchor="middle" font-size="13">🦀</text>
+        <rect x="98" y="118" width="56" height="28" rx="6" fill="none" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="220" y="130" text-anchor="middle" font-size="22" font-weight="800" fill="#059669" font-family="sans-serif">✓</text>
+        <text x="265" y="130" text-anchor="middle" font-size="10" font-weight="700" fill="#059669" font-family="sans-serif">EVEN!</text>
+        <!-- Panel: 6 = 3 pairs -->
+        <rect x="8" y="164" width="284" height="54" rx="10" fill="url(#oe3-panel)" filter="url(#oe3-sh)"/>
+        <text x="18" y="181" font-size="10" font-weight="800" fill="#059669" font-family="sans-serif">6 = 3 pairs</text>
+        <circle cx="44" cy="193" r="12" fill="#A7F3D0"/>
+        <text x="44" y="198" text-anchor="middle" font-size="12">🌺</text>
+        <circle cx="68" cy="193" r="12" fill="#A7F3D0"/>
+        <text x="68" y="198" text-anchor="middle" font-size="12">🌺</text>
+        <rect x="32" y="180" width="50" height="26" rx="5" fill="none" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="98" cy="193" r="12" fill="#6EE7B7"/>
+        <text x="98" y="198" text-anchor="middle" font-size="12">🌺</text>
+        <circle cx="122" cy="193" r="12" fill="#6EE7B7"/>
+        <text x="122" y="198" text-anchor="middle" font-size="12">🌺</text>
+        <rect x="86" y="180" width="50" height="26" rx="5" fill="none" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="152" cy="193" r="12" fill="#34D399"/>
+        <text x="152" y="198" text-anchor="middle" font-size="12">🌺</text>
+        <circle cx="176" cy="193" r="12" fill="#34D399"/>
+        <text x="176" y="198" text-anchor="middle" font-size="12">🌺</text>
+        <rect x="140" y="180" width="50" height="26" rx="5" fill="none" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="225" y="192" text-anchor="middle" font-size="22" font-weight="800" fill="#059669" font-family="sans-serif">✓</text>
+        <text x="265" y="192" text-anchor="middle" font-size="10" font-weight="700" fill="#059669" font-family="sans-serif">EVEN!</text>
+      </svg>
       <div class="illus-caption">No leftovers — that means EVEN!</div>
     </div>
 
@@ -386,41 +516,72 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 4 – ODD NUMBERS 1, 3, 5!
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FDE68A);">
+    <div class="illustration" style="background:linear-gradient(160deg,#D97706 0%,#F59E0B 50%,#FEF9C3 100%);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:.9rem;font-weight:700;color:#D97706;margin-bottom:8px;text-align:center;">Odd numbers — always one left over!</div>
-      <div style="width:90%;display:flex;flex-direction:column;gap:10px;">
-        <!-- 1 star alone -->
-        <div style="background:rgba(255,255,255,.7);border-radius:10px;padding:8px 12px;">
-          <div style="font-size:.8rem;font-weight:700;color:#D97706;margin-bottom:4px;">1 = no pairs — alone!</div>
-          <div style="display:flex;gap:4px;align-items:center;">
-            <span style="font-size:2.4rem;background:#FEF3C7;border-radius:8px;padding:2px 8px;border:2px solid #F59E0B;">🌟</span>
-            <span style="font-size:.8rem;font-weight:700;color:#D97706;">😢 alone</span>
-          </div>
-        </div>
-        <!-- 3 stars — 1 pair + 1 left over -->
-        <div style="background:rgba(255,255,255,.7);border-radius:10px;padding:8px 12px;">
-          <div style="font-size:.8rem;font-weight:700;color:#D97706;margin-bottom:4px;">3 = 1 pair + 1 left over</div>
-          <div style="display:flex;gap:4px;align-items:center;">
-            <span style="font-size:2.2rem;background:#FDE68A;border-radius:8px;padding:2px 6px;">🌟</span>
-            <span style="font-size:2.2rem;background:#FDE68A;border-radius:8px;padding:2px 6px;">🌟</span>
-            <span style="font-size:2.2rem;background:#FEF3C7;border-radius:8px;padding:2px 6px;border:2px solid #F59E0B;">🌟</span>
-            <span style="font-size:.8rem;font-weight:700;color:#D97706;">😢</span>
-          </div>
-        </div>
-        <!-- 5 stars — 2 pairs + 1 left over -->
-        <div style="background:rgba(255,255,255,.7);border-radius:10px;padding:8px 12px;">
-          <div style="font-size:.8rem;font-weight:700;color:#D97706;margin-bottom:4px;">5 = 2 pairs + 1 left over</div>
-          <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
-            <span style="font-size:2.2rem;background:#FDE68A;border-radius:8px;padding:2px 6px;">🌟</span>
-            <span style="font-size:2.2rem;background:#FDE68A;border-radius:8px;padding:2px 6px;">🌟</span>
-            <span style="font-size:2.2rem;background:#FCD34D;border-radius:8px;padding:2px 6px;">🌟</span>
-            <span style="font-size:2.2rem;background:#FCD34D;border-radius:8px;padding:2px 6px;">🌟</span>
-            <span style="font-size:2.2rem;background:#FEF3C7;border-radius:8px;padding:2px 6px;border:2px solid #F59E0B;">🌟</span>
-            <span style="font-size:.8rem;font-weight:700;color:#D97706;">😢</span>
-          </div>
-        </div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="oe4-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="100%" stop-color="#FDE68A"/>
+          </linearGradient>
+          <linearGradient id="oe4-panel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#FFFBEB"/>
+          </linearGradient>
+          <filter id="oe4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#oe4-bg)"/>
+        <!-- Beach and ocean -->
+        <rect x="0" y="242" width="300" height="38" fill="#0284C7" opacity=".55"/>
+        <ellipse cx="150" cy="244" rx="148" ry="22" fill="#FDE68A"/>
+        <!-- Palm -->
+        <rect x="258" y="188" width="8" height="56" rx="3" fill="#78350F"/>
+        <ellipse cx="262" cy="188" rx="22" ry="11" fill="#16A34A" transform="rotate(-18 262 188)"/>
+        <ellipse cx="262" cy="188" rx="20" ry="9" fill="#15803D" transform="rotate(16 262 188)"/>
+        <!-- Title band -->
+        <rect x="8" y="14" width="284" height="24" rx="8" fill="#D97706" filter="url(#oe4-sh)"/>
+        <text x="150" y="31" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="sans-serif">ODD = one always left over!</text>
+        <!-- Panel: 1 alone -->
+        <rect x="8" y="46" width="284" height="48" rx="10" fill="url(#oe4-panel)" filter="url(#oe4-sh)"/>
+        <text x="18" y="63" font-size="10" font-weight="800" fill="#D97706" font-family="sans-serif">1 = alone!</text>
+        <circle cx="55" cy="74" r="14" fill="#FDE68A" stroke="#F59E0B" stroke-width="2"/>
+        <text x="55" y="79" text-anchor="middle" font-size="16">⭐</text>
+        <text x="92" y="78" font-size="9" font-weight="700" fill="#D97706" font-family="sans-serif">😢 no partner!</text>
+        <text x="240" y="76" text-anchor="middle" font-size="20" font-weight="800" fill="#D97706" font-family="sans-serif">ODD</text>
+        <!-- Panel: 3 = 1 pair + 1 leftover -->
+        <rect x="8" y="102" width="284" height="52" rx="10" fill="url(#oe4-panel)" filter="url(#oe4-sh)"/>
+        <text x="18" y="119" font-size="10" font-weight="800" fill="#D97706" font-family="sans-serif">3 = 1 pair + 1 over</text>
+        <circle cx="48" cy="130" r="13" fill="#FCD34D"/>
+        <text x="48" y="135" text-anchor="middle" font-size="13">⭐</text>
+        <circle cx="74" cy="130" r="13" fill="#FCD34D"/>
+        <text x="74" y="135" text-anchor="middle" font-size="13">⭐</text>
+        <rect x="34" y="116" width="56" height="28" rx="6" fill="none" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <!-- Leftover circle highlighted -->
+        <circle cx="107" cy="130" r="13" fill="#FEF3C7" stroke="#F97316" stroke-width="2.5"/>
+        <text x="107" y="135" text-anchor="middle" font-size="13">⭐</text>
+        <text x="107" y="152" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C" font-family="sans-serif">left!</text>
+        <text x="240" y="133" text-anchor="middle" font-size="20" font-weight="800" fill="#D97706" font-family="sans-serif">ODD</text>
+        <!-- Panel: 5 = 2 pairs + 1 leftover -->
+        <rect x="8" y="162" width="284" height="56" rx="10" fill="url(#oe4-panel)" filter="url(#oe4-sh)"/>
+        <text x="18" y="179" font-size="10" font-weight="800" fill="#D97706" font-family="sans-serif">5 = 2 pairs + 1 over</text>
+        <circle cx="42" cy="192" r="12" fill="#FDE68A"/>
+        <text x="42" y="197" text-anchor="middle" font-size="12">⭐</text>
+        <circle cx="66" cy="192" r="12" fill="#FDE68A"/>
+        <text x="66" y="197" text-anchor="middle" font-size="12">⭐</text>
+        <rect x="28" y="179" width="52" height="26" rx="5" fill="none" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <circle cx="96" cy="192" r="12" fill="#FCD34D"/>
+        <text x="96" y="197" text-anchor="middle" font-size="12">⭐</text>
+        <circle cx="120" cy="192" r="12" fill="#FCD34D"/>
+        <text x="120" y="197" text-anchor="middle" font-size="12">⭐</text>
+        <rect x="82" y="179" width="52" height="26" rx="5" fill="none" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <!-- Leftover 5th -->
+        <circle cx="152" cy="192" r="12" fill="#FEF3C7" stroke="#F97316" stroke-width="2.5"/>
+        <text x="152" y="197" text-anchor="middle" font-size="12">⭐</text>
+        <text x="152" y="213" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C" font-family="sans-serif">left!</text>
+        <text x="240" y="195" text-anchor="middle" font-size="20" font-weight="800" fill="#D97706" font-family="sans-serif">ODD</text>
+      </svg>
       <div class="illus-caption">One left over = ODD!</div>
     </div>
 
@@ -459,42 +620,73 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 5 – THE RACE TO 20
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+    <div class="illustration" style="background:linear-gradient(160deg,#1D4ED8 0%,#3B82F6 50%,#BFDBFE 100%);">
       <div class="page-num-illus">Page 5</div>
-      <div style="width:90%;display:flex;gap:8px;">
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="oe5-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#EFF6FF"/>
+            <stop offset="100%" stop-color="#BFDBFE"/>
+          </linearGradient>
+          <radialGradient id="oe5-zip" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#E2E8F0"/>
+            <stop offset="55%" stop-color="#CBD5E1"/>
+            <stop offset="100%" stop-color="#94A3B8"/>
+          </radialGradient>
+          <filter id="oe5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#oe5-bg)"/>
+        <!-- Sand and sea -->
+        <rect x="0" y="240" width="300" height="40" fill="#0284C7" opacity=".5"/>
+        <ellipse cx="150" cy="242" rx="148" ry="22" fill="#FDE68A"/>
+        <!-- Title -->
+        <rect x="8" y="10" width="284" height="24" rx="8" fill="#1D4ED8" filter="url(#oe5-sh)"/>
+        <text x="150" y="27" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="sans-serif">Sorting 1–20: Count in 2s!</text>
         <!-- EVEN column -->
-        <div style="flex:1;background:rgba(255,255,255,.8);border-radius:12px;padding:8px;">
-          <div style="font-size:.8rem;font-weight:800;color:#059669;text-align:center;margin-bottom:6px;background:#D1FAE5;border-radius:8px;padding:3px;">EVEN</div>
-          <div style="display:flex;flex-direction:column;gap:3px;">
-            <span style="background:#ECFDF5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">2</span>
-            <span style="background:#ECFDF5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">4</span>
-            <span style="background:#ECFDF5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">6</span>
-            <span style="background:#ECFDF5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">8</span>
-            <span style="background:#ECFDF5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">10</span>
-            <span style="background:#D1FAE5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">12</span>
-            <span style="background:#D1FAE5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">14</span>
-            <span style="background:#D1FAE5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">16</span>
-            <span style="background:#D1FAE5;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#059669;text-align:center;">18</span>
-            <span style="background:#BBF7D0;border-radius:6px;padding:2px 6px;font-weight:800;font-size:1rem;color:#059669;text-align:center;">20</span>
-          </div>
-        </div>
+        <rect x="10" y="42" width="128" height="186" rx="12" fill="white" opacity=".87" filter="url(#oe5-sh)"/>
+        <rect x="14" y="46" width="120" height="20" rx="6" fill="#10B981"/>
+        <text x="74" y="60" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="sans-serif">EVEN</text>
+        <!-- Even numbers 2,4,6,8,10,12,14,16,18,20 -->
+        <rect x="18" y="70" width="112" height="16" rx="4" fill="#ECFDF5"/>
+        <text x="74" y="82" text-anchor="middle" font-size="11" font-weight="800" fill="#059669" font-family="sans-serif">2</text>
+        <rect x="18" y="90" width="112" height="16" rx="4" fill="#D1FAE5"/>
+        <text x="74" y="102" text-anchor="middle" font-size="11" font-weight="800" fill="#059669" font-family="sans-serif">4</text>
+        <rect x="18" y="110" width="112" height="16" rx="4" fill="#ECFDF5"/>
+        <text x="74" y="122" text-anchor="middle" font-size="11" font-weight="800" fill="#059669" font-family="sans-serif">6</text>
+        <rect x="18" y="130" width="112" height="16" rx="4" fill="#D1FAE5"/>
+        <text x="74" y="142" text-anchor="middle" font-size="11" font-weight="800" fill="#059669" font-family="sans-serif">8</text>
+        <rect x="18" y="150" width="112" height="16" rx="4" fill="#ECFDF5"/>
+        <text x="74" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#059669" font-family="sans-serif">10</text>
+        <rect x="18" y="170" width="112" height="16" rx="4" fill="#D1FAE5"/>
+        <text x="74" y="182" text-anchor="middle" font-size="11" font-weight="800" fill="#059669" font-family="sans-serif">12</text>
+        <rect x="18" y="190" width="112" height="16" rx="4" fill="#ECFDF5"/>
+        <text x="74" y="202" text-anchor="middle" font-size="11" font-weight="800" fill="#059669" font-family="sans-serif">14</text>
+        <rect x="18" y="210" width="112" height="16" rx="4" fill="#D1FAE5"/>
+        <text x="74" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#059669" font-family="sans-serif">...20</text>
         <!-- ODD column -->
-        <div style="flex:1;background:rgba(255,255,255,.8);border-radius:12px;padding:8px;">
-          <div style="font-size:.8rem;font-weight:800;color:#6D28D9;text-align:center;margin-bottom:6px;background:#EDE9FE;border-radius:8px;padding:3px;">ODD</div>
-          <div style="display:flex;flex-direction:column;gap:3px;">
-            <span style="background:#F5F3FF;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">1</span>
-            <span style="background:#F5F3FF;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">3</span>
-            <span style="background:#F5F3FF;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">5</span>
-            <span style="background:#F5F3FF;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">7</span>
-            <span style="background:#F5F3FF;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">9</span>
-            <span style="background:#EDE9FE;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">11</span>
-            <span style="background:#EDE9FE;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">13</span>
-            <span style="background:#EDE9FE;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">15</span>
-            <span style="background:#EDE9FE;border-radius:6px;padding:2px 6px;font-weight:700;font-size:1rem;color:#6D28D9;text-align:center;">17</span>
-            <span style="background:#DDD6FE;border-radius:6px;padding:2px 6px;font-weight:800;font-size:1rem;color:#6D28D9;text-align:center;">19</span>
-          </div>
-        </div>
-      </div>
+        <rect x="162" y="42" width="128" height="186" rx="12" fill="white" opacity=".87" filter="url(#oe5-sh)"/>
+        <rect x="166" y="46" width="120" height="20" rx="6" fill="#7C3AED"/>
+        <text x="226" y="60" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="sans-serif">ODD</text>
+        <!-- Odd numbers -->
+        <rect x="170" y="70" width="112" height="16" rx="4" fill="#F5F3FF"/>
+        <text x="226" y="82" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9" font-family="sans-serif">1</text>
+        <rect x="170" y="90" width="112" height="16" rx="4" fill="#EDE9FE"/>
+        <text x="226" y="102" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9" font-family="sans-serif">3</text>
+        <rect x="170" y="110" width="112" height="16" rx="4" fill="#F5F3FF"/>
+        <text x="226" y="122" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9" font-family="sans-serif">5</text>
+        <rect x="170" y="130" width="112" height="16" rx="4" fill="#EDE9FE"/>
+        <text x="226" y="142" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9" font-family="sans-serif">7</text>
+        <rect x="170" y="150" width="112" height="16" rx="4" fill="#F5F3FF"/>
+        <text x="226" y="162" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9" font-family="sans-serif">9</text>
+        <rect x="170" y="170" width="112" height="16" rx="4" fill="#EDE9FE"/>
+        <text x="226" y="182" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9" font-family="sans-serif">11</text>
+        <rect x="170" y="190" width="112" height="16" rx="4" fill="#F5F3FF"/>
+        <text x="226" y="202" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9" font-family="sans-serif">13</text>
+        <rect x="170" y="210" width="112" height="16" rx="4" fill="#EDE9FE"/>
+        <text x="226" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#6D28D9" font-family="sans-serif">...19</text>
+      </svg>
       <div class="illus-caption">All numbers 1–20 sorted!</div>
     </div>
 
@@ -533,25 +725,78 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 6 – THE BIG SORT
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#C4B5FD);">
+    <div class="illustration" style="background:linear-gradient(160deg,#7C3AED 0%,#8B5CF6 50%,#C4B5FD 100%);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:.9rem;font-weight:700;color:#6D28D9;margin-bottom:8px;text-align:center;">The island is perfectly sorted!</div>
-      <div style="width:92%;display:flex;gap:8px;">
-        <div style="flex:1;background:rgba(255,255,255,.85);border-radius:12px;padding:8px;text-align:center;">
-          <div style="font-size:.8rem;font-weight:800;color:#059669;background:#D1FAE5;border-radius:6px;padding:3px;margin-bottom:6px;">EVEN SIDE</div>
-          <div style="font-size:2rem;">🐧🐧</div>
-          <div style="font-size:2rem;">🦀🦀🦀🦀</div>
-          <div style="font-size:2rem;">🌺🌺</div>
-          <div style="font-size:.85rem;font-weight:700;color:#059669;margin-top:4px;">2, 4, 6, 8...</div>
-        </div>
-        <div style="flex:1;background:rgba(255,255,255,.85);border-radius:12px;padding:8px;text-align:center;">
-          <div style="font-size:.8rem;font-weight:800;color:#6D28D9;background:#EDE9FE;border-radius:6px;padding:3px;margin-bottom:6px;">ODD SIDE</div>
-          <div style="font-size:2rem;">🐚</div>
-          <div style="font-size:2rem;">🦋🦋🦋</div>
-          <div style="font-size:2rem;">🌴🌴🌴🌴🌴</div>
-          <div style="font-size:.85rem;font-weight:700;color:#6D28D9;margin-top:4px;">1, 3, 5, 7...</div>
-        </div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="oe6-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F5F3FF"/>
+            <stop offset="100%" stop-color="#C4B5FD"/>
+          </linearGradient>
+          <radialGradient id="oe6-zip" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#E2E8F0"/>
+            <stop offset="55%" stop-color="#CBD5E1"/>
+            <stop offset="100%" stop-color="#94A3B8"/>
+          </radialGradient>
+          <filter id="oe6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#oe6-bg)"/>
+        <!-- Beach and ocean -->
+        <rect x="0" y="245" width="300" height="35" fill="#0284C7" opacity=".45"/>
+        <ellipse cx="150" cy="247" rx="148" ry="20" fill="#FDE68A"/>
+        <!-- Palm in center -->
+        <rect x="145" y="175" width="9" height="72" rx="4" fill="#78350F"/>
+        <ellipse cx="149" cy="175" rx="24" ry="12" fill="#16A34A" transform="rotate(-18 149 175)"/>
+        <ellipse cx="149" cy="175" rx="22" ry="10" fill="#15803D" transform="rotate(16 149 175)"/>
+        <!-- Title banner -->
+        <rect x="8" y="10" width="284" height="24" rx="8" fill="#6D28D9" filter="url(#oe6-sh)"/>
+        <text x="150" y="27" text-anchor="middle" font-size="11" font-weight="800" fill="white" font-family="sans-serif">The island is perfectly sorted!</text>
+        <!-- EVEN SIDE panel -->
+        <rect x="8" y="42" width="132" height="196" rx="12" fill="white" opacity=".88" filter="url(#oe6-sh)"/>
+        <rect x="12" y="46" width="124" height="20" rx="6" fill="#10B981"/>
+        <text x="74" y="60" text-anchor="middle" font-size="10" font-weight="800" fill="white" font-family="sans-serif">EVEN SIDE</text>
+        <!-- Wave decorations -->
+        <path d="M12 200 Q46 192 80 200 Q114 208 140 200" stroke="#BAE6FD" stroke-width="2" fill="none" opacity=".6"/>
+        <!-- Island items even side -->
+        <text x="40" y="102" text-anchor="middle" font-size="22">🐧</text>
+        <text x="72" y="102" text-anchor="middle" font-size="22">🐧</text>
+        <text x="30" y="135" text-anchor="middle" font-size="20">🦀</text>
+        <text x="55" y="135" text-anchor="middle" font-size="20">🦀</text>
+        <text x="80" y="135" text-anchor="middle" font-size="20">🦀</text>
+        <text x="105" y="135" text-anchor="middle" font-size="20">🦀</text>
+        <text x="48" y="168" text-anchor="middle" font-size="22">🌺</text>
+        <text x="82" y="168" text-anchor="middle" font-size="22">🌺</text>
+        <text x="74" y="192" text-anchor="middle" font-size="10" font-weight="700" fill="#059669" font-family="sans-serif">2, 4, 6, 8...</text>
+        <!-- ODD SIDE panel -->
+        <rect x="160" y="42" width="132" height="196" rx="12" fill="white" opacity=".88" filter="url(#oe6-sh)"/>
+        <rect x="164" y="46" width="124" height="20" rx="6" fill="#7C3AED"/>
+        <text x="226" y="60" text-anchor="middle" font-size="10" font-weight="800" fill="white" font-family="sans-serif">ODD SIDE</text>
+        <text x="226" y="105" text-anchor="middle" font-size="22">🐚</text>
+        <text x="195" y="140" text-anchor="middle" font-size="20">🦋</text>
+        <text x="226" y="140" text-anchor="middle" font-size="20">🦋</text>
+        <text x="257" y="140" text-anchor="middle" font-size="20">🦋</text>
+        <text x="184" y="173" text-anchor="middle" font-size="18">🌴</text>
+        <text x="206" y="173" text-anchor="middle" font-size="18">🌴</text>
+        <text x="226" y="173" text-anchor="middle" font-size="18">🌴</text>
+        <text x="248" y="173" text-anchor="middle" font-size="18">🌴</text>
+        <text x="268" y="173" text-anchor="middle" font-size="18">🌴</text>
+        <text x="226" y="192" text-anchor="middle" font-size="10" font-weight="700" fill="#6D28D9" font-family="sans-serif">1, 3, 5, 7...</text>
+        <!-- Zip small in center -->
+        <g filter="url(#oe6-sh)">
+          <rect x="130" y="120" width="40" height="44" rx="8" fill="url(#oe6-zip)"/>
+          <rect x="134" y="98" width="32" height="28" rx="6" fill="url(#oe6-zip)"/>
+          <circle cx="142" cy="112" r="5" fill="#3B82F6"/>
+          <circle cx="142" cy="112" r="3" fill="#BFDBFE"/>
+          <circle cx="158" cy="112" r="5" fill="#3B82F6"/>
+          <circle cx="158" cy="112" r="3" fill="#BFDBFE"/>
+          <line x1="150" y1="98" x2="150" y2="88" stroke="#94A3B8" stroke-width="2.5"/>
+          <circle cx="150" cy="84" r="4" fill="#FBBF24"/>
+          <rect x="114" y="128" width="16" height="8" rx="4" fill="url(#oe6-zip)"/>
+          <rect x="170" y="128" width="16" height="8" rx="4" fill="url(#oe6-zip)"/>
+        </g>
+      </svg>
       <div class="illus-caption">Zip sorts the whole island!</div>
     </div>
 
@@ -590,19 +835,114 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 7 – ZIP AND PIP CELEBRATE
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+    <div class="illustration" style="background:linear-gradient(160deg,#D97706 0%,#FBBF24 50%,#FEF9C3 100%);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:4rem;margin-bottom:8px;">🎉</div>
-      <div class="illus-scene">
-        <span class="char">🤖</span>
-        <span class="char">🐧</span>
-        <span class="char">🎉</span>
-        <span class="char">⭐</span>
-      </div>
-      <div style="margin-top:10px;display:flex;gap:8px;justify-content:center;">
-        <div style="background:rgba(255,255,255,.8);border-radius:10px;padding:6px 12px;font-weight:800;color:#059669;font-size:.9rem;">EVEN: 2 4 6 8 ✓</div>
-        <div style="background:rgba(255,255,255,.8);border-radius:10px;padding:6px 12px;font-weight:800;color:#6D28D9;font-size:.9rem;">ODD: 1 3 5 7 ✓</div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="oe7-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="100%" stop-color="#FDE68A"/>
+          </linearGradient>
+          <linearGradient id="oe7-sea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#0369A1"/>
+          </linearGradient>
+          <radialGradient id="oe7-zip" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#E2E8F0"/>
+            <stop offset="55%" stop-color="#CBD5E1"/>
+            <stop offset="100%" stop-color="#94A3B8"/>
+          </radialGradient>
+          <radialGradient id="oe7-pip" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#BAE6FD"/>
+            <stop offset="55%" stop-color="#0EA5E9"/>
+            <stop offset="100%" stop-color="#0284C7"/>
+          </radialGradient>
+          <filter id="oe7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#oe7-sky)"/>
+        <!-- Sunset sky gradient blobs -->
+        <ellipse cx="150" cy="80" rx="100" ry="50" fill="#FCD34D" opacity=".3"/>
+        <!-- Ocean -->
+        <rect x="0" y="226" width="300" height="54" fill="url(#oe7-sea)"/>
+        <!-- Waves -->
+        <path d="M0 230 Q38 223 75 230 Q113 237 150 230 Q188 223 225 230 Q262 237 300 230" stroke="#BAE6FD" stroke-width="2" fill="none" opacity=".7"/>
+        <!-- Sandy beach -->
+        <ellipse cx="150" cy="228" rx="148" ry="26" fill="#FDE68A"/>
+        <!-- Palm trees celebration -->
+        <rect x="18" y="155" width="9" height="80" rx="4" fill="#78350F"/>
+        <ellipse cx="22" cy="155" rx="24" ry="12" fill="#16A34A" transform="rotate(-20 22 155)"/>
+        <ellipse cx="22" cy="155" rx="22" ry="10" fill="#15803D" transform="rotate(15 22 155)"/>
+        <rect x="272" y="155" width="9" height="80" rx="4" fill="#78350F"/>
+        <ellipse cx="277" cy="155" rx="24" ry="12" fill="#16A34A" transform="rotate(20 277 155)"/>
+        <ellipse cx="277" cy="155" rx="22" ry="10" fill="#15803D" transform="rotate(-15 277 155)"/>
+        <!-- Celebration banner -->
+        <path d="M30 60 Q150 46 270 60" stroke="#F97316" stroke-width="2.5" fill="none"/>
+        <rect x="78" y="44" width="144" height="28" rx="8" fill="#F97316" filter="url(#oe7-sh)"/>
+        <text x="150" y="63" text-anchor="middle" font-size="12" font-weight="800" fill="white" font-family="sans-serif">ISLAND SORTED! 🎉</text>
+        <!-- Stars confetti -->
+        <text x="40" y="48" font-size="14">⭐</text>
+        <text x="250" y="48" font-size="14">⭐</text>
+        <text x="60" y="80" font-size="12">✨</text>
+        <text x="230" y="80" font-size="12">✨</text>
+        <!-- ZIP Robot celebrating -->
+        <g filter="url(#oe7-sh)">
+          <rect x="94" y="132" width="52" height="60" rx="12" fill="url(#oe7-zip)"/>
+          <rect x="98" y="136" width="18" height="26" rx="5" fill="white" opacity=".35"/>
+          <rect x="98" y="106" width="44" height="32" rx="8" fill="url(#oe7-zip)"/>
+          <!-- Happy eyes -->
+          <circle cx="110" cy="120" r="7" fill="#3B82F6"/>
+          <circle cx="110" cy="120" r="5" fill="#60A5FA"/>
+          <circle cx="110" cy="120" r="2.5" fill="#BFDBFE"/>
+          <circle cx="130" cy="120" r="7" fill="#3B82F6"/>
+          <circle cx="130" cy="120" r="5" fill="#60A5FA"/>
+          <circle cx="130" cy="120" r="2.5" fill="#BFDBFE"/>
+          <!-- Specular -->
+          <circle cx="111.5" cy="118.5" r="1.2" fill="white" opacity=".9"/>
+          <circle cx="131.5" cy="118.5" r="1.2" fill="white" opacity=".9"/>
+          <!-- Big smile -->
+          <path d="M107 128 Q120 136 133 128" stroke="#475569" stroke-width="2" fill="none"/>
+          <!-- Antenna with star -->
+          <line x1="120" y1="106" x2="120" y2="90" stroke="#94A3B8" stroke-width="3"/>
+          <circle cx="120" cy="86" r="6" fill="#FBBF24"/>
+          <text x="120" y="90" text-anchor="middle" font-size="8">★</text>
+          <!-- Arms raised! -->
+          <rect x="70" y="140" width="24" height="10" rx="5" fill="url(#oe7-zip)" transform="rotate(-30 70 140)"/>
+          <rect x="146" y="134" width="24" height="10" rx="5" fill="url(#oe7-zip)" transform="rotate(30 146 134)"/>
+          <!-- Legs -->
+          <rect x="98" y="188" width="16" height="22" rx="6" fill="url(#oe7-zip)"/>
+          <rect x="126" y="188" width="16" height="22" rx="6" fill="url(#oe7-zip)"/>
+          <rect x="95" y="207" width="20" height="8" rx="4" fill="#64748B"/>
+          <rect x="123" y="207" width="20" height="8" rx="4" fill="#64748B"/>
+        </g>
+        <!-- Pip the Penguin celebrating -->
+        <g filter="url(#oe7-sh)">
+          <!-- Penguin body -->
+          <ellipse cx="192" cy="172" rx="20" ry="26" fill="url(#oe7-pip)"/>
+          <ellipse cx="192" cy="178" rx="13" ry="16" fill="white"/>
+          <!-- Penguin head -->
+          <circle cx="192" cy="148" r="18" fill="url(#oe7-pip)"/>
+          <ellipse cx="192" cy="152" rx="10" ry="9" fill="white"/>
+          <!-- Penguin eyes -->
+          <circle cx="186" cy="144" r="4" fill="white"/>
+          <circle cx="198" cy="144" r="4" fill="white"/>
+          <circle cx="187" cy="144" r="2.5" fill="#0F172A"/>
+          <circle cx="199" cy="144" r="2.5" fill="#0F172A"/>
+          <circle cx="187.5" cy="143" r="1" fill="white" opacity=".8"/>
+          <circle cx="199.5" cy="143" r="1" fill="white" opacity=".8"/>
+          <!-- Penguin beak -->
+          <ellipse cx="192" cy="152" rx="5" ry="3" fill="#F97316"/>
+          <!-- Flippers -->
+          <ellipse cx="170" cy="168" rx="8" ry="20" fill="url(#oe7-pip)" transform="rotate(-20 170 168)"/>
+          <ellipse cx="214" cy="168" rx="8" ry="20" fill="url(#oe7-pip)" transform="rotate(20 214 168)"/>
+        </g>
+        <!-- Summary badges -->
+        <rect x="8" y="11" width="120" height="20" rx="6" fill="#059669" filter="url(#oe7-sh)"/>
+        <text x="68" y="25" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">EVEN: 2 4 6 8 ✓</text>
+        <rect x="172" y="11" width="120" height="20" rx="6" fill="#7C3AED" filter="url(#oe7-sh)"/>
+        <text x="232" y="25" text-anchor="middle" font-size="9" font-weight="800" fill="white" font-family="sans-serif">ODD: 1 3 5 7 ✓</text>
+      </svg>
       <div class="illus-caption">The island is sorted!</div>
     </div>
 

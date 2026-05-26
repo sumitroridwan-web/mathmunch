@@ -286,38 +286,192 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 2 – THE KINGDOM IS DIVIDED
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF2F2,#FECACA);">
+    <div class="illustration" style="background:linear-gradient(135deg,#1a0a2e,#4a1030);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:1.8rem;font-weight:700;color:var(--accent-dark);text-align:center;margin-bottom:12px;">Are these equal?</div>
-      <!-- Two rectangles side by side showing ½ and 2/4 -->
-      <svg width="240" height="90" viewBox="0 0 240 90" class="svg-diagram">
-        <!-- Rectangle 1: divided in 2, left half shaded -->
-        <rect x="5" y="10" width="100" height="60" rx="4" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
-        <rect x="5" y="10" width="50" height="60" rx="4" fill="#DC2626" opacity="0.7"/>
-        <line x1="55" y1="10" x2="55" y2="70" stroke="white" stroke-width="2"/>
-        <text x="30" y="45" text-anchor="middle" fill="white" font-size="16" font-weight="700">1</text>
-        <text x="80" y="45" text-anchor="middle" fill="#DC2626" font-size="16" font-weight="700">1</text>
-        <text x="55" y="85" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="700">½</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <!-- Castle background sky -->
+          <linearGradient id="fk2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a0a2e"/>
+            <stop offset="100%" stop-color="#4a1030"/>
+          </linearGradient>
+          <!-- Stone texture -->
+          <linearGradient id="fk2-stone" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8a7a6a"/>
+            <stop offset="100%" stop-color="#6a5a4a"/>
+          </linearGradient>
+          <!-- Floor -->
+          <linearGradient id="fk2-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a2a1a"/>
+            <stop offset="100%" stop-color="#2a1a0a"/>
+          </linearGradient>
+          <!-- Queen Fracta skin -->
+          <radialGradient id="fk2-qskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDDBB4"/>
+            <stop offset="60%" stop-color="#F0A060"/>
+            <stop offset="100%" stop-color="#C07840"/>
+          </radialGradient>
+          <!-- Queen robe purple -->
+          <radialGradient id="fk2-qrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#C084FC"/>
+            <stop offset="50%" stop-color="#9333EA"/>
+            <stop offset="100%" stop-color="#5B21B6"/>
+          </radialGradient>
+          <!-- King Whole skin -->
+          <radialGradient id="fk2-kskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <!-- King robe red -->
+          <radialGradient id="fk2-krobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#FCA5A5"/>
+            <stop offset="50%" stop-color="#DC2626"/>
+            <stop offset="100%" stop-color="#7F1D1D"/>
+          </radialGradient>
+          <!-- Gold crown -->
+          <linearGradient id="fk2-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </linearGradient>
+          <!-- Drop shadow filter -->
+          <filter id="fk2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <!-- Window glow -->
+          <radialGradient id="fk2-win" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#FBBF24" stop-opacity="0.3"/>
+          </radialGradient>
+        </defs>
 
-        <!-- "=" sign -->
-        <text x="120" y="45" text-anchor="middle" fill="#374151" font-size="22" font-weight="700">=?</text>
+        <!-- Sky background -->
+        <rect width="300" height="280" fill="url(#fk2-sky)"/>
 
-        <!-- Rectangle 2: divided in 4, left two quarters shaded -->
-        <rect x="135" y="10" width="100" height="60" rx="4" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
-        <rect x="135" y="10" width="50" height="60" fill="#DC2626" opacity="0.7"/>
-        <line x1="160" y1="10" x2="160" y2="70" stroke="white" stroke-width="2"/>
-        <line x1="185" y1="10" x2="185" y2="70" stroke="white" stroke-width="2"/>
-        <line x1="210" y1="10" x2="210" y2="70" stroke="white" stroke-width="2"/>
-        <text x="148" y="45" text-anchor="middle" fill="white" font-size="11" font-weight="700">1</text>
-        <text x="173" y="45" text-anchor="middle" fill="white" font-size="11" font-weight="700">1</text>
-        <text x="198" y="45" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">1</text>
-        <text x="223" y="45" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">1</text>
-        <text x="185" y="85" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="700">2/4</text>
+        <!-- Castle towers background -->
+        <rect x="0" y="60" width="60" height="220" fill="url(#fk2-stone)" opacity="0.8"/>
+        <rect x="240" y="60" width="60" height="220" fill="url(#fk2-stone)" opacity="0.8"/>
+        <!-- Tower battlements -->
+        <rect x="0" y="50" width="12" height="18" fill="#7a6a5a"/>
+        <rect x="16" y="50" width="12" height="18" fill="#7a6a5a"/>
+        <rect x="32" y="50" width="12" height="18" fill="#7a6a5a"/>
+        <rect x="48" y="50" width="12" height="18" fill="#7a6a5a"/>
+        <rect x="240" y="50" width="12" height="18" fill="#7a6a5a"/>
+        <rect x="256" y="50" width="12" height="18" fill="#7a6a5a"/>
+        <rect x="272" y="50" width="12" height="18" fill="#7a6a5a"/>
+        <rect x="288" y="50" width="12" height="18" fill="#7a6a5a"/>
+        <!-- Tower windows -->
+        <ellipse cx="30" cy="100" rx="12" ry="16" fill="url(#fk2-win)"/>
+        <ellipse cx="270" cy="100" rx="12" ry="16" fill="url(#fk2-win)"/>
+        <!-- Flags on towers -->
+        <line x1="30" y1="30" x2="30" y2="60" stroke="#888" stroke-width="2"/>
+        <polygon points="30,30 52,38 30,46" fill="#DC2626"/>
+        <text x="35" y="42" fill="white" font-size="8" font-weight="700">½</text>
+        <line x1="270" y1="30" x2="270" y2="60" stroke="#888" stroke-width="2"/>
+        <polygon points="270,30 292,38 270,46" fill="#9333EA"/>
+        <text x="274" y="42" fill="white" font-size="8" font-weight="700">2/4</text>
+
+        <!-- Throne room wall -->
+        <rect x="55" y="60" width="190" height="220" fill="#5a4a3a" opacity="0.6"/>
+        <!-- Stone blocks pattern -->
+        <line x1="55" y1="90" x2="245" y2="90" stroke="#4a3a2a" stroke-width="1" opacity="0.5"/>
+        <line x1="55" y1="120" x2="245" y2="120" stroke="#4a3a2a" stroke-width="1" opacity="0.5"/>
+        <line x1="55" y1="150" x2="245" y2="150" stroke="#4a3a2a" stroke-width="1" opacity="0.5"/>
+        <!-- Central arch window -->
+        <ellipse cx="150" cy="85" rx="25" ry="22" fill="url(#fk2-win)"/>
+        <ellipse cx="150" cy="85" rx="20" ry="17" fill="#1a3a5a" opacity="0.7"/>
+
+        <!-- Floor -->
+        <rect x="0" y="220" width="300" height="60" fill="url(#fk2-floor)"/>
+        <line x1="0" y1="240" x2="300" y2="240" stroke="#2a1a0a" stroke-width="1"/>
+        <line x1="150" y1="220" x2="150" y2="280" stroke="#2a1a0a" stroke-width="1"/>
+
+        <!-- ====== QUEEN FRACTA (left) ====== -->
+        <g filter="url(#fk2-sh)">
+          <!-- Queen robe/body -->
+          <ellipse cx="75" cy="235" rx="28" ry="12" fill="#5B21B6" opacity="0.5"/>
+          <path d="M50,230 Q75,250 100,230 L95,165 Q75,175 55,165 Z" fill="url(#fk2-qrobe)"/>
+          <!-- Fraction symbol on dress -->
+          <text x="75" y="200" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="16" font-weight="800">½</text>
+          <!-- Gold trim on dress -->
+          <path d="M53,170 Q75,178 97,170" stroke="#FBBF24" stroke-width="2" fill="none"/>
+          <path d="M50,195 Q75,205 100,195" stroke="#FBBF24" stroke-width="1.5" fill="none" opacity="0.7"/>
+          <!-- Arms -->
+          <line x1="55" y1="185" x2="35" y2="205" stroke="#F0A060" stroke-width="6" stroke-linecap="round"/>
+          <line x1="95" y1="185" x2="115" y2="200" stroke="#F0A060" stroke-width="6" stroke-linecap="round"/>
+          <!-- Banner held left -->
+          <line x1="35" y1="205" x2="35" y2="165" stroke="#888" stroke-width="2"/>
+          <rect x="35" y="165" width="28" height="20" rx="2" fill="#DC2626"/>
+          <text x="49" y="178" text-anchor="middle" fill="white" font-size="11" font-weight="800">½</text>
+          <!-- Queen neck+head -->
+          <rect x="70" y="155" width="10" height="12" rx="3" fill="#F0A060"/>
+          <circle cx="75" cy="148" r="18" fill="url(#fk2-qskin)"/>
+          <!-- Queen hair -->
+          <path d="M57,148 Q60,130 75,128 Q90,130 93,148 Q88,140 75,138 Q62,140 57,148 Z" fill="#5B21B6"/>
+          <!-- Queen eyes -->
+          <circle cx="70" cy="147" r="3.5" fill="white"/>
+          <circle cx="70" cy="147" r="2" fill="#3730a3"/>
+          <circle cx="71.2" cy="146" r="0.8" fill="white"/>
+          <circle cx="80" cy="147" r="3.5" fill="white"/>
+          <circle cx="80" cy="147" r="2" fill="#3730a3"/>
+          <circle cx="81.2" cy="146" r="0.8" fill="white"/>
+          <!-- Queen smile -->
+          <path d="M71,153 Q75,157 79,153" stroke="#9B5A3A" stroke-width="1.5" fill="none"/>
+          <!-- Queen crown -->
+          <rect x="61" y="133" width="28" height="8" rx="2" fill="url(#fk2-gold)"/>
+          <polygon points="61,133 65,120 69,133" fill="url(#fk2-gold)"/>
+          <polygon points="72,133 75,118 78,133" fill="url(#fk2-gold)"/>
+          <polygon points="83,133 87,120 89,133" fill="url(#fk2-gold)"/>
+          <circle cx="65" cy="123" r="3" fill="#EC4899"/>
+          <circle cx="75" cy="121" r="3.5" fill="#A855F7"/>
+          <circle cx="85" cy="123" r="3" fill="#EC4899"/>
+        </g>
+
+        <!-- ====== KING WHOLE (right) ====== -->
+        <g filter="url(#fk2-sh)">
+          <!-- King robe/body (wide round belly) -->
+          <ellipse cx="225" cy="232" rx="32" ry="13" fill="#7F1D1D" opacity="0.5"/>
+          <path d="M193,228 Q225,252 257,228 L252,162 Q225,178 198,162 Z" fill="url(#fk2-krobe)"/>
+          <!-- Fraction symbol on robe -->
+          <text x="225" y="200" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="14" font-weight="800">2/4</text>
+          <!-- Gold belt/trim -->
+          <path d="M196,195 Q225,207 254,195" stroke="#FBBF24" stroke-width="3" fill="none"/>
+          <!-- Arms -->
+          <line x1="200" y1="182" x2="178" y2="198" stroke="#E8A060" stroke-width="7" stroke-linecap="round"/>
+          <line x1="250" y1="182" x2="272" y2="195" stroke="#E8A060" stroke-width="7" stroke-linecap="round"/>
+          <!-- Banner held right -->
+          <line x1="272" y1="195" x2="272" y2="155" stroke="#888" stroke-width="2"/>
+          <rect x="244" y="155" width="28" height="20" rx="2" fill="#9333EA"/>
+          <text x="258" y="168" text-anchor="middle" fill="white" font-size="11" font-weight="800">2/4</text>
+          <!-- King neck+head -->
+          <rect x="220" y="150" width="10" height="14" rx="3" fill="#E8A060"/>
+          <circle cx="225" cy="142" r="21" fill="url(#fk2-kskin)"/>
+          <!-- King beard -->
+          <path d="M209,152 Q225,168 241,152 Q237,160 225,164 Q213,160 209,152 Z" fill="#D97706" opacity="0.8"/>
+          <!-- King hair -->
+          <path d="M205,142 Q207,122 225,120 Q243,122 245,142 Q239,132 225,130 Q211,132 205,142 Z" fill="#D97706"/>
+          <!-- King eyes -->
+          <circle cx="219" cy="140" r="4" fill="white"/>
+          <circle cx="219" cy="140" r="2.5" fill="#1e3a5f"/>
+          <circle cx="220.3" cy="139" r="1" fill="white"/>
+          <circle cx="231" cy="140" r="4" fill="white"/>
+          <circle cx="231" cy="140" r="2.5" fill="#1e3a5f"/>
+          <circle cx="232.3" cy="139" r="1" fill="white"/>
+          <!-- King crown (large) -->
+          <rect x="207" y="124" width="36" height="10" rx="2" fill="url(#fk2-gold)"/>
+          <polygon points="207,124 213,108 219,124" fill="url(#fk2-gold)"/>
+          <polygon points="222,124 225,105 228,124" fill="url(#fk2-gold)"/>
+          <polygon points="234,124 240,108 243,124" fill="url(#fk2-gold)"/>
+          <circle cx="213" cy="111" r="3.5" fill="#EF4444"/>
+          <circle cx="225" cy="107" r="4" fill="#FBBF24"/>
+          <circle cx="237" cy="111" r="3.5" fill="#EF4444"/>
+        </g>
+
+        <!-- VS label in middle -->
+        <rect x="131" y="195" width="38" height="22" rx="8" fill="rgba(0,0,0,0.5)"/>
+        <text x="150" y="211" text-anchor="middle" fill="#FBBF24" font-size="14" font-weight="800">vs</text>
       </svg>
-      <div class="diagram-label">Both rectangles show the same shaded area</div>
-      <div class="illus-scene" style="margin-top:10px;">
-        <span class="char-xs">👸</span><span style="font-size:1.4rem;color:#DC2626;font-weight:800;padding:0 8px;">vs</span><span class="char-xs">🤴</span>
-      </div>
       <div class="illus-caption">Queen Fracta and King Whole disagree!</div>
     </div>
 
@@ -370,59 +524,171 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 3 – FINDING EQUIVALENT FRACTIONS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF2F2,#FDE8E8);">
+    <div class="illustration" style="background:linear-gradient(135deg,#1a0a2e,#3a1050);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--accent-dark);text-align:center;margin-bottom:10px;">Equivalent fraction chains</div>
-      <!-- Equivalent fraction chain: 1/3 = 2/6 = 3/9 = 4/12 -->
-      <svg width="260" height="130" viewBox="0 0 260 130" class="svg-diagram">
-        <!-- Chain boxes -->
-        <!-- 1/3 -->
-        <rect x="5" y="40" width="44" height="50" rx="6" fill="white" stroke="#DC2626" stroke-width="2"/>
-        <text x="27" y="60" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">1</text>
-        <line x1="12" y1="65" x2="42" y2="65" stroke="#DC2626" stroke-width="2"/>
-        <text x="27" y="82" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">3</text>
-
-        <!-- ×2 arrow -->
-        <path d="M52 65 L70 65" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arr)"/>
-        <text x="61" y="58" text-anchor="middle" fill="#6B7280" font-size="9" font-weight="700">×2</text>
-
-        <!-- 2/6 -->
-        <rect x="72" y="40" width="44" height="50" rx="6" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
-        <text x="94" y="60" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">2</text>
-        <line x1="79" y1="65" x2="109" y2="65" stroke="#DC2626" stroke-width="2"/>
-        <text x="94" y="82" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">6</text>
-
-        <!-- ×3 arrow -->
-        <path d="M119 65 L137 65" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arr)"/>
-        <text x="128" y="58" text-anchor="middle" fill="#6B7280" font-size="9" font-weight="700">×3</text>
-
-        <!-- 3/9 -->
-        <rect x="139" y="40" width="44" height="50" rx="6" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
-        <text x="161" y="60" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">3</text>
-        <line x1="146" y1="65" x2="176" y2="65" stroke="#DC2626" stroke-width="2"/>
-        <text x="161" y="82" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">9</text>
-
-        <!-- ×4 arrow -->
-        <path d="M186 65 L204 65" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arr)"/>
-        <text x="195" y="58" text-anchor="middle" fill="#6B7280" font-size="9" font-weight="700">×4</text>
-
-        <!-- 4/12 -->
-        <rect x="206" y="40" width="48" height="50" rx="6" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
-        <text x="230" y="60" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">4</text>
-        <line x1="213" y1="65" x2="247" y2="65" stroke="#DC2626" stroke-width="2"/>
-        <text x="230" y="82" text-anchor="middle" fill="#DC2626" font-size="15" font-weight="700">12</text>
-
-        <!-- "All equal 1/3" label -->
-        <text x="130" y="115" text-anchor="middle" fill="#DC2626" font-size="11" font-weight="700">All of these equal 1/3</text>
-
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6 Z" fill="#6B7280"/>
+          <linearGradient id="fk3-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a0a2e"/>
+            <stop offset="100%" stop-color="#3a1050"/>
+          </linearGradient>
+          <linearGradient id="fk3-stone" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#9a8a7a"/>
+            <stop offset="100%" stop-color="#6a5a4a"/>
+          </linearGradient>
+          <linearGradient id="fk3-scroll" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="50%" stop-color="#FDE68A"/>
+            <stop offset="100%" stop-color="#F59E0B"/>
+          </linearGradient>
+          <!-- Zeph skin -->
+          <radialGradient id="fk3-zskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <!-- Zeph robe (dark blue/teal) -->
+          <radialGradient id="fk3-zrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="50%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </radialGradient>
+          <!-- Wizard hat -->
+          <linearGradient id="fk3-hat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </linearGradient>
+          <!-- Chalkboard -->
+          <linearGradient id="fk3-chalk" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a3a2a"/>
+            <stop offset="100%" stop-color="#0f2218"/>
+          </linearGradient>
+          <!-- Fraction box glow -->
+          <linearGradient id="fk3-fbox" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF2F2"/>
+            <stop offset="100%" stop-color="#FECACA"/>
+          </linearGradient>
+          <filter id="fk3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="fk3-glow">
+            <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#FBBF24" flood-opacity="0.6"/>
+          </filter>
+          <marker id="fk3-arr" markerWidth="7" markerHeight="7" refX="3" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#F59E0B"/>
           </marker>
         </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#fk3-bg)"/>
+
+        <!-- Stone wall background -->
+        <rect x="0" y="0" width="300" height="280" fill="url(#fk3-stone)" opacity="0.15"/>
+        <!-- Mortar lines -->
+        <line x1="0" y1="40" x2="300" y2="40" stroke="#5a4a3a" stroke-width="1.5" opacity="0.4"/>
+        <line x1="0" y1="80" x2="300" y2="80" stroke="#5a4a3a" stroke-width="1.5" opacity="0.4"/>
+        <line x1="0" y1="120" x2="300" y2="120" stroke="#5a4a3a" stroke-width="1.5" opacity="0.4"/>
+        <line x1="0" y1="160" x2="300" y2="160" stroke="#5a4a3a" stroke-width="1.5" opacity="0.4"/>
+
+        <!-- Torch light glow left -->
+        <circle cx="20" cy="80" r="22" fill="#FBBF24" opacity="0.15"/>
+        <!-- Torch -->
+        <rect x="16" y="72" width="8" height="20" rx="2" fill="#8B4513"/>
+        <ellipse cx="20" cy="70" rx="7" ry="9" fill="#F97316" opacity="0.9"/>
+        <ellipse cx="20" cy="68" rx="4" ry="6" fill="#FBBF24"/>
+
+        <!-- Floor -->
+        <rect x="0" y="220" width="300" height="60" fill="#3a2a1a" opacity="0.8"/>
+
+        <!-- ====== CHALKBOARD ====== -->
+        <g filter="url(#fk3-sh)">
+          <rect x="60" y="25" width="185" height="140" rx="6" fill="#2a1a0a"/>
+          <rect x="64" y="29" width="177" height="132" rx="4" fill="url(#fk3-chalk)"/>
+          <!-- Chalk title -->
+          <text x="152" y="52" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="10" font-weight="700">Equivalent Fractions</text>
+          <!-- Fraction chain boxes with arrows -->
+          <!-- 1/3 box -->
+          <rect x="72" y="62" width="34" height="42" rx="5" fill="url(#fk3-fbox)" stroke="#DC2626" stroke-width="1.5"/>
+          <text x="89" y="79" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="800">1</text>
+          <line x1="76" y1="84" x2="102" y2="84" stroke="#DC2626" stroke-width="1.5"/>
+          <text x="89" y="97" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="800">3</text>
+          <!-- x2 arrow -->
+          <path d="M108,84 L120,84" stroke="#F59E0B" stroke-width="2" marker-end="url(#fk3-arr)"/>
+          <text x="114" y="78" text-anchor="middle" fill="#FBBF24" font-size="8" font-weight="700">×2</text>
+          <!-- 2/6 box -->
+          <rect x="122" y="62" width="34" height="42" rx="5" fill="#FECACA" stroke="#DC2626" stroke-width="1.5"/>
+          <text x="139" y="79" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="800">2</text>
+          <line x1="126" y1="84" x2="152" y2="84" stroke="#DC2626" stroke-width="1.5"/>
+          <text x="139" y="97" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="800">6</text>
+          <!-- x2 arrow -->
+          <path d="M158,84 L170,84" stroke="#F59E0B" stroke-width="2" marker-end="url(#fk3-arr)"/>
+          <text x="164" y="78" text-anchor="middle" fill="#FBBF24" font-size="8" font-weight="700">×2</text>
+          <!-- 4/12 box -->
+          <rect x="172" y="62" width="38" height="42" rx="5" fill="#FECACA" stroke="#DC2626" stroke-width="1.5"/>
+          <text x="191" y="79" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="800">4</text>
+          <line x1="176" y1="84" x2="206" y2="84" stroke="#DC2626" stroke-width="1.5"/>
+          <text x="191" y="97" text-anchor="middle" fill="#DC2626" font-size="13" font-weight="800">12</text>
+          <!-- All equal label -->
+          <text x="152" y="120" text-anchor="middle" fill="#86EFAC" font-size="9.5" font-weight="700">All equal 1/3!</text>
+          <!-- Arrow pointing left to right beneath -->
+          <line x1="80" y1="130" x2="210" y2="130" stroke="#86EFAC" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.7"/>
+          <!-- Chalk dust marks -->
+          <circle cx="80" cy="135" r="1.5" fill="white" opacity="0.4"/>
+          <circle cx="120" cy="138" r="1" fill="white" opacity="0.3"/>
+          <circle cx="200" cy="136" r="1.5" fill="white" opacity="0.4"/>
+          <!-- Chalk frame border -->
+          <rect x="64" y="29" width="177" height="132" rx="4" fill="none" stroke="#5a4a3a" stroke-width="3"/>
+        </g>
+        <!-- Board eraser on shelf -->
+        <rect x="60" y="165" width="185" height="8" rx="2" fill="#5a4a3a"/>
+        <rect x="230" y="163" width="20" height="8" rx="3" fill="#A16207"/>
+
+        <!-- ====== ZEPH THE MATHEMATICIAN ====== -->
+        <g filter="url(#fk3-sh)">
+          <!-- Robe body -->
+          <ellipse cx="55" cy="233" rx="26" ry="10" fill="#1e3a5f" opacity="0.5"/>
+          <path d="M30,228 Q55,245 80,228 L76,175 Q55,185 34,175 Z" fill="url(#fk3-zrobe)"/>
+          <!-- Robe star decorations -->
+          <text x="50" y="195" fill="rgba(255,255,255,0.5)" font-size="10">★</text>
+          <text x="62" y="210" fill="rgba(255,255,255,0.4)" font-size="8">✦</text>
+          <!-- Arms -->
+          <line x1="34" y1="185" x2="16" y2="205" stroke="#7DD3FC" stroke-width="5" stroke-linecap="round"/>
+          <!-- Pointer stick -->
+          <line x1="16" y1="205" x2="90" y2="130" stroke="#8B4513" stroke-width="2.5"/>
+          <circle cx="90" cy="130" r="4" fill="#F59E0B"/>
+          <!-- Right arm -->
+          <line x1="76" y1="185" x2="90" y2="200" stroke="#7DD3FC" stroke-width="5" stroke-linecap="round"/>
+          <!-- Scroll in right hand -->
+          <rect x="88" y="198" width="22" height="15" rx="4" fill="url(#fk3-scroll)"/>
+          <line x1="90" y1="203" x2="108" y2="203" stroke="#92400E" stroke-width="1"/>
+          <line x1="90" y1="207" x2="105" y2="207" stroke="#92400E" stroke-width="1"/>
+          <!-- Neck -->
+          <rect x="50" y="162" width="10" height="14" rx="3" fill="#E8A060"/>
+          <!-- Head -->
+          <circle cx="55" cy="155" r="17" fill="url(#fk3-zskin)"/>
+          <!-- Hair dark -->
+          <path d="M38,155 Q41,140 55,138 Q69,140 72,155 Q67,148 55,146 Q43,148 38,155 Z" fill="#1e3a5f"/>
+          <!-- Eyes -->
+          <circle cx="50" cy="153" r="3" fill="white"/>
+          <circle cx="50" cy="153" r="1.8" fill="#1e3a5f"/>
+          <circle cx="51" cy="152.2" r="0.7" fill="white"/>
+          <circle cx="60" cy="153" r="3" fill="white"/>
+          <circle cx="60" cy="153" r="1.8" fill="#1e3a5f"/>
+          <circle cx="61" cy="152.2" r="0.7" fill="white"/>
+          <!-- Smile behind scroll -->
+          <path d="M49,159 Q55,163 61,159" stroke="#9B5A3A" stroke-width="1.5" fill="none"/>
+          <!-- Wizard hat -->
+          <path d="M38,138 Q55,80 72,138 Z" fill="url(#fk3-hat)"/>
+          <ellipse cx="55" cy="138" rx="17" ry="6" fill="#1e3a5f"/>
+          <!-- Stars on hat -->
+          <text x="47" y="120" fill="#FBBF24" font-size="9" opacity="0.8">★</text>
+          <text x="56" y="107" fill="#86EFAC" font-size="7" opacity="0.7">✦</text>
+        </g>
+
+        <!-- Page number label styled -->
+        <rect x="8" y="258" width="80" height="16" rx="8" fill="rgba(0,0,0,0.4)"/>
+        <text x="48" y="270" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-weight="700">Zeph's Method</text>
       </svg>
-      <div class="diagram-label">Multiply numerator and denominator by the same number</div>
-      <div style="font-size:1.6rem;margin-top:8px;">🧑‍🔬</div>
       <div class="illus-caption">Zeph demonstrates the chain of equivalents</div>
     </div>
 
@@ -471,46 +737,131 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 4 – SIMPLIFYING FRACTIONS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+    <div class="illustration" style="background:linear-gradient(135deg,#1a0a2e,#2a1040);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--accent-dark);text-align:center;margin-bottom:8px;">Simplifying 12/16 → 3/4</div>
-      <svg width="240" height="140" viewBox="0 0 240 140" class="svg-diagram">
-        <!-- 12/16 box -->
-        <rect x="5" y="20" width="70" height="80" rx="8" fill="white" stroke="#DC2626" stroke-width="2"/>
-        <text x="40" y="52" text-anchor="middle" fill="#DC2626" font-size="22" font-weight="700">12</text>
-        <line x1="15" y1="62" x2="65" y2="62" stroke="#DC2626" stroke-width="2"/>
-        <text x="40" y="88" text-anchor="middle" fill="#DC2626" font-size="22" font-weight="700">16</text>
-
-        <!-- ÷4 arrows top and bottom -->
-        <path d="M78 45 L105 45" stroke="#059669" stroke-width="2" marker-end="url(#garr)"/>
-        <text x="92" y="38" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">÷ 4</text>
-        <path d="M78 82 L105 82" stroke="#059669" stroke-width="2" marker-end="url(#garr)"/>
-        <text x="92" y="75" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">÷ 4</text>
-
-        <!-- = sign -->
-        <text x="118" y="66" text-anchor="middle" fill="#374151" font-size="20" font-weight="700">=</text>
-
-        <!-- 3/4 box -->
-        <rect x="130" y="20" width="70" height="80" rx="8" fill="#DCFCE7" stroke="#059669" stroke-width="2"/>
-        <text x="165" y="52" text-anchor="middle" fill="#059669" font-size="22" font-weight="700">3</text>
-        <line x1="140" y1="62" x2="190" y2="62" stroke="#059669" stroke-width="2"/>
-        <text x="165" y="88" text-anchor="middle" fill="#059669" font-size="22" font-weight="700">4</text>
-
-        <!-- Step labels -->
-        <text x="40" y="118" text-anchor="middle" fill="#6B7280" font-size="10">Original</text>
-        <text x="165" y="118" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">Simplest form</text>
-
-        <!-- HCF label -->
-        <text x="120" y="132" text-anchor="middle" fill="#374151" font-size="10">HCF of 12 and 16 = 4</text>
-
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
         <defs>
-          <marker id="garr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6 Z" fill="#059669"/>
+          <linearGradient id="fk4-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a0a2e"/>
+            <stop offset="100%" stop-color="#2a1040"/>
+          </linearGradient>
+          <linearGradient id="fk4-scroll" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="100%" stop-color="#F59E0B"/>
+          </linearGradient>
+          <linearGradient id="fk4-fbox1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF2F2"/>
+            <stop offset="100%" stop-color="#FECACA"/>
+          </linearGradient>
+          <linearGradient id="fk4-fbox2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#DCFCE7"/>
+            <stop offset="100%" stop-color="#A7F3D0"/>
+          </linearGradient>
+          <radialGradient id="fk4-zskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <radialGradient id="fk4-zrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="50%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </radialGradient>
+          <linearGradient id="fk4-hat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </linearGradient>
+          <linearGradient id="fk4-chalk" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a3a2a"/>
+            <stop offset="100%" stop-color="#0f2218"/>
+          </linearGradient>
+          <filter id="fk4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <marker id="fk4-garr" markerWidth="7" markerHeight="7" refX="3" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="#10B981"/>
           </marker>
         </defs>
+        <rect width="300" height="280" fill="url(#fk4-bg)"/>
+        <!-- Subtle stone wall -->
+        <line x1="0" y1="50" x2="300" y2="50" stroke="#3a2a1a" stroke-width="1" opacity="0.4"/>
+        <line x1="0" y1="100" x2="300" y2="100" stroke="#3a2a1a" stroke-width="1" opacity="0.3"/>
+        <!-- Torch -->
+        <circle cx="280" cy="65" r="18" fill="#FBBF24" opacity="0.1"/>
+        <rect x="276" y="58" width="8" height="18" rx="2" fill="#8B4513"/>
+        <ellipse cx="280" cy="56" rx="7" ry="9" fill="#F97316" opacity="0.8"/>
+        <ellipse cx="280" cy="54" rx="4" ry="6" fill="#FBBF24"/>
+        <!-- Floor -->
+        <rect x="0" y="225" width="300" height="55" fill="#3a2a1a" opacity="0.8"/>
+
+        <!-- Big scroll/chalkboard showing simplification -->
+        <g filter="url(#fk4-sh)">
+          <rect x="65" y="22" width="200" height="165" rx="8" fill="#2a1a0a"/>
+          <rect x="70" y="27" width="190" height="155" rx="5" fill="url(#fk4-chalk)"/>
+          <text x="165" y="48" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="10.5" font-weight="700">Simplifying Fractions</text>
+          <text x="165" y="62" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="9">HCF of 12 and 16 = 4</text>
+
+          <!-- Fraction 12/16 box -->
+          <rect x="80" y="72" width="58" height="72" rx="8" fill="url(#fk4-fbox1)" stroke="#DC2626" stroke-width="2"/>
+          <text x="109" y="100" text-anchor="middle" fill="#DC2626" font-size="24" font-weight="800">12</text>
+          <line x1="88" y1="110" x2="130" y2="110" stroke="#DC2626" stroke-width="2.5"/>
+          <text x="109" y="132" text-anchor="middle" fill="#DC2626" font-size="24" font-weight="800">16</text>
+
+          <!-- ÷4 arrows (top and bottom) -->
+          <path d="M142,90 L168,90" stroke="#10B981" stroke-width="2" marker-end="url(#fk4-garr)"/>
+          <text x="155" y="83" text-anchor="middle" fill="#86EFAC" font-size="9.5" font-weight="700">÷ 4</text>
+          <path d="M142,125 L168,125" stroke="#10B981" stroke-width="2" marker-end="url(#fk4-garr)"/>
+          <text x="155" y="118" text-anchor="middle" fill="#86EFAC" font-size="9.5" font-weight="700">÷ 4</text>
+
+          <!-- = sign -->
+          <text x="165" y="112" text-anchor="middle" fill="white" font-size="20" font-weight="700">=</text>
+
+          <!-- Fraction 3/4 box (simplified) -->
+          <rect x="172" y="72" width="58" height="72" rx="8" fill="url(#fk4-fbox2)" stroke="#10B981" stroke-width="2"/>
+          <text x="201" y="100" text-anchor="middle" fill="#059669" font-size="24" font-weight="800">3</text>
+          <line x1="180" y1="110" x2="222" y2="110" stroke="#059669" stroke-width="2.5"/>
+          <text x="201" y="132" text-anchor="middle" fill="#059669" font-size="24" font-weight="800">4</text>
+          <!-- Checkmark / "Simplest" badge -->
+          <circle cx="230" cy="77" r="9" fill="#10B981"/>
+          <text x="230" y="81" text-anchor="middle" fill="white" font-size="11" font-weight="800">✓</text>
+
+          <!-- Bottom label -->
+          <text x="109" y="155" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="8.5">Original</text>
+          <text x="201" y="155" text-anchor="middle" fill="#86EFAC" font-size="8.5" font-weight="700">Simplest form!</text>
+          <!-- HCF explanation -->
+          <rect x="78" y="160" width="184" height="16" rx="5" fill="rgba(16,185,129,0.2)"/>
+          <text x="170" y="172" text-anchor="middle" fill="#86EFAC" font-size="8.5" font-weight="700">HCF(12,16)=4 → 12÷4=3, 16÷4=4</text>
+        </g>
+        <!-- Shelf below board -->
+        <rect x="65" y="187" width="200" height="6" rx="2" fill="#5a4a3a"/>
+
+        <!-- Zeph character (smaller, to side) -->
+        <g filter="url(#fk4-sh)">
+          <ellipse cx="45" cy="232" rx="22" ry="9" fill="#1e3a5f" opacity="0.5"/>
+          <path d="M24,228 Q45,242 66,228 L62,182 Q45,190 28,182 Z" fill="url(#fk4-zrobe)"/>
+          <text x="41" y="205" fill="rgba(255,255,255,0.4)" font-size="9">★</text>
+          <!-- Arms pointing at board -->
+          <line x1="28" y1="192" x2="12" y2="205" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="62" y1="190" x2="78" y2="180" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Pointer -->
+          <line x1="78" y1="180" x2="138" y2="130" stroke="#8B4513" stroke-width="2"/>
+          <circle cx="138" cy="130" r="3.5" fill="#F59E0B"/>
+          <rect x="40" y="170" width="10" height="12" rx="3" fill="#E8A060"/>
+          <circle cx="45" cy="163" r="15" fill="url(#fk4-zskin)"/>
+          <path d="M30,163 Q33,150 45,148 Q57,150 60,163 Q56,156 45,154 Q34,156 30,163 Z" fill="#1e3a5f"/>
+          <circle cx="40" cy="161" r="2.5" fill="white"/>
+          <circle cx="40" cy="161" r="1.5" fill="#1e3a5f"/>
+          <circle cx="40.8" cy="160.4" r="0.6" fill="white"/>
+          <circle cx="50" cy="161" r="2.5" fill="white"/>
+          <circle cx="50" cy="161" r="1.5" fill="#1e3a5f"/>
+          <circle cx="50.8" cy="160.4" r="0.6" fill="white"/>
+          <path d="M41,167 Q45,170 49,167" stroke="#9B5A3A" stroke-width="1.2" fill="none"/>
+          <!-- Hat -->
+          <path d="M31,148 Q45,100 59,148 Z" fill="url(#fk4-hat)"/>
+          <ellipse cx="45" cy="148" rx="14" ry="5" fill="#1e3a5f"/>
+          <text x="40" y="132" fill="#FBBF24" font-size="8" opacity="0.8">★</text>
+        </g>
       </svg>
-      <div class="diagram-label">Divide numerator AND denominator by the HCF</div>
-      <div style="font-size:1.6rem;margin-top:8px;">🧑‍🔬</div>
       <div class="illus-caption">Zeph reduces fractions to their simplest form</div>
     </div>
 
@@ -559,42 +910,120 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 5 – COMPARING FRACTIONS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0c1a3a,#1a2a5a);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--blue-dark);text-align:center;margin-bottom:8px;">Comparing 2/3 vs 3/5 using LCD = 15</div>
-      <svg width="250" height="130" viewBox="0 0 250 130" class="svg-diagram">
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="fk5-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0c1a3a"/>
+            <stop offset="100%" stop-color="#1a2a5a"/>
+          </linearGradient>
+          <linearGradient id="fk5-bar1" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#3B82F6"/>
+            <stop offset="66%" stop-color="#3B82F6"/>
+            <stop offset="66%" stop-color="#DBEAFE"/>
+            <stop offset="100%" stop-color="#DBEAFE"/>
+          </linearGradient>
+          <linearGradient id="fk5-bar2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="60%" stop-color="#60A5FA"/>
+            <stop offset="60%" stop-color="#DBEAFE"/>
+            <stop offset="100%" stop-color="#DBEAFE"/>
+          </linearGradient>
+          <radialGradient id="fk5-zskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <radialGradient id="fk5-zrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="50%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </radialGradient>
+          <linearGradient id="fk5-hat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </linearGradient>
+          <filter id="fk5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#fk5-bg)"/>
+        <!-- Stars in sky -->
+        <circle cx="20" cy="20" r="1.5" fill="white" opacity="0.6"/>
+        <circle cx="60" cy="10" r="1" fill="white" opacity="0.5"/>
+        <circle cx="240" cy="15" r="1.5" fill="white" opacity="0.6"/>
+        <circle cx="280" cy="25" r="1" fill="white" opacity="0.5"/>
+        <!-- Floor -->
+        <rect x="0" y="225" width="300" height="55" fill="#2a1a0a" opacity="0.7"/>
+
+        <!-- Title panel -->
+        <rect x="55" y="18" width="190" height="22" rx="6" fill="rgba(59,130,246,0.25)"/>
+        <text x="150" y="33" text-anchor="middle" fill="#93C5FD" font-size="10" font-weight="700">Comparing 2/3 vs 3/5 (LCD = 15)</text>
+
         <!-- 2/3 bar -->
-        <text x="28" y="18" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="700">2/3</text>
-        <rect x="5" y="22" width="120" height="24" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
-        <rect x="5" y="22" width="80" height="24" rx="4" fill="#3B82F6"/>
-        <line x1="45" y1="22" x2="45" y2="46" stroke="white" stroke-width="1.5"/>
-        <line x1="85" y1="22" x2="85" y2="46" stroke="white" stroke-width="1.5"/>
-        <text x="25" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="700">1/3</text>
-        <text x="65" y="38" text-anchor="middle" fill="white" font-size="10" font-weight="700">1/3</text>
-        <text x="105" y="38" text-anchor="middle" fill="#3B82F6" font-size="10" font-weight="700">1/3</text>
+        <text x="42" y="60" text-anchor="middle" fill="#93C5FD" font-size="12" font-weight="800">2/3</text>
+        <rect x="60" y="48" width="175" height="26" rx="5" fill="#1e3a6a" stroke="#3B82F6" stroke-width="1.5"/>
+        <!-- Shaded 2/3 -->
+        <rect x="60" y="48" width="116" height="26" rx="5" fill="#3B82F6"/>
+        <!-- 3 dividers -->
+        <line x1="118" y1="48" x2="118" y2="74" stroke="white" stroke-width="1.5"/>
+        <line x1="176" y1="48" x2="176" y2="74" stroke="white" stroke-width="1.5"/>
+        <text x="89" y="65" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/3</text>
+        <text x="147" y="65" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/3</text>
+        <text x="218" y="65" text-anchor="middle" fill="#93C5FD" font-size="9" font-weight="700">1/3</text>
+        <!-- = 10/15 -->
+        <text x="250" y="65" text-anchor="middle" fill="#FBBF24" font-size="11" font-weight="800">= 10/15</text>
 
         <!-- 3/5 bar -->
-        <text x="28" y="62" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="700">3/5</text>
-        <rect x="5" y="66" width="120" height="24" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
-        <rect x="5" y="66" width="72" height="24" rx="4" fill="#60A5FA"/>
-        <line x1="29" y1="66" x2="29" y2="90" stroke="white" stroke-width="1.5"/>
-        <line x1="53" y1="66" x2="53" y2="90" stroke="white" stroke-width="1.5"/>
-        <line x1="77" y1="66" x2="77" y2="90" stroke="white" stroke-width="1.5"/>
-        <line x1="101" y1="66" x2="101" y2="90" stroke="white" stroke-width="1.5"/>
-        <text x="17" y="82" text-anchor="middle" fill="white" font-size="8">1/5</text>
-        <text x="41" y="82" text-anchor="middle" fill="white" font-size="8">1/5</text>
-        <text x="65" y="82" text-anchor="middle" fill="white" font-size="8">1/5</text>
-        <text x="89" y="82" text-anchor="middle" fill="#3B82F6" font-size="8">1/5</text>
-        <text x="113" y="82" text-anchor="middle" fill="#3B82F6" font-size="8">1/5</text>
+        <text x="42" y="104" text-anchor="middle" fill="#93C5FD" font-size="12" font-weight="800">3/5</text>
+        <rect x="60" y="92" width="175" height="26" rx="5" fill="#1e3a6a" stroke="#60A5FA" stroke-width="1.5"/>
+        <!-- Shaded 3/5 -->
+        <rect x="60" y="92" width="105" height="26" rx="5" fill="#60A5FA"/>
+        <!-- 5 dividers -->
+        <line x1="95" y1="92" x2="95" y2="118" stroke="white" stroke-width="1.5"/>
+        <line x1="130" y1="92" x2="130" y2="118" stroke="white" stroke-width="1.5"/>
+        <line x1="165" y1="92" x2="165" y2="118" stroke="white" stroke-width="1.5"/>
+        <line x1="200" y1="92" x2="200" y2="118" stroke="white" stroke-width="1.5"/>
+        <text x="77" y="109" text-anchor="middle" fill="white" font-size="8">1/5</text>
+        <text x="112" y="109" text-anchor="middle" fill="white" font-size="8">1/5</text>
+        <text x="147" y="109" text-anchor="middle" fill="white" font-size="8">1/5</text>
+        <text x="183" y="109" text-anchor="middle" fill="#93C5FD" font-size="8">1/5</text>
+        <text x="218" y="109" text-anchor="middle" fill="#93C5FD" font-size="8">1/5</text>
+        <!-- = 9/15 -->
+        <text x="250" y="109" text-anchor="middle" fill="#FBBF24" font-size="11" font-weight="800">= 9/15</text>
 
-        <!-- Conversion to 15ths -->
-        <text x="155" y="35" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="700">= 10/15</text>
-        <text x="155" y="79" text-anchor="middle" fill="#60A5FA" font-size="13" font-weight="700">= 9/15</text>
-        <text x="155" y="108" text-anchor="middle" fill="#059669" font-size="12" font-weight="700">∴ 2/3 &gt; 3/5</text>
-        <text x="155" y="122" text-anchor="middle" fill="#6B7280" font-size="10">since 10/15 &gt; 9/15</text>
+        <!-- Comparison result box -->
+        <rect x="80" y="130" width="140" height="34" rx="8" fill="rgba(16,185,129,0.25)" stroke="#10B981" stroke-width="1.5"/>
+        <text x="150" y="144" text-anchor="middle" fill="#6EE7B7" font-size="10" font-weight="700">10/15 &gt; 9/15</text>
+        <text x="150" y="157" text-anchor="middle" fill="#86EFAC" font-size="11" font-weight="800">Therefore: 2/3 &gt; 3/5</text>
+
+        <!-- Zeph (small, right side) -->
+        <g filter="url(#fk5-sh)">
+          <ellipse cx="255" cy="232" rx="25" ry="9" fill="#1e3a5f" opacity="0.5"/>
+          <path d="M232,228 Q255,242 278,228 L274,180 Q255,190 236,180 Z" fill="url(#fk5-zrobe)"/>
+          <text x="251" y="202" fill="rgba(255,255,255,0.4)" font-size="9">★</text>
+          <line x1="236" y1="190" x2="222" y2="200" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Pointer toward bars -->
+          <line x1="222" y1="200" x2="155" y2="140" stroke="#8B4513" stroke-width="2"/>
+          <circle cx="155" cy="140" r="3" fill="#F59E0B"/>
+          <line x1="274" y1="188" x2="285" y2="198" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <rect x="250" y="168" width="10" height="12" rx="3" fill="#E8A060"/>
+          <circle cx="255" cy="161" r="15" fill="url(#fk5-zskin)"/>
+          <path d="M240,161 Q243,149 255,147 Q267,149 270,161 Q265,154 255,152 Q245,154 240,161 Z" fill="#1e3a5f"/>
+          <circle cx="250" cy="159" r="2.5" fill="white"/>
+          <circle cx="250" cy="159" r="1.5" fill="#1e3a5f"/>
+          <circle cx="250.8" cy="158.4" r="0.6" fill="white"/>
+          <circle cx="260" cy="159" r="2.5" fill="white"/>
+          <circle cx="260" cy="159" r="1.5" fill="#1e3a5f"/>
+          <circle cx="260.8" cy="158.4" r="0.6" fill="white"/>
+          <path d="M251,165 Q255,168 259,165" stroke="#9B5A3A" stroke-width="1.2" fill="none"/>
+          <path d="M241,147 Q255,98 269,147 Z" fill="url(#fk5-hat)"/>
+          <ellipse cx="255" cy="147" rx="14" ry="5" fill="#1e3a5f"/>
+          <text x="250" y="131" fill="#FBBF24" font-size="8" opacity="0.8">★</text>
+          <text x="257" y="120" fill="#86EFAC" font-size="7" opacity="0.7">✦</text>
+        </g>
       </svg>
-      <div class="diagram-label">Finding a common denominator to compare</div>
-      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
       <div class="illus-caption">Zeph converts to a common denominator</div>
     </div>
 
@@ -636,47 +1065,121 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 6 – ADDING FRACTIONS (SAME DENOMINATOR)
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0a2a1a,#1a4a2a);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--green-dark);text-align:center;margin-bottom:8px;">2/7 + 3/7 = 5/7</div>
-      <svg width="220" height="110" viewBox="0 0 220 110" class="svg-diagram">
-        <!-- Fraction bar of 7 parts -->
-        <rect x="5" y="20" width="210" height="36" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-        <!-- 7 equal sections -->
-        <rect x="5" y="20" width="30" height="36" fill="#10B981" opacity="0.9"/>
-        <rect x="35" y="20" width="30" height="36" fill="#10B981" opacity="0.9"/>
-        <rect x="65" y="20" width="30" height="36" fill="#34D399" opacity="0.9"/>
-        <rect x="95" y="20" width="30" height="36" fill="#34D399" opacity="0.9"/>
-        <rect x="125" y="20" width="30" height="36" fill="#34D399" opacity="0.9"/>
-        <!-- dividers -->
-        <line x1="35" y1="20" x2="35" y2="56" stroke="white" stroke-width="2"/>
-        <line x1="65" y1="20" x2="65" y2="56" stroke="white" stroke-width="2"/>
-        <line x1="95" y1="20" x2="95" y2="56" stroke="white" stroke-width="2"/>
-        <line x1="125" y1="20" x2="125" y2="56" stroke="white" stroke-width="2"/>
-        <line x1="155" y1="20" x2="155" y2="56" stroke="white" stroke-width="2"/>
-        <line x1="185" y1="20" x2="185" y2="56" stroke="white" stroke-width="2"/>
-        <!-- labels -->
-        <text x="20" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
-        <text x="50" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
-        <text x="80" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
-        <text x="110" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
-        <text x="140" y="43" text-anchor="middle" fill="white" font-size="9" font-weight="700">1/7</text>
-        <text x="170" y="43" text-anchor="middle" fill="#6B7280" font-size="9">1/7</text>
-        <text x="200" y="43" text-anchor="middle" fill="#6B7280" font-size="9">1/7</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="fk6-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a2a1a"/>
+            <stop offset="100%" stop-color="#1a4a2a"/>
+          </linearGradient>
+          <linearGradient id="fk6-bar-a" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="fk6-bar-b" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#10B981"/>
+          </linearGradient>
+          <radialGradient id="fk6-zskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <radialGradient id="fk6-zrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="50%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </radialGradient>
+          <linearGradient id="fk6-hat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </linearGradient>
+          <filter id="fk6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#fk6-bg)"/>
+        <!-- Decorative vines -->
+        <path d="M0,50 Q20,30 10,60 Q30,40 20,70" stroke="#10B981" stroke-width="1.5" fill="none" opacity="0.4"/>
+        <path d="M290,80 Q270,60 280,90 Q260,70 275,100" stroke="#10B981" stroke-width="1.5" fill="none" opacity="0.4"/>
+        <!-- Floor -->
+        <rect x="0" y="225" width="300" height="55" fill="#1a3a1a" opacity="0.8"/>
+        <line x1="0" y1="225" x2="300" y2="225" stroke="#10B981" stroke-width="1" opacity="0.5"/>
 
-        <!-- Brackets below -->
-        <path d="M5 60 L65 60" stroke="#059669" stroke-width="2"/>
-        <path d="M35 60 L35 70" stroke="#059669" stroke-width="2"/>
-        <text x="35" y="82" text-anchor="middle" fill="#059669" font-size="11" font-weight="700">2/7</text>
+        <!-- Title area -->
+        <rect x="40" y="18" width="220" height="22" rx="6" fill="rgba(16,185,129,0.2)" stroke="#10B981" stroke-width="1"/>
+        <text x="150" y="33" text-anchor="middle" fill="#6EE7B7" font-size="10.5" font-weight="700">Adding Fractions: 2/7 + 3/7 = 5/7</text>
 
-        <path d="M65 60 L155 60" stroke="#047857" stroke-width="2"/>
-        <path d="M110 60 L110 70" stroke="#047857" stroke-width="2"/>
-        <text x="110" y="82" text-anchor="middle" fill="#047857" font-size="11" font-weight="700">3/7</text>
+        <!-- Big fraction bar divided into 7 -->
+        <g filter="url(#fk6-sh)">
+          <rect x="30" y="55" width="240" height="42" rx="7" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+          <!-- 2/7 shaded (dark green) -->
+          <rect x="30" y="55" width="68" height="42" rx="6" fill="url(#fk6-bar-a)"/>
+          <!-- 3/7 shaded (lighter green) -->
+          <rect x="99" y="55" width="102" height="42" fill="url(#fk6-bar-b)"/>
+          <!-- Unshaded 2/7 -->
+          <!-- dividers -->
+          <line x1="64" y1="55" x2="64" y2="97" stroke="white" stroke-width="2"/>
+          <line x1="99" y1="55" x2="99" y2="97" stroke="white" stroke-width="2"/>
+          <line x1="133" y1="55" x2="133" y2="97" stroke="white" stroke-width="2"/>
+          <line x1="167" y1="55" x2="167" y2="97" stroke="white" stroke-width="2"/>
+          <line x1="201" y1="55" x2="201" y2="97" stroke="white" stroke-width="2"/>
+          <line x1="236" y1="55" x2="236" y2="97" stroke="white" stroke-width="2"/>
+          <!-- Labels in each cell -->
+          <text x="47" y="80" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">1/7</text>
+          <text x="81" y="80" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">1/7</text>
+          <text x="116" y="80" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">1/7</text>
+          <text x="150" y="80" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">1/7</text>
+          <text x="184" y="80" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">1/7</text>
+          <text x="218" y="80" text-anchor="middle" fill="#6EE7B7" font-size="8.5">1/7</text>
+          <text x="253" y="80" text-anchor="middle" fill="#6EE7B7" font-size="8.5">1/7</text>
+        </g>
 
-        <text x="110" y="100" text-anchor="middle" fill="#059669" font-size="12" font-weight="700">2/7 + 3/7 = 5/7</text>
+        <!-- Bracket labels below bar -->
+        <!-- 2/7 bracket -->
+        <line x1="30" y1="105" x2="99" y2="105" stroke="#059669" stroke-width="2"/>
+        <line x1="30" y1="100" x2="30" y2="105" stroke="#059669" stroke-width="2"/>
+        <line x1="99" y1="100" x2="99" y2="105" stroke="#059669" stroke-width="2"/>
+        <line x1="64" y1="105" x2="64" y2="112" stroke="#059669" stroke-width="1.5"/>
+        <text x="64" y="124" text-anchor="middle" fill="#6EE7B7" font-size="12" font-weight="800">2/7</text>
+
+        <!-- 3/7 bracket -->
+        <line x1="99" y1="105" x2="201" y2="105" stroke="#047857" stroke-width="2"/>
+        <line x1="99" y1="100" x2="99" y2="105" stroke="#047857" stroke-width="2"/>
+        <line x1="201" y1="100" x2="201" y2="105" stroke="#047857" stroke-width="2"/>
+        <line x1="150" y1="105" x2="150" y2="112" stroke="#047857" stroke-width="1.5"/>
+        <text x="150" y="124" text-anchor="middle" fill="#86EFAC" font-size="12" font-weight="800">3/7</text>
+
+        <!-- Addition equation in a panel -->
+        <rect x="60" y="138" width="180" height="36" rx="10" fill="rgba(16,185,129,0.25)" stroke="#10B981" stroke-width="1.5"/>
+        <text x="150" y="152" text-anchor="middle" fill="#86EFAC" font-size="10.5" font-weight="700">Add numerators only!</text>
+        <text x="150" y="168" text-anchor="middle" fill="#FBBF24" font-size="14" font-weight="800">2/7 + 3/7 = 5/7</text>
+
+        <!-- Zeph character -->
+        <g filter="url(#fk6-sh)">
+          <ellipse cx="255" cy="233" rx="24" ry="9" fill="#1e3a5f" opacity="0.5"/>
+          <path d="M233,228 Q255,243 277,228 L273,183 Q255,193 237,183 Z" fill="url(#fk6-zrobe)"/>
+          <text x="251" y="205" fill="rgba(255,255,255,0.4)" font-size="9">★</text>
+          <line x1="237" y1="193" x2="224" y2="203" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="224" y1="203" x2="200" y2="170" stroke="#8B4513" stroke-width="2"/>
+          <circle cx="200" cy="170" r="3" fill="#F59E0B"/>
+          <line x1="273" y1="191" x2="284" y2="200" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <rect x="250" y="171" width="10" height="12" rx="3" fill="#E8A060"/>
+          <circle cx="255" cy="164" r="15" fill="url(#fk6-zskin)"/>
+          <path d="M240,164 Q243,151 255,149 Q267,151 270,164 Q265,157 255,155 Q245,157 240,164 Z" fill="#1e3a5f"/>
+          <circle cx="250" cy="162" r="2.5" fill="white"/>
+          <circle cx="250" cy="162" r="1.5" fill="#1e3a5f"/>
+          <circle cx="250.8" cy="161.4" r="0.6" fill="white"/>
+          <circle cx="260" cy="162" r="2.5" fill="white"/>
+          <circle cx="260" cy="162" r="1.5" fill="#1e3a5f"/>
+          <circle cx="260.8" cy="161.4" r="0.6" fill="white"/>
+          <path d="M251,168 Q255,171 259,168" stroke="#9B5A3A" stroke-width="1.2" fill="none"/>
+          <path d="M241,149 Q255,101 269,149 Z" fill="url(#fk6-hat)"/>
+          <ellipse cx="255" cy="149" rx="14" ry="5" fill="#1e3a5f"/>
+          <text x="250" y="133" fill="#FBBF24" font-size="8" opacity="0.8">★</text>
+        </g>
       </svg>
-      <div class="diagram-label">Add numerators, keep the denominator</div>
-      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
       <div class="illus-caption">Zeph teaches the court about adding fractions</div>
     </div>
 
@@ -725,31 +1228,104 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 7 – ADDING FRACTIONS (DIFFERENT DENOMINATORS)
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#1a0a3a,#2a1050);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--purple-dark);text-align:center;margin-bottom:8px;">1/3 + 1/4 — Step by step</div>
-      <svg width="230" height="150" viewBox="0 0 230 150" class="svg-diagram">
-        <!-- Step 1 box -->
-        <rect x="5" y="5" width="220" height="32" rx="5" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
-        <text x="15" y="18" fill="#6D28D9" font-size="10" font-weight="700">Step 1: Find LCD of 3 and 4</text>
-        <text x="15" y="30" fill="#6D28D9" font-size="10">Multiples of 3: 3,6,9,12...  Multiples of 4: 4,8,12...  LCD = 12</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="fk7-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a0a3a"/>
+            <stop offset="100%" stop-color="#2a1050"/>
+          </linearGradient>
+          <linearGradient id="fk7-step1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a1a5a"/>
+            <stop offset="100%" stop-color="#1e1040"/>
+          </linearGradient>
+          <radialGradient id="fk7-zskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <radialGradient id="fk7-zrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="50%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </radialGradient>
+          <linearGradient id="fk7-hat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#A78BFA"/>
+            <stop offset="100%" stop-color="#4C1D95"/>
+          </linearGradient>
+          <linearGradient id="fk7-scroll" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#EDE9FE"/>
+            <stop offset="100%" stop-color="#C4B5FD"/>
+          </linearGradient>
+          <filter id="fk7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#fk7-bg)"/>
+        <!-- Stars -->
+        <circle cx="15" cy="18" r="1.5" fill="white" opacity="0.5"/>
+        <circle cx="50" cy="8" r="1" fill="white" opacity="0.5"/>
+        <circle cx="260" cy="12" r="1.5" fill="white" opacity="0.5"/>
+        <!-- Floor -->
+        <rect x="0" y="225" width="300" height="55" fill="#2a1a4a" opacity="0.8"/>
 
-        <!-- Step 2 box -->
-        <rect x="5" y="44" width="220" height="36" rx="5" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
-        <text x="15" y="57" fill="#6D28D9" font-size="10" font-weight="700">Step 2: Convert both fractions to twelfths</text>
-        <text x="15" y="72" fill="#6D28D9" font-size="10">1/3 × 4/4 = 4/12 &nbsp;&nbsp;&nbsp; 1/4 × 3/3 = 3/12</text>
+        <!-- Scroll panel with 3 steps -->
+        <g filter="url(#fk7-sh)">
+          <!-- Scroll background -->
+          <rect x="45" y="18" width="210" height="185" rx="10" fill="#2a1a4a" stroke="#8B5CF6" stroke-width="2"/>
+          <text x="150" y="38" text-anchor="middle" fill="#C4B5FD" font-size="11" font-weight="700">1/3 + 1/4 — Step by step</text>
 
-        <!-- Step 3 box -->
-        <rect x="5" y="87" width="220" height="32" rx="5" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
-        <text x="15" y="100" fill="#6D28D9" font-size="10" font-weight="700">Step 3: Add the numerators</text>
-        <text x="15" y="115" fill="#6D28D9" font-size="10">4/12 + 3/12 = 7/12</text>
+          <!-- Step 1 -->
+          <rect x="55" y="47" width="190" height="40" rx="6" fill="url(#fk7-step1)" stroke="#8B5CF6" stroke-width="1"/>
+          <circle cx="70" cy="60" r="9" fill="#8B5CF6"/>
+          <text x="70" y="64" text-anchor="middle" fill="white" font-size="10" font-weight="800">1</text>
+          <text x="84" y="58" fill="#C4B5FD" font-size="9.5" font-weight="700">Find LCD of 3 and 4</text>
+          <text x="84" y="71" fill="#A78BFA" font-size="8.5">Multiples of 12 → LCD = 12</text>
 
-        <!-- Answer -->
-        <rect x="30" y="126" width="170" height="22" rx="5" fill="#6D28D9"/>
-        <text x="115" y="141" text-anchor="middle" fill="white" font-size="12" font-weight="700">1/3 + 1/4 = 7/12</text>
+          <!-- Step 2 -->
+          <rect x="55" y="94" width="190" height="50" rx="6" fill="url(#fk7-step1)" stroke="#8B5CF6" stroke-width="1"/>
+          <circle cx="70" cy="110" r="9" fill="#7C3AED"/>
+          <text x="70" y="114" text-anchor="middle" fill="white" font-size="10" font-weight="800">2</text>
+          <text x="84" y="106" fill="#C4B5FD" font-size="9.5" font-weight="700">Convert to twelfths</text>
+          <text x="84" y="119" fill="#A78BFA" font-size="8.5">1/3 × 4/4 = 4/12</text>
+          <text x="84" y="130" fill="#A78BFA" font-size="8.5">1/4 × 3/3 = 3/12</text>
+
+          <!-- Step 3 -->
+          <rect x="55" y="151" width="190" height="40" rx="6" fill="url(#fk7-step1)" stroke="#8B5CF6" stroke-width="1"/>
+          <circle cx="70" cy="164" r="9" fill="#6D28D9"/>
+          <text x="70" y="168" text-anchor="middle" fill="white" font-size="10" font-weight="800">3</text>
+          <text x="84" y="160" fill="#C4B5FD" font-size="9.5" font-weight="700">Add numerators</text>
+          <text x="84" y="174" fill="#A78BFA" font-size="8.5">4/12 + 3/12 = 7/12</text>
+
+          <!-- Answer box -->
+          <rect x="70" y="195" width="160" height="28" rx="8" fill="#8B5CF6"/>
+          <text x="150" y="213" text-anchor="middle" fill="white" font-size="13" font-weight="800">1/3 + 1/4 = 7/12</text>
+        </g>
+
+        <!-- Zeph (small) -->
+        <g filter="url(#fk7-sh)">
+          <ellipse cx="245" cy="232" rx="23" ry="9" fill="#4C1D95" opacity="0.5"/>
+          <path d="M224,228 Q245,242 266,228 L262,184 Q245,193 228,184 Z" fill="url(#fk7-zrobe)"/>
+          <text x="241" y="205" fill="rgba(255,255,255,0.4)" font-size="9">★</text>
+          <line x1="228" y1="194" x2="215" y2="203" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="262" y1="192" x2="273" y2="200" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <rect x="240" y="172" width="10" height="12" rx="3" fill="#E8A060"/>
+          <circle cx="245" cy="165" r="15" fill="url(#fk7-zskin)"/>
+          <path d="M230,165 Q233,152 245,150 Q257,152 260,165 Q255,158 245,156 Q235,158 230,165 Z" fill="#4C1D95"/>
+          <circle cx="240" cy="163" r="2.5" fill="white"/>
+          <circle cx="240" cy="163" r="1.5" fill="#4C1D95"/>
+          <circle cx="240.8" cy="162.4" r="0.6" fill="white"/>
+          <circle cx="250" cy="163" r="2.5" fill="white"/>
+          <circle cx="250" cy="163" r="1.5" fill="#4C1D95"/>
+          <circle cx="250.8" cy="162.4" r="0.6" fill="white"/>
+          <path d="M241,169 Q245,172 249,169" stroke="#9B5A3A" stroke-width="1.2" fill="none"/>
+          <path d="M231,150 Q245,103 259,150 Z" fill="url(#fk7-hat)"/>
+          <ellipse cx="245" cy="150" rx="14" ry="5" fill="#4C1D95"/>
+          <text x="240" y="134" fill="#FBBF24" font-size="8" opacity="0.8">★</text>
+          <text x="247" y="123" fill="#C4B5FD" font-size="7" opacity="0.7">✦</text>
+        </g>
       </svg>
-      <div class="diagram-label">Find LCD → Convert → Add</div>
-      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
       <div class="illus-caption">Three clear steps for adding unlike fractions</div>
     </div>
 
@@ -791,32 +1367,108 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 8 – SUBTRACTING FRACTIONS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-8">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+    <div class="illustration" style="background:linear-gradient(135deg,#2a1000,#4a2a00);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--orange-dark);text-align:center;margin-bottom:8px;">Subtracting fractions — same and different denominators</div>
-      <svg width="230" height="145" viewBox="0 0 230 145" class="svg-diagram">
-        <!-- Example 1: Same denominator 5/6 - 1/6 -->
-        <text x="5" y="14" fill="#C2410C" font-size="11" font-weight="700">Same denominator:</text>
-        <rect x="5" y="18" width="210" height="28" rx="4" fill="#FEF3C7" stroke="#F97316" stroke-width="1.5"/>
-        <rect x="5" y="18" width="175" height="28" fill="#F97316" rx="4" opacity="0.8"/>
-        <line x1="40" y1="18" x2="40" y2="46" stroke="white" stroke-width="1.5"/>
-        <line x1="75" y1="18" x2="75" y2="46" stroke="white" stroke-width="1.5"/>
-        <line x1="110" y1="18" x2="110" y2="46" stroke="white" stroke-width="1.5"/>
-        <line x1="145" y1="18" x2="145" y2="46" stroke="white" stroke-width="1.5"/>
-        <line x1="175" y1="18" x2="175" y2="46" stroke="white" stroke-width="1.5"/>
-        <text x="115" y="58" text-anchor="middle" fill="#C2410C" font-size="11" font-weight="700">5/6 − 1/6 = 4/6 = 2/3</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="fk8-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a1000"/>
+            <stop offset="100%" stop-color="#4a2a00"/>
+          </linearGradient>
+          <linearGradient id="fk8-panel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a1800"/>
+            <stop offset="100%" stop-color="#2a1200"/>
+          </linearGradient>
+          <linearGradient id="fk8-bar-o" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#C2410C"/>
+          </linearGradient>
+          <radialGradient id="fk8-zskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <radialGradient id="fk8-zrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="50%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </radialGradient>
+          <linearGradient id="fk8-hat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </linearGradient>
+          <filter id="fk8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#fk8-bg)"/>
+        <!-- Fireplace glow effect -->
+        <ellipse cx="150" cy="260" rx="100" ry="40" fill="#F97316" opacity="0.08"/>
+        <!-- Floor -->
+        <rect x="0" y="228" width="300" height="52" fill="#3a1a00" opacity="0.8"/>
 
-        <!-- Example 2: Different denominator 3/4 - 1/3 -->
-        <text x="5" y="78" fill="#C2410C" font-size="11" font-weight="700">Different denominator: 3/4 − 1/3</text>
-        <rect x="5" y="84" width="220" height="28" rx="4" fill="#FDE8D0" stroke="#F97316" stroke-width="1.5"/>
-        <text x="15" y="96" fill="#C2410C" font-size="10" font-weight="700">Step 1: LCD of 4 and 3 = 12</text>
-        <text x="15" y="108" fill="#C2410C" font-size="10">3/4 = 9/12 &nbsp;&nbsp; 1/3 = 4/12</text>
+        <!-- PANEL 1: Same denominator -->
+        <g filter="url(#fk8-sh)">
+          <rect x="35" y="18" width="230" height="95" rx="8" fill="url(#fk8-panel)" stroke="#F97316" stroke-width="1.5"/>
+          <text x="150" y="35" text-anchor="middle" fill="#FED7AA" font-size="10" font-weight="700">Same Denominator: 5/6 − 1/6</text>
+          <!-- 6-segment bar -->
+          <rect x="48" y="42" width="200" height="32" rx="5" fill="#FEF3C7" stroke="#F97316" stroke-width="1.5"/>
+          <!-- 5 shaded orange -->
+          <rect x="48" y="42" width="166" height="32" rx="5" fill="url(#fk8-bar-o)"/>
+          <!-- Cross-out on last shaded segment (subtract 1) -->
+          <rect x="115" y="42" width="33" height="32" fill="#DC2626" opacity="0.5"/>
+          <line x1="115" y1="42" x2="148" y2="74" stroke="white" stroke-width="2.5"/>
+          <line x1="148" y1="42" x2="115" y2="74" stroke="white" stroke-width="2.5"/>
+          <!-- Segment dividers -->
+          <line x1="81" y1="42" x2="81" y2="74" stroke="white" stroke-width="1.5"/>
+          <line x1="115" y1="42" x2="115" y2="74" stroke="white" stroke-width="1.5"/>
+          <line x1="148" y1="42" x2="148" y2="74" stroke="white" stroke-width="1.5"/>
+          <line x1="182" y1="42" x2="182" y2="74" stroke="white" stroke-width="1.5"/>
+          <line x1="215" y1="42" x2="215" y2="74" stroke="white" stroke-width="1.5"/>
+          <!-- Result -->
+          <rect x="78" y="82" width="144" height="20" rx="6" fill="#C2410C"/>
+          <text x="150" y="96" text-anchor="middle" fill="white" font-size="10.5" font-weight="800">5/6 − 1/6 = 4/6 = 2/3</text>
+        </g>
 
-        <rect x="30" y="118" width="170" height="22" rx="4" fill="#C2410C"/>
-        <text x="115" y="133" text-anchor="middle" fill="white" font-size="12" font-weight="700">9/12 − 4/12 = 5/12</text>
+        <!-- PANEL 2: Different denominator -->
+        <g filter="url(#fk8-sh)">
+          <rect x="35" y="122" width="230" height="95" rx="8" fill="url(#fk8-panel)" stroke="#F97316" stroke-width="1.5"/>
+          <text x="150" y="138" text-anchor="middle" fill="#FED7AA" font-size="10" font-weight="700">Different: 3/4 − 1/3 (LCD=12)</text>
+          <!-- Step boxes -->
+          <rect x="48" y="145" width="98" height="28" rx="5" fill="rgba(249,115,22,0.2)" stroke="#F97316" stroke-width="1"/>
+          <text x="97" y="157" text-anchor="middle" fill="#FED7AA" font-size="9">3/4 = 9/12</text>
+          <text x="97" y="169" text-anchor="middle" fill="#FED7AA" font-size="9">1/3 = 4/12</text>
+          <rect x="152" y="145" width="98" height="28" rx="5" fill="rgba(249,115,22,0.2)" stroke="#F97316" stroke-width="1"/>
+          <text x="201" y="157" text-anchor="middle" fill="#FED7AA" font-size="9">LCD of 4,3</text>
+          <text x="201" y="169" text-anchor="middle" fill="#FBBF24" font-size="9" font-weight="700">= 12</text>
+          <!-- Result -->
+          <rect x="78" y="180" width="144" height="28" rx="6" fill="#C2410C"/>
+          <text x="150" y="192" text-anchor="middle" fill="white" font-size="9.5" font-weight="700">9/12 − 4/12</text>
+          <text x="150" y="204" text-anchor="middle" fill="#FBBF24" font-size="11" font-weight="800">= 5/12</text>
+        </g>
+
+        <!-- Zeph (small right) -->
+        <g filter="url(#fk8-sh)">
+          <ellipse cx="255" cy="233" rx="23" ry="9" fill="#1e3a5f" opacity="0.5"/>
+          <path d="M234,228 Q255,242 276,228 L272,185 Q255,194 238,185 Z" fill="url(#fk8-zrobe)"/>
+          <text x="251" y="206" fill="rgba(255,255,255,0.4)" font-size="9">★</text>
+          <line x1="238" y1="195" x2="226" y2="204" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="272" y1="193" x2="282" y2="202" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <rect x="250" y="173" width="10" height="12" rx="3" fill="#E8A060"/>
+          <circle cx="255" cy="166" r="15" fill="url(#fk8-zskin)"/>
+          <path d="M240,166 Q243,153 255,151 Q267,153 270,166 Q265,159 255,157 Q245,159 240,166 Z" fill="#1e3a5f"/>
+          <circle cx="250" cy="164" r="2.5" fill="white"/>
+          <circle cx="250" cy="164" r="1.5" fill="#1e3a5f"/>
+          <circle cx="250.8" cy="163.4" r="0.6" fill="white"/>
+          <circle cx="260" cy="164" r="2.5" fill="white"/>
+          <circle cx="260" cy="164" r="1.5" fill="#1e3a5f"/>
+          <circle cx="260.8" cy="163.4" r="0.6" fill="white"/>
+          <path d="M251,170 Q255,173 259,170" stroke="#9B5A3A" stroke-width="1.2" fill="none"/>
+          <path d="M241,151 Q255,104 269,151 Z" fill="url(#fk8-hat)"/>
+          <ellipse cx="255" cy="151" rx="14" ry="5" fill="#1e3a5f"/>
+          <text x="249" y="135" fill="#FBBF24" font-size="8" opacity="0.8">★</text>
+        </g>
       </svg>
-      <div class="diagram-label">Subtraction follows the same rules as addition</div>
-      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
       <div class="illus-caption">Zeph demonstrates subtraction for the treasury</div>
     </div>
 
@@ -858,40 +1510,116 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 9 – MIXED NUMBERS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-9">
-    <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0a2a1a,#0a3a1a);">
       <div class="page-num-illus">Page 9</div>
-      <div style="font-size:.85rem;font-weight:700;color:var(--green-dark);text-align:center;margin-bottom:8px;">1¾ as a mixed number and improper fraction</div>
-      <svg width="230" height="150" viewBox="0 0 230 150" class="svg-diagram">
-        <!-- Visual: one full rectangle + 3/4 of another -->
-        <!-- Full rectangle -->
-        <rect x="5" y="20" width="80" height="50" rx="5" fill="#10B981" stroke="#059669" stroke-width="2"/>
-        <line x1="25" y1="20" x2="25" y2="70" stroke="white" stroke-width="1.5"/>
-        <line x1="45" y1="20" x2="45" y2="70" stroke="white" stroke-width="1.5"/>
-        <line x1="65" y1="20" x2="65" y2="70" stroke="white" stroke-width="1.5"/>
-        <text x="45" y="50" text-anchor="middle" fill="white" font-size="10" font-weight="700">4/4 = 1</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="fk9-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a2a1a"/>
+            <stop offset="100%" stop-color="#0a3a1a"/>
+          </linearGradient>
+          <linearGradient id="fk9-whole" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="fk9-part" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6EE7B7"/>
+            <stop offset="100%" stop-color="#10B981"/>
+          </linearGradient>
+          <linearGradient id="fk9-conv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f2218"/>
+            <stop offset="100%" stop-color="#0a1810"/>
+          </linearGradient>
+          <radialGradient id="fk9-zskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <radialGradient id="fk9-zrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="50%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </radialGradient>
+          <linearGradient id="fk9-hat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </linearGradient>
+          <filter id="fk9-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#fk9-bg)"/>
+        <!-- Subtle leaf pattern -->
+        <circle cx="10" cy="30" r="6" fill="#10B981" opacity="0.15"/>
+        <circle cx="290" cy="50" r="8" fill="#10B981" opacity="0.12"/>
+        <!-- Floor -->
+        <rect x="0" y="225" width="300" height="55" fill="#1a4a1a" opacity="0.8"/>
+
+        <!-- Title -->
+        <rect x="50" y="15" width="200" height="20" rx="6" fill="rgba(16,185,129,0.2)"/>
+        <text x="150" y="29" text-anchor="middle" fill="#6EE7B7" font-size="10" font-weight="700">1¾ as mixed and improper fraction</text>
+
+        <!-- Whole block (1) -->
+        <g filter="url(#fk9-sh)">
+          <rect x="38" y="47" width="90" height="55" rx="7" fill="url(#fk9-whole)" stroke="#059669" stroke-width="2"/>
+          <line x1="60" y1="47" x2="60" y2="102" stroke="white" stroke-width="1.5"/>
+          <line x1="82" y1="47" x2="82" y2="102" stroke="white" stroke-width="1.5"/>
+          <line x1="104" y1="47" x2="104" y2="102" stroke="white" stroke-width="1.5"/>
+          <text x="83" y="80" text-anchor="middle" fill="white" font-size="11" font-weight="800">4/4=1</text>
+          <!-- Label below -->
+          <text x="83" y="118" text-anchor="middle" fill="#6EE7B7" font-size="12" font-weight="700">1 whole</text>
+        </g>
 
         <!-- Plus sign -->
-        <text x="100" y="50" text-anchor="middle" fill="#374151" font-size="18" font-weight="700">+</text>
+        <text x="143" y="82" text-anchor="middle" fill="#FBBF24" font-size="22" font-weight="800">+</text>
 
-        <!-- 3/4 rectangle (3 shaded, 1 not) -->
-        <rect x="110" y="20" width="80" height="50" rx="5" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
-        <rect x="110" y="20" width="60" height="50" fill="#34D399" rx="5" opacity="0.9"/>
-        <line x1="130" y1="20" x2="130" y2="70" stroke="white" stroke-width="1.5"/>
-        <line x1="150" y1="20" x2="150" y2="70" stroke="white" stroke-width="1.5"/>
-        <line x1="170" y1="20" x2="170" y2="70" stroke="white" stroke-width="1.5"/>
-        <text x="150" y="50" text-anchor="middle" fill="white" font-size="10" font-weight="700">¾</text>
+        <!-- 3/4 block -->
+        <g filter="url(#fk9-sh)">
+          <rect x="158" y="47" width="90" height="55" rx="7" fill="#D1FAE5" stroke="#059669" stroke-width="2"/>
+          <!-- 3 shaded -->
+          <rect x="158" y="47" width="67" height="55" fill="url(#fk9-part)" rx="6"/>
+          <line x1="180" y1="47" x2="180" y2="102" stroke="white" stroke-width="1.5"/>
+          <line x1="202" y1="47" x2="202" y2="102" stroke="white" stroke-width="1.5"/>
+          <line x1="225" y1="47" x2="225" y2="102" stroke="white" stroke-width="1.5"/>
+          <text x="191" y="80" text-anchor="middle" fill="white" font-size="11" font-weight="800">¾</text>
+          <text x="203" y="118" text-anchor="middle" fill="#6EE7B7" font-size="12" font-weight="700">¾ shaded</text>
+        </g>
 
-        <!-- Label below -->
-        <text x="90" y="88" text-anchor="middle" fill="#059669" font-size="13" font-weight="700">1¾</text>
+        <!-- "= 1¾" label -->
+        <rect x="110" y="130" width="80" height="26" rx="8" fill="rgba(16,185,129,0.3)" stroke="#10B981" stroke-width="1.5"/>
+        <text x="150" y="147" text-anchor="middle" fill="#FBBF24" font-size="16" font-weight="800">= 1¾</text>
 
-        <!-- Conversion working -->
-        <rect x="5" y="100" width="220" height="44" rx="5" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
-        <text x="15" y="115" fill="#059669" font-size="10" font-weight="700">Convert 1¾ to improper fraction:</text>
-        <text x="15" y="129" fill="#059669" font-size="10">(Whole × denominator) + numerator = (1×4)+3 = 7</text>
-        <text x="15" y="141" fill="#059669" font-size="11" font-weight="700">1¾ = 7/4</text>
+        <!-- Conversion panel -->
+        <g filter="url(#fk9-sh)">
+          <rect x="38" y="163" width="210" height="55" rx="8" fill="url(#fk9-conv)" stroke="#10B981" stroke-width="1.5"/>
+          <text x="143" y="179" text-anchor="middle" fill="#86EFAC" font-size="9.5" font-weight="700">Convert 1¾ → improper fraction:</text>
+          <text x="143" y="193" text-anchor="middle" fill="#6EE7B7" font-size="9">(Whole × denom) + num = (1×4)+3 = 7</text>
+          <rect x="88" y="200" width="110" height="16" rx="5" fill="#059669"/>
+          <text x="143" y="212" text-anchor="middle" fill="white" font-size="10.5" font-weight="800">1¾ = 7/4</text>
+        </g>
+
+        <!-- Zeph (small right) -->
+        <g filter="url(#fk9-sh)">
+          <ellipse cx="265" cy="233" rx="23" ry="9" fill="#1e3a5f" opacity="0.5"/>
+          <path d="M244,228 Q265,242 286,228 L282,185 Q265,194 248,185 Z" fill="url(#fk9-zrobe)"/>
+          <text x="261" y="206" fill="rgba(255,255,255,0.4)" font-size="9">★</text>
+          <line x1="248" y1="195" x2="236" y2="204" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <line x1="282" y1="193" x2="292" y2="202" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round"/>
+          <rect x="260" y="173" width="10" height="12" rx="3" fill="#E8A060"/>
+          <circle cx="265" cy="166" r="15" fill="url(#fk9-zskin)"/>
+          <path d="M250,166 Q253,153 265,151 Q277,153 280,166 Q275,159 265,157 Q255,159 250,166 Z" fill="#1e3a5f"/>
+          <circle cx="260" cy="164" r="2.5" fill="white"/>
+          <circle cx="260" cy="164" r="1.5" fill="#1e3a5f"/>
+          <circle cx="260.8" cy="163.4" r="0.6" fill="white"/>
+          <circle cx="270" cy="164" r="2.5" fill="white"/>
+          <circle cx="270" cy="164" r="1.5" fill="#1e3a5f"/>
+          <circle cx="270.8" cy="163.4" r="0.6" fill="white"/>
+          <path d="M261,170 Q265,173 269,170" stroke="#9B5A3A" stroke-width="1.2" fill="none"/>
+          <path d="M251,151 Q265,104 279,151 Z" fill="url(#fk9-hat)"/>
+          <ellipse cx="265" cy="151" rx="14" ry="5" fill="#1e3a5f"/>
+          <text x="260" y="135" fill="#FBBF24" font-size="8" opacity="0.8">★</text>
+        </g>
       </svg>
-      <div class="diagram-label">One whole rectangle plus three-quarters of another</div>
-      <div style="font-size:1.6rem;margin-top:6px;">🧑‍🔬</div>
       <div class="illus-caption">Zeph explains mixed numbers to the royal court</div>
     </div>
 
@@ -940,20 +1668,203 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 10 – THE KINGDOM UNITES
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-10">
-    <div class="illustration" style="background:linear-gradient(135deg,#DC2626,#9333EA);">
+    <div class="illustration" style="background:linear-gradient(135deg,#2a0a4a,#6a1030);">
       <div class="page-num-illus">Page 10</div>
-      <div style="font-size:1.8rem;text-align:center;margin-bottom:10px;">👸 🤴 🧑‍🔬</div>
-      <div style="background:rgba(255,255,255,.15);border-radius:14px;padding:14px 18px;width:90%;text-align:center;">
-        <div style="font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;color:white;margin-bottom:10px;">The Proof!</div>
-        <div style="font-size:1rem;color:white;font-weight:700;line-height:2;">
-          ½ = 2/4 = 4/8 = 0.5 = 50%
-        </div>
-        <div style="font-size:.85rem;color:rgba(255,255,255,.85);margin-top:8px;line-height:1.6;">
-          Equivalent · Simplified · Compared<br>
-          Added · Subtracted · Mixed Numbers
-        </div>
-      </div>
-      <div style="font-size:2rem;margin-top:12px;">👑 ➗ 🏆</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="fk10-bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2a0a4a"/>
+            <stop offset="100%" stop-color="#6a1030"/>
+          </linearGradient>
+          <linearGradient id="fk10-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </linearGradient>
+          <linearGradient id="fk10-stone" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8a7a6a"/>
+            <stop offset="100%" stop-color="#5a4a3a"/>
+          </linearGradient>
+          <radialGradient id="fk10-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FBBF24" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#FBBF24" stop-opacity="0"/>
+          </radialGradient>
+          <!-- Queen skin -->
+          <radialGradient id="fk10-qskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDDBB4"/>
+            <stop offset="60%" stop-color="#F0A060"/>
+            <stop offset="100%" stop-color="#C07840"/>
+          </radialGradient>
+          <!-- Queen robe -->
+          <radialGradient id="fk10-qrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#C084FC"/>
+            <stop offset="50%" stop-color="#9333EA"/>
+            <stop offset="100%" stop-color="#5B21B6"/>
+          </radialGradient>
+          <!-- King skin -->
+          <radialGradient id="fk10-kskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <!-- King robe -->
+          <radialGradient id="fk10-krobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#FCA5A5"/>
+            <stop offset="50%" stop-color="#DC2626"/>
+            <stop offset="100%" stop-color="#7F1D1D"/>
+          </radialGradient>
+          <!-- Zeph skin -->
+          <radialGradient id="fk10-zskin" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#E8A060"/>
+            <stop offset="100%" stop-color="#B87840"/>
+          </radialGradient>
+          <!-- Zeph robe -->
+          <radialGradient id="fk10-zrobe" cx="30%" cy="20%" r="70%">
+            <stop offset="0%" stop-color="#7DD3FC"/>
+            <stop offset="50%" stop-color="#0284C7"/>
+            <stop offset="100%" stop-color="#1e3a5f"/>
+          </radialGradient>
+          <filter id="fk10-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="fk10-gf">
+            <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#FBBF24" flood-opacity="0.5"/>
+          </filter>
+        </defs>
+
+        <rect width="300" height="280" fill="url(#fk10-bg)"/>
+
+        <!-- Castle towers (united) -->
+        <rect x="0" y="60" width="55" height="220" fill="url(#fk10-stone)" opacity="0.75"/>
+        <rect x="245" y="60" width="55" height="220" fill="url(#fk10-stone)" opacity="0.75"/>
+        <!-- Battlements -->
+        <rect x="0" y="50" width="12" height="16" fill="#7a6a5a"/>
+        <rect x="16" y="50" width="12" height="16" fill="#7a6a5a"/>
+        <rect x="32" y="50" width="12" height="16" fill="#7a6a5a"/>
+        <rect x="48" y="50" width="12" height="16" fill="#7a6a5a"/>
+        <rect x="245" y="50" width="12" height="16" fill="#7a6a5a"/>
+        <rect x="261" y="50" width="12" height="16" fill="#7a6a5a"/>
+        <rect x="277" y="50" width="12" height="16" fill="#7a6a5a"/>
+        <rect x="293" y="50" width="12" height="16" fill="#7a6a5a"/>
+        <!-- United flags (both same colour now) -->
+        <line x1="27" y1="28" x2="27" y2="58" stroke="#888" stroke-width="2"/>
+        <polygon points="27,28 49,36 27,44" fill="#FBBF24"/>
+        <text x="31" y="40" fill="#7F1D1D" font-size="8" font-weight="700">=</text>
+        <line x1="273" y1="28" x2="273" y2="58" stroke="#888" stroke-width="2"/>
+        <polygon points="273,28 295,36 273,44" fill="#FBBF24"/>
+        <text x="277" y="40" fill="#7F1D1D" font-size="8" font-weight="700">=</text>
+
+        <!-- Centre throne room wall -->
+        <rect x="50" y="60" width="200" height="220" fill="#3a2a2a" opacity="0.5"/>
+
+        <!-- Golden glow above throne area -->
+        <ellipse cx="150" cy="90" rx="80" ry="50" fill="url(#fk10-glow)"/>
+
+        <!-- Proof scroll in centre top -->
+        <g filter="url(#fk10-sh)">
+          <rect x="70" y="28" width="160" height="75" rx="8" fill="rgba(255,255,255,0.1)" stroke="#FBBF24" stroke-width="1.5"/>
+          <text x="150" y="47" text-anchor="middle" fill="#FEF08A" font-size="10.5" font-weight="800">THE PROOF!</text>
+          <text x="150" y="63" text-anchor="middle" fill="white" font-size="9.5" font-weight="700">½ = 2/4 = 4/8 = 0.5 = 50%</text>
+          <text x="150" y="76" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="8.5">Equivalent · Simplified · Compared</text>
+          <text x="150" y="88" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="8.5">Added · Subtracted · Mixed Numbers</text>
+        </g>
+
+        <!-- Floor -->
+        <rect x="0" y="225" width="300" height="55" fill="#3a2a1a" opacity="0.8"/>
+
+        <!-- ====== QUEEN FRACTA (left, happy) ====== -->
+        <g filter="url(#fk10-sh)">
+          <ellipse cx="68" cy="232" rx="26" ry="10" fill="#5B21B6" opacity="0.5"/>
+          <path d="M44,228 Q68,248 92,228 L88,168 Q68,178 48,168 Z" fill="url(#fk10-qrobe)"/>
+          <text x="68" y="200" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="13" font-weight="800">½</text>
+          <path d="M46,173 Q68,181 90,173" stroke="#FBBF24" stroke-width="2" fill="none"/>
+          <line x1="48" y1="182" x2="30" y2="200" stroke="#F0A060" stroke-width="5" stroke-linecap="round"/>
+          <line x1="88" y1="182" x2="106" y2="195" stroke="#F0A060" stroke-width="5" stroke-linecap="round"/>
+          <rect x="63" y="156" width="10" height="12" rx="3" fill="#F0A060"/>
+          <circle cx="68" cy="149" r="17" fill="url(#fk10-qskin)"/>
+          <path d="M51,149 Q54,133 68,131 Q82,133 85,149 Q80,142 68,140 Q56,142 51,149 Z" fill="#5B21B6"/>
+          <circle cx="63" cy="147" r="3" fill="white"/>
+          <circle cx="63" cy="147" r="1.8" fill="#3730a3"/>
+          <circle cx="63.8" cy="146.4" r="0.7" fill="white"/>
+          <circle cx="73" cy="147" r="3" fill="white"/>
+          <circle cx="73" cy="147" r="1.8" fill="#3730a3"/>
+          <circle cx="73.8" cy="146.4" r="0.7" fill="white"/>
+          <!-- Big smile -->
+          <path d="M62,153 Q68,159 74,153" stroke="#9B5A3A" stroke-width="1.8" fill="none"/>
+          <rect x="53" y="134" width="30" height="8" rx="2" fill="url(#fk10-gold)"/>
+          <polygon points="53,134 57,122 61,134" fill="url(#fk10-gold)"/>
+          <polygon points="64,134 68,119 72,134" fill="url(#fk10-gold)"/>
+          <polygon points="76,134 80,122 83,134" fill="url(#fk10-gold)"/>
+          <circle cx="57" cy="125" r="2.5" fill="#EC4899"/>
+          <circle cx="68" cy="122" r="3" fill="#A855F7"/>
+          <circle cx="79" cy="125" r="2.5" fill="#EC4899"/>
+        </g>
+
+        <!-- ====== ZEPH (centre) ====== -->
+        <g filter="url(#fk10-sh)">
+          <ellipse cx="150" cy="233" rx="24" ry="9" fill="#1e3a5f" opacity="0.5"/>
+          <path d="M128,228 Q150,243 172,228 L168,180 Q150,190 132,180 Z" fill="url(#fk10-zrobe)"/>
+          <text x="146" y="205" fill="rgba(255,255,255,0.4)" font-size="9">★</text>
+          <line x1="132" y1="190" x2="115" y2="205" stroke="#7DD3FC" stroke-width="5" stroke-linecap="round"/>
+          <!-- Scroll / certificate held up -->
+          <line x1="115" y1="205" x2="115" y2="160" stroke="#8B4513" stroke-width="2"/>
+          <rect x="100" y="140" width="32" height="24" rx="4" fill="#FEF3C7"/>
+          <text x="116" y="150" text-anchor="middle" fill="#059669" font-size="7" font-weight="700">PROOF</text>
+          <text x="116" y="160" text-anchor="middle" fill="#DC2626" font-size="7">½=2/4</text>
+          <line x1="168" y1="188" x2="182" y2="200" stroke="#7DD3FC" stroke-width="5" stroke-linecap="round"/>
+          <rect x="145" y="168" width="10" height="12" rx="3" fill="#E8A060"/>
+          <circle cx="150" cy="161" r="17" fill="url(#fk10-zskin)"/>
+          <path d="M133,161 Q136,146 150,144 Q164,146 167,161 Q162,154 150,152 Q138,154 133,161 Z" fill="#1e3a5f"/>
+          <circle cx="145" cy="159" r="3" fill="white"/>
+          <circle cx="145" cy="159" r="1.8" fill="#1e3a5f"/>
+          <circle cx="145.8" cy="158.4" r="0.7" fill="white"/>
+          <circle cx="155" cy="159" r="3" fill="white"/>
+          <circle cx="155" cy="159" r="1.8" fill="#1e3a5f"/>
+          <circle cx="155.8" cy="158.4" r="0.7" fill="white"/>
+          <path d="M144,165 Q150,170 156,165" stroke="#9B5A3A" stroke-width="1.8" fill="none"/>
+          <!-- Wizard hat (tall) -->
+          <path d="M133,144 Q150,88 167,144 Z" fill="#0284C7"/>
+          <ellipse cx="150" cy="144" rx="17" ry="6" fill="#1e3a5f"/>
+          <text x="145" y="126" fill="#FBBF24" font-size="9" opacity="0.9">★</text>
+          <text x="152" y="113" fill="#86EFAC" font-size="7" opacity="0.8">✦</text>
+        </g>
+
+        <!-- ====== KING WHOLE (right, happy) ====== -->
+        <g filter="url(#fk10-sh)">
+          <ellipse cx="232" cy="232" rx="30" ry="11" fill="#7F1D1D" opacity="0.5"/>
+          <path d="M202,228 Q232,250 262,228 L258,167 Q232,180 206,167 Z" fill="url(#fk10-krobe)"/>
+          <text x="232" y="200" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="13" font-weight="800">2/4</text>
+          <path d="M206,172 Q232,183 258,172" stroke="#FBBF24" stroke-width="2.5" fill="none"/>
+          <line x1="206" y1="182" x2="188" y2="198" stroke="#E8A060" stroke-width="6" stroke-linecap="round"/>
+          <line x1="258" y1="182" x2="276" y2="196" stroke="#E8A060" stroke-width="6" stroke-linecap="round"/>
+          <rect x="227" y="155" width="10" height="14" rx="3" fill="#E8A060"/>
+          <circle cx="232" cy="147" r="20" fill="url(#fk10-kskin)"/>
+          <path d="M216,157 Q232,172 248,157 Q244,164 232,168 Q220,164 216,157 Z" fill="#D97706" opacity="0.8"/>
+          <path d="M213,147 Q215,128 232,126 Q249,128 251,147 Q245,137 232,135 Q219,137 213,147 Z" fill="#D97706"/>
+          <circle cx="226" cy="145" r="3.5" fill="white"/>
+          <circle cx="226" cy="145" r="2" fill="#1e3a5f"/>
+          <circle cx="226.9" cy="144.3" r="0.8" fill="white"/>
+          <circle cx="238" cy="145" r="3.5" fill="white"/>
+          <circle cx="238" cy="145" r="2" fill="#1e3a5f"/>
+          <circle cx="238.9" cy="144.3" r="0.8" fill="white"/>
+          <!-- Big smile -->
+          <path d="M224,153 Q232,161 240,153" stroke="#9B5A3A" stroke-width="2" fill="none"/>
+          <rect x="214" y="130" width="36" height="10" rx="2" fill="url(#fk10-gold)"/>
+          <polygon points="214,130 220,115 226,130" fill="url(#fk10-gold)"/>
+          <polygon points="229,130 232,111 235,130" fill="url(#fk10-gold)"/>
+          <polygon points="242,130 248,115 250,130" fill="url(#fk10-gold)"/>
+          <circle cx="220" cy="118" r="3.5" fill="#EF4444"/>
+          <circle cx="232" cy="113" r="4" fill="#FBBF24"/>
+          <circle cx="244" cy="118" r="3.5" fill="#EF4444"/>
+        </g>
+
+        <!-- Celebration sparkles -->
+        <text x="108" y="125" fill="#FBBF24" font-size="12" opacity="0.9">✦</text>
+        <text x="176" y="118" fill="#C4B5FD" font-size="10" opacity="0.8">✦</text>
+        <text x="25" y="115" fill="#FBBF24" font-size="8" opacity="0.7">★</text>
+        <text x="270" y="108" fill="#FBBF24" font-size="8" opacity="0.7">★</text>
+      </svg>
       <div class="illus-caption">The Fraction Kingdom is united at last!</div>
     </div>
 

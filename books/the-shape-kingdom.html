@@ -269,18 +269,122 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-2">
     <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:10px;text-align:center;">Welcome to the Shape Kingdom!</div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-        <span style="font-size:4.5rem;">⭕</span>
-        <span style="font-size:4.5rem;">🔺</span>
-        <span style="font-size:4.5rem;">🔷</span>
-        <span style="font-size:4.5rem;">🟥</span>
-        <span style="font-size:4.5rem;">⬛</span>
-        <span style="font-size:4.5rem;">⬡</span>
-      </div>
-      <div class="illus-scene" style="margin-top:10px;">
-        <span class="char">👸</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sk2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#D1FAE5"/>
+            <stop offset="100%" stop-color="#A7F3D0"/>
+          </linearGradient>
+          <linearGradient id="sk2-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </linearGradient>
+          <radialGradient id="sk2-circle" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#93C5FD"/>
+            <stop offset="60%" stop-color="#3B82F6"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </radialGradient>
+          <radialGradient id="sk2-tri" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FCA5A5"/>
+            <stop offset="60%" stop-color="#EF4444"/>
+            <stop offset="100%" stop-color="#7F1D1D"/>
+          </radialGradient>
+          <radialGradient id="sk2-sq" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <radialGradient id="sk2-hex" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#A78BFA"/>
+            <stop offset="60%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#4C1D95"/>
+          </radialGradient>
+          <radialGradient id="sk2-rosie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <radialGradient id="sk2-sun" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFDE4"/>
+            <stop offset="45%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="sk2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sk2-sky)"/>
+        <!-- Sun -->
+        <circle cx="265" cy="32" r="22" fill="#FBBF24" opacity=".15"/>
+        <g filter="url(#sk2-sh)"><circle cx="265" cy="32" r="18" fill="url(#sk2-sun)"/></g>
+        <!-- Clouds -->
+        <g opacity=".9">
+          <ellipse cx="60" cy="30" rx="25" ry="10" fill="white"/>
+          <ellipse cx="79" cy="26" rx="17" ry="10" fill="white"/>
+          <ellipse cx="44" cy="28" rx="14" ry="8" fill="white"/>
+        </g>
+        <!-- Welcome banner -->
+        <path d="M30 55 Q150 38 270 55" stroke="#059669" stroke-width="3" fill="none" stroke-dasharray="8,4"/>
+        <text x="150" y="50" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#065F46">Welcome to the Shape Kingdom!</text>
+        <!-- Shape characters in a row with gradient fills -->
+        <g filter="url(#sk2-sh)">
+          <circle cx="50" cy="115" r="30" fill="url(#sk2-circle)"/>
+          <!-- Circle face -->
+          <circle cx="42" cy="110" r="3" fill="white"/>
+          <circle cx="58" cy="110" r="3" fill="white"/>
+          <path d="M43 120 Q50 126 57 120" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <text x="50" y="152" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#1D4ED8">circle</text>
+        </g>
+        <g filter="url(#sk2-sh)">
+          <polygon points="115,80 148,148 82,148" fill="url(#sk2-tri)"/>
+          <circle cx="108" cy="120" r="2.5" fill="white"/>
+          <circle cx="122" cy="120" r="2.5" fill="white"/>
+          <path d="M107 127 Q115 133 123 127" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <text x="115" y="158" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#7F1D1D">triangle</text>
+        </g>
+        <g filter="url(#sk2-sh)">
+          <rect x="155" y="82" width="66" height="66" rx="5" fill="url(#sk2-sq)"/>
+          <circle cx="177" cy="108" r="3" fill="#92400E"/>
+          <circle cx="199" cy="108" r="3" fill="#92400E"/>
+          <path d="M176 116 Q188 122 200 116" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <text x="188" y="158" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#92400E">square</text>
+        </g>
+        <g filter="url(#sk2-sh)">
+          <polygon points="255,80 275,93 275,120 255,133 235,120 235,93" fill="url(#sk2-hex)"/>
+          <circle cx="248" cy="102" r="2.5" fill="white"/>
+          <circle cx="262" cy="102" r="2.5" fill="white"/>
+          <path d="M247 110 Q255 116 263 110" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <text x="255" y="148" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#4C1D95">hexagon</text>
+        </g>
+        <!-- Wavy ground -->
+        <path d="M0 190 Q37 182 75 190 Q112 198 150 190 Q188 182 225 190 Q262 198 300 190 L300 280 L0 280 Z" fill="url(#sk2-grass)"/>
+        <path d="M0 202 Q50 194 100 202 Q150 210 200 202 Q250 194 300 202 L300 280 L0 280 Z" fill="#065F46" opacity=".3"/>
+        <!-- Princess Rosie -->
+        <g filter="url(#sk2-sh)">
+          <ellipse cx="150" cy="238" rx="18" ry="20" fill="#F9A8D4"/>
+          <line x1="134" y1="228" x2="115" y2="214" stroke="url(#sk2-rosie-skin)" stroke-width="5" stroke-linecap="round"/>
+          <line x1="166" y1="228" x2="185" y2="214" stroke="url(#sk2-rosie-skin)" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="150" cy="208" r="20" fill="url(#sk2-rosie-skin)"/>
+          <!-- Crown -->
+          <path d="M135 200 L138 190 L143 196 L150 186 L157 196 L162 190 L165 200 Z" fill="#FBBF24"/>
+          <rect x="135" y="198" width="30" height="5" rx="2" fill="#D97706"/>
+          <!-- Hair -->
+          <path d="M132 210 Q130 225 134 230" fill="none" stroke="#92400E" stroke-width="6" stroke-linecap="round"/>
+          <path d="M168 210 Q170 225 166 230" fill="none" stroke="#92400E" stroke-width="6" stroke-linecap="round"/>
+          <!-- Eyes -->
+          <circle cx="144" cy="207" r="3" fill="#1C1917"/>
+          <circle cx="156" cy="207" r="3" fill="#1C1917"/>
+          <circle cx="144.9" cy="206.2" r="1" fill="white"/>
+          <circle cx="156.9" cy="206.2" r="1" fill="white"/>
+          <!-- Smile -->
+          <path d="M143 215 Q150 221 157 215" stroke="#7C2D12" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Stars/sparkles -->
+        <circle cx="25" cy="80" r="3" fill="#FBBF24"/>
+        <circle cx="280" cy="85" r="2.5" fill="#10B981"/>
+        <circle cx="148" cy="72" r="2" fill="#EC4899"/>
+      </svg>
       <div class="illus-caption">Rosie arrives at the Shape Kingdom!</div>
     </div>
 
@@ -321,16 +425,103 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-3">
     <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:6rem;margin-bottom:4px;">⭕</div>
-      <div style="font-size:3rem;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-        <span title="wheel">🎡</span>
-        <span title="coin">🪙</span>
-        <span title="clock">🕐</span>
-        <span title="sun">☀️</span>
-        <span title="ball">⚽</span>
-      </div>
-      <div style="margin-top:8px;background:rgba(255,255,255,.7);border-radius:12px;padding:8px 16px;font-weight:700;color:#1D4ED8;font-size:.9rem;">NO sides · NO corners</div>
-      <div class="illus-caption">Perfectly round — that&apos;s a circle!</div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sk3-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#DBEAFE"/>
+            <stop offset="100%" stop-color="#BFDBFE"/>
+          </linearGradient>
+          <linearGradient id="sk3-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="sk3-big-circle" cx="30%" cy="28%" r="70%">
+            <stop offset="0%" stop-color="#BFDBFE"/>
+            <stop offset="45%" stop-color="#3B82F6"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </radialGradient>
+          <radialGradient id="sk3-medium-circle" cx="30%" cy="28%" r="70%">
+            <stop offset="0%" stop-color="#93C5FD"/>
+            <stop offset="55%" stop-color="#60A5FA"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </radialGradient>
+          <radialGradient id="sk3-coin" cx="30%" cy="28%" r="70%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <radialGradient id="sk3-rosie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <filter id="sk3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sk3-sky)"/>
+        <!-- Clouds -->
+        <g opacity=".9">
+          <ellipse cx="55" cy="32" rx="26" ry="11" fill="white"/>
+          <ellipse cx="76" cy="27" rx="18" ry="11" fill="white"/>
+          <ellipse cx="37" cy="30" rx="15" ry="8" fill="white"/>
+        </g>
+        <!-- "Sir Circle" — big circle character with face -->
+        <g filter="url(#sk3-sh)">
+          <circle cx="150" cy="115" r="74" fill="url(#sk3-big-circle)"/>
+          <!-- Shiny highlight on circle -->
+          <circle cx="122" cy="88" r="20" fill="white" opacity=".2"/>
+          <!-- Circle character face -->
+          <circle cx="132" cy="108" r="7" fill="white" opacity=".9"/>
+          <circle cx="168" cy="108" r="7" fill="white" opacity=".9"/>
+          <circle cx="133.5" cy="106" r="3" fill="#1D4ED8"/>
+          <circle cx="169.5" cy="106" r="3" fill="#1D4ED8"/>
+          <circle cx="134.8" cy="104.8" r="1.2" fill="white"/>
+          <circle cx="170.8" cy="104.8" r="1.2" fill="white"/>
+          <!-- Crown on circle -->
+          <path d="M128 78 L133 66 L140 73 L150 60 L160 73 L167 66 L172 78 Z" fill="#FBBF24"/>
+          <rect x="128" y="76" width="44" height="6" rx="3" fill="#D97706"/>
+          <!-- Big smile -->
+          <path d="M126 128 Q150 148 174 128" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Small circle objects (wheel, coin) -->
+        <g filter="url(#sk3-sh)">
+          <circle cx="45" cy="190" r="22" fill="url(#sk3-medium-circle)"/>
+          <!-- Wheel spokes -->
+          <line x1="45" y1="168" x2="45" y2="212" stroke="#1D4ED8" stroke-width="2" opacity=".5"/>
+          <line x1="23" y1="190" x2="67" y2="190" stroke="#1D4ED8" stroke-width="2" opacity=".5"/>
+          <line x1="29" y1="174" x2="61" y2="206" stroke="#1D4ED8" stroke-width="2" opacity=".4"/>
+          <line x1="61" y1="174" x2="29" y2="206" stroke="#1D4ED8" stroke-width="2" opacity=".4"/>
+          <circle cx="45" cy="190" r="5" fill="#1D4ED8"/>
+          <text x="45" y="223" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#1D4ED8">wheel</text>
+        </g>
+        <g filter="uk(#sk3-sh)">
+          <circle cx="255" cy="190" r="20" fill="url(#sk3-coin)"/>
+          <circle cx="255" cy="190" r="13" fill="#D97706" opacity=".5"/>
+          <text x="255" y="215" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#92400E">coin</text>
+        </g>
+        <!-- Label banner -->
+        <rect x="85" y="196" width="130" height="24" rx="12" fill="#1D4ED8" opacity=".9"/>
+        <text x="150" y="212" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">NO sides · NO corners</text>
+        <!-- Wavy ground -->
+        <path d="M0 225 Q37 217 75 225 Q112 233 150 225 Q188 217 225 225 Q262 233 300 225 L300 280 L0 280 Z" fill="url(#sk3-grass)"/>
+        <!-- Rosie small at side -->
+        <g filter="url(#sk3-sh)">
+          <ellipse cx="268" cy="248" rx="13" ry="15" fill="#F9A8D4"/>
+          <circle cx="268" cy="225" r="15" fill="url(#sk3-rosie-skin)"/>
+          <path d="M260 214 L262 207 L265 211 L268 205 L271 211 L274 207 L276 214 Z" fill="#FBBF24"/>
+          <rect x="260" y="212" width="16" height="4" rx="2" fill="#D97706"/>
+          <circle cx="263" cy="223" r="2.2" fill="#1C1917"/>
+          <circle cx="273" cy="223" r="2.2" fill="#1C1917"/>
+          <path d="M262 230 Q268 235 274 230" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Sparkles -->
+        <circle cx="240" cy="65" r="3" fill="#FBBF24"/>
+        <circle cx="30" cy="75" r="2.5" fill="#EC4899"/>
+        <circle cx="200" cy="42" r="2" fill="white"/>
+      </svg>
+      <div class="illus-caption">Perfectly round — that's a circle!</div>
     </div>
 
     <div class="story-panel">
@@ -370,28 +561,95 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-4">
     <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FDE68A);">
       <div class="page-num-illus">Page 4</div>
-      <div style="margin:0 auto;width:90%;text-align:center;">
-        <svg width="200" height="180" viewBox="0 0 200 180" style="display:block;margin:0 auto;">
-          <!-- Triangle -->
-          <polygon points="100,20 180,160 20,160" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
-          <!-- Corner dots -->
-          <circle cx="100" cy="20" r="6" fill="#DC2626"/>
-          <circle cx="180" cy="160" r="6" fill="#DC2626"/>
-          <circle cx="20" cy="160" r="6" fill="#DC2626"/>
-          <!-- Side labels -->
-          <text x="50" y="100" fill="#92400E" font-size="13" font-weight="700" transform="rotate(-58,50,100)">side 1</text>
-          <text x="140" y="100" fill="#92400E" font-size="13" font-weight="700" transform="rotate(58,140,100)">side 2</text>
-          <text x="100" y="178" fill="#92400E" font-size="13" font-weight="700" text-anchor="middle">side 3</text>
-          <!-- Corner labels -->
-          <text x="100" y="13" fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle">corner</text>
-          <text x="190" y="160" fill="#DC2626" font-size="11" font-weight="700" text-anchor="start">corner</text>
-          <text x="2" y="160" fill="#DC2626" font-size="11" font-weight="700" text-anchor="start">corner</text>
-        </svg>
-      </div>
-      <div class="illus-scene">
-        <span class="char">👸</span>
-        <span style="font-size:3rem;">🔺</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sk4-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="100%" stop-color="#FDE68A"/>
+          </linearGradient>
+          <linearGradient id="sk4-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="sk4-triangle" cx="35%" cy="25%" r="75%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <radialGradient id="sk4-rosie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <radialGradient id="sk4-sun" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFDE4"/>
+            <stop offset="45%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="sk4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sk4-sky)"/>
+        <!-- Sun -->
+        <circle cx="260" cy="35" r="26" fill="#FBBF24" opacity=".15"/>
+        <g filter="url(#sk4-sh)"><circle cx="260" cy="35" r="20" fill="url(#sk4-sun)"/></g>
+        <!-- Clouds -->
+        <g opacity=".85">
+          <ellipse cx="55" cy="38" rx="24" ry="10" fill="white"/>
+          <ellipse cx="74" cy="33" rx="16" ry="10" fill="white"/>
+          <ellipse cx="38" cy="36" rx="14" ry="8" fill="white"/>
+        </g>
+        <!-- Lady Triangle — big triangle character with face -->
+        <g filter="url(#sk4-sh)">
+          <polygon points="150,30 278,222 22,222" fill="url(#sk4-triangle)"/>
+          <!-- Shadow side -->
+          <polygon points="150,30 210,222 150,222" fill="#D97706" opacity=".3"/>
+          <!-- Triangle face -->
+          <circle cx="136" cy="148" r="8" fill="white" opacity=".9"/>
+          <circle cx="164" cy="148" r="8" fill="white" opacity=".9"/>
+          <circle cx="137.5" cy="146" r="3.5" fill="#92400E"/>
+          <circle cx="165.5" cy="146" r="3.5" fill="#92400E"/>
+          <circle cx="139" cy="144.5" r="1.4" fill="white"/>
+          <circle cx="167" cy="144.5" r="1.4" fill="white"/>
+          <!-- Crown on top -->
+          <path d="M138 42 L142 30 L147 38 L150 28 L153 38 L158 30 L162 42 Z" fill="#EF4444"/>
+          <rect x="138" y="40" width="24" height="5" rx="2.5" fill="#DC2626"/>
+          <!-- Smile -->
+          <path d="M133 162 Q150 175 167 162" stroke="#92400E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Corner dots -->
+        <g filter="url(#sk4-sh)">
+          <circle cx="150" cy="30" r="9" fill="#DC2626"/>
+          <circle cx="278" cy="222" r="9" fill="#DC2626"/>
+          <circle cx="22" cy="222" r="9" fill="#DC2626"/>
+        </g>
+        <!-- Corner labels -->
+        <text x="150" y="22" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#7F1D1D">corner</text>
+        <text x="10" y="242" text-anchor="start" font-family="Quicksand" font-weight="700" font-size="10" fill="#7F1D1D">corner</text>
+        <text x="272" y="242" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#7F1D1D">corner</text>
+        <!-- Side labels -->
+        <text x="88" y="138" font-family="Quicksand" font-weight="700" font-size="10" fill="#92400E" transform="rotate(-58,88,138)">side 1</text>
+        <text x="200" y="138" font-family="Quicksand" font-weight="700" font-size="10" fill="#92400E" transform="rotate(58,200,138)">side 2</text>
+        <text x="150" y="218" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#92400E">side 3</text>
+        <!-- Wavy ground -->
+        <path d="M0 222 Q37 214 75 222 Q112 230 150 222 Q188 214 225 222 Q262 230 300 222 L300 280 L0 280 Z" fill="url(#sk4-grass)"/>
+        <!-- Rosie at base -->
+        <g filter="url(#sk4-sh)">
+          <ellipse cx="50" cy="248" rx="12" ry="14" fill="#F9A8D4"/>
+          <circle cx="50" cy="228" r="14" fill="url(#sk4-rosie-skin)"/>
+          <path d="M43 220 L45 214 L48 218 L50 212 L52 218 L55 214 L57 220 Z" fill="#FBBF24"/>
+          <rect x="43" y="218" width="14" height="4" rx="2" fill="#D97706"/>
+          <circle cx="45.5" cy="227" r="2" fill="#1C1917"/>
+          <circle cx="54.5" cy="227" r="2" fill="#1C1917"/>
+          <path d="M44.5 233 Q50 238 55.5 233" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Stars -->
+        <circle cx="25" cy="60" r="2.5" fill="#FBBF24"/>
+        <circle cx="282" cy="75" r="2" fill="#EC4899"/>
+        <circle cx="240" cy="55" r="1.5" fill="white"/>
+      </svg>
       <div class="illus-caption">3 sides and 3 corners!</div>
     </div>
 
@@ -432,28 +690,91 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-5">
     <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
       <div class="page-num-illus">Page 5</div>
-      <div style="margin:0 auto;width:90%;text-align:center;">
-        <svg width="200" height="200" viewBox="0 0 200 200" style="display:block;margin:0 auto;">
-          <!-- Square -->
-          <rect x="30" y="30" width="140" height="140" fill="#10B981" stroke="#059669" stroke-width="3"/>
-          <!-- Corner markers -->
-          <rect x="30" y="30" width="12" height="12" fill="white" opacity=".8"/>
-          <rect x="158" y="30" width="12" height="12" fill="white" opacity=".8"/>
-          <rect x="30" y="158" width="12" height="12" fill="white" opacity=".8"/>
-          <rect x="158" y="158" width="12" height="12" fill="white" opacity=".8"/>
-          <!-- Side labels -->
-          <text x="100" y="24" text-anchor="middle" fill="#059669" font-size="13" font-weight="700">equal</text>
-          <text x="100" y="185" text-anchor="middle" fill="#059669" font-size="13" font-weight="700">equal</text>
-          <text x="18" y="103" text-anchor="middle" fill="#059669" font-size="13" font-weight="700" transform="rotate(-90,18,103)">equal</text>
-          <text x="183" y="103" text-anchor="middle" fill="#059669" font-size="13" font-weight="700" transform="rotate(90,183,103)">equal</text>
-          <!-- Center text -->
-          <text x="100" y="108" text-anchor="middle" fill="white" font-size="20" font-weight="800">4 = 4 = 4 = 4</text>
-        </svg>
-      </div>
-      <div class="illus-scene">
-        <span class="char">👸</span>
-        <span style="font-size:3rem;">🟥</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sk5-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#BBF7D0"/>
+          </linearGradient>
+          <linearGradient id="sk5-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="sk5-square" cx="30%" cy="28%" r="72%">
+            <stop offset="0%" stop-color="#6EE7B7"/>
+            <stop offset="55%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#064E3B"/>
+          </radialGradient>
+          <radialGradient id="sk5-sun" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFDE4"/>
+            <stop offset="45%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="sk5-rosie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <filter id="sk5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sk5-sky)"/>
+        <!-- Sun -->
+        <circle cx="265" cy="35" r="22" fill="#FBBF24" opacity=".15"/>
+        <g filter="url(#sk5-sh)"><circle cx="265" cy="35" r="18" fill="url(#sk5-sun)"/></g>
+        <!-- Clouds -->
+        <g opacity=".9">
+          <ellipse cx="58" cy="35" rx="26" ry="11" fill="white"/>
+          <ellipse cx="78" cy="30" rx="18" ry="11" fill="white"/>
+          <ellipse cx="40" cy="33" rx="15" ry="8" fill="white"/>
+        </g>
+        <!-- Duke Square — big square character with face -->
+        <g filter="url(#sk5-sh)">
+          <rect x="62" y="48" width="176" height="176" rx="8" fill="url(#sk5-square)"/>
+          <!-- Shiny highlight -->
+          <rect x="70" y="56" width="60" height="40" rx="6" fill="white" opacity=".18"/>
+          <!-- Crown on square -->
+          <path d="M115 48 L120 36 L127 44 L150 30 L173 44 L180 36 L185 48 Z" fill="#FBBF24"/>
+          <rect x="115" y="45" width="70" height="8" rx="4" fill="#D97706"/>
+          <!-- Square face -->
+          <circle cx="122" cy="128" r="10" fill="white" opacity=".9"/>
+          <circle cx="178" cy="128" r="10" fill="white" opacity=".9"/>
+          <circle cx="123.5" cy="126" r="4.5" fill="#064E3B"/>
+          <circle cx="179.5" cy="126" r="4.5" fill="#064E3B"/>
+          <circle cx="125" cy="124.5" r="1.8" fill="white"/>
+          <circle cx="181" cy="124.5" r="1.8" fill="white"/>
+          <!-- Smile -->
+          <path d="M118 150 Q150 168 182 150" stroke="white" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <!-- Corner markers (white squares) -->
+          <rect x="66" y="52" width="14" height="14" fill="white" opacity=".8" rx="2"/>
+          <rect x="220" y="52" width="14" height="14" fill="white" opacity=".8" rx="2"/>
+          <rect x="66" y="206" width="14" height="14" fill="white" opacity=".8" rx="2"/>
+          <rect x="220" y="206" width="14" height="14" fill="white" opacity=".8" rx="2"/>
+        </g>
+        <!-- Side labels -->
+        <text x="150" y="42" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#059669">equal</text>
+        <text x="150" y="238" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#059669">equal</text>
+        <text x="52" y="140" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#059669" transform="rotate(-90,52,140)">equal</text>
+        <text x="250" y="140" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#059669" transform="rotate(90,250,140)">equal</text>
+        <!-- Wavy ground -->
+        <path d="M0 230 Q37 222 75 230 Q112 238 150 230 Q188 222 225 230 Q262 238 300 230 L300 280 L0 280 Z" fill="url(#sk5-grass)"/>
+        <!-- Rosie -->
+        <g filter="url(#sk5-sh)">
+          <ellipse cx="30" cy="252" rx="12" ry="14" fill="#F9A8D4"/>
+          <circle cx="30" cy="233" r="14" fill="url(#sk5-rosie-skin)"/>
+          <path d="M23 225 L25 219 L28 223 L30 217 L32 223 L35 219 L37 225 Z" fill="#FBBF24"/>
+          <rect x="23" y="223" width="14" height="4" rx="2" fill="#D97706"/>
+          <circle cx="25.5" cy="232" r="2" fill="#1C1917"/>
+          <circle cx="34.5" cy="232" r="2" fill="#1C1917"/>
+          <path d="M24.5 238 Q30 243 35.5 238" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Sparkles -->
+        <circle cx="28" cy="60" r="3" fill="#FBBF24"/>
+        <circle cx="280" cy="80" r="2.5" fill="#10B981"/>
+        <circle cx="245" cy="52" r="1.5" fill="white"/>
+      </svg>
       <div class="illus-caption">All 4 sides are equal!</div>
     </div>
 
@@ -494,29 +815,91 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-6">
     <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
       <div class="page-num-illus">Page 6</div>
-      <div style="margin:0 auto;width:90%;text-align:center;">
-        <svg width="210" height="160" viewBox="0 0 210 160" style="display:block;margin:0 auto;">
-          <!-- Rectangle -->
-          <rect x="10" y="40" width="190" height="90" fill="#8B5CF6" stroke="#6D28D9" stroke-width="3"/>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sk6-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F5F3FF"/>
+            <stop offset="100%" stop-color="#DDD6FE"/>
+          </linearGradient>
+          <linearGradient id="sk6-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="sk6-rect" cx="30%" cy="28%" r="72%">
+            <stop offset="0%" stop-color="#C4B5FD"/>
+            <stop offset="55%" stop-color="#8B5CF6"/>
+            <stop offset="100%" stop-color="#4C1D95"/>
+          </radialGradient>
+          <radialGradient id="sk6-sun" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFDE4"/>
+            <stop offset="45%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="sk6-rosie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <filter id="sk6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sk6-sky)"/>
+        <!-- Sun -->
+        <circle cx="262" cy="34" r="22" fill="#FBBF24" opacity=".15"/>
+        <g filter="url(#sk6-sh)"><circle cx="262" cy="34" r="18" fill="url(#sk6-sun)"/></g>
+        <!-- Clouds -->
+        <g opacity=".9">
+          <ellipse cx="55" cy="34" rx="26" ry="11" fill="white"/>
+          <ellipse cx="76" cy="29" rx="18" ry="11" fill="white"/>
+          <ellipse cx="37" cy="32" rx="15" ry="8" fill="white"/>
+        </g>
+        <!-- Rectangle character — wider than tall, with face -->
+        <g filter="url(#sk6-sh)">
+          <rect x="22" y="88" width="256" height="128" rx="10" fill="url(#sk6-rect)"/>
+          <!-- Shiny highlight -->
+          <rect x="30" y="96" width="80" height="35" rx="5" fill="white" opacity=".18"/>
+          <!-- Crown (wider) -->
+          <path d="M96 88 L100 75 L108 83 L120 68 L132 83 L144 68 L156 83 L168 68 L180 83 L188 75 L192 88 Z" fill="#FBBF24"/>
+          <rect x="96" y="85" width="96" height="8" rx="4" fill="#D97706"/>
+          <!-- Rectangle face (wide spaced eyes) -->
+          <circle cx="108" cy="145" r="12" fill="white" opacity=".9"/>
+          <circle cx="192" cy="145" r="12" fill="white" opacity=".9"/>
+          <circle cx="109.5" cy="143" r="5.5" fill="#4C1D95"/>
+          <circle cx="193.5" cy="143" r="5.5" fill="#4C1D95"/>
+          <circle cx="111" cy="141.5" r="2" fill="white"/>
+          <circle cx="195" cy="141.5" r="2" fill="white"/>
+          <!-- Smile -->
+          <path d="M100 167 Q150 182 200 167" stroke="white" stroke-width="4.5" fill="none" stroke-linecap="round"/>
           <!-- Corner markers -->
-          <rect x="10" y="40" width="10" height="10" fill="white" opacity=".8"/>
-          <rect x="190" y="40" width="10" height="10" fill="white" opacity=".8"/>
-          <rect x="10" y="120" width="10" height="10" fill="white" opacity=".8"/>
-          <rect x="190" y="120" width="10" height="10" fill="white" opacity=".8"/>
-          <!-- Side labels -->
-          <text x="105" y="33" text-anchor="middle" fill="#6D28D9" font-size="12" font-weight="700">LONG side</text>
-          <text x="105" y="153" text-anchor="middle" fill="#6D28D9" font-size="12" font-weight="700">LONG side</text>
-          <text x="4" y="88" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="700" transform="rotate(-90,4,88)">short</text>
-          <text x="207" y="88" text-anchor="middle" fill="#6D28D9" font-size="11" font-weight="700" transform="rotate(90,207,88)">short</text>
-          <!-- Center text -->
-          <text x="105" y="92" text-anchor="middle" fill="white" font-size="16" font-weight="800">RECTANGLE</text>
-        </svg>
-        <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-top:8px;">
-          <span style="font-size:1.5rem;">🟥</span>
-          <span style="font-weight:700;color:#6D28D9;">→ stretched →</span>
-          <span style="font-size:1.5rem;">▬</span>
-        </div>
-      </div>
+          <rect x="26" y="92" width="12" height="12" fill="white" opacity=".8" rx="2"/>
+          <rect x="262" y="92" width="12" height="12" fill="white" opacity=".8" rx="2"/>
+          <rect x="26" y="200" width="12" height="12" fill="white" opacity=".8" rx="2"/>
+          <rect x="262" y="200" width="12" height="12" fill="white" opacity=".8" rx="2"/>
+        </g>
+        <!-- Side labels -->
+        <text x="150" y="82" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">LONG side</text>
+        <text x="150" y="230" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#6D28D9">LONG side</text>
+        <text x="12" y="155" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9" transform="rotate(-90,12,155)">short</text>
+        <text x="288" y="155" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#6D28D9" transform="rotate(90,288,155)">short</text>
+        <!-- Wavy ground -->
+        <path d="M0 232 Q37 224 75 232 Q112 240 150 232 Q188 224 225 232 Q262 240 300 232 L300 280 L0 280 Z" fill="url(#sk6-grass)"/>
+        <!-- Rosie -->
+        <g filter="url(#sk6-sh)">
+          <ellipse cx="150" cy="256" rx="13" ry="15" fill="#F9A8D4"/>
+          <circle cx="150" cy="237" r="14" fill="url(#sk6-rosie-skin)"/>
+          <path d="M143 229 L145 223 L148 227 L150 221 L152 227 L155 223 L157 229 Z" fill="#FBBF24"/>
+          <rect x="143" y="227" width="14" height="4" rx="2" fill="#D97706"/>
+          <circle cx="145.5" cy="236" r="2" fill="#1C1917"/>
+          <circle cx="154.5" cy="236" r="2" fill="#1C1917"/>
+          <path d="M144.5 242 Q150 247 155.5 242" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Sparkles -->
+        <circle cx="24" cy="65" r="2.5" fill="#8B5CF6"/>
+        <circle cx="282" cy="72" r="2" fill="#EC4899"/>
+        <circle cx="248" cy="52" r="1.5" fill="#FBBF24"/>
+      </svg>
       <div class="illus-caption">A rectangle is like a stretched square!</div>
     </div>
 
@@ -557,25 +940,114 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-7">
     <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:1rem;font-weight:700;color:#059669;margin-bottom:8px;text-align:center;">Shapes in YOUR world!</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:90%;">
-        <div style="background:rgba(255,255,255,.8);border-radius:12px;padding:10px;text-align:center;">
-          <div style="font-size:3rem;">🪟</div>
-          <div style="font-size:.8rem;font-weight:700;color:#6D28D9;">Rectangle</div>
-        </div>
-        <div style="background:rgba(255,255,255,.8);border-radius:12px;padding:10px;text-align:center;">
-          <div style="font-size:3rem;">🍕</div>
-          <div style="font-size:.8rem;font-weight:700;color:#D97706;">Triangle</div>
-        </div>
-        <div style="background:rgba(255,255,255,.8);border-radius:12px;padding:10px;text-align:center;">
-          <div style="font-size:3rem;">☀️</div>
-          <div style="font-size:.8rem;font-weight:700;color:#059669;">Circle</div>
-        </div>
-        <div style="background:rgba(255,255,255,.8);border-radius:12px;padding:10px;text-align:center;">
-          <div style="font-size:3rem;">📦</div>
-          <div style="font-size:.8rem;font-weight:700;color:#DC2626;">Square</div>
-        </div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="sk7-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="100%" stop-color="#D1FAE5"/>
+          </linearGradient>
+          <linearGradient id="sk7-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </linearGradient>
+          <radialGradient id="sk7-sun" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FFFDE4"/>
+            <stop offset="45%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="sk7-window" cx="30%" cy="25%" r="72%">
+            <stop offset="0%" stop-color="#BAE6FD"/>
+            <stop offset="55%" stop-color="#3B82F6"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </radialGradient>
+          <radialGradient id="sk7-pizza" cx="30%" cy="25%" r="72%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#7C2D12"/>
+          </radialGradient>
+          <radialGradient id="sk7-coin" cx="30%" cy="25%" r="72%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <radialGradient id="sk7-box" cx="30%" cy="25%" r="72%">
+            <stop offset="0%" stop-color="#6EE7B7"/>
+            <stop offset="55%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#065F46"/>
+          </radialGradient>
+          <radialGradient id="sk7-rosie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#B45309"/>
+          </radialGradient>
+          <filter id="sk7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#sk7-sky)"/>
+        <!-- Sun -->
+        <circle cx="262" cy="34" r="22" fill="#FBBF24" opacity=".15"/>
+        <g filter="url(#sk7-sh)"><circle cx="262" cy="34" r="18" fill="url(#sk7-sun)"/></g>
+        <!-- Clouds -->
+        <g opacity=".85">
+          <ellipse cx="58" cy="32" rx="26" ry="11" fill="white"/>
+          <ellipse cx="78" cy="27" rx="18" ry="11" fill="white"/>
+          <ellipse cx="40" cy="30" rx="15" ry="8" fill="white"/>
+        </g>
+        <!-- Title -->
+        <text x="150" y="55" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#059669">Shapes in YOUR world!</text>
+        <!-- Rectangle window -->
+        <g filter="url(#sk7-sh)">
+          <rect x="18" y="65" width="120" height="85" rx="8" fill="url(#sk7-window)"/>
+          <rect x="24" y="71" width="50" height="73" rx="4" fill="#BAE6FD" opacity=".5"/>
+          <rect x="80" y="71" width="52" height="73" rx="4" fill="#BAE6FD" opacity=".5"/>
+          <line x1="78" y1="65" x2="78" y2="150" stroke="#1D4ED8" stroke-width="2"/>
+          <line x1="18" y1="108" x2="138" y2="108" stroke="#1D4ED8" stroke-width="2"/>
+          <text x="78" y="163" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#1D4ED8">rectangle</text>
+        </g>
+        <!-- Triangle pizza slice -->
+        <g filter="url(#sk7-sh)">
+          <polygon points="222,65 282,150 162,150" fill="url(#sk7-pizza)"/>
+          <!-- Cheese/toppings -->
+          <circle cx="218" cy="120" r="8" fill="#EF4444" opacity=".7"/>
+          <circle cx="238" cy="105" r="6" fill="#EF4444" opacity=".7"/>
+          <circle cx="246" cy="128" r="7" fill="#EF4444" opacity=".7"/>
+          <text x="222" y="163" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#7C2D12">triangle</text>
+        </g>
+        <!-- Circle sun/coin -->
+        <g filter="url(#sk7-sh)">
+          <circle cx="78" cy="200" r="32" fill="url(#sk7-coin)"/>
+          <circle cx="68" cy="192" r="10" fill="#D97706" opacity=".3"/>
+          <text x="78" y="205" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#92400E">circle</text>
+          <text x="78" y="241" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="8" fill="#92400E">sun/coin</text>
+        </g>
+        <!-- Square box -->
+        <g filter="url(#sk7-sh)">
+          <rect x="185" y="170" width="68" height="68" rx="5" fill="url(#sk7-box)"/>
+          <rect x="188" y="173" width="22" height="22" rx="2" fill="#A7F3D0" opacity=".5"/>
+          <rect x="228" y="173" width="22" height="22" rx="2" fill="#A7F3D0" opacity=".5"/>
+          <rect x="188" y="213" width="22" height="22" rx="2" fill="#A7F3D0" opacity=".5"/>
+          <rect x="228" y="213" width="22" height="22" rx="2" fill="#A7F3D0" opacity=".5"/>
+          <text x="219" y="248" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#065F46">square</text>
+        </g>
+        <!-- Wavy ground -->
+        <path d="M0 255 Q37 247 75 255 Q112 263 150 255 Q188 247 225 255 Q262 263 300 255 L300 280 L0 280 Z" fill="url(#sk7-grass)"/>
+        <!-- Rosie -->
+        <g filter="url(#sk7-sh)">
+          <ellipse cx="150" cy="268" rx="11" ry="12" fill="#F9A8D4"/>
+          <circle cx="150" cy="251" r="12" fill="url(#sk7-rosie-skin)"/>
+          <path d="M144 244 L146 238 L149 242 L150 237 L151 242 L154 238 L156 244 Z" fill="#FBBF24"/>
+          <rect x="144" y="242" width="12" height="3.5" rx="1.75" fill="#D97706"/>
+          <circle cx="146.5" cy="250" r="1.8" fill="#1C1917"/>
+          <circle cx="153.5" cy="250" r="1.8" fill="#1C1917"/>
+          <path d="M145.5 256 Q150 260 154.5 256" stroke="#7C2D12" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Confetti -->
+        <circle cx="22" cy="65" r="3" fill="#EC4899"/>
+        <circle cx="280" cy="58" r="2.5" fill="#8B5CF6"/>
+        <circle cx="145" cy="40" r="2" fill="#FBBF24"/>
+      </svg>
       <div class="illus-caption">Rosie spots shapes everywhere!</div>
     </div>
 

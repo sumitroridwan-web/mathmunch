@@ -266,40 +266,205 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 2 – TALLY CHARTS -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);">
-      <div class="page-num-illus">Page 2</div>
-      <div style="font-size:2rem;margin-bottom:8px;">👩‍💼 🧑</div>
-      <!-- Tally chart SVG -->
-      <svg width="210" height="170" viewBox="0 0 210 170" style="margin:0 auto;">
-        <!-- Table -->
-        <rect x="5" y="5" width="200" height="155" rx="6" fill="white" stroke="#C2410C" stroke-width="2"/>
-        <!-- Header row -->
-        <rect x="5" y="5" width="200" height="28" rx="6" fill="#C2410C"/>
-        <text x="70" y="23" text-anchor="middle" fill="white" font-size="11" font-weight="700">Day</text>
-        <text x="150" y="23" text-anchor="middle" fill="white" font-size="11" font-weight="700">Visitors (Tally)</text>
-        <line x1="108" y1="5" x2="108" y2="160" stroke="#C2410C" stroke-width="1.5"/>
-        <!-- Rows -->
-        <text x="70" y="50" text-anchor="middle" fill="#374151" font-size="11" font-weight="600">Monday</text>
-        <text x="155" y="50" text-anchor="middle" fill="#C2410C" font-size="13" font-weight="700">||||</text>
-        <line x1="5" y1="58" x2="205" y2="58" stroke="#FED7AA" stroke-width="1"/>
+    <div class="illustration" style="background:#1a1a2e;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 2</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <!-- Night city background gradient -->
+          <linearGradient id="da2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1117"/>
+            <stop offset="100%" stop-color="#1e2d4a"/>
+          </linearGradient>
+          <!-- Lamppost glow -->
+          <radialGradient id="da2-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
+          </radialGradient>
+          <!-- Director Priya body gradient -->
+          <radialGradient id="da2-priya-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <!-- Priya skin -->
+          <radialGradient id="da2-priya-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <!-- Ollie body gradient -->
+          <radialGradient id="da2-ollie-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <!-- Ollie skin -->
+          <radialGradient id="da2-ollie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <!-- Table header gradient -->
+          <linearGradient id="da2-hdr" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#dc2626"/>
+            <stop offset="100%" stop-color="#991b1b"/>
+          </linearGradient>
+          <!-- Table gradient -->
+          <linearGradient id="da2-tbl" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fffbf5"/>
+            <stop offset="100%" stop-color="#fef3e2"/>
+          </linearGradient>
+          <!-- Drop shadow filter -->
+          <filter id="da2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="da2-glowf">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
 
-        <text x="70" y="78" text-anchor="middle" fill="#374151" font-size="11" font-weight="600">Tuesday</text>
-        <!-- Tally marks: |||| || = 7 -->
-        <text x="148" y="78" text-anchor="middle" fill="#C2410C" font-size="13" font-weight="700">|||| ||</text>
-        <line x1="5" y1="86" x2="205" y2="86" stroke="#FED7AA" stroke-width="1"/>
+        <!-- Night city background -->
+        <rect width="300" height="280" fill="url(#da2-sky)"/>
 
-        <text x="70" y="106" text-anchor="middle" fill="#374151" font-size="11" font-weight="600">Wednesday</text>
-        <text x="148" y="106" text-anchor="middle" fill="#C2410C" font-size="13" font-weight="700">|||| |</text>
-        <line x1="5" y1="114" x2="205" y2="114" stroke="#FED7AA" stroke-width="1"/>
+        <!-- City building silhouettes -->
+        <rect x="0" y="160" width="40" height="120" fill="#0d1117"/>
+        <rect x="5" y="145" width="30" height="15" fill="#0d1117"/>
+        <!-- windows on building 1 -->
+        <rect x="10" y="152" width="6" height="6" fill="#fde68a" opacity="0.6"/>
+        <rect x="20" y="152" width="6" height="6" fill="#fde68a" opacity="0.4"/>
+        <rect x="10" y="164" width="6" height="6" fill="#fde68a" opacity="0.7"/>
+        <rect x="20" y="164" width="6" height="6" fill="#fde68a" opacity="0.3"/>
 
-        <text x="70" y="134" text-anchor="middle" fill="#374151" font-size="11" font-weight="600">Thursday</text>
-        <text x="148" y="134" text-anchor="middle" fill="#C2410C" font-size="13" font-weight="700">||||</text>
-        <line x1="5" y1="142" x2="205" y2="142" stroke="#FED7AA" stroke-width="1"/>
+        <rect x="240" y="140" width="60" height="140" fill="#0d1117"/>
+        <rect x="255" y="125" width="30" height="15" fill="#0d1117"/>
+        <!-- windows -->
+        <rect x="248" y="148" width="6" height="6" fill="#fde68a" opacity="0.5"/>
+        <rect x="258" y="148" width="6" height="6" fill="#fde68a" opacity="0.7"/>
+        <rect x="268" y="148" width="6" height="6" fill="#fde68a" opacity="0.4"/>
+        <rect x="248" y="160" width="6" height="6" fill="#fde68a" opacity="0.6"/>
+        <rect x="258" y="160" width="6" height="6" fill="#fde68a" opacity="0.3"/>
+        <rect x="268" y="160" width="6" height="6" fill="#fde68a" opacity="0.8"/>
 
-        <text x="70" y="156" text-anchor="middle" fill="#374151" font-size="11" font-weight="600">Friday</text>
-        <text x="148" y="156" text-anchor="middle" fill="#C2410C" font-size="13" font-weight="700">||| </text>
+        <!-- Stars -->
+        <circle cx="60" cy="20" r="1.2" fill="white" opacity="0.8"/>
+        <circle cx="110" cy="12" r="1" fill="white" opacity="0.6"/>
+        <circle cx="155" cy="25" r="1.5" fill="white" opacity="0.9"/>
+        <circle cx="200" cy="8" r="1.1" fill="white" opacity="0.7"/>
+        <circle cx="230" cy="22" r="1" fill="white" opacity="0.5"/>
+        <circle cx="80" cy="40" r="0.8" fill="white" opacity="0.6"/>
+        <circle cx="185" cy="35" r="1.2" fill="white" opacity="0.7"/>
+
+        <!-- Street / floor -->
+        <rect x="0" y="210" width="300" height="70" fill="#111827"/>
+        <!-- Cobblestone effect -->
+        <line x1="0" y1="218" x2="300" y2="218" stroke="#1f2937" stroke-width="1"/>
+        <line x1="0" y1="230" x2="300" y2="230" stroke="#1f2937" stroke-width="1"/>
+        <line x1="0" y1="242" x2="300" y2="242" stroke="#1f2937" stroke-width="1"/>
+
+        <!-- Lamppost left -->
+        <rect x="46" y="140" width="4" height="70" fill="#374151"/>
+        <rect x="40" y="135" width="16" height="8" rx="3" fill="#4b5563"/>
+        <ellipse cx="48" cy="134" rx="18" ry="10" fill="url(#da2-glow)" filter="url(#da2-glowf)"/>
+        <ellipse cx="48" cy="139" rx="7" ry="4" fill="#fde68a" opacity="0.9"/>
+
+        <!-- Lamppost right -->
+        <rect x="235" y="140" width="4" height="70" fill="#374151"/>
+        <rect x="229" y="135" width="16" height="8" rx="3" fill="#4b5563"/>
+        <ellipse cx="237" cy="134" rx="18" ry="10" fill="url(#da2-glow)" filter="url(#da2-glowf)"/>
+        <ellipse cx="237" cy="139" rx="7" ry="4" fill="#fde68a" opacity="0.9"/>
+
+        <!-- DIRECTOR PRIYA character (left, taller) -->
+        <g filter="url(#da2-sh)">
+          <!-- Body robe -->
+          <ellipse cx="78" cy="200" rx="18" ry="26" fill="url(#da2-priya-body)"/>
+          <!-- Collar -->
+          <rect x="70" y="178" width="16" height="8" rx="4" fill="#c4b5fd"/>
+          <!-- Head -->
+          <ellipse cx="78" cy="168" rx="13" ry="14" fill="url(#da2-priya-skin)"/>
+          <!-- Hair (bun) -->
+          <ellipse cx="78" cy="155" rx="12" ry="8" fill="#1f2937"/>
+          <circle cx="78" cy="152" r="5" fill="#374151"/>
+          <!-- Eyes -->
+          <circle cx="74" cy="167" r="3" fill="white"/>
+          <circle cx="74" cy="167" r="1.8" fill="#1f2937"/>
+          <circle cx="74.6" cy="166.3" r="0.7" fill="white"/>
+          <circle cx="83" cy="167" r="3" fill="white"/>
+          <circle cx="83" cy="167" r="1.8" fill="#1f2937"/>
+          <circle cx="83.6" cy="166.3" r="0.7" fill="white"/>
+          <!-- Glasses frames -->
+          <rect x="71" y="164" width="7" height="5" rx="2.5" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <rect x="80" y="164" width="7" height="5" rx="2.5" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <line x1="78" y1="166" x2="80" y2="166" stroke="#fde68a" stroke-width="1"/>
+          <!-- Smile -->
+          <path d="M74 173 Q78 177 82 173" fill="none" stroke="#c97a3a" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Arms -->
+          <rect x="55" y="183" width="10" height="6" rx="3" fill="url(#da2-priya-body)" transform="rotate(-15,60,186)"/>
+          <rect x="91" y="183" width="12" height="6" rx="3" fill="url(#da2-priya-body)" transform="rotate(20,97,186)"/>
+          <!-- Hand holding pointer -->
+          <line x1="100" y1="186" x2="140" y2="175" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+
+        <!-- OLLIE character (right of table, smaller, cadet) -->
+        <g filter="url(#da2-sh)">
+          <!-- Trench coat body -->
+          <ellipse cx="230" cy="203" rx="15" ry="22" fill="url(#da2-ollie-body)"/>
+          <!-- Lapels -->
+          <polygon points="223,183 230,190 237,183" fill="#047857"/>
+          <!-- Head -->
+          <ellipse cx="230" cy="183" rx="11" ry="12" fill="url(#da2-ollie-skin)"/>
+          <!-- Hair -->
+          <ellipse cx="230" cy="172" rx="10" ry="6" fill="#92400e"/>
+          <!-- Eyes -->
+          <circle cx="227" cy="182" r="2.5" fill="white"/>
+          <circle cx="227" cy="182" r="1.5" fill="#1f2937"/>
+          <circle cx="227.5" cy="181.5" r="0.6" fill="white"/>
+          <circle cx="234" cy="182" r="2.5" fill="white"/>
+          <circle cx="234" cy="182" r="1.5" fill="#1f2937"/>
+          <circle cx="234.5" cy="181.5" r="0.6" fill="white"/>
+          <!-- Smile -->
+          <path d="M226 186 Q230 190 234 186" fill="none" stroke="#d4924a" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Magnifying glass -->
+          <circle cx="214" cy="197" r="8" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+          <circle cx="214" cy="197" r="6" fill="rgba(253,230,138,0.15)"/>
+          <line x1="219" y1="202" x2="225" y2="208" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+
+        <!-- TALLY CHART TABLE (center stage) -->
+        <g filter="url(#da2-sh)">
+          <rect x="82" y="118" width="148" height="92" rx="7" fill="url(#da2-tbl)" stroke="#dc2626" stroke-width="2"/>
+          <!-- Header -->
+          <rect x="82" y="118" width="148" height="24" rx="7" fill="url(#da2-hdr)"/>
+          <rect x="82" y="130" width="148" height="12" fill="url(#da2-hdr)"/>
+          <text x="131" y="134" text-anchor="middle" fill="white" font-size="9" font-weight="700">Day</text>
+          <text x="189" y="134" text-anchor="middle" fill="white" font-size="9" font-weight="700">Tally</text>
+          <line x1="158" y1="118" x2="158" y2="210" stroke="#dc2626" stroke-width="1.2"/>
+
+          <!-- Row 1: Monday ||||  -->
+          <text x="120" y="155" text-anchor="middle" fill="#374151" font-size="9" font-weight="600">Monday</text>
+          <text x="185" y="155" text-anchor="middle" fill="#dc2626" font-size="11" font-weight="700">||||</text>
+          <line x1="82" y1="161" x2="230" y2="161" stroke="#fcd9b5" stroke-width="1"/>
+
+          <!-- Row 2: Tuesday |||| || = 7 -->
+          <text x="120" y="174" text-anchor="middle" fill="#374151" font-size="9" font-weight="600">Tuesday</text>
+          <text x="185" y="174" text-anchor="middle" fill="#dc2626" font-size="11" font-weight="700">|||| ||</text>
+          <line x1="82" y1="180" x2="230" y2="180" stroke="#fcd9b5" stroke-width="1"/>
+
+          <!-- Row 3: Wednesday |||| | = 6 -->
+          <text x="120" y="193" text-anchor="middle" fill="#374151" font-size="9" font-weight="600">Wednesday</text>
+          <text x="185" y="193" text-anchor="middle" fill="#dc2626" font-size="11" font-weight="700">|||| |</text>
+          <line x1="82" y1="199" x2="230" y2="199" stroke="#fcd9b5" stroke-width="1"/>
+
+          <!-- Row 4: Thursday ||||  -->
+          <text x="120" y="207" text-anchor="middle" fill="#374151" font-size="9" font-weight="600">Thursday</text>
+          <text x="185" y="207" text-anchor="middle" fill="#dc2626" font-size="11" font-weight="700">||||</text>
+        </g>
+
+        <!-- Label -->
+        <rect x="82" y="112" width="148" height="10" rx="4" fill="#dc2626"/>
+        <text x="156" y="120" text-anchor="middle" fill="white" font-size="8" font-weight="700">MUSEUM VISITOR TALLY</text>
       </svg>
-      <div class="illus-caption">Museum visitor tally chart</div>
+      <div class="illus-caption">Director Priya and Ollie study the tally chart</div>
     </div>
 
     <div class="story-panel">
@@ -339,47 +504,162 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 3 – BAR CHARTS -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
-      <div class="page-num-illus">Page 3</div>
-      <div style="font-size:2rem;margin-bottom:8px;">🔍 👩‍💼</div>
-      <!-- Bar chart SVG with 5 suspects -->
-      <svg width="210" height="160" viewBox="0 0 210 160" style="margin:0 auto;">
-        <!-- Axes -->
-        <line x1="28" y1="10" x2="28" y2="125" stroke="#374151" stroke-width="2"/>
-        <line x1="28" y1="125" x2="205" y2="125" stroke="#374151" stroke-width="2"/>
-        <!-- Y-axis labels (scale 0-10) -->
-        <text x="24" y="128" text-anchor="end" fill="#6B7280" font-size="9">0</text>
-        <text x="24" y="99" text-anchor="end" fill="#6B7280" font-size="9">3</text>
-        <text x="24" y="70" text-anchor="end" fill="#6B7280" font-size="9">6</text>
-        <text x="24" y="41" text-anchor="end" fill="#6B7280" font-size="9">9</text>
-        <!-- Grid lines -->
-        <line x1="28" y1="41" x2="205" y2="41" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="70" x2="205" y2="70" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="99" x2="205" y2="99" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <!-- Bars: A=3, B=7, C=5, D=9, E=2 -->
-        <!-- Suspect A: 3 = 30px height (each unit = 10px from y=125) -->
-        <rect x="35" y="95" width="26" height="30" rx="3" fill="#FB923C"/>
-        <text x="48" y="91" text-anchor="middle" fill="#C2410C" font-size="9" font-weight="700">3</text>
-        <text x="48" y="140" text-anchor="middle" fill="#374151" font-size="9">A</text>
-        <!-- Suspect B: 7 = 70px -->
-        <rect x="70" y="55" width="26" height="70" rx="3" fill="#F97316"/>
-        <text x="83" y="51" text-anchor="middle" fill="#C2410C" font-size="9" font-weight="700">7</text>
-        <text x="83" y="140" text-anchor="middle" fill="#374151" font-size="9">B</text>
-        <!-- Suspect C: 5 = 50px -->
-        <rect x="105" y="75" width="26" height="50" rx="3" fill="#FB923C"/>
-        <text x="118" y="71" text-anchor="middle" fill="#C2410C" font-size="9" font-weight="700">5</text>
-        <text x="118" y="140" text-anchor="middle" fill="#374151" font-size="9">C</text>
-        <!-- Suspect D: 9 = 90px -->
-        <rect x="140" y="35" width="26" height="90" rx="3" fill="#EA580C"/>
-        <text x="153" y="31" text-anchor="middle" fill="#C2410C" font-size="9" font-weight="700">9</text>
-        <text x="153" y="140" text-anchor="middle" fill="#374151" font-size="9">D</text>
-        <!-- Suspect E: 2 = 20px -->
-        <rect x="175" y="105" width="26" height="20" rx="3" fill="#FED7AA"/>
-        <text x="188" y="101" text-anchor="middle" fill="#C2410C" font-size="9" font-weight="700">2</text>
-        <text x="188" y="140" text-anchor="middle" fill="#374151" font-size="9">E</text>
-        <text x="116" y="155" text-anchor="middle" fill="#374151" font-size="9">Times seen (Suspects A–E)</text>
+    <div class="illustration" style="background:#1a1a2e;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 3</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="da3-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1117"/>
+            <stop offset="100%" stop-color="#1a2540"/>
+          </linearGradient>
+          <!-- Bar gradients -->
+          <linearGradient id="da3-barA" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </linearGradient>
+          <linearGradient id="da3-barB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f97316"/>
+            <stop offset="100%" stop-color="#c2410c"/>
+          </linearGradient>
+          <linearGradient id="da3-barC" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fb923c"/>
+            <stop offset="100%" stop-color="#ea580c"/>
+          </linearGradient>
+          <linearGradient id="da3-barD" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ef4444"/>
+            <stop offset="100%" stop-color="#991b1b"/>
+          </linearGradient>
+          <linearGradient id="da3-barE" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a3e635"/>
+            <stop offset="100%" stop-color="#4d7c0f"/>
+          </linearGradient>
+          <!-- Priya body gradient -->
+          <radialGradient id="da3-priya-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="da3-priya-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <!-- Chart background -->
+          <linearGradient id="da3-chartbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <filter id="da3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <radialGradient id="da3-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#da3-sky)"/>
+
+        <!-- Building silhouettes -->
+        <rect x="0" y="155" width="45" height="125" fill="#060d1a"/>
+        <rect x="255" y="145" width="45" height="135" fill="#060d1a"/>
+        <rect x="8" y="162" width="6" height="6" fill="#fde68a" opacity="0.5"/>
+        <rect x="20" y="162" width="6" height="6" fill="#fde68a" opacity="0.7"/>
+        <rect x="8" y="174" width="6" height="6" fill="#fde68a" opacity="0.3"/>
+        <rect x="262" y="155" width="6" height="6" fill="#fde68a" opacity="0.6"/>
+        <rect x="274" y="155" width="6" height="6" fill="#fde68a" opacity="0.4"/>
+        <rect x="262" y="167" width="6" height="6" fill="#fde68a" opacity="0.8"/>
+
+        <!-- Stars -->
+        <circle cx="75" cy="18" r="1.2" fill="white" opacity="0.7"/>
+        <circle cx="130" cy="10" r="1" fill="white" opacity="0.5"/>
+        <circle cx="170" cy="22" r="1.5" fill="white" opacity="0.9"/>
+        <circle cx="215" cy="14" r="1" fill="white" opacity="0.6"/>
+
+        <!-- Street -->
+        <rect x="0" y="230" width="300" height="50" fill="#0f172a"/>
+        <line x1="0" y1="238" x2="300" y2="238" stroke="#1e293b" stroke-width="1"/>
+
+        <!-- Lamppost -->
+        <rect x="46" y="150" width="4" height="80" fill="#374151"/>
+        <rect x="40" y="145" width="16" height="8" rx="3" fill="#4b5563"/>
+        <ellipse cx="48" cy="144" rx="18" ry="10" fill="url(#da3-glow)"/>
+        <ellipse cx="48" cy="149" rx="7" ry="4" fill="#fde68a" opacity="0.9"/>
+
+        <!-- CHART BOARD panel -->
+        <g filter="url(#da3-sh)">
+          <rect x="60" y="55" width="200" height="168" rx="8" fill="url(#da3-chartbg)" stroke="#334155" stroke-width="1.5"/>
+          <!-- Chart title -->
+          <text x="160" y="73" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700">SUSPECT SIGHTINGS</text>
+
+          <!-- Axes -->
+          <line x1="90" y1="78" x2="90" y2="185" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="90" y1="185" x2="250" y2="185" stroke="#94a3b8" stroke-width="1.5"/>
+
+          <!-- Y-axis labels -->
+          <text x="86" y="188" text-anchor="end" fill="#64748b" font-size="8">0</text>
+          <text x="86" y="160" text-anchor="end" fill="#64748b" font-size="8">3</text>
+          <text x="86" y="132" text-anchor="end" fill="#64748b" font-size="8">6</text>
+          <text x="86" y="104" text-anchor="end" fill="#64748b" font-size="8">9</text>
+
+          <!-- Grid lines -->
+          <line x1="90" y1="157" x2="250" y2="157" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="90" y1="129" x2="250" y2="129" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="90" y1="101" x2="250" y2="101" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <!-- Bars: A=3 (30px), B=7 (70px), C=5 (50px), D=9 (90px), E=2 (20px); 1 unit = 10.77px from y=185 -->
+          <!-- A=3: height=32 -->
+          <rect x="98" y="153" width="22" height="32" rx="3" fill="url(#da3-barA)" filter="url(#da3-sh)"/>
+          <text x="109" y="149" text-anchor="middle" fill="#fbbf24" font-size="8" font-weight="700">3</text>
+          <text x="109" y="197" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="700">A</text>
+
+          <!-- B=7: height=75 -->
+          <rect x="126" y="110" width="22" height="75" rx="3" fill="url(#da3-barB)" filter="url(#da3-sh)"/>
+          <text x="137" y="106" text-anchor="middle" fill="#f97316" font-size="8" font-weight="700">7</text>
+          <text x="137" y="197" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="700">B</text>
+
+          <!-- C=5: height=54 -->
+          <rect x="154" y="131" width="22" height="54" rx="3" fill="url(#da3-barC)" filter="url(#da3-sh)"/>
+          <text x="165" y="127" text-anchor="middle" fill="#fb923c" font-size="8" font-weight="700">5</text>
+          <text x="165" y="197" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="700">C</text>
+
+          <!-- D=9: height=97 (highlighted - most sightings) -->
+          <rect x="182" y="88" width="22" height="97" rx="3" fill="url(#da3-barD)" filter="url(#da3-sh)"/>
+          <text x="193" y="84" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">9</text>
+          <text x="193" y="197" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="800">D</text>
+          <!-- Highlight ring on D bar -->
+          <rect x="181" y="87" width="24" height="99" rx="4" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.7"/>
+
+          <!-- E=2: height=22 -->
+          <rect x="210" y="163" width="22" height="22" rx="3" fill="url(#da3-barE)" filter="url(#da3-sh)"/>
+          <text x="221" y="159" text-anchor="middle" fill="#a3e635" font-size="8" font-weight="700">2</text>
+          <text x="221" y="197" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="700">E</text>
+
+          <!-- Chart label -->
+          <text x="170" y="213" text-anchor="middle" fill="#64748b" font-size="8">Suspects A–E (times seen)</text>
+        </g>
+
+        <!-- Director Priya (small, bottom right) -->
+        <g filter="url(#da3-sh)">
+          <ellipse cx="262" cy="248" rx="14" ry="20" fill="url(#da3-priya-body)"/>
+          <ellipse cx="262" cy="228" rx="10" ry="11" fill="url(#da3-priya-skin)"/>
+          <ellipse cx="262" cy="218" rx="9" ry="6" fill="#1f2937"/>
+          <circle cx="259" cy="228" r="2.5" fill="white"/>
+          <circle cx="259" cy="228" r="1.5" fill="#1f2937"/>
+          <circle cx="259.5" cy="227.4" r="0.6" fill="white"/>
+          <circle cx="265" cy="228" r="2.5" fill="white"/>
+          <circle cx="265" cy="228" r="1.5" fill="#1f2937"/>
+          <circle cx="265.5" cy="227.4" r="0.6" fill="white"/>
+          <!-- Glasses -->
+          <rect x="256" y="225" width="6" height="4" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <rect x="263" y="225" width="6" height="4" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <line x1="262" y1="227" x2="263" y2="227" stroke="#fde68a" stroke-width="1"/>
+          <!-- Arm + pointer to D bar -->
+          <line x1="250" y1="240" x2="195" y2="190" stroke="#fde68a" stroke-width="2" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div class="illus-caption">Suspect sighting bar chart</div>
+      <div class="illus-caption">Suspect D had the most sightings — bar chart reveals the clue</div>
     </div>
 
     <div class="story-panel">
@@ -419,53 +699,158 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 4 – LINE GRAPHS INTRODUCTION -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);">
-      <div class="page-num-illus">Page 4</div>
-      <div style="font-size:2rem;margin-bottom:8px;">🧑 👩‍💼</div>
-      <!-- Line graph: temperature Mon-Sun -->
-      <svg width="210" height="155" viewBox="0 0 210 155" style="margin:0 auto;">
-        <!-- Axes -->
-        <line x1="28" y1="5" x2="28" y2="120" stroke="#374151" stroke-width="2"/>
-        <line x1="28" y1="120" x2="205" y2="120" stroke="#374151" stroke-width="2"/>
-        <!-- Y-axis labels: 0,4,8,12,16 (scale: each unit = 6px from 120) -->
-        <text x="24" y="123" text-anchor="end" fill="#6B7280" font-size="8">0</text>
-        <text x="24" y="99" text-anchor="end" fill="#6B7280" font-size="8">4</text>
-        <text x="24" y="75" text-anchor="end" fill="#6B7280" font-size="8">8</text>
-        <text x="24" y="51" text-anchor="end" fill="#6B7280" font-size="8">12</text>
-        <text x="24" y="27" text-anchor="end" fill="#6B7280" font-size="8">16</text>
-        <!-- Grid lines -->
-        <line x1="28" y1="99" x2="205" y2="99" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="75" x2="205" y2="75" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="51" x2="205" y2="51" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <!-- Data: Mon=8, Tue=10, Wed=14, Thu=13, Fri=9, Sat=7, Sun=11 -->
-        <!-- y = 120 - (value * 6) -->
-        <!-- Mon: x=48, y=72 (8°) -->
-        <!-- Tue: x=76, y=60 (10°) -->
-        <!-- Wed: x=104, y=36 (14°) -->
-        <!-- Thu: x=132, y=42 (13°) -->
-        <!-- Fri: x=160, y=66 (9°) -->
-        <!-- Sat: x=188, y=78 (7°) -->
-        <!-- (No Sun - 6 days to fit) -->
-        <polyline points="48,72 76,60 104,36 132,42 160,66 188,78" fill="none" stroke="#F97316" stroke-width="2.5" stroke-linejoin="round"/>
-        <!-- Points -->
-        <circle cx="48" cy="72" r="4" fill="#C2410C"/>
-        <circle cx="76" cy="60" r="4" fill="#C2410C"/>
-        <circle cx="104" cy="36" r="4" fill="#C2410C"/>
-        <circle cx="132" cy="42" r="4" fill="#C2410C"/>
-        <circle cx="160" cy="66" r="4" fill="#C2410C"/>
-        <circle cx="188" cy="78" r="4" fill="#C2410C"/>
-        <!-- X labels -->
-        <text x="48" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Mon</text>
-        <text x="76" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Tue</text>
-        <text x="104" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Wed</text>
-        <text x="132" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Thu</text>
-        <text x="160" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Fri</text>
-        <text x="188" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Sat</text>
-        <!-- Y-axis title -->
-        <text x="8" y="62" text-anchor="middle" fill="#6B7280" font-size="8" transform="rotate(-90,8,62)">Temp (°C)</text>
-        <text x="116" y="148" text-anchor="middle" fill="#374151" font-size="9">Rising lines = getting warmer</text>
+    <div class="illustration" style="background:#1a1a2e;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 4</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="da4-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1117"/>
+            <stop offset="100%" stop-color="#1e2d4a"/>
+          </linearGradient>
+          <linearGradient id="da4-chartbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <!-- Ollie body gradient -->
+          <radialGradient id="da4-ollie-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="da4-ollie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <!-- Priya body -->
+          <radialGradient id="da4-priya-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="da4-priya-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <!-- Line area fill -->
+          <linearGradient id="da4-areafill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f97316" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="da4-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="da4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#da4-sky)"/>
+
+        <!-- City silhouettes -->
+        <rect x="0" y="160" width="50" height="120" fill="#060d1a"/>
+        <rect x="250" y="150" width="50" height="130" fill="#060d1a"/>
+        <!-- Tiny windows -->
+        <rect x="8" y="168" width="5" height="5" fill="#fde68a" opacity="0.5"/>
+        <rect x="18" y="168" width="5" height="5" fill="#fde68a" opacity="0.3"/>
+        <rect x="258" y="158" width="5" height="5" fill="#fde68a" opacity="0.7"/>
+        <rect x="268" y="158" width="5" height="5" fill="#fde68a" opacity="0.4"/>
+
+        <!-- Stars -->
+        <circle cx="80" cy="18" r="1.1" fill="white" opacity="0.7"/>
+        <circle cx="140" cy="10" r="0.9" fill="white" opacity="0.5"/>
+        <circle cx="190" cy="24" r="1.4" fill="white" opacity="0.8"/>
+        <circle cx="220" cy="12" r="1" fill="white" opacity="0.6"/>
+
+        <!-- Street -->
+        <rect x="0" y="235" width="300" height="45" fill="#0f172a"/>
+        <line x1="0" y1="242" x2="300" y2="242" stroke="#1e293b" stroke-width="1"/>
+
+        <!-- Lamppost -->
+        <rect x="55" y="158" width="4" height="77" fill="#374151"/>
+        <rect x="49" y="153" width="16" height="8" rx="3" fill="#4b5563"/>
+        <ellipse cx="57" cy="152" rx="18" ry="10" fill="url(#da4-glow)"/>
+        <ellipse cx="57" cy="157" rx="7" ry="4" fill="#fde68a" opacity="0.9"/>
+
+        <!-- CHART BOARD -->
+        <g filter="url(#da4-sh)">
+          <rect x="62" y="42" width="210" height="178" rx="8" fill="url(#da4-chartbg)" stroke="#334155" stroke-width="1.5"/>
+
+          <!-- Title -->
+          <text x="167" y="60" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700">TEMPERATURE Mon–Sat (°C)</text>
+
+          <!-- Axes -->
+          <line x1="98" y1="68" x2="98" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="98" y1="188" x2="262" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+
+          <!-- Y labels: 0,4,8,12,16 (1 unit = 7.5px from y=188) -->
+          <text x="94" y="191" text-anchor="end" fill="#64748b" font-size="7">0</text>
+          <text x="94" y="161" text-anchor="end" fill="#64748b" font-size="7">4</text>
+          <text x="94" y="131" text-anchor="end" fill="#64748b" font-size="7">8</text>
+          <text x="94" y="101" text-anchor="end" fill="#64748b" font-size="7">12</text>
+          <text x="94" y="71" text-anchor="end" fill="#64748b" font-size="7">16</text>
+
+          <!-- Grid lines -->
+          <line x1="98" y1="158" x2="262" y2="158" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="128" x2="262" y2="128" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="98" x2="262" y2="98" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="68" x2="262" y2="68" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <!-- Data points: Mon=8(y=128), Tue=10(y=113), Wed=14(y=83), Thu=13(y=90.5~91), Fri=9(y=120.5~121), Sat=7(y=135.5~136) -->
+          <!-- x: Mon=120, Tue=147, Wed=174, Thu=201, Fri=228, Sat=255 -->
+          <!-- y = 188 - value*7.5 -->
+
+          <!-- Area fill under line -->
+          <polygon points="120,128 147,113 174,83 201,91 228,121 255,136 255,188 120,188" fill="url(#da4-areafill)"/>
+
+          <!-- Line -->
+          <polyline points="120,128 147,113 174,83 201,91 228,121 255,136" fill="none" stroke="#f97316" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+          <!-- Data point circles -->
+          <circle cx="120" cy="128" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="147" cy="113" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <!-- Wed is peak - special highlight -->
+          <circle cx="174" cy="83" r="6" fill="#fbbf24" stroke="#f97316" stroke-width="2"/>
+          <text x="174" y="78" text-anchor="middle" fill="#fbbf24" font-size="7" font-weight="800">14°</text>
+          <circle cx="201" cy="91" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="228" cy="121" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="255" cy="136" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+
+          <!-- X labels -->
+          <text x="120" y="200" text-anchor="middle" fill="#64748b" font-size="7">Mon</text>
+          <text x="147" y="200" text-anchor="middle" fill="#64748b" font-size="7">Tue</text>
+          <text x="174" y="200" text-anchor="middle" fill="#64748b" font-size="7">Wed</text>
+          <text x="201" y="200" text-anchor="middle" fill="#64748b" font-size="7">Thu</text>
+          <text x="228" y="200" text-anchor="middle" fill="#64748b" font-size="7">Fri</text>
+          <text x="255" y="200" text-anchor="middle" fill="#64748b" font-size="7">Sat</text>
+
+          <!-- Rising annotation arrow -->
+          <text x="140" y="90" text-anchor="middle" fill="#10b981" font-size="7" font-weight="700">Rising!</text>
+          <line x1="130" y1="93" x2="120" y2="128" stroke="#10b981" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#da4-arr)"/>
+        </g>
+
+        <!-- OLLIE character (lower left, looking at chart) -->
+        <g filter="url(#da4-sh)">
+          <ellipse cx="42" cy="252" rx="14" ry="20" fill="url(#da4-ollie-body)"/>
+          <polygon points="36,234 42,241 48,234" fill="#047857"/>
+          <ellipse cx="42" cy="234" rx="11" ry="12" fill="url(#da4-ollie-skin)"/>
+          <ellipse cx="42" cy="223" rx="10" ry="6" fill="#92400e"/>
+          <!-- Eyes looking right -->
+          <circle cx="39" cy="234" r="2.5" fill="white"/>
+          <circle cx="40" cy="234" r="1.5" fill="#1f2937"/>
+          <circle cx="40.5" cy="233.4" r="0.6" fill="white"/>
+          <circle cx="46" cy="234" r="2.5" fill="white"/>
+          <circle cx="47" cy="234" r="1.5" fill="#1f2937"/>
+          <circle cx="47.5" cy="233.4" r="0.6" fill="white"/>
+          <!-- Arm with pencil -->
+          <rect x="50" y="244" width="14" height="5" rx="2" fill="url(#da4-ollie-body)" transform="rotate(-25,57,246)"/>
+          <line x1="58" y1="238" x2="65" y2="226" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div class="illus-caption">Temperature line graph Mon–Sat</div>
+      <div class="illus-caption">Temperature rises to a peak on Wednesday — line graph reveals the trend</div>
     </div>
 
     <div class="story-panel">
@@ -505,51 +890,163 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 5 – READING LINE GRAPHS -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
-      <div class="page-num-illus">Page 5</div>
-      <div style="font-size:2rem;margin-bottom:8px;">🧑 🔍</div>
-      <!-- Rainfall line graph Jan-Jun -->
-      <svg width="210" height="155" viewBox="0 0 210 155" style="margin:0 auto;">
-        <!-- Axes -->
-        <line x1="28" y1="5" x2="28" y2="120" stroke="#374151" stroke-width="2"/>
-        <line x1="28" y1="120" x2="205" y2="120" stroke="#374151" stroke-width="2"/>
-        <!-- Y-axis: 0,10,20,30,40,50 (each 10 = 22px from y=120) -->
-        <text x="24" y="123" text-anchor="end" fill="#6B7280" font-size="8">0</text>
-        <text x="24" y="101" text-anchor="end" fill="#6B7280" font-size="8">10</text>
-        <text x="24" y="79" text-anchor="end" fill="#6B7280" font-size="8">20</text>
-        <text x="24" y="57" text-anchor="end" fill="#6B7280" font-size="8">30</text>
-        <text x="24" y="35" text-anchor="end" fill="#6B7280" font-size="8">40</text>
-        <text x="24" y="13" text-anchor="end" fill="#6B7280" font-size="8">50</text>
-        <!-- Grid lines -->
-        <line x1="28" y1="101" x2="205" y2="101" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="79" x2="205" y2="79" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="57" x2="205" y2="57" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="35" x2="205" y2="35" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <!-- Data: Jan=30, Feb=20, Mar=40, Apr=35, May=25, Jun=45 -->
-        <!-- y = 120 - (value / 50) * 115 -->
-        <!-- Jan(30): x=48, y=120-69=51 -->
-        <!-- Feb(20): x=76, y=120-46=74 -->
-        <!-- Mar(40): x=104, y=120-92=28 -->
-        <!-- Apr(35): x=132, y=120-80.5=39.5~40 -->
-        <!-- May(25): x=160, y=120-57.5=62.5~63 -->
-        <!-- Jun(45): x=188, y=120-103.5=16.5~17 -->
-        <polyline points="48,51 76,74 104,28 132,40 160,63 188,17" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linejoin="round"/>
-        <circle cx="48" cy="51" r="4" fill="#1D4ED8"/>
-        <circle cx="76" cy="74" r="4" fill="#1D4ED8"/>
-        <circle cx="104" cy="28" r="4" fill="#1D4ED8"/>
-        <circle cx="132" cy="40" r="4" fill="#1D4ED8"/>
-        <circle cx="160" cy="63" r="4" fill="#1D4ED8"/>
-        <circle cx="188" cy="17" r="4" fill="#1D4ED8"/>
-        <!-- X labels -->
-        <text x="48" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Jan</text>
-        <text x="76" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Feb</text>
-        <text x="104" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Mar</text>
-        <text x="132" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Apr</text>
-        <text x="160" y="133" text-anchor="middle" fill="#6B7280" font-size="8">May</text>
-        <text x="188" y="133" text-anchor="middle" fill="#6B7280" font-size="8">Jun</text>
-        <text x="116" y="148" text-anchor="middle" fill="#374151" font-size="9">Rainfall (mm) Jan–Jun</text>
+    <div class="illustration" style="background:#1a1a2e;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 5</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="da5-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1117"/>
+            <stop offset="100%" stop-color="#0f2240"/>
+          </linearGradient>
+          <linearGradient id="da5-chartbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <!-- Blue rainfall area fill -->
+          <linearGradient id="da5-areafill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+          </linearGradient>
+          <!-- Ollie body gradient -->
+          <radialGradient id="da5-ollie-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="da5-ollie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <radialGradient id="da5-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="da5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#da5-sky)"/>
+
+        <!-- Rain effect - streaks -->
+        <line x1="70" y1="0" x2="65" y2="30" stroke="#93c5fd" stroke-width="0.8" opacity="0.3"/>
+        <line x1="100" y1="0" x2="95" y2="30" stroke="#93c5fd" stroke-width="0.8" opacity="0.25"/>
+        <line x1="130" y1="0" x2="125" y2="30" stroke="#93c5fd" stroke-width="0.8" opacity="0.3"/>
+        <line x1="160" y1="0" x2="155" y2="30" stroke="#93c5fd" stroke-width="0.8" opacity="0.2"/>
+        <line x1="190" y1="0" x2="185" y2="30" stroke="#93c5fd" stroke-width="0.8" opacity="0.3"/>
+        <line x1="220" y1="0" x2="215" y2="30" stroke="#93c5fd" stroke-width="0.8" opacity="0.25"/>
+
+        <!-- City silhouettes -->
+        <rect x="0" y="165" width="45" height="115" fill="#060d1a"/>
+        <rect x="255" y="155" width="45" height="125" fill="#060d1a"/>
+        <rect x="8" y="173" width="5" height="5" fill="#93c5fd" opacity="0.4"/>
+        <rect x="18" y="173" width="5" height="5" fill="#93c5fd" opacity="0.3"/>
+        <rect x="262" y="163" width="5" height="5" fill="#93c5fd" opacity="0.4"/>
+        <rect x="272" y="163" width="5" height="5" fill="#93c5fd" opacity="0.3"/>
+
+        <!-- Stars (dim in rain) -->
+        <circle cx="85" cy="22" r="0.8" fill="white" opacity="0.3"/>
+        <circle cx="140" cy="12" r="0.8" fill="white" opacity="0.25"/>
+        <circle cx="185" cy="28" r="0.9" fill="white" opacity="0.3"/>
+
+        <!-- Street -->
+        <rect x="0" y="235" width="300" height="45" fill="#0f172a"/>
+        <!-- Wet pavement reflection -->
+        <rect x="0" y="235" width="300" height="6" fill="#1e3a5f" opacity="0.5"/>
+
+        <!-- Lamppost with rain-blurred glow -->
+        <rect x="56" y="158" width="4" height="77" fill="#374151"/>
+        <rect x="50" y="153" width="16" height="8" rx="3" fill="#4b5563"/>
+        <ellipse cx="58" cy="152" rx="22" ry="14" fill="url(#da5-glow)"/>
+        <ellipse cx="58" cy="157" rx="7" ry="4" fill="#fde68a" opacity="0.7"/>
+
+        <!-- CHART BOARD (blue theme for rainfall) -->
+        <g filter="url(#da5-sh)">
+          <rect x="62" y="42" width="210" height="178" rx="8" fill="url(#da5-chartbg)" stroke="#1e40af" stroke-width="1.5"/>
+
+          <!-- Title -->
+          <text x="167" y="60" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700">RAINFALL Jan–Jun (mm)</text>
+
+          <!-- Axes -->
+          <line x1="98" y1="68" x2="98" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="98" y1="188" x2="262" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+
+          <!-- Y labels 0,10,20,30,40,50 (each 10 = 24px) -->
+          <text x="94" y="191" text-anchor="end" fill="#64748b" font-size="7">0</text>
+          <text x="94" y="167" text-anchor="end" fill="#64748b" font-size="7">10</text>
+          <text x="94" y="143" text-anchor="end" fill="#64748b" font-size="7">20</text>
+          <text x="94" y="119" text-anchor="end" fill="#64748b" font-size="7">30</text>
+          <text x="94" y="95" text-anchor="end" fill="#64748b" font-size="7">40</text>
+          <text x="94" y="71" text-anchor="end" fill="#64748b" font-size="7">50</text>
+
+          <!-- Grid lines -->
+          <line x1="98" y1="164" x2="262" y2="164" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="140" x2="262" y2="140" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="116" x2="262" y2="116" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="92" x2="262" y2="92" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="68" x2="262" y2="68" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <!-- Data: Jan=30(y=116), Feb=20(y=140), Mar=40(y=92), Apr=35(y=104), May=25(y=128), Jun=45(y=80) -->
+          <!-- x: Jan=120, Feb=147, Mar=174, Apr=201, May=228, Jun=255 -->
+          <!-- y = 188 - (value/50)*120 -->
+
+          <!-- Area fill -->
+          <polygon points="120,116 147,140 174,92 201,104 228,128 255,80 255,188 120,188" fill="url(#da5-areafill)"/>
+
+          <!-- Line -->
+          <polyline points="120,116 147,140 174,92 201,104 228,128 255,80" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+          <!-- Data point circles -->
+          <circle cx="120" cy="116" r="4.5" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+          <circle cx="147" cy="140" r="4.5" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+          <circle cx="174" cy="92" r="4.5" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+
+          <!-- April highlighted (reading guide) -->
+          <circle cx="201" cy="104" r="6" fill="#1d4ed8" stroke="#fbbf24" stroke-width="2"/>
+          <text x="201" y="98" text-anchor="middle" fill="#fbbf24" font-size="7" font-weight="800">35mm</text>
+          <!-- Reading guide lines for Apr -->
+          <line x1="98" y1="104" x2="201" y2="104" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3,2" opacity="0.7"/>
+          <line x1="201" y1="104" x2="201" y2="188" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3,2" opacity="0.7"/>
+
+          <!-- May highlighted -->
+          <circle cx="228" cy="128" r="6" fill="#7c3aed" stroke="#a78bfa" stroke-width="2"/>
+          <text x="228" y="122" text-anchor="middle" fill="#a78bfa" font-size="7" font-weight="800">25mm</text>
+
+          <circle cx="255" cy="80" r="4.5" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+
+          <!-- X labels -->
+          <text x="120" y="200" text-anchor="middle" fill="#64748b" font-size="7">Jan</text>
+          <text x="147" y="200" text-anchor="middle" fill="#64748b" font-size="7">Feb</text>
+          <text x="174" y="200" text-anchor="middle" fill="#64748b" font-size="7">Mar</text>
+          <text x="201" y="200" text-anchor="middle" fill="#fbbf24" font-size="7" font-weight="700">Apr</text>
+          <text x="228" y="200" text-anchor="middle" fill="#a78bfa" font-size="7" font-weight="700">May</text>
+          <text x="255" y="200" text-anchor="middle" fill="#64748b" font-size="7">Jun</text>
+
+          <!-- Difference label -->
+          <text x="214" y="79" text-anchor="middle" fill="#10b981" font-size="7" font-weight="700">Apr − May = 10mm</text>
+        </g>
+
+        <!-- Ollie with magnifying glass (lower right) -->
+        <g filter="url(#da5-sh)">
+          <ellipse cx="258" cy="252" rx="14" ry="20" fill="url(#da5-ollie-body)"/>
+          <polygon points="252,234 258,241 264,234" fill="#047857"/>
+          <ellipse cx="258" cy="234" rx="11" ry="12" fill="url(#da5-ollie-skin)"/>
+          <ellipse cx="258" cy="223" rx="10" ry="6" fill="#92400e"/>
+          <circle cx="255" cy="234" r="2.5" fill="white"/>
+          <circle cx="254" cy="234" r="1.5" fill="#1f2937"/>
+          <circle cx="254.5" cy="233.4" r="0.6" fill="white"/>
+          <circle cx="261" cy="234" r="2.5" fill="white"/>
+          <circle cx="260" cy="234" r="1.5" fill="#1f2937"/>
+          <circle cx="260.5" cy="233.4" r="0.6" fill="white"/>
+          <!-- Magnifying glass aimed at chart -->
+          <circle cx="240" cy="220" r="10" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+          <circle cx="240" cy="220" r="8" fill="rgba(59,130,246,0.15)"/>
+          <line x1="246" y1="226" x2="252" y2="232" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div class="illus-caption">Monthly rainfall: reading values from a line graph</div>
+      <div class="illus-caption">Reading values from the rainfall line graph — April vs May</div>
     </div>
 
     <div class="story-panel">
@@ -589,59 +1086,163 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 6 – PLOTTING POINTS -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);">
-      <div class="page-num-illus">Page 6</div>
-      <div style="font-size:2rem;margin-bottom:8px;">🧑 📊</div>
-      <!-- Empty grid with points being plotted -->
-      <svg width="210" height="160" viewBox="0 0 210 160" style="margin:0 auto;">
-        <!-- Axes -->
-        <line x1="28" y1="5" x2="28" y2="128" stroke="#374151" stroke-width="2"/>
-        <line x1="28" y1="128" x2="205" y2="128" stroke="#374151" stroke-width="2"/>
-        <!-- Y-axis 0 to 50, each 10 = 22px -->
-        <text x="24" y="131" text-anchor="end" fill="#6B7280" font-size="8">0</text>
-        <text x="24" y="109" text-anchor="end" fill="#6B7280" font-size="8">10</text>
-        <text x="24" y="87" text-anchor="end" fill="#6B7280" font-size="8">20</text>
-        <text x="24" y="65" text-anchor="end" fill="#6B7280" font-size="8">30</text>
-        <text x="24" y="43" text-anchor="end" fill="#6B7280" font-size="8">40</text>
-        <text x="24" y="21" text-anchor="end" fill="#6B7280" font-size="8">50</text>
-        <!-- Grid lines -->
-        <line x1="28" y1="109" x2="205" y2="109" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="87" x2="205" y2="87" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="65" x2="205" y2="65" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="43" x2="205" y2="43" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <!-- X-axis: 1-6 spacing 30px each, starting x=56 -->
-        <line x1="58" y1="123" x2="58" y2="133" stroke="#374151" stroke-width="1"/>
-        <text x="58" y="143" text-anchor="middle" fill="#6B7280" font-size="9">1</text>
-        <line x1="88" y1="123" x2="88" y2="133" stroke="#374151" stroke-width="1"/>
-        <text x="88" y="143" text-anchor="middle" fill="#6B7280" font-size="9">2</text>
-        <line x1="118" y1="123" x2="118" y2="133" stroke="#374151" stroke-width="1"/>
-        <text x="118" y="143" text-anchor="middle" fill="#6B7280" font-size="9">3</text>
-        <line x1="148" y1="123" x2="148" y2="133" stroke="#374151" stroke-width="1"/>
-        <text x="148" y="143" text-anchor="middle" fill="#6B7280" font-size="9">4</text>
-        <line x1="178" y1="123" x2="178" y2="133" stroke="#374151" stroke-width="1"/>
-        <text x="178" y="143" text-anchor="middle" fill="#6B7280" font-size="9">5</text>
-        <!-- Plotted points: (1,10),(2,20),(3,35),(4,30),(5,45) -->
-        <!-- y = 128 - (value/50)*123 -->
-        <!-- (1,10): x=58, y=128-24.6=103 -->
-        <!-- (2,20): x=88, y=128-49.2=79 -->
-        <!-- (3,35): x=118, y=128-86.1=42 -->
-        <!-- (4,30): x=148, y=128-73.8=54 -->
-        <!-- (5,45): x=178, y=128-110.7=17 -->
-        <polyline points="58,103 88,79 118,42 148,54 178,17" fill="none" stroke="#F97316" stroke-width="2" stroke-dasharray="5,3"/>
-        <circle cx="58" cy="103" r="5" fill="#C2410C"/>
-        <text x="58" y="96" text-anchor="middle" fill="#C2410C" font-size="8" font-weight="700">(1,10)</text>
-        <circle cx="88" cy="79" r="5" fill="#C2410C"/>
-        <circle cx="118" cy="42" r="5" fill="#C2410C"/>
-        <!-- Highlight (4,30) being plotted -->
-        <circle cx="148" cy="54" r="7" fill="#F97316" stroke="#C2410C" stroke-width="2"/>
-        <text x="148" y="46" text-anchor="middle" fill="#C2410C" font-size="9" font-weight="800">(4,30)</text>
-        <!-- Dashed guide lines for (4,30) -->
-        <line x1="28" y1="54" x2="148" y2="54" stroke="#F97316" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="148" y1="128" x2="148" y2="54" stroke="#F97316" stroke-width="1" stroke-dasharray="3,2"/>
-        <circle cx="178" cy="17" r="5" fill="#C2410C"/>
+    <div class="illustration" style="background:#1a1a2e;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 6</div>
+      <!-- REPLACED: new rich SVG illustration below -->
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="da6-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1117"/>
+            <stop offset="100%" stop-color="#1e2d4a"/>
+          </linearGradient>
+          <linearGradient id="da6-chartbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <!-- Ollie body -->
+          <radialGradient id="da6-ollie-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="da6-ollie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <radialGradient id="da6-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="da6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <!-- Line area -->
+          <linearGradient id="da6-areafill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f97316" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#da6-sky)"/>
+
+        <!-- City -->
+        <rect x="0" y="162" width="48" height="118" fill="#060d1a"/>
+        <rect x="252" y="152" width="48" height="128" fill="#060d1a"/>
+        <rect x="8" y="170" width="5" height="5" fill="#fde68a" opacity="0.5"/>
+        <rect x="20" y="170" width="5" height="5" fill="#fde68a" opacity="0.35"/>
+        <rect x="260" y="160" width="5" height="5" fill="#fde68a" opacity="0.6"/>
+        <rect x="272" y="160" width="5" height="5" fill="#fde68a" opacity="0.4"/>
+
+        <!-- Stars -->
+        <circle cx="82" cy="16" r="1.1" fill="white" opacity="0.7"/>
+        <circle cx="145" cy="8" r="1" fill="white" opacity="0.5"/>
+        <circle cx="192" cy="22" r="1.3" fill="white" opacity="0.8"/>
+
+        <!-- Street -->
+        <rect x="0" y="235" width="300" height="45" fill="#0f172a"/>
+
+        <!-- Lamppost -->
+        <rect x="56" y="158" width="4" height="77" fill="#374151"/>
+        <rect x="50" y="153" width="16" height="8" rx="3" fill="#4b5563"/>
+        <ellipse cx="58" cy="152" rx="18" ry="10" fill="url(#da6-glow)"/>
+        <ellipse cx="58" cy="157" rx="7" ry="4" fill="#fde68a" opacity="0.9"/>
+
+        <!-- GRAPH CHART BOARD -->
+        <g filter="url(#da6-sh)">
+          <rect x="62" y="42" width="210" height="178" rx="8" fill="url(#da6-chartbg)" stroke="#334155" stroke-width="1.5"/>
+
+          <!-- Title -->
+          <text x="167" y="60" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700">PLOTTING POINTS</text>
+
+          <!-- Axes -->
+          <line x1="98" y1="68" x2="98" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="98" y1="188" x2="262" y2="188" stroke="#94a3b8" stroke-width="1.5"/>
+
+          <!-- Y labels: 0,10,20,30,40,50; y = 188 - (val/50)*120 -->
+          <text x="94" y="191" text-anchor="end" fill="#64748b" font-size="7">0</text>
+          <text x="94" y="167" text-anchor="end" fill="#64748b" font-size="7">10</text>
+          <text x="94" y="143" text-anchor="end" fill="#64748b" font-size="7">20</text>
+          <text x="94" y="119" text-anchor="end" fill="#64748b" font-size="7">30</text>
+          <text x="94" y="95" text-anchor="end" fill="#64748b" font-size="7">40</text>
+          <text x="94" y="71" text-anchor="end" fill="#64748b" font-size="7">50</text>
+
+          <!-- Grid -->
+          <line x1="98" y1="164" x2="262" y2="164" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="140" x2="262" y2="140" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="116" x2="262" y2="116" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="92" x2="262" y2="92" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="98" y1="68" x2="262" y2="68" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <!-- Vertical grid lines at x positions -->
+          <line x1="130" y1="68" x2="130" y2="188" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,3"/>
+          <line x1="163" y1="68" x2="163" y2="188" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,3"/>
+          <line x1="196" y1="68" x2="196" y2="188" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,3"/>
+          <line x1="229" y1="68" x2="229" y2="188" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,3"/>
+          <line x1="262" y1="68" x2="262" y2="188" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,3"/>
+
+          <!-- Points: (1,10),(2,20),(3,35),(4,30),(5,45) -->
+          <!-- x: 1→130, 2→163, 3→196, 4→229 (spacing=32.5), y=188-(val/50)*120 -->
+          <!-- (1,10): x=130, y=188-24=164 -->
+          <!-- (2,20): x=163, y=188-48=140 -->
+          <!-- (3,35): x=196, y=188-84=104 -->
+          <!-- (4,30): x=229, y=188-72=116 -->
+          <!-- (5,45): x=262, y=188-108=80 -->
+
+          <!-- Area fill -->
+          <polygon points="130,164 163,140 196,104 229,116 262,80 262,188 130,188" fill="url(#da6-areafill)"/>
+
+          <!-- Connecting dashed line -->
+          <polyline points="130,164 163,140 196,104 229,116 262,80" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round"/>
+
+          <!-- Points 1, 2, 3, 5 -->
+          <circle cx="130" cy="164" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <text x="130" y="158" text-anchor="middle" fill="#64748b" font-size="6.5">(1,10)</text>
+          <circle cx="163" cy="140" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="196" cy="104" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="262" cy="80" r="4.5" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+
+          <!-- HIGHLIGHTED POINT (4, 30) being plotted -->
+          <circle cx="229" cy="116" r="7" fill="#f97316" stroke="#fbbf24" stroke-width="2"/>
+          <text x="229" y="109" text-anchor="middle" fill="#fbbf24" font-size="8" font-weight="800">(4,30)</text>
+
+          <!-- Guide lines for (4,30) -->
+          <line x1="98" y1="116" x2="229" y2="116" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.8"/>
+          <line x1="229" y1="116" x2="229" y2="188" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.8"/>
+
+          <!-- X labels -->
+          <text x="130" y="200" text-anchor="middle" fill="#64748b" font-size="7">1</text>
+          <text x="163" y="200" text-anchor="middle" fill="#64748b" font-size="7">2</text>
+          <text x="196" y="200" text-anchor="middle" fill="#64748b" font-size="7">3</text>
+          <text x="229" y="200" text-anchor="middle" fill="#fbbf24" font-size="7" font-weight="700">4</text>
+          <text x="262" y="200" text-anchor="middle" fill="#64748b" font-size="7">5</text>
+
+          <text x="167" y="213" text-anchor="middle" fill="#64748b" font-size="8">Find x=4, y=30 → plot dot!</text>
+        </g>
+
+        <!-- Ollie at bottom left with pencil -->
+        <g filter="url(#da6-sh)">
+          <ellipse cx="38" cy="252" rx="14" ry="20" fill="url(#da6-ollie-body)"/>
+          <polygon points="32,234 38,241 44,234" fill="#047857"/>
+          <ellipse cx="38" cy="234" rx="11" ry="12" fill="url(#da6-ollie-skin)"/>
+          <ellipse cx="38" cy="223" rx="10" ry="6" fill="#92400e"/>
+          <circle cx="35" cy="234" r="2.5" fill="white"/>
+          <circle cx="36" cy="234" r="1.5" fill="#1f2937"/>
+          <circle cx="36.5" cy="233.4" r="0.6" fill="white"/>
+          <circle cx="42" cy="234" r="2.5" fill="white"/>
+          <circle cx="43" cy="234" r="1.5" fill="#1f2937"/>
+          <circle cx="43.5" cy="233.4" r="0.6" fill="white"/>
+          <!-- Arm reaching toward chart with pencil -->
+          <rect x="48" y="243" width="18" height="5" rx="2" fill="url(#da6-ollie-body)" transform="rotate(-30,57,245)"/>
+          <!-- Pencil tip -->
+          <line x1="60" y1="235" x2="68" y2="222" stroke="#fde68a" stroke-width="2" stroke-linecap="round"/>
+          <polygon points="68,222 65,218 72,218" fill="#fde68a"/>
+        </g>
       </svg>
-      <div class="illus-caption">Plotting point (4, 30) on the graph</div>
+      <div class="illus-caption">Ollie plots point (4, 30) — find x=4 then up to y=30</div>
     </div>
+
 
     <div class="story-panel">
       <div class="page-num-text">Page 6 · Plotting Points on a Line Graph</div>
@@ -680,59 +1281,165 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 7 – TREND ANALYSIS -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);">
-      <div class="page-num-illus">Page 7</div>
-      <div style="font-size:2rem;margin-bottom:8px;">👩‍💼 🔍</div>
-      <!-- Trend line graph: downward trend -->
-      <svg width="210" height="155" viewBox="0 0 210 155" style="margin:0 auto;">
-        <!-- Axes -->
-        <line x1="28" y1="5" x2="28" y2="120" stroke="#374151" stroke-width="2"/>
-        <line x1="28" y1="120" x2="205" y2="120" stroke="#374151" stroke-width="2"/>
-        <!-- Y: 0 to 60, each 10 = 18.3px -->
-        <text x="24" y="123" text-anchor="end" fill="#6B7280" font-size="8">0</text>
-        <text x="24" y="105" text-anchor="end" fill="#6B7280" font-size="8">10</text>
-        <text x="24" y="87" text-anchor="end" fill="#6B7280" font-size="8">20</text>
-        <text x="24" y="69" text-anchor="end" fill="#6B7280" font-size="8">30</text>
-        <text x="24" y="51" text-anchor="end" fill="#6B7280" font-size="8">40</text>
-        <text x="24" y="33" text-anchor="end" fill="#6B7280" font-size="8">50</text>
-        <line x1="28" y1="105" x2="205" y2="105" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="87" x2="205" y2="87" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="69" x2="205" y2="69" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="28" y1="51" x2="205" y2="51" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,2"/>
-        <!-- Downward crime data: 50,45,38,30,22,15,10,8 over 8 months -->
-        <!-- y = 120 - (value/60)*115 -->
-        <!-- 50: x=42, y=120-95.8=24 -->
-        <!-- 45: x=65, y=120-86.25=34 -->
-        <!-- 38: x=88, y=120-72.8=47 -->
-        <!-- 30: x=111, y=120-57.5=62.5~63 -->
-        <!-- 22: x=134, y=120-42.2=78 -->
-        <!-- 15: x=157, y=120-28.75=91 -->
-        <!-- 10: x=180, y=120-19.2=101 -->
-        <!-- 8: x=203, y=120-15.3=105 -->
-        <polyline points="42,24 65,34 88,47 111,63 134,78 157,91 180,101 203,105" fill="none" stroke="#F97316" stroke-width="2.5" stroke-linejoin="round"/>
-        <circle cx="42" cy="24" r="3.5" fill="#C2410C"/>
-        <circle cx="65" cy="34" r="3.5" fill="#C2410C"/>
-        <circle cx="88" cy="47" r="3.5" fill="#C2410C"/>
-        <circle cx="111" cy="63" r="3.5" fill="#C2410C"/>
-        <circle cx="134" cy="78" r="3.5" fill="#C2410C"/>
-        <circle cx="157" cy="91" r="3.5" fill="#C2410C"/>
-        <circle cx="180" cy="101" r="3.5" fill="#C2410C"/>
-        <circle cx="203" cy="105" r="3.5" fill="#C2410C"/>
-        <!-- Trend line (dashed) -->
-        <line x1="42" y1="24" x2="203" y2="112" stroke="#059669" stroke-width="1.5" stroke-dasharray="6,3"/>
-        <text x="155" y="18" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">Downward trend</text>
-        <!-- X labels: months 1-8 -->
-        <text x="42" y="133" text-anchor="middle" fill="#6B7280" font-size="8">M1</text>
-        <text x="65" y="133" text-anchor="middle" fill="#6B7280" font-size="8">M2</text>
-        <text x="88" y="133" text-anchor="middle" fill="#6B7280" font-size="8">M3</text>
-        <text x="111" y="133" text-anchor="middle" fill="#6B7280" font-size="8">M4</text>
-        <text x="134" y="133" text-anchor="middle" fill="#6B7280" font-size="8">M5</text>
-        <text x="157" y="133" text-anchor="middle" fill="#6B7280" font-size="8">M6</text>
-        <text x="180" y="133" text-anchor="middle" fill="#6B7280" font-size="8">M7</text>
-        <text x="203" y="133" text-anchor="middle" fill="#6B7280" font-size="8">M8</text>
-        <text x="116" y="148" text-anchor="middle" fill="#374151" font-size="9">Crime reports falling over time</text>
+    <div class="illustration" style="background:#1a1a2e;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 7</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="da7-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1117"/>
+            <stop offset="100%" stop-color="#1e2d4a"/>
+          </linearGradient>
+          <linearGradient id="da7-chartbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <!-- Downward area fill in orange-red -->
+          <linearGradient id="da7-areafill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ef4444" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+          </linearGradient>
+          <!-- Priya body -->
+          <radialGradient id="da7-priya-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="da7-priya-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <radialGradient id="da7-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="da7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <!-- Trend line marker arrow -->
+          <marker id="da7-arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#10b981"/>
+          </marker>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#da7-sky)"/>
+
+        <!-- City silhouettes -->
+        <rect x="0" y="158" width="45" height="122" fill="#060d1a"/>
+        <rect x="255" y="148" width="45" height="132" fill="#060d1a"/>
+        <rect x="8" y="167" width="5" height="5" fill="#fde68a" opacity="0.5"/>
+        <rect x="20" y="167" width="5" height="5" fill="#fde68a" opacity="0.3"/>
+        <rect x="263" y="157" width="5" height="5" fill="#fde68a" opacity="0.6"/>
+        <rect x="275" y="157" width="5" height="5" fill="#fde68a" opacity="0.4"/>
+
+        <!-- Stars -->
+        <circle cx="80" cy="15" r="1.1" fill="white" opacity="0.7"/>
+        <circle cx="145" cy="8" r="1" fill="white" opacity="0.5"/>
+        <circle cx="190" cy="20" r="1.3" fill="white" opacity="0.8"/>
+
+        <!-- Street -->
+        <rect x="0" y="235" width="300" height="45" fill="#0f172a"/>
+
+        <!-- Lamppost -->
+        <rect x="51" y="155" width="4" height="80" fill="#374151"/>
+        <rect x="45" y="150" width="16" height="8" rx="3" fill="#4b5563"/>
+        <ellipse cx="53" cy="149" rx="18" ry="10" fill="url(#da7-glow)"/>
+        <ellipse cx="53" cy="154" rx="7" ry="4" fill="#fde68a" opacity="0.9"/>
+
+        <!-- CHART BOARD -->
+        <g filter="url(#da7-sh)">
+          <rect x="62" y="40" width="218" height="182" rx="8" fill="url(#da7-chartbg)" stroke="#334155" stroke-width="1.5"/>
+
+          <!-- Title -->
+          <text x="171" y="57" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="700">CRIME REPORTS — 8 MONTHS</text>
+
+          <!-- Axes -->
+          <line x1="100" y1="65" x2="100" y2="190" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="100" y1="190" x2="270" y2="190" stroke="#94a3b8" stroke-width="1.5"/>
+
+          <!-- Y labels: 0,10,20,30,40,50; y = 190 - (val/60)*125 -->
+          <text x="96" y="193" text-anchor="end" fill="#64748b" font-size="7">0</text>
+          <text x="96" y="172" text-anchor="end" fill="#64748b" font-size="7">10</text>
+          <text x="96" y="151" text-anchor="end" fill="#64748b" font-size="7">20</text>
+          <text x="96" y="130" text-anchor="end" fill="#64748b" font-size="7">30</text>
+          <text x="96" y="109" text-anchor="end" fill="#64748b" font-size="7">40</text>
+          <text x="96" y="88" text-anchor="end" fill="#64748b" font-size="7">50</text>
+
+          <!-- Grid lines -->
+          <line x1="100" y1="169" x2="270" y2="169" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="100" y1="148" x2="270" y2="148" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="100" y1="127" x2="270" y2="127" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="100" y1="106" x2="270" y2="106" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <!-- Data: 50,45,38,30,22,15,10,8 -->
+          <!-- x spacing: 120,141,162,183,204,225,246,267 -->
+          <!-- y = 190 - (val/60)*125 -->
+          <!-- 50: y=190-104=86 -->
+          <!-- 45: y=190-93.75=96 -->
+          <!-- 38: y=190-79.2=111 -->
+          <!-- 30: y=190-62.5=128 -->
+          <!-- 22: y=190-45.8=144 -->
+          <!-- 15: y=190-31.25=159 -->
+          <!-- 10: y=190-20.8=169 -->
+          <!-- 8: y=190-16.7=173 -->
+
+          <!-- Area fill -->
+          <polygon points="120,86 141,96 162,111 183,128 204,144 225,159 246,169 267,173 267,190 120,190" fill="url(#da7-areafill)"/>
+
+          <!-- Line -->
+          <polyline points="120,86 141,96 162,111 183,128 204,144 225,159 246,169 267,173" fill="none" stroke="#f97316" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+          <!-- Data point circles -->
+          <circle cx="120" cy="86" r="4" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="141" cy="96" r="4" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="162" cy="111" r="4" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="183" cy="128" r="4" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="204" cy="144" r="4" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="225" cy="159" r="4" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="246" cy="169" r="4" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+          <circle cx="267" cy="173" r="4" fill="#1e293b" stroke="#f97316" stroke-width="2"/>
+
+          <!-- GREEN TREND LINE (dashed) with arrow -->
+          <line x1="120" y1="86" x2="267" y2="178" stroke="#10b981" stroke-width="2" stroke-dasharray="7,4" marker-end="url(#da7-arr)"/>
+
+          <!-- Trend label banner -->
+          <rect x="150" y="68" width="105" height="18" rx="4" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-width="1"/>
+          <text x="202" y="80" text-anchor="middle" fill="#10b981" font-size="8.5" font-weight="700">Downward Trend!</text>
+
+          <!-- X labels -->
+          <text x="120" y="202" text-anchor="middle" fill="#64748b" font-size="7">M1</text>
+          <text x="141" y="202" text-anchor="middle" fill="#64748b" font-size="7">M2</text>
+          <text x="162" y="202" text-anchor="middle" fill="#64748b" font-size="7">M3</text>
+          <text x="183" y="202" text-anchor="middle" fill="#64748b" font-size="7">M4</text>
+          <text x="204" y="202" text-anchor="middle" fill="#64748b" font-size="7">M5</text>
+          <text x="225" y="202" text-anchor="middle" fill="#64748b" font-size="7">M6</text>
+          <text x="246" y="202" text-anchor="middle" fill="#64748b" font-size="7">M7</text>
+          <text x="267" y="202" text-anchor="middle" fill="#64748b" font-size="7">M8</text>
+
+          <text x="185" y="216" text-anchor="middle" fill="#64748b" font-size="8">Crime reports falling over time</text>
+        </g>
+
+        <!-- Director Priya (lower right, pointing) -->
+        <g filter="url(#da7-sh)">
+          <ellipse cx="258" cy="250" rx="14" ry="20" fill="url(#da7-priya-body)"/>
+          <rect x="252" y="232" width="12" height="6" rx="4" fill="#c4b5fd"/>
+          <ellipse cx="258" cy="232" rx="10" ry="11" fill="url(#da7-priya-skin)"/>
+          <ellipse cx="258" cy="222" rx="9" ry="6" fill="#1f2937"/>
+          <circle cx="255" cy="231" r="2.5" fill="white"/>
+          <circle cx="255" cy="231" r="1.5" fill="#1f2937"/>
+          <circle cx="255.5" cy="230.4" r="0.6" fill="white"/>
+          <circle cx="261" cy="231" r="2.5" fill="white"/>
+          <circle cx="261" cy="231" r="1.5" fill="#1f2937"/>
+          <circle cx="261.5" cy="230.4" r="0.6" fill="white"/>
+          <!-- Glasses -->
+          <rect x="252" y="228" width="6" height="4" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <rect x="259" y="228" width="6" height="4" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <!-- Arm pointing to downward trend -->
+          <line x1="246" y1="242" x2="220" y2="228" stroke="#fde68a" stroke-width="2" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div class="illus-caption">Downward trend in crime data</div>
+      <div class="illus-caption">Crime reports follow a clear downward trend over 8 months</div>
     </div>
 
     <div class="story-panel">
@@ -773,52 +1480,122 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 8 – MISLEADING GRAPHS -->
   <div class="book-page" id="page-8">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
-      <div class="page-num-illus">Page 8</div>
-      <div style="font-size:2rem;margin-bottom:6px;">👩‍💼 ⚠️</div>
-      <!-- Two graphs side by side: same data, different y-axis scales -->
-      <svg width="210" height="165" viewBox="0 0 210 165" style="margin:0 auto;">
-        <!-- Graph 1: starts at 0 (normal) -->
-        <text x="52" y="12" text-anchor="middle" fill="#059669" font-size="9" font-weight="700">Starts at 0</text>
-        <line x1="15" y1="15" x2="15" y2="90" stroke="#374151" stroke-width="1.5"/>
-        <line x1="15" y1="90" x2="100" y2="90" stroke="#374151" stroke-width="1.5"/>
-        <!-- Y: 0 to 100, marks at 0,50,100 -->
-        <text x="12" y="93" text-anchor="end" fill="#6B7280" font-size="7">0</text>
-        <text x="12" y="55" text-anchor="end" fill="#6B7280" font-size="7">50</text>
-        <text x="12" y="19" text-anchor="end" fill="#6B7280" font-size="7">100</text>
-        <!-- Data: 91 and 93 (2 months). Heights from 0: 91 and 93 (scale: 75px = 100 units, so 1 unit = 0.75px) -->
-        <!-- 91/100*75 = 68.25 from 90 = y=90-68.25=21.75~22 -->
-        <!-- 93/100*75 = 69.75 from 90 = y=90-69.75=20.25~20 -->
-        <rect x="25" y="22" width="25" height="68" rx="2" fill="#86EFAC"/>
-        <rect x="60" y="20" width="25" height="70" rx="2" fill="#4ADE80"/>
-        <text x="37" y="18" text-anchor="middle" fill="#065F46" font-size="7" font-weight="700">91</text>
-        <text x="72" y="16" text-anchor="middle" fill="#065F46" font-size="7" font-weight="700">93</text>
-        <text x="37" y="100" text-anchor="middle" fill="#6B7280" font-size="7">M1</text>
-        <text x="72" y="100" text-anchor="middle" fill="#6B7280" font-size="7">M2</text>
-        <text x="55" y="112" text-anchor="middle" fill="#059669" font-size="8">Small difference</text>
-
-        <!-- Graph 2: starts at 90 (misleading) -->
-        <text x="160" y="12" text-anchor="middle" fill="#DC2626" font-size="9" font-weight="700">Starts at 90</text>
-        <line x1="115" y1="15" x2="115" y2="90" stroke="#374151" stroke-width="1.5"/>
-        <line x1="115" y1="90" x2="205" y2="90" stroke="#374151" stroke-width="1.5"/>
-        <!-- Y: 90 to 94, marks at 90,92,94 -->
-        <text x="112" y="93" text-anchor="end" fill="#DC2626" font-size="7">90</text>
-        <text x="112" y="55" text-anchor="end" fill="#DC2626" font-size="7">92</text>
-        <text x="112" y="19" text-anchor="end" fill="#DC2626" font-size="7">94</text>
-        <!-- scale: 75px = 4 units, 1 unit = 18.75px -->
-        <!-- 91 = 1 above 90 = 18.75 from bottom: y=90-18.75=71.25~71 -->
-        <!-- 93 = 3 above 90 = 56.25 from bottom: y=90-56.25=33.75~34 -->
-        <rect x="125" y="71" width="25" height="19" rx="2" fill="#FCA5A5"/>
-        <rect x="160" y="34" width="25" height="56" rx="2" fill="#EF4444"/>
-        <text x="137" y="67" text-anchor="middle" fill="#7F1D1D" font-size="7" font-weight="700">91</text>
-        <text x="172" y="30" text-anchor="middle" fill="#7F1D1D" font-size="7" font-weight="700">93</text>
-        <text x="137" y="100" text-anchor="middle" fill="#6B7280" font-size="7">M1</text>
-        <text x="172" y="100" text-anchor="middle" fill="#6B7280" font-size="7">M2</text>
-        <text x="160" y="112" text-anchor="middle" fill="#DC2626" font-size="8">LOOKS huge!</text>
-        <text x="110" y="130" text-anchor="middle" fill="#374151" font-size="9" font-weight="700">Same data — different scales!</text>
-        <text x="110" y="143" text-anchor="middle" fill="#6B7280" font-size="8">Always check what the y-axis starts at.</text>
+    <div class="illustration" style="background:#1a1a2e;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 8</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="da8-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1117"/>
+            <stop offset="100%" stop-color="#1e2d4a"/>
+          </linearGradient>
+          <linearGradient id="da8-chartbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <linearGradient id="da8-barG1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ade80"/>
+            <stop offset="100%" stop-color="#16a34a"/>
+          </linearGradient>
+          <linearGradient id="da8-barG2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86efac"/>
+            <stop offset="100%" stop-color="#22c55e"/>
+          </linearGradient>
+          <linearGradient id="da8-barR1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fca5a5"/>
+            <stop offset="100%" stop-color="#ef4444"/>
+          </linearGradient>
+          <linearGradient id="da8-barR2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f87171"/>
+            <stop offset="100%" stop-color="#b91c1c"/>
+          </linearGradient>
+          <radialGradient id="da8-priya-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="da8-priya-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <radialGradient id="da8-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="da8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#da8-sky)"/>
+        <rect x="0" y="160" width="42" height="120" fill="#060d1a"/>
+        <rect x="258" y="150" width="42" height="130" fill="#060d1a"/>
+        <rect x="8" y="168" width="5" height="5" fill="#fde68a" opacity="0.5"/>
+        <rect x="264" y="158" width="5" height="5" fill="#fde68a" opacity="0.6"/>
+        <circle cx="82" cy="16" r="1.1" fill="white" opacity="0.7"/>
+        <circle cx="148" cy="8" r="1" fill="white" opacity="0.5"/>
+        <circle cx="188" cy="22" r="1.3" fill="white" opacity="0.8"/>
+        <rect x="0" y="235" width="300" height="45" fill="#0f172a"/>
+        <rect x="48" y="157" width="4" height="78" fill="#374151"/>
+        <rect x="42" y="152" width="16" height="8" rx="3" fill="#4b5563"/>
+        <ellipse cx="50" cy="151" rx="18" ry="10" fill="url(#da8-glow)"/>
+        <ellipse cx="50" cy="156" rx="7" ry="4" fill="#fde68a" opacity="0.9"/>
+        <g filter="url(#da8-sh)">
+          <rect x="58" y="38" width="222" height="186" rx="8" fill="url(#da8-chartbg)" stroke="#334155" stroke-width="1.5"/>
+          <rect x="58" y="38" width="222" height="22" rx="8" fill="#7f1d1d" opacity="0.8"/>
+          <rect x="58" y="49" width="222" height="11" fill="#7f1d1d" opacity="0.8"/>
+          <text x="169" y="53" text-anchor="middle" fill="#fca5a5" font-size="9" font-weight="700">MISLEADING GRAPH ALERT!</text>
+          <line x1="169" y1="68" x2="169" y2="210" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <rect x="65" y="62" width="95" height="14" rx="4" fill="#14532d" opacity="0.7"/>
+          <text x="112" y="73" text-anchor="middle" fill="#4ade80" font-size="8" font-weight="700">Starts at 0 (Honest)</text>
+          <line x1="80" y1="82" x2="80" y2="193" stroke="#94a3b8" stroke-width="1.2"/>
+          <line x1="80" y1="193" x2="160" y2="193" stroke="#94a3b8" stroke-width="1.2"/>
+          <text x="76" y="196" text-anchor="end" fill="#64748b" font-size="6.5">0</text>
+          <text x="76" y="142" text-anchor="end" fill="#64748b" font-size="6.5">50</text>
+          <text x="76" y="88" text-anchor="end" fill="#64748b" font-size="6.5">100</text>
+          <line x1="80" y1="139" x2="160" y2="139" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2"/>
+          <rect x="90" y="92" width="26" height="101" rx="3" fill="url(#da8-barG1)"/>
+          <text x="103" y="88" text-anchor="middle" fill="#4ade80" font-size="7" font-weight="700">91</text>
+          <rect x="125" y="90" width="26" height="103" rx="3" fill="url(#da8-barG2)"/>
+          <text x="138" y="86" text-anchor="middle" fill="#4ade80" font-size="7" font-weight="700">93</text>
+          <text x="103" y="202" text-anchor="middle" fill="#64748b" font-size="7">M1</text>
+          <text x="138" y="202" text-anchor="middle" fill="#64748b" font-size="7">M2</text>
+          <text x="112" y="212" text-anchor="middle" fill="#4ade80" font-size="8" font-weight="700">Tiny diff</text>
+          <rect x="172" y="62" width="100" height="14" rx="4" fill="#7f1d1d" opacity="0.8"/>
+          <text x="222" y="73" text-anchor="middle" fill="#fca5a5" font-size="8" font-weight="700">Starts at 90 (TRAP!)</text>
+          <line x1="188" y1="82" x2="188" y2="193" stroke="#ef4444" stroke-width="1.2"/>
+          <line x1="188" y1="193" x2="272" y2="193" stroke="#ef4444" stroke-width="1.2"/>
+          <text x="184" y="196" text-anchor="end" fill="#fca5a5" font-size="6.5">90</text>
+          <text x="184" y="141" text-anchor="end" fill="#fca5a5" font-size="6.5">92</text>
+          <text x="184" y="88" text-anchor="end" fill="#fca5a5" font-size="6.5">94</text>
+          <line x1="188" y1="138" x2="272" y2="138" stroke="#7f1d1d" stroke-width="1" stroke-dasharray="2,2"/>
+          <rect x="198" y="165" width="26" height="28" rx="3" fill="url(#da8-barR1)"/>
+          <text x="211" y="161" text-anchor="middle" fill="#fca5a5" font-size="7" font-weight="700">91</text>
+          <rect x="234" y="110" width="26" height="83" rx="3" fill="url(#da8-barR2)"/>
+          <text x="247" y="106" text-anchor="middle" fill="#fca5a5" font-size="7" font-weight="700">93</text>
+          <text x="211" y="202" text-anchor="middle" fill="#64748b" font-size="7">M1</text>
+          <text x="247" y="202" text-anchor="middle" fill="#64748b" font-size="7">M2</text>
+          <text x="222" y="212" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">LOOKS huge!</text>
+          <polygon points="169,182 162,195 176,195" fill="#fbbf24" opacity="0.8"/>
+          <text x="169" y="193" text-anchor="middle" fill="#1e293b" font-size="7" font-weight="900">!</text>
+        </g>
+        <rect x="75" y="227" width="150" height="14" rx="4" fill="#7f1d1d" opacity="0.4"/>
+        <text x="150" y="238" text-anchor="middle" fill="#fca5a5" font-size="8" font-weight="700">Same data — different axes!</text>
+        <g filter="url(#da8-sh)">
+          <ellipse cx="30" cy="256" rx="12" ry="17" fill="url(#da8-priya-body)"/>
+          <ellipse cx="30" cy="239" rx="9" ry="10" fill="url(#da8-priya-skin)"/>
+          <ellipse cx="30" cy="230" rx="8" ry="5" fill="#1f2937"/>
+          <circle cx="27" cy="239" r="2.2" fill="white"/>
+          <circle cx="27" cy="239" r="1.3" fill="#1f2937"/>
+          <circle cx="27.4" cy="238.5" r="0.5" fill="white"/>
+          <circle cx="33" cy="239" r="2.2" fill="white"/>
+          <circle cx="33" cy="239" r="1.3" fill="#1f2937"/>
+          <circle cx="33.4" cy="238.5" r="0.5" fill="white"/>
+          <rect x="24" y="236" width="5" height="3.5" rx="1.5" fill="none" stroke="#fde68a" stroke-width="0.8"/>
+          <rect x="30" y="236" width="5" height="3.5" rx="1.5" fill="none" stroke="#fde68a" stroke-width="0.8"/>
+          <line x1="40" y1="248" x2="75" y2="218" stroke="#fde68a" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
       </svg>
-      <div class="illus-caption">Misleading graphs: same data, different axes</div>
+      <div class="illus-caption">Same data — two very different looking graphs! Always check the y-axis</div>
     </div>
 
     <div class="story-panel">
@@ -859,34 +1636,192 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 9 – THE CASE IS SOLVED! -->
   <div class="book-page" id="page-9">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);">
-      <div class="page-num-illus">Page 9</div>
-      <div style="font-size:2.5rem;margin-bottom:8px;">👩‍💼 📊 🔍</div>
-      <!-- Presentation board with evidence graph -->
-      <div style="background:white;border-radius:12px;border:2px solid #C2410C;padding:10px;width:90%;margin:0 auto;">
-        <div style="font-family:'Quicksand',sans-serif;font-size:.82rem;font-weight:700;color:#C2410C;text-align:center;margin-bottom:6px;">EVIDENCE SUMMARY</div>
-        <svg width="170" height="90" viewBox="0 0 170 90" style="display:block;margin:0 auto;">
-          <!-- Simple summary bar chart -->
-          <line x1="15" y1="5" x2="15" y2="75" stroke="#374151" stroke-width="1.5"/>
-          <line x1="15" y1="75" x2="165" y2="75" stroke="#374151" stroke-width="1.5"/>
-          <!-- 4 bars: Tally=8, Bar=9, Line=7, Trend=8 -->
-          <!-- scale: 60px max for 10 units, 1unit=6px -->
-          <rect x="22" y="27" width="25" height="48" rx="2" fill="#FB923C"/>
-          <text x="34" y="22" text-anchor="middle" fill="#C2410C" font-size="8" font-weight="700">8</text>
-          <rect x="57" y="21" width="25" height="54" rx="2" fill="#F97316"/>
-          <text x="69" y="16" text-anchor="middle" fill="#C2410C" font-size="8" font-weight="700">9</text>
-          <rect x="92" y="33" width="25" height="42" rx="2" fill="#FB923C"/>
-          <text x="104" y="28" text-anchor="middle" fill="#C2410C" font-size="8" font-weight="700">7</text>
-          <rect x="127" y="27" width="25" height="48" rx="2" fill="#FED7AA"/>
-          <text x="139" y="22" text-anchor="middle" fill="#C2410C" font-size="8" font-weight="700">8</text>
-          <text x="34" y="85" text-anchor="middle" fill="#374151" font-size="7">Tally</text>
-          <text x="69" y="85" text-anchor="middle" fill="#374151" font-size="7">Bar</text>
-          <text x="104" y="85" text-anchor="middle" fill="#374151" font-size="7">Line</text>
-          <text x="139" y="85" text-anchor="middle" fill="#374151" font-size="7">Trend</text>
-        </svg>
-      </div>
-      <div style="font-size:1.5rem;margin-top:10px;text-align:center;">👥 🔍 📋</div>
-      <div class="illus-caption">Director Priya presents the evidence</div>
+    <div class="illustration" style="background:#1a1a2e;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 9</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="da9-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d1117"/>
+            <stop offset="100%" stop-color="#1e2d4a"/>
+          </linearGradient>
+          <linearGradient id="da9-boardbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </linearGradient>
+          <!-- Bar gradients for evidence summary -->
+          <linearGradient id="da9-bar1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </linearGradient>
+          <linearGradient id="da9-bar2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f97316"/>
+            <stop offset="100%" stop-color="#c2410c"/>
+          </linearGradient>
+          <linearGradient id="da9-bar3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+          <linearGradient id="da9-bar4" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <!-- Priya body -->
+          <radialGradient id="da9-priya-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="da9-priya-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <!-- Ollie body -->
+          <radialGradient id="da9-ollie-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="da9-ollie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <radialGradient id="da9-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0"/>
+          </radialGradient>
+          <!-- Gold spotlight -->
+          <radialGradient id="da9-spotlight" cx="50%" cy="0%" r="60%">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="da9-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Background: conference room / dark city -->
+        <rect width="300" height="280" fill="url(#da9-sky)"/>
+
+        <!-- Spotlight effect from above -->
+        <ellipse cx="150" cy="0" rx="140" ry="110" fill="url(#da9-spotlight)"/>
+
+        <!-- Room back wall with panels -->
+        <rect x="0" y="0" width="300" height="180" fill="#0d1a2e"/>
+        <!-- Wall panels -->
+        <rect x="10" y="10" width="85" height="120" rx="4" fill="#122040" stroke="#1e3a6e" stroke-width="1"/>
+        <rect x="105" y="10" width="90" height="120" rx="4" fill="#122040" stroke="#1e3a6e" stroke-width="1"/>
+        <rect x="205" y="10" width="85" height="120" rx="4" fill="#122040" stroke="#1e3a6e" stroke-width="1"/>
+
+        <!-- Floor -->
+        <rect x="0" y="235" width="300" height="45" fill="#0f172a"/>
+        <rect x="0" y="235" width="300" height="5" fill="#1e293b"/>
+
+        <!-- Audience dots (crowd silhouettes) -->
+        <ellipse cx="20" cy="248" rx="10" ry="14" fill="#1e293b"/>
+        <ellipse cx="20" cy="238" rx="8" ry="9" fill="#1e293b"/>
+        <ellipse cx="45" cy="250" rx="10" ry="14" fill="#1e293b"/>
+        <ellipse cx="45" cy="240" rx="8" ry="9" fill="#1e293b"/>
+        <ellipse cx="260" cy="248" rx="10" ry="14" fill="#1e293b"/>
+        <ellipse cx="260" cy="238" rx="8" ry="9" fill="#1e293b"/>
+        <ellipse cx="285" cy="250" rx="10" ry="14" fill="#1e293b"/>
+        <ellipse cx="285" cy="240" rx="8" ry="9" fill="#1e293b"/>
+
+        <!-- EVIDENCE BOARD (main visual) -->
+        <g filter="url(#da9-sh)">
+          <!-- Board backing -->
+          <rect x="62" y="28" width="210" height="178" rx="8" fill="url(#da9-boardbg)" stroke="#dc2626" stroke-width="2"/>
+
+          <!-- Header banner -->
+          <rect x="62" y="28" width="210" height="24" rx="8" fill="#991b1b"/>
+          <rect x="62" y="40" width="210" height="12" fill="#991b1b"/>
+          <text x="167" y="44" text-anchor="middle" fill="#fca5a5" font-size="9" font-weight="700">EVIDENCE SUMMARY — CASE CLOSED</text>
+
+          <!-- Evidence chart axes -->
+          <line x1="90" y1="60" x2="90" y2="172" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="90" y1="172" x2="265" y2="172" stroke="#94a3b8" stroke-width="1.5"/>
+
+          <!-- Y labels: 0,3,6,9 -->
+          <text x="86" y="175" text-anchor="end" fill="#64748b" font-size="7">0</text>
+          <text x="86" y="138" text-anchor="end" fill="#64748b" font-size="7">3</text>
+          <text x="86" y="101" text-anchor="end" fill="#64748b" font-size="7">6</text>
+          <text x="86" y="64" text-anchor="end" fill="#64748b" font-size="7">9</text>
+
+          <!-- Grid lines -->
+          <line x1="90" y1="135" x2="265" y2="135" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="90" y1="98" x2="265" y2="98" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="90" y1="61" x2="265" y2="61" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,2"/>
+
+          <!-- Bars: Tally=8(height=89), Bar=9(height=100), Line=7(height=78), Trend=8(height=89) -->
+          <!-- y = 172 - (val/9)*111 -->
+          <!-- Tally=8: height=98.7~99, y=172-99=73 -->
+          <rect x="100" y="73" width="32" height="99" rx="3" fill="url(#da9-bar1)" filter="url(#da9-sh)"/>
+          <text x="116" y="69" text-anchor="middle" fill="#fbbf24" font-size="8" font-weight="700">8</text>
+          <text x="116" y="185" text-anchor="middle" fill="#94a3b8" font-size="7.5">Tally</text>
+
+          <!-- Bar=9: height=111, y=172-111=61 -->
+          <rect x="142" y="61" width="32" height="111" rx="3" fill="url(#da9-bar2)" filter="url(#da9-sh)"/>
+          <text x="158" y="57" text-anchor="middle" fill="#f97316" font-size="8" font-weight="700">9</text>
+          <text x="158" y="185" text-anchor="middle" fill="#94a3b8" font-size="7.5">Bar</text>
+
+          <!-- Line=7: height=86.3~86, y=172-86=86 -->
+          <rect x="184" y="86" width="32" height="86" rx="3" fill="url(#da9-bar3)" filter="url(#da9-sh)"/>
+          <text x="200" y="82" text-anchor="middle" fill="#3b82f6" font-size="8" font-weight="700">7</text>
+          <text x="200" y="185" text-anchor="middle" fill="#94a3b8" font-size="7.5">Line</text>
+
+          <!-- Trend=8: height=99, y=172-99=73 -->
+          <rect x="226" y="73" width="32" height="99" rx="3" fill="url(#da9-bar4)" filter="url(#da9-sh)"/>
+          <text x="242" y="69" text-anchor="middle" fill="#10b981" font-size="8" font-weight="700">8</text>
+          <text x="242" y="185" text-anchor="middle" fill="#94a3b8" font-size="7.5">Trend</text>
+
+          <!-- SOLVED stamp -->
+          <rect x="178" y="100" width="62" height="28" rx="5" fill="none" stroke="#fbbf24" stroke-width="2" transform="rotate(-15,209,114)"/>
+          <text x="209" y="118" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="900" transform="rotate(-15,209,114)">SOLVED!</text>
+
+          <!-- Chart label -->
+          <text x="178" y="198" text-anchor="middle" fill="#64748b" font-size="7.5">Case evidence scores (out of 10)</text>
+        </g>
+
+        <!-- DIRECTOR PRIYA — presenting left -->
+        <g filter="url(#da9-sh)">
+          <ellipse cx="30" cy="226" rx="14" ry="22" fill="url(#da9-priya-body)"/>
+          <rect x="22" y="207" width="16" height="8" rx="4" fill="#c4b5fd"/>
+          <ellipse cx="30" cy="207" rx="12" ry="13" fill="url(#da9-priya-skin)"/>
+          <ellipse cx="30" cy="195" rx="11" ry="7" fill="#1f2937"/>
+          <circle cx="26" cy="206" r="2.8" fill="white"/>
+          <circle cx="26" cy="206" r="1.7" fill="#1f2937"/>
+          <circle cx="26.5" cy="205.4" r="0.6" fill="white"/>
+          <circle cx="33" cy="206" r="2.8" fill="white"/>
+          <circle cx="33" cy="206" r="1.7" fill="#1f2937"/>
+          <circle cx="33.5" cy="205.4" r="0.6" fill="white"/>
+          <rect x="23" y="202" width="6" height="4.5" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <rect x="30" y="202" width="6" height="4.5" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <line x1="29" y1="204" x2="30" y2="204" stroke="#fde68a" stroke-width="0.8"/>
+          <!-- Pointing arm -->
+          <line x1="43" y1="218" x2="70" y2="200" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+
+        <!-- OLLIE — presenting right -->
+        <g filter="url(#da9-sh)">
+          <ellipse cx="270" cy="228" rx="13" ry="20" fill="url(#da9-ollie-body)"/>
+          <polygon points="264,211 270,218 276,211" fill="#047857"/>
+          <ellipse cx="270" cy="211" rx="11" ry="12" fill="url(#da9-ollie-skin)"/>
+          <ellipse cx="270" cy="200" rx="10" ry="6" fill="#92400e"/>
+          <circle cx="267" cy="211" r="2.5" fill="white"/>
+          <circle cx="267" cy="211" r="1.5" fill="#1f2937"/>
+          <circle cx="267.5" cy="210.4" r="0.6" fill="white"/>
+          <circle cx="274" cy="211" r="2.5" fill="white"/>
+          <circle cx="274" cy="211" r="1.5" fill="#1f2937"/>
+          <circle cx="274.5" cy="210.4" r="0.6" fill="white"/>
+          <path d="M266 215 Q270 219 274 215" fill="none" stroke="#d4924a" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Magnifying glass -->
+          <circle cx="258" cy="224" r="9" fill="none" stroke="#fbbf24" stroke-width="2.5"/>
+          <circle cx="258" cy="224" r="7" fill="rgba(253,230,138,0.1)"/>
+          <line x1="264" y1="230" x2="270" y2="238" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <div class="illus-caption">Director Priya and Ollie present the evidence — case solved!</div>
     </div>
 
     <div class="story-panel">
@@ -926,34 +1861,208 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 10 – GRADUATION DAY! -->
   <div class="book-page" id="page-10">
-    <div class="illustration" style="background:linear-gradient(135deg,#C2410C,#9A3412);">
-      <div class="page-num-illus">Page 10</div>
-      <div style="font-size:2.5rem;margin-bottom:8px;">👩‍💼 🧑 🎓 📊 ✨</div>
-      <!-- Graduation scene with graphs on screens -->
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:8px 0;">
-        <div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:8px 12px;text-align:center;color:white;">
-          <div style="font-size:.75rem;font-weight:700;opacity:.9;">Tally Charts</div>
-          <div style="font-size:1rem;margin-top:2px;">📋 ✓</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:8px 12px;text-align:center;color:white;">
-          <div style="font-size:.75rem;font-weight:700;opacity:.9;">Bar Charts</div>
-          <div style="font-size:1rem;margin-top:2px;">📊 ✓</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:8px 12px;text-align:center;color:white;">
-          <div style="font-size:.75rem;font-weight:700;opacity:.9;">Line Graphs</div>
-          <div style="font-size:1rem;margin-top:2px;">📈 ✓</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.15);border-radius:10px;padding:8px 12px;text-align:center;color:white;">
-          <div style="font-size:.75rem;font-weight:700;opacity:.9;">Trends</div>
-          <div style="font-size:1rem;margin-top:2px;">📉 ✓</div>
-        </div>
-      </div>
-      <div style="font-size:2.5rem;margin:6px 0;">🏆</div>
-      <div style="background:rgba(255,255,255,0.2);border-radius:12px;padding:10px 16px;text-align:center;color:white;">
-        <div style="font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;">Graduation Day!</div>
-        <div style="font-size:.78rem;opacity:.85;margin-top:4px;">Ollie is now a qualified Data Detective</div>
-      </div>
-      <div class="illus-caption">Case closed — the cadets graduate!</div>
+    <div class="illustration" style="background:#1a0a00;">
+      <div class="page-num-illus" style="color:#fbbf24;">Page 10</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="da10-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a0a00"/>
+            <stop offset="100%" stop-color="#3d1a02"/>
+          </linearGradient>
+          <!-- Warm gold stage light -->
+          <radialGradient id="da10-spotlight" cx="50%" cy="20%" r="55%">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+          </radialGradient>
+          <!-- Trophy gradient -->
+          <linearGradient id="da10-trophy" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="50%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </linearGradient>
+          <!-- Certificate gradient -->
+          <linearGradient id="da10-cert" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fffbeb"/>
+            <stop offset="100%" stop-color="#fef3c7"/>
+          </linearGradient>
+          <!-- Priya body -->
+          <radialGradient id="da10-priya-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#a78bfa"/>
+            <stop offset="55%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </radialGradient>
+          <radialGradient id="da10-priya-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fcd9b5"/>
+            <stop offset="60%" stop-color="#f5a868"/>
+            <stop offset="100%" stop-color="#c97a3a"/>
+          </radialGradient>
+          <!-- Ollie body -->
+          <radialGradient id="da10-ollie-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="da10-ollie-skin" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#fde8c8"/>
+            <stop offset="60%" stop-color="#f8c78a"/>
+            <stop offset="100%" stop-color="#d4924a"/>
+          </radialGradient>
+          <filter id="da10-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="da10-glow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Background: graduation hall warm night -->
+        <rect width="300" height="280" fill="url(#da10-sky)"/>
+
+        <!-- Stage spotlight from top center -->
+        <ellipse cx="150" cy="0" rx="160" ry="130" fill="url(#da10-spotlight)"/>
+
+        <!-- Back wall panels (celebration hall) -->
+        <rect x="0" y="0" width="300" height="165" fill="#2d1200"/>
+        <!-- Gold trim top -->
+        <rect x="0" y="0" width="300" height="6" fill="#d97706"/>
+        <!-- Hanging banners -->
+        <polygon points="40,0 55,0 55,55 47.5,45" fill="#dc2626" opacity="0.8"/>
+        <polygon points="60,0 75,0 75,55 67.5,45" fill="#fbbf24" opacity="0.8"/>
+        <polygon points="225,0 240,0 240,55 232.5,45" fill="#fbbf24" opacity="0.8"/>
+        <polygon points="245,0 260,0 260,55 252.5,45" fill="#dc2626" opacity="0.8"/>
+
+        <!-- Sparkle confetti -->
+        <circle cx="95" cy="30" r="3" fill="#fbbf24" opacity="0.9"/>
+        <circle cx="120" cy="18" r="2" fill="#ef4444" opacity="0.8"/>
+        <circle cx="145" cy="35" r="2.5" fill="#4ade80" opacity="0.9"/>
+        <circle cx="175" cy="22" r="3" fill="#fbbf24" opacity="0.8"/>
+        <circle cx="200" cy="38" r="2" fill="#a78bfa" opacity="0.9"/>
+        <circle cx="85" cy="55" r="2" fill="#ef4444" opacity="0.7"/>
+        <circle cx="215" cy="58" r="2.5" fill="#4ade80" opacity="0.8"/>
+        <!-- Small star shapes -->
+        <text x="105" y="52" fill="#fbbf24" font-size="10" opacity="0.9">*</text>
+        <text x="185" y="48" fill="#fbbf24" font-size="10" opacity="0.8">*</text>
+        <text x="150" y="58" fill="#fde68a" font-size="12" opacity="0.9">*</text>
+
+        <!-- Stage floor -->
+        <rect x="0" y="165" width="300" height="115" fill="#1a0a00"/>
+        <rect x="0" y="165" width="300" height="8" fill="#92400e"/>
+
+        <!-- TROPHY (center) -->
+        <g filter="url(#da10-sh)">
+          <!-- Trophy base -->
+          <rect x="136" y="215" width="28" height="8" rx="2" fill="url(#da10-trophy)"/>
+          <!-- Trophy stem -->
+          <rect x="146" y="200" width="8" height="17" rx="2" fill="url(#da10-trophy)"/>
+          <!-- Trophy cup -->
+          <path d="M130,165 Q130,200 150,200 Q170,200 170,165 Z" fill="url(#da10-trophy)" filter="url(#da10-glow)"/>
+          <!-- Trophy handles -->
+          <path d="M130,170 Q120,175 122,185 Q124,190 130,188" fill="none" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
+          <path d="M170,170 Q180,175 178,185 Q176,190 170,188" fill="none" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
+          <!-- Star on cup -->
+          <text x="150" y="187" text-anchor="middle" fill="#d97706" font-size="14" font-weight="900">1</text>
+        </g>
+
+        <!-- CERTIFICATE card at center top -->
+        <g filter="url(#da10-sh)">
+          <rect x="80" y="75" width="140" height="85" rx="6" fill="url(#da10-cert)" stroke="#d97706" stroke-width="2"/>
+          <!-- Gold ornamental corners -->
+          <rect x="80" y="75" width="140" height="10" rx="6" fill="#d97706"/>
+          <rect x="80" y="150" width="140" height="10" fill="#d97706"/>
+          <rect x="80" y="85" width="140" height="5" rx="0" fill="#fbbf24" opacity="0.5"/>
+          <!-- Title -->
+          <text x="150" y="103" text-anchor="middle" fill="#92400e" font-size="9" font-weight="900">DATA DETECTIVE</text>
+          <text x="150" y="116" text-anchor="middle" fill="#92400e" font-size="8" font-weight="700">ACADEMY</text>
+          <!-- Divider -->
+          <line x1="95" y1="121" x2="205" y2="121" stroke="#d97706" stroke-width="1"/>
+          <!-- Name -->
+          <text x="150" y="133" text-anchor="middle" fill="#374151" font-size="9">This certifies that</text>
+          <text x="150" y="145" text-anchor="middle" fill="#92400e" font-size="10" font-weight="800">Cadet Ollie</text>
+          <!-- GRADUATED stamp -->
+          <text x="150" y="157" text-anchor="middle" fill="#059669" font-size="8" font-weight="700">GRADUATED</text>
+        </g>
+
+        <!-- Skills badges (below certificate) -->
+        <!-- Tally badge -->
+        <rect x="65" y="173" width="40" height="30" rx="5" fill="#1e293b" stroke="#fbbf24" stroke-width="1.2"/>
+        <text x="85" y="185" text-anchor="middle" fill="#fbbf24" font-size="7" font-weight="700">TALLY</text>
+        <text x="85" y="198" text-anchor="middle" fill="#10b981" font-size="9" font-weight="900">✓</text>
+
+        <!-- Bar badge -->
+        <rect x="112" y="173" width="40" height="30" rx="5" fill="#1e293b" stroke="#f97316" stroke-width="1.2"/>
+        <text x="132" y="185" text-anchor="middle" fill="#f97316" font-size="7" font-weight="700">BAR</text>
+        <text x="132" y="198" text-anchor="middle" fill="#10b981" font-size="9" font-weight="900">✓</text>
+
+        <!-- Line badge -->
+        <rect x="159" y="173" width="40" height="30" rx="5" fill="#1e293b" stroke="#3b82f6" stroke-width="1.2"/>
+        <text x="179" y="185" text-anchor="middle" fill="#3b82f6" font-size="7" font-weight="700">LINE</text>
+        <text x="179" y="198" text-anchor="middle" fill="#10b981" font-size="9" font-weight="900">✓</text>
+
+        <!-- Trend badge -->
+        <rect x="206" y="173" width="42" height="30" rx="5" fill="#1e293b" stroke="#10b981" stroke-width="1.2"/>
+        <text x="227" y="185" text-anchor="middle" fill="#10b981" font-size="7" font-weight="700">TREND</text>
+        <text x="227" y="198" text-anchor="middle" fill="#10b981" font-size="9" font-weight="900">✓</text>
+
+        <!-- DIRECTOR PRIYA (left) presenting diploma -->
+        <g filter="url(#da10-sh)">
+          <ellipse cx="32" cy="233" rx="15" ry="22" fill="url(#da10-priya-body)"/>
+          <rect x="24" y="214" width="16" height="8" rx="5" fill="#c4b5fd"/>
+          <ellipse cx="32" cy="214" rx="13" ry="14" fill="url(#da10-priya-skin)"/>
+          <ellipse cx="32" cy="201" rx="12" ry="8" fill="#1f2937"/>
+          <!-- Graduation cap on Priya -->
+          <rect x="22" y="196" width="22" height="4" rx="1" fill="#1f2937"/>
+          <rect x="28" y="192" width="10" height="4" rx="1" fill="#1f2937"/>
+          <line x1="35" y1="196" x2="40" y2="202" stroke="#fbbf24" stroke-width="1.5"/>
+          <circle cx="40" cy="203" r="2" fill="#fbbf24"/>
+          <!-- Eyes -->
+          <circle cx="28" cy="213" r="2.8" fill="white"/>
+          <circle cx="28" cy="213" r="1.7" fill="#1f2937"/>
+          <circle cx="28.5" cy="212.4" r="0.6" fill="white"/>
+          <circle cx="36" cy="213" r="2.8" fill="white"/>
+          <circle cx="36" cy="213" r="1.7" fill="#1f2937"/>
+          <circle cx="36.5" cy="212.4" r="0.6" fill="white"/>
+          <!-- Glasses -->
+          <rect x="25" y="210" width="6" height="4.5" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <rect x="32" y="210" width="6" height="4.5" rx="2" fill="none" stroke="#fde68a" stroke-width="1"/>
+          <!-- Smile -->
+          <path d="M28 218 Q32 222 36 218" fill="none" stroke="#c97a3a" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Arm raised holding scroll -->
+          <line x1="46" y1="224" x2="62" y2="208" stroke="url(#da10-priya-body)" stroke-width="7" stroke-linecap="round"/>
+          <!-- Scroll -->
+          <rect x="58" y="200" width="28" height="18" rx="4" fill="url(#da10-cert)" stroke="#d97706" stroke-width="1.5"/>
+          <text x="72" y="212" text-anchor="middle" fill="#92400e" font-size="6" font-weight="700">DIPLOMA</text>
+        </g>
+
+        <!-- OLLIE (right side) with graduation cap + big smile -->
+        <g filter="url(#da10-sh)">
+          <ellipse cx="268" cy="235" rx="14" ry="22" fill="url(#da10-ollie-body)"/>
+          <polygon points="262,218 268,225 274,218" fill="#047857"/>
+          <ellipse cx="268" cy="218" rx="12" ry="13" fill="url(#da10-ollie-skin)"/>
+          <ellipse cx="268" cy="206" rx="11" ry="7" fill="#92400e"/>
+          <!-- Graduation cap on Ollie -->
+          <rect x="258" y="202" width="22" height="4" rx="1" fill="#1f2937"/>
+          <rect x="264" y="198" width="10" height="4" rx="1" fill="#1f2937"/>
+          <line x1="272" y1="202" x2="278" y2="208" stroke="#fbbf24" stroke-width="1.5"/>
+          <circle cx="278" cy="209" r="2" fill="#fbbf24"/>
+          <!-- Eyes (excited wide) -->
+          <circle cx="264" cy="217" r="3" fill="white"/>
+          <circle cx="265" cy="217" r="2" fill="#1f2937"/>
+          <circle cx="265.5" cy="216.3" r="0.7" fill="white"/>
+          <circle cx="272" cy="217" r="3" fill="white"/>
+          <circle cx="273" cy="217" r="2" fill="#1f2937"/>
+          <circle cx="273.5" cy="216.3" r="0.7" fill="white"/>
+          <!-- Big smile -->
+          <path d="M263 222 Q268 228 273 222" fill="none" stroke="#d4924a" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- Badge on chest -->
+          <circle cx="268" cy="238" r="6" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+          <text x="268" y="241" text-anchor="middle" fill="#92400e" font-size="6.5" font-weight="900">DD</text>
+          <!-- Arms raised in celebration -->
+          <line x1="255" y1="228" x2="242" y2="215" stroke="url(#da10-ollie-body)" stroke-width="6" stroke-linecap="round"/>
+          <line x1="281" y1="228" x2="294" y2="215" stroke="url(#da10-ollie-body)" stroke-width="6" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <div class="illus-caption">Graduation Day — Ollie earns the Data Detective badge!</div>
     </div>
 
     <div class="story-panel">

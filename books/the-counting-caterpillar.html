@@ -284,15 +284,95 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-2">
     <div class="illustration" style="background:#ECFDF5;">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:5rem;margin-bottom:8px;">🐛</div>
-      <div class="illus-scene">
-        <span class="char">🍃</span>
-      </div>
-      <div style="margin-top:16px;text-align:center;">
-        <div class="big-number">1</div>
-        <div style="font-size:2.4rem;margin-top:4px;">🍃</div>
-        <div style="font-size:.82rem;font-weight:700;color:var(--green-dark);margin-top:6px;">One big juicy leaf!</div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="cc2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#BAE6FD"/>
+            <stop offset="100%" stop-color="#ECFDF5"/>
+          </linearGradient>
+          <linearGradient id="cc2-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="100%" stop-color="#15803D"/>
+          </linearGradient>
+          <radialGradient id="cc2-seg1" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#16A34A"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="cc2-seg2" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="cc2-leaf" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#22C55E"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="cc2-sun" cx="40%" cy="38%" r="60%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="55%" stop-color="#FCD34D"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="cc2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#cc2-sky)"/>
+        <!-- Sun -->
+        <circle cx="258" cy="28" r="24" fill="#FEF9C3" opacity=".7"/>
+        <circle cx="258" cy="28" r="16" fill="url(#cc2-sun)"/>
+        <!-- Clouds -->
+        <g opacity=".9">
+          <ellipse cx="60" cy="30" rx="28" ry="13" fill="white"/>
+          <ellipse cx="78" cy="24" rx="19" ry="12" fill="white"/>
+          <ellipse cx="42" cy="33" rx="14" ry="9" fill="white"/>
+        </g>
+        <!-- Grass -->
+        <path d="M0 240 Q75 230 150 238 Q225 246 300 234 L300 280 L0 280 Z" fill="url(#cc2-grass)"/>
+        <path d="M0 252 Q90 244 180 249 Q240 252 300 246 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- Grass blades -->
+        <line x1="30" y1="240" x2="26" y2="230" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="239" x2="44" y2="229" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="250" y1="235" x2="246" y2="225" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"/>
+        <!-- Leaf (big juicy) -->
+        <g filter="url(#cc2-sh)">
+          <path d="M180 90 Q240 60 260 130 Q200 170 160 140 Q140 110 180 90 Z" fill="url(#cc2-leaf)"/>
+          <line x1="180" y1="90" x2="220" y2="148" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="200" y1="108" x2="185" y2="122" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="214" y1="118" x2="200" y2="130" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="224" y1="128" x2="212" y2="138" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+        <!-- Big number 1 -->
+        <rect x="36" y="60" width="60" height="60" rx="14" fill="rgba(255,255,255,.7)"/>
+        <text x="66" y="104" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="44" fill="#15803D">1</text>
+        <!-- Coco caterpillar (3 segments, facing right) -->
+        <g filter="url(#cc2-sh)">
+          <!-- Segments -->
+          <circle cx="88" cy="195" r="22" fill="url(#cc2-seg2)"/>
+          <circle cx="116" cy="192" r="22" fill="url(#cc2-seg1)"/>
+          <!-- Head segment -->
+          <circle cx="144" cy="190" r="24" fill="url(#cc2-seg1)"/>
+          <!-- Eyes -->
+          <circle cx="154" cy="183" r="7" fill="white"/>
+          <circle cx="154" cy="183" r="4.5" fill="#111827"/>
+          <circle cx="155.8" cy="181.5" r="1.8" fill="white"/>
+          <circle cx="168" cy="185" r="6.5" fill="white"/>
+          <circle cx="168" cy="185" r="4" fill="#111827"/>
+          <circle cx="169.5" cy="183.5" r="1.5" fill="white"/>
+          <!-- Smile -->
+          <path d="M148 196 Q155 203 163 197" stroke="#14532D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Antennae -->
+          <line x1="152" y1="167" x2="146" y2="152" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="146" cy="150" r="4.5" fill="#FBBF24"/>
+          <line x1="162" y1="166" x2="170" y2="152" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="170" cy="150" r="4.5" fill="#FBBF24"/>
+        </g>
+        <!-- Label -->
+        <rect x="108" y="228" width="84" height="20" rx="10" fill="rgba(22,163,74,.85)"/>
+        <text x="150" y="242" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">One big juicy leaf!</text>
+      </svg>
       <div class="illus-caption">Coco woke up very hungry!</div>
     </div>
 
@@ -337,15 +417,80 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-3">
     <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:4rem;margin-bottom:8px;">🐛</div>
-      <div style="text-align:center;margin:10px 0;">
-        <div class="big-number">2</div>
-        <div style="font-size:2.4rem;letter-spacing:6px;margin-top:4px;">🍃🍃</div>
-        <div style="font-size:.82rem;font-weight:700;color:var(--green-dark);margin-top:6px;">🍃🍃 = 2 leaves</div>
-      </div>
-      <div style="background:rgba(255,255,255,.5);border-radius:12px;padding:8px 16px;margin-top:8px;font-family:'Quicksand',sans-serif;font-weight:700;color:var(--green-dark);font-size:1rem;">
-        One… Two!
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="cc3-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#A7F3D0"/>
+            <stop offset="100%" stop-color="#ECFDF5"/>
+          </linearGradient>
+          <linearGradient id="cc3-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="cc3-seg1" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#16A34A"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="cc3-seg2" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="cc3-leaf" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#22C55E"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <filter id="cc3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#cc3-sky)"/>
+        <!-- Clouds -->
+        <g opacity=".8">
+          <ellipse cx="55" cy="26" rx="26" ry="12" fill="white"/>
+          <ellipse cx="73" cy="20" rx="18" ry="11" fill="white"/>
+          <ellipse cx="38" cy="29" rx="14" ry="8" fill="white"/>
+        </g>
+        <!-- Grass -->
+        <path d="M0 244 Q75 234 150 242 Q225 250 300 238 L300 280 L0 280 Z" fill="url(#cc3-grass)"/>
+        <path d="M0 254 Q90 246 180 251 Q240 254 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- Two leaves -->
+        <g filter="url(#cc3-sh)">
+          <path d="M160 80 Q220 50 238 120 Q178 158 148 128 Q130 98 160 80 Z" fill="url(#cc3-leaf)"/>
+          <line x1="160" y1="80" x2="196" y2="135" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc3-sh)">
+          <path d="M228 75 Q278 55 282 115 Q228 145 210 118 Q198 90 228 75 Z" fill="url(#cc3-leaf)" opacity=".9"/>
+          <line x1="228" y1="75" x2="248" y2="120" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <!-- Big number 2 -->
+        <rect x="26" y="58" width="60" height="60" rx="14" fill="rgba(255,255,255,.75)"/>
+        <text x="56" y="102" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="44" fill="#15803D">2</text>
+        <!-- Coco (4 segments - slightly longer) -->
+        <g filter="url(#cc3-sh)">
+          <circle cx="62" cy="200" r="20" fill="url(#cc3-seg2)"/>
+          <circle cx="88" cy="196" r="20" fill="url(#cc3-seg1)"/>
+          <circle cx="114" cy="194" r="21" fill="url(#cc3-seg2)"/>
+          <!-- Head -->
+          <circle cx="142" cy="192" r="23" fill="url(#cc3-seg1)"/>
+          <circle cx="152" cy="185" r="6.5" fill="white"/>
+          <circle cx="152" cy="185" r="4" fill="#111827"/>
+          <circle cx="153.5" cy="183.5" r="1.6" fill="white"/>
+          <circle cx="165" cy="186" r="6" fill="white"/>
+          <circle cx="165" cy="186" r="3.8" fill="#111827"/>
+          <circle cx="166.5" cy="184.5" r="1.4" fill="white"/>
+          <path d="M146 196 Q153 204 161 197" stroke="#14532D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <line x1="149" y1="170" x2="143" y2="155" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="143" cy="153" r="4" fill="#FBBF24"/>
+          <line x1="160" y1="170" x2="167" y2="155" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="167" cy="153" r="4" fill="#FBBF24"/>
+        </g>
+        <!-- Counting badge -->
+        <rect x="100" y="228" width="100" height="22" rx="11" fill="rgba(22,163,74,.85)"/>
+        <text x="150" y="243" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="white">One… Two! 🍃🍃</text>
+      </svg>
       <div class="illus-caption">Coco grows a little bigger!</div>
     </div>
 
@@ -390,28 +535,94 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-4">
     <div class="illustration" style="background:linear-gradient(135deg,#D1FAE5,#6EE7B7);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:3.5rem;margin-bottom:4px;">🐛🐛</div>
-      <div style="text-align:center;margin:8px 0;">
-        <div style="font-size:.75rem;font-weight:700;color:var(--green-dark);margin-bottom:4px;">Day 3 — Three leaves:</div>
-        <div style="font-size:2rem;letter-spacing:4px;">🍃🍃🍃</div>
-      </div>
-      <div style="text-align:center;margin:8px 0;">
-        <div style="font-size:.75rem;font-weight:700;color:var(--green-dark);margin-bottom:4px;">Day 4 — Four leaves:</div>
-        <div style="font-size:2rem;letter-spacing:4px;">🍃🍃🍃🍃</div>
-      </div>
-      <!-- Number line 1-4 -->
-      <div style="margin-top:12px;">
-        <div style="font-size:.72rem;font-weight:700;color:var(--green-dark);margin-bottom:6px;text-align:center;">Counting on!</div>
-        <div class="number-line" style="justify-content:center;">
-          <div class="nl-num">1</div>
-          <div class="nl-arrow">→</div>
-          <div class="nl-num">2</div>
-          <div class="nl-arrow">→</div>
-          <div class="nl-num">3</div>
-          <div class="nl-arrow">→</div>
-          <div class="nl-num">4</div>
-        </div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="cc4-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6EE7B7"/>
+            <stop offset="100%" stop-color="#D1FAE5"/>
+          </linearGradient>
+          <linearGradient id="cc4-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="cc4-seg1" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#16A34A"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="cc4-seg2" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="cc4-leaf" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#22C55E"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <filter id="cc4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#cc4-sky)"/>
+        <g opacity=".8">
+          <ellipse cx="220" cy="26" rx="24" ry="11" fill="white"/>
+          <ellipse cx="236" cy="20" rx="17" ry="10" fill="white"/>
+        </g>
+        <path d="M0 244 Q75 234 150 242 Q225 250 300 238 L300 280 L0 280 Z" fill="url(#cc4-grass)"/>
+        <path d="M0 254 Q90 246 180 251 Q240 254 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- Leaves row of 4 (day 4 shown) -->
+        <g filter="url(#cc4-sh)">
+          <path d="M30 100 Q65 72 80 118 Q50 138 28 120 Z" fill="url(#cc4-leaf)"/>
+          <line x1="30" y1="100" x2="55" y2="122" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc4-sh)">
+          <path d="M90 88 Q128 62 138 108 Q108 130 84 112 Z" fill="url(#cc4-leaf)"/>
+          <line x1="90" y1="88" x2="114" y2="112" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc4-sh)">
+          <path d="M150 78 Q188 52 196 98 Q166 120 144 102 Z" fill="url(#cc4-leaf)"/>
+          <line x1="150" y1="78" x2="172" y2="100" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc4-sh)">
+          <path d="M210 80 Q248 56 254 100 Q226 122 206 104 Z" fill="url(#cc4-leaf)"/>
+          <line x1="210" y1="80" x2="230" y2="102" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <!-- Number badge -->
+        <rect x="124" y="42" width="52" height="44" rx="12" fill="rgba(255,255,255,.8)"/>
+        <text x="150" y="76" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="36" fill="#15803D">4</text>
+        <!-- Coco (5 segments - longer!) -->
+        <g filter="url(#cc4-sh)">
+          <circle cx="36" cy="200" r="18" fill="url(#cc4-seg2)"/>
+          <circle cx="60" cy="197" r="19" fill="url(#cc4-seg1)"/>
+          <circle cx="86" cy="194" r="19" fill="url(#cc4-seg2)"/>
+          <circle cx="112" cy="192" r="20" fill="url(#cc4-seg1)"/>
+          <!-- Head -->
+          <circle cx="140" cy="190" r="22" fill="url(#cc4-seg1)"/>
+          <circle cx="150" cy="183" r="6.5" fill="white"/>
+          <circle cx="150" cy="183" r="4" fill="#111827"/>
+          <circle cx="151.5" cy="181.5" r="1.6" fill="white"/>
+          <circle cx="163" cy="184" r="6" fill="white"/>
+          <circle cx="163" cy="184" r="3.8" fill="#111827"/>
+          <path d="M144 194 Q151 202 159 195" stroke="#14532D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <line x1="148" y1="169" x2="142" y2="154" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="142" cy="152" r="4" fill="#FBBF24"/>
+          <line x1="159" y1="168" x2="166" y2="154" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="166" cy="152" r="4" fill="#FBBF24"/>
+        </g>
+        <!-- Number line 1–4 -->
+        <g>
+          <rect x="20" y="226" width="260" height="32" rx="10" fill="rgba(255,255,255,.7)"/>
+          <text x="42" y="247" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="14" fill="#15803D">1</text>
+          <text x="68" y="247" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#6B7280">→</text>
+          <text x="94" y="247" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="14" fill="#15803D">2</text>
+          <text x="120" y="247" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#6B7280">→</text>
+          <text x="150" y="247" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="14" fill="#15803D">3</text>
+          <text x="180" y="247" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="12" fill="#6B7280">→</text>
+          <text x="210" y="247" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="14" fill="#15803D">4</text>
+          <text x="240" y="241" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#059669">counting on!</text>
+        </g>
+      </svg>
       <div class="illus-caption">Coco is getting longer!</div>
     </div>
 
@@ -459,25 +670,106 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-5">
     <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:3rem;margin-bottom:4px;">🐛🐛🐛</div>
-      <div style="text-align:center;margin:6px 0;">
-        <div style="font-size:.72rem;font-weight:700;color:var(--orange-dark);margin-bottom:3px;">Day 5 — five:</div>
-        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
-          <span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span>
-        </div>
-      </div>
-      <div style="text-align:center;margin:6px 0;">
-        <div style="font-size:.72rem;font-weight:700;color:var(--orange-dark);margin-bottom:3px;">Day 6 — six:</div>
-        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
-          <span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span>
-        </div>
-      </div>
-      <div style="text-align:center;margin:6px 0;">
-        <div style="font-size:.72rem;font-weight:700;color:var(--orange-dark);margin-bottom:3px;">Day 7 — seven:</div>
-        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
-          <span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span><span style="font-size:1.4rem;">🍃</span>
-        </div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="cc5-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FED7AA"/>
+            <stop offset="100%" stop-color="#FFF7ED"/>
+          </linearGradient>
+          <linearGradient id="cc5-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="cc5-seg1" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#16A34A"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="cc5-seg2" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="cc5-leaf" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#22C55E"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="cc5-bfly" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FCA5A5"/>
+            <stop offset="55%" stop-color="#EC4899"/>
+            <stop offset="100%" stop-color="#831843"/>
+          </radialGradient>
+          <filter id="cc5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#cc5-sky)"/>
+        <path d="M0 244 Q75 234 150 242 Q225 250 300 238 L300 280 L0 280 Z" fill="url(#cc5-grass)"/>
+        <path d="M0 254 Q90 246 180 251 Q240 254 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- Leaves in an arc (5 leaves for day 5 main display) -->
+        <g filter="url(#cc5-sh)">
+          <path d="M26 115 Q56 90 70 128 Q46 148 22 132 Z" fill="url(#cc5-leaf)"/>
+          <line x1="26" y1="115" x2="48" y2="132" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc5-sh)">
+          <path d="M74 100 Q108 76 116 116 Q90 136 70 118 Z" fill="url(#cc5-leaf)"/>
+          <line x1="74" y1="100" x2="96" y2="120" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc5-sh)">
+          <path d="M126 88 Q162 64 166 106 Q140 126 118 108 Z" fill="url(#cc5-leaf)"/>
+          <line x1="126" y1="88" x2="146" y2="108" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc5-sh)">
+          <path d="M182 92 Q218 70 220 110 Q196 128 174 112 Z" fill="url(#cc5-leaf)"/>
+          <line x1="182" y1="92" x2="200" y2="112" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc5-sh)">
+          <path d="M234 100 Q266 80 268 118 Q246 134 226 118 Z" fill="url(#cc5-leaf)"/>
+          <line x1="234" y1="100" x2="252" y2="118" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <!-- Number 5 badge -->
+        <rect x="126" y="44" width="48" height="42" rx="12" fill="rgba(255,255,255,.8)"/>
+        <text x="150" y="76" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="34" fill="#C2410C">5</text>
+        <!-- Butterfly friend -->
+        <g filter="url(#cc5-sh)">
+          <path d="M258 168 Q278 148 278 165 Q270 172 258 168 Z" fill="url(#cc5-bfly)" opacity=".9"/>
+          <path d="M258 168 Q278 185 274 172 Q266 168 258 168 Z" fill="#F9A8D4" opacity=".85"/>
+          <path d="M258 168 Q238 148 238 165 Q246 172 258 168 Z" fill="url(#cc5-bfly)" opacity=".9"/>
+          <path d="M258 168 Q238 185 242 172 Q250 168 258 168 Z" fill="#F9A8D4" opacity=".85"/>
+          <circle cx="258" cy="168" r="4" fill="#831843"/>
+        </g>
+        <!-- Ladybug friend -->
+        <g filter="url(#cc5-sh)">
+          <circle cx="276" cy="210" r="11" fill="#EF4444"/>
+          <circle cx="276" cy="210" r="5.5" fill="#7F1D1D" opacity=".6"/>
+          <circle cx="270" cy="205" r="3" fill="#1C1917"/>
+          <circle cx="282" cy="205" r="3" fill="#1C1917"/>
+        </g>
+        <!-- Coco (6 segments, much longer) -->
+        <g filter="url(#cc5-sh)">
+          <circle cx="24" cy="205" r="17" fill="url(#cc5-seg2)"/>
+          <circle cx="48" cy="201" r="17" fill="url(#cc5-seg1)"/>
+          <circle cx="72" cy="198" r="18" fill="url(#cc5-seg2)"/>
+          <circle cx="97" cy="196" r="18" fill="url(#cc5-seg1)"/>
+          <circle cx="122" cy="194" r="19" fill="url(#cc5-seg2)"/>
+          <!-- Head -->
+          <circle cx="149" cy="192" r="21" fill="url(#cc5-seg1)"/>
+          <circle cx="158" cy="185" r="6" fill="white"/>
+          <circle cx="158" cy="185" r="3.8" fill="#111827"/>
+          <circle cx="159.5" cy="183.5" r="1.4" fill="white"/>
+          <circle cx="170" cy="186" r="5.5" fill="white"/>
+          <circle cx="170" cy="186" r="3.5" fill="#111827"/>
+          <path d="M153 195 Q160 202 168 196" stroke="#14532D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <line x1="156" y1="172" x2="150" y2="158" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="150" cy="156" r="4" fill="#FBBF24"/>
+          <line x1="167" y1="172" x2="174" y2="158" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="174" cy="156" r="4" fill="#FBBF24"/>
+        </g>
+        <!-- Day label -->
+        <rect x="10" y="226" width="178" height="22" rx="11" fill="rgba(194,65,12,.8)"/>
+        <text x="99" y="241" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="white">Day 5, 6, 7 — Five, Six, Seven!</text>
+      </svg>
       <div class="illus-caption">Friends help Coco count!</div>
     </div>
 
@@ -524,22 +816,109 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-6">
     <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#6EE7B7);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:3rem;margin-bottom:8px;">🐛🐛🐛🐛</div>
-      <div style="font-size:.75rem;font-weight:700;color:var(--green-dark);margin-bottom:8px;text-align:center;">Ten-Frame — all 10 boxes full!</div>
-      <!-- Ten Frame visual: 2 rows of 5 -->
-      <div class="ten-frame">
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-        <div class="ten-frame-cell filled">🍃</div>
-      </div>
-      <div style="margin-top:10px;font-family:'Quicksand',sans-serif;font-size:1.8rem;font-weight:700;color:var(--green-dark);">= 10!</div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="cc6-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6EE7B7"/>
+            <stop offset="100%" stop-color="#ECFDF5"/>
+          </linearGradient>
+          <linearGradient id="cc6-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="cc6-seg1" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#16A34A"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="cc6-seg2" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="cc6-leaf" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#22C55E"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <filter id="cc6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#cc6-sky)"/>
+        <path d="M0 244 Q75 234 150 242 Q225 250 300 238 L300 280 L0 280 Z" fill="url(#cc6-grass)"/>
+        <path d="M0 254 Q90 246 180 251 Q240 254 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- 10 leaves in arc arrangement -->
+        <!-- Row 1: 5 leaves -->
+        <g filter="url(#cc6-sh)">
+          <path d="M22 100 Q46 80 54 112 Q34 128 18 114 Z" fill="url(#cc6-leaf)"/>
+          <line x1="22" y1="100" x2="40" y2="114" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc6-sh)">
+          <path d="M62 86 Q90 66 96 100 Q74 116 56 102 Z" fill="url(#cc6-leaf)"/>
+          <line x1="62" y1="86" x2="80" y2="102" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc6-sh)">
+          <path d="M106 76 Q132 58 138 92 Q116 108 100 94 Z" fill="url(#cc6-leaf)"/>
+          <line x1="106" y1="76" x2="122" y2="92" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc6-sh)">
+          <path d="M152 78 Q178 58 182 94 Q160 110 144 96 Z" fill="url(#cc6-leaf)"/>
+          <line x1="152" y1="78" x2="168" y2="94" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc6-sh)">
+          <path d="M196 88 Q220 70 224 104 Q204 118 188 106 Z" fill="url(#cc6-leaf)"/>
+          <line x1="196" y1="88" x2="212" y2="104" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <!-- Row 2: 5 more leaves -->
+        <g filter="url(#cc6-sh)">
+          <path d="M28 140 Q52 122 58 152 Q40 168 24 154 Z" fill="url(#cc6-leaf)" opacity=".9"/>
+          <line x1="28" y1="140" x2="44" y2="154" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc6-sh)">
+          <path d="M72 128 Q98 110 102 142 Q82 158 66 144 Z" fill="url(#cc6-leaf)" opacity=".9"/>
+          <line x1="72" y1="128" x2="88" y2="142" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc6-sh)">
+          <path d="M116 118 Q142 100 146 132 Q126 148 110 134 Z" fill="url(#cc6-leaf)" opacity=".9"/>
+          <line x1="116" y1="118" x2="132" y2="132" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc6-sh)">
+          <path d="M162 122 Q186 106 188 136 Q170 150 154 138 Z" fill="url(#cc6-leaf)" opacity=".9"/>
+          <line x1="162" y1="122" x2="176" y2="136" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <g filter="url(#cc6-sh)">
+          <path d="M206 128 Q230 112 232 142 Q214 156 198 144 Z" fill="url(#cc6-leaf)" opacity=".9"/>
+          <line x1="206" y1="128" x2="220" y2="142" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+        <!-- Number 10 badge -->
+        <rect x="234" y="62" width="60" height="46" rx="14" fill="rgba(255,255,255,.85)"/>
+        <text x="264" y="97" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="36" fill="#15803D">10</text>
+        <!-- Coco (7 segments, very long!) -->
+        <g filter="url(#cc6-sh)">
+          <circle cx="14" cy="210" r="15" fill="url(#cc6-seg2)"/>
+          <circle cx="36" cy="207" r="16" fill="url(#cc6-seg1)"/>
+          <circle cx="59" cy="204" r="16" fill="url(#cc6-seg2)"/>
+          <circle cx="82" cy="202" r="17" fill="url(#cc6-seg1)"/>
+          <circle cx="106" cy="200" r="17" fill="url(#cc6-seg2)"/>
+          <circle cx="130" cy="198" r="17" fill="url(#cc6-seg1)"/>
+          <!-- Head -->
+          <circle cx="157" cy="196" r="20" fill="url(#cc6-seg1)"/>
+          <circle cx="166" cy="189" r="5.5" fill="white"/>
+          <circle cx="166" cy="189" r="3.5" fill="#111827"/>
+          <circle cx="167.5" cy="187.5" r="1.3" fill="white"/>
+          <circle cx="177" cy="190" r="5" fill="white"/>
+          <circle cx="177" cy="190" r="3.2" fill="#111827"/>
+          <path d="M161 199 Q168 206 175 200" stroke="#14532D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <line x1="164" y1="177" x2="158" y2="163" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="158" cy="161" r="4" fill="#FBBF24"/>
+          <line x1="174" y1="177" x2="181" y2="163" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="181" cy="161" r="4" fill="#FBBF24"/>
+        </g>
+        <!-- = 10! label -->
+        <rect x="192" y="220" width="100" height="28" rx="14" fill="rgba(21,128,61,.9)"/>
+        <text x="242" y="239" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="16" fill="white">= 10! 🎉</text>
+      </svg>
       <div class="illus-caption">Coco's biggest day — 10 leaves!</div>
     </div>
 
@@ -584,18 +963,87 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-7">
     <div class="illustration" style="background:linear-gradient(135deg,#F0FDF4,#BBF7D0);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:4rem;margin-bottom:6px;">🐛</div>
-      <div style="font-size:.75rem;font-weight:700;color:var(--green-dark);margin-bottom:8px;text-align:center;">Counting back!</div>
-      <!-- Countdown display -->
-      <div class="countdown-row" style="width:90%;">
-        <div class="countdown-item"><span class="countdown-num">10</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
-        <div class="countdown-item"><span class="countdown-num">9</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
-        <div class="countdown-item"><span class="countdown-num">8</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃🍃🍃</span></div>
-        <div class="countdown-item"><span class="countdown-num">7</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃🍃</span></div>
-        <div class="countdown-item"><span class="countdown-num">6</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃🍃</span></div>
-        <div class="countdown-item"><span class="countdown-num">5</span><span style="font-size:1rem;">🍃🍃🍃🍃🍃</span></div>
-        <div class="countdown-item"><span class="countdown-num">0</span><span style="font-size:.9rem;color:var(--green-dark);">All eaten!</span></div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="cc7-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#BBF7D0"/>
+            <stop offset="100%" stop-color="#F0FDF4"/>
+          </linearGradient>
+          <linearGradient id="cc7-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="cc7-seg1" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#16A34A"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="cc7-seg2" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="cc7-leaf" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="55%" stop-color="#22C55E"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <filter id="cc7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#cc7-sky)"/>
+        <path d="M0 244 Q75 234 150 242 Q225 250 300 238 L300 280 L0 280 Z" fill="url(#cc7-grass)"/>
+        <path d="M0 254 Q90 246 180 251 Q240 254 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- Countdown bars showing decreasing leaves -->
+        <rect x="14" y="22" width="272" height="178" rx="12" fill="rgba(255,255,255,.6)"/>
+        <text x="150" y="40" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#059669">Counting back!</text>
+        <!-- Rows 10 down to 5 -->
+        <g font-family="Quicksand" font-weight="700" font-size="11" fill="#15803D">
+          <text x="28" y="59">10</text>
+          <rect x="52" y="47" width="220" height="13" rx="6.5" fill="#4ADE80"/>
+          <text x="28" y="78">9</text>
+          <rect x="52" y="66" width="196" height="13" rx="6.5" fill="#4ADE80"/>
+          <rect x="248" y="66" width="24" height="13" rx="6.5" fill="#E5E7EB" opacity=".7"/>
+          <text x="28" y="97">8</text>
+          <rect x="52" y="85" width="172" height="13" rx="6.5" fill="#86EFAC"/>
+          <rect x="224" y="85" width="48" height="13" rx="6.5" fill="#E5E7EB" opacity=".7"/>
+          <text x="28" y="116">7</text>
+          <rect x="52" y="104" width="148" height="13" rx="6.5" fill="#86EFAC"/>
+          <rect x="200" y="104" width="72" height="13" rx="6.5" fill="#E5E7EB" opacity=".7"/>
+          <text x="28" y="135">6</text>
+          <rect x="52" y="123" width="124" height="13" rx="6.5" fill="#A7F3D0"/>
+          <rect x="176" y="123" width="96" height="13" rx="6.5" fill="#E5E7EB" opacity=".7"/>
+          <text x="28" y="154">5</text>
+          <rect x="52" y="142" width="100" height="13" rx="6.5" fill="#A7F3D0"/>
+          <rect x="152" y="142" width="120" height="13" rx="6.5" fill="#E5E7EB" opacity=".7"/>
+          <text x="28" y="173">0</text>
+          <text x="52" y="173" font-size="10" fill="#059669">All eaten!</text>
+          <rect x="52" y="161" width="0" height="13" rx="6.5" fill="#D1FAE5"/>
+          <rect x="52" y="161" width="220" height="13" rx="6.5" fill="#E5E7EB" opacity=".7"/>
+        </g>
+        <!-- Coco at bottom (with full tummy, happy) -->
+        <g filter="url(#cc7-sh)">
+          <circle cx="36" cy="210" r="17" fill="url(#cc7-seg2)"/>
+          <circle cx="60" cy="207" r="17" fill="url(#cc7-seg1)"/>
+          <circle cx="84" cy="205" r="17" fill="url(#cc7-seg2)"/>
+          <circle cx="108" cy="203" r="18" fill="url(#cc7-seg1)"/>
+          <!-- Head -->
+          <circle cx="135" cy="200" r="20" fill="url(#cc7-seg1)"/>
+          <circle cx="144" cy="193" r="5.5" fill="white"/>
+          <circle cx="144" cy="193" r="3.5" fill="#111827"/>
+          <circle cx="145.5" cy="191.5" r="1.3" fill="white"/>
+          <circle cx="155" cy="194" r="5" fill="white"/>
+          <circle cx="155" cy="194" r="3.2" fill="#111827"/>
+          <!-- Happy big smile -->
+          <path d="M139 203 Q147 211 155 204" stroke="#14532D" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- Antennae -->
+          <line x1="141" y1="181" x2="135" y2="167" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="135" cy="165" r="4" fill="#FBBF24"/>
+          <line x1="151" y1="181" x2="158" y2="167" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="158" cy="165" r="4" fill="#FBBF24"/>
+        </g>
+      </svg>
       <div class="illus-caption">Coco counts all the way down to zero!</div>
     </div>
 
@@ -642,20 +1090,99 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-8">
     <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FDE68A);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:4rem;margin-bottom:4px;">🌀</div>
-      <div style="font-size:3rem;margin-bottom:4px;">🦋</div>
-      <div style="background:rgba(255,255,255,.55);border-radius:14px;padding:12px 16px;text-align:center;margin-top:4px;max-width:220px;">
-        <div style="font-size:.72rem;font-weight:700;color:#92400E;margin-bottom:6px;">Coco counted 1 to 10!</div>
-        <!-- Summary mini -->
-        <div style="display:flex;flex-direction:column;gap:2px;">
-          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">1</span>🍃</div>
-          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">2</span>🍃🍃</div>
-          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">3</span>🍃🍃🍃</div>
-          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">4</span>🍃🍃🍃🍃</div>
-          <div style="font-size:.75rem;font-weight:600;color:#92400E;display:flex;align-items:center;gap:4px;"><span style="min-width:14px;font-weight:700;">5</span>🍃🍃🍃🍃🍃</div>
-        </div>
-      </div>
-      <div class="illus-caption">Coco spins into a cocoon 🌀 — a butterfly is coming! 🦋</div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="cc8-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="100%" stop-color="#FEF9C3"/>
+          </linearGradient>
+          <linearGradient id="cc8-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="100%" stop-color="#15803D"/>
+          </linearGradient>
+          <linearGradient id="cc8-branch" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#A16207"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </linearGradient>
+          <radialGradient id="cc8-cocoon" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="cc8-bfly1" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#A5F3FC"/>
+            <stop offset="55%" stop-color="#06B6D4"/>
+            <stop offset="100%" stop-color="#0E7490"/>
+          </radialGradient>
+          <radialGradient id="cc8-bfly2" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FCA5A5"/>
+            <stop offset="55%" stop-color="#EC4899"/>
+            <stop offset="100%" stop-color="#831843"/>
+          </radialGradient>
+          <radialGradient id="cc8-sun" cx="40%" cy="38%" r="60%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="55%" stop-color="#FCD34D"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="cc8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#cc8-sky)"/>
+        <!-- Sun -->
+        <circle cx="258" cy="28" r="26" fill="#FEF9C3" opacity=".7"/>
+        <circle cx="258" cy="28" r="17" fill="url(#cc8-sun)"/>
+        <!-- Clouds -->
+        <g opacity=".7">
+          <ellipse cx="50" cy="34" rx="22" ry="10" fill="white"/>
+          <ellipse cx="66" cy="28" rx="15" ry="9" fill="white"/>
+        </g>
+        <!-- Grass -->
+        <path d="M0 244 Q75 234 150 242 Q225 250 300 238 L300 280 L0 280 Z" fill="url(#cc8-grass)"/>
+        <path d="M0 254 Q90 246 180 251 Q240 254 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- Tree branch -->
+        <g filter="url(#cc8-sh)">
+          <path d="M60 60 Q180 40 280 80" stroke="url(#cc8-branch)" stroke-width="18" fill="none" stroke-linecap="round"/>
+          <!-- Branch leaves -->
+          <path d="M80 55 Q100 36 116 60 Q96 72 80 55 Z" fill="#4ADE80"/>
+          <path d="M160 42 Q182 24 196 48 Q176 60 160 42 Z" fill="#22C55E"/>
+          <path d="M236 68 Q256 50 268 74 Q250 84 236 68 Z" fill="#16A34A"/>
+        </g>
+        <!-- Cocoon hanging from branch -->
+        <g filter="url(#cc8-sh)">
+          <line x1="155" y1="58" x2="155" y2="88" stroke="#A16207" stroke-width="2" stroke-linecap="round"/>
+          <path d="M136 88 Q136 148 155 155 Q174 148 174 88 Q164 82 155 82 Q146 82 136 88 Z" fill="url(#cc8-cocoon)"/>
+          <!-- Cocoon spiral lines -->
+          <path d="M138 100 Q155 94 172 100" stroke="#78350F" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".6"/>
+          <path d="M137 112 Q155 106 173 112" stroke="#78350F" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".6"/>
+          <path d="M137 124 Q155 118 173 124" stroke="#78350F" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".6"/>
+          <path d="M138 136 Q155 130 172 136" stroke="#78350F" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".6"/>
+        </g>
+        <!-- Beautiful butterfly emerging! -->
+        <g filter="url(#cc8-sh)" transform="translate(210, 100) rotate(-20)">
+          <!-- Upper wings -->
+          <path d="M0 0 Q30 -30 40 -10 Q32 12 0 0 Z" fill="url(#cc8-bfly1)"/>
+          <path d="M0 0 Q-30 -30 -40 -10 Q-32 12 0 0 Z" fill="url(#cc8-bfly1)"/>
+          <!-- Lower wings -->
+          <path d="M0 0 Q28 20 30 10 Q20 28 0 6 Z" fill="url(#cc8-bfly2)"/>
+          <path d="M0 0 Q-28 20 -30 10 Q-20 28 0 6 Z" fill="url(#cc8-bfly2)"/>
+          <!-- Body -->
+          <ellipse cx="0" cy="2" rx="4" ry="12" fill="#111827"/>
+          <!-- Antennae -->
+          <line x1="-2" y1="-10" x2="-10" y2="-24" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="-10" cy="-24" r="3" fill="#FBBF24"/>
+          <line x1="2" y1="-10" x2="10" y2="-24" stroke="#111827" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="10" cy="-24" r="3" fill="#FBBF24"/>
+        </g>
+        <!-- Sparkle stars around butterfly -->
+        <path d="M250 80 L252 85 L257 85 L253 88 L254.5 93 L250 90 L245.5 93 L247 88 L243 85 L248 85 Z" fill="#FBBF24" opacity=".9"/>
+        <circle cx="280" cy="115" r="4" fill="#FCD34D" opacity=".8"/>
+        <!-- Counted! banner -->
+        <rect x="16" y="200" width="168" height="38" rx="12" fill="rgba(120,53,15,.85)"/>
+        <text x="100" y="215" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">Coco counted 1 to 10!</text>
+        <text x="100" y="230" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#FDE68A">A butterfly is coming! 🦋</text>
+      </svg>
+      <div class="illus-caption">Coco spins into a cocoon — a butterfly is coming!</div>
     </div>
 
     <div class="story-panel">

@@ -269,12 +269,114 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-2">
     <div class="illustration" style="background:linear-gradient(135deg,#DCFCE7,#A7F3D0);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:5.5rem;margin-bottom:8px;">🌿</div>
-      <div class="illus-scene">
-        <span class="char">🦁</span>
-        <span style="font-size:3.5rem;background:white;border-radius:16px;padding:6px 16px;font-family:'Quicksand',sans-serif;font-weight:700;color:#1D4ED8;border:3px solid #3B82F6;margin-left:10px;">1</span>
-      </div>
-      <div style="font-size:3rem;margin-top:10px;">🦋 🐦 🦔 🐢</div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="lc2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#BAE6FD"/>
+            <stop offset="100%" stop-color="#DCFCE7"/>
+          </linearGradient>
+          <linearGradient id="lc2-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="lc2-leo" cx="36%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc2-mane" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc2-sun" cx="40%" cy="38%" r="60%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="55%" stop-color="#FCD34D"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="lc2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Sky -->
+        <rect width="300" height="280" fill="url(#lc2-sky)"/>
+        <!-- Sun -->
+        <circle cx="255" cy="28" r="26" fill="#FEF9C3" opacity=".7"/>
+        <circle cx="255" cy="28" r="17" fill="url(#lc2-sun)"/>
+        <!-- Clouds -->
+        <g opacity=".9">
+          <ellipse cx="56" cy="28" rx="28" ry="13" fill="white"/>
+          <ellipse cx="74" cy="22" rx="19" ry="12" fill="white"/>
+          <ellipse cx="40" cy="31" rx="14" ry="8" fill="white"/>
+        </g>
+        <!-- Jungle vines/trees -->
+        <g filter="url(#lc2-sh)">
+          <!-- Left tree -->
+          <rect x="12" y="80" width="18" height="160" rx="7" fill="#A16207"/>
+          <circle cx="21" cy="70" r="40" fill="#16A34A" opacity=".85"/>
+          <circle cx="6" cy="90" r="28" fill="#22C55E" opacity=".75"/>
+          <circle cx="38" cy="88" r="28" fill="#22C55E" opacity=".75"/>
+          <!-- Right bush -->
+          <circle cx="268" cy="110" r="36" fill="#16A34A" opacity=".8"/>
+          <circle cx="285" cy="130" r="28" fill="#22C55E" opacity=".7"/>
+          <circle cx="252" cy="128" r="28" fill="#22C55E" opacity=".7"/>
+        </g>
+        <!-- Grass -->
+        <path d="M0 240 Q75 230 150 238 Q225 246 300 234 L300 280 L0 280 Z" fill="url(#lc2-grass)"/>
+        <path d="M0 252 Q90 244 180 249 Q240 252 300 246 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- Jungle floor plants -->
+        <circle cx="60" cy="240" r="14" fill="#22C55E" opacity=".7"/>
+        <circle cx="240" cy="236" r="16" fill="#16A34A" opacity=".7"/>
+        <!-- LEO the lion cub -->
+        <g filter="url(#lc2-sh)">
+          <!-- Body -->
+          <ellipse cx="148" cy="198" rx="52" ry="38" fill="url(#lc2-leo)"/>
+          <!-- Mane (fluffy ring around head) -->
+          <circle cx="148" cy="158" r="46" fill="url(#lc2-mane)"/>
+          <!-- Head -->
+          <circle cx="148" cy="158" r="36" fill="url(#lc2-leo)"/>
+          <!-- Ears -->
+          <circle cx="120" cy="128" r="14" fill="url(#lc2-mane)"/>
+          <circle cx="120" cy="128" r="9" fill="url(#lc2-leo)"/>
+          <circle cx="176" cy="128" r="14" fill="url(#lc2-mane)"/>
+          <circle cx="176" cy="128" r="9" fill="url(#lc2-leo)"/>
+          <!-- Eyes -->
+          <circle cx="137" cy="152" r="8" fill="white"/>
+          <circle cx="137" cy="152" r="5" fill="#111827"/>
+          <circle cx="138.5" cy="150.5" r="2" fill="white"/>
+          <circle cx="160" cy="152" r="8" fill="white"/>
+          <circle cx="160" cy="152" r="5" fill="#111827"/>
+          <circle cx="161.5" cy="150.5" r="2" fill="white"/>
+          <!-- Nose -->
+          <ellipse cx="148" cy="164" rx="6" ry="4" fill="#D97706"/>
+          <ellipse cx="148" cy="165" rx="4" ry="2.5" fill="#92400E"/>
+          <!-- Whiskers -->
+          <line x1="120" y1="163" x2="136" y2="165" stroke="#78350F" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="120" y1="168" x2="136" y2="168" stroke="#78350F" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="160" y1="165" x2="176" y2="163" stroke="#78350F" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="160" y1="168" x2="176" y2="168" stroke="#78350F" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Smile -->
+          <path d="M141 172 Q148 180 155 172" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Tail -->
+          <path d="M196 205 Q218 198 222 215 Q220 228 210 225" stroke="#D97706" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <circle cx="210" cy="225" r="8" fill="url(#lc2-mane)"/>
+          <!-- Legs -->
+          <ellipse cx="126" cy="228" rx="12" ry="10" fill="url(#lc2-leo)"/>
+          <ellipse cx="170" cy="228" rx="12" ry="10" fill="url(#lc2-leo)"/>
+        </g>
+        <!-- Number 1 badge -->
+        <rect x="204" y="152" width="52" height="52" rx="14" fill="white"/>
+        <rect x="204" y="152" width="52" height="52" rx="14" fill="none" stroke="#3B82F6" stroke-width="3"/>
+        <text x="230" y="189" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="36" fill="#1D4ED8">1</text>
+        <!-- Small jungle friends -->
+        <g filter="url(#lc2-sh)">
+          <!-- Butterfly -->
+          <path d="M264 200 Q276 188 280 196 Q274 202 264 200 Z" fill="#EC4899" opacity=".9"/>
+          <path d="M264 200 Q276 210 278 204 Q272 200 264 200 Z" fill="#F9A8D4" opacity=".85"/>
+          <path d="M264 200 Q252 188 248 196 Q254 202 264 200 Z" fill="#EC4899" opacity=".9"/>
+          <path d="M264 200 Q252 210 250 204 Q256 200 264 200 Z" fill="#F9A8D4" opacity=".85"/>
+          <circle cx="264" cy="200" r="3" fill="#831843"/>
+        </g>
+      </svg>
       <div class="illus-caption">Leo wakes up in the jungle!</div>
     </div>
 
@@ -315,31 +417,114 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-3">
     <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:1rem;font-weight:700;color:#1D4ED8;font-family:'Quicksand',sans-serif;margin-bottom:8px;">Leo counts 10 animals!</div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;width:90%;">
-        <div style="font-size:2.2rem;text-align:center;">🦜</div>
-        <div style="font-size:2.2rem;text-align:center;">🦋</div>
-        <div style="font-size:2.2rem;text-align:center;">🐦</div>
-        <div style="font-size:2.2rem;text-align:center;">🦔</div>
-        <div style="font-size:2.2rem;text-align:center;">🐢</div>
-        <div style="font-size:2.2rem;text-align:center;">🐸</div>
-        <div style="font-size:2.2rem;text-align:center;">🦎</div>
-        <div style="font-size:2.2rem;text-align:center;">🐝</div>
-        <div style="font-size:2.2rem;text-align:center;">🦗</div>
-        <div style="font-size:2.2rem;text-align:center;">🐛</div>
-      </div>
-      <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;justify-content:center;">
-        <span style="background:#3B82F6;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">1</span>
-        <span style="background:#3B82F6;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">2</span>
-        <span style="background:#3B82F6;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">3</span>
-        <span style="background:#3B82F6;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">4</span>
-        <span style="background:#3B82F6;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">5</span>
-        <span style="background:#1D4ED8;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">6</span>
-        <span style="background:#1D4ED8;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">7</span>
-        <span style="background:#1D4ED8;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">8</span>
-        <span style="background:#1D4ED8;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">9</span>
-        <span style="background:#1D4ED8;color:white;border-radius:8px;padding:4px 8px;font-weight:700;font-size:1rem;">10</span>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="lc3-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#BFDBFE"/>
+            <stop offset="100%" stop-color="#EFF6FF"/>
+          </linearGradient>
+          <linearGradient id="lc3-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ADE80"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="lc3-leo" cx="36%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc3-mane" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <filter id="lc3-sh">
+            <feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-opacity="0.2"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#lc3-sky)"/>
+        <path d="M0 244 Q75 234 150 242 Q225 250 300 238 L300 280 L0 280 Z" fill="url(#lc3-grass)"/>
+        <path d="M0 254 Q90 246 180 251 Q240 254 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- Header -->
+        <rect x="42" y="12" width="216" height="22" rx="11" fill="#1D4ED8"/>
+        <text x="150" y="27" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="white">Leo counts 10 animals!</text>
+        <!-- 10 animals in 2x5 grid with numbered circles -->
+        <!-- Row 1 (animals 1-5) -->
+        <!-- Animal 1 parrot (green circle) -->
+        <g filter="url(#lc3-sh)">
+          <circle cx="34" cy="88" r="20" fill="#4ADE80"/>
+          <text x="34" y="95" text-anchor="middle" font-size="22">🦜</text>
+          <circle cx="46" cy="73" r="9" fill="#3B82F6"/>
+          <text x="46" y="78" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">1</text>
+        </g>
+        <g filter="url(#lc3-sh)">
+          <circle cx="84" cy="84" r="20" fill="#FDE68A"/>
+          <text x="84" y="91" text-anchor="middle" font-size="22">🦋</text>
+          <circle cx="96" cy="69" r="9" fill="#3B82F6"/>
+          <text x="96" y="74" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">2</text>
+        </g>
+        <g filter="url(#lc3-sh)">
+          <circle cx="134" cy="82" r="20" fill="#BAE6FD"/>
+          <text x="134" y="89" text-anchor="middle" font-size="22">🐦</text>
+          <circle cx="146" cy="67" r="9" fill="#3B82F6"/>
+          <text x="146" y="72" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">3</text>
+        </g>
+        <g filter="url(#lc3-sh)">
+          <circle cx="184" cy="84" r="20" fill="#D1FAE5"/>
+          <text x="184" y="91" text-anchor="middle" font-size="22">🦔</text>
+          <circle cx="196" cy="69" r="9" fill="#3B82F6"/>
+          <text x="196" y="74" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">4</text>
+        </g>
+        <g filter="url(#lc3-sh)">
+          <circle cx="234" cy="88" r="20" fill="#A7F3D0"/>
+          <text x="234" y="95" text-anchor="middle" font-size="22">🐢</text>
+          <circle cx="246" cy="73" r="9" fill="#3B82F6"/>
+          <text x="246" y="78" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">5</text>
+        </g>
+        <!-- Row 2 (animals 6-10) -->
+        <g filter="url(#lc3-sh)">
+          <circle cx="34" cy="140" r="20" fill="#BBF7D0"/>
+          <text x="34" y="147" text-anchor="middle" font-size="22">🐸</text>
+          <circle cx="46" cy="125" r="9" fill="#1D4ED8"/>
+          <text x="46" y="130" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">6</text>
+        </g>
+        <g filter="url(#lc3-sh)">
+          <circle cx="84" cy="140" r="20" fill="#FEF9C3"/>
+          <text x="84" y="147" text-anchor="middle" font-size="22">🦎</text>
+          <circle cx="96" cy="125" r="9" fill="#1D4ED8"/>
+          <text x="96" y="130" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">7</text>
+        </g>
+        <g filter="url(#lc3-sh)">
+          <circle cx="134" cy="140" r="20" fill="#FEE2E2"/>
+          <text x="134" y="147" text-anchor="middle" font-size="22">🐝</text>
+          <circle cx="146" cy="125" r="9" fill="#1D4ED8"/>
+          <text x="146" y="130" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">8</text>
+        </g>
+        <g filter="url(#lc3-sh)">
+          <circle cx="184" cy="140" r="20" fill="#EDE9FE"/>
+          <text x="184" y="147" text-anchor="middle" font-size="22">🦗</text>
+          <circle cx="196" cy="125" r="9" fill="#1D4ED8"/>
+          <text x="196" y="130" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">9</text>
+        </g>
+        <g filter="url(#lc3-sh)">
+          <circle cx="234" cy="140" r="20" fill="#DCFCE7"/>
+          <text x="234" y="147" text-anchor="middle" font-size="22">🐛</text>
+          <circle cx="248" cy="125" r="11" fill="#1D4ED8"/>
+          <text x="248" y="130" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="white">10</text>
+        </g>
+        <!-- Leo small at bottom -->
+        <g filter="url(#lc3-sh)">
+          <ellipse cx="150" cy="215" rx="38" ry="28" fill="url(#lc3-leo)"/>
+          <circle cx="150" cy="193" r="30" fill="url(#lc3-mane)"/>
+          <circle cx="150" cy="193" r="22" fill="url(#lc3-leo)"/>
+          <circle cx="138" cy="190" r="5.5" fill="white"/>
+          <circle cx="138" cy="190" r="3.5" fill="#111827"/>
+          <circle cx="162" cy="190" r="5.5" fill="white"/>
+          <circle cx="162" cy="190" r="3.5" fill="#111827"/>
+          <path d="M143 199 Q150 206 157 199" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- = 10! label -->
+        <rect x="100" y="255" width="100" height="20" rx="10" fill="#1D4ED8"/>
+        <text x="150" y="269" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="white">= 10 animals!</text>
+      </svg>
       <div class="illus-caption">10 animals — one for each finger!</div>
     </div>
 
@@ -380,28 +565,90 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
   <div class="book-page" id="page-4">
     <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FDE68A);">
       <div class="page-num-illus">Page 4</div>
-      <div style="width:90%;display:flex;flex-direction:column;gap:8px;">
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border-radius:12px;padding:6px 10px;">
-          <span style="font-size:1.4rem;font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;min-width:32px;">11</span>
-          <span style="font-size:1.8rem;">🦜</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border-radius:12px;padding:6px 10px;">
-          <span style="font-size:1.4rem;font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;min-width:32px;">12</span>
-          <span style="font-size:1.8rem;">🦓</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border-radius:12px;padding:6px 10px;">
-          <span style="font-size:1.4rem;font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;min-width:32px;">13</span>
-          <span style="font-size:1.8rem;">🐘</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border-radius:12px;padding:6px 10px;">
-          <span style="font-size:1.4rem;font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;min-width:32px;">14</span>
-          <span style="font-size:1.8rem;">🦒</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border-radius:12px;padding:6px 10px;">
-          <span style="font-size:1.4rem;font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;min-width:32px;">15</span>
-          <span style="font-size:1.8rem;">🦋</span>
-        </div>
-      </div>
+      <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+        <defs>
+          <linearGradient id="lc4-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="100%" stop-color="#FEF9C3"/>
+          </linearGradient>
+          <linearGradient id="lc4-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <radialGradient id="lc4-leo" cx="36%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc4-mane" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc4-sun" cx="40%" cy="38%" r="60%">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="55%" stop-color="#FCD34D"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <filter id="lc4-sh">
+            <feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-opacity="0.2"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#lc4-sky)"/>
+        <!-- Sun -->
+        <circle cx="258" cy="26" r="24" fill="#FEF9C3" opacity=".7"/>
+        <circle cx="258" cy="26" r="16" fill="url(#lc4-sun)"/>
+        <!-- Jungle trees far bg -->
+        <circle cx="16" cy="80" r="32" fill="#16A34A" opacity=".6"/>
+        <circle cx="284" cy="90" r="28" fill="#22C55E" opacity=".6"/>
+        <path d="M0 244 Q75 234 150 242 Q225 250 300 238 L300 280 L0 280 Z" fill="url(#lc4-grass)"/>
+        <path d="M0 254 Q90 246 180 251 Q240 254 300 248 L300 280 L0 280 Z" fill="#14532D" opacity=".4"/>
+        <!-- 5 numbered animal cards -->
+        <g filter="url(#lc4-sh)">
+          <rect x="14" y="22" width="272" height="42" rx="12" fill="rgba(255,255,255,.75)"/>
+          <rect x="14" y="22" width="48" height="42" rx="12" fill="#3B82F6"/>
+          <text x="38" y="49" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="20" fill="white">11</text>
+          <text x="98" y="52" text-anchor="middle" font-size="28">🦜</text>
+          <text x="165" y="48" font-family="Quicksand" font-weight="600" font-size="11" fill="#1D4ED8">Pip the Parrot</text>
+        </g>
+        <g filter="url(#lc4-sh)">
+          <rect x="14" y="72" width="272" height="42" rx="12" fill="rgba(255,255,255,.75)"/>
+          <rect x="14" y="72" width="48" height="42" rx="12" fill="#1D4ED8"/>
+          <text x="38" y="99" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="20" fill="white">12</text>
+          <text x="98" y="102" text-anchor="middle" font-size="28">🦓</text>
+          <text x="165" y="98" font-family="Quicksand" font-weight="600" font-size="11" fill="#1D4ED8">Zara the Zebra</text>
+        </g>
+        <g filter="url(#lc4-sh)">
+          <rect x="14" y="122" width="272" height="42" rx="12" fill="rgba(255,255,255,.75)"/>
+          <rect x="14" y="122" width="48" height="42" rx="12" fill="#3B82F6"/>
+          <text x="38" y="149" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="20" fill="white">13</text>
+          <text x="98" y="152" text-anchor="middle" font-size="28">🐘</text>
+          <text x="165" y="148" font-family="Quicksand" font-weight="600" font-size="11" fill="#1D4ED8">Ella Elephant</text>
+        </g>
+        <g filter="url(#lc4-sh)">
+          <rect x="14" y="172" width="272" height="42" rx="12" fill="rgba(255,255,255,.75)"/>
+          <rect x="14" y="172" width="48" height="42" rx="12" fill="#1D4ED8"/>
+          <text x="38" y="199" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="20" fill="white">14</text>
+          <text x="98" y="202" text-anchor="middle" font-size="28">🦒</text>
+          <text x="165" y="198" font-family="Quicksand" font-weight="600" font-size="11" fill="#1D4ED8">Gerry Giraffe</text>
+        </g>
+        <g filter="url(#lc4-sh)">
+          <rect x="14" y="222" width="272" height="42" rx="12" fill="rgba(255,255,255,.75)"/>
+          <rect x="14" y="222" width="48" height="42" rx="12" fill="#3B82F6"/>
+          <text x="38" y="249" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="20" fill="white">15</text>
+          <text x="98" y="252" text-anchor="middle" font-size="28">🦋</text>
+          <text x="165" y="248" font-family="Quicksand" font-weight="600" font-size="11" fill="#1D4ED8">Blue Butterfly</text>
+        </g>
+        <!-- Leo small in corner -->
+        <g filter="url(#lc4-sh)" transform="translate(255,50) scale(0.55)">
+          <circle cx="0" cy="0" r="38" fill="url(#lc4-mane)"/>
+          <circle cx="0" cy="0" r="28" fill="url(#lc4-leo)"/>
+          <circle cx="-10" cy="-6" r="7" fill="white"/>
+          <circle cx="-10" cy="-6" r="4.5" fill="#111827"/>
+          <circle cx="12" cy="-6" r="7" fill="white"/>
+          <circle cx="12" cy="-6" r="4.5" fill="#111827"/>
+          <path d="M-8 8 Q0 16 8 8" stroke="#92400E" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
       <div class="illus-caption">Numbers 11 to 15!</div>
     </div>
 
@@ -440,18 +687,242 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 5 – NUMBERS 16–20
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
-      <div class="page-num-illus">Page 5</div>
-      <div style="font-size:4rem;margin-bottom:8px;">🎉</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;width:90%;">
-        <span style="background:#8B5CF6;color:white;border-radius:10px;padding:6px 10px;font-weight:800;font-size:1.2rem;font-family:'Quicksand',sans-serif;">16</span>
-        <span style="background:#8B5CF6;color:white;border-radius:10px;padding:6px 10px;font-weight:800;font-size:1.2rem;font-family:'Quicksand',sans-serif;">17</span>
-        <span style="background:#8B5CF6;color:white;border-radius:10px;padding:6px 10px;font-weight:800;font-size:1.2rem;font-family:'Quicksand',sans-serif;">18</span>
-        <span style="background:#8B5CF6;color:white;border-radius:10px;padding:6px 10px;font-weight:800;font-size:1.2rem;font-family:'Quicksand',sans-serif;">19</span>
-        <span style="background:#6D28D9;color:white;border-radius:10px;padding:8px 14px;font-weight:800;font-size:1.5rem;font-family:'Quicksand',sans-serif;border:3px solid white;">20!</span>
-      </div>
-      <div style="font-size:2.5rem;margin-top:12px;">🦁🦜🦓🐘🦒🦋🐦🦔🐢🐸🦎🐝🦗🐛🐆🐊🦩🦚🦜🦋</div>
-      <div class="illus-caption">Twenty animals found!</div>
+    <div class="illustration" style="padding:0;background:#1E1B4B;">
+      <svg viewBox="0 0 300 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Sky: deep twilight purple-blue -->
+          <linearGradient id="lc5-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1E1B4B"/>
+            <stop offset="55%" stop-color="#4C1D95"/>
+            <stop offset="100%" stop-color="#7C3AED"/>
+          </linearGradient>
+          <!-- Ground -->
+          <linearGradient id="lc5-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#15803D"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <!-- Leo body -->
+          <radialGradient id="lc5-leo" cx="36%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc5-mane" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <!-- Number badge gradient -->
+          <radialGradient id="lc5-badge" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#C4B5FD"/>
+            <stop offset="55%" stop-color="#7C3AED"/>
+            <stop offset="100%" stop-color="#3730A3"/>
+          </radialGradient>
+          <!-- Special 20 badge -->
+          <radialGradient id="lc5-badge20" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="55%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <!-- Moon glow -->
+          <radialGradient id="lc5-moon" cx="50%" cy="45%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="60%" stop-color="#FEF08A"/>
+            <stop offset="100%" stop-color="#FBBF24"/>
+          </radialGradient>
+          <!-- Drop shadow -->
+          <filter id="lc5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="lc5-glow">
+            <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#F59E0B" flood-opacity="0.5"/>
+          </filter>
+        </defs>
+
+        <!-- Sky background -->
+        <rect width="300" height="380" fill="url(#lc5-sky)"/>
+
+        <!-- Stars scattered in sky -->
+        <circle cx="24" cy="20" r="1.5" fill="white" opacity="0.9"/>
+        <circle cx="58" cy="14" r="1" fill="white" opacity="0.8"/>
+        <circle cx="90" cy="30" r="1.5" fill="white" opacity="0.7"/>
+        <circle cx="120" cy="12" r="1" fill="white" opacity="0.9"/>
+        <circle cx="155" cy="22" r="2" fill="white" opacity="0.8"/>
+        <circle cx="200" cy="10" r="1.5" fill="white" opacity="0.9"/>
+        <circle cx="235" cy="28" r="1" fill="white" opacity="0.7"/>
+        <circle cx="270" cy="15" r="1.5" fill="white" opacity="0.8"/>
+        <circle cx="285" cy="35" r="1" fill="white" opacity="0.9"/>
+        <!-- Sparkle stars -->
+        <path d="M40 45 L41.5 48 L45 49 L41.5 50.5 L40 54 L38.5 50.5 L35 49 L38.5 48 Z" fill="white" opacity="0.85"/>
+        <path d="M260 42 L261 44.5 L264 45 L261 46 L260 48.5 L259 46 L256 45 L259 44.5 Z" fill="white" opacity="0.8"/>
+        <path d="M140 8 L141 10 L143.5 10.5 L141 11.5 L140 14 L139 11.5 L136.5 10.5 L139 10 Z" fill="#FEF08A" opacity="0.9"/>
+
+        <!-- Moon -->
+        <circle cx="240" cy="55" r="24" fill="url(#lc5-moon)" opacity="0.25" filter="url(#lc5-glow)"/>
+        <circle cx="240" cy="55" r="18" fill="url(#lc5-moon)"/>
+        <circle cx="234" cy="50" r="5" fill="#FEF3C7" opacity="0.4"/>
+
+        <!-- Background jungle trees (silhouette) -->
+        <ellipse cx="30" cy="190" rx="28" ry="60" fill="#14532D" opacity="0.7"/>
+        <ellipse cx="18" cy="200" rx="18" ry="45" fill="#15803D" opacity="0.5"/>
+        <ellipse cx="270" cy="185" rx="28" ry="65" fill="#14532D" opacity="0.7"/>
+        <ellipse cx="282" cy="195" rx="20" ry="50" fill="#15803D" opacity="0.5"/>
+
+        <!-- Firefly dots for magical night atmosphere -->
+        <circle cx="75" cy="150" r="2" fill="#FEF08A" opacity="0.7"/>
+        <circle cx="215" cy="130" r="2.5" fill="#FEF08A" opacity="0.6"/>
+        <circle cx="55" cy="120" r="1.5" fill="#86EFAC" opacity="0.7"/>
+        <circle cx="230" cy="160" r="2" fill="#86EFAC" opacity="0.6"/>
+
+        <!-- Ground / grass -->
+        <path d="M0 285 Q75 274 150 282 Q225 290 300 278 L300 380 L0 380 Z" fill="url(#lc5-grass)"/>
+        <path d="M0 295 Q90 285 180 292 Q240 296 300 288 L300 380 L0 380 Z" fill="#14532D" opacity="0.5"/>
+
+        <!-- Grass blades -->
+        <line x1="50" y1="285" x2="46" y2="270" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="56" y1="283" x2="60" y2="270" stroke="#15803D" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="180" y1="282" x2="176" y2="268" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="186" y1="280" x2="190" y2="267" stroke="#15803D" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="240" y1="284" x2="236" y2="270" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+
+        <!-- Number badges: 16, 17, 18, 19 in a row -->
+        <!-- Badge 16 -->
+        <g filter="url(#lc5-sh)">
+          <rect x="18" y="190" rx="8" ry="8" width="48" height="36" fill="url(#lc5-badge)"/>
+          <text x="42" y="214" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="18" font-weight="800" fill="white">16</text>
+        </g>
+        <!-- Badge 17 -->
+        <g filter="url(#lc5-sh)">
+          <rect x="74" y="190" rx="8" ry="8" width="48" height="36" fill="url(#lc5-badge)"/>
+          <text x="98" y="214" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="18" font-weight="800" fill="white">17</text>
+        </g>
+        <!-- Badge 18 -->
+        <g filter="url(#lc5-sh)">
+          <rect x="130" y="190" rx="8" ry="8" width="48" height="36" fill="url(#lc5-badge)"/>
+          <text x="154" y="214" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="18" font-weight="800" fill="white">18</text>
+        </g>
+        <!-- Badge 19 -->
+        <g filter="url(#lc5-sh)">
+          <rect x="186" y="190" rx="8" ry="8" width="48" height="36" fill="url(#lc5-badge)"/>
+          <text x="210" y="214" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="18" font-weight="800" fill="white">19</text>
+        </g>
+        <!-- Badge 20 — special, larger, golden -->
+        <g filter="url(#lc5-sh)">
+          <rect x="238" y="183" rx="10" ry="10" width="52" height="44" fill="url(#lc5-badge20)"/>
+          <rect x="238" y="183" rx="10" ry="10" width="52" height="44" fill="none" stroke="white" stroke-width="2.5"/>
+          <text x="264" y="211" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="20" font-weight="800" fill="#1E1B4B">20!</text>
+        </g>
+
+        <!-- 20 small animal dots arranged in a 5x4 grid (tiny animal silhouettes) -->
+        <!-- Row 1: animals 1-5 -->
+        <circle cx="40" cy="252" r="7" fill="#D97706" opacity="0.85"/>
+        <text x="40" y="256" text-anchor="middle" font-size="9" fill="white">🦁</text>
+        <circle cx="62" cy="252" r="7" fill="#15803D" opacity="0.85"/>
+        <text x="62" y="256" text-anchor="middle" font-size="9" fill="white">🦜</text>
+        <circle cx="84" cy="252" r="7" fill="#1D4ED8" opacity="0.85"/>
+        <text x="84" y="256" text-anchor="middle" font-size="9" fill="white">🦓</text>
+        <circle cx="106" cy="252" r="7" fill="#6D28D9" opacity="0.85"/>
+        <text x="106" y="256" text-anchor="middle" font-size="9" fill="white">🐘</text>
+        <circle cx="128" cy="252" r="7" fill="#065F46" opacity="0.85"/>
+        <text x="128" y="256" text-anchor="middle" font-size="9" fill="white">🦒</text>
+        <!-- Row 2: animals 6-10 -->
+        <circle cx="150" cy="252" r="7" fill="#7C3AED" opacity="0.85"/>
+        <text x="150" y="256" text-anchor="middle" font-size="9" fill="white">🦋</text>
+        <circle cx="172" cy="252" r="7" fill="#B45309" opacity="0.85"/>
+        <text x="172" y="256" text-anchor="middle" font-size="9" fill="white">🐦</text>
+        <circle cx="194" cy="252" r="7" fill="#047857" opacity="0.85"/>
+        <text x="194" y="256" text-anchor="middle" font-size="9" fill="white">🦔</text>
+        <circle cx="216" cy="252" r="7" fill="#0369A1" opacity="0.85"/>
+        <text x="216" y="256" text-anchor="middle" font-size="9" fill="white">🐢</text>
+        <circle cx="238" cy="252" r="7" fill="#15803D" opacity="0.85"/>
+        <text x="238" y="256" text-anchor="middle" font-size="9" fill="white">🐸</text>
+        <!-- Row 3: animals 11-15 -->
+        <circle cx="40" cy="270" r="7" fill="#065F46" opacity="0.85"/>
+        <text x="40" y="274" text-anchor="middle" font-size="9" fill="white">🦎</text>
+        <circle cx="62" cy="270" r="7" fill="#92400E" opacity="0.85"/>
+        <text x="62" y="274" text-anchor="middle" font-size="9" fill="white">🐝</text>
+        <circle cx="84" cy="270" r="7" fill="#374151" opacity="0.85"/>
+        <text x="84" y="274" text-anchor="middle" font-size="9" fill="white">🦗</text>
+        <circle cx="106" cy="270" r="7" fill="#78350F" opacity="0.85"/>
+        <text x="106" y="274" text-anchor="middle" font-size="9" fill="white">🐛</text>
+        <circle cx="128" cy="270" r="7" fill="#7C2D12" opacity="0.85"/>
+        <text x="128" y="274" text-anchor="middle" font-size="9" fill="white">🐆</text>
+        <!-- Row 4: animals 16-20 -->
+        <circle cx="150" cy="270" r="7" fill="#14532D" opacity="0.85"/>
+        <text x="150" y="274" text-anchor="middle" font-size="9" fill="white">🐊</text>
+        <circle cx="172" cy="270" r="7" fill="#BE185D" opacity="0.85"/>
+        <text x="172" y="274" text-anchor="middle" font-size="9" fill="white">🦩</text>
+        <circle cx="194" cy="270" r="7" fill="#065F46" opacity="0.85"/>
+        <text x="194" y="274" text-anchor="middle" font-size="9" fill="white">🦚</text>
+        <circle cx="216" cy="270" r="7" fill="#15803D" opacity="0.85"/>
+        <text x="216" y="274" text-anchor="middle" font-size="9" fill="white">🦜</text>
+        <circle cx="238" cy="270" r="7" fill="#7C3AED" opacity="0.85"/>
+        <text x="238" y="274" text-anchor="middle" font-size="9" fill="white">🦋</text>
+
+        <!-- Confetti rain -->
+        <rect x="70" y="100" width="6" height="9" rx="2" fill="#F59E0B" opacity="0.8" transform="rotate(20 73 104)"/>
+        <rect x="180" y="88" width="6" height="9" rx="2" fill="#EC4899" opacity="0.8" transform="rotate(-15 183 92)"/>
+        <rect x="120" y="105" width="5" height="8" rx="2" fill="#34D399" opacity="0.8" transform="rotate(35 122 109)"/>
+        <rect x="50" y="115" width="5" height="8" rx="2" fill="#60A5FA" opacity="0.8" transform="rotate(-25 52 119)"/>
+        <rect x="225" y="95" width="6" height="9" rx="2" fill="#A78BFA" opacity="0.8" transform="rotate(10 228 99)"/>
+        <rect x="155" y="78" width="5" height="8" rx="2" fill="#FCD34D" opacity="0.8" transform="rotate(45 157 82)"/>
+        <rect x="95" y="80" width="6" height="9" rx="2" fill="#F87171" opacity="0.8" transform="rotate(-30 98 84)"/>
+        <rect x="200" y="115" width="5" height="8" rx="2" fill="#86EFAC" opacity="0.8" transform="rotate(20 202 119)"/>
+
+        <!-- Leo standing centre, celebrating -->
+        <g filter="url(#lc5-sh)" transform="translate(145,100)">
+          <!-- Body -->
+          <ellipse cx="5" cy="85" rx="24" ry="28" fill="url(#lc5-leo)"/>
+          <!-- Tail -->
+          <path d="M27 105 Q55 115 50 130 Q46 138 40 136" stroke="#D97706" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="38" cy="138" r="7" fill="#78350F"/>
+          <!-- Front legs (raised in celebration) -->
+          <path d="M-12 100 Q-28 82 -30 68" stroke="#D97706" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M22 100 Q38 82 42 68" stroke="#D97706" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <!-- Paws (front raised) -->
+          <circle cx="-30" cy="65" r="7" fill="#F59E0B"/>
+          <circle cx="42" cy="65" r="7" fill="#F59E0B"/>
+          <!-- Back legs -->
+          <path d="M-10 110 Q-14 128 -10 136" stroke="#D97706" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M20 110 Q24 128 22 136" stroke="#D97706" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <ellipse cx="-10" cy="137" rx="8" ry="4" fill="#D97706"/>
+          <ellipse cx="22" cy="137" rx="8" ry="4" fill="#D97706"/>
+          <!-- Mane (darker ring behind head) -->
+          <circle cx="5" cy="50" r="32" fill="url(#lc5-mane)"/>
+          <!-- Head -->
+          <circle cx="5" cy="50" r="24" fill="url(#lc5-leo)"/>
+          <!-- Ears -->
+          <circle cx="-16" cy="28" r="9" fill="#D97706"/>
+          <circle cx="-16" cy="28" r="5" fill="#F59E0B"/>
+          <circle cx="26" cy="28" r="9" fill="#D97706"/>
+          <circle cx="26" cy="28" r="5" fill="#F59E0B"/>
+          <!-- Eyes (open wide, happy) -->
+          <circle cx="-8" cy="46" r="6" fill="white"/>
+          <circle cx="-8" cy="46" r="3.5" fill="#1C1917"/>
+          <circle cx="-6.5" cy="44.5" r="1.5" fill="white"/>
+          <circle cx="18" cy="46" r="6" fill="white"/>
+          <circle cx="18" cy="46" r="3.5" fill="#1C1917"/>
+          <circle cx="19.5" cy="44.5" r="1.5" fill="white"/>
+          <!-- Nose -->
+          <ellipse cx="5" cy="58" rx="4.5" ry="3" fill="#78350F"/>
+          <!-- Happy open mouth smile -->
+          <path d="M-3 63 Q5 70 13 63" stroke="#78350F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Whiskers -->
+          <line x1="-20" y1="57" x2="-8" y2="59" stroke="#D97706" stroke-width="1.2" opacity="0.7"/>
+          <line x1="-20" y1="61" x2="-8" y2="62" stroke="#D97706" stroke-width="1.2" opacity="0.7"/>
+          <line x1="18" y1="57" x2="30" y2="59" stroke="#D97706" stroke-width="1.2" opacity="0.7"/>
+          <line x1="18" y1="61" x2="30" y2="62" stroke="#D97706" stroke-width="1.2" opacity="0.7"/>
+          <!-- Cheek blush -->
+          <ellipse cx="-12" cy="55" rx="6" ry="4" fill="#FCA5A5" opacity="0.45"/>
+          <ellipse cx="22" cy="55" rx="6" ry="4" fill="#FCA5A5" opacity="0.45"/>
+        </g>
+
+        <!-- "20!" celebration banner -->
+        <g filter="url(#lc5-sh)">
+          <rect x="60" y="152" rx="10" ry="10" width="180" height="34" fill="#1E1B4B" opacity="0.85"/>
+          <rect x="60" y="152" rx="10" ry="10" width="180" height="34" fill="none" stroke="#FEF08A" stroke-width="2"/>
+          <text x="150" y="174" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="18" font-weight="800" fill="#FEF08A">Twenty animals found!</text>
+        </g>
+      </svg>
     </div>
 
     <div class="story-panel">
@@ -489,37 +960,186 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 6 – WRITING NUMBERS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
-      <div class="page-num-illus">Page 6</div>
-      <div style="font-size:.9rem;font-weight:700;color:#059669;margin-bottom:8px;text-align:center;">Number Words!</div>
-      <div style="width:90%;display:flex;flex-direction:column;gap:5px;">
-        <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.7);border-radius:8px;padding:5px 10px;">
-          <span style="font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;">1</span>
-          <span style="font-weight:600;color:#059669;font-size:.9rem;">one</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.7);border-radius:8px;padding:5px 10px;">
-          <span style="font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;">5</span>
-          <span style="font-weight:600;color:#059669;font-size:.9rem;">five</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.7);border-radius:8px;padding:5px 10px;">
-          <span style="font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;">10</span>
-          <span style="font-weight:600;color:#059669;font-size:.9rem;">ten</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.7);border-radius:8px;padding:5px 10px;">
-          <span style="font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;">11</span>
-          <span style="font-weight:600;color:#059669;font-size:.9rem;">eleven</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.7);border-radius:8px;padding:5px 10px;">
-          <span style="font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;">15</span>
-          <span style="font-weight:600;color:#059669;font-size:.9rem;">fifteen</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.7);border-radius:8px;padding:5px 10px;">
-          <span style="font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;">20</span>
-          <span style="font-weight:600;color:#059669;font-size:.9rem;">twenty</span>
-        </div>
-      </div>
-      <div style="font-size:3rem;margin-top:8px;">📝✏️</div>
-      <div class="illus-caption">Words and numbers go together!</div>
+    <div class="illustration" style="padding:0;background:#052E16;">
+      <svg viewBox="0 0 300 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Sky: morning green-teal -->
+          <linearGradient id="lc6-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ECFDF5"/>
+            <stop offset="50%" stop-color="#A7F3D0"/>
+            <stop offset="100%" stop-color="#6EE7B7"/>
+          </linearGradient>
+          <!-- Ground -->
+          <linearGradient id="lc6-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#16A34A"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <!-- Scroll / card background -->
+          <linearGradient id="lc6-scroll" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFBEB"/>
+            <stop offset="100%" stop-color="#FEF3C7"/>
+          </linearGradient>
+          <!-- Number numeral colour -->
+          <linearGradient id="lc6-num" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#3B82F6"/>
+            <stop offset="100%" stop-color="#1D4ED8"/>
+          </linearGradient>
+          <!-- Leo body -->
+          <radialGradient id="lc6-leo" cx="36%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc6-mane" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <!-- Sun -->
+          <radialGradient id="lc6-sun" cx="50%" cy="45%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <!-- Drop shadow -->
+          <filter id="lc6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="lc6-sh2">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.18"/>
+          </filter>
+        </defs>
+
+        <!-- Sky background -->
+        <rect width="300" height="380" fill="url(#lc6-sky)"/>
+
+        <!-- Sun (top right) -->
+        <circle cx="255" cy="42" r="28" fill="#FBBF24" opacity="0.25"/>
+        <circle cx="255" cy="42" r="20" fill="url(#lc6-sun)"/>
+        <!-- Sun rays -->
+        <line x1="255" y1="16" x2="255" y2="10" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="271" y1="22" x2="276" y2="17" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="278" y1="42" x2="285" y2="42" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="271" y1="62" x2="276" y2="67" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="239" y1="22" x2="234" y2="17" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="232" y1="42" x2="225" y2="42" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="239" y1="62" x2="234" y2="67" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Clouds -->
+        <ellipse cx="55" cy="45" rx="26" ry="14" fill="white" opacity="0.88"/>
+        <ellipse cx="72" cy="40" rx="20" ry="13" fill="white" opacity="0.88"/>
+        <ellipse cx="38" cy="42" rx="16" ry="11" fill="white" opacity="0.88"/>
+        <ellipse cx="175" cy="38" rx="22" ry="12" fill="white" opacity="0.75"/>
+        <ellipse cx="190" cy="33" rx="17" ry="11" fill="white" opacity="0.75"/>
+
+        <!-- Background jungle trees -->
+        <ellipse cx="25" cy="210" rx="24" ry="55" fill="#14532D" opacity="0.6"/>
+        <ellipse cx="12" cy="220" rx="16" ry="42" fill="#15803D" opacity="0.45"/>
+        <ellipse cx="275" cy="205" rx="24" ry="58" fill="#14532D" opacity="0.6"/>
+        <ellipse cx="288" cy="215" rx="16" ry="44" fill="#15803D" opacity="0.45"/>
+
+        <!-- Ground -->
+        <path d="M0 290 Q75 279 150 287 Q225 295 300 283 L300 380 L0 380 Z" fill="url(#lc6-grass)"/>
+        <path d="M0 300 Q90 290 180 297 Q240 301 300 293 L300 380 L0 380 Z" fill="#14532D" opacity="0.5"/>
+        <!-- Grass blades -->
+        <line x1="45" y1="290" x2="41" y2="276" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="51" y1="288" x2="55" y2="275" stroke="#15803D" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="200" y1="287" x2="196" y2="273" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="240" y1="289" x2="244" y2="276" stroke="#15803D" stroke-width="1.5" stroke-linecap="round"/>
+
+        <!-- Scroll / notebook banner (big) -->
+        <g filter="url(#lc6-sh)">
+          <!-- Scroll roll top -->
+          <ellipse cx="150" cy="82" rx="108" ry="10" fill="#FEF3C7"/>
+          <!-- Scroll body -->
+          <rect x="42" y="82" width="216" height="190" fill="url(#lc6-scroll)" rx="2"/>
+          <!-- Scroll roll bottom -->
+          <ellipse cx="150" cy="272" rx="108" ry="10" fill="#FDE68A"/>
+          <!-- Scroll shadows on rolls -->
+          <ellipse cx="150" cy="82" rx="108" ry="10" fill="none" stroke="#D97706" stroke-width="1.2" opacity="0.4"/>
+          <ellipse cx="150" cy="272" rx="108" ry="10" fill="none" stroke="#D97706" stroke-width="1.2" opacity="0.4"/>
+          <!-- Title on scroll -->
+          <text x="150" y="105" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="13" font-weight="800" fill="#059669">Number Words</text>
+          <!-- Divider line -->
+          <line x1="55" y1="112" x2="245" y2="112" stroke="#A7F3D0" stroke-width="1.5"/>
+
+          <!-- Row 1: 1 = one -->
+          <rect x="55" y="118" rx="6" ry="6" width="190" height="24" fill="white" opacity="0.8"/>
+          <text x="80" y="134" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="15" font-weight="800" fill="#1D4ED8">1</text>
+          <text x="108" y="134" font-family="Nunito,sans-serif" font-size="11" fill="#6B7280">=</text>
+          <text x="220" y="134" text-anchor="middle" font-family="Nunito,sans-serif" font-size="13" font-weight="700" fill="#059669">one</text>
+
+          <!-- Row 2: 5 = five -->
+          <rect x="55" y="148" rx="6" ry="6" width="190" height="24" fill="#F0FDF4" opacity="0.9"/>
+          <text x="80" y="164" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="15" font-weight="800" fill="#1D4ED8">5</text>
+          <text x="108" y="164" font-family="Nunito,sans-serif" font-size="11" fill="#6B7280">=</text>
+          <text x="220" y="164" text-anchor="middle" font-family="Nunito,sans-serif" font-size="13" font-weight="700" fill="#059669">five</text>
+
+          <!-- Row 3: 10 = ten -->
+          <rect x="55" y="178" rx="6" ry="6" width="190" height="24" fill="white" opacity="0.8"/>
+          <text x="80" y="194" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="15" font-weight="800" fill="#1D4ED8">10</text>
+          <text x="108" y="194" font-family="Nunito,sans-serif" font-size="11" fill="#6B7280">=</text>
+          <text x="220" y="194" text-anchor="middle" font-family="Nunito,sans-serif" font-size="13" font-weight="700" fill="#059669">ten</text>
+
+          <!-- Row 4: 11 = eleven -->
+          <rect x="55" y="208" rx="6" ry="6" width="190" height="24" fill="#F0FDF4" opacity="0.9"/>
+          <text x="80" y="224" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="15" font-weight="800" fill="#1D4ED8">11</text>
+          <text x="108" y="224" font-family="Nunito,sans-serif" font-size="11" fill="#6B7280">=</text>
+          <text x="220" y="224" text-anchor="middle" font-family="Nunito,sans-serif" font-size="13" font-weight="700" fill="#059669">eleven</text>
+
+          <!-- Row 5: 15 = fifteen -->
+          <rect x="55" y="238" rx="6" ry="6" width="190" height="24" fill="white" opacity="0.8"/>
+          <text x="80" y="254" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="15" font-weight="800" fill="#1D4ED8">15</text>
+          <text x="108" y="254" font-family="Nunito,sans-serif" font-size="11" fill="#6B7280">=</text>
+          <text x="220" y="254" text-anchor="middle" font-family="Nunito,sans-serif" font-size="13" font-weight="700" fill="#059669">fifteen</text>
+
+          <!-- Row 6: 20 = twenty (highlighted golden) -->
+          <rect x="55" y="254" rx="6" ry="6" width="190" height="14" fill="none"/>
+          <!-- spacer between rows -->
+        </g>
+
+        <!-- Row 6: 20 = twenty (special highlight row below scroll body) rendered separate to allow golden colour -->
+        <g filter="url(#lc6-sh2)">
+          <rect x="55" y="258" rx="6" ry="6" width="190" height="5" fill="#FDE68A" opacity="0.5"/>
+        </g>
+
+        <!-- Pencil icon (small, decorative) -->
+        <g transform="translate(245,115)">
+          <rect x="0" y="0" width="10" height="36" rx="2" fill="#FBBF24"/>
+          <polygon points="0,36 10,36 5,46" fill="#FDDCAB"/>
+          <rect x="0" y="0" width="10" height="7" rx="2" fill="#9CA3AF"/>
+          <rect x="1" y="7" width="8" height="3" fill="#F87171"/>
+        </g>
+
+        <!-- Small Leo head in bottom-right corner -->
+        <g filter="url(#lc6-sh)" transform="translate(220,292) scale(0.52)">
+          <!-- Mane -->
+          <circle cx="0" cy="0" r="32" fill="url(#lc6-mane)"/>
+          <!-- Head -->
+          <circle cx="0" cy="0" r="24" fill="url(#lc6-leo)"/>
+          <!-- Ears -->
+          <circle cx="-18" cy="-20" r="9" fill="#D97706"/>
+          <circle cx="-18" cy="-20" r="5" fill="#F59E0B"/>
+          <circle cx="18" cy="-20" r="9" fill="#D97706"/>
+          <circle cx="18" cy="-20" r="5" fill="#F59E0B"/>
+          <!-- Eyes -->
+          <circle cx="-8" cy="-4" r="5.5" fill="white"/>
+          <circle cx="-8" cy="-4" r="3" fill="#1C1917"/>
+          <circle cx="-6.8" cy="-5.5" r="1.2" fill="white"/>
+          <circle cx="8" cy="-4" r="5.5" fill="white"/>
+          <circle cx="8" cy="-4" r="3" fill="#1C1917"/>
+          <circle cx="9.2" cy="-5.5" r="1.2" fill="white"/>
+          <!-- Nose -->
+          <ellipse cx="0" cy="6" rx="4" ry="2.8" fill="#78350F"/>
+          <!-- Smile -->
+          <path d="M-5 10 Q0 15 5 10" stroke="#78350F" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+
+        <!-- Caption banner -->
+        <g filter="url(#lc6-sh)">
+          <rect x="30" y="306" rx="9" ry="9" width="240" height="28" fill="#059669"/>
+          <text x="150" y="324" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="12" font-weight="800" fill="white">Words and numbers go together!</text>
+        </g>
+      </svg>
     </div>
 
     <div class="story-panel">
@@ -557,21 +1177,232 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 7 – LEO'S CELEBRATION
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
-      <div class="page-num-illus">Page 7</div>
-      <div style="font-size:4rem;margin-bottom:8px;">🎉</div>
-      <div class="illus-scene" style="flex-wrap:wrap;gap:2px;justify-content:center;">
-        <span class="char">🦁</span>
-        <span class="char">🦜</span>
-        <span class="char">🦓</span>
-        <span class="char">🐘</span>
-        <span class="char">🦒</span>
-        <span class="char">🦋</span>
-        <span class="char">🐦</span>
-        <span class="char">🦔</span>
-      </div>
-      <div style="font-size:2.5rem;margin-top:8px;font-weight:800;color:#1D4ED8;font-family:'Quicksand',sans-serif;">1 → 20 ✓</div>
-      <div class="illus-caption">All 20 animals counted!</div>
+    <div class="illustration" style="padding:0;background:#1C1917;">
+      <svg viewBox="0 0 300 380" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Sky: warm golden sunset celebration -->
+          <linearGradient id="lc7-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="45%" stop-color="#FCD34D"/>
+            <stop offset="100%" stop-color="#F59E0B"/>
+          </linearGradient>
+          <!-- Ground -->
+          <linearGradient id="lc7-grass" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#16A34A"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </linearGradient>
+          <!-- Leo body -->
+          <radialGradient id="lc7-leo" cx="36%" cy="28%" r="65%">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc7-mane" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <!-- Trophy gold -->
+          <linearGradient id="lc7-trophy" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FEF08A"/>
+            <stop offset="50%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </linearGradient>
+          <!-- Banner colours -->
+          <linearGradient id="lc7-banner" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7C3AED"/>
+            <stop offset="50%" stop-color="#1D4ED8"/>
+            <stop offset="100%" stop-color="#0369A1"/>
+          </linearGradient>
+          <!-- Animal circles -->
+          <radialGradient id="lc7-ani1" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#FEF3C7"/>
+            <stop offset="55%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="lc7-ani2" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#A7F3D0"/>
+            <stop offset="55%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#14532D"/>
+          </radialGradient>
+          <radialGradient id="lc7-ani3" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#BFDBFE"/>
+            <stop offset="55%" stop-color="#1D4ED8"/>
+            <stop offset="100%" stop-color="#1E3A8A"/>
+          </radialGradient>
+          <radialGradient id="lc7-ani4" cx="38%" cy="32%" r="62%">
+            <stop offset="0%" stop-color="#DDD6FE"/>
+            <stop offset="55%" stop-color="#7C3AED"/>
+            <stop offset="100%" stop-color="#3730A3"/>
+          </radialGradient>
+          <!-- Sun glow -->
+          <radialGradient id="lc7-sun" cx="50%" cy="45%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <!-- Drop shadow -->
+          <filter id="lc7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="lc7-glow">
+            <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#FBBF24" flood-opacity="0.55"/>
+          </filter>
+        </defs>
+
+        <!-- Sky background -->
+        <rect width="300" height="380" fill="url(#lc7-sky)"/>
+
+        <!-- Big glowing sun centre-top -->
+        <circle cx="150" cy="48" r="40" fill="#FBBF24" opacity="0.3" filter="url(#lc7-glow)"/>
+        <circle cx="150" cy="48" r="28" fill="url(#lc7-sun)"/>
+        <!-- Sun rays -->
+        <line x1="150" y1="14" x2="150" y2="6"  stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+        <line x1="170" y1="22" x2="176" y2="16"  stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+        <line x1="182" y1="44" x2="190" y2="44"  stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+        <line x1="170" y1="70" x2="176" y2="76"  stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+        <line x1="130" y1="22" x2="124" y2="16"  stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+        <line x1="118" y1="44" x2="110" y2="44"  stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+        <line x1="130" y1="70" x2="124" y2="76"  stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+        <line x1="150" y1="80" x2="150" y2="88"  stroke="#FBBF24" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Confetti rain (coloured) -->
+        <rect x="22" y="88"  width="7" height="10" rx="2" fill="#EC4899" opacity="0.85" transform="rotate(25 25 93)"/>
+        <rect x="55" y="72"  width="6" height="9"  rx="2" fill="#3B82F6" opacity="0.85" transform="rotate(-20 58 76)"/>
+        <rect x="85" y="95"  width="7" height="10" rx="2" fill="#10B981" opacity="0.85" transform="rotate(40 88 100)"/>
+        <rect x="200" y="70" width="6" height="9"  rx="2" fill="#F59E0B" opacity="0.85" transform="rotate(-35 203 74)"/>
+        <rect x="230" y="88" width="7" height="10" rx="2" fill="#7C3AED" opacity="0.85" transform="rotate(15 233 93)"/>
+        <rect x="258" y="75" width="6" height="9"  rx="2" fill="#EF4444" opacity="0.85" transform="rotate(50 261 79)"/>
+        <rect x="135" y="62" width="5" height="8"  rx="2" fill="#FCD34D" opacity="0.85" transform="rotate(-10 137 66)"/>
+        <rect x="170" y="80" width="7" height="10" rx="2" fill="#60A5FA" opacity="0.85" transform="rotate(30 173 85)"/>
+        <rect x="40" y="62"  width="5" height="8"  rx="2" fill="#86EFAC" opacity="0.85" transform="rotate(-45 42 66)"/>
+        <rect x="270" y="60" width="6" height="9"  rx="2" fill="#FDA4AF" opacity="0.85" transform="rotate(20 273 64)"/>
+        <!-- Sparkle stars -->
+        <path d="M30 130 L31.5 133 L35 133.5 L31.5 135.5 L30 139 L28.5 135.5 L25 133.5 L28.5 133 Z" fill="white" opacity="0.9"/>
+        <path d="M268 118 L269.2 121 L272.5 121.5 L269.2 123 L268 126 L266.8 123 L263.5 121.5 L266.8 121 Z" fill="white" opacity="0.85"/>
+        <path d="M152" y1="0" L153 3 L156 3.5 L153 5 L152 8 L151 5 L148 3.5 L151 3 Z" fill="#FEF08A" opacity="0.9"/>
+
+        <!-- Ground -->
+        <path d="M0 295 Q75 284 150 292 Q225 300 300 288 L300 380 L0 380 Z" fill="url(#lc7-grass)"/>
+        <path d="M0 305 Q90 295 180 302 Q240 306 300 298 L300 380 L0 380 Z" fill="#14532D" opacity="0.5"/>
+
+        <!-- Grass blades & flowers -->
+        <line x1="32" y1="295" x2="28" y2="281" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="38" y1="293" x2="42" y2="280" stroke="#15803D" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="250" y1="292" x2="246" y2="279" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="256" y1="290" x2="260" y2="278" stroke="#15803D" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Flowers -->
+        <circle cx="75" cy="292" r="5" fill="#FBBF24" opacity="0.9"/>
+        <circle cx="75" cy="292" r="2.5" fill="#F97316"/>
+        <circle cx="210" cy="294" r="5" fill="#EC4899" opacity="0.9"/>
+        <circle cx="210" cy="294" r="2.5" fill="#BE185D"/>
+
+        <!-- Background jungle trees (silhouette) -->
+        <ellipse cx="22" cy="230" rx="22" ry="50" fill="#14532D" opacity="0.55"/>
+        <ellipse cx="278" cy="225" rx="22" ry="55" fill="#14532D" opacity="0.55"/>
+
+        <!-- Animal friends row (8 small coloured circles with animal icons) -->
+        <!-- Left side group: 4 animals -->
+        <g filter="url(#lc7-sh)">
+          <circle cx="26" cy="258" r="14" fill="url(#lc7-ani1)"/>
+          <text x="26" y="263" text-anchor="middle" font-size="13">🦜</text>
+          <circle cx="56" cy="252" r="14" fill="url(#lc7-ani2)"/>
+          <text x="56" y="257" text-anchor="middle" font-size="13">🦓</text>
+          <circle cx="86" cy="256" r="14" fill="url(#lc7-ani3)"/>
+          <text x="86" y="261" text-anchor="middle" font-size="13">🐘</text>
+          <circle cx="116" cy="250" r="14" fill="url(#lc7-ani4)"/>
+          <text x="116" y="255" text-anchor="middle" font-size="13">🦒</text>
+        </g>
+        <!-- Right side group: 4 animals -->
+        <g filter="url(#lc7-sh)">
+          <circle cx="184" cy="250" r="14" fill="url(#lc7-ani1)"/>
+          <text x="184" y="255" text-anchor="middle" font-size="13">🦋</text>
+          <circle cx="214" cy="256" r="14" fill="url(#lc7-ani2)"/>
+          <text x="214" y="261" text-anchor="middle" font-size="13">🐦</text>
+          <circle cx="244" cy="252" r="14" fill="url(#lc7-ani3)"/>
+          <text x="244" y="257" text-anchor="middle" font-size="13">🦔</text>
+          <circle cx="274" cy="258" r="14" fill="url(#lc7-ani4)"/>
+          <text x="274" y="263" text-anchor="middle" font-size="13">🐢</text>
+        </g>
+
+        <!-- Leo the lion (centre, large, triumphant) -->
+        <g filter="url(#lc7-sh)" transform="translate(150,120)">
+          <!-- Body -->
+          <ellipse cx="0" cy="88" rx="28" ry="32" fill="url(#lc7-leo)"/>
+          <!-- Tail -->
+          <path d="M25 108 Q55 120 52 138 Q48 148 40 145" stroke="#D97706" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <circle cx="38" cy="147" r="8" fill="#78350F"/>
+          <!-- Front legs (both raised in triumphant pose) -->
+          <path d="M-15 102 Q-34 82 -38 64" stroke="#D97706" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <path d="M15 102 Q34 82 40 64" stroke="#D97706" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <circle cx="-38" cy="61" r="9" fill="#F59E0B"/>
+          <circle cx="40" cy="61" r="9" fill="#F59E0B"/>
+          <!-- Back legs -->
+          <path d="M-12 116 Q-16 136 -12 145" stroke="#D97706" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <path d="M12 116 Q16 136 14 145" stroke="#D97706" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <ellipse cx="-12" cy="146" rx="9" ry="5" fill="#D97706"/>
+          <ellipse cx="14" cy="146" rx="9" ry="5" fill="#D97706"/>
+          <!-- Mane (large ring behind head) -->
+          <circle cx="0" cy="46" r="38" fill="url(#lc7-mane)"/>
+          <!-- Head -->
+          <circle cx="0" cy="46" r="28" fill="url(#lc7-leo)"/>
+          <!-- Ears -->
+          <circle cx="-20" cy="22" r="11" fill="#D97706"/>
+          <circle cx="-20" cy="22" r="6" fill="#F59E0B"/>
+          <circle cx="20" cy="22" r="11" fill="#D97706"/>
+          <circle cx="20" cy="22" r="6" fill="#F59E0B"/>
+          <!-- Eyes (big happy) -->
+          <circle cx="-10" cy="40" r="7.5" fill="white"/>
+          <circle cx="-10" cy="40" r="4.5" fill="#1C1917"/>
+          <circle cx="-8" cy="38" r="2" fill="white"/>
+          <circle cx="10" cy="40" r="7.5" fill="white"/>
+          <circle cx="10" cy="40" r="4.5" fill="#1C1917"/>
+          <circle cx="12" cy="38" r="2" fill="white"/>
+          <!-- Nose -->
+          <ellipse cx="0" cy="54" rx="5.5" ry="3.5" fill="#78350F"/>
+          <!-- Big smile / open roar mouth -->
+          <path d="M-8 60 Q0 70 8 60" stroke="#78350F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Whiskers -->
+          <line x1="-26" y1="52" x2="-8" y2="54" stroke="#D97706" stroke-width="1.3" opacity="0.7"/>
+          <line x1="-26" y1="57" x2="-8" y2="58" stroke="#D97706" stroke-width="1.3" opacity="0.7"/>
+          <line x1="8" y1="52" x2="26" y2="54" stroke="#D97706" stroke-width="1.3" opacity="0.7"/>
+          <line x1="8" y1="57" x2="26" y2="58" stroke="#D97706" stroke-width="1.3" opacity="0.7"/>
+          <!-- Cheek blush circles -->
+          <ellipse cx="-15" cy="52" rx="7" ry="4.5" fill="#FCA5A5" opacity="0.4"/>
+          <ellipse cx="15" cy="52" rx="7" ry="4.5" fill="#FCA5A5" opacity="0.4"/>
+        </g>
+
+        <!-- Trophy above Leo -->
+        <g filter="url(#lc7-glow)" transform="translate(136,76)">
+          <!-- Cup body -->
+          <path d="M4 0 L24 0 L22 20 Q14 28 6 20 Z" fill="url(#lc7-trophy)"/>
+          <!-- Handles -->
+          <path d="M4 4 Q-4 8 -4 14 Q-4 20 4 18" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M24 4 Q32 8 32 14 Q32 20 24 18" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Base -->
+          <rect x="8" y="20" width="12" height="3" rx="1" fill="#D97706"/>
+          <rect x="6" y="23" width="16" height="3" rx="2" fill="#B45309"/>
+          <!-- Star on trophy -->
+          <path d="M14 6 L15.2 10 L19 10 L16 12.5 L17.2 16.5 L14 14 L10.8 16.5 L12 12.5 L9 10 L12.8 10 Z" fill="white" opacity="0.9"/>
+        </g>
+
+        <!-- "1 → 20" celebration banner (bottom) -->
+        <g filter="url(#lc7-sh)">
+          <rect x="32" y="310" rx="12" ry="12" width="236" height="40" fill="url(#lc7-banner)"/>
+          <rect x="32" y="310" rx="12" ry="12" width="236" height="40" fill="none" stroke="#FEF08A" stroke-width="2.5"/>
+          <!-- Star left -->
+          <path d="M52 330 L53.5 334 L58 334 L54.5 336.5 L55.8 341 L52 338.5 L48.2 341 L49.5 336.5 L46 334 L50.5 334 Z" fill="#FEF08A"/>
+          <!-- Text -->
+          <text x="150" y="335" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="17" font-weight="800" fill="white">1 → 20 ✓</text>
+          <!-- Star right -->
+          <path d="M248 330 L249.5 334 L254 334 L250.5 336.5 L251.8 341 L248 338.5 L244.2 341 L245.5 336.5 L242 334 L246.5 334 Z" fill="#FEF08A"/>
+        </g>
+
+        <!-- Caption -->
+        <g filter="url(#lc7-sh)">
+          <rect x="55" y="354" rx="9" ry="9" width="190" height="22" fill="#D97706"/>
+          <text x="150" y="369" text-anchor="middle" font-family="Quicksand,sans-serif" font-size="11" font-weight="800" fill="white">All 20 animals counted!</text>
+        </g>
+      </svg>
     </div>
 
     <div class="story-panel">

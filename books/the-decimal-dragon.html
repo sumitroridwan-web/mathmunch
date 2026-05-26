@@ -271,33 +271,165 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 2 – WHAT IS A DECIMAL? -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0f1e3d,#1a3a6e);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:2.5rem;margin-bottom:8px;">🐉 🧑‍🎓</div>
-      <!-- SVG: whole rectangle then 10-part divided -->
-      <svg width="220" height="130" viewBox="0 0 220 130" style="margin:0 auto;">
-        <!-- Whole rectangle -->
-        <rect x="10" y="10" width="200" height="36" rx="5" fill="#1D4ED8" opacity="0.15" stroke="#1D4ED8" stroke-width="2"/>
-        <text x="110" y="33" text-anchor="middle" fill="#1D4ED8" font-size="13" font-weight="700">1 whole</text>
-        <!-- 10-part rectangle, 1 shaded -->
-        <rect x="10" y="60" width="200" height="36" rx="5" fill="white" stroke="#3B82F6" stroke-width="2"/>
-        <rect x="10" y="60" width="20" height="36" rx="0" fill="#3B82F6" opacity="0.85"/>
-        <!-- dividers -->
-        <line x1="30" y1="60" x2="30" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <line x1="50" y1="60" x2="50" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <line x1="70" y1="60" x2="70" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <line x1="90" y1="60" x2="90" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <line x1="110" y1="60" x2="110" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <line x1="130" y1="60" x2="130" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <line x1="150" y1="60" x2="150" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <line x1="170" y1="60" x2="170" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <line x1="190" y1="60" x2="190" y2="96" stroke="#3B82F6" stroke-width="1"/>
-        <text x="20" y="83" text-anchor="middle" fill="white" font-size="9" font-weight="800">1</text>
-        <text x="110" y="112" text-anchor="middle" fill="#1D4ED8" font-size="12" font-weight="700">10 equal parts — 1 shaded = 0.1</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
+        <defs>
+          <!-- Cave background gradient -->
+          <radialGradient id="dd2-cave" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#0a0f1a"/>
+          </radialGradient>
+          <!-- Dragon body gradient -->
+          <radialGradient id="dd2-body" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <!-- Dragon head gradient -->
+          <radialGradient id="dd2-head" cx="35%" cy="25%" r="60%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+          <!-- Eye white -->
+          <radialGradient id="dd2-eye" cx="40%" cy="35%" r="55%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#e0f2fe"/>
+          </radialGradient>
+          <!-- Ember glow -->
+          <radialGradient id="dd2-ember" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="60%" stop-color="#f97316" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+          </radialGradient>
+          <!-- Decimal bar filled -->
+          <linearGradient id="dd2-bar-full" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+          <!-- Decimal bar shaded part -->
+          <linearGradient id="dd2-bar-shade" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#2563eb"/>
+          </linearGradient>
+          <!-- Wing gradient -->
+          <linearGradient id="dd2-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#059669" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#064e3b" stop-opacity="0.9"/>
+          </linearGradient>
+          <!-- Drop shadow filter -->
+          <filter id="dd2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <!-- Crystal glow filter -->
+          <filter id="dd2-glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Cave background -->
+        <rect width="300" height="280" fill="url(#dd2-cave)"/>
+
+        <!-- Rocky cave walls -->
+        <polygon points="0,280 0,180 30,200 60,160 90,185 120,155 150,175 180,150 210,170 240,145 270,168 300,155 300,280" fill="#1a1a2e" opacity="0.9"/>
+        <polygon points="0,280 0,200 25,215 50,185 80,205 110,180 140,195" fill="#0f0f1e" opacity="0.7"/>
+
+        <!-- Glowing crystals in cave wall -->
+        <g filter="url(#dd2-glow)">
+          <polygon points="240,200 248,175 256,200" fill="#3b82f6" opacity="0.7"/>
+          <polygon points="258,195 264,172 270,196" fill="#60a5fa" opacity="0.6"/>
+          <polygon points="270,188 276,165 283,188" fill="#93c5fd" opacity="0.5"/>
+          <polygon points="20,210 28,188 36,212" fill="#2563eb" opacity="0.6"/>
+          <polygon points="36,205 42,183 49,206" fill="#3b82f6" opacity="0.5"/>
+        </g>
+
+        <!-- Glowing embers on floor -->
+        <circle cx="40" cy="260" r="8" fill="url(#dd2-ember)" opacity="0.8"/>
+        <circle cx="260" cy="265" r="6" fill="url(#dd2-ember)" opacity="0.7"/>
+        <circle cx="150" cy="270" r="5" fill="url(#dd2-ember)" opacity="0.5"/>
+        <circle cx="90" cy="268" r="4" fill="#f97316" opacity="0.4"/>
+        <circle cx="210" cy="263" r="4" fill="#fbbf24" opacity="0.4"/>
+
+        <!-- Dragon body (sitting) -->
+        <g filter="url(#dd2-sh)">
+          <!-- Tail -->
+          <path d="M75,240 Q50,230 45,215 Q55,210 65,220 Q80,235 90,245 Z" fill="url(#dd2-body)"/>
+          <!-- Body -->
+          <ellipse cx="110" cy="210" rx="45" ry="38" fill="url(#dd2-body)"/>
+          <!-- Scale pattern on body -->
+          <circle cx="95" cy="200" r="6" fill="#064e3b" opacity="0.4"/>
+          <circle cx="110" cy="195" r="6" fill="#064e3b" opacity="0.4"/>
+          <circle cx="125" cy="200" r="6" fill="#064e3b" opacity="0.4"/>
+          <circle cx="102" cy="212" r="5" fill="#064e3b" opacity="0.3"/>
+          <circle cx="116" cy="210" r="5" fill="#064e3b" opacity="0.3"/>
+          <!-- Wing left -->
+          <path d="M80,195 Q55,165 45,140 Q65,148 80,165 Q92,180 90,200 Z" fill="url(#dd2-wing)" stroke="#059669" stroke-width="1"/>
+          <!-- Wing membrane lines -->
+          <line x1="80" y1="195" x2="52" y2="153" stroke="#10b981" stroke-width="0.8" opacity="0.5"/>
+          <line x1="80" y1="195" x2="58" y2="147" stroke="#10b981" stroke-width="0.8" opacity="0.4"/>
+          <!-- Neck -->
+          <path d="M115,175 Q120,155 130,145 Q145,155 140,175 Z" fill="url(#dd2-head)"/>
+          <!-- Head -->
+          <ellipse cx="148" cy="135" rx="28" ry="24" fill="url(#dd2-head)"/>
+          <!-- Snout -->
+          <ellipse cx="170" cy="140" rx="14" ry="10" fill="url(#dd2-head)"/>
+          <!-- Nostril -->
+          <circle cx="176" cy="139" r="3" fill="#064e3b"/>
+          <!-- Horn -->
+          <polygon points="145,112 149,96 153,112" fill="#fbbf24"/>
+          <polygon points="155,115 158,101 162,115" fill="#fde68a"/>
+          <!-- Eye -->
+          <circle cx="154" cy="130" r="7" fill="url(#dd2-eye)"/>
+          <circle cx="155" cy="131" r="4" fill="#d97706"/>
+          <circle cx="156" cy="131" r="2.5" fill="#1a1a2e"/>
+          <circle cx="154.5" cy="129.5" r="1" fill="white"/>
+          <!-- Spines on back -->
+          <polygon points="110,175 105,160 115,170" fill="#fbbf24" opacity="0.8"/>
+          <polygon points="120,172 116,157 124,168" fill="#fde68a" opacity="0.7"/>
+          <polygon points="130,168 127,154 135,165" fill="#fbbf24" opacity="0.6"/>
+        </g>
+
+        <!-- Number badge on dragon chest -->
+        <g filter="url(#dd2-sh)">
+          <rect x="88" y="205" width="46" height="22" rx="6" fill="#1d4ed8"/>
+          <text x="111" y="221" text-anchor="middle" fill="white" font-size="12" font-weight="800" font-family="monospace">0.1</text>
+        </g>
+
+        <!-- Decimal fraction visual on cave wall (right side) -->
+        <g filter="url(#dd2-sh)">
+          <!-- Wall panel -->
+          <rect x="175" y="50" width="112" height="100" rx="8" fill="rgba(255,255,255,0.08)" stroke="#3b82f6" stroke-width="1.5"/>
+          <!-- Whole bar -->
+          <rect x="183" y="60" width="96" height="18" rx="4" fill="url(#dd2-bar-full)" opacity="0.9"/>
+          <text x="231" y="74" text-anchor="middle" fill="white" font-size="10" font-weight="700">1 whole</text>
+          <!-- 10 parts bar -->
+          <rect x="183" y="86" width="96" height="18" rx="2" fill="rgba(255,255,255,0.12)" stroke="#3b82f6" stroke-width="1"/>
+          <!-- Shaded 1st tenth -->
+          <rect x="183" y="86" width="9.6" height="18" rx="2" fill="url(#dd2-bar-shade)"/>
+          <!-- Dividers -->
+          <line x1="192.6" y1="86" x2="192.6" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <line x1="202.2" y1="86" x2="202.2" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <line x1="211.8" y1="86" x2="211.8" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <line x1="221.4" y1="86" x2="221.4" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <line x1="231" y1="86" x2="231" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <line x1="240.6" y1="86" x2="240.6" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <line x1="250.2" y1="86" x2="250.2" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <line x1="259.8" y1="86" x2="259.8" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <line x1="269.4" y1="86" x2="269.4" y2="104" stroke="#3b82f6" stroke-width="0.8"/>
+          <!-- Label -->
+          <text x="231" y="120" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="700">1/10 = 0.1</text>
+          <!-- equation -->
+          <text x="231" y="138" text-anchor="middle" fill="#bfdbfe" font-size="11" font-weight="800">1 ÷ 10 = 0.1</text>
+        </g>
+
+        <!-- Stars in cave ceiling -->
+        <circle cx="50" cy="30" r="1.5" fill="#fde68a" opacity="0.8"/>
+        <circle cx="100" cy="20" r="1" fill="#fde68a" opacity="0.6"/>
+        <circle cx="160" cy="15" r="1.5" fill="#fde68a" opacity="0.7"/>
+        <circle cx="30" cy="50" r="1" fill="#bfdbfe" opacity="0.5"/>
       </svg>
-      <div style="margin-top:10px;font-family:'Quicksand',sans-serif;font-size:1.5rem;font-weight:700;color:#1D4ED8;text-align:center;">
-        1/10 = 0.1
-      </div>
       <div class="illus-caption">One tenth of the whole is shaded</div>
     </div>
 
@@ -341,29 +473,148 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 3 – TENTHS -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0f1e3d,#1a3a6e);">
       <div class="page-num-illus">Page 3</div>
-      <div style="font-size:2rem;margin-bottom:10px;">🐉</div>
-      <!-- Place value chart SVG -->
-      <svg width="220" height="140" viewBox="0 0 220 140" style="margin:0 auto;">
-        <!-- Header row -->
-        <rect x="10" y="10" width="80" height="32" rx="4" fill="#1D4ED8"/>
-        <text x="50" y="31" text-anchor="middle" fill="white" font-size="13" font-weight="700">Ones</text>
-        <rect x="94" y="10" width="24" height="32" rx="2" fill="#6D28D9"/>
-        <text x="106" y="31" text-anchor="middle" fill="white" font-size="16" font-weight="800">.</text>
-        <rect x="122" y="10" width="88" height="32" rx="4" fill="#3B82F6"/>
-        <text x="166" y="31" text-anchor="middle" fill="white" font-size="13" font-weight="700">Tenths</text>
-        <!-- Value row -->
-        <rect x="10" y="50" width="80" height="40" rx="4" fill="white" stroke="#3B82F6" stroke-width="2"/>
-        <text x="50" y="76" text-anchor="middle" fill="#1D4ED8" font-size="26" font-weight="800">2</text>
-        <rect x="94" y="50" width="24" height="40" rx="2" fill="#F3F4F6" stroke="#6D28D9" stroke-width="2"/>
-        <text x="106" y="76" text-anchor="middle" fill="#6D28D9" font-size="22" font-weight="800">.</text>
-        <rect x="122" y="50" width="88" height="40" rx="4" fill="white" stroke="#3B82F6" stroke-width="2"/>
-        <text x="166" y="76" text-anchor="middle" fill="#3B82F6" font-size="26" font-weight="800">3</text>
-        <!-- Label -->
-        <text x="50" y="108" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="600">2 ones</text>
-        <text x="166" y="108" text-anchor="middle" fill="#3B82F6" font-size="11" font-weight="600">3 tenths</text>
-        <text x="110" y="130" text-anchor="middle" fill="#374151" font-size="12" font-weight="700">2.3 = 2 + 3/10</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
+        <defs>
+          <radialGradient id="dd3-cave" cx="50%" cy="20%" r="75%">
+            <stop offset="0%" stop-color="#1a3258"/>
+            <stop offset="100%" stop-color="#080d1a"/>
+          </radialGradient>
+          <radialGradient id="dd3-body" cx="30%" cy="25%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="dd3-head" cx="35%" cy="28%" r="60%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+          <linearGradient id="dd3-chart-ones" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#2563eb"/>
+            <stop offset="100%" stop-color="#1e3a8a"/>
+          </linearGradient>
+          <linearGradient id="dd3-chart-tenths" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+          <linearGradient id="dd3-chart-dot" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#4c1d95"/>
+          </linearGradient>
+          <linearGradient id="dd3-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#059669" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#064e3b" stop-opacity="0.9"/>
+          </linearGradient>
+          <filter id="dd3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="dd3-glow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Cave background -->
+        <rect width="300" height="280" fill="url(#dd3-cave)"/>
+        <!-- Rocky floor -->
+        <polygon points="0,280 0,230 40,245 80,228 130,240 180,225 230,238 270,222 300,235 300,280" fill="#111827" opacity="0.9"/>
+
+        <!-- Glowing wall markings (cave inscriptions) -->
+        <g filter="url(#dd3-glow)">
+          <polygon points="20,160 28,138 36,160" fill="#3b82f6" opacity="0.6"/>
+          <polygon points="270,170 278,148 286,170" fill="#6366f1" opacity="0.6"/>
+        </g>
+
+        <!-- Dragon (smaller, left side) -->
+        <g filter="url(#dd3-sh)">
+          <!-- Tail -->
+          <path d="M20,248 Q12,238 14,225 Q24,222 28,234 Q30,244 35,252 Z" fill="url(#dd3-body)"/>
+          <!-- Body -->
+          <ellipse cx="55" cy="228" rx="36" ry="30" fill="url(#dd3-body)"/>
+          <!-- Scale pattern -->
+          <circle cx="45" cy="220" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="58" cy="216" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="70" cy="220" r="5" fill="#064e3b" opacity="0.3"/>
+          <circle cx="51" cy="230" r="4" fill="#064e3b" opacity="0.3"/>
+          <!-- Wing -->
+          <path d="M35,218 Q18,190 12,165 Q28,172 38,188 Q47,203 44,222 Z" fill="url(#dd3-wing)"/>
+          <!-- Neck -->
+          <path d="M62,200 Q66,183 74,175 Q86,182 82,200 Z" fill="url(#dd3-head)"/>
+          <!-- Head -->
+          <ellipse cx="90" cy="162" rx="23" ry="20" fill="url(#dd3-head)"/>
+          <!-- Snout -->
+          <ellipse cx="108" cy="167" rx="11" ry="8" fill="url(#dd3-head)"/>
+          <circle cx="114" cy="166" r="2.5" fill="#064e3b"/>
+          <!-- Horn -->
+          <polygon points="87,143 91,130 95,143" fill="#fbbf24"/>
+          <!-- Eye -->
+          <circle cx="94" cy="157" r="6" fill="white"/>
+          <circle cx="95" cy="158" r="3.5" fill="#d97706"/>
+          <circle cx="96" cy="158" r="2" fill="#1a1a2e"/>
+          <circle cx="94.5" cy="156.5" r="0.8" fill="white"/>
+          <!-- Spines -->
+          <polygon points="65,200 62,187 70,196" fill="#fbbf24" opacity="0.8"/>
+          <polygon points="74,196 71,184 78,192" fill="#fde68a" opacity="0.7"/>
+        </g>
+
+        <!-- PLACE VALUE CHART (main feature, right side + center) -->
+        <g filter="url(#dd3-sh)">
+          <!-- Chart panel background -->
+          <rect x="128" y="45" width="162" height="160" rx="10" fill="rgba(255,255,255,0.06)" stroke="#3b82f6" stroke-width="1.5"/>
+
+          <!-- Chart title -->
+          <text x="209" y="70" text-anchor="middle" fill="#bfdbfe" font-size="11" font-weight="700">PLACE VALUE</text>
+
+          <!-- Ones column header -->
+          <rect x="135" y="80" width="55" height="28" rx="5" fill="url(#dd3-chart-ones)"/>
+          <text x="162" y="99" text-anchor="middle" fill="white" font-size="12" font-weight="700">Ones</text>
+
+          <!-- Dot column header -->
+          <rect x="194" y="80" width="18" height="28" rx="3" fill="url(#dd3-chart-dot)"/>
+          <text x="203" y="99" text-anchor="middle" fill="white" font-size="14" font-weight="900">.</text>
+
+          <!-- Tenths column header -->
+          <rect x="216" y="80" width="68" height="28" rx="5" fill="url(#dd3-chart-tenths)"/>
+          <text x="250" y="99" text-anchor="middle" fill="white" font-size="12" font-weight="700">Tenths</text>
+
+          <!-- Value row -->
+          <rect x="135" y="114" width="55" height="44" rx="5" fill="rgba(255,255,255,0.12)" stroke="#3b82f6" stroke-width="2"/>
+          <text x="162" y="143" text-anchor="middle" fill="#dbeafe" font-size="30" font-weight="800">2</text>
+
+          <rect x="194" y="114" width="18" height="44" rx="3" fill="rgba(109,40,217,0.3)" stroke="#7c3aed" stroke-width="2"/>
+          <text x="203" y="141" text-anchor="middle" fill="#c4b5fd" font-size="24" font-weight="900">.</text>
+
+          <rect x="216" y="114" width="68" height="44" rx="5" fill="rgba(255,255,255,0.12)" stroke="#3b82f6" stroke-width="2"/>
+          <text x="250" y="143" text-anchor="middle" fill="#93c5fd" font-size="30" font-weight="800">3</text>
+
+          <!-- Labels under -->
+          <text x="162" y="174" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="600">2 ones</text>
+          <text x="250" y="174" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="600">3 tenths</text>
+
+          <!-- Equation -->
+          <rect x="140" y="182" width="138" height="18" rx="4" fill="rgba(255,255,255,0.1)"/>
+          <text x="209" y="195" text-anchor="middle" fill="#fde68a" font-size="12" font-weight="700">2.3 = 2 + 3/10</text>
+        </g>
+
+        <!-- Ruler visual (bottom) -->
+        <g filter="url(#dd3-sh)">
+          <rect x="20" y="255" width="260" height="14" rx="3" fill="rgba(255,255,255,0.08)" stroke="#3b82f6" stroke-width="1"/>
+          <text x="26" y="266" fill="#60a5fa" font-size="8" font-weight="700">2</text>
+          <text x="150" y="266" text-anchor="middle" fill="#93c5fd" font-size="7">← one unit = 10 tenths →</text>
+          <text x="274" y="266" fill="#60a5fa" font-size="8" font-weight="700">3</text>
+          <!-- tick marks -->
+          <line x1="52" y1="255" x2="52" y2="261" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="78" y1="255" x2="78" y2="261" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="104" y1="255" x2="104" y2="261" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="130" y1="255" x2="130" y2="261" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="156" y1="255" x2="156" y2="261" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="182" y1="255" x2="182" y2="261" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="208" y1="255" x2="208" y2="261" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="234" y1="255" x2="234" y2="261" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="260" y1="255" x2="260" y2="261" stroke="#3b82f6" stroke-width="1"/>
+        </g>
       </svg>
       <div class="illus-caption">Place value chart showing 2.3</div>
     </div>
@@ -405,44 +656,139 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 4 – HUNDREDTHS -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0f1e3d,#1a3a6e);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:2rem;margin-bottom:8px;">🐉 🧑‍🎓</div>
-      <!-- 10x10 grid SVG -->
-      <svg width="180" height="180" viewBox="0 0 180 180" style="margin:0 auto;">
-        <!-- Background grid -->
-        <rect x="5" y="5" width="170" height="170" rx="4" fill="white" stroke="#3B82F6" stroke-width="2"/>
-        <!-- Grid lines horizontal -->
-        <line x1="5" y1="22" x2="175" y2="22" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="5" y1="39" x2="175" y2="39" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="5" y1="56" x2="175" y2="56" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="5" y1="73" x2="175" y2="73" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="5" y1="90" x2="175" y2="90" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="5" y1="107" x2="175" y2="107" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="5" y1="124" x2="175" y2="124" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="5" y1="141" x2="175" y2="141" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="5" y1="158" x2="175" y2="158" stroke="#BFDBFE" stroke-width="1"/>
-        <!-- Grid lines vertical -->
-        <line x1="22" y1="5" x2="22" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="39" y1="5" x2="39" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="56" y1="5" x2="56" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="73" y1="5" x2="73" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="90" y1="5" x2="90" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="107" y1="5" x2="107" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="124" y1="5" x2="124" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="141" y1="5" x2="141" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <line x1="158" y1="5" x2="158" y2="175" stroke="#BFDBFE" stroke-width="1"/>
-        <!-- Shade first 3 columns + 5 cells of row 4 = 35 cells = 0.35 -->
-        <!-- Column 1: cells (row 1-10) x=5, width=17 -->
-        <rect x="5" y="5" width="17" height="170" fill="#3B82F6" opacity="0.6"/>
-        <!-- Column 2 -->
-        <rect x="22" y="5" width="17" height="170" fill="#3B82F6" opacity="0.6"/>
-        <!-- Column 3 -->
-        <rect x="39" y="5" width="17" height="170" fill="#3B82F6" opacity="0.6"/>
-        <!-- 5 cells in column 4 rows 1-5 -->
-        <rect x="56" y="5" width="17" height="85" fill="#60A5FA" opacity="0.7"/>
-        <!-- Label -->
-        <text x="90" y="192" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">35 squares shaded = 0.35</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
+        <defs>
+          <radialGradient id="dd4-cave" cx="50%" cy="20%" r="75%">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#080d1a"/>
+          </radialGradient>
+          <radialGradient id="dd4-body" cx="30%" cy="25%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="dd4-head" cx="35%" cy="28%" r="60%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+          <linearGradient id="dd4-col1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#2563eb"/>
+          </linearGradient>
+          <linearGradient id="dd4-col2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+          <linearGradient id="dd4-partial" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#93c5fd"/>
+            <stop offset="100%" stop-color="#3b82f6"/>
+          </linearGradient>
+          <linearGradient id="dd4-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#059669" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#064e3b" stop-opacity="0.9"/>
+          </linearGradient>
+          <filter id="dd4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="dd4-glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="dd4-ember" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="70%" stop-color="#f97316" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#dd4-cave)"/>
+        <!-- Cave floor -->
+        <polygon points="0,280 0,240 40,252 90,238 150,250 210,235 260,248 300,238 300,280" fill="#0f0f1e" opacity="0.9"/>
+        <!-- Glowing crystals -->
+        <g filter="url(#dd4-glow)">
+          <polygon points="12,190 20,165 28,190" fill="#3b82f6" opacity="0.7"/>
+          <polygon points="280,195 287,172 294,196" fill="#6366f1" opacity="0.6"/>
+        </g>
+        <!-- Embers -->
+        <circle cx="30" cy="262" r="6" fill="url(#dd4-ember)" opacity="0.7"/>
+        <circle cx="270" cy="265" r="5" fill="url(#dd4-ember)" opacity="0.6"/>
+
+        <!-- Dragon (right side) -->
+        <g filter="url(#dd4-sh)">
+          <path d="M240,255 Q260,245 265,230 Q255,225 248,237 Q240,248 232,258 Z" fill="url(#dd4-body)"/>
+          <ellipse cx="218" cy="230" rx="36" ry="30" fill="url(#dd4-body)"/>
+          <circle cx="208" cy="222" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="220" cy="218" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="232" cy="222" r="5" fill="#064e3b" opacity="0.3"/>
+          <!-- Wing -->
+          <path d="M238,218 Q255,185 262,160 Q247,168 238,185 Q228,202 232,220 Z" fill="url(#dd4-wing)"/>
+          <!-- Neck -->
+          <path d="M210,202 Q206,185 198,176 Q186,183 190,200 Z" fill="url(#dd4-head)"/>
+          <!-- Head -->
+          <ellipse cx="182" cy="163" rx="23" ry="20" fill="url(#dd4-head)"/>
+          <!-- Snout -->
+          <ellipse cx="163" cy="168" rx="12" ry="8" fill="url(#dd4-head)"/>
+          <circle cx="156" cy="167" r="2.5" fill="#064e3b"/>
+          <!-- Horn -->
+          <polygon points="181,143 185,129 189,143" fill="#fbbf24"/>
+          <!-- Eye -->
+          <circle cx="175" cy="157" r="6" fill="white"/>
+          <circle cx="174" cy="158" r="3.5" fill="#d97706"/>
+          <circle cx="173" cy="158" r="2" fill="#1a1a2e"/>
+          <circle cx="175.5" cy="156.5" r="0.8" fill="white"/>
+          <!-- Spines -->
+          <polygon points="216,202 213,188 221,198" fill="#fbbf24" opacity="0.8"/>
+          <polygon points="207,198 204,185 212,194" fill="#fde68a" opacity="0.7"/>
+        </g>
+
+        <!-- 10×10 GRID (main feature, left/center) -->
+        <g filter="url(#dd4-sh)">
+          <!-- Grid panel background -->
+          <rect x="15" y="30" width="155" height="155" rx="6" fill="rgba(255,255,255,0.07)" stroke="#3b82f6" stroke-width="1.5"/>
+
+          <!-- Shaded column 1 (10 cells) -->
+          <rect x="15" y="30" width="15.5" height="155" fill="url(#dd4-col1)" opacity="0.8" rx="0"/>
+          <!-- Shaded column 2 -->
+          <rect x="30.5" y="30" width="15.5" height="155" fill="url(#dd4-col2)" opacity="0.75"/>
+          <!-- Shaded column 3 -->
+          <rect x="46" y="30" width="15.5" height="155" fill="url(#dd4-col2)" opacity="0.7"/>
+          <!-- Partial column 4: 5 of 10 rows = rows 1-5 = 77.5px height -->
+          <rect x="61.5" y="30" width="15.5" height="77.5" fill="url(#dd4-partial)" opacity="0.65"/>
+
+          <!-- Grid lines vertical (9 inner lines) -->
+          <line x1="30.5" y1="30" x2="30.5" y2="185" stroke="rgba(59,130,246,0.5)" stroke-width="0.7"/>
+          <line x1="46" y1="30" x2="46" y2="185" stroke="rgba(59,130,246,0.5)" stroke-width="0.7"/>
+          <line x1="61.5" y1="30" x2="61.5" y2="185" stroke="rgba(59,130,246,0.5)" stroke-width="0.7"/>
+          <line x1="77" y1="30" x2="77" y2="185" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="92.5" y1="30" x2="92.5" y2="185" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="108" y1="30" x2="108" y2="185" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="123.5" y1="30" x2="123.5" y2="185" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="139" y1="30" x2="139" y2="185" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="154.5" y1="30" x2="154.5" y2="185" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+
+          <!-- Grid lines horizontal (9 inner lines) -->
+          <line x1="15" y1="45.5" x2="170" y2="45.5" stroke="rgba(59,130,246,0.4)" stroke-width="0.7"/>
+          <line x1="15" y1="61" x2="170" y2="61" stroke="rgba(59,130,246,0.4)" stroke-width="0.7"/>
+          <line x1="15" y1="76.5" x2="170" y2="76.5" stroke="rgba(59,130,246,0.4)" stroke-width="0.7"/>
+          <line x1="15" y1="92" x2="170" y2="92" stroke="rgba(59,130,246,0.4)" stroke-width="0.7"/>
+          <line x1="15" y1="107.5" x2="170" y2="107.5" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="15" y1="123" x2="170" y2="123" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="15" y1="138.5" x2="170" y2="138.5" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="15" y1="154" x2="170" y2="154" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+          <line x1="15" y1="169.5" x2="170" y2="169.5" stroke="rgba(148,163,184,0.3)" stroke-width="0.7"/>
+        </g>
+
+        <!-- Labels for grid -->
+        <text x="92" y="210" text-anchor="middle" fill="#93c5fd" font-size="11" font-weight="700">35 squares shaded</text>
+        <!-- Equation badge -->
+        <g filter="url(#dd4-sh)">
+          <rect x="35" y="220" width="115" height="24" rx="6" fill="#1d4ed8" opacity="0.9"/>
+          <text x="92" y="236" text-anchor="middle" fill="white" font-size="13" font-weight="800">0.35 = 35/100</text>
+        </g>
       </svg>
       <div class="illus-caption">10×10 grid: 35 squares = 0.35</div>
     </div>
@@ -486,28 +832,133 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 5 – READING AND WRITING DECIMALS -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0f1e3d,#1a3a6e);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:2rem;margin-bottom:10px;">🐉</div>
-      <!-- SVG: 4.67 broken into components -->
-      <svg width="220" height="150" viewBox="0 0 220 150" style="margin:0 auto;">
-        <!-- Three boxes for each digit -->
-        <rect x="10" y="20" width="56" height="60" rx="8" fill="#1D4ED8" opacity="0.9"/>
-        <text x="38" y="60" text-anchor="middle" fill="white" font-size="32" font-weight="800">4</text>
-        <text x="38" y="92" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">ones</text>
-        <!-- decimal point -->
-        <text x="80" y="58" text-anchor="middle" fill="#6D28D9" font-size="32" font-weight="900">.</text>
-        <!-- 6 -->
-        <rect x="94" y="20" width="56" height="60" rx="8" fill="#3B82F6" opacity="0.85"/>
-        <text x="122" y="60" text-anchor="middle" fill="white" font-size="32" font-weight="800">6</text>
-        <text x="122" y="92" text-anchor="middle" fill="#3B82F6" font-size="11" font-weight="700">tenths</text>
-        <!-- 7 -->
-        <rect x="162" y="20" width="52" height="60" rx="8" fill="#60A5FA" opacity="0.85"/>
-        <text x="188" y="60" text-anchor="middle" fill="white" font-size="32" font-weight="800">7</text>
-        <text x="188" y="92" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">hundredths</text>
-        <!-- full number label -->
-        <text x="110" y="125" text-anchor="middle" fill="#374151" font-size="14" font-weight="800">4.67</text>
-        <text x="110" y="143" text-anchor="middle" fill="#6B7280" font-size="11">= 4 + 0.6 + 0.07</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
+        <defs>
+          <radialGradient id="dd5-cave" cx="50%" cy="20%" r="75%">
+            <stop offset="0%" stop-color="#1a3258"/>
+            <stop offset="100%" stop-color="#080d1a"/>
+          </radialGradient>
+          <radialGradient id="dd5-body" cx="30%" cy="25%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="dd5-head" cx="35%" cy="28%" r="60%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+          <linearGradient id="dd5-box1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#2563eb"/>
+            <stop offset="100%" stop-color="#1e3a8a"/>
+          </linearGradient>
+          <linearGradient id="dd5-box2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+          <linearGradient id="dd5-box3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#2563eb"/>
+          </linearGradient>
+          <linearGradient id="dd5-fire" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#dc2626"/>
+            <stop offset="40%" stop-color="#f97316"/>
+            <stop offset="80%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#fde68a" stop-opacity="0.6"/>
+          </linearGradient>
+          <linearGradient id="dd5-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#059669" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#064e3b" stop-opacity="0.9"/>
+          </linearGradient>
+          <filter id="dd5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="dd5-fireglow">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#dd5-cave)"/>
+        <!-- Cave walls -->
+        <polygon points="0,280 0,230 45,245 95,232 155,244 215,230 265,244 300,232 300,280" fill="#0f0f1e" opacity="0.9"/>
+
+        <!-- Fire breath from dragon toward number boxes -->
+        <g filter="url(#dd5-fireglow)" opacity="0.85">
+          <path d="M100,185 Q120,165 145,155 Q165,148 195,145 Q220,143 250,140" stroke="url(#dd5-fire)" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.6"/>
+          <path d="M100,185 Q118,170 140,162 Q162,155 190,151 Q215,148 248,145" stroke="#fde68a" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.5"/>
+        </g>
+
+        <!-- Dragon body (left side) -->
+        <g filter="url(#dd5-sh)">
+          <!-- Tail -->
+          <path d="M8,258 Q5,245 10,232 Q20,228 22,240 Q22,250 25,262 Z" fill="url(#dd5-body)"/>
+          <!-- Body -->
+          <ellipse cx="52" cy="220" rx="40" ry="34" fill="url(#dd5-body)"/>
+          <!-- Scale pattern -->
+          <circle cx="42" cy="212" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="55" cy="208" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="67" cy="212" r="5" fill="#064e3b" opacity="0.3"/>
+          <circle cx="48" cy="222" r="4" fill="#064e3b" opacity="0.3"/>
+          <!-- Wing -->
+          <path d="M30,210 Q12,178 8,150 Q26,158 36,175 Q46,192 42,213 Z" fill="url(#dd5-wing)"/>
+          <!-- Neck -->
+          <path d="M60,190 Q65,170 74,162 Q87,170 83,188 Z" fill="url(#dd5-head)"/>
+          <!-- Head -->
+          <ellipse cx="92" cy="148" rx="26" ry="22" fill="url(#dd5-head)"/>
+          <!-- Snout (pointing right, breathing fire) -->
+          <ellipse cx="114" cy="156" rx="14" ry="10" fill="url(#dd5-head)"/>
+          <circle cx="120" cy="155" r="2.5" fill="#064e3b"/>
+          <!-- Horn -->
+          <polygon points="88,127 93,113 97,127" fill="#fbbf24"/>
+          <!-- Eye -->
+          <circle cx="98" cy="141" r="6" fill="white"/>
+          <circle cx="99" cy="142" r="3.5" fill="#d97706"/>
+          <circle cx="100" cy="142" r="2" fill="#1a1a2e"/>
+          <circle cx="98.5" cy="140.5" r="0.8" fill="white"/>
+          <!-- Spines -->
+          <polygon points="62,190 59,176 67,186" fill="#fbbf24" opacity="0.8"/>
+          <polygon points="72,185 69,172 77,182" fill="#fde68a" opacity="0.7"/>
+        </g>
+
+        <!-- Number badge 4.67 on dragon -->
+        <g filter="url(#dd5-sh)">
+          <rect x="30" y="214" width="44" height="20" rx="5" fill="#1d4ed8"/>
+          <text x="52" y="228" text-anchor="middle" fill="white" font-size="11" font-weight="800">4.67</text>
+        </g>
+
+        <!-- THREE DIGIT BOXES for 4.67 -->
+        <g filter="url(#dd5-sh)">
+          <!-- Box "4" - Ones -->
+          <rect x="155" y="50" width="52" height="64" rx="8" fill="url(#dd5-box1)"/>
+          <text x="181" y="94" text-anchor="middle" fill="white" font-size="36" font-weight="900">4</text>
+          <text x="181" y="126" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="700">ones</text>
+
+          <!-- Decimal point -->
+          <circle cx="214" cy="104" r="7" fill="#7c3aed"/>
+          <circle cx="214" cy="104" r="4" fill="white"/>
+
+          <!-- Box "6" - Tenths -->
+          <rect x="223" y="50" width="32" height="64" rx="6" fill="url(#dd5-box2)"/>
+          <text x="239" y="94" text-anchor="middle" fill="white" font-size="36" font-weight="900">6</text>
+          <text x="239" y="126" text-anchor="middle" fill="#bfdbfe" font-size="9" font-weight="700">tenths</text>
+
+          <!-- Box "7" - Hundredths -->
+          <rect x="262" y="50" width="32" height="64" rx="6" fill="url(#dd5-box3)"/>
+          <text x="278" y="94" text-anchor="middle" fill="white" font-size="36" font-weight="900">7</text>
+          <text x="278" y="126" text-anchor="middle" fill="#dbeafe" font-size="8" font-weight="700">hundredths</text>
+        </g>
+
+        <!-- Equation labels -->
+        <g filter="url(#dd5-sh)">
+          <rect x="148" y="140" width="148" height="22" rx="5" fill="rgba(255,255,255,0.08)"/>
+          <text x="222" y="155" text-anchor="middle" fill="#fde68a" font-size="12" font-weight="800">4.67</text>
+          <rect x="148" y="166" width="148" height="20" rx="5" fill="rgba(255,255,255,0.06)"/>
+          <text x="222" y="180" text-anchor="middle" fill="#bfdbfe" font-size="11">= 4 + 0.6 + 0.07</text>
+        </g>
       </svg>
       <div class="illus-caption">Each digit in 4.67 has a place value home</div>
     </div>
@@ -551,43 +1002,164 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 6 – ORDERING DECIMALS -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0f1e3d,#1a3a6e);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:2rem;margin-bottom:10px;">🐉 🧑‍🎓</div>
-      <!-- Number line SVG -->
-      <svg width="220" height="120" viewBox="0 0 220 120" style="margin:0 auto;">
-        <!-- Number line -->
-        <line x1="10" y1="70" x2="210" y2="70" stroke="#1D4ED8" stroke-width="3"/>
-        <!-- Ticks and labels at 0, 0.2, 0.45, 0.7, 0.85, 1.0 -->
-        <!-- 0 -->
-        <line x1="10" y1="64" x2="10" y2="76" stroke="#1D4ED8" stroke-width="2"/>
-        <text x="10" y="90" text-anchor="middle" fill="#374151" font-size="10" font-weight="600">0</text>
-        <!-- 0.2 at x=50 -->
-        <line x1="50" y1="64" x2="50" y2="76" stroke="#3B82F6" stroke-width="2"/>
-        <text x="50" y="90" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">0.2</text>
-        <circle cx="50" cy="70" r="5" fill="#3B82F6"/>
-        <text x="50" y="58" text-anchor="middle" fill="#1D4ED8" font-size="9">0.2</text>
-        <!-- 0.45 at x=100 -->
-        <line x1="100" y1="64" x2="100" y2="76" stroke="#3B82F6" stroke-width="2"/>
-        <text x="100" y="90" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">0.45</text>
-        <circle cx="100" cy="70" r="5" fill="#60A5FA"/>
-        <text x="100" y="58" text-anchor="middle" fill="#1D4ED8" font-size="9">0.45</text>
-        <!-- 0.7 at x=150 -->
-        <line x1="150" y1="64" x2="150" y2="76" stroke="#3B82F6" stroke-width="2"/>
-        <text x="150" y="90" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">0.7</text>
-        <circle cx="150" cy="70" r="5" fill="#93C5FD"/>
-        <text x="150" y="58" text-anchor="middle" fill="#1D4ED8" font-size="9">0.7</text>
-        <!-- 0.85 at x=178 -->
-        <line x1="178" y1="64" x2="178" y2="76" stroke="#3B82F6" stroke-width="2"/>
-        <text x="178" y="90" text-anchor="middle" fill="#1D4ED8" font-size="10" font-weight="700">0.85</text>
-        <circle cx="178" cy="70" r="5" fill="#BFDBFE"/>
-        <text x="178" y="58" text-anchor="middle" fill="#1D4ED8" font-size="9">0.85</text>
-        <!-- 1.0 -->
-        <line x1="210" y1="64" x2="210" y2="76" stroke="#1D4ED8" stroke-width="2"/>
-        <text x="210" y="90" text-anchor="middle" fill="#374151" font-size="10" font-weight="600">1</text>
-        <!-- Arrow -->
-        <polygon points="210,70 204,66 204,74" fill="#1D4ED8"/>
-        <text x="110" y="112" text-anchor="middle" fill="#374151" font-size="10" font-weight="600">0.2 &lt; 0.45 &lt; 0.7 &lt; 0.85</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
+        <defs>
+          <radialGradient id="dd6-cave" cx="50%" cy="20%" r="75%">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#080d1a"/>
+          </radialGradient>
+          <radialGradient id="dd6-body" cx="30%" cy="25%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="dd6-head" cx="35%" cy="28%" r="60%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+          <linearGradient id="dd6-numline" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1d4ed8"/>
+            <stop offset="100%" stop-color="#2563eb"/>
+          </linearGradient>
+          <linearGradient id="dd6-key" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#1d4ed8"/>
+            <stop offset="100%" stop-color="#1e3a8a"/>
+          </linearGradient>
+          <linearGradient id="dd6-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#059669" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#064e3b" stop-opacity="0.9"/>
+          </linearGradient>
+          <filter id="dd6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="dd6-keyglow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#dd6-cave)"/>
+        <!-- Cave floor -->
+        <polygon points="0,280 0,242 40,255 90,242 150,256 215,241 265,255 300,242 300,280" fill="#0f0f1e" opacity="0.9"/>
+
+        <!-- Glowing crystals -->
+        <polygon points="18,190 26,165 34,190" fill="#3b82f6" opacity="0.6"/>
+        <polygon points="275,195 282,172 289,196" fill="#6366f1" opacity="0.5"/>
+
+        <!-- Dragon (right side, smaller) -->
+        <g filter="url(#dd6-sh)">
+          <path d="M248,258 Q268,248 272,233 Q262,228 255,240 Q247,251 239,260 Z" fill="url(#dd6-body)"/>
+          <ellipse cx="224" cy="232" rx="34" ry="28" fill="url(#dd6-body)"/>
+          <circle cx="214" cy="224" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="226" cy="220" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="237" cy="224" r="5" fill="#064e3b" opacity="0.3"/>
+          <!-- Wing -->
+          <path d="M240,220 Q256,190 262,166 Q247,173 239,190 Q230,206 234,222 Z" fill="url(#dd6-wing)"/>
+          <!-- Neck -->
+          <path d="M215,205 Q211,188 203,180 Q191,187 196,204 Z" fill="url(#dd6-head)"/>
+          <!-- Head -->
+          <ellipse cx="188" cy="167" rx="22" ry="20" fill="url(#dd6-head)"/>
+          <!-- Snout -->
+          <ellipse cx="168" cy="172" rx="12" ry="8" fill="url(#dd6-head)"/>
+          <circle cx="162" cy="171" r="2.3" fill="#064e3b"/>
+          <!-- Horn -->
+          <polygon points="185,148 189,134 193,148" fill="#fbbf24"/>
+          <!-- Eye -->
+          <circle cx="181" cy="161" r="6" fill="white"/>
+          <circle cx="180" cy="162" r="3.5" fill="#d97706"/>
+          <circle cx="179" cy="162" r="2" fill="#1a1a2e"/>
+          <circle cx="181.5" cy="160.5" r="0.8" fill="white"/>
+          <!-- Spines -->
+          <polygon points="218,204 215,191 223,201" fill="#fbbf24" opacity="0.8"/>
+        </g>
+
+        <!-- FOUR GOLDEN KEYS scattered -->
+        <g filter="url(#dd6-keyglow)">
+          <!-- Key 1: 0.2 -->
+          <ellipse cx="40" cy="195" rx="14" ry="10" fill="#d97706"/>
+          <ellipse cx="40" cy="195" rx="10" ry="7" fill="#fbbf24"/>
+          <rect x="51" y="193" width="22" height="4" rx="2" fill="#d97706"/>
+          <rect x="70" y="190" width="4" height="4" rx="1" fill="#d97706"/>
+          <rect x="67" y="194" width="4" height="3" rx="1" fill="#d97706"/>
+          <text x="40" y="215" text-anchor="middle" fill="#fde68a" font-size="9" font-weight="700">0.2</text>
+
+          <!-- Key 2: 0.45 -->
+          <ellipse cx="100" cy="185" rx="14" ry="10" fill="#d97706"/>
+          <ellipse cx="100" cy="185" rx="10" ry="7" fill="#fbbf24"/>
+          <rect x="111" y="183" width="22" height="4" rx="2" fill="#d97706"/>
+          <rect x="130" y="180" width="4" height="4" rx="1" fill="#d97706"/>
+          <rect x="127" y="184" width="4" height="3" rx="1" fill="#d97706"/>
+          <text x="100" y="205" text-anchor="middle" fill="#fde68a" font-size="9" font-weight="700">0.45</text>
+
+          <!-- Key 3: 0.7 -->
+          <ellipse cx="40" cy="235" rx="14" ry="10" fill="#b45309"/>
+          <ellipse cx="40" cy="235" rx="10" ry="7" fill="#fbbf24"/>
+          <rect x="51" y="233" width="22" height="4" rx="2" fill="#b45309"/>
+          <rect x="70" y="230" width="4" height="4" rx="1" fill="#b45309"/>
+          <rect x="67" y="234" width="4" height="3" rx="1" fill="#b45309"/>
+          <text x="40" y="255" text-anchor="middle" fill="#fde68a" font-size="9" font-weight="700">0.7</text>
+
+          <!-- Key 4: 0.85 -->
+          <ellipse cx="100" cy="230" rx="14" ry="10" fill="#b45309"/>
+          <ellipse cx="100" cy="230" rx="10" ry="7" fill="#fde68a"/>
+          <rect x="111" y="228" width="22" height="4" rx="2" fill="#b45309"/>
+          <rect x="130" y="225" width="4" height="4" rx="1" fill="#b45309"/>
+          <rect x="127" y="229" width="4" height="3" rx="1" fill="#b45309"/>
+          <text x="100" y="248" text-anchor="middle" fill="#fde68a" font-size="9" font-weight="700">0.85</text>
+        </g>
+
+        <!-- NUMBER LINE (main feature) -->
+        <g filter="url(#dd6-sh)">
+          <!-- Line panel -->
+          <rect x="10" y="60" width="280" height="72" rx="8" fill="rgba(255,255,255,0.05)" stroke="#3b82f6" stroke-width="1"/>
+
+          <!-- Number line bar -->
+          <rect x="20" y="90" width="268" height="6" rx="3" fill="url(#dd6-numline)"/>
+          <!-- Arrow tip -->
+          <polygon points="288,86 296,93 288,100" fill="#2563eb"/>
+
+          <!-- 0 marker -->
+          <line x1="22" y1="83" x2="22" y2="101" stroke="#3b82f6" stroke-width="2"/>
+          <text x="22" y="114" text-anchor="middle" fill="#bfdbfe" font-size="10" font-weight="700">0</text>
+
+          <!-- 0.2 at x=75 -->
+          <circle cx="75" cy="93" r="7" fill="#3b82f6" stroke="#93c5fd" stroke-width="2"/>
+          <text x="75" y="75" text-anchor="middle" fill="#60a5fa" font-size="9" font-weight="700">0.2</text>
+          <line x1="75" y1="79" x2="75" y2="86" stroke="#60a5fa" stroke-width="1.5"/>
+          <text x="75" y="114" text-anchor="middle" fill="#bfdbfe" font-size="9">0.2</text>
+
+          <!-- 0.45 at x=130 -->
+          <circle cx="130" cy="93" r="7" fill="#60a5fa" stroke="#bfdbfe" stroke-width="2"/>
+          <text x="130" y="75" text-anchor="middle" fill="#93c5fd" font-size="9" font-weight="700">0.45</text>
+          <line x1="130" y1="79" x2="130" y2="86" stroke="#93c5fd" stroke-width="1.5"/>
+          <text x="130" y="114" text-anchor="middle" fill="#bfdbfe" font-size="9">0.45</text>
+
+          <!-- 0.7 at x=195 -->
+          <circle cx="195" cy="93" r="7" fill="#93c5fd" stroke="#dbeafe" stroke-width="2"/>
+          <text x="195" y="75" text-anchor="middle" fill="#bfdbfe" font-size="9" font-weight="700">0.7</text>
+          <line x1="195" y1="79" x2="195" y2="86" stroke="#bfdbfe" stroke-width="1.5"/>
+          <text x="195" y="114" text-anchor="middle" fill="#bfdbfe" font-size="9">0.7</text>
+
+          <!-- 0.85 at x=240 -->
+          <circle cx="240" cy="93" r="7" fill="#bfdbfe" stroke="white" stroke-width="1.5"/>
+          <text x="240" y="75" text-anchor="middle" fill="#dbeafe" font-size="9" font-weight="700">0.85</text>
+          <line x1="240" y1="79" x2="240" y2="86" stroke="#dbeafe" stroke-width="1.5"/>
+          <text x="240" y="114" text-anchor="middle" fill="#bfdbfe" font-size="9">0.85</text>
+
+          <!-- 1 marker -->
+          <line x1="283" y1="83" x2="283" y2="101" stroke="#3b82f6" stroke-width="2"/>
+          <text x="283" y="114" text-anchor="middle" fill="#bfdbfe" font-size="10" font-weight="700">1</text>
+        </g>
+
+        <!-- Ordering equation -->
+        <g filter="url(#dd6-sh)">
+          <rect x="30" y="140" width="240" height="22" rx="6" fill="rgba(29,78,216,0.5)" stroke="#3b82f6" stroke-width="1"/>
+          <text x="150" y="155" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="800">0.2 &lt; 0.45 &lt; 0.7 &lt; 0.85</text>
+        </g>
       </svg>
       <div class="illus-caption">Ordering decimals on a number line</div>
     </div>
@@ -629,34 +1201,129 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 7 – ROUNDING DECIMALS -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0f1e3d,#1a3a6e);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:2.5rem;margin-bottom:10px;">🐉</div>
-      <!-- Number line rounding SVG -->
-      <svg width="220" height="110" viewBox="0 0 220 110" style="margin:0 auto;">
-        <!-- Number line -->
-        <line x1="10" y1="60" x2="210" y2="60" stroke="#1D4ED8" stroke-width="3"/>
-        <!-- 2.3 at left -->
-        <line x1="10" y1="54" x2="10" y2="66" stroke="#1D4ED8" stroke-width="2"/>
-        <text x="10" y="80" text-anchor="middle" fill="#374151" font-size="11" font-weight="700">2.3</text>
-        <!-- 2.35 midpoint -->
-        <line x1="110" y1="54" x2="110" y2="66" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="4,2"/>
-        <text x="110" y="80" text-anchor="middle" fill="#9CA3AF" font-size="10">2.35 ← halfway</text>
-        <!-- 2.36 position -->
-        <circle cx="128" cy="60" r="6" fill="#3B82F6"/>
-        <text x="128" y="48" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">2.36</text>
-        <!-- Arrow pointing to 2.4 -->
-        <line x1="128" y1="54" x2="205" y2="38" stroke="#1D4ED8" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arrowBlue)"/>
-        <!-- 2.4 at right -->
-        <line x1="210" y1="54" x2="210" y2="66" stroke="#1D4ED8" stroke-width="2"/>
-        <text x="210" y="80" text-anchor="middle" fill="#1D4ED8" font-size="11" font-weight="700">2.4</text>
-        <text x="210" y="35" text-anchor="middle" fill="#059669" font-size="10" font-weight="700">ROUND UP</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
         <defs>
-          <marker id="arrowBlue" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L6,3 z" fill="#1D4ED8"/>
+          <radialGradient id="dd7-cave" cx="50%" cy="20%" r="75%">
+            <stop offset="0%" stop-color="#1a3258"/>
+            <stop offset="100%" stop-color="#080d1a"/>
+          </radialGradient>
+          <radialGradient id="dd7-body" cx="30%" cy="25%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="dd7-head" cx="35%" cy="28%" r="60%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+          <linearGradient id="dd7-numline" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1d4ed8"/>
+            <stop offset="100%" stop-color="#2563eb"/>
+          </linearGradient>
+          <linearGradient id="dd7-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#059669" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#064e3b" stop-opacity="0.9"/>
+          </linearGradient>
+          <linearGradient id="dd7-scroll" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#fef3c7"/>
+            <stop offset="100%" stop-color="#fde68a"/>
+          </linearGradient>
+          <filter id="dd7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="dd7-roundup">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <marker id="dd7-arrowgreen" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <path d="M0,0 L0,8 L8,4 z" fill="#059669"/>
           </marker>
         </defs>
-        <text x="110" y="100" text-anchor="middle" fill="#374151" font-size="10">Hundredths digit is 6 ≥ 5, so round UP</text>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#dd7-cave)"/>
+        <!-- Cave floor -->
+        <polygon points="0,280 0,240 40,252 90,238 150,250 215,235 265,248 300,236 300,280" fill="#0f0f1e" opacity="0.9"/>
+
+        <!-- Crystals -->
+        <polygon points="15,180 23,155 31,180" fill="#3b82f6" opacity="0.6"/>
+        <polygon points="272,185 280,161 288,186" fill="#6366f1" opacity="0.5"/>
+
+        <!-- Dragon (left side) -->
+        <g filter="url(#dd7-sh)">
+          <path d="M15,255 Q8,242 10,228 Q20,224 23,237 Q24,248 28,258 Z" fill="url(#dd7-body)"/>
+          <ellipse cx="52" cy="225" rx="38" ry="32" fill="url(#dd7-body)"/>
+          <!-- Scale pattern -->
+          <circle cx="42" cy="216" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="54" cy="212" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="65" cy="216" r="5" fill="#064e3b" opacity="0.3"/>
+          <circle cx="47" cy="226" r="4" fill="#064e3b" opacity="0.3"/>
+          <!-- Wing -->
+          <path d="M30,213 Q13,180 8,155 Q25,163 36,180 Q46,196 42,215 Z" fill="url(#dd7-wing)"/>
+          <!-- Neck -->
+          <path d="M60,194 Q66,175 74,167 Q87,175 82,194 Z" fill="url(#dd7-head)"/>
+          <!-- Head -->
+          <ellipse cx="91" cy="153" rx="25" ry="22" fill="url(#dd7-head)"/>
+          <!-- Snout -->
+          <ellipse cx="112" cy="160" rx="13" ry="9" fill="url(#dd7-head)"/>
+          <circle cx="119" cy="159" r="2.5" fill="#064e3b"/>
+          <!-- Horn -->
+          <polygon points="88,130 92,116 97,130" fill="#fbbf24"/>
+          <!-- Eye -->
+          <circle cx="96" cy="145" r="7" fill="white"/>
+          <circle cx="97" cy="146" r="4" fill="#d97706"/>
+          <circle cx="98" cy="146" r="2.5" fill="#1a1a2e"/>
+          <circle cx="96.5" cy="144.5" r="1" fill="white"/>
+          <!-- Spines -->
+          <polygon points="62,195 59,181 67,191" fill="#fbbf24" opacity="0.8"/>
+          <polygon points="72,190 69,177 77,187" fill="#fde68a" opacity="0.7"/>
+          <!-- Scroll in claw -->
+          <rect x="86" y="222" width="55" height="28" rx="4" fill="url(#dd7-scroll)" transform="rotate(-8,113,236)"/>
+          <text x="113" y="238" text-anchor="middle" fill="#1e3a8a" font-size="10" font-weight="700" transform="rotate(-8,113,236)">2.36 → 2.4</text>
+        </g>
+
+        <!-- ROUNDING NUMBER LINE (main feature) -->
+        <g filter="url(#dd7-sh)">
+          <rect x="155" y="55" width="136" height="130" rx="10" fill="rgba(255,255,255,0.05)" stroke="#3b82f6" stroke-width="1.5"/>
+
+          <!-- Number line -->
+          <line x1="165" y1="115" x2="280" y2="115" stroke="url(#dd7-numline)" stroke-width="4" stroke-linecap="round"/>
+          <polygon points="280,111 289,115 280,119" fill="#2563eb"/>
+
+          <!-- 2.3 marker (left) -->
+          <line x1="168" y1="108" x2="168" y2="122" stroke="#3b82f6" stroke-width="2.5"/>
+          <text x="168" y="134" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="700">2.3</text>
+
+          <!-- Halfway 2.35 (dashed) -->
+          <line x1="218" y1="109" x2="218" y2="121" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="218" y="102" text-anchor="middle" fill="#9ca3af" font-size="8.5">midpoint</text>
+          <text x="218" y="134" text-anchor="middle" fill="#9ca3af" font-size="9">2.35</text>
+
+          <!-- 2.36 point (highlighted) -->
+          <circle cx="228" cy="115" r="7" fill="#3b82f6" stroke="#bfdbfe" stroke-width="2"/>
+          <text x="228" y="100" text-anchor="middle" fill="#fde68a" font-size="10" font-weight="700">2.36</text>
+
+          <!-- 2.4 marker (right) -->
+          <line x1="275" y1="108" x2="275" y2="122" stroke="#059669" stroke-width="2.5"/>
+          <text x="275" y="134" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700">2.4</text>
+
+          <!-- Arrow curving toward 2.4 -->
+          <path d="M232,108 Q248,88 271,105" stroke="#059669" stroke-width="2" fill="none" stroke-dasharray="4,2" marker-end="url(#dd7-arrowgreen)"/>
+
+          <!-- ROUND UP label -->
+          <g filter="url(#dd7-roundup)">
+            <text x="252" y="80" text-anchor="middle" fill="#10b981" font-size="11" font-weight="700">ROUND UP</text>
+          </g>
+
+          <!-- Rule explanation -->
+          <rect x="163" y="142" width="120" height="16" rx="4" fill="rgba(255,255,255,0.08)"/>
+          <text x="223" y="154" text-anchor="middle" fill="#bfdbfe" font-size="9">digit ≥ 5 → round up</text>
+          <rect x="163" y="162" width="120" height="16" rx="4" fill="rgba(255,255,255,0.06)"/>
+          <text x="223" y="174" text-anchor="middle" fill="#fde68a" font-size="9" font-weight="700">6 ≥ 5 → 2.36 → 2.4</text>
+        </g>
       </svg>
       <div class="illus-caption">2.36 rounds UP to 2.4</div>
     </div>
@@ -699,39 +1366,130 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 8 – ADDING DECIMALS -->
   <div class="book-page" id="page-8">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0f1e3d,#1a3a6e);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:2rem;margin-bottom:10px;">🧑‍🎓</div>
-      <!-- Column addition SVG -->
-      <svg width="200" height="160" viewBox="0 0 200 160" style="margin:0 auto;">
-        <!-- Column headers -->
-        <rect x="10" y="10" width="50" height="28" rx="4" fill="#1D4ED8" opacity="0.8"/>
-        <text x="35" y="29" text-anchor="middle" fill="white" font-size="11" font-weight="700">Ones</text>
-        <rect x="64" y="10" width="24" height="28" rx="3" fill="#6D28D9" opacity="0.8"/>
-        <text x="76" y="29" text-anchor="middle" fill="white" font-size="14" font-weight="800">.</text>
-        <rect x="92" y="10" width="48" height="28" rx="4" fill="#3B82F6" opacity="0.8"/>
-        <text x="116" y="29" text-anchor="middle" fill="white" font-size="11" font-weight="700">Tenths</text>
-        <rect x="144" y="10" width="52" height="28" rx="4" fill="#60A5FA" opacity="0.8"/>
-        <text x="170" y="29" text-anchor="middle" fill="white" font-size="10" font-weight="700">Hundredths</text>
-        <!-- Row 2.35 -->
-        <text x="35" y="68" text-anchor="middle" fill="#1D4ED8" font-size="22" font-weight="800">2</text>
-        <text x="76" y="68" text-anchor="middle" fill="#6D28D9" font-size="22" font-weight="800">.</text>
-        <text x="116" y="68" text-anchor="middle" fill="#3B82F6" font-size="22" font-weight="800">3</text>
-        <text x="170" y="68" text-anchor="middle" fill="#60A5FA" font-size="22" font-weight="800">5</text>
-        <!-- + 1.42 -->
-        <text x="15" y="98" text-anchor="middle" fill="#374151" font-size="18" font-weight="700">+</text>
-        <text x="35" y="98" text-anchor="middle" fill="#1D4ED8" font-size="22" font-weight="800">1</text>
-        <text x="76" y="98" text-anchor="middle" fill="#6D28D9" font-size="22" font-weight="800">.</text>
-        <text x="116" y="98" text-anchor="middle" fill="#3B82F6" font-size="22" font-weight="800">4</text>
-        <text x="170" y="98" text-anchor="middle" fill="#60A5FA" font-size="22" font-weight="800">2</text>
-        <!-- Line -->
-        <line x1="10" y1="108" x2="196" y2="108" stroke="#374151" stroke-width="2"/>
-        <!-- Result 3.77 -->
-        <text x="35" y="135" text-anchor="middle" fill="#059669" font-size="24" font-weight="800">3</text>
-        <text x="76" y="135" text-anchor="middle" fill="#6D28D9" font-size="24" font-weight="800">.</text>
-        <text x="116" y="135" text-anchor="middle" fill="#059669" font-size="24" font-weight="800">7</text>
-        <text x="170" y="135" text-anchor="middle" fill="#059669" font-size="24" font-weight="800">7</text>
-        <text x="100" y="155" text-anchor="middle" fill="#374151" font-size="11">Line up the decimal points!</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
+        <defs>
+          <radialGradient id="dd8-cave" cx="50%" cy="20%" r="75%">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#080d1a"/>
+          </radialGradient>
+          <radialGradient id="dd8-sage" cx="35%" cy="25%" r="65%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="55%" stop-color="#d97706"/>
+            <stop offset="100%" stop-color="#92400e"/>
+          </radialGradient>
+          <linearGradient id="dd8-col-ones" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#2563eb"/>
+            <stop offset="100%" stop-color="#1e3a8a"/>
+          </linearGradient>
+          <linearGradient id="dd8-col-tenths" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+          <linearGradient id="dd8-col-hundredths" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#2563eb"/>
+          </linearGradient>
+          <linearGradient id="dd8-result" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="dd8-goldbar" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="50%" stop-color="#fbbf24"/>
+            <stop offset="100%" stop-color="#d97706"/>
+          </linearGradient>
+          <filter id="dd8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#dd8-cave)"/>
+        <!-- Cave floor -->
+        <polygon points="0,280 0,242 50,255 110,240 165,255 220,238 270,252 300,238 300,280" fill="#0f0f1e" opacity="0.9"/>
+
+        <!-- Sage character (left side, simplified) -->
+        <g filter="url(#dd8-sh)">
+          <!-- Robe body -->
+          <path d="M35,160 Q25,200 20,250 L65,250 Q65,200 55,160 Z" fill="#1e3a8a"/>
+          <!-- Head -->
+          <circle cx="45" cy="145" r="18" fill="url(#dd8-sage)"/>
+          <!-- Hat (scholar cap) -->
+          <rect x="28" y="128" width="34" height="8" rx="2" fill="#1e3a8a"/>
+          <rect x="30" y="120" width="30" height="10" rx="3" fill="#1e3a8a"/>
+          <!-- Eye left -->
+          <circle cx="40" cy="145" r="3" fill="white"/>
+          <circle cx="40" cy="145" r="1.8" fill="#374151"/>
+          <!-- Eye right -->
+          <circle cx="52" cy="145" r="3" fill="white"/>
+          <circle cx="52" cy="145" r="1.8" fill="#374151"/>
+          <!-- Arm holding quill -->
+          <path d="M55,170 L80,160" stroke="#1e3a8a" stroke-width="6" stroke-linecap="round"/>
+          <!-- Quill -->
+          <path d="M80,160 L92,140" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M90,142 L88,148 L86,142 Z" fill="#fbbf24"/>
+        </g>
+
+        <!-- Two gold bars -->
+        <g filter="url(#dd8-sh)">
+          <rect x="15" y="218" width="48" height="18" rx="4" fill="url(#dd8-goldbar)"/>
+          <text x="39" y="231" text-anchor="middle" fill="#1e3a8a" font-size="9" font-weight="700">2.35 kg</text>
+          <rect x="68" y="222" width="48" height="18" rx="4" fill="url(#dd8-goldbar)"/>
+          <text x="92" y="235" text-anchor="middle" fill="#1e3a8a" font-size="9" font-weight="700">1.42 kg</text>
+        </g>
+
+        <!-- COLUMN ADDITION (main feature) -->
+        <g filter="url(#dd8-sh)">
+          <!-- Panel background -->
+          <rect x="132" y="30" width="162" height="190" rx="10" fill="rgba(255,255,255,0.06)" stroke="#3b82f6" stroke-width="1.5"/>
+
+          <!-- Column headers -->
+          <rect x="140" y="40" width="36" height="22" rx="4" fill="url(#dd8-col-ones)"/>
+          <text x="158" y="55" text-anchor="middle" fill="white" font-size="9.5" font-weight="700">Ones</text>
+
+          <rect x="180" y="40" width="16" height="22" rx="3" fill="#7c3aed"/>
+          <text x="188" y="55" text-anchor="middle" fill="white" font-size="13" font-weight="900">.</text>
+
+          <rect x="200" y="40" width="36" height="22" rx="4" fill="url(#dd8-col-tenths)"/>
+          <text x="218" y="55" text-anchor="middle" fill="white" font-size="9" font-weight="700">Tenths</text>
+
+          <rect x="240" y="40" width="48" height="22" rx="4" fill="url(#dd8-col-hundredths)"/>
+          <text x="264" y="55" text-anchor="middle" fill="white" font-size="8.5" font-weight="700">Hundredths</text>
+
+          <!-- Row 1: 2.35 -->
+          <text x="158" y="90" text-anchor="middle" fill="#dbeafe" font-size="22" font-weight="800">2</text>
+          <text x="188" y="90" text-anchor="middle" fill="#c4b5fd" font-size="20" font-weight="900">.</text>
+          <text x="218" y="90" text-anchor="middle" fill="#93c5fd" font-size="22" font-weight="800">3</text>
+          <text x="264" y="90" text-anchor="middle" fill="#bfdbfe" font-size="22" font-weight="800">5</text>
+
+          <!-- Plus sign -->
+          <text x="140" y="120" text-anchor="middle" fill="#6ee7b7" font-size="20" font-weight="700">+</text>
+
+          <!-- Row 2: 1.42 -->
+          <text x="158" y="120" text-anchor="middle" fill="#dbeafe" font-size="22" font-weight="800">1</text>
+          <text x="188" y="120" text-anchor="middle" fill="#c4b5fd" font-size="20" font-weight="900">.</text>
+          <text x="218" y="120" text-anchor="middle" fill="#93c5fd" font-size="22" font-weight="800">4</text>
+          <text x="264" y="120" text-anchor="middle" fill="#bfdbfe" font-size="22" font-weight="800">2</text>
+
+          <!-- Dividing line -->
+          <line x1="140" y1="130" x2="284" y2="130" stroke="#3b82f6" stroke-width="2.5"/>
+
+          <!-- Result row: 3.77 -->
+          <text x="158" y="156" text-anchor="middle" fill="#6ee7b7" font-size="24" font-weight="900">3</text>
+          <text x="188" y="156" text-anchor="middle" fill="#c4b5fd" font-size="22" font-weight="900">.</text>
+          <text x="218" y="156" text-anchor="middle" fill="#6ee7b7" font-size="24" font-weight="900">7</text>
+          <text x="264" y="156" text-anchor="middle" fill="#6ee7b7" font-size="24" font-weight="900">7</text>
+
+          <!-- Bottom rule note -->
+          <rect x="140" y="170" width="136" height="16" rx="4" fill="rgba(255,255,255,0.08)"/>
+          <text x="208" y="182" text-anchor="middle" fill="#fde68a" font-size="9" font-weight="700">Line up decimal points!</text>
+
+          <!-- Total label -->
+          <rect x="140" y="192" width="136" height="18" rx="5" fill="rgba(5,150,105,0.4)"/>
+          <text x="208" y="204" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="800">2.35 + 1.42 = 3.77</text>
+        </g>
       </svg>
       <div class="illus-caption">2.35 + 1.42 = 3.77</div>
     </div>
@@ -773,32 +1531,131 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 9 – REAL-WORLD DECIMALS -->
   <div class="book-page" id="page-9">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0f1e3d,#1a3a6e);">
       <div class="page-num-illus">Page 9</div>
-      <!-- Real world decimals scene -->
-      <div style="display:flex;flex-direction:column;gap:14px;width:90%;margin:0 auto;">
-        <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:2px solid #BFDBFE;">
-          <span style="font-size:2rem;">💰</span>
-          <div>
-            <div style="font-size:1rem;font-weight:800;color:#1D4ED8;">£3.75</div>
-            <div style="font-size:.78rem;color:#6B7280;font-weight:600;">3 pounds and 75 hundredths = 75p</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:2px solid #BFDBFE;">
-          <span style="font-size:2rem;">📏</span>
-          <div>
-            <div style="font-size:1rem;font-weight:800;color:#1D4ED8;">15.6 cm</div>
-            <div style="font-size:.78rem;color:#6B7280;font-weight:600;">15 cm and 6 tenths of a cm</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:12px 16px;border:2px solid #BFDBFE;">
-          <span style="font-size:2rem;">🏆</span>
-          <div>
-            <div style="font-size:1rem;font-weight:800;color:#1D4ED8;">9.4 / 10</div>
-            <div style="font-size:.78rem;color:#6B7280;font-weight:600;">Sports score with tenths</div>
-          </div>
-        </div>
-      </div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
+        <defs>
+          <radialGradient id="dd9-cave" cx="50%" cy="20%" r="75%">
+            <stop offset="0%" stop-color="#1a3258"/>
+            <stop offset="100%" stop-color="#080d1a"/>
+          </radialGradient>
+          <radialGradient id="dd9-body" cx="30%" cy="25%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="dd9-head" cx="35%" cy="28%" r="60%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+          <linearGradient id="dd9-card1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1e3a8a"/>
+            <stop offset="100%" stop-color="#1d4ed8"/>
+          </linearGradient>
+          <linearGradient id="dd9-card2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#064e3b"/>
+            <stop offset="100%" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="dd9-card3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#6d28d9"/>
+          </linearGradient>
+          <linearGradient id="dd9-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#059669" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#064e3b" stop-opacity="0.9"/>
+          </linearGradient>
+          <filter id="dd9-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#dd9-cave)"/>
+        <!-- Cave floor -->
+        <polygon points="0,280 0,242 45,255 100,240 160,254 220,238 268,252 300,238 300,280" fill="#0f0f1e" opacity="0.9"/>
+
+        <!-- Crystal accents -->
+        <polygon points="14,175 22,150 30,175" fill="#3b82f6" opacity="0.55"/>
+        <polygon points="272,180 280,157 288,181" fill="#6366f1" opacity="0.5"/>
+
+        <!-- Dragon (small, bottom right) -->
+        <g filter="url(#dd9-sh)">
+          <path d="M244,258 Q262,248 266,234 Q256,230 249,242 Q241,253 233,260 Z" fill="url(#dd9-body)"/>
+          <ellipse cx="218" cy="232" rx="32" ry="27" fill="url(#dd9-body)"/>
+          <circle cx="208" cy="224" r="4.5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="219" cy="220" r="4.5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="230" cy="224" r="4.5" fill="#064e3b" opacity="0.3"/>
+          <path d="M234,220 Q250,192 254,168 Q240,175 232,191 Q224,207 228,222 Z" fill="url(#dd9-wing)"/>
+          <path d="M208,205 Q204,188 196,180 Q185,187 190,204 Z" fill="url(#dd9-head)"/>
+          <ellipse cx="183" cy="167" rx="21" ry="19" fill="url(#dd9-head)"/>
+          <ellipse cx="164" cy="172" rx="11" ry="7.5" fill="url(#dd9-head)"/>
+          <circle cx="158" cy="171" r="2.2" fill="#064e3b"/>
+          <polygon points="180,148 184,134 188,148" fill="#fbbf24"/>
+          <circle cx="177" cy="160" r="5.5" fill="white"/>
+          <circle cx="176" cy="161" r="3.2" fill="#d97706"/>
+          <circle cx="175" cy="161" r="1.9" fill="#1a1a2e"/>
+          <circle cx="177.5" cy="159.5" r="0.8" fill="white"/>
+        </g>
+
+        <!-- REAL-WORLD DECIMAL CARDS -->
+        <!-- Card 1: Money -->
+        <g filter="url(#dd9-sh)">
+          <rect x="15" y="38" width="128" height="52" rx="10" fill="url(#dd9-card1)"/>
+          <!-- Coin icon -->
+          <circle cx="40" cy="64" r="16" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <text x="40" y="69" text-anchor="middle" fill="#92400e" font-size="12" font-weight="900">£</text>
+          <!-- Value -->
+          <text x="95" y="57" text-anchor="middle" fill="white" font-size="16" font-weight="900">£3.75</text>
+          <text x="95" y="74" text-anchor="middle" fill="#bfdbfe" font-size="8.5">3 pounds 75 pence</text>
+          <text x="95" y="84" text-anchor="middle" fill="#93c5fd" font-size="8">75 hundredths of £1</text>
+        </g>
+
+        <!-- Card 2: Measurement -->
+        <g filter="url(#dd9-sh)">
+          <rect x="155" y="38" width="130" height="52" rx="10" fill="url(#dd9-card2)"/>
+          <!-- Ruler icon -->
+          <rect x="170" y="52" width="36" height="14" rx="2" fill="#a7f3d0"/>
+          <line x1="174" y1="52" x2="174" y2="57" stroke="#059669" stroke-width="1"/>
+          <line x1="180" y1="52" x2="180" y2="60" stroke="#059669" stroke-width="1.5"/>
+          <line x1="186" y1="52" x2="186" y2="57" stroke="#059669" stroke-width="1"/>
+          <line x1="192" y1="52" x2="192" y2="60" stroke="#059669" stroke-width="1.5"/>
+          <line x1="198" y1="52" x2="198" y2="57" stroke="#059669" stroke-width="1"/>
+          <!-- Value -->
+          <text x="248" y="57" text-anchor="middle" fill="white" font-size="14" font-weight="900">15.6 cm</text>
+          <text x="248" y="72" text-anchor="middle" fill="#a7f3d0" font-size="8.5">15 cm + 6 tenths</text>
+          <text x="248" y="84" text-anchor="middle" fill="#6ee7b7" font-size="8">of one centimetre</text>
+        </g>
+
+        <!-- Card 3: Score -->
+        <g filter="url(#dd9-sh)">
+          <rect x="15" y="104" width="128" height="52" rx="10" fill="url(#dd9-card3)"/>
+          <!-- Trophy icon (simplified) -->
+          <rect x="28" y="112" width="24" height="18" rx="4" fill="#fde68a"/>
+          <rect x="32" y="128" width="16" height="5" rx="2" fill="#fbbf24"/>
+          <polygon points="35,112 40,104 45,112" fill="#fde68a"/>
+          <!-- Value -->
+          <text x="93" y="124" text-anchor="middle" fill="white" font-size="16" font-weight="900">9.4/10</text>
+          <text x="93" y="140" text-anchor="middle" fill="#ddd6fe" font-size="8.5">9 and 4 tenths</text>
+          <text x="93" y="150" text-anchor="middle" fill="#c4b5fd" font-size="8">sports score</text>
+        </g>
+
+        <!-- Card 4: Temperature -->
+        <g filter="url(#dd9-sh)">
+          <rect x="155" y="104" width="130" height="52" rx="10" fill="url(#dd9-card1)"/>
+          <!-- Thermometer icon -->
+          <rect x="172" y="106" width="8" height="28" rx="4" fill="#bfdbfe"/>
+          <rect x="173" y="120" width="6" height="16" rx="2" fill="#3b82f6"/>
+          <circle cx="176" cy="134" r="7" fill="#3b82f6"/>
+          <!-- Value -->
+          <text x="240" y="124" text-anchor="middle" fill="white" font-size="14" font-weight="900">36.6°C</text>
+          <text x="240" y="140" text-anchor="middle" fill="#bfdbfe" font-size="8.5">body temperature</text>
+          <text x="240" y="150" text-anchor="middle" fill="#93c5fd" font-size="8">precise with decimals</text>
+        </g>
+
+        <!-- Title text -->
+        <text x="150" y="184" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="700">Decimals in the Real World</text>
+      </svg>
       <div class="illus-caption">Decimals in everyday life</div>
     </div>
 
@@ -840,25 +1697,157 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
 
   <!-- PAGE 10 – THE VAULT IS OPEN! -->
   <div class="book-page" id="page-10">
-    <div class="illustration" style="background:linear-gradient(135deg,#1E40AF,#7C3AED);">
+    <div class="illustration" style="background:linear-gradient(135deg,#1e3a8a,#4c1d95);">
       <div class="page-num-illus">Page 10</div>
-      <div style="font-size:2.5rem;margin-bottom:8px;">🧑‍🎓 🐉 ✨</div>
-      <!-- Floating decimal numbers -->
-      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0;">
-        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">0.1</span>
-        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">0.35</span>
-        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">4.67</span>
-        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">2.5</span>
-        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">0.07</span>
-        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">3.77</span>
-        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">0.01</span>
-        <span style="background:rgba(255,255,255,0.15);color:white;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;padding:5px 10px;border-radius:8px;">1.5</span>
-      </div>
-      <div style="font-size:2.5rem;margin:8px 0;">🏆</div>
-      <div style="background:rgba(255,255,255,0.2);border-radius:12px;padding:12px 16px;text-align:center;color:white;">
-        <div style="font-family:'Quicksand',sans-serif;font-size:.95rem;font-weight:700;">The Decimal Vault is open!</div>
-        <div style="font-size:.8rem;opacity:.85;margin-top:4px;">Sage and Decimo are friends forever</div>
-      </div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="margin:0 auto;display:block;">
+        <defs>
+          <radialGradient id="dd10-sky" cx="50%" cy="40%" r="70%">
+            <stop offset="0%" stop-color="#3730a3"/>
+            <stop offset="50%" stop-color="#1e3a8a"/>
+            <stop offset="100%" stop-color="#0f172a"/>
+          </radialGradient>
+          <radialGradient id="dd10-body" cx="30%" cy="25%" r="65%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="50%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="dd10-head" cx="35%" cy="28%" r="60%">
+            <stop offset="0%" stop-color="#6ee7b7"/>
+            <stop offset="55%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+          <radialGradient id="dd10-vault" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#fde68a"/>
+            <stop offset="60%" stop-color="#d97706"/>
+            <stop offset="100%" stop-color="#92400e"/>
+          </radialGradient>
+          <radialGradient id="dd10-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fde68a" stop-opacity="0.9"/>
+            <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="dd10-wing" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#059669" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#064e3b" stop-opacity="0.9"/>
+          </linearGradient>
+          <filter id="dd10-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="dd10-glofilter">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Sky background -->
+        <rect width="300" height="280" fill="url(#dd10-sky)"/>
+
+        <!-- Stars -->
+        <circle cx="20" cy="18" r="1.5" fill="#fde68a" opacity="0.9"/>
+        <circle cx="55" cy="30" r="1.2" fill="white" opacity="0.8"/>
+        <circle cx="90" cy="12" r="1.8" fill="#fde68a" opacity="0.7"/>
+        <circle cx="130" cy="22" r="1" fill="white" opacity="0.9"/>
+        <circle cx="165" cy="10" r="1.5" fill="#fde68a" opacity="0.8"/>
+        <circle cx="200" cy="25" r="1.2" fill="white" opacity="0.7"/>
+        <circle cx="245" cy="14" r="1.8" fill="#fde68a" opacity="0.9"/>
+        <circle cx="280" cy="32" r="1" fill="white" opacity="0.8"/>
+        <circle cx="270" cy="8" r="1.5" fill="#fde68a" opacity="0.6"/>
+        <circle cx="40" cy="45" r="1" fill="white" opacity="0.6"/>
+        <circle cx="180" cy="40" r="1.2" fill="#fde68a" opacity="0.5"/>
+
+        <!-- VAULT DOOR (center background) -->
+        <g filter="url(#dd10-glofilter)">
+          <circle cx="150" cy="130" r="60" fill="#d97706" opacity="0.3"/>
+        </g>
+        <g filter="url(#dd10-sh)">
+          <!-- Outer vault ring -->
+          <circle cx="150" cy="130" r="55" fill="none" stroke="#d97706" stroke-width="4"/>
+          <!-- Inner vault door -->
+          <circle cx="150" cy="130" r="44" fill="url(#dd10-vault)" opacity="0.9"/>
+          <!-- Vault details -->
+          <circle cx="150" cy="130" r="38" fill="#b45309"/>
+          <circle cx="150" cy="130" r="30" fill="#92400e"/>
+          <!-- Spokes -->
+          <line x1="150" y1="92" x2="150" y2="168" stroke="#fbbf24" stroke-width="3"/>
+          <line x1="112" y1="130" x2="188" y2="130" stroke="#fbbf24" stroke-width="3"/>
+          <line x1="123" y1="103" x2="177" y2="157" stroke="#fbbf24" stroke-width="2"/>
+          <line x1="177" y1="103" x2="123" y2="157" stroke="#fbbf24" stroke-width="2"/>
+          <!-- Center hub -->
+          <circle cx="150" cy="130" r="12" fill="#fde68a"/>
+          <circle cx="150" cy="130" r="7" fill="#d97706"/>
+          <!-- Vault label -->
+          <text x="150" y="184" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="700">DECIMAL VAULT</text>
+          <text x="150" y="198" text-anchor="middle" fill="#fbbf24" font-size="9">OPEN!</text>
+        </g>
+
+        <!-- Floating decimal number badges -->
+        <g filter="url(#dd10-sh)">
+          <rect x="12" y="55" width="34" height="18" rx="5" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          <text x="29" y="68" text-anchor="middle" fill="white" font-size="10" font-weight="700">0.1</text>
+
+          <rect x="56" y="42" width="38" height="18" rx="5" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          <text x="75" y="55" text-anchor="middle" fill="#fde68a" font-size="10" font-weight="700">0.35</text>
+
+          <rect x="106" y="50" width="36" height="18" rx="5" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          <text x="124" y="63" text-anchor="middle" fill="white" font-size="10" font-weight="700">4.67</text>
+
+          <rect x="220" y="45" width="32" height="18" rx="5" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          <text x="236" y="58" text-anchor="middle" fill="#fde68a" font-size="10" font-weight="700">2.5</text>
+
+          <rect x="260" y="58" width="34" height="18" rx="5" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          <text x="277" y="71" text-anchor="middle" fill="white" font-size="10" font-weight="700">0.07</text>
+
+          <rect x="25" y="200" width="36" height="18" rx="5" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+          <text x="43" y="213" text-anchor="middle" fill="#fde68a" font-size="10" font-weight="700">3.77</text>
+
+          <rect x="248" y="195" width="32" height="18" rx="5" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+          <text x="264" y="208" text-anchor="middle" fill="white" font-size="10" font-weight="700">0.01</text>
+        </g>
+
+        <!-- Dragon (large, right side, wings spread) -->
+        <g filter="url(#dd10-sh)">
+          <!-- Wing spread right -->
+          <path d="M248,170 Q280,140 290,100 Q270,115 255,140 Q242,158 245,175 Z" fill="url(#dd10-wing)"/>
+          <!-- Wing spread left (partial) -->
+          <path d="M220,165 Q200,135 195,105 Q215,120 225,145 Q232,162 228,170 Z" fill="url(#dd10-wing)"/>
+          <!-- Body -->
+          <ellipse cx="238" cy="205" rx="35" ry="30" fill="url(#dd10-body)"/>
+          <!-- Scale pattern -->
+          <circle cx="228" cy="196" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="240" cy="192" r="5" fill="#064e3b" opacity="0.4"/>
+          <circle cx="252" cy="196" r="5" fill="#064e3b" opacity="0.3"/>
+          <circle cx="234" cy="207" r="4" fill="#064e3b" opacity="0.3"/>
+          <!-- Tail -->
+          <path d="M262,228 Q280,235 284,225 Q275,218 265,224 Q258,232 258,238 Z" fill="url(#dd10-body)"/>
+          <!-- Neck -->
+          <path d="M228,180 Q222,162 215,155 Q203,163 208,180 Z" fill="url(#dd10-head)"/>
+          <!-- Head -->
+          <ellipse cx="200" cy="142" rx="24" ry="22" fill="url(#dd10-head)"/>
+          <!-- Snout -->
+          <ellipse cx="179" cy="148" rx="13" ry="9" fill="url(#dd10-head)"/>
+          <circle cx="172" cy="147" r="2.5" fill="#064e3b"/>
+          <!-- Horn -->
+          <polygon points="196,120 200,105 205,120" fill="#fbbf24"/>
+          <polygon points="206,123 209,110 213,123" fill="#fde68a"/>
+          <!-- Eye (happy - curved) -->
+          <circle cx="194" cy="135" r="7" fill="white"/>
+          <circle cx="195" cy="136" r="4" fill="#d97706"/>
+          <circle cx="196" cy="136" r="2.5" fill="#1a1a2e"/>
+          <circle cx="194.5" cy="134.5" r="1" fill="white"/>
+          <!-- Smile on snout -->
+          <path d="M175,152 Q180,156 186,152" stroke="#064e3b" stroke-width="1.5" fill="none"/>
+          <!-- Spines -->
+          <polygon points="228,178 225,165 233,175" fill="#fbbf24" opacity="0.8"/>
+          <polygon points="238,174 235,161 243,171" fill="#fde68a" opacity="0.7"/>
+        </g>
+
+        <!-- Trophy badge -->
+        <g filter="url(#dd10-sh)">
+          <rect x="80" y="230" width="140" height="38" rx="10" fill="rgba(29,78,216,0.6)" stroke="#fde68a" stroke-width="1.5"/>
+          <text x="150" y="247" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="800">The Vault is Open!</text>
+          <text x="150" y="262" text-anchor="middle" fill="#bfdbfe" font-size="9">Sage and Decimo — together!</text>
+        </g>
+      </svg>
       <div class="illus-caption">The treasure of decimal knowledge!</div>
     </div>
 

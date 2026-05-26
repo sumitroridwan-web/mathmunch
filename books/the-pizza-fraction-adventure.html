@@ -272,13 +272,176 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 2 – INTRODUCTION
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-2">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+    <div class="illustration" style="background:linear-gradient(135deg,#3a1a00,#6a2800);">
       <div class="page-num-illus">Page 2</div>
-      <div style="font-size:5rem;margin-bottom:8px;">🏪</div>
-      <div class="illus-scene">
-        <span class="char" style="margin-right:-10px;">🦊</span>
-        <span class="char-sm">🍕🍕</span>
-      </div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="pf2-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a1a00"/>
+            <stop offset="100%" stop-color="#6a2800"/>
+          </linearGradient>
+          <!-- Brick wall -->
+          <linearGradient id="pf2-brick" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#C2410C"/>
+            <stop offset="100%" stop-color="#9A3412"/>
+          </linearGradient>
+          <!-- Counter/wood -->
+          <linearGradient id="pf2-wood" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#92400E"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </linearGradient>
+          <!-- Warm oven glow -->
+          <radialGradient id="pf2-oven" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#F97316" stop-opacity="0"/>
+          </radialGradient>
+          <!-- Pizza crust gradient -->
+          <radialGradient id="pf2-crust" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="70%" stop-color="#FEF9C3"/>
+            <stop offset="85%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <!-- Pip skin (fox orange) -->
+          <radialGradient id="pf2-pip" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDDBB4"/>
+            <stop offset="60%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#C2410C"/>
+          </radialGradient>
+          <!-- Pip apron -->
+          <linearGradient id="pf2-apron" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#E5E7EB"/>
+          </linearGradient>
+          <filter id="pf2-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+          <filter id="pf2-glow">
+            <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#F97316" flood-opacity="0.4"/>
+          </filter>
+        </defs>
+
+        <!-- Background sky/wall -->
+        <rect width="300" height="280" fill="url(#pf2-bg)"/>
+
+        <!-- Brick wall pattern -->
+        <rect x="0" y="0" width="300" height="190" fill="url(#pf2-brick)" opacity="0.3"/>
+        <!-- Brick lines horizontal -->
+        <line x1="0" y1="30" x2="300" y2="30" stroke="#7F1D1D" stroke-width="2" opacity="0.4"/>
+        <line x1="0" y1="60" x2="300" y2="60" stroke="#7F1D1D" stroke-width="2" opacity="0.4"/>
+        <line x1="0" y1="90" x2="300" y2="90" stroke="#7F1D1D" stroke-width="2" opacity="0.4"/>
+        <line x1="0" y1="120" x2="300" y2="120" stroke="#7F1D1D" stroke-width="2" opacity="0.4"/>
+        <!-- Brick lines vertical (staggered) -->
+        <line x1="75" y1="0" x2="75" y2="30" stroke="#7F1D1D" stroke-width="1.5" opacity="0.35"/>
+        <line x1="150" y1="0" x2="150" y2="30" stroke="#7F1D1D" stroke-width="1.5" opacity="0.35"/>
+        <line x1="225" y1="0" x2="225" y2="30" stroke="#7F1D1D" stroke-width="1.5" opacity="0.35"/>
+        <line x1="37" y1="30" x2="37" y2="60" stroke="#7F1D1D" stroke-width="1.5" opacity="0.35"/>
+        <line x1="112" y1="30" x2="112" y2="60" stroke="#7F1D1D" stroke-width="1.5" opacity="0.35"/>
+        <line x1="187" y1="30" x2="187" y2="60" stroke="#7F1D1D" stroke-width="1.5" opacity="0.35"/>
+        <line x1="262" y1="30" x2="262" y2="60" stroke="#7F1D1D" stroke-width="1.5" opacity="0.35"/>
+
+        <!-- Shop sign above -->
+        <rect x="55" y="10" width="190" height="36" rx="8" fill="#78350F"/>
+        <rect x="58" y="13" width="184" height="30" rx="6" fill="#92400E" stroke="#FBBF24" stroke-width="1.5"/>
+        <text x="150" y="26" text-anchor="middle" fill="#FEF9C3" font-size="10" font-weight="800">PIP'S PIZZA PALACE</text>
+        <text x="150" y="38" text-anchor="middle" fill="#FCD34D" font-size="8">Fractions Made Delicious!</text>
+
+        <!-- Counter / bar -->
+        <rect x="0" y="190" width="300" height="30" fill="url(#pf2-wood)"/>
+        <rect x="0" y="186" width="300" height="8" rx="2" fill="#A16207"/>
+        <!-- Floor -->
+        <rect x="0" y="220" width="300" height="60" fill="#451a03" opacity="0.9"/>
+        <!-- Floor tiles -->
+        <line x1="0" y1="240" x2="300" y2="240" stroke="#3a1500" stroke-width="1.5" opacity="0.5"/>
+        <line x1="75" y1="220" x2="75" y2="280" stroke="#3a1500" stroke-width="1.5" opacity="0.5"/>
+        <line x1="150" y1="220" x2="150" y2="280" stroke="#3a1500" stroke-width="1.5" opacity="0.5"/>
+        <line x1="225" y1="220" x2="225" y2="280" stroke="#3a1500" stroke-width="1.5" opacity="0.5"/>
+
+        <!-- Oven (back wall) -->
+        <rect x="190" y="100" width="90" height="88" rx="6" fill="#451a03"/>
+        <rect x="196" y="106" width="78" height="76" rx="5" fill="#1a0a00"/>
+        <!-- Oven glow -->
+        <ellipse cx="235" cy="144" rx="30" ry="25" fill="url(#pf2-oven)"/>
+        <text x="235" y="150" text-anchor="middle" fill="#FCD34D" font-size="28" opacity="0.8">🔥</text>
+        <!-- Oven door handle -->
+        <rect x="218" y="178" width="34" height="7" rx="3.5" fill="#A16207"/>
+
+        <!-- Shelf on wall with pizza boxes -->
+        <rect x="0" y="130" width="95" height="10" rx="3" fill="#92400E"/>
+        <rect x="5" y="110" width="28" height="22" rx="3" fill="#C2410C"/>
+        <text x="19" y="124" text-anchor="middle" fill="white" font-size="7">PIZZA</text>
+        <rect x="38" y="112" width="28" height="20" rx="3" fill="#9A3412"/>
+        <text x="52" y="125" text-anchor="middle" fill="white" font-size="7">PIZZA</text>
+
+        <!-- Pizzas on counter -->
+        <g filter="url(#pf2-sh)">
+          <!-- Pizza 1 (left on counter) -->
+          <circle cx="90" cy="185" r="28" fill="#92400E"/>
+          <circle cx="90" cy="185" r="24" fill="url(#pf2-crust)"/>
+          <circle cx="90" cy="185" r="18" fill="#DC2626" opacity="0.85"/>
+          <circle cx="82" cy="180" r="4" fill="#FEF9C3" opacity="0.7"/>
+          <circle cx="97" cy="176" r="3.5" fill="#10B981"/>
+          <circle cx="90" cy="192" r="4.5" fill="#FEF9C3" opacity="0.7"/>
+          <circle cx="83" cy="190" r="2.5" fill="#10B981"/>
+          <!-- Pizza 2 (right on counter) -->
+          <circle cx="155" cy="183" r="26" fill="#92400E"/>
+          <circle cx="155" cy="183" r="22" fill="url(#pf2-crust)"/>
+          <circle cx="155" cy="183" r="16" fill="#DC2626" opacity="0.85"/>
+          <circle cx="148" cy="178" r="3.5" fill="#FEF9C3" opacity="0.7"/>
+          <circle cx="162" cy="175" r="3" fill="#FBBF24"/>
+          <circle cx="155" cy="190" r="4" fill="#FEF9C3" opacity="0.7"/>
+        </g>
+
+        <!-- Pip the Fox character -->
+        <g filter="url(#pf2-sh)">
+          <!-- Apron/body -->
+          <ellipse cx="238" cy="232" rx="24" ry="9" fill="#4a1a00" opacity="0.5"/>
+          <path d="M216,227 Q238,242 260,227 L256,175 Q238,186 220,175 Z" fill="url(#pf2-apron)"/>
+          <!-- Apron strings -->
+          <line x1="228" y1="175" x2="220" y2="185" stroke="#D1D5DB" stroke-width="2"/>
+          <line x1="248" y1="175" x2="256" y2="185" stroke="#D1D5DB" stroke-width="2"/>
+          <!-- Fox shirt under apron -->
+          <rect x="218" y="176" width="40" height="20" rx="4" fill="#F97316"/>
+          <!-- Arms -->
+          <line x1="220" y1="188" x2="205" y2="200" stroke="#F97316" stroke-width="6" stroke-linecap="round"/>
+          <!-- Holding pizza peel -->
+          <line x1="205" y1="200" x2="190" y2="175" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="183" cy="168" rx="16" ry="10" fill="#92400E"/>
+          <line x1="256" y1="186" x2="270" y2="200" stroke="#F97316" stroke-width="6" stroke-linecap="round"/>
+          <!-- Fox head/neck -->
+          <rect x="233" y="162" width="10" height="13" rx="3" fill="#F97316"/>
+          <!-- Fox face (orange with white muzzle) -->
+          <circle cx="238" cy="155" r="19" fill="url(#pf2-pip)"/>
+          <!-- Fox ears (pointy) -->
+          <polygon points="222,142 218,125 230,136" fill="#F97316"/>
+          <polygon points="254,142 258,125 246,136" fill="#F97316"/>
+          <!-- Inner ear -->
+          <polygon points="223,141 220,128 229,136" fill="#EC4899" opacity="0.6"/>
+          <polygon points="253,141 256,128 247,136" fill="#EC4899" opacity="0.6"/>
+          <!-- White muzzle -->
+          <ellipse cx="238" cy="159" rx="11" ry="8" fill="#FEF9C3"/>
+          <!-- Chef hat (white) -->
+          <rect x="224" y="137" width="28" height="10" rx="3" fill="white"/>
+          <ellipse cx="238" cy="133" rx="18" ry="14" fill="white"/>
+          <ellipse cx="238" cy="133" rx="14" ry="10" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+          <!-- Fox eyes -->
+          <circle cx="231" cy="152" r="3.5" fill="white"/>
+          <circle cx="231" cy="152" r="2" fill="#1c1917"/>
+          <circle cx="231.9" cy="151.2" r="0.8" fill="white"/>
+          <circle cx="245" cy="152" r="3.5" fill="white"/>
+          <circle cx="245" cy="152" r="2" fill="#1c1917"/>
+          <circle cx="245.9" cy="151.2" r="0.8" fill="white"/>
+          <!-- Fox nose -->
+          <ellipse cx="238" cy="158" rx="3.5" ry="2.5" fill="#4a1a00"/>
+          <!-- Fox smile -->
+          <path d="M232,163 Q238,168 244,163" stroke="#92400E" stroke-width="1.5" fill="none"/>
+          <!-- Flour on face -->
+          <circle cx="228" cy="155" r="3" fill="white" opacity="0.6"/>
+        </g>
+
+        <!-- Caption light band -->
+        <rect x="0" y="262" width="300" height="18" fill="rgba(0,0,0,0.3)"/>
+      </svg>
       <div class="illus-caption">Pip's Pizza Palace — open for business!</div>
     </div>
 
@@ -310,47 +473,154 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 3 – HALVES
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-3">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FDE68A);">
+    <div class="illustration" style="background:linear-gradient(135deg,#451a03,#78350f);">
       <div class="page-num-illus">Page 3</div>
-      <div class="pizza-display">
-        <!-- Left half pizza (full) -->
-        <div class="pizza">
-          <svg width="120" height="120" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="56" fill="#F97316" stroke="#C2410C" stroke-width="3"/>
-            <circle cx="60" cy="60" r="44" fill="#FEF9C3"/>
-            <circle cx="46" cy="50" r="6" fill="#DC2626"/>
-            <circle cx="72" cy="44" r="5" fill="#10B981"/>
-            <circle cx="60" cy="72" r="7" fill="#DC2626"/>
-            <circle cx="40" cy="72" r="4" fill="#FBBF24"/>
-            <circle cx="78" cy="68" r="5" fill="#10B981"/>
-          </svg>
-          <div class="fraction-label" style="color:var(--orange-dark);">🍕 Whole Pizza</div>
-        </div>
-        <div style="font-size:2rem;color:var(--orange-dark);font-weight:700;padding-bottom:20px;">→</div>
-        <!-- Two halves -->
-        <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
-          <svg width="120" height="64" viewBox="0 0 120 120">
-            <clipPath id="topHalf"><rect x="0" y="0" width="120" height="60"/></clipPath>
-            <circle cx="60" cy="60" r="56" fill="#F97316" stroke="#C2410C" stroke-width="3" clip-path="url(#topHalf)"/>
-            <circle cx="60" cy="60" r="44" fill="#FEF9C3" clip-path="url(#topHalf)"/>
-            <circle cx="46" cy="50" r="6" fill="#DC2626" clip-path="url(#topHalf)"/>
-            <circle cx="72" cy="44" r="5" fill="#10B981" clip-path="url(#topHalf)"/>
-            <line x1="4" y1="60" x2="116" y2="60" stroke="white" stroke-width="3" stroke-dasharray="6,3"/>
-          </svg>
-          <svg width="120" height="64" viewBox="0 0 120 60">
-            <clipPath id="botHalf"><rect x="0" y="60" width="120" height="60"/></clipPath>
-            <circle cx="60" cy="0" r="56" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
-            <circle cx="60" cy="0" r="44" fill="#FEF9C3"/>
-            <circle cx="60" cy="12" r="7" fill="#DC2626"/>
-            <circle cx="40" cy="12" r="4" fill="#FBBF24"/>
-            <circle cx="78" cy="8" r="5" fill="#10B981"/>
-          </svg>
-          <div class="fraction-label" style="color:#92400E;">½ + ½</div>
-        </div>
-      </div>
-      <div class="illus-scene" style="margin-top:8px;">
-        <span class="char">🦊</span><span class="char">🦁</span>
-      </div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="pf3-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#451a03"/>
+            <stop offset="100%" stop-color="#78350f"/>
+          </linearGradient>
+          <radialGradient id="pf3-crust" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="72%" stop-color="#FEF9C3"/>
+            <stop offset="86%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <radialGradient id="pf3-sauce" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#EF4444"/>
+            <stop offset="100%" stop-color="#B91C1C"/>
+          </radialGradient>
+          <radialGradient id="pf3-pip" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDDBB4"/>
+            <stop offset="60%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#C2410C"/>
+          </radialGradient>
+          <radialGradient id="pf3-leo" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE8C0"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <linearGradient id="pf3-apron" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#F3F4F6"/>
+          </linearGradient>
+          <filter id="pf3-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#pf3-bg)"/>
+        <!-- Counter -->
+        <rect x="0" y="198" width="300" height="22" fill="#92400E"/>
+        <rect x="0" y="194" width="300" height="8" rx="2" fill="#A16207"/>
+        <!-- Floor -->
+        <rect x="0" y="220" width="300" height="60" fill="#3a1500" opacity="0.9"/>
+
+        <!-- Title label -->
+        <rect x="60" y="10" width="180" height="20" rx="6" fill="rgba(249,115,22,0.3)"/>
+        <text x="150" y="24" text-anchor="middle" fill="#FED7AA" font-size="10.5" font-weight="700">Whole → Cut in Half (½)</text>
+
+        <!-- WHOLE PIZZA -->
+        <g filter="url(#pf3-sh)">
+          <circle cx="75" cy="100" r="50" fill="url(#pf3-crust)"/>
+          <circle cx="75" cy="100" r="38" fill="url(#pf3-sauce)"/>
+          <!-- Cheese blobs -->
+          <circle cx="68" cy="90" r="7" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="88" cy="85" r="6" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="75" cy="110" r="8" fill="#FEF9C3" opacity="0.85"/>
+          <!-- Toppings: mushrooms, olives -->
+          <circle cx="62" cy="95" r="4" fill="#4a2800"/>
+          <circle cx="86" cy="94" r="3.5" fill="#1c1917"/>
+          <circle cx="73" cy="115" r="4" fill="#4a2800"/>
+          <circle cx="83" cy="108" r="3" fill="#1c1917"/>
+          <text x="75" y="155" text-anchor="middle" fill="#FED7AA" font-size="11" font-weight="700">Whole 🍕</text>
+        </g>
+
+        <!-- Arrow -->
+        <text x="138" y="105" text-anchor="middle" fill="#FBBF24" font-size="20" font-weight="800">→</text>
+
+        <!-- TWO HALVES (stacked) -->
+        <g filter="url(#pf3-sh)">
+          <!-- TOP HALF -->
+          <path d="M200,55 A50,50 0 0,1 200,105 Z" fill="url(#pf3-crust)"/>
+          <path d="M200,55 A50,50 0 0,1 200,105 L200,55 Z" fill="url(#pf3-crust)"/>
+          <!-- More correct half-circle -->
+          <path d="M150,80 A50,50 0 0,1 250,80 L200,80 Z" fill="url(#pf3-crust)"/>
+          <path d="M156,80 A44,44 0 0,1 244,80 L200,80 Z" fill="url(#pf3-sauce)"/>
+          <!-- Toppings top half -->
+          <circle cx="185" cy="67" r="5" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="212" cy="63" r="4" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="180" cy="73" r="3" fill="#4a2800"/>
+          <circle cx="218" cy="71" r="3" fill="#1c1917"/>
+          <!-- Cut line -->
+          <line x1="150" y1="80" x2="250" y2="80" stroke="white" stroke-width="3" stroke-dasharray="7,3"/>
+          <text x="200" y="95" text-anchor="middle" fill="#FED7AA" font-size="14" font-weight="800">½</text>
+
+          <!-- BOTTOM HALF -->
+          <path d="M150,115 A50,50 0 0,0 250,115 L200,115 Z" fill="url(#pf3-crust)"/>
+          <path d="M156,115 A44,44 0 0,0 244,115 L200,115 Z" fill="#FBBF24"/>
+          <circle cx="186" cy="127" r="5" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="210" cy="131" r="4" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="200" cy="120" r="3" fill="#4a2800"/>
+          <circle cx="220" cy="123" r="3" fill="#1c1917"/>
+          <line x1="150" y1="115" x2="250" y2="115" stroke="white" stroke-width="3" stroke-dasharray="7,3"/>
+          <text x="200" y="148" text-anchor="middle" fill="#FED7AA" font-size="14" font-weight="800">½</text>
+          <text x="200" y="162" text-anchor="middle" fill="#FCD34D" font-size="10.5" font-weight="700">½ + ½ = 1</text>
+        </g>
+
+        <!-- Pip (left, small) -->
+        <g filter="url(#pf3-sh)">
+          <ellipse cx="55" cy="232" rx="20" ry="8" fill="#4a1a00" opacity="0.5"/>
+          <path d="M37,228 Q55,240 73,228 L70,188 Q55,196 40,188 Z" fill="url(#pf3-apron)"/>
+          <!-- Pip head (fox) -->
+          <rect x="50" y="176" width="10" height="12" rx="3" fill="#F97316"/>
+          <circle cx="55" cy="169" r="16" fill="url(#pf3-pip)"/>
+          <polygon points="42,157 38,143 50,152" fill="#F97316"/>
+          <polygon points="68,157 72,143 60,152" fill="#F97316"/>
+          <ellipse cx="55" cy="173" rx="9" ry="6" fill="#FEF9C3"/>
+          <rect x="44" y="151" width="22" height="8" rx="2" fill="white"/>
+          <ellipse cx="55" cy="148" rx="14" ry="10" fill="white"/>
+          <circle cx="50" cy="166" r="3" fill="white"/>
+          <circle cx="50" cy="166" r="1.8" fill="#1c1917"/>
+          <circle cx="50.8" cy="165.4" r="0.7" fill="white"/>
+          <circle cx="60" cy="166" r="3" fill="white"/>
+          <circle cx="60" cy="166" r="1.8" fill="#1c1917"/>
+          <circle cx="60.8" cy="165.4" r="0.7" fill="white"/>
+          <ellipse cx="55" cy="172" rx="2.5" ry="2" fill="#4a1a00"/>
+          <path d="M50,176 Q55,180 60,176" stroke="#92400E" stroke-width="1.3" fill="none"/>
+          <line x1="40" y1="195" x2="28" y2="205" stroke="#F97316" stroke-width="5" stroke-linecap="round"/>
+          <!-- Holding pizza cutter -->
+          <line x1="28" y1="205" x2="120" y2="120" stroke="#9CA3AF" stroke-width="2.5"/>
+          <circle cx="120" cy="120" r="7" fill="#6B7280" stroke="#374151" stroke-width="1"/>
+          <line x1="73" y1="193" x2="82" y2="202" stroke="#F97316" stroke-width="5" stroke-linecap="round"/>
+        </g>
+
+        <!-- Leo (right, small) -->
+        <g filter="url(#pf3-sh)">
+          <ellipse cx="245" cy="232" rx="22" ry="8" fill="#4a1a00" opacity="0.5"/>
+          <!-- Simple lion body -->
+          <path d="M225,228 Q245,242 265,228 L262,192 Q245,200 228,192 Z" fill="#FBBF24"/>
+          <!-- Mane -->
+          <circle cx="245" cy="175" r="20" fill="#D97706"/>
+          <!-- Lion face -->
+          <circle cx="245" cy="175" r="15" fill="url(#pf3-leo)"/>
+          <circle cx="240" cy="173" r="3" fill="white"/>
+          <circle cx="240" cy="173" r="1.8" fill="#1c1917"/>
+          <circle cx="240.8" cy="172.4" r="0.7" fill="white"/>
+          <circle cx="250" cy="173" r="3" fill="white"/>
+          <circle cx="250" cy="173" r="1.8" fill="#1c1917"/>
+          <circle cx="250.8" cy="172.4" r="0.7" fill="white"/>
+          <ellipse cx="245" cy="179" rx="6" ry="4" fill="#FEF9C3"/>
+          <ellipse cx="245" cy="180" rx="2.5" ry="2" fill="#92400E"/>
+          <path d="M240,184 Q245,188 250,184" stroke="#92400E" stroke-width="1.5" fill="none"/>
+          <!-- Ears -->
+          <circle cx="232" cy="161" r="6" fill="#D97706"/>
+          <circle cx="258" cy="161" r="6" fill="#D97706"/>
+          <!-- Arms -->
+          <line x1="228" y1="200" x2="215" y2="212" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+          <line x1="262" y1="200" x2="273" y2="212" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+        </g>
+      </svg>
       <div class="illus-caption">Pip cuts the pizza into 2 equal pieces</div>
     </div>
 
@@ -395,30 +665,115 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 4 – QUARTERS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-4">
-    <div class="illustration" style="background:linear-gradient(135deg,#ECFDF5,#A7F3D0);">
+    <div class="illustration" style="background:linear-gradient(135deg,#0a2a1a,#14532d);">
       <div class="page-num-illus">Page 4</div>
-      <div style="font-size:4rem;margin-bottom:8px;">🍕</div>
-      <!-- Quarter diagram -->
-      <svg width="160" height="160" viewBox="0 0 160 160" style="margin:0 auto">
-        <circle cx="80" cy="80" r="72" fill="#F97316" stroke="#C2410C" stroke-width="3"/>
-        <circle cx="80" cy="80" r="56" fill="#FEF9C3"/>
-        <!-- Quarter lines -->
-        <line x1="80" y1="8" x2="80" y2="152" stroke="white" stroke-width="3"/>
-        <line x1="8" y1="80" x2="152" y2="80" stroke="white" stroke-width="3"/>
-        <!-- Labels -->
-        <text x="104" y="54" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">¼</text>
-        <text x="56" y="54" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">¼</text>
-        <text x="104" y="114" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">¼</text>
-        <text x="56" y="114" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">¼</text>
-        <!-- Toppings -->
-        <circle cx="104" cy="44" r="5" fill="#DC2626"/>
-        <circle cx="56" cy="52" r="5" fill="#10B981"/>
-        <circle cx="100" cy="108" r="5" fill="#FBBF24"/>
-        <circle cx="52" cy="104" r="5" fill="#DC2626"/>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="pf4-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a2a1a"/>
+            <stop offset="100%" stop-color="#14532d"/>
+          </linearGradient>
+          <radialGradient id="pf4-crust" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="70%" stop-color="#FEF9C3"/>
+            <stop offset="85%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <filter id="pf4-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#pf4-bg)"/>
+        <!-- Counter -->
+        <rect x="0" y="200" width="300" height="22" fill="#4a7c59"/>
+        <rect x="0" y="196" width="300" height="8" rx="2" fill="#5a8c69"/>
+        <rect x="0" y="222" width="300" height="58" fill="#2a5a3a" opacity="0.8"/>
+
+        <!-- Title -->
+        <rect x="55" y="10" width="190" height="20" rx="6" fill="rgba(16,185,129,0.2)"/>
+        <text x="150" y="24" text-anchor="middle" fill="#6EE7B7" font-size="10.5" font-weight="700">Pizza cut into 4 Quarters (¼)</text>
+
+        <!-- Big pizza divided into quarters -->
+        <g filter="url(#pf4-sh)">
+          <!-- Crust ring -->
+          <circle cx="150" cy="118" r="85" fill="#92400E"/>
+          <circle cx="150" cy="118" r="78" fill="url(#pf4-crust)"/>
+          <!-- Sauce -->
+          <path d="M150,40 A78,78 0 0,1 228,118 L150,118 Z" fill="#DC2626"/>
+          <path d="M228,118 A78,78 0 0,1 150,196 L150,118 Z" fill="#B91C1C"/>
+          <path d="M150,196 A78,78 0 0,1 72,118 L150,118 Z" fill="#DC2626"/>
+          <path d="M72,118 A78,78 0 0,1 150,40 L150,118 Z" fill="#B91C1C"/>
+          <!-- Cheese on each quarter -->
+          <circle cx="180" cy="75" r="10" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="200" cy="90" r="8" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="190" cy="150" r="10" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="210" cy="165" r="7" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="110" cy="155" r="10" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="92" cy="140" r="7" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="105" cy="75" r="9" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="122" cy="62" r="7" fill="#FEF9C3" opacity="0.85"/>
+          <!-- Toppings -->
+          <circle cx="173" cy="80" r="5" fill="#DC2626"/>
+          <circle cx="192" cy="100" r="4" fill="#10B981"/>
+          <circle cx="195" cy="155" r="5" fill="#FBBF24"/>
+          <circle cx="208" cy="172" r="4" fill="#DC2626"/>
+          <circle cx="100" cy="155" r="5" fill="#10B981"/>
+          <circle cx="115" cy="170" r="4" fill="#DC2626"/>
+          <circle cx="115" cy="75" r="5" fill="#FBBF24"/>
+          <circle cx="132" cy="62" r="4" fill="#10B981"/>
+          <!-- Cut lines -->
+          <line x1="150" y1="40" x2="150" y2="196" stroke="white" stroke-width="3"/>
+          <line x1="72" y1="118" x2="228" y2="118" stroke="white" stroke-width="3"/>
+          <!-- ¼ labels in each quadrant -->
+          <text x="192" y="90" text-anchor="middle" fill="white" font-size="20" font-weight="800">¼</text>
+          <text x="192" y="152" text-anchor="middle" fill="white" font-size="20" font-weight="800">¼</text>
+          <text x="108" y="152" text-anchor="middle" fill="white" font-size="20" font-weight="800">¼</text>
+          <text x="108" y="90" text-anchor="middle" fill="white" font-size="20" font-weight="800">¼</text>
+        </g>
+
+        <!-- 4 mini characters below pizza -->
+        <!-- Fox (Pip) -->
+        <circle cx="70" cy="240" r="14" fill="#F97316"/>
+        <circle cx="63" cy="232" r="5" fill="#F97316"/>
+        <circle cx="77" cy="232" r="5" fill="#F97316"/>
+        <circle cx="70" cy="240" r="10" fill="#F97316"/>
+        <circle cx="70" cy="244" r="6" fill="#FEF9C3"/>
+        <circle cx="67" cy="237" r="2.5" fill="white"/>
+        <circle cx="67" cy="237" r="1.4" fill="#1c1917"/>
+        <circle cx="73" cy="237" r="2.5" fill="white"/>
+        <circle cx="73" cy="237" r="1.4" fill="#1c1917"/>
+        <text x="70" y="260" text-anchor="middle" fill="#FED7AA" font-size="7.5" font-weight="700">🦊 Pip</text>
+        <!-- Lion -->
+        <circle cx="120" cy="239" r="14" fill="#FBBF24"/>
+        <circle cx="120" cy="239" r="10" fill="#FDE68A"/>
+        <circle cx="115" cy="236" r="2.5" fill="white"/>
+        <circle cx="115" cy="236" r="1.4" fill="#1c1917"/>
+        <circle cx="125" cy="236" r="2.5" fill="white"/>
+        <circle cx="125" cy="236" r="1.4" fill="#1c1917"/>
+        <circle cx="120" cy="243" r="5" fill="#FEF9C3"/>
+        <text x="120" y="260" text-anchor="middle" fill="#FED7AA" font-size="7.5" font-weight="700">🦁 Leo</text>
+        <!-- Bear -->
+        <circle cx="180" cy="239" r="14" fill="#A16207"/>
+        <circle cx="173" cy="232" r="5" fill="#A16207"/>
+        <circle cx="187" cy="232" r="5" fill="#A16207"/>
+        <circle cx="180" cy="239" r="10" fill="#92400E"/>
+        <circle cx="175" cy="236" r="2.5" fill="white"/>
+        <circle cx="175" cy="236" r="1.4" fill="#1c1917"/>
+        <circle cx="185" cy="236" r="2.5" fill="white"/>
+        <circle cx="185" cy="236" r="1.4" fill="#1c1917"/>
+        <circle cx="180" cy="243" r="5" fill="#FEF9C3"/>
+        <text x="180" y="260" text-anchor="middle" fill="#FED7AA" font-size="7.5" font-weight="700">🐻 Bea</text>
+        <!-- Mouse -->
+        <circle cx="235" cy="239" r="12" fill="#9CA3AF"/>
+        <ellipse cx="228" cy="232" rx="5" ry="6" fill="#9CA3AF"/>
+        <ellipse cx="242" cy="232" rx="5" ry="6" fill="#9CA3AF"/>
+        <circle cx="235" cy="239" r="8" fill="#D1D5DB"/>
+        <circle cx="231" cy="237" r="2" fill="white"/>
+        <circle cx="231" cy="237" r="1.2" fill="#1c1917"/>
+        <circle cx="239" cy="237" r="2" fill="white"/>
+        <circle cx="239" cy="237" r="1.2" fill="#1c1917"/>
+        <text x="235" y="260" text-anchor="middle" fill="#FED7AA" font-size="7.5" font-weight="700">🐭 Milo</text>
       </svg>
-      <div class="illus-scene" style="margin-top:6px;">
-        <span class="char">🦊</span><span class="char">🦁</span><span class="char">🐻</span><span class="char">🐭</span>
-      </div>
       <div class="illus-caption">4 equal pieces — one for everyone!</div>
     </div>
 
@@ -470,24 +825,99 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 5 – THIRDS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-5">
-    <div class="illustration" style="background:linear-gradient(135deg,#EFF6FF,#BFDBFE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#1e3a5f,#0c2a5a);">
       <div class="page-num-illus">Page 5</div>
-      <div style="font-size:3rem;margin-bottom:6px;">🍕 🍕 🍕</div>
-      <!-- Third diagram -->
-      <svg width="160" height="160" viewBox="0 0 160 160" style="margin:0 auto;">
-        <circle cx="80" cy="80" r="72" fill="#FBBF24" stroke="#D97706" stroke-width="3"/>
-        <circle cx="80" cy="80" r="56" fill="#FEF9C3"/>
-        <!-- Third lines at 120° intervals -->
-        <line x1="80" y1="80" x2="80" y2="8" stroke="white" stroke-width="3"/>
-        <line x1="80" y1="80" x2="142" y2="152" stroke="white" stroke-width="3"/>
-        <line x1="80" y1="80" x2="18" y2="152" stroke="white" stroke-width="3"/>
-        <text x="80" y="46" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">⅓</text>
-        <text x="122" y="128" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">⅓</text>
-        <text x="38" y="128" text-anchor="middle" fill="#92400E" font-size="18" font-weight="700">⅓</text>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="pf5-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e3a5f"/>
+            <stop offset="100%" stop-color="#0c2a5a"/>
+          </linearGradient>
+          <radialGradient id="pf5-crust" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="70%" stop-color="#FEF9C3"/>
+            <stop offset="85%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <filter id="pf5-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect width="300" height="280" fill="url(#pf5-bg)"/>
+        <!-- Stars -->
+        <circle cx="20" cy="20" r="1.5" fill="white" opacity="0.5"/>
+        <circle cx="280" cy="30" r="1" fill="white" opacity="0.5"/>
+        <!-- Counter -->
+        <rect x="0" y="200" width="300" height="22" fill="#3a6a8a"/>
+        <rect x="0" y="196" width="300" height="8" rx="2" fill="#4a7a9a"/>
+        <rect x="0" y="222" width="300" height="58" fill="#1e3a5a" opacity="0.8"/>
+
+        <!-- Title -->
+        <rect x="55" y="10" width="190" height="20" rx="6" fill="rgba(59,130,246,0.2)"/>
+        <text x="150" y="24" text-anchor="middle" fill="#93C5FD" font-size="10.5" font-weight="700">Pizza cut into 3 Thirds (⅓)</text>
+
+        <!-- Pizza divided into thirds -->
+        <g filter="url(#pf5-sh)">
+          <circle cx="150" cy="118" r="82" fill="#92400E"/>
+          <circle cx="150" cy="118" r="75" fill="url(#pf5-crust)"/>
+          <!-- Three thirds with different sauce colours -->
+          <!-- Slice 1 (top, 270° to 30°) -->
+          <path d="M150,118 L150,43 A75,75 0 0,1 215,155 Z" fill="#F97316"/>
+          <!-- Slice 2 (right, 30° to 150°) -->
+          <path d="M150,118 L215,155 A75,75 0 0,1 85,155 Z" fill="#FBBF24"/>
+          <!-- Slice 3 (left, 150° to 270°) -->
+          <path d="M150,118 L85,155 A75,75 0 0,1 150,43 Z" fill="#DC2626"/>
+          <!-- Cheese blobs on each slice -->
+          <circle cx="170" cy="73" r="9" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="198" cy="150" r="9" fill="#FEF9C3" opacity="0.85"/>
+          <circle cx="105" cy="148" r="9" fill="#FEF9C3" opacity="0.85"/>
+          <!-- Toppings -->
+          <circle cx="160" cy="78" r="4.5" fill="#1c1917"/>
+          <circle cx="195" cy="140" r="4.5" fill="#10B981"/>
+          <circle cx="108" cy="140" r="4.5" fill="#1c1917"/>
+          <!-- Cut lines from centre -->
+          <line x1="150" y1="118" x2="150" y2="43" stroke="white" stroke-width="3"/>
+          <line x1="150" y1="118" x2="215" y2="155" stroke="white" stroke-width="3"/>
+          <line x1="150" y1="118" x2="85" y2="155" stroke="white" stroke-width="3"/>
+          <!-- ⅓ labels on each slice -->
+          <text x="175" y="102" text-anchor="middle" fill="white" font-size="18" font-weight="800">⅓</text>
+          <text x="185" y="158" text-anchor="middle" fill="white" font-size="18" font-weight="800">⅓</text>
+          <text x="115" y="158" text-anchor="middle" fill="white" font-size="18" font-weight="800">⅓</text>
+        </g>
+
+        <!-- 3 mini characters below -->
+        <!-- Fox -->
+        <circle cx="90" cy="240" r="14" fill="#F97316"/>
+        <circle cx="83" cy="232" r="5" fill="#F97316"/>
+        <circle cx="97" cy="232" r="5" fill="#F97316"/>
+        <circle cx="90" cy="240" r="10" fill="#F97316"/>
+        <circle cx="90" cy="244" r="6" fill="#FEF9C3"/>
+        <circle cx="86" cy="237" r="2.5" fill="white"/>
+        <circle cx="86" cy="237" r="1.4" fill="#1c1917"/>
+        <circle cx="94" cy="237" r="2.5" fill="white"/>
+        <circle cx="94" cy="237" r="1.4" fill="#1c1917"/>
+        <text x="90" y="260" text-anchor="middle" fill="#93C5FD" font-size="8" font-weight="700">🦊 Pip</text>
+        <!-- Lion -->
+        <circle cx="150" cy="239" r="14" fill="#FBBF24"/>
+        <circle cx="150" cy="239" r="10" fill="#FDE68A"/>
+        <circle cx="145" cy="236" r="2.5" fill="white"/>
+        <circle cx="145" cy="236" r="1.4" fill="#1c1917"/>
+        <circle cx="155" cy="236" r="2.5" fill="white"/>
+        <circle cx="155" cy="236" r="1.4" fill="#1c1917"/>
+        <circle cx="150" cy="243" r="5" fill="#FEF9C3"/>
+        <text x="150" y="260" text-anchor="middle" fill="#93C5FD" font-size="8" font-weight="700">🦁 Leo</text>
+        <!-- Bear -->
+        <circle cx="210" cy="239" r="14" fill="#A16207"/>
+        <circle cx="203" cy="232" r="5" fill="#A16207"/>
+        <circle cx="217" cy="232" r="5" fill="#A16207"/>
+        <circle cx="210" cy="239" r="10" fill="#92400E"/>
+        <circle cx="205" cy="236" r="2.5" fill="white"/>
+        <circle cx="205" cy="236" r="1.4" fill="#1c1917"/>
+        <circle cx="215" cy="236" r="2.5" fill="white"/>
+        <circle cx="215" cy="236" r="1.4" fill="#1c1917"/>
+        <circle cx="210" cy="244" r="5" fill="#FEF9C3"/>
+        <text x="210" y="260" text-anchor="middle" fill="#93C5FD" font-size="8" font-weight="700">🐻 Bea</text>
       </svg>
-      <div class="illus-scene" style="margin-top:6px;">
-        <span class="char">🦊</span><span class="char">🦁</span><span class="char">🐻</span>
-      </div>
       <div class="illus-caption">3 friends, 3 equal slices — thirds!</div>
     </div>
 
@@ -522,43 +952,141 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 6 – COMPARING FRACTIONS
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-6">
-    <div class="illustration" style="background:linear-gradient(135deg,#F5F3FF,#DDD6FE);">
+    <div class="illustration" style="background:linear-gradient(135deg,#3b1f6e,#5b21b6);">
       <div class="page-num-illus">Page 6</div>
-      <div style="font-size:3rem;margin-bottom:12px;">🔢</div>
-      <!-- Fraction bars -->
-      <div style="width:90%;display:flex;flex-direction:column;gap:10px;">
-        <div>
-          <div style="font-size:.75rem;font-weight:700;color:#6D28D9;margin-bottom:3px;">1 whole</div>
-          <div style="height:28px;background:#7C3AED;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">1</div>
-        </div>
-        <div>
-          <div style="font-size:.75rem;font-weight:700;color:#6D28D9;margin-bottom:3px;">Halves</div>
-          <div style="display:flex;gap:3px;">
-            <div style="flex:1;height:28px;background:#F97316;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">½</div>
-            <div style="flex:1;height:28px;background:#FDBA74;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">½</div>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:.75rem;font-weight:700;color:#6D28D9;margin-bottom:3px;">Thirds</div>
-          <div style="display:flex;gap:3px;">
-            <div style="flex:1;height:28px;background:#FBBF24;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">⅓</div>
-            <div style="flex:1;height:28px;background:#FCD34D;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">⅓</div>
-            <div style="flex:1;height:28px;background:#FBBF24;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">⅓</div>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:.75rem;font-weight:700;color:#6D28D9;margin-bottom:3px;">Quarters</div>
-          <div style="display:flex;gap:3px;">
-            <div style="flex:1;height:28px;background:#10B981;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">¼</div>
-            <div style="flex:1;height:28px;background:#34D399;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">¼</div>
-            <div style="flex:1;height:28px;background:#10B981;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">¼</div>
-            <div style="flex:1;height:28px;background:#34D399;border-radius:5px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85rem;">¼</div>
-          </div>
-        </div>
-      </div>
-      <div class="illus-scene" style="margin-top:12px;">
-        <span class="char-sm">🦊</span><span style="font-size:1.4rem;font-weight:700;color:#6D28D9;padding:0 4px;">½ &gt; ⅓ &gt; ¼</span>
-      </div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="pf6-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3b1f6e"/>
+            <stop offset="100%" stop-color="#5b21b6"/>
+          </linearGradient>
+          <linearGradient id="pf6-wall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#4c1d95" stop-opacity="0.4"/>
+          </linearGradient>
+          <linearGradient id="pf6-whole" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7C3AED"/>
+            <stop offset="100%" stop-color="#a78bfa"/>
+          </linearGradient>
+          <linearGradient id="pf6-half1" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#fb923c"/>
+          </linearGradient>
+          <linearGradient id="pf6-half2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#FDBA74"/>
+            <stop offset="100%" stop-color="#fed7aa"/>
+          </linearGradient>
+          <linearGradient id="pf6-third1" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#fcd34d"/>
+          </linearGradient>
+          <linearGradient id="pf6-third2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#FCD34D"/>
+            <stop offset="100%" stop-color="#fde68a"/>
+          </linearGradient>
+          <linearGradient id="pf6-qtr1" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#10B981"/>
+            <stop offset="100%" stop-color="#34d399"/>
+          </linearGradient>
+          <linearGradient id="pf6-qtr2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#34D399"/>
+            <stop offset="100%" stop-color="#6ee7b7"/>
+          </linearGradient>
+          <radialGradient id="pf6-fox" cx="45%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FED7AA"/>
+            <stop offset="60%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#C2410C"/>
+          </radialGradient>
+          <filter id="pf6-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#pf6-bg)"/>
+        <!-- Wall pattern -->
+        <rect x="0" y="0" width="300" height="195" fill="url(#pf6-wall)"/>
+        <!-- Chalkboard/chart panel -->
+        <rect x="30" y="12" width="240" height="175" rx="8" fill="#1a0a3a" stroke="#a78bfa" stroke-width="1.5" filter="url(#pf6-sh)"/>
+        <rect x="38" y="20" width="224" height="159" rx="5" fill="#0f0520" opacity="0.8"/>
+        <!-- Chart title -->
+        <text x="150" y="38" text-anchor="middle" fill="#c4b5fd" font-size="9.5" font-weight="700">Fraction Bar Chart</text>
+        <!-- Whole bar -->
+        <text x="42" y="55" fill="#d8b4fe" font-size="8" font-weight="700">1 whole</text>
+        <rect x="100" y="46" width="152" height="16" rx="4" fill="url(#pf6-whole)" filter="url(#pf6-sh)"/>
+        <text x="176" y="57.5" text-anchor="middle" fill="white" font-size="9" font-weight="800">1</text>
+        <!-- Halves bars -->
+        <text x="42" y="80" fill="#d8b4fe" font-size="8" font-weight="700">Halves</text>
+        <rect x="100" y="69" width="74" height="16" rx="4" fill="url(#pf6-half1)" filter="url(#pf6-sh)"/>
+        <text x="137" y="80.5" text-anchor="middle" fill="white" font-size="9" font-weight="800">½</text>
+        <rect x="178" y="69" width="74" height="16" rx="4" fill="url(#pf6-half2)" filter="url(#pf6-sh)"/>
+        <text x="215" y="80.5" text-anchor="middle" fill="white" font-size="9" font-weight="800">½</text>
+        <!-- Thirds bars -->
+        <text x="42" y="105" fill="#d8b4fe" font-size="8" font-weight="700">Thirds</text>
+        <rect x="100" y="92" width="49" height="16" rx="4" fill="url(#pf6-third1)" filter="url(#pf6-sh)"/>
+        <text x="124" y="103.5" text-anchor="middle" fill="white" font-size="9" font-weight="800">⅓</text>
+        <rect x="152" y="92" width="49" height="16" rx="4" fill="url(#pf6-third2)" filter="url(#pf6-sh)"/>
+        <text x="176" y="103.5" text-anchor="middle" fill="white" font-size="9" font-weight="800">⅓</text>
+        <rect x="204" y="92" width="48" height="16" rx="4" fill="url(#pf6-third1)" filter="url(#pf6-sh)"/>
+        <text x="228" y="103.5" text-anchor="middle" fill="white" font-size="9" font-weight="800">⅓</text>
+        <!-- Quarters bars -->
+        <text x="42" y="130" fill="#d8b4fe" font-size="8" font-weight="700">Quarters</text>
+        <rect x="100" y="117" width="36" height="16" rx="4" fill="url(#pf6-qtr1)" filter="url(#pf6-sh)"/>
+        <text x="118" y="128.5" text-anchor="middle" fill="white" font-size="8.5" font-weight="800">¼</text>
+        <rect x="139" y="117" width="36" height="16" rx="4" fill="url(#pf6-qtr2)" filter="url(#pf6-sh)"/>
+        <text x="157" y="128.5" text-anchor="middle" fill="white" font-size="8.5" font-weight="800">¼</text>
+        <rect x="178" y="117" width="36" height="16" rx="4" fill="url(#pf6-qtr1)" filter="url(#pf6-sh)"/>
+        <text x="196" y="128.5" text-anchor="middle" fill="white" font-size="8.5" font-weight="800">¼</text>
+        <rect x="217" y="117" width="35" height="16" rx="4" fill="url(#pf6-qtr2)" filter="url(#pf6-sh)"/>
+        <text x="234" y="128.5" text-anchor="middle" fill="white" font-size="8.5" font-weight="800">¼</text>
+        <!-- More pieces = smaller rule arrow + text -->
+        <line x1="100" y1="152" x2="252" y2="152" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2"/>
+        <polygon points="252,149 258,152 252,155" fill="#a78bfa"/>
+        <text x="40" y="155" fill="#c4b5fd" font-size="7.5" font-weight="700">More pieces</text>
+        <text x="40" y="164" fill="#c4b5fd" font-size="7.5">→ smaller each</text>
+        <!-- Key inequality -->
+        <rect x="68" y="170" width="164" height="18" rx="6" fill="#4c1d95" stroke="#a78bfa" stroke-width="1"/>
+        <text x="150" y="182" text-anchor="middle" fill="#fde68a" font-size="11" font-weight="800">½  &gt;  ⅓  &gt;  ¼</text>
+        <!-- Counter area -->
+        <rect x="0" y="198" width="300" height="18" fill="#4c1d95"/>
+        <rect x="0" y="195" width="300" height="7" rx="2" fill="#6d28d9"/>
+        <rect x="0" y="216" width="300" height="64" fill="#2e1065"/>
+        <!-- Pip the Fox pointing at the chart -->
+        <g filter="url(#pf6-sh)">
+          <!-- Fox body/apron -->
+          <ellipse cx="68" cy="230" rx="18" ry="22" fill="#F97316"/>
+          <ellipse cx="68" cy="233" rx="12" ry="16" fill="white" opacity="0.9"/>
+          <!-- Fox left ear -->
+          <polygon points="55,198 48,184 63,192" fill="#F97316"/>
+          <polygon points="56,196 51,186 61,192" fill="#FBBF24"/>
+          <!-- Fox right ear -->
+          <polygon points="81,198 88,184 73,192" fill="#F97316"/>
+          <polygon points="80,196 85,186 75,192" fill="#FBBF24"/>
+          <!-- Fox head -->
+          <circle cx="68" cy="207" r="18" fill="url(#pf6-fox)"/>
+          <!-- Fox muzzle -->
+          <ellipse cx="68" cy="214" rx="9" ry="7" fill="#FEF9C3"/>
+          <!-- Fox eyes -->
+          <circle cx="62" cy="204" r="3.2" fill="white"/>
+          <circle cx="62" cy="204" r="2" fill="#1c1917"/>
+          <circle cx="62.7" cy="203.3" r="0.8" fill="white"/>
+          <circle cx="74" cy="204" r="3.2" fill="white"/>
+          <circle cx="74" cy="204" r="2" fill="#1c1917"/>
+          <circle cx="74.7" cy="203.3" r="0.8" fill="white"/>
+          <!-- Nose -->
+          <ellipse cx="68" cy="211" rx="2.5" ry="1.8" fill="#92400E"/>
+          <!-- Smile -->
+          <path d="M63,216 Q68,220 73,216" stroke="#92400E" stroke-width="1.5" fill="none"/>
+          <!-- Pointer arm -->
+          <line x1="84" y1="218" x2="100" y2="185" stroke="#F97316" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="100" cy="185" r="3.5" fill="#FBBF24"/>
+        </g>
+        <!-- Chef hat on fox -->
+        <rect x="56" y="188" width="24" height="7" rx="3" fill="white" opacity="0.95"/>
+        <rect x="59" y="176" width="18" height="14" rx="4" fill="white" opacity="0.95"/>
+        <!-- Label -->
+        <text x="68" y="272" text-anchor="middle" fill="#c4b5fd" font-size="8" font-weight="700">Pip explains it all!</text>
+      </svg>
+      <div class="illus-caption">More pieces = smaller each piece!</div>
     </div>
 
     <div class="story-panel">
@@ -607,49 +1135,192 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 7 – THE BIG CHALLENGE
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-7">
-    <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+    <div class="illustration" style="background:linear-gradient(135deg,#7c2d12,#b45309);">
       <div class="page-num-illus">Page 7</div>
-      <div style="font-size:4rem;margin-bottom:12px;">🎉</div>
-      <!-- 3 pizzas with pieces shown -->
-      <div style="display:flex;gap:10px;justify-content:center;">
-        <div style="text-align:center;">
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="36" fill="#F97316" stroke="#C2410C" stroke-width="2"/>
-            <circle cx="40" cy="40" r="28" fill="#FEF9C3"/>
-            <line x1="40" y1="4" x2="40" y2="76" stroke="white" stroke-width="2"/>
-            <!-- top half shaded -->
-            <path d="M40,4 A36,36 0 0,1 76,40 L40,40 Z" fill="rgba(220,38,38,0.3)"/>
-            <text x="58" y="30" text-anchor="middle" fill="white" font-size="11" font-weight="800">½</text>
-          </svg>
-          <div style="font-size:.7rem;font-weight:700;color:var(--orange-dark);margin-top:4px;">Leo ate ½</div>
-        </div>
-        <div style="text-align:center;">
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="36" fill="#FBBF24" stroke="#D97706" stroke-width="2"/>
-            <circle cx="40" cy="40" r="28" fill="#FEF9C3"/>
-            <line x1="40" y1="40" x2="40" y2="4" stroke="white" stroke-width="2"/>
-            <line x1="40" y1="40" x2="71" y2="76" stroke="white" stroke-width="2"/>
-            <line x1="40" y1="40" x2="9" y2="76" stroke="white" stroke-width="2"/>
-            <path d="M40,4 A36,36 0 0,1 71,76 L40,40 Z" fill="rgba(217,119,6,0.3)"/>
-            <text x="56" y="35" text-anchor="middle" fill="white" font-size="11" font-weight="800">⅓</text>
-          </svg>
-          <div style="font-size:.7rem;font-weight:700;color:#92400E;margin-top:4px;">Bea ate ⅓</div>
-        </div>
-        <div style="text-align:center;">
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="36" fill="#10B981" stroke="#059669" stroke-width="2"/>
-            <circle cx="40" cy="40" r="28" fill="#FEF9C3"/>
-            <line x1="40" y1="4" x2="40" y2="76" stroke="white" stroke-width="2"/>
-            <line x1="4" y1="40" x2="76" y2="40" stroke="white" stroke-width="2"/>
-            <path d="M40,4 A36,36 0 0,1 76,40 L40,40 Z" fill="rgba(5,150,105,0.3)"/>
-            <text x="58" y="30" text-anchor="middle" fill="white" font-size="11" font-weight="800">¼</text>
-          </svg>
-          <div style="font-size:.7rem;font-weight:700;color:var(--green-dark);margin-top:4px;">Milo ate ¼</div>
-        </div>
-      </div>
-      <div style="margin-top:12px;font-size:.82rem;font-weight:700;color:var(--orange-dark);text-align:center;">
-        Who ate the most? 🍕
-      </div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="pf7-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7c2d12"/>
+            <stop offset="100%" stop-color="#b45309"/>
+          </linearGradient>
+          <radialGradient id="pf7-crust1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="70%" stop-color="#FEF9C3"/>
+            <stop offset="87%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <radialGradient id="pf7-crust2" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="70%" stop-color="#FEF9C3"/>
+            <stop offset="87%" stop-color="#D97706"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="pf7-crust3" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="70%" stop-color="#FEF9C3"/>
+            <stop offset="87%" stop-color="#059669"/>
+            <stop offset="100%" stop-color="#064e3b"/>
+          </radialGradient>
+          <radialGradient id="pf7-leo" cx="45%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="60%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="pf7-bea" cx="45%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#d4a050"/>
+            <stop offset="60%" stop-color="#A16207"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="pf7-milo" cx="45%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#e5e7eb"/>
+            <stop offset="60%" stop-color="#9CA3AF"/>
+            <stop offset="100%" stop-color="#6B7280"/>
+          </radialGradient>
+          <filter id="pf7-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#pf7-bg)"/>
+        <!-- Title banner -->
+        <rect x="30" y="8" width="240" height="20" rx="7" fill="rgba(0,0,0,0.35)"/>
+        <text x="150" y="21.5" text-anchor="middle" fill="#FDE68A" font-size="10.5" font-weight="800">The Big Challenge — Who ate the most?</text>
+
+        <!-- PIZZA 1: Leo's ½ pizza -->
+        <g filter="url(#pf7-sh)">
+          <!-- full crust -->
+          <circle cx="65" cy="105" r="52" fill="#92400E"/>
+          <circle cx="65" cy="105" r="46" fill="url(#pf7-crust1)"/>
+          <!-- Sauce slices: half eaten (top) half remaining (bottom) -->
+          <!-- eaten (highlighted) half: top half = right semi -->
+          <path d="M65,59 A46,46 0 0,1 111,105 L65,105 Z" fill="#DC2626"/>
+          <path d="M111,105 A46,46 0 0,1 65,151 L65,105 Z" fill="#DC2626"/>
+          <!-- uneaten half highlighted overlay -->
+          <path d="M65,59 A46,46 0 1,0 65,151 L65,105 Z" fill="#FBBF24" opacity="0.18"/>
+          <!-- eaten shading overlay -->
+          <path d="M65,59 A46,46 0 0,1 111,105 L65,105 Z" fill="#fff" opacity="0.28"/>
+          <path d="M111,105 A46,46 0 0,1 65,151 L65,105 Z" fill="#fff" opacity="0.28"/>
+          <!-- cheese -->
+          <circle cx="80" cy="75" r="8" fill="#FEF9C3" opacity="0.82"/>
+          <circle cx="90" cy="118" r="7" fill="#FEF9C3" opacity="0.82"/>
+          <!-- toppings -->
+          <circle cx="73" cy="80" r="4" fill="#1c1917"/>
+          <circle cx="88" cy="108" r="3.5" fill="#10B981"/>
+          <!-- cut line -->
+          <line x1="65" y1="59" x2="65" y2="151" stroke="white" stroke-width="2.5"/>
+          <!-- ½ label -->
+          <text x="88" y="100" text-anchor="middle" fill="white" font-size="17" font-weight="800">½</text>
+        </g>
+        <!-- Leo label -->
+        <!-- Leo lion head -->
+        <circle cx="65" cy="172" r="14" fill="#FBBF24"/>
+        <circle cx="65" cy="172" r="10" fill="url(#pf7-leo)"/>
+        <circle cx="60" cy="169" r="2.5" fill="white"/>
+        <circle cx="60" cy="169" r="1.5" fill="#1c1917"/>
+        <circle cx="60.6" cy="168.5" r="0.6" fill="white"/>
+        <circle cx="70" cy="169" r="2.5" fill="white"/>
+        <circle cx="70" cy="169" r="1.5" fill="#1c1917"/>
+        <circle cx="70.6" cy="168.5" r="0.6" fill="white"/>
+        <ellipse cx="65" cy="175" rx="5" ry="3.5" fill="#FEF9C3"/>
+        <text x="65" y="192" text-anchor="middle" fill="#FEF9C3" font-size="8" font-weight="700">Leo ate ½</text>
+
+        <!-- PIZZA 2: Bea's ⅓ pizza -->
+        <g filter="url(#pf7-sh)">
+          <circle cx="150" cy="105" r="52" fill="#78350F"/>
+          <circle cx="150" cy="105" r="46" fill="url(#pf7-crust2)"/>
+          <!-- thirds: eaten = top slice (12 o'clock to 2 o'clock, 0° to 120°) -->
+          <path d="M150,59 A46,46 0 0,1 189.8,128 L150,105 Z" fill="#D97706"/>
+          <!-- overlay eaten -->
+          <path d="M150,59 A46,46 0 0,1 189.8,128 L150,105 Z" fill="#fff" opacity="0.3"/>
+          <!-- other two thirds -->
+          <path d="M189.8,128 A46,46 0 0,1 110.2,128 L150,105 Z" fill="#D97706"/>
+          <path d="M110.2,128 A46,46 0 0,1 150,59 L150,105 Z" fill="#b45309"/>
+          <!-- cheese -->
+          <circle cx="165" cy="78" r="8" fill="#FEF9C3" opacity="0.82"/>
+          <circle cx="172" cy="120" r="7" fill="#FEF9C3" opacity="0.82"/>
+          <circle cx="128" cy="118" r="7" fill="#FEF9C3" opacity="0.82"/>
+          <!-- toppings -->
+          <circle cx="158" cy="82" r="4" fill="#DC2626"/>
+          <circle cx="170" cy="110" r="3.5" fill="#1c1917"/>
+          <circle cx="132" cy="112" r="3.5" fill="#DC2626"/>
+          <!-- cut lines -->
+          <line x1="150" y1="59" x2="150" y2="105" stroke="white" stroke-width="2.5"/>
+          <line x1="150" y1="105" x2="189.8" y2="128" stroke="white" stroke-width="2.5"/>
+          <line x1="150" y1="105" x2="110.2" y2="128" stroke="white" stroke-width="2.5"/>
+          <!-- ⅓ labels -->
+          <text x="170" y="98" text-anchor="middle" fill="white" font-size="15" font-weight="800">⅓</text>
+          <text x="173" y="130" text-anchor="middle" fill="white" font-size="14" font-weight="800">⅓</text>
+          <text x="127" y="130" text-anchor="middle" fill="white" font-size="14" font-weight="800">⅓</text>
+        </g>
+        <!-- Bea label -->
+        <circle cx="150" cy="172" r="14" fill="#A16207"/>
+        <!-- bear ears -->
+        <circle cx="142" cy="164" r="5" fill="#A16207"/>
+        <circle cx="158" cy="164" r="5" fill="#A16207"/>
+        <circle cx="150" cy="172" r="10" fill="url(#pf7-bea)"/>
+        <circle cx="145" cy="169" r="2.5" fill="white"/>
+        <circle cx="145" cy="169" r="1.5" fill="#1c1917"/>
+        <circle cx="155" cy="169" r="2.5" fill="white"/>
+        <circle cx="155" cy="169" r="1.5" fill="#1c1917"/>
+        <circle cx="150" cy="175" r="5" fill="#FEF9C3"/>
+        <text x="150" y="192" text-anchor="middle" fill="#FEF9C3" font-size="8" font-weight="700">Bea ate ⅓</text>
+
+        <!-- PIZZA 3: Milo's ¼ pizza -->
+        <g filter="url(#pf7-sh)">
+          <circle cx="235" cy="105" r="52" fill="#064e3b"/>
+          <circle cx="235" cy="105" r="46" fill="url(#pf7-crust3)"/>
+          <!-- quarters: eaten = top-right quarter -->
+          <path d="M235,59 A46,46 0 0,1 281,105 L235,105 Z" fill="#10B981"/>
+          <!-- overlay eaten -->
+          <path d="M235,59 A46,46 0 0,1 281,105 L235,105 Z" fill="#fff" opacity="0.3"/>
+          <!-- other three quarters -->
+          <path d="M281,105 A46,46 0 0,1 235,151 L235,105 Z" fill="#059669"/>
+          <path d="M235,151 A46,46 0 0,1 189,105 L235,105 Z" fill="#10B981"/>
+          <path d="M189,105 A46,46 0 0,1 235,59 L235,105 Z" fill="#059669"/>
+          <!-- cheese -->
+          <circle cx="252" cy="76" r="7" fill="#FEF9C3" opacity="0.82"/>
+          <circle cx="260" cy="118" r="7" fill="#FEF9C3" opacity="0.82"/>
+          <circle cx="210" cy="115" r="7" fill="#FEF9C3" opacity="0.82"/>
+          <circle cx="215" cy="76" r="7" fill="#FEF9C3" opacity="0.82"/>
+          <!-- toppings -->
+          <circle cx="245" cy="80" r="4" fill="#DC2626"/>
+          <circle cx="258" cy="108" r="3.5" fill="#1c1917"/>
+          <circle cx="212" cy="110" r="3.5" fill="#DC2626"/>
+          <circle cx="218" cy="80" r="3.5" fill="#1c1917"/>
+          <!-- cut lines -->
+          <line x1="235" y1="59" x2="235" y2="151" stroke="white" stroke-width="2.5"/>
+          <line x1="189" y1="105" x2="281" y2="105" stroke="white" stroke-width="2.5"/>
+          <!-- ¼ labels -->
+          <text x="258" y="92" text-anchor="middle" fill="white" font-size="14" font-weight="800">¼</text>
+          <text x="258" y="130" text-anchor="middle" fill="white" font-size="13" font-weight="800">¼</text>
+          <text x="212" y="130" text-anchor="middle" fill="white" font-size="13" font-weight="800">¼</text>
+          <text x="212" y="92" text-anchor="middle" fill="white" font-size="13" font-weight="800">¼</text>
+        </g>
+        <!-- Milo label -->
+        <circle cx="235" cy="172" r="12" fill="#9CA3AF"/>
+        <!-- mouse ears -->
+        <ellipse cx="225" cy="163" rx="5" ry="6" fill="#9CA3AF"/>
+        <ellipse cx="245" cy="163" rx="5" ry="6" fill="#9CA3AF"/>
+        <circle cx="235" cy="172" r="8" fill="url(#pf7-milo)"/>
+        <circle cx="230" cy="169" r="2.2" fill="white"/>
+        <circle cx="230" cy="169" r="1.3" fill="#1c1917"/>
+        <circle cx="240" cy="169" r="2.2" fill="white"/>
+        <circle cx="240" cy="169" r="1.3" fill="#1c1917"/>
+        <text x="235" y="192" text-anchor="middle" fill="#FEF9C3" font-size="8" font-weight="700">Milo ate ¼</text>
+
+        <!-- Winner banner -->
+        <rect x="55" y="205" width="190" height="22" rx="8" fill="#DC2626" filter="url(#pf7-sh)"/>
+        <text x="150" y="219.5" text-anchor="middle" fill="white" font-size="11" font-weight="800">Leo won! ½ &gt; ⅓ &gt; ¼</text>
+        <!-- Sparkles -->
+        <text x="35" y="219" fill="#FDE68A" font-size="14">★</text>
+        <text x="256" y="219" fill="#FDE68A" font-size="14">★</text>
+        <text x="20" y="235" fill="#FDE68A" font-size="10">✦</text>
+        <text x="270" y="235" fill="#FDE68A" font-size="10">✦</text>
+        <!-- Label -->
+        <text x="150" y="250" text-anchor="middle" fill="#FDE68A" font-size="8.5" font-weight="700">More pieces = smaller each slice!</text>
+        <text x="150" y="263" text-anchor="middle" fill="#FEF9C3" font-size="7.5">Light overlay = the piece that was eaten</text>
+      </svg>
+      <div class="illus-caption">Who ate the most? Leo did — ½ &gt; ⅓ &gt; ¼!</div>
     </div>
 
     <div class="story-panel">
@@ -699,15 +1370,171 @@ h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-seri
        PAGE 8 – THE END
   ══════════════════════════════════════════ -->
   <div class="book-page" id="page-8">
-    <div class="illustration" style="background:linear-gradient(135deg,#FEF9C3,#FBBF24);">
+    <div class="illustration" style="background:linear-gradient(135deg,#78350F,#D97706);">
       <div class="page-num-illus">Page 8</div>
-      <div style="font-size:4rem;margin-bottom:8px;">🎉</div>
-      <div class="illus-scene">
-        <span class="char">🦊</span><span class="char">🦁</span><span class="char">🐻</span><span class="char">🐭</span>
-      </div>
-      <div style="font-size:2rem;margin:10px 0;">🍕 ½ ⅓ ¼ ⅛</div>
+      <svg width="300" height="280" viewBox="0 0 300 280" style="display:block;margin:0 auto;">
+        <defs>
+          <linearGradient id="pf8-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#78350F"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </linearGradient>
+          <radialGradient id="pf8-glow" cx="50%" cy="45%" r="55%">
+            <stop offset="0%" stop-color="#FEF9C3" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="pf8-pizza" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FEF9C3"/>
+            <stop offset="72%" stop-color="#FEF9C3"/>
+            <stop offset="87%" stop-color="#F59E0B"/>
+            <stop offset="100%" stop-color="#92400E"/>
+          </radialGradient>
+          <radialGradient id="pf8-fox" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FED7AA"/>
+            <stop offset="55%" stop-color="#F97316"/>
+            <stop offset="100%" stop-color="#C2410C"/>
+          </radialGradient>
+          <radialGradient id="pf8-leo" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#FDE68A"/>
+            <stop offset="55%" stop-color="#FBBF24"/>
+            <stop offset="100%" stop-color="#D97706"/>
+          </radialGradient>
+          <radialGradient id="pf8-bea" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#d4a050"/>
+            <stop offset="55%" stop-color="#A16207"/>
+            <stop offset="100%" stop-color="#78350F"/>
+          </radialGradient>
+          <radialGradient id="pf8-milo" cx="40%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#e5e7eb"/>
+            <stop offset="55%" stop-color="#9CA3AF"/>
+            <stop offset="100%" stop-color="#6B7280"/>
+          </radialGradient>
+          <filter id="pf8-sh">
+            <feDropShadow dx="1" dy="3" stdDeviation="3" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="300" height="280" fill="url(#pf8-bg)"/>
+        <!-- Warm glow centre -->
+        <ellipse cx="150" cy="130" rx="130" ry="110" fill="url(#pf8-glow)"/>
+        <!-- Wooden table / counter -->
+        <rect x="0" y="200" width="300" height="14" fill="#92400E"/>
+        <rect x="0" y="193" width="300" height="11" rx="3" fill="#A16207"/>
+        <rect x="0" y="214" width="300" height="66" fill="#78350F"/>
+        <!-- Pizza on table (central, shared) -->
+        <g filter="url(#pf8-sh)">
+          <circle cx="150" cy="155" r="56" fill="#92400E"/>
+          <circle cx="150" cy="155" r="50" fill="url(#pf8-pizza)"/>
+          <!-- Sauce quarters alternating -->
+          <path d="M150,105 A50,50 0 0,1 200,155 L150,155 Z" fill="#DC2626"/>
+          <path d="M200,155 A50,50 0 0,1 150,205 L150,155 Z" fill="#B91C1C"/>
+          <path d="M150,205 A50,50 0 0,1 100,155 L150,155 Z" fill="#DC2626"/>
+          <path d="M100,155 A50,50 0 0,1 150,105 L150,155 Z" fill="#B91C1C"/>
+          <!-- Cheese blobs -->
+          <circle cx="170" cy="122" r="9" fill="#FEF9C3" opacity="0.88"/>
+          <circle cx="184" cy="165" r="8" fill="#FEF9C3" opacity="0.88"/>
+          <circle cx="130" cy="170" r="9" fill="#FEF9C3" opacity="0.88"/>
+          <circle cx="118" cy="132" r="8" fill="#FEF9C3" opacity="0.88"/>
+          <!-- Toppings -->
+          <circle cx="162" cy="127" r="5" fill="#1c1917"/>
+          <circle cx="180" cy="155" r="4.5" fill="#10B981"/>
+          <circle cx="140" cy="175" r="5" fill="#1c1917"/>
+          <circle cx="122" cy="145" r="4.5" fill="#10B981"/>
+          <circle cx="155" cy="115" r="4" fill="#DC2626"/>
+          <circle cx="186" cy="140" r="4" fill="#FBBF24"/>
+          <!-- Cut lines -->
+          <line x1="150" y1="105" x2="150" y2="205" stroke="white" stroke-width="2.5"/>
+          <line x1="100" y1="155" x2="200" y2="155" stroke="white" stroke-width="2.5"/>
+          <!-- ¼ labels -->
+          <text x="172" y="145" text-anchor="middle" fill="white" font-size="14" font-weight="800">¼</text>
+          <text x="172" y="178" text-anchor="middle" fill="white" font-size="14" font-weight="800">¼</text>
+          <text x="128" y="178" text-anchor="middle" fill="white" font-size="14" font-weight="800">¼</text>
+          <text x="128" y="145" text-anchor="middle" fill="white" font-size="14" font-weight="800">¼</text>
+        </g>
+        <!-- 4 characters around the pizza -->
+        <!-- Pip (fox) - left -->
+        <g filter="url(#pf8-sh)">
+          <ellipse cx="42" cy="195" rx="16" ry="20" fill="#F97316"/>
+          <ellipse cx="42" cy="198" rx="10" ry="14" fill="white" opacity="0.88"/>
+          <polygon points="30,168 23,155 38,163" fill="#F97316"/>
+          <polygon points="30,167 25,156 37,163" fill="#FBBF24"/>
+          <polygon points="54,168 61,155 46,163" fill="#F97316"/>
+          <polygon points="53,167 59,156 47,163" fill="#FBBF24"/>
+          <circle cx="42" cy="175" r="16" fill="url(#pf8-fox)"/>
+          <ellipse cx="42" cy="182" rx="7.5" ry="6" fill="#FEF9C3"/>
+          <circle cx="37" cy="172" r="3" fill="white"/>
+          <circle cx="37" cy="172" r="1.8" fill="#1c1917"/>
+          <circle cx="37.6" cy="171.4" r="0.7" fill="white"/>
+          <circle cx="47" cy="172" r="3" fill="white"/>
+          <circle cx="47" cy="172" r="1.8" fill="#1c1917"/>
+          <circle cx="47.6" cy="171.4" r="0.7" fill="white"/>
+          <ellipse cx="42" cy="179" rx="2.2" ry="1.6" fill="#92400E"/>
+          <path d="M37,184 Q42,188 47,184" stroke="#92400E" stroke-width="1.5" fill="none"/>
+          <!-- chef hat -->
+          <rect x="32" y="160" width="20" height="6" rx="3" fill="white" opacity="0.95"/>
+          <rect x="35" y="150" width="14" height="12" rx="3" fill="white" opacity="0.95"/>
+        </g>
+        <text x="42" y="218" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Pip</text>
+        <!-- Leo (lion) - top -->
+        <g filter="url(#pf8-sh)">
+          <circle cx="150" cy="80" r="20" fill="#D97706"/>
+          <circle cx="150" cy="80" r="15" fill="url(#pf8-leo)"/>
+          <circle cx="144" cy="77" r="3" fill="white"/>
+          <circle cx="144" cy="77" r="1.8" fill="#1c1917"/>
+          <circle cx="144.6" cy="76.4" r="0.7" fill="white"/>
+          <circle cx="156" cy="77" r="3" fill="white"/>
+          <circle cx="156" cy="77" r="1.8" fill="#1c1917"/>
+          <circle cx="156.6" cy="76.4" r="0.7" fill="white"/>
+          <ellipse cx="150" cy="85" rx="6" ry="4.5" fill="#FEF9C3"/>
+          <ellipse cx="150" cy="87" rx="2.5" ry="2" fill="#92400E"/>
+          <path d="M145,90 Q150,94 155,90" stroke="#92400E" stroke-width="1.5" fill="none"/>
+        </g>
+        <text x="150" y="106" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Leo</text>
+        <!-- Bea (bear) - right -->
+        <g filter="url(#pf8-sh)">
+          <ellipse cx="258" cy="195" rx="16" ry="20" fill="#92400E"/>
+          <ellipse cx="258" cy="198" rx="10" ry="14" fill="#d4a050" opacity="0.4"/>
+          <circle cx="248" cy="170" r="7" fill="#A16207"/>
+          <circle cx="268" cy="170" r="7" fill="#A16207"/>
+          <circle cx="258" cy="175" r="16" fill="url(#pf8-bea)"/>
+          <ellipse cx="258" cy="183" rx="8" ry="6" fill="#d4a050" opacity="0.6"/>
+          <circle cx="252" cy="172" r="3" fill="white"/>
+          <circle cx="252" cy="172" r="1.8" fill="#1c1917"/>
+          <circle cx="252.6" cy="171.4" r="0.7" fill="white"/>
+          <circle cx="264" cy="172" r="3" fill="white"/>
+          <circle cx="264" cy="172" r="1.8" fill="#1c1917"/>
+          <circle cx="264.6" cy="171.4" r="0.7" fill="white"/>
+          <ellipse cx="258" cy="180" rx="2.5" ry="1.8" fill="#92400E"/>
+          <path d="M252,184 Q258,189 264,184" stroke="#92400E" stroke-width="1.5" fill="none"/>
+        </g>
+        <text x="258" y="218" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Bea</text>
+        <!-- Milo (mouse) - bottom -->
+        <g filter="url(#pf8-sh)">
+          <ellipse cx="150" cy="245" rx="14" ry="16" fill="#9CA3AF"/>
+          <ellipse cx="138" cy="233" rx="6" ry="8" fill="#9CA3AF"/>
+          <ellipse cx="162" cy="233" rx="6" ry="8" fill="#9CA3AF"/>
+          <circle cx="150" cy="240" r="12" fill="url(#pf8-milo)"/>
+          <ellipse cx="150" cy="247" rx="6" ry="5" fill="#D1D5DB"/>
+          <circle cx="144" cy="237" r="2.8" fill="white"/>
+          <circle cx="144" cy="237" r="1.7" fill="#1c1917"/>
+          <circle cx="144.6" cy="236.4" r="0.7" fill="white"/>
+          <circle cx="156" cy="237" r="2.8" fill="white"/>
+          <circle cx="156" cy="237" r="1.7" fill="#1c1917"/>
+          <circle cx="156.6" cy="236.4" r="0.7" fill="white"/>
+          <ellipse cx="150" cy="243" rx="2" ry="1.5" fill="#6B7280"/>
+        </g>
+        <text x="150" y="268" text-anchor="middle" fill="#FEF9C3" font-size="7.5" font-weight="700">Milo</text>
+        <!-- Sparkles and celebration marks -->
+        <text x="18" y="55" fill="#FDE68A" font-size="16" opacity="0.9">★</text>
+        <text x="270" y="62" fill="#FDE68A" font-size="12" opacity="0.9">✦</text>
+        <text x="28" y="130" fill="#FBBF24" font-size="10" opacity="0.7">✦</text>
+        <text x="265" y="100" fill="#FBBF24" font-size="10" opacity="0.7">★</text>
+        <text x="8" y="175" fill="#FEF9C3" font-size="9" opacity="0.6">✦</text>
+        <text x="282" y="175" fill="#FEF9C3" font-size="9" opacity="0.6">★</text>
+        <!-- Trophy / celebration banner -->
+        <rect x="68" y="12" width="164" height="22" rx="8" fill="#D97706" filter="url(#pf8-sh)"/>
+        <text x="150" y="26.5" text-anchor="middle" fill="white" font-size="11" font-weight="800">The End! Sharing is Math!</text>
+      </svg>
       <div class="illus-caption">Friends, pizza, and fractions — a perfect adventure!</div>
-      <div style="font-size:3rem;margin-top:8px;">🏆</div>
     </div>
 
     <div class="story-panel">
