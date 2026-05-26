@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Benny's Balloon Day – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:#F97316;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--orange-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--orange);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--orange);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--orange-light);color:var(--orange-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #FED7AA;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,#F97316,#C2410C);border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.2rem;line-height:2;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--orange-dark);font-weight:700;}
+.story-text em{color:var(--orange-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--orange-light);border-left:4px solid var(--orange);border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'"';font-size:1.4rem;color:var(--orange);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'"';font-size:1.4rem;color:var(--orange);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.math-callout.green-callout{background:var(--green-light);border-color:var(--green);}
+.math-callout.green-callout .math-callout-title{color:var(--green-dark);}
+.math-callout.orange-callout{background:var(--orange-light);border-color:var(--orange);}
+.math-callout.orange-callout .math-callout-title{color:var(--orange-dark);}
+
+/* LEAF / NUMBER DISPLAY */
+.leaf-display{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:10px 0;}
+.leaf-big{font-size:2.4rem;}
+.big-number{font-family:'Quicksand',sans-serif;font-size:3rem;font-weight:700;color:var(--orange-dark);text-align:center;line-height:1;}
+
+/* TEN FRAME */
+.ten-frame{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:240px;margin:0 auto;}
+.ten-frame-cell{width:40px;height:40px;border:2px solid var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;background:white;}
+.ten-frame-cell.filled{background:var(--orange-light);}
+
+/* NUMBER LINE */
+.number-line{display:flex;align-items:center;gap:0;overflow-x:auto;padding:8px 4px;}
+.nl-num{min-width:32px;height:32px;border-radius:50%;background:var(--orange);color:white;font-family:'Quicksand',sans-serif;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nl-arrow{color:var(--orange-dark);font-weight:700;font-size:.9rem;padding:0 2px;flex-shrink:0;}
+
+/* COUNTDOWN ROW */
+.countdown-row{display:flex;flex-direction:column;gap:4px;margin:6px 0;}
+.countdown-item{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--text-mid);}
+.countdown-num{font-family:'Quicksand',sans-serif;font-weight:700;color:var(--orange-dark);min-width:22px;}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--orange-light);border:2px solid var(--orange);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--orange-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #FED7AA;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--orange);background:var(--orange-light);}
+.think-btn.correct{border-color:var(--orange);background:#FFEDD5;color:var(--orange-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#FFEDD5;color:var(--orange-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#F97316,#C2410C);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(194,65,12,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-emoji{font-size:5rem;margin-bottom:16px;display:block;}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-chars{font-size:3rem;letter-spacing:8px;margin-bottom:8px;}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--orange);color:var(--orange);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:var(--orange);color:white;border-color:var(--orange);box-shadow:0 3px 0 var(--orange-dark);}
+.nav-btn-next:hover{background:var(--orange-dark);border-color:var(--orange-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--orange-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--orange);transform:scale(1.2);}
+.dot.read{background:#FED7AA;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--orange);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--orange-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#F97316,#C2410C);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* SUMMARY GRID */
+.summary-grid{display:flex;flex-direction:column;gap:4px;margin:6px 0;}
+.summary-row{display:flex;align-items:center;gap:8px;font-size:.82rem;}
+.summary-num{font-family:'Quicksand',sans-serif;font-weight:700;color:var(--orange-dark);min-width:18px;font-size:1rem;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🎈</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › Benny's Balloon Day
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 Benny's Balloon Day</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">🎈 7 Pages</span>
+        <span class="book-tag">🔢 Counting 1–5</span>
+        <span class="book-tag">👶 Ages 3–5</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">⭐ Cambridge EY</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 7</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:14.28%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+    <!-- ══════════════════════════════════════════
+         PAGE 1 – COVER
+    ══════════════════════════════════════════ -->
+    <div class="book-page cover-page active" id="page-1">
+      <div class="cover-card">
+        <svg viewBox="0 0 200 200" width="160" height="160" style="margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
+          <!-- 5 colorful balloons -->
+          <ellipse cx="50" cy="50" rx="16" ry="22" fill="#EF4444"/><ellipse cx="55" cy="42" rx="4" ry="5" fill="rgba(255,255,255,.35)"/>
+          <line x1="50" y1="72" x2="72" y2="110" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+          <ellipse cx="85" cy="30" rx="16" ry="22" fill="#FBBF24"/><ellipse cx="90" cy="22" rx="4" ry="5" fill="rgba(255,255,255,.35)"/>
+          <line x1="85" y1="52" x2="90" y2="110" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+          <ellipse cx="120" cy="25" rx="16" ry="22" fill="#10B981"/><ellipse cx="125" cy="17" rx="4" ry="5" fill="rgba(255,255,255,.35)"/>
+          <line x1="120" y1="47" x2="108" y2="110" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+          <ellipse cx="152" cy="38" rx="16" ry="22" fill="#8B5CF6"/><ellipse cx="157" cy="30" rx="4" ry="5" fill="rgba(255,255,255,.35)"/>
+          <line x1="152" y1="60" x2="126" y2="110" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+          <ellipse cx="178" cy="55" rx="14" ry="19" fill="#3B82F6"/><ellipse cx="183" cy="48" rx="3.5" ry="4.5" fill="rgba(255,255,255,.35)"/>
+          <line x1="178" y1="74" x2="145" y2="110" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+          <!-- Bear body -->
+          <ellipse cx="100" cy="155" rx="35" ry="38" fill="#D97706"/>
+          <!-- Ears -->
+          <circle cx="72" cy="118" r="16" fill="#D97706"/><circle cx="72" cy="118" r="9" fill="#FBBF24"/>
+          <circle cx="128" cy="118" r="16" fill="#D97706"/><circle cx="128" cy="118" r="9" fill="#FBBF24"/>
+          <!-- Head -->
+          <circle cx="100" cy="128" r="34" fill="#D97706"/>
+          <!-- Eyes -->
+          <circle cx="88" cy="122" r="6" fill="#1C1917"/><circle cx="90.5" cy="119.5" r="2" fill="white"/>
+          <circle cx="112" cy="122" r="6" fill="#1C1917"/><circle cx="114.5" cy="119.5" r="2" fill="white"/>
+          <!-- Snout -->
+          <ellipse cx="100" cy="135" rx="12" ry="8" fill="#92400E"/>
+          <ellipse cx="100" cy="133" rx="5" ry="3" fill="#7C2D12"/>
+          <!-- Smile -->
+          <path d="M 91 141 Q 100 150 109 141" stroke="#7C2D12" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Paws holding strings -->
+          <ellipse cx="72" cy="112" rx="10" ry="8" fill="#D97706"/>
+          <ellipse cx="128" cy="112" rx="10" ry="8" fill="#D97706"/>
+        </svg>
+        <div class="cover-title">Benny's Balloon Day</div>
+        <div class="cover-subtitle">A counting adventure with Benny the Bear</div>
+        <div style="font-size:1.8rem;letter-spacing:6px;margin-bottom:8px;">🎈🎈🎈🎈🎈</div>
+        <div class="cover-tags">
+          <span class="cover-tag">📖 7 Pages</span>
+          <span class="cover-tag">🔢 Counting 1–5</span>
+          <span class="cover-tag">👶 Ages 3–5</span>
+          <span class="cover-tag">⭐ Cambridge EY</span>
+        </div>
+        <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 2 – ONE BALLOON
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-2">
+      <div class="illustration" style="background:#FFF7ED;">
+        <div class="page-num-illus">Page 2</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <!-- Sky background patches -->
+          <rect width="300" height="280" fill="#FFF7ED"/>
+          <!-- Single big red balloon -->
+          <ellipse cx="150" cy="90" rx="55" ry="70" fill="#EF4444"/>
+          <ellipse cx="165" cy="68" rx="14" ry="18" fill="rgba(255,255,255,.38)"/>
+          <!-- Balloon knot -->
+          <circle cx="150" cy="160" r="5" fill="#DC2626"/>
+          <!-- String -->
+          <path d="M150 165 Q 148 200 152 220 Q 154 235 150 250" stroke="#D97706" stroke-width="2" fill="none"/>
+          <!-- Number 1 on balloon -->
+          <text x="150" y="100" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="52" fill="white" opacity=".9">1</text>
+          <!-- Bear face at bottom -->
+          <circle cx="90" cy="248" r="22" fill="#D97706"/>
+          <circle cx="78" cy="232" r="10" fill="#D97706"/><circle cx="78" cy="232" r="6" fill="#FBBF24"/>
+          <circle cx="102" cy="232" r="10" fill="#D97706"/><circle cx="102" cy="232" r="6" fill="#FBBF24"/>
+          <circle cx="84" cy="245" r="4" fill="#1C1917"/><circle cx="85.5" cy="243" r="1.3" fill="white"/>
+          <circle cx="96" cy="245" r="4" fill="#1C1917"/><circle cx="97.5" cy="243" r="1.3" fill="white"/>
+          <ellipse cx="90" cy="253" rx="7" ry="5" fill="#92400E"/>
+          <path d="M85 258 Q90 263 95 258" stroke="#7C2D12" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Paw holding string -->
+          <ellipse cx="107" cy="250" rx="12" ry="9" fill="#D97706"/>
+          <!-- Ground patches -->
+          <ellipse cx="150" cy="275" rx="120" ry="8" fill="#FDE68A" opacity=".5"/>
+          <!-- Floating dots decoration -->
+          <circle cx="40" cy="60" r="6" fill="#FBBF24" opacity=".5"/>
+          <circle cx="260" cy="80" r="5" fill="#F97316" opacity=".5"/>
+          <circle cx="30" cy="150" r="4" fill="#EF4444" opacity=".4"/>
+        </svg>
+        <div class="illus-caption">One big red balloon!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 2 · One Balloon</div>
+        <div class="story-text">
+          Benny the Bear woke up and found a beautiful <strong>red balloon</strong> floating in the air. He counted it carefully. <strong>One!</strong> Just one big, round, shiny balloon!
+        </div>
+        <div class="character-speech">
+          I have ONE balloon. Let me count — one! That's 1!
+        </div>
+        <div class="math-callout orange-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">Number 1 — One!</span>
+          </div>
+          <p><strong>1</strong> means just one thing. Point and say: <strong>one!</strong> One balloon, one bear, one sunny day!</p>
+        </div>
+        <div style="font-family:'Quicksand';font-size:4rem;font-weight:700;color:var(--orange-dark);text-align:center;">1</div>
+
+        <div class="think-box" id="think-page2">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">Benny has ONE balloon. Which number shows 1?</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Three is not one!')">3</button>
+            <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','Yes! ONE is the number 1!')">1</button>
+            <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Five is too many!')">5</button>
+            <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Two means two things, not one!')">2</button>
+          </div>
+          <div class="think-result" id="think-page2-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 3 – TWO BALLOONS
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-3">
+      <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+        <div class="page-num-illus">Page 3</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="#FFF7ED"/>
+          <!-- Red balloon -->
+          <ellipse cx="110" cy="80" rx="45" ry="58" fill="#EF4444"/>
+          <ellipse cx="122" cy="62" rx="11" ry="14" fill="rgba(255,255,255,.38)"/>
+          <circle cx="110" cy="138" r="4" fill="#DC2626"/>
+          <line x1="110" y1="142" x2="95" y2="230" stroke="#D97706" stroke-width="2"/>
+          <!-- Yellow balloon -->
+          <ellipse cx="190" cy="70" rx="45" ry="58" fill="#FBBF24"/>
+          <ellipse cx="202" cy="52" rx="11" ry="14" fill="rgba(255,255,255,.38)"/>
+          <circle cx="190" cy="128" r="4" fill="#D97706"/>
+          <line x1="190" y1="132" x2="190" y2="228" stroke="#D97706" stroke-width="2"/>
+          <!-- Number label -->
+          <rect x="120" y="155" width="60" height="36" rx="18" fill="#F97316"/>
+          <text x="150" y="178" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="20" fill="white">1 + 1 = 2</text>
+          <!-- Bear face -->
+          <circle cx="150" cy="252" r="22" fill="#D97706"/>
+          <circle cx="134" cy="236" r="10" fill="#D97706"/><circle cx="134" cy="236" r="6" fill="#FBBF24"/>
+          <circle cx="166" cy="236" r="10" fill="#D97706"/><circle cx="166" cy="236" r="6" fill="#FBBF24"/>
+          <circle cx="143" cy="249" r="4" fill="#1C1917"/><circle cx="144.5" cy="247" r="1.3" fill="white"/>
+          <circle cx="157" cy="249" r="4" fill="#1C1917"/><circle cx="158.5" cy="247" r="1.3" fill="white"/>
+          <ellipse cx="150" cy="257" rx="7" ry="5" fill="#92400E"/>
+          <path d="M144 262 Q150 267 156 262" stroke="#7C2D12" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="95" cy="235" rx="13" ry="10" fill="#D97706"/>
+          <ellipse cx="195" cy="228" rx="13" ry="10" fill="#D97706"/>
+          <ellipse cx="150" cy="275" rx="110" ry="7" fill="#FDE68A" opacity=".5"/>
+        </svg>
+        <div class="illus-caption">Two balloons! One red, one yellow!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 3 · Two Balloons</div>
+        <div class="story-text">
+          The next day, Benny found <strong>TWO</strong> balloons! A red one and a yellow one. He counted them slowly: <strong>one… two!</strong> Two is one more than one.
+        </div>
+        <div class="character-speech">
+          One, two! I have TWO balloons now. Two is more than one!
+        </div>
+        <div class="math-callout orange-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">Number 2 — Two!</span>
+          </div>
+          <p><strong>2</strong> means two things. Count with your fingers: one, two! Now you have TWO!</p>
+        </div>
+        <div style="font-family:'Quicksand';font-size:4rem;font-weight:700;color:var(--orange-dark);text-align:center;">2</div>
+
+        <div class="think-box" id="think-page3">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">Benny has two balloons. Count them — how many?</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','One is too few — look again!')">1</button>
+            <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Yes! ONE red and ONE yellow makes TWO!')">2</button>
+            <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Three is one too many!')">3</button>
+            <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Four is way too many!')">4</button>
+          </div>
+          <div class="think-result" id="think-page3-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 4 – THREE BALLOONS
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-4">
+      <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FDBA74);">
+        <div class="page-num-illus">Page 4</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="#FFF7ED"/>
+          <ellipse cx="70" cy="85" rx="40" ry="52" fill="#EF4444"/>
+          <ellipse cx="80" cy="70" rx="10" ry="12" fill="rgba(255,255,255,.38)"/>
+          <line x1="70" y1="137" x2="80" y2="225" stroke="#D97706" stroke-width="1.8"/>
+          <ellipse cx="150" cy="65" rx="42" ry="55" fill="#FBBF24"/>
+          <ellipse cx="161" cy="49" rx="10" ry="13" fill="rgba(255,255,255,.38)"/>
+          <line x1="150" y1="120" x2="148" y2="222" stroke="#D97706" stroke-width="1.8"/>
+          <ellipse cx="230" cy="80" rx="40" ry="52" fill="#10B981"/>
+          <ellipse cx="240" cy="65" rx="10" ry="12" fill="rgba(255,255,255,.38)"/>
+          <line x1="230" y1="132" x2="218" y2="225" stroke="#D97706" stroke-width="1.8"/>
+          <rect x="105" y="148" width="90" height="34" rx="17" fill="#F97316"/>
+          <text x="150" y="170" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="16" fill="white">1, 2, 3 — THREE!</text>
+          <circle cx="150" cy="252" r="24" fill="#D97706"/>
+          <circle cx="132" cy="234" r="11" fill="#D97706"/><circle cx="132" cy="234" r="6" fill="#FBBF24"/>
+          <circle cx="168" cy="234" r="11" fill="#D97706"/><circle cx="168" cy="234" r="6" fill="#FBBF24"/>
+          <circle cx="142" cy="248" r="4.5" fill="#1C1917"/><circle cx="143.5" cy="246" r="1.4" fill="white"/>
+          <circle cx="158" cy="248" r="4.5" fill="#1C1917"/><circle cx="159.5" cy="246" r="1.4" fill="white"/>
+          <ellipse cx="150" cy="258" rx="8" ry="5.5" fill="#92400E"/>
+          <path d="M143 264 Q150 270 157 264" stroke="#7C2D12" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="80" cy="228" rx="14" ry="10" fill="#D97706"/>
+          <ellipse cx="148" cy="222" rx="6" ry="10" fill="#D97706"/>
+          <ellipse cx="218" cy="228" rx="14" ry="10" fill="#D97706"/>
+        </svg>
+        <div class="illus-caption">Three balloons! 1, 2, 3!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 4 · Three Balloons</div>
+        <div class="story-text">
+          Benny found <strong>THREE</strong> balloons — red, yellow, and green. He counted: <strong>one, two, three!</strong> Three is one more than two. Benny did a little happy dance!
+        </div>
+        <div class="character-speech">
+          One, two, THREE! I can count to three! Watch me!
+        </div>
+        <div class="math-callout orange-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">Number 3 — Three!</span>
+          </div>
+          <p>Count the balloons: 1, 2, <strong>3</strong>. Three fingers up!</p>
+        </div>
+        <div style="font-family:'Quicksand';font-size:4rem;font-weight:700;color:var(--orange-dark);text-align:center;">3</div>
+
+        <div class="think-box" id="think-page4">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">Count the balloons — how many are there?</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','Two is one fewer — count again!')">2</button>
+            <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Amazing! 1, 2, 3 — THREE balloons!')">3</button>
+            <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','Four is one too many!')">4</button>
+            <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','One is not enough — there are more!')">1</button>
+          </div>
+          <div class="think-result" id="think-page4-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 5 – FOUR BALLOONS
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-5">
+      <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FED7AA);">
+        <div class="page-num-illus">Page 5</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="#FFF7ED"/>
+          <!-- Red balloon -->
+          <ellipse cx="50" cy="90" rx="34" ry="44" fill="#EF4444"/>
+          <ellipse cx="59" cy="76" rx="8" ry="11" fill="rgba(255,255,255,.38)"/>
+          <line x1="50" y1="134" x2="68" y2="228" stroke="#D97706" stroke-width="1.8"/>
+          <!-- Yellow balloon -->
+          <ellipse cx="118" cy="68" rx="36" ry="48" fill="#FBBF24"/>
+          <ellipse cx="128" cy="53" rx="9" ry="12" fill="rgba(255,255,255,.38)"/>
+          <line x1="118" y1="116" x2="120" y2="226" stroke="#D97706" stroke-width="1.8"/>
+          <!-- Green balloon -->
+          <ellipse cx="188" cy="68" rx="36" ry="48" fill="#10B981"/>
+          <ellipse cx="198" cy="53" rx="9" ry="12" fill="rgba(255,255,255,.38)"/>
+          <line x1="188" y1="116" x2="180" y2="226" stroke="#D97706" stroke-width="1.8"/>
+          <!-- Purple balloon -->
+          <ellipse cx="256" cy="88" rx="34" ry="44" fill="#8B5CF6"/>
+          <ellipse cx="265" cy="74" rx="8" ry="11" fill="rgba(255,255,255,.38)"/>
+          <line x1="256" y1="132" x2="234" y2="228" stroke="#D97706" stroke-width="1.8"/>
+          <!-- Label -->
+          <rect x="95" y="150" width="110" height="34" rx="17" fill="#F97316"/>
+          <text x="150" y="172" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="15" fill="white">1, 2, 3, 4 — FOUR!</text>
+          <!-- Bear face -->
+          <circle cx="150" cy="255" r="22" fill="#D97706"/>
+          <circle cx="133" cy="239" r="10" fill="#D97706"/><circle cx="133" cy="239" r="6" fill="#FBBF24"/>
+          <circle cx="167" cy="239" r="10" fill="#D97706"/><circle cx="167" cy="239" r="6" fill="#FBBF24"/>
+          <circle cx="142" cy="251" r="4" fill="#1C1917"/><circle cx="143.5" cy="249" r="1.3" fill="white"/>
+          <circle cx="158" cy="251" r="4" fill="#1C1917"/><circle cx="159.5" cy="249" r="1.3" fill="white"/>
+          <ellipse cx="150" cy="259" rx="7" ry="5" fill="#92400E"/>
+          <path d="M144 264 Q150 270 156 264" stroke="#7C2D12" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="68" cy="232" rx="14" ry="10" fill="#D97706"/>
+          <ellipse cx="120" cy="228" rx="8" ry="10" fill="#D97706"/>
+          <ellipse cx="180" cy="228" rx="8" ry="10" fill="#D97706"/>
+          <ellipse cx="232" cy="232" rx="14" ry="10" fill="#D97706"/>
+          <ellipse cx="150" cy="276" rx="120" ry="7" fill="#FDE68A" opacity=".5"/>
+        </svg>
+        <div class="illus-caption">Four balloons! 1, 2, 3, 4!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 5 · Four Balloons</div>
+        <div class="story-text">
+          Now Benny had <strong>FOUR</strong> balloons! He needed two paws to hold them all. Red, yellow, green, and purple — four colours, four balloons!
+        </div>
+        <div class="character-speech">
+          One, two, three, FOUR! Four balloons for me!
+        </div>
+        <div class="math-callout orange-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">Number 4 — Four!</span>
+          </div>
+          <p>Four fingers! 1, 2, 3, 4. One more than three!</p>
+        </div>
+        <div style="font-family:'Quicksand';font-size:4rem;font-weight:700;color:var(--orange-dark);text-align:center;">4</div>
+
+        <div class="think-box" id="think-page5">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">Benny has four balloons. Which number is four?</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Perfect! FOUR is written as 4!')">4</button>
+            <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Three is one fewer than four!')">3</button>
+            <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Five is one more than four!')">5</button>
+            <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Two is much less than four!')">2</button>
+          </div>
+          <div class="think-result" id="think-page5-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 6 – FIVE BALLOONS (THE BIRTHDAY PARTY)
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-6">
+      <div class="illustration" style="background:linear-gradient(135deg,#FFF7ED,#FBBF24);">
+        <div class="page-num-illus">Page 6</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="#FFF7ED"/>
+          <!-- Confetti stars -->
+          <polygon points="20,30 22,36 28,36 23,40 25,46 20,42 15,46 17,40 12,36 18,36" fill="#F97316" opacity=".7"/>
+          <polygon points="270,20 272,26 278,26 273,30 275,36 270,32 265,36 267,30 262,26 268,26" fill="#8B5CF6" opacity=".7"/>
+          <polygon points="255,110 257,116 263,116 258,120 260,126 255,122 250,126 252,120 247,116 253,116" fill="#EF4444" opacity=".6"/>
+          <polygon points="30,120 32,126 38,126 33,130 35,136 30,132 25,136 27,130 22,126 28,126" fill="#10B981" opacity=".6"/>
+          <circle cx="285" cy="60" r="4" fill="#FBBF24" opacity=".7"/>
+          <circle cx="10" cy="80" r="3" fill="#3B82F6" opacity=".6"/>
+          <circle cx="275" cy="155" r="3" fill="#EF4444" opacity=".5"/>
+          <!-- 5 balloons in arc -->
+          <ellipse cx="38" cy="85" rx="28" ry="36" fill="#EF4444"/>
+          <ellipse cx="46" cy="73" rx="7" ry="9" fill="rgba(255,255,255,.38)"/>
+          <line x1="38" y1="121" x2="62" y2="210" stroke="#D97706" stroke-width="1.5"/>
+          <ellipse cx="94" cy="58" rx="30" ry="38" fill="#FBBF24"/>
+          <ellipse cx="103" cy="45" rx="7" ry="9" fill="rgba(255,255,255,.38)"/>
+          <line x1="94" y1="96" x2="100" y2="208" stroke="#D97706" stroke-width="1.5"/>
+          <ellipse cx="152" cy="48" rx="32" ry="40" fill="#10B981"/>
+          <ellipse cx="162" cy="35" rx="8" ry="10" fill="rgba(255,255,255,.38)"/>
+          <line x1="152" y1="88" x2="148" y2="208" stroke="#D97706" stroke-width="1.5"/>
+          <ellipse cx="210" cy="60" rx="30" ry="38" fill="#8B5CF6"/>
+          <ellipse cx="219" cy="47" rx="7" ry="9" fill="rgba(255,255,255,.38)"/>
+          <line x1="210" y1="98" x2="198" y2="208" stroke="#D97706" stroke-width="1.5"/>
+          <ellipse cx="263" cy="82" rx="28" ry="36" fill="#3B82F6"/>
+          <ellipse cx="271" cy="70" rx="7" ry="9" fill="rgba(255,255,255,.38)"/>
+          <line x1="263" y1="118" x2="238" y2="210" stroke="#D97706" stroke-width="1.5"/>
+          <!-- Birthday cake -->
+          <rect x="110" y="195" width="80" height="40" rx="6" fill="#FED7AA" stroke="#F97316" stroke-width="1.5"/>
+          <rect x="118" y="183" width="64" height="16" rx="4" fill="#FBBF24" stroke="#F97316" stroke-width="1.2"/>
+          <!-- Cake decorations -->
+          <circle cx="130" cy="203" r="4" fill="#EF4444"/>
+          <circle cx="150" cy="203" r="4" fill="#8B5CF6"/>
+          <circle cx="170" cy="203" r="4" fill="#10B981"/>
+          <!-- 5 candles -->
+          <rect x="118" y="172" width="5" height="12" rx="2" fill="#EF4444"/>
+          <rect x="128" y="172" width="5" height="12" rx="2" fill="#FBBF24"/>
+          <rect x="138" y="172" width="5" height="12" rx="2" fill="#10B981"/>
+          <rect x="148" y="172" width="5" height="12" rx="2" fill="#8B5CF6"/>
+          <rect x="158" y="172" width="5" height="12" rx="2" fill="#3B82F6"/>
+          <!-- Candle flames -->
+          <ellipse cx="120.5" cy="170" rx="3" ry="4" fill="#FDE68A"/>
+          <ellipse cx="130.5" cy="170" rx="3" ry="4" fill="#FDE68A"/>
+          <ellipse cx="140.5" cy="170" rx="3" ry="4" fill="#FDE68A"/>
+          <ellipse cx="150.5" cy="170" rx="3" ry="4" fill="#FDE68A"/>
+          <ellipse cx="160.5" cy="170" rx="3" ry="4" fill="#FDE68A"/>
+          <!-- Happy Bear face small -->
+          <circle cx="150" cy="245" r="18" fill="#D97706"/>
+          <circle cx="137" cy="232" r="8" fill="#D97706"/><circle cx="137" cy="232" r="5" fill="#FBBF24"/>
+          <circle cx="163" cy="232" r="8" fill="#D97706"/><circle cx="163" cy="232" r="5" fill="#FBBF24"/>
+          <circle cx="144" cy="241" r="3.5" fill="#1C1917"/><circle cx="145.2" cy="239.5" r="1.1" fill="white"/>
+          <circle cx="156" cy="241" r="3.5" fill="#1C1917"/><circle cx="157.2" cy="239.5" r="1.1" fill="white"/>
+          <ellipse cx="150" cy="248" rx="6" ry="4" fill="#92400E"/>
+          <path d="M145 253 Q150 258 155 253" stroke="#7C2D12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <ellipse cx="150" cy="275" rx="118" ry="7" fill="#FDE68A" opacity=".5"/>
+        </svg>
+        <div class="illus-caption">Five balloons! Happy Birthday!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 6 · Five Balloons — The Birthday Party!</div>
+        <div class="story-text">
+          On his birthday, Benny had <strong>FIVE</strong> beautiful balloons! He counted every single one: <strong>one, two, three, four, FIVE!</strong> Everyone clapped and cheered!
+        </div>
+        <div class="character-speech">
+          One, two, three, four, FIVE! Five is my favourite number today!
+        </div>
+        <div class="math-callout orange-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">Number 5 — Five!</span>
+          </div>
+          <p>Hold up five fingers! 1, 2, 3, 4, 5. You can count to <strong>FIVE!</strong></p>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;margin:8px 0;">
+          <div style="width:36px;height:50px;background:#EF4444;border-radius:50% 50% 45% 45%;display:flex;align-items:center;justify-content:center;font-family:'Quicksand';font-weight:700;color:white;font-size:.9rem;">1</div>
+          <div style="width:36px;height:50px;background:#FBBF24;border-radius:50% 50% 45% 45%;display:flex;align-items:center;justify-content:center;font-family:'Quicksand';font-weight:700;color:white;font-size:.9rem;">2</div>
+          <div style="width:36px;height:50px;background:#10B981;border-radius:50% 50% 45% 45%;display:flex;align-items:center;justify-content:center;font-family:'Quicksand';font-weight:700;color:white;font-size:.9rem;">3</div>
+          <div style="width:36px;height:50px;background:#8B5CF6;border-radius:50% 50% 45% 45%;display:flex;align-items:center;justify-content:center;font-family:'Quicksand';font-weight:700;color:white;font-size:.9rem;">4</div>
+          <div style="width:36px;height:50px;background:#3B82F6;border-radius:50% 50% 45% 45%;display:flex;align-items:center;justify-content:center;font-family:'Quicksand';font-weight:700;color:white;font-size:.9rem;">5</div>
+        </div>
+
+        <div class="think-box" id="think-page6">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">How many balloons does Benny have at his party?</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Brilliant! 1, 2, 3, 4, 5 — FIVE!')">5</button>
+            <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Three is not enough — count again!')">3</button>
+            <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Four is one short — there is one more!')">4</button>
+            <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','Two is far too few!')">2</button>
+          </div>
+          <div class="think-result" id="think-page6-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END SCREEN (shown after page 7 / TOTAL_PAGES) -->
+    <div class="end-card-wrap" id="endWrap">
+      <div class="end-card">
+        <div class="end-emoji-row">🎈🎈🎈🎈🎈</div>
+        <div class="end-title">You can count to 5! 🎉</div>
+        <div class="end-msg">Wonderful work! You counted along with Benny all the way to five. Can you count five things in your room right now?</div>
+        <div>
+          <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+          <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+        </div>
+      </div>
+      <div class="badge-earned">
+        <div class="badge-icon">🎈</div>
+        <div class="badge-text-wrap">
+          <div class="badge-text-title">Balloon Counter Badge</div>
+          <div class="badge-text-sub">Cambridge EY · Counting 1 to 5</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 7;
+let currentPage = 1;
+
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    const prevEl = document.getElementById('page-' + currentPage);
+    if (prevEl) prevEl.classList.remove('active');
+    currentPage = n;
+    const nextEl = document.getElementById('page-' + currentPage);
+    if (nextEl) nextEl.classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  if (currentPage === TOTAL_PAGES && dir === 1) {
+    finishBook('bennys-balloon-day', "Benny's Balloon Day");
+    return;
+  }
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = 'Page ' + currentPage + ' of ' + TOTAL_PAGES;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = () => finishBook('bennys-balloon-day', "Benny's Balloon Day");
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook(key, name) {
+  // Mark book as complete in localStorage
+  localStorage.setItem('mm_book_bennys-balloon-day', JSON.stringify({ completed: true, date: new Date().toISOString() }));
+  // Award badge
+  var badges = JSON.parse(localStorage.getItem('mm_badges') || '[]');
+  if (!badges.includes('balloon-counter')) { badges.push('balloon-counter'); localStorage.setItem('mm_badges', JSON.stringify(badges)); }
+
+  const prevEl = document.getElementById('page-' + currentPage);
+  if (prevEl) prevEl.classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+// ── AUDIO NARRATION (Web Speech API) ──
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>

@@ -919,6 +919,39 @@
         { type: 'indonesian', code: '1.B.1', text: 'Membilang bilangan 1–20 dengan urutan yang benar' },
       ]
     },
+    // ── EY STORY BOOKS ───────────────────────────
+    'bennys-balloon-day': {
+      grade: 'Early Years', stageColor: '#F97316', indonesianGrade: 'PAUD / Pra-Sekolah',
+      objectives: [
+        { type: 'cambridge', code: 'EYNn.01', text: 'Count objects from 1 to 5; match numerals to quantities; understand one-to-one correspondence' },
+        { type: 'cambridge', code: 'EYNn.02', text: 'Recognise and name numerals 1–5; understand that each number represents a quantity' },
+        { type: 'indonesian', code: 'PAUD.B.1', text: 'Membilang benda 1–5 dengan korespondensi satu-satu; mengenal lambang bilangan 1–5' },
+      ]
+    },
+    'the-shape-garden': {
+      grade: 'Early Years', stageColor: '#8B5CF6', indonesianGrade: 'PAUD / Pra-Sekolah',
+      objectives: [
+        { type: 'cambridge', code: 'EYGm.01', text: 'Identify, name and describe 2D shapes: circle, square, triangle, rectangle; count sides and corners' },
+        { type: 'cambridge', code: 'EYGm.02', text: 'Find and describe shapes in the environment; sort shapes by their properties' },
+        { type: 'indonesian', code: 'PAUD.G.1', text: 'Mengenal dan menyebutkan bentuk 2D: lingkaran, persegi, segitiga, persegi panjang dalam kehidupan sehari-hari' },
+      ]
+    },
+    'big-ella-little-max': {
+      grade: 'Early Years', stageColor: '#06B6D4', indonesianGrade: 'PAUD / Pra-Sekolah',
+      objectives: [
+        { type: 'cambridge', code: 'EYNn.03', text: 'Compare and describe sizes using language: big/small, tall/short, long/short, heavy/light' },
+        { type: 'cambridge', code: 'EYGm.03', text: 'Compare lengths, heights and weights using direct comparison and everyday language' },
+        { type: 'indonesian', code: 'PAUD.B.2', text: 'Membandingkan ukuran benda menggunakan bahasa: besar/kecil, tinggi/pendek, panjang/pendek, berat/ringan' },
+      ]
+    },
+    'mias-colour-sort': {
+      grade: 'Early Years', stageColor: '#EC4899', indonesianGrade: 'PAUD / Pra-Sekolah',
+      objectives: [
+        { type: 'cambridge', code: 'EYSt.01', text: 'Sort objects into groups by a given criterion (colour, size, shape); explain sorting decisions' },
+        { type: 'cambridge', code: 'EYSt.02', text: 'Count items in sorted groups; compare totals in different groups' },
+        { type: 'indonesian', code: 'PAUD.S.1', text: 'Mengelompokkan benda berdasarkan warna, ukuran, atau bentuk; menghitung jumlah benda dalam setiap kelompok' },
+      ]
+    },
     'shapes-all-around-us': {
       grade: 'Grades 1–2', stageColor: '#10B981', indonesianGrade: 'Kelas 1–2 / Fase A',
       objectives: [

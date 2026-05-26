@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Mia's Colour Sort – MathMunch</title>
+<style>
+:root {
+  --orange:#F97316; --orange-dark:#C2410C; --orange-light:#FFF7ED;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --blue:#3B82F6; --blue-dark:#1D4ED8; --blue-light:#EFF6FF;
+  --pink:#EC4899; --pink-dark:#BE185D; --pink-light:#FDF2F8;
+  --green:#10B981; --green-dark:#059669; --green-light:#ECFDF5;
+  --yellow:#FBBF24; --yellow-dark:#D97706;
+  --purple:#8B5CF6; --purple-dark:#6D28D9;
+  --bg:#F8FAFC; --white:#FFFFFF; --outline:#E2E8F0;
+  --text:#191C1E; --text-mid:#424754; --text-soft:#727785;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+h1,h2,h3,.logo-text,.book-title-text{font-family:'Quicksand',system-ui,sans-serif;}
+
+/* HEADER */
+.site-header{background:var(--white);border-bottom:1px solid var(--outline);position:sticky;top:0;z-index:100;}
+.site-header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:38px;height:38px;background:var(--pink);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 2px 0 var(--pink-dark);}
+.logo-text{font-size:1.25rem;font-weight:700;color:var(--pink);}
+.header-right{display:flex;align-items:center;gap:12px;}
+.book-breadcrumb{font-size:.85rem;color:var(--text-soft);font-weight:600;}
+.book-breadcrumb a{color:var(--pink-dark);text-decoration:none;}
+.book-breadcrumb a:hover{text-decoration:underline;}
+
+/* READER LAYOUT */
+.reader-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 40px;flex:1;display:flex;flex-direction:column;gap:24px;}
+
+/* BOOK HEADER */
+.book-header{background:var(--white);border-radius:20px;padding:20px 28px;border:1px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.book-title-text{font-size:1.4rem;font-weight:700;color:var(--text);}
+.book-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.book-tag{display:inline-flex;align-items:center;gap:5px;background:var(--pink-light);color:var(--pink-dark);font-size:.78rem;font-weight:700;padding:5px 12px;border-radius:9999px;border:1px solid #F9A8D4;}
+.page-indicator{font-size:.85rem;font-weight:600;color:var(--text-mid);}
+
+/* PROGRESS BAR */
+.reading-progress{height:8px;background:var(--outline);border-radius:9999px;overflow:hidden;}
+.reading-progress-fill{height:100%;background:linear-gradient(90deg,#EC4899,#BE185D);border-radius:9999px;transition:width .5s ease;}
+
+/* ── OPEN BOOK ── */
+.book-scene{perspective:2500px;}
+.open-book{
+  position:relative;background:#FAF8F4;
+  border-radius:3px 8px 8px 3px;
+  transform-style:preserve-3d;
+  box-shadow:
+    -4px 0 10px rgba(0,0,0,.22),
+    0 10px 40px rgba(0,0,0,.18),
+    4px 0 0 #EEE8DF,6px 0 0 #E8E2D9,8px 0 0 #E2DCD3;
+}
+.open-book::before{
+  content:'';position:absolute;
+  left:calc(50% - 11px);width:22px;top:0;bottom:0;
+  background:linear-gradient(to right,rgba(0,0,0,.01) 0%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.1) 70%,rgba(0,0,0,.01) 100%);
+  pointer-events:none;z-index:6;
+}
+.open-book::after{
+  content:'';position:absolute;
+  bottom:0;right:6px;width:54px;height:54px;
+  background:radial-gradient(circle at 100% 100%,rgba(0,0,0,.09) 0%,transparent 65%);
+  pointer-events:none;z-index:5;border-radius:0 0 8px 0;
+}
+.book-page{display:none;}
+.book-page.active{display:grid;grid-template-columns:1fr 1fr;align-items:start;}
+.book-page.cover-page.active{display:flex;flex-direction:column;align-items:center;padding:40px;}
+.illustration{
+  border-radius:0;overflow:hidden;position:relative;
+  min-height:380px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  padding:32px 20px 44px 32px;
+  border-right:1px solid rgba(0,0,0,.06);
+}
+.pg-flip{
+  position:absolute;top:0;bottom:0;
+  transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.645,.045,.355,1);
+  z-index:30;
+}
+.pg-flip-fwd{
+  right:0;width:50%;transform-origin:left center;
+  border-radius:0 8px 8px 0;
+  background:linear-gradient(to right,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset -4px 0 8px rgba(0,0,0,.09);
+}
+.pg-flip-back{
+  left:0;width:50%;transform-origin:right center;
+  border-radius:3px 0 0 3px;
+  background:linear-gradient(to left,rgba(185,175,163,.55) 0%,#FAF8F4 6%,#FAF8F4 100%);
+  box-shadow:inset 4px 0 8px rgba(0,0,0,.09);
+}
+.illus-scene{display:flex;align-items:flex-end;justify-content:center;gap:-8px;flex-wrap:wrap;}
+.char{font-size:4rem;line-height:1;display:inline-block;}
+.char-sm{font-size:2.6rem;}
+.char-xs{font-size:2rem;}
+.illus-caption{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85);text-align:center;margin-top:8px;background:rgba(0,0,0,.15);padding:6px 14px;border-radius:9999px;}
+.page-num-illus{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.2);color:white;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:9999px;}
+
+/* STORY PANEL (right page) */
+.story-panel{display:flex;flex-direction:column;gap:20px;padding:32px 32px 44px 20px;}
+.page-num-text{font-size:.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;}
+.story-text{font-size:1.2rem;line-height:2;color:var(--text);font-weight:400;}
+.story-text strong{color:var(--pink-dark);font-weight:700;}
+.story-text em{color:var(--pink-dark);font-style:normal;font-weight:700;}
+.character-speech{background:var(--pink-light);border-left:4px solid #EC4899;border-radius:0 12px 12px 0;padding:14px 18px;font-size:1rem;font-weight:600;color:var(--text-mid);font-style:italic;line-height:1.6;}
+.character-speech::before{content:'\201C';font-size:1.4rem;color:var(--pink);line-height:0;vertical-align:-4px;margin-right:2px;}
+.character-speech::after{content:'\201D';font-size:1.4rem;color:var(--pink);line-height:0;vertical-align:-4px;margin-left:2px;}
+
+/* MATH CALLOUT */
+.math-callout{background:var(--blue-light);border:2px solid var(--blue);border-radius:16px;padding:18px 20px;}
+.math-callout-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.math-callout-icon{font-size:1.2rem;}
+.math-callout-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:.6px;}
+.math-callout p{font-size:.95rem;color:var(--text-mid);line-height:1.6;}
+.math-callout.pink-callout{background:var(--pink-light);border-color:var(--pink);}
+.math-callout.pink-callout .math-callout-title{color:var(--pink-dark);}
+.math-callout.green-callout{background:var(--green-light);border-color:var(--green);}
+.math-callout.green-callout .math-callout-title{color:var(--green-dark);}
+.math-callout.orange-callout{background:var(--orange-light);border-color:var(--orange);}
+.math-callout.orange-callout .math-callout-title{color:var(--orange-dark);}
+
+/* THINK ABOUT IT */
+.think-box{background:var(--pink-light);border:2px solid var(--pink);border-radius:16px;padding:18px 20px;}
+.think-box-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.think-box-title{font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:700;color:var(--pink-dark);text-transform:uppercase;letter-spacing:.6px;}
+.think-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.think-btn{background:white;border:2px solid #F9A8D4;border-radius:12px;padding:12px 14px;font-size:.9rem;font-weight:700;color:var(--text);cursor:pointer;transition:.15s;text-align:center;font-family:'Nunito',sans-serif;}
+.think-btn:hover{border-color:var(--pink);background:var(--pink-light);}
+.think-btn.correct{border-color:var(--green);background:#DCFCE7;color:var(--green-dark);}
+.think-btn.wrong{border-color:#F87171;background:#FEF2F2;color:#DC2626;}
+.think-result{margin-top:10px;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.think-result.show{display:block;}
+.think-result.ok{background:#DCFCE7;color:var(--green-dark);}
+.think-result.no{background:#FEF2F2;color:#DC2626;}
+
+/* COVER PAGE */
+.cover-card{background:linear-gradient(135deg,#EC4899,#BE185D);border-radius:28px;padding:56px 40px;text-align:center;width:100%;max-width:640px;color:white;box-shadow:0 8px 0 rgba(190,24,93,.4),0 16px 48px rgba(0,0,0,.18);}
+.cover-title{font-family:'Quicksand',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:12px;}
+.cover-subtitle{font-size:1rem;opacity:.85;margin-bottom:24px;line-height:1.6;}
+.cover-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-tag{background:rgba(255,255,255,.2);color:white;font-size:.8rem;font-weight:700;padding:5px 14px;border-radius:9999px;border:1px solid rgba(255,255,255,.35);}
+.cover-byline{font-size:.82rem;opacity:.65;font-family:'Lexend',sans-serif;}
+
+/* NAVIGATION */
+.nav-bar{background:var(--white);border-radius:20px;border:1px solid var(--outline);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-btn{background:var(--white);border:2px solid var(--outline);border-radius:9999px;padding:11px 24px;font-family:'Lexend',sans-serif;font-size:.9rem;font-weight:700;color:var(--text-mid);cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--outline);transition:.1s;}
+.nav-btn:hover{border-color:var(--pink);color:var(--pink);}
+.nav-btn:active{transform:translateY(1px);box-shadow:none;}
+.nav-btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.nav-btn-next{background:#EC4899;color:white;border-color:#EC4899;box-shadow:0 3px 0 #BE185D;}
+.nav-btn-next:hover{background:var(--pink-dark);border-color:var(--pink-dark);color:white;}
+.nav-btn-next:active{transform:translateY(2px);box-shadow:0 1px 0 var(--pink-dark);}
+.page-dots{display:flex;gap:8px;align-items:center;}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--outline);transition:.3s;cursor:pointer;}
+.dot.active{background:var(--pink);transform:scale(1.2);}
+.dot.read{background:#F9A8D4;}
+
+/* END CARD */
+.end-card-wrap{display:none;flex-direction:column;align-items:center;gap:24px;padding:16px;}
+.end-card-wrap.show{display:flex;}
+.end-card{background:var(--white);border-radius:28px;padding:44px;text-align:center;max-width:540px;width:100%;border:1px solid var(--outline);box-shadow:0 4px 24px rgba(0,0,0,.08);}
+.end-emoji-row{font-size:3rem;margin-bottom:16px;}
+.end-title{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.end-msg{color:var(--text-mid);margin-bottom:28px;font-size:1rem;line-height:1.6;}
+.end-btn{background:var(--pink);color:white;border:none;border-radius:9999px;padding:14px 32px;font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--pink-dark);text-decoration:none;display:inline-block;margin:0 6px;}
+.end-btn-out{background:var(--bg);color:var(--text-mid);border:2px solid var(--outline);box-shadow:none;}
+.badge-earned{background:linear-gradient(135deg,#EC4899,#BE185D);border-radius:20px;padding:20px 28px;color:white;display:flex;align-items:center;gap:16px;max-width:400px;width:100%;}
+.badge-icon{font-size:2.8rem;}
+.badge-text-wrap{text-align:left;}
+.badge-text-title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;}
+.badge-text-sub{font-size:.82rem;opacity:.85;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .book-page.active{grid-template-columns:1fr;}
+  .illustration{min-height:220px;padding:20px 20px 28px;border-right:none;border-bottom:1px solid rgba(0,0,0,.06);}
+  .story-panel{padding:20px 20px 28px;}
+  .open-book{box-shadow:-2px 0 6px rgba(0,0,0,.15),0 6px 24px rgba(0,0,0,.15);border-radius:3px 4px 4px 3px;}
+  .open-book::before,.open-book::after{display:none;}
+  .pg-flip-fwd,.pg-flip-back{display:none;}
+  .site-header-inner nav{display:none;}
+  .think-options{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<script>if(!localStorage.getItem("mm_user")){sessionStorage.setItem("mm_redir",location.href);location.replace("../login.html");}</script>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-icon">🌈</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <div class="header-right">
+      <span class="book-breadcrumb">
+        <a href="../index.html">Home</a> › <a href="../index.html#books">Story Books</a> › Mia's Colour Sort
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="reader-wrap">
+
+  <!-- BOOK HEADER -->
+  <div class="book-header">
+    <div>
+      <div class="book-title-text">📖 Mia's Colour Sort</div>
+      <div class="book-meta-row" style="margin-top:6px;">
+        <span class="book-tag">📄 7 Pages</span>
+        <span class="book-tag">🎨 Sorting by Colour</span>
+        <span class="book-tag">👶 Ages 3–5</span>
+        <span class="book-tag" style="background:var(--blue-light);color:var(--blue-dark);border-color:var(--blue);">⭐ Cambridge EY</span>
+      </div>
+    </div>
+    <span class="page-indicator" id="pageIndicator">Page 1 of 7</span>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="reading-progress">
+    <div class="reading-progress-fill" id="progressFill" style="width:14.28%"></div>
+  </div>
+
+  <!-- OPEN BOOK SPREAD -->
+  <div class="book-scene">
+  <div class="open-book" id="openBook">
+
+    <!-- ══════════════════════════════════════════
+         PAGE 1 – COVER
+    ══════════════════════════════════════════ -->
+    <div class="book-page cover-page active" id="page-1">
+      <div class="cover-card">
+        <svg viewBox="0 0 200 200" width="160" height="160" style="margin-bottom:16px;display:block;margin-left:auto;margin-right:auto;">
+          <!-- Background -->
+          <rect width="200" height="200" rx="20" fill="rgba(255,255,255,.1)"/>
+          <!-- RED group (left) -->
+          <circle cx="28" cy="80" r="16" fill="#EF4444"/>
+          <circle cx="28" cy="112" r="12" fill="#EF4444" opacity=".8"/>
+          <circle cx="50" cy="96" r="10" fill="#DC2626" opacity=".9"/>
+          <rect x="18" y="130" width="46" height="8" rx="4" fill="#EF4444" opacity=".5"/>
+          <text x="41" y="148" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">RED</text>
+          <!-- YELLOW group (center) -->
+          <rect x="78" y="64" width="24" height="24" rx="5" fill="#FBBF24"/>
+          <rect x="88" y="94" width="20" height="20" rx="4" fill="#F59E0B"/>
+          <rect x="74" y="116" width="32" height="18" rx="4" fill="#D97706" opacity=".8"/>
+          <rect x="72" y="136" width="56" height="8" rx="4" fill="#FBBF24" opacity=".5"/>
+          <text x="100" y="154" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">YELLOW</text>
+          <!-- BLUE group (right) -->
+          <polygon points="158,65 172,90 144,90" fill="#3B82F6"/>
+          <polygon points="162,96 174,118 150,118" fill="#2563EB" opacity=".85"/>
+          <polygon points="152,122 168,146 136,146" fill="#1D4ED8" opacity=".75"/>
+          <rect x="134" y="150" width="46" height="8" rx="4" fill="#3B82F6" opacity=".5"/>
+          <text x="157" y="167" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="white">BLUE</text>
+          <!-- Mia (simple) -->
+          <circle cx="100" cy="180" r="14" fill="#FBBF24"/>
+          <!-- Pigtails -->
+          <circle cx="86" cy="170" r="8" fill="#92400E"/>
+          <circle cx="114" cy="170" r="8" fill="#92400E"/>
+          <!-- Eyes -->
+          <circle cx="95" cy="179" r="2.5" fill="#1C1917"/>
+          <circle cx="105" cy="179" r="2.5" fill="#1C1917"/>
+          <path d="M93 185 Q100 190 107 185" stroke="#1C1917" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="cover-title">Mia's Colour Sort</div>
+        <div class="cover-subtitle">Sort and group with Mia!</div>
+        <div class="cover-tags">
+          <span class="cover-tag">📄 7 Pages</span>
+          <span class="cover-tag">🎨 Sorting by Colour</span>
+          <span class="cover-tag">👶 Ages 3–5</span>
+          <span class="cover-tag">⭐ Cambridge EY</span>
+        </div>
+        <div class="cover-byline">A MathMunch Story Book · Eduversal</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 2 – THE MIXED TOY BOX
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-2">
+      <div class="illustration" style="background:#FDF2F8;">
+        <div class="page-num-illus">Page 2</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="#FDF2F8"/>
+          <!-- Toy box -->
+          <rect x="40" y="160" width="220" height="100" rx="12" fill="#D97706"/>
+          <rect x="40" y="155" width="220" height="25" rx="8" fill="#92400E"/>
+          <rect x="100" y="155" width="100" height="15" rx="5" fill="#B45309"/>
+          <!-- Mixed toys spilling out -->
+          <!-- Red star -->
+          <polygon points="100,130 106,148 125,148 110,158 116,176 100,166 84,176 90,158 75,148 94,148" fill="#EF4444"/>
+          <!-- Yellow circle -->
+          <circle cx="165" cy="145" r="22" fill="#FBBF24"/>
+          <!-- Blue square -->
+          <rect x="195" y="120" width="36" height="36" rx="6" fill="#3B82F6"/>
+          <!-- Green triangle -->
+          <polygon points="60,155 80,120 40,120" fill="#10B981"/>
+          <!-- More small scattered shapes -->
+          <circle cx="230" cy="165" r="10" fill="#EF4444" opacity=".8"/>
+          <rect x="55" y="165" width="18" height="18" rx="4" fill="#FBBF24" opacity=".7"/>
+          <polygon points="200,155 212,175 188,175" fill="#8B5CF6" opacity=".8"/>
+          <circle cx="145" cy="172" r="8" fill="#10B981" opacity=".8"/>
+          <!-- All mixed up label -->
+          <text x="150" y="80" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="13" fill="#BE185D">All mixed up!</text>
+          <!-- Mia beside the box -->
+          <circle cx="268" cy="210" r="18" fill="#FBBF24"/>
+          <circle cx="258" cy="197" r="10" fill="#92400E"/>
+          <circle cx="278" cy="197" r="10" fill="#92400E"/>
+          <circle cx="262" cy="208" r="3" fill="#1C1917"/>
+          <circle cx="274" cy="208" r="3" fill="#1C1917"/>
+          <path d="M261 216 Q268 221 275 216" stroke="#1C1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <ellipse cx="268" cy="240" rx="16" ry="20" fill="#EC4899"/>
+          <!-- Question mark speech bubble -->
+          <ellipse cx="252" cy="190" rx="14" ry="10" fill="white"/>
+          <text x="252" y="194" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="14" fill="#EC4899">?</text>
+        </svg>
+        <div class="illus-caption">Mia's toy box is all mixed up!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 2 · The Mixed Toy Box</div>
+        <div class="story-text">
+          Mia opened her toy box and found a <strong>big colourful mess</strong>! Red stars, yellow circles, blue squares, green triangles — all jumbled up together.<br><br>
+          "I need to sort them!" said Mia.<br><br>
+          <strong>Sorting</strong> means putting things that are the same into a group.
+        </div>
+        <div class="character-speech">
+          Everything is all mixed up! Let me sort them by COLOUR!
+        </div>
+        <div class="math-callout pink-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">What is Sorting?</span>
+          </div>
+          <p><strong>Sorting</strong> means putting things into groups. We can sort by colour, shape, or size. Sorted groups are easier to count and find!</p>
+        </div>
+
+        <div class="think-box" id="think-page2">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">What colour does Mia sort FIRST? (She sees the red star)</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page2',this,'correct','Yes! Mia starts with the red things!')">Red</button>
+            <button class="think-btn" onclick="checkAnswer('think-page2',this,'wrong','Blue comes later — Mia starts with red!')">Blue</button>
+          </div>
+          <div class="think-result" id="think-page2-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 3 – SORT THE RED THINGS
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-3">
+      <div class="illustration" style="background:linear-gradient(135deg,#FDF2F8,#FCE7F3);">
+        <div class="page-num-illus">Page 3</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="none"/>
+          <!-- RED group box (left side) -->
+          <rect x="10" y="30" width="120" height="160" rx="14" fill="#FEE2E2" stroke="#EF4444" stroke-width="3"/>
+          <text x="70" y="22" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#DC2626">RED GROUP</text>
+          <!-- Red star inside group -->
+          <polygon points="70,65 74,78 88,78 77,86 81,99 70,91 59,99 63,86 52,78 66,78" fill="#EF4444"/>
+          <!-- Red circle inside group -->
+          <circle cx="45" cy="130" r="20" fill="#DC2626" opacity=".9"/>
+          <!-- Red cube/square inside group -->
+          <rect x="75" y="112" width="36" height="36" rx="6" fill="#EF4444" opacity=".85"/>
+          <!-- Label inside -->
+          <text x="70" y="200" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#DC2626">3 red things!</text>
+
+          <!-- Non-red shapes scattered on the right (unsorted) -->
+          <!-- Yellow circle -->
+          <circle cx="195" cy="70" r="22" fill="#FBBF24" opacity=".9"/>
+          <!-- Blue triangle -->
+          <polygon points="235,50 255,85 215,85" fill="#3B82F6" opacity=".85"/>
+          <!-- Green square -->
+          <rect x="165" y="110" width="30" height="30" rx="5" fill="#10B981" opacity=".8"/>
+          <!-- Purple shape -->
+          <polygon points="255,110 270,130 240,130" fill="#8B5CF6" opacity=".75"/>
+          <!-- Blue circle -->
+          <circle cx="225" cy="170" r="16" fill="#2563EB" opacity=".8"/>
+
+          <!-- Mia pointing at red group -->
+          <circle cx="268" cy="230" r="18" fill="#FBBF24"/>
+          <circle cx="258" cy="217" r="10" fill="#92400E"/>
+          <circle cx="278" cy="217" r="10" fill="#92400E"/>
+          <circle cx="262" cy="228" r="3" fill="#1C1917"/>
+          <circle cx="274" cy="228" r="3" fill="#1C1917"/>
+          <path d="M261 236 Q268 241 275 236" stroke="#1C1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <ellipse cx="268" cy="258" rx="16" ry="20" fill="#EC4899"/>
+          <!-- Pointing arm -->
+          <line x1="252" y1="240" x2="150" y2="160" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="150" cy="160" r="5" fill="#FBBF24"/>
+        </svg>
+        <!-- Counting display -->
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#EF4444;border:2px solid #DC2626;"></div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#EF4444;border:2px solid #DC2626;"></div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#EF4444;border:2px solid #DC2626;"></div>
+        </div>
+        <div style="font-family:'Quicksand';font-weight:700;font-size:.82rem;color:#DC2626;margin-top:4px;">3 red things</div>
+        <div class="illus-caption">All the red things go together!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 3 · Sort the Red Things</div>
+        <div class="story-text">
+          Mia picked up every <strong>red</strong> thing she could find. A red star, a red circle, and a red cube. She put them all in a pile together.<br><br>
+          "Three red things!" she counted.<br><br>
+          <strong>Sorting by colour</strong> means finding things that are the same colour!
+        </div>
+        <div class="character-speech">
+          Red, red, red! I put ALL the red things together in one group!
+        </div>
+        <div class="math-callout pink-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">Sorting by Colour</span>
+          </div>
+          <p>When we sort by <strong>colour</strong>, all the red things go in one group, all the blue things in another, and so on. Each group has only ONE colour!</p>
+        </div>
+
+        <div class="think-box" id="think-page3">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">Which of these goes in the RED group? A red apple or a blue ball?</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page3',this,'correct','Yes! The red apple goes with the red group!')">Red apple</button>
+            <button class="think-btn" onclick="checkAnswer('think-page3',this,'wrong','Blue things go in the blue group — not the red group!')">Blue ball</button>
+          </div>
+          <div class="think-result" id="think-page3-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 4 – SORT THE YELLOW THINGS
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-4">
+      <div class="illustration" style="background:linear-gradient(135deg,#FDF2F8,#FEF9C3);">
+        <div class="page-num-illus">Page 4</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="none"/>
+          <!-- YELLOW group box -->
+          <rect x="10" y="30" width="130" height="165" rx="14" fill="#FEF9C3" stroke="#FBBF24" stroke-width="3"/>
+          <text x="75" y="22" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#D97706">YELLOW GROUP</text>
+          <!-- Yellow star inside group -->
+          <polygon points="75,68 80,84 97,84 83,93 88,109 75,100 62,109 67,93 53,84 70,84" fill="#FBBF24"/>
+          <!-- Yellow square inside group -->
+          <rect x="42" y="118" width="36" height="36" rx="6" fill="#F59E0B" opacity=".9"/>
+          <!-- Yellow sun/circle inside group -->
+          <circle cx="90" cy="158" r="20" fill="#D97706" opacity=".85"/>
+          <!-- Label inside -->
+          <text x="75" y="206" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#D97706">3 yellow things!</text>
+
+          <!-- Non-yellow shapes scattered right (unsorted) -->
+          <!-- Red circle -->
+          <circle cx="195" cy="70" r="20" fill="#EF4444" opacity=".85"/>
+          <!-- Blue triangle -->
+          <polygon points="240,55 258,88 222,88" fill="#3B82F6" opacity=".85"/>
+          <!-- Green square -->
+          <rect x="168" y="115" width="28" height="28" rx="5" fill="#10B981" opacity=".8"/>
+          <!-- Red star small -->
+          <polygon points="255,120 259,132 272,132 262,139 266,151 255,144 244,151 248,139 238,132 251,132" fill="#DC2626" opacity=".8"/>
+          <!-- Blue circle -->
+          <circle cx="210" cy="185" r="16" fill="#2563EB" opacity=".8"/>
+
+          <!-- Mia smiling -->
+          <circle cx="265" cy="228" r="18" fill="#FBBF24"/>
+          <circle cx="255" cy="215" r="10" fill="#92400E"/>
+          <circle cx="275" cy="215" r="10" fill="#92400E"/>
+          <circle cx="259" cy="226" r="3" fill="#1C1917"/>
+          <circle cx="271" cy="226" r="3" fill="#1C1917"/>
+          <path d="M258 234 Q265 240 272 234" stroke="#1C1917" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <ellipse cx="265" cy="256" rx="16" ry="20" fill="#EC4899"/>
+        </svg>
+        <div class="illus-caption">Yellow things all in one place!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 4 · Sort the Yellow Things</div>
+        <div class="story-text">
+          Next, Mia found all the <strong>yellow</strong> things. A yellow square, a yellow star, and a sunny yellow circle. She placed them carefully together.<br><br>
+          "Two, three yellow things!" she sang happily.
+        </div>
+        <div class="character-speech">
+          Yellow is my favourite colour! All yellow things in the yellow group!
+        </div>
+        <div class="math-callout pink-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">The Yellow Group</span>
+          </div>
+          <p>Can you see the yellow things in Mia's room? A banana is yellow. The sun is yellow. Lemons are yellow. Yellow things go in <strong>ONE</strong> group!</p>
+        </div>
+
+        <div class="think-box" id="think-page4">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">A lemon is yellow. Which group does it go in?</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page4',this,'correct','Brilliant! Yellow lemon goes in the yellow group!')">Yellow group</button>
+            <button class="think-btn" onclick="checkAnswer('think-page4',this,'wrong','Red things are different — yellow things go together!')">Red group</button>
+          </div>
+          <div class="think-result" id="think-page4-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 5 – SORT THE BLUE THINGS
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-5">
+      <div class="illustration" style="background:linear-gradient(135deg,#FDF2F8,#EFF6FF);">
+        <div class="page-num-illus">Page 5</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="none"/>
+          <!-- BLUE group box -->
+          <rect x="10" y="30" width="120" height="165" rx="14" fill="#EFF6FF" stroke="#3B82F6" stroke-width="3"/>
+          <text x="70" y="22" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="11" fill="#1D4ED8">BLUE GROUP</text>
+          <!-- Blue triangle inside group -->
+          <polygon points="70,65 90,100 50,100" fill="#3B82F6"/>
+          <!-- Blue square inside group -->
+          <rect x="42" y="112" width="36" height="36" rx="6" fill="#2563EB" opacity=".9"/>
+          <!-- Blue circle inside group -->
+          <circle cx="70" cy="170" r="20" fill="#1D4ED8" opacity=".85"/>
+          <!-- Label inside -->
+          <text x="70" y="206" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="10" fill="#1D4ED8">3 blue things!</text>
+
+          <!-- Remaining non-blue shapes right (now mostly sorted) -->
+          <!-- Small red circle -->
+          <circle cx="190" cy="75" r="15" fill="#EF4444" opacity=".6"/>
+          <!-- Small yellow square -->
+          <rect x="215" y="55" width="25" height="25" rx="4" fill="#FBBF24" opacity=".6"/>
+          <!-- Small green triangle -->
+          <polygon points="250,60 265,85 235,85" fill="#10B981" opacity=".6"/>
+
+          <!-- Mia with arms raised (happy - sorted!) -->
+          <circle cx="220" cy="185" r="20" fill="#FBBF24"/>
+          <circle cx="208" cy="170" r="11" fill="#92400E"/>
+          <circle cx="232" cy="170" r="11" fill="#92400E"/>
+          <circle cx="213" cy="183" r="3.5" fill="#1C1917"/>
+          <circle cx="227" cy="183" r="3.5" fill="#1C1917"/>
+          <path d="M212 193 Q220 200 228 193" stroke="#1C1917" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="220" cy="218" rx="18" ry="22" fill="#EC4899"/>
+          <!-- Arms raised -->
+          <line x1="202" y1="208" x2="185" y2="188" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+          <line x1="238" y1="208" x2="255" y2="188" stroke="#FBBF24" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="185" cy="188" r="7" fill="#FBBF24"/>
+          <circle cx="255" cy="188" r="7" fill="#FBBF24"/>
+        </svg>
+        <div class="illus-caption">Blue things belong together!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 5 · Sort the Blue Things</div>
+        <div class="story-text">
+          Last of all, Mia sorted the <strong>blue</strong> things. Blue triangle, blue diamond, blue rectangle — all together in the blue group!<br><br>
+          Now all three groups were complete: <strong>red, yellow, and blue</strong>.
+        </div>
+        <div class="character-speech">
+          All sorted! Red group, yellow group, blue group. Now I can count each group easily!
+        </div>
+        <div class="math-callout pink-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">💡</span>
+            <span class="math-callout-title">Three Sorted Groups!</span>
+          </div>
+          <p>Mia has 3 groups: <strong>red, yellow, blue</strong>. Now she can count how many are in each group. Sorted groups make counting easy!</p>
+        </div>
+
+        <div style="display:flex;gap:6px;justify-content:center;margin:8px 0;">
+          <div style="background:#FEE2E2;border:2px solid #EF4444;border-radius:10px;padding:8px 12px;text-align:center;">
+            <div style="font-family:'Quicksand';font-weight:700;font-size:.82rem;color:#DC2626;">Red</div>
+            <div style="font-size:1.2rem;font-weight:700;color:#EF4444;">3</div>
+          </div>
+          <div style="background:#FEF9C3;border:2px solid #FBBF24;border-radius:10px;padding:8px 12px;text-align:center;">
+            <div style="font-family:'Quicksand';font-weight:700;font-size:.82rem;color:#D97706;">Yellow</div>
+            <div style="font-size:1.2rem;font-weight:700;color:#D97706;">3</div>
+          </div>
+          <div style="background:#EFF6FF;border:2px solid #3B82F6;border-radius:10px;padding:8px 12px;text-align:center;">
+            <div style="font-family:'Quicksand';font-weight:700;font-size:.82rem;color:#1D4ED8;">Blue</div>
+            <div style="font-size:1.2rem;font-weight:700;color:#3B82F6;">3</div>
+          </div>
+        </div>
+
+        <div class="think-box" id="think-page5">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">After sorting, there are 3 groups. Why do we sort?</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page5',this,'correct','Perfect! Sorting groups things that are the same!')">To put same things together</button>
+            <button class="think-btn" onclick="checkAnswer('think-page5',this,'wrong','Sorting does the OPPOSITE — it tidies things up!')">To make a mess</button>
+          </div>
+          <div class="think-result" id="think-page5-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 6 – WELL DONE! (Review)
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-6">
+      <div class="illustration" style="background:linear-gradient(135deg,#FDF2F8,#FCE7F3);">
+        <div class="page-num-illus">Page 6</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="none"/>
+          <!-- Three sorted group boxes displayed neatly -->
+          <!-- RED box -->
+          <rect x="10" y="30" width="82" height="110" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="2.5"/>
+          <text x="51" y="24" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#DC2626">RED</text>
+          <polygon points="51,55 55,67 68,67 58,74 62,86 51,79 40,86 44,74 34,67 47,67" fill="#EF4444"/>
+          <circle cx="35" cy="105" r="13" fill="#DC2626" opacity=".85"/>
+          <rect x="54" y="92" width="26" height="26" rx="5" fill="#EF4444" opacity=".8"/>
+
+          <!-- YELLOW box -->
+          <rect x="109" y="30" width="82" height="110" rx="10" fill="#FEF9C3" stroke="#FBBF24" stroke-width="2.5"/>
+          <text x="150" y="24" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#D97706">YELLOW</text>
+          <polygon points="150,52 154,64 167,64 157,71 161,83 150,76 139,83 143,71 133,64 146,64" fill="#FBBF24"/>
+          <rect x="128" y="91" width="26" height="26" rx="5" fill="#F59E0B" opacity=".9"/>
+          <circle cx="165" cy="105" r="13" fill="#D97706" opacity=".85"/>
+
+          <!-- BLUE box -->
+          <rect x="208" y="30" width="82" height="110" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2.5"/>
+          <text x="249" y="24" text-anchor="middle" font-family="Quicksand" font-weight="700" font-size="9" fill="#1D4ED8">BLUE</text>
+          <polygon points="249,50 263,75 235,75" fill="#3B82F6"/>
+          <rect x="226" y="83" width="26" height="26" rx="5" fill="#2563EB" opacity=".9"/>
+          <circle cx="265" cy="98" r="13" fill="#1D4ED8" opacity=".85"/>
+
+          <!-- Confetti stars around -->
+          <polygon points="20,160 22,167 29,167 24,171 26,178 20,174 14,178 16,171 11,167 18,167" fill="#EC4899" opacity=".85"/>
+          <polygon points="155,155 157,162 164,162 159,166 161,173 155,169 149,173 151,166 146,162 153,162" fill="#FBBF24" opacity=".85"/>
+          <polygon points="275,155 277,162 284,162 279,166 281,173 275,169 269,173 271,166 266,162 273,162" fill="#3B82F6" opacity=".85"/>
+          <circle cx="90" cy="165" r="6" fill="#10B981" opacity=".7"/>
+          <circle cx="220" cy="168" r="5" fill="#8B5CF6" opacity=".7"/>
+          <polygon points="50,185 52,191 58,191 53,195 55,201 50,197 45,201 47,195 42,191 48,191" fill="#FBBF24" opacity=".8"/>
+          <polygon points="250,180 252,186 258,186 253,190 255,196 250,192 245,196 247,190 242,186 248,186" fill="#EF4444" opacity=".8"/>
+
+          <!-- Mia celebrating, arms raised -->
+          <circle cx="150" cy="230" r="22" fill="#FBBF24"/>
+          <circle cx="135" cy="213" r="13" fill="#92400E"/>
+          <circle cx="165" cy="213" r="13" fill="#92400E"/>
+          <circle cx="142" cy="228" r="4" fill="#1C1917"/>
+          <circle cx="158" cy="228" r="4" fill="#1C1917"/>
+          <path d="M140 240 Q150 248 160 240" stroke="#1C1917" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="150" cy="265" rx="20" ry="14" fill="#EC4899"/>
+          <!-- Arms raised high -->
+          <line x1="130" y1="255" x2="108" y2="228" stroke="#FBBF24" stroke-width="6" stroke-linecap="round"/>
+          <line x1="170" y1="255" x2="192" y2="228" stroke="#FBBF24" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="108" cy="228" r="9" fill="#FBBF24"/>
+          <circle cx="192" cy="228" r="9" fill="#FBBF24"/>
+        </svg>
+        <div class="illus-caption">Sorting makes everything tidy!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 6 · Well Done!</div>
+        <div class="story-text">
+          Mia looked at her beautifully sorted toy box. Everything was in the right group.<br><br>
+          "Sorting helps us find things easily!" said Mia.<br><br>
+          "I can count my red things, my <strong>yellow</strong> things, and my <strong>blue</strong> things separately now!"
+        </div>
+        <div class="character-speech">
+          I did it! Sorting is so fun and useful! Now everything has a place!
+        </div>
+
+        <div style="background:var(--pink-light);border:2px solid #F9A8D4;border-radius:16px;padding:14px 16px;">
+          <div style="font-family:'Quicksand';font-weight:700;color:var(--pink-dark);margin-bottom:8px;">🎯 Sorting Challenge!</div>
+          <div style="font-size:.95rem;color:var(--text-mid);line-height:1.6;">Look around your room. Find <strong>5 things</strong> and sort them by colour. How many groups do you have?</div>
+        </div>
+
+        <div class="think-box" id="think-page6">
+          <div class="think-box-head">
+            <span class="math-callout-icon">🤔</span>
+            <span class="think-box-title">Think About It!</span>
+          </div>
+          <p style="font-size:.95rem;color:var(--text-mid);">You have a red ball, blue sock, and red apple. The red group has...</p>
+          <div class="think-options">
+            <button class="think-btn" onclick="checkAnswer('think-page6',this,'correct','Yes! The red ball AND the red apple — that\'s 2 red things!')">2 things</button>
+            <button class="think-btn" onclick="checkAnswer('think-page6',this,'wrong','The blue sock goes in the blue group, not the red group!')">3 things</button>
+          </div>
+          <div class="think-result" id="think-page6-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PAGE 7 – THE END / BADGE
+    ══════════════════════════════════════════ -->
+    <div class="book-page" id="page-7">
+      <div class="illustration" style="background:linear-gradient(135deg,#FDF2F8,#FCE7F3);">
+        <div class="page-num-illus">Page 7</div>
+        <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;">
+          <rect width="300" height="280" fill="none"/>
+          <!-- Rainbow arcs (sorting colours!) -->
+          <path d="M30,200 Q150,60 270,200" stroke="#EF4444" stroke-width="12" fill="none" opacity=".85"/>
+          <path d="M42,208 Q150,78 258,208" stroke="#F97316" stroke-width="12" fill="none" opacity=".85"/>
+          <path d="M54,216 Q150,96 246,216" stroke="#FBBF24" stroke-width="12" fill="none" opacity=".85"/>
+          <path d="M66,224 Q150,114 234,224" stroke="#10B981" stroke-width="12" fill="none" opacity=".85"/>
+          <path d="M78,232 Q150,130 222,232" stroke="#3B82F6" stroke-width="12" fill="none" opacity=".85"/>
+          <path d="M90,240 Q150,148 210,240" stroke="#8B5CF6" stroke-width="12" fill="none" opacity=".85"/>
+          <path d="M102,248 Q150,162 198,248" stroke="#EC4899" stroke-width="12" fill="none" opacity=".85"/>
+          <!-- Star sparkles -->
+          <polygon points="60,60 63,72 75,72 65,79 69,91 60,84 51,91 55,79 45,72 57,72" fill="#FBBF24"/>
+          <polygon points="240,50 243,62 255,62 245,69 249,81 240,74 231,81 235,69 225,62 237,62" fill="#EC4899"/>
+          <polygon points="150,25 153,35 163,35 155,41 158,51 150,45 142,51 145,41 137,35 147,35" fill="#3B82F6"/>
+          <circle cx="30" cy="100" r="8" fill="#10B981" opacity=".7"/>
+          <circle cx="270" cy="110" r="8" fill="#EF4444" opacity=".7"/>
+          <!-- Mia at bottom with big smile -->
+          <circle cx="150" cy="248" r="24" fill="#FBBF24"/>
+          <circle cx="134" cy="230" r="14" fill="#92400E"/>
+          <circle cx="166" cy="230" r="14" fill="#92400E"/>
+          <!-- Hair bows -->
+          <ellipse cx="134" cy="218" rx="10" ry="6" fill="#EC4899"/>
+          <ellipse cx="166" cy="218" rx="10" ry="6" fill="#EC4899"/>
+          <circle cx="134" cy="218" r="4" fill="#BE185D"/>
+          <circle cx="166" cy="218" r="4" fill="#BE185D"/>
+          <circle cx="142" cy="246" r="4.5" fill="#1C1917"/>
+          <circle cx="158" cy="246" r="4.5" fill="#1C1917"/>
+          <!-- Big smile -->
+          <path d="M140 258 Q150 268 160 258" stroke="#1C1917" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="illus-caption">Mia is a Colour Sorting Star!</div>
+      </div>
+
+      <div class="story-panel">
+        <div class="page-num-text">Page 7 · The End</div>
+        <div class="story-text">
+          Mia smiled at her beautifully sorted groups.<br><br>
+          She had learned that <strong>sorting by colour</strong> means putting all the same-coloured things together.<br><br>
+          <em>"Now I can sort anything!"</em> cheered Mia. <strong>"Red with red, yellow with yellow, blue with blue!"</strong>
+        </div>
+        <div class="character-speech">
+          I am a colour sorting star! I can sort any colours I see!
+        </div>
+        <div class="math-callout pink-callout">
+          <div class="math-callout-head">
+            <span class="math-callout-icon">🌈</span>
+            <span class="math-callout-title">What Mia Learned!</span>
+          </div>
+          <p><strong>Sorting by colour</strong> means putting things of the same colour into one group. Red things together, yellow things together, blue things together!</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin:6px 0;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--text-mid);">
+            <span style="width:14px;height:14px;border-radius:50%;background:#EF4444;display:inline-block;flex-shrink:0;"></span>Red things go in the red group
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--text-mid);">
+            <span style="width:14px;height:14px;border-radius:50%;background:#FBBF24;display:inline-block;flex-shrink:0;"></span>Yellow things go in the yellow group
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--text-mid);">
+            <span style="width:14px;height:14px;border-radius:50%;background:#3B82F6;display:inline-block;flex-shrink:0;"></span>Blue things go in the blue group
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END SCREEN (shown after page 7) -->
+    <div class="end-card-wrap" id="endWrap">
+      <div class="end-card">
+        <div class="end-emoji-row">🎉🌈⭐</div>
+        <div class="end-title">You're a Sorting Star! ⭐</div>
+        <div class="end-msg">Amazing! You helped Mia sort all her toys by colour. Now you know that sorting means putting the SAME things together!</div>
+        <div>
+          <button class="end-btn" onclick="restartBook()">🔁 Read Again</button>
+          <a class="end-btn end-btn-out" href="../index.html#books">📚 More Books</a>
+        </div>
+      </div>
+      <div class="badge-earned">
+        <div class="badge-icon">🌈</div>
+        <div class="badge-text-wrap">
+          <div class="badge-text-title">Colour Sorter Badge</div>
+          <div class="badge-text-sub">Cambridge EY · Sorting by Colour</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /open-book -->
+  </div><!-- /book-scene -->
+
+  <!-- NAVIGATION BAR -->
+  <div class="nav-bar" id="navBar">
+    <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← Previous</button>
+    <div class="page-dots" id="pageDots"></div>
+    <button id="narBtn" class="nav-btn" onclick="speakPage()" title="Read this page aloud">🔊 Listen</button>
+    <button class="nav-btn nav-btn-next" id="nextBtn" onclick="changePage(1)">Next →</button>
+  </div>
+
+</div><!-- /reader-wrap -->
+
+<script>
+const TOTAL_PAGES = 7;
+let currentPage = 1;
+let _flipping = false;
+
+function buildDots() {
+  const wrap = document.getElementById('pageDots');
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_PAGES; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Page ' + i;
+    d.onclick = () => goToPage(i);
+    wrap.appendChild(d);
+  }
+}
+
+function goToPage(n) {
+  if (_flipping || n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+  const dir = n > currentPage ? 1 : -1;
+  _flipping = true;
+
+  const book = document.getElementById('openBook');
+  if (book && window.innerWidth > 768) {
+    const skin = document.createElement('div');
+    skin.className = 'pg-flip ' + (dir > 0 ? 'pg-flip-fwd' : 'pg-flip-back');
+    book.appendChild(skin);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      skin.style.transform = dir > 0 ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+    setTimeout(() => skin.remove(), 640);
+  }
+
+  setTimeout(() => {
+    document.getElementById('page-' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page-' + currentPage).classList.add('active');
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    _flipping = false;
+  }, book && window.innerWidth > 768 ? 310 : 0);
+}
+
+function changePage(dir) {
+  goToPage(currentPage + dir);
+}
+
+function updateUI() {
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pageIndicator').textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+
+  document.getElementById('prevBtn').disabled = currentPage === 1;
+  const nextBtn = document.getElementById('nextBtn');
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = 'Finish ✓';
+    nextBtn.onclick = finishBook;
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = () => changePage(1);
+  }
+
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i + 1 === currentPage);
+    d.classList.toggle('read', i + 1 < currentPage);
+  });
+}
+
+function finishBook() {
+  localStorage.setItem('mm_book_mias-colour-sort', '1');
+  try {
+    const badges = JSON.parse(localStorage.getItem('mm_badges') || '{}');
+    badges['colour-sorter'] = { name: 'Colour Sorter Badge', earned: new Date().toISOString() };
+    localStorage.setItem('mm_badges', JSON.stringify(badges));
+  } catch(e) {}
+  document.getElementById('page-' + currentPage).classList.remove('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('endWrap').classList.add('show');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartBook() {
+  document.getElementById('endWrap').classList.remove('show');
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  document.getElementById('page-1').classList.add('active');
+  updateUI();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(id, btn, verdict, msg) {
+  const box = document.getElementById(id);
+  if (box.dataset.answered) return;
+  box.dataset.answered = '1';
+
+  const btns = box.querySelectorAll('.think-btn');
+  btns.forEach(b => b.disabled = true);
+  btn.classList.add(verdict === 'correct' ? 'correct' : 'wrong');
+
+  const result = document.getElementById(id + '-result');
+  result.className = 'think-result show ' + (verdict === 'correct' ? 'ok' : 'no');
+  result.textContent = (verdict === 'correct' ? '✓ ' : '✗ ') + msg;
+}
+
+buildDots();
+updateUI();
+(function(){ const p = parseInt(new URLSearchParams(location.search).get('p')); if (p > 1 && p <= TOTAL_PAGES) goToPage(p); })();
+
+// ── AUDIO NARRATION (Web Speech API) ──
+var _nar = false;
+function speakPage() {
+  if (!window.speechSynthesis) { alert('Audio narration is not supported in this browser.'); return; }
+  if (_nar) { speechSynthesis.cancel(); _nar = false; _narUpd(); return; }
+  var pg = document.querySelector('.book-page.active');
+  if (!pg) return;
+  var els = pg.querySelectorAll('.story-text,.cover-title,.cover-subtitle,.challenge-text,.page-hook');
+  var txt = Array.from(els).map(function(e){ return e.innerText.trim(); }).filter(Boolean).join('. ');
+  if (!txt) txt = pg.innerText.trim().slice(0, 700);
+  var u = new SpeechSynthesisUtterance(txt);
+  u.rate = 0.88; u.pitch = 1.05; u.lang = 'en-GB';
+  var vv = speechSynthesis.getVoices();
+  var nv = vv.find(function(v){ return /samantha|karen|moira|victoria|daniel|google uk/i.test(v.name); });
+  if (nv) u.voice = nv;
+  u.onend = u.onerror = function(){ _nar = false; _narUpd(); };
+  speechSynthesis.speak(u);
+  _nar = true; _narUpd();
+}
+function _narUpd() {
+  var b = document.getElementById('narBtn'); if (!b) return;
+  b.textContent = _nar ? '⏹ Stop' : '🔊 Listen';
+  b.style.background = _nar ? '#EF4444' : '';
+  b.style.color       = _nar ? 'white'   : '';
+  b.style.borderColor = _nar ? '#EF4444' : '';
+}
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    if (m.attributeName==='class' && !(m.oldValue||'').includes('active') && m.target.classList.contains('active') && m.target.classList.contains('book-page')) {
+      if (_nar) { speechSynthesis.cancel(); _nar=false; _narUpd(); }
+    }
+  });
+}).observe(document.body,{subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class']});
+</script>
+<script src="../js/mathmunch.js"></script>
+</body>
+</html>
