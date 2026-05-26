@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard – MathMunch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+  <script src="js/avatar.js"></script>
+  <style>
+    :root {
+      --blue:        #3B82F6;
+      --blue-dark:   #1D4ED8;
+      --blue-light:  #EFF6FF;
+      --blue-mid:    #BFDBFE;
+      --green:       #10B981;
+      --green-dark:  #059669;
+      --green-light: #ECFDF5;
+      --yellow:      #FBBF24;
+      --yellow-dark: #D97706;
+      --orange:      #F97316;
+      --orange-dark: #C2410C;
+      --orange-light:#FFF7ED;
+      --purple:      #8B5CF6;
+      --purple-dark: #6D28D9;
+      --purple-light:#F5F3FF;
+      --red:         #EF4444;
+      --bg:          #F8FAFC;
+      --white:       #FFFFFF;
+      --surface:     #F2F4F6;
+      --outline:     #E2E8F0;
+      --text:        #191C1E;
+      --text-mid:    #424754;
+      --text-soft:   #727785;
+      --radius-card: 24px;
+      --radius-sm:   12px;
+      --shadow-card: 0 2px 0 rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+      --gold:        #F59E0B;
+      --gold-light:  #FEF3C7;
+      --gold-dark:   #B45309;
+      --silver:      #94A3B8;
+      --silver-light:#F1F5F9;
+      --silver-dark: #475569;
+      --bronze:      #D97706;
+      --bronze-light:#FED7AA;
+      --bronze-dark: #92400E;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lexend', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, .logo-text {
+      font-family: 'Quicksand', system-ui, sans-serif;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--white);
+      border-bottom: 2px solid var(--outline);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; font-family: 'Quicksand', sans-serif;
+      font-weight: 700; font-size: 1.3rem; color: var(--text);
+      flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--orange), #FBBF24);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; box-shadow: 0 2px 0 var(--orange-dark);
+    }
+    nav { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
+    nav a {
+      padding: 8px 14px; border-radius: 9999px;
+      font-size: .93rem; font-weight: 600;
+      color: var(--text-mid); text-decoration: none;
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    nav a:hover { background: var(--blue-light); color: var(--blue); }
+    nav a.active { background: var(--blue-light); color: var(--blue); }
+    .header-actions { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 10px 20px; border-radius: 9999px;
+      font-family: 'Lexend', sans-serif; font-size: .875rem; font-weight: 600;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform .1s, box-shadow .1s;
+    }
+    .btn-outline {
+      background: transparent; color: var(--text); border: 2px solid var(--outline);
+    }
+    .btn-outline:hover { background: var(--surface); }
+
+    /* ── MAIN ── */
+    .main { max-width: 860px; margin: 0 auto; padding: 40px 24px 120px; }
+
+    /* ── HERO ── */
+    .lb-hero {
+      background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 50%, #06B6D4 100%);
+      border-radius: var(--radius-card);
+      padding: 40px 48px;
+      text-align: center;
+      color: white;
+      margin-bottom: 32px;
+      position: relative; overflow: hidden;
+    }
+    .lb-hero::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: rgba(255,255,255,0.07); border-radius: 50%;
+    }
+    .lb-hero::after {
+      content: '';
+      position: absolute; bottom: -80px; left: -40px;
+      width: 180px; height: 180px;
+      background: rgba(255,255,255,0.05); border-radius: 50%;
+    }
+    .lb-hero-trophy { font-size: 3.5rem; margin-bottom: 8px; line-height: 1; position: relative; z-index: 1; }
+    .lb-hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 6px; position: relative; z-index: 1; }
+    .lb-hero p { opacity: .85; font-size: .95rem; position: relative; z-index: 1; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; margin-bottom: 36px; flex-wrap: wrap;
+    }
+    .filter-group {
+      display: flex; background: var(--white); border: 2px solid var(--outline);
+      border-radius: 9999px; padding: 4px; gap: 2px;
+    }
+    .filter-btn {
+      padding: 7px 18px; border-radius: 9999px;
+      font-family: 'Lexend', sans-serif; font-size: .875rem; font-weight: 600;
+      cursor: pointer; border: none; background: transparent; color: var(--text-mid);
+      transition: background .15s, color .15s;
+    }
+    .filter-btn:hover { background: var(--blue-light); color: var(--blue); }
+    .filter-btn.active { background: var(--blue); color: white; }
+
+    /* ── PODIUM ── */
+    .podium-section { margin-bottom: 40px; }
+    .podium-places {
+      display: flex; align-items: flex-end; justify-content: center; gap: 12px;
+    }
+    .podium-place {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px; flex: 1; max-width: 210px;
+    }
+    .podium-place.rank-1 { order: 2; }
+    .podium-place.rank-2 { order: 1; }
+    .podium-place.rank-3 { order: 3; }
+
+    .podium-avatar-ring {
+      border-radius: 50%; overflow: hidden;
+      position: relative;
+    }
+    .podium-medal {
+      position: absolute; bottom: -2px; right: -2px;
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; border: 2px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,.18);
+    }
+    .podium-name {
+      font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: .9rem;
+      text-align: center; max-width: 100%;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .podium-metric { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 1.35rem; }
+    .podium-metric-label { font-size: .72rem; color: var(--text-soft); margin-top: -4px; }
+
+    .podium-block {
+      width: 100%; border-radius: 16px 16px 0 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 1.6rem;
+      border: 3px solid; border-bottom: none;
+    }
+    .podium-place.rank-1 .podium-block {
+      height: 96px;
+      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+      border-color: var(--gold); color: var(--gold-dark);
+    }
+    .podium-place.rank-2 .podium-block {
+      height: 68px;
+      background: linear-gradient(135deg, #F1F5F9, #E2E8F0);
+      border-color: var(--silver); color: var(--silver-dark);
+    }
+    .podium-place.rank-3 .podium-block {
+      height: 50px;
+      background: linear-gradient(135deg, #FEF3C7, #FED7AA);
+      border-color: var(--bronze); color: var(--bronze-dark);
+    }
+    .podium-place.rank-1 .podium-avatar-ring { box-shadow: 0 0 0 4px var(--gold), 0 6px 20px rgba(245,158,11,.4); }
+    .podium-place.rank-2 .podium-avatar-ring { box-shadow: 0 0 0 4px var(--silver), 0 4px 14px rgba(148,163,184,.3); }
+    .podium-place.rank-3 .podium-avatar-ring { box-shadow: 0 0 0 4px var(--bronze), 0 4px 14px rgba(217,119,6,.3); }
+    .podium-place.rank-1 .podium-metric { color: var(--gold-dark); }
+    .podium-place.rank-2 .podium-metric { color: var(--silver-dark); }
+    .podium-place.rank-3 .podium-metric { color: var(--bronze-dark); }
+
+    /* ── YOU BADGE ── */
+    .you-badge {
+      display: inline-block; padding: 1px 7px; border-radius: 999px;
+      background: var(--blue); color: white;
+      font-size: .6rem; font-weight: 700; letter-spacing: .04em;
+      vertical-align: middle; margin-left: 4px;
+      font-family: 'Lexend', sans-serif;
+    }
+
+    /* ── LEADERBOARD TABLE ── */
+    .lb-card {
+      background: var(--white); border-radius: var(--radius-card);
+      border: 2px solid var(--outline); box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .lb-card-header {
+      padding: 18px 24px; border-bottom: 2px solid var(--outline);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .lb-card-header h2 { font-size: 1.05rem; font-weight: 700; }
+    .lb-player-count { font-size: .82rem; color: var(--text-soft); }
+
+    .lb-col-labels {
+      display: grid;
+      grid-template-columns: 52px 1fr 90px 64px 60px 68px;
+      gap: 8px; align-items: center;
+      padding: 10px 20px;
+      border-bottom: 2px solid var(--outline);
+      font-size: .68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--text-soft);
+    }
+    .lb-col-labels .active-col { color: var(--blue); }
+
+    .lb-row {
+      display: grid;
+      grid-template-columns: 52px 1fr 90px 64px 60px 68px;
+      gap: 8px; align-items: center;
+      padding: 11px 20px;
+      border-bottom: 1px solid var(--outline);
+      transition: background .12s;
+    }
+    .lb-row:last-child { border-bottom: none; }
+    .lb-row:not(.me):hover { background: var(--bg); }
+
+    .lb-row.me {
+      background: linear-gradient(90deg, var(--blue-light), var(--purple-light));
+      border-left: 4px solid var(--blue);
+      padding-left: 16px;
+    }
+    .lb-row.me .lb-rank { color: var(--blue); }
+
+    .lb-rank {
+      font-family: 'Quicksand', sans-serif; font-weight: 700;
+      font-size: 1rem; text-align: center; color: var(--text-soft);
+    }
+    .lb-rank.top3 { font-size: 1.4rem; }
+
+    .lb-player { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .lb-avatar-wrap { border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+    .lb-player-info { min-width: 0; }
+    .lb-player-name {
+      font-weight: 600; font-size: .88rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .lb-player-sub { font-size: .7rem; color: var(--text-soft); }
+
+    .lb-score {
+      font-family: 'Quicksand', sans-serif; font-weight: 700;
+      font-size: 1rem; text-align: right;
+    }
+    .lb-score.active-col { color: var(--blue); }
+    .lb-games { font-size: .82rem; color: var(--text-mid); text-align: center; }
+    .lb-books { font-size: .82rem; color: var(--text-mid); text-align: center; }
+    .lb-streak {
+      display: flex; align-items: center; justify-content: center; gap: 3px;
+      font-size: .8rem; font-weight: 600; color: var(--text-mid);
+    }
+    .lb-streak.hot { color: #C2410C; }
+
+    /* ── RANK PIN ── */
+    .rank-pin {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color: white; border-radius: 9999px;
+      padding: 12px 20px 12px 14px;
+      display: none; align-items: center; gap: 12px;
+      box-shadow: 0 8px 32px rgba(59,130,246,.45), 0 2px 0 rgba(0,0,0,.15);
+      z-index: 200; max-width: calc(100vw - 32px);
+      animation: pinIn .3s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes pinIn {
+      from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+      to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
+    }
+    .pin-avatar { border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+    .pin-rank { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 1rem; }
+    .pin-sub  { font-size: .72rem; opacity: .85; }
+    .pin-jump {
+      margin-left: 4px; padding: 5px 14px; border-radius: 9999px;
+      background: rgba(255,255,255,.2); border: 1.5px solid rgba(255,255,255,.4);
+      font-size: .75rem; font-weight: 700; cursor: pointer; color: white;
+      font-family: 'Lexend', sans-serif; white-space: nowrap;
+      transition: background .15s;
+    }
+    .pin-jump:hover { background: rgba(255,255,255,.35); }
+
+    /* ── SECTION DIVIDER ── */
+    .lb-divider {
+      padding: 8px 20px; background: var(--surface);
+      font-size: .72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--text-soft); border-bottom: 1px solid var(--outline);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 56px 24px; color: var(--text-soft); }
+    .empty-state .big { font-size: 3rem; display: block; margin-bottom: 10px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .lb-col-labels, .lb-row {
+        grid-template-columns: 40px 1fr 76px 52px;
+      }
+      .lb-col-labels .col-books,
+      .lb-col-labels .col-streak,
+      .lb-row .lb-books,
+      .lb-row .lb-streak { display: none; }
+      .header-inner { padding: 0 16px; }
+      nav { display: none; }
+      .main { padding: 20px 12px 120px; }
+      .filter-bar { flex-direction: column; align-items: stretch; gap: 10px; }
+      .filter-group { justify-content: center; }
+      .lb-hero { padding: 28px 24px; }
+      .lb-hero h1 { font-size: 1.6rem; }
+      .podium-name { font-size: .82rem; }
+    }
+
+    @media (max-width: 480px) {
+      .podium-metric { font-size: 1.1rem; }
+      .lb-hero-trophy { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  if (!localStorage.getItem('mm_user')) {
+    sessionStorage.setItem('mm_redir', location.href);
+    location.replace('login.html');
+  }
+</script>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🍕</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav>
+      <a href="index.html">🏠 Home</a>
+      <a href="index.html#games">🎮 Games</a>
+      <a href="books.html">📚 Books</a>
+      <a href="curriculum-map.html">📋 Curriculum</a>
+      <a href="dashboard.html">📊 My Journey</a>
+      <a href="leaderboard.html" class="active">🏆 Leaderboard</a>
+      <a href="teacher.html" id="navTeacher" style="display:none;">🏫 Class Dashboard</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn btn-outline" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+</header>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="lb-hero">
+    <div class="lb-hero-trophy">🏆</div>
+    <h1>Leaderboard</h1>
+    <p>Compete with classmates — climb the ranks, earn your crown!</p>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <div class="filter-group" id="periodFilters">
+      <button class="filter-btn active" data-period="weekly">Weekly</button>
+      <button class="filter-btn" data-period="monthly">Monthly</button>
+      <button class="filter-btn" data-period="alltime">All Time</button>
+    </div>
+    <div class="filter-group" id="catFilters">
+      <button class="filter-btn active" data-cat="overall">⭐ Overall</button>
+      <button class="filter-btn" data-cat="games">🎮 Games</button>
+      <button class="filter-btn" data-cat="books">📚 Books</button>
+    </div>
+  </div>
+
+  <!-- PODIUM -->
+  <div class="podium-section">
+    <div class="podium-places" id="podium"></div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="lb-card">
+    <div class="lb-card-header">
+      <h2>Full Rankings</h2>
+      <span class="lb-player-count" id="playerCount"></span>
+    </div>
+    <div class="lb-col-labels" id="colLabels">
+      <div style="text-align:center;">#</div>
+      <div>Player</div>
+      <div id="colScore" style="text-align:right;">Score</div>
+      <div id="colGames" style="text-align:center;">Games</div>
+      <div id="colBooks" class="col-books" style="text-align:center;">Books</div>
+      <div class="col-streak" style="text-align:center;">Streak</div>
+    </div>
+    <div id="lbTable"></div>
+  </div>
+
+</main>
+
+<!-- RANK PIN (sticky bottom) -->
+<div class="rank-pin" id="rankPin">
+  <div class="pin-avatar" id="pinAvatar"></div>
+  <div>
+    <div class="pin-rank" id="pinRank"></div>
+    <div class="pin-sub"  id="pinSub"></div>
+  </div>
+  <button class="pin-jump" onclick="scrollToMe()">See my rank ↑</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   DEMO CLASSMATE DATA
+═══════════════════════════════════════════════════════════════ */
+const DEMO = [
+  {
+    id: 'd1', name: 'Aria Chen',
+    avatar: { type: 'cat',      colour: 2, accessory: 3, bg: 4 },
+    weekly:  { score: 480,  games: 14, books: 3,  streak: 7  },
+    monthly: { score: 1950, games: 52, books: 9,  streak: 14 },
+    alltime: { score: 6200, games: 148, books: 18, streak: 21 },
+  },
+  {
+    id: 'd2', name: 'Marcus Webb',
+    avatar: { type: 'robot',    colour: 0, accessory: 0, bg: 1 },
+    weekly:  { score: 410,  games: 11, books: 2,  streak: 5  },
+    monthly: { score: 1620, games: 43, books: 7,  streak: 11 },
+    alltime: { score: 5100, games: 120, books: 14, streak: 18 },
+  },
+  {
+    id: 'd3', name: 'Sofia Patel',
+    avatar: { type: 'fox',      colour: 1, accessory: 5, bg: 0 },
+    weekly:  { score: 390,  games: 10, books: 4,  streak: 6  },
+    monthly: { score: 1480, games: 38, books: 11, streak: 9  },
+    alltime: { score: 4800, games: 108, books: 20, streak: 15 },
+  },
+  {
+    id: 'd4', name: 'Jake Torres',
+    avatar: { type: 'dragon',   colour: 0, accessory: 1, bg: 2 },
+    weekly:  { score: 350,  games: 9,  books: 1,  streak: 4  },
+    monthly: { score: 1320, games: 35, books: 5,  streak: 8  },
+    alltime: { score: 4200, games: 96, books: 11, streak: 12 },
+  },
+  {
+    id: 'd5', name: 'Luna Kim',
+    avatar: { type: 'alien',    colour: 3, accessory: 0, bg: 5 },
+    weekly:  { score: 520,  games: 15, books: 2,  streak: 9  },
+    monthly: { score: 2100, games: 58, books: 6,  streak: 16 },
+    alltime: { score: 5800, games: 138, books: 13, streak: 24 },
+  },
+  {
+    id: 'd6', name: 'Oliver Brown',
+    avatar: { type: 'bear',     colour: 4, accessory: 2, bg: 3 },
+    weekly:  { score: 280,  games: 7,  books: 2,  streak: 3  },
+    monthly: { score: 1050, games: 28, books: 7,  streak: 6  },
+    alltime: { score: 3600, games: 82, books: 16, streak: 9  },
+  },
+  {
+    id: 'd7', name: 'Mia Johnson',
+    avatar: { type: 'explorer', colour: 1, accessory: 4, bg: 7 },
+    weekly:  { score: 440,  games: 12, books: 5,  streak: 8  },
+    monthly: { score: 1780, games: 46, books: 13, streak: 13 },
+    alltime: { score: 5500, games: 132, books: 22, streak: 19 },
+  },
+  {
+    id: 'd8', name: 'Ethan Gomez',
+    avatar: { type: 'wizard',   colour: 0, accessory: 4, bg: 6 },
+    weekly:  { score: 320,  games: 8,  books: 3,  streak: 5  },
+    monthly: { score: 1200, games: 32, books: 8,  streak: 7  },
+    alltime: { score: 3900, games: 89, books: 17, streak: 11 },
+  },
+  {
+    id: 'd9', name: 'Zara Nguyen',
+    avatar: { type: 'cat',      colour: 5, accessory: 0, bg: 1 },
+    weekly:  { score: 550,  games: 16, books: 3,  streak: 10 },
+    monthly: { score: 2250, games: 62, books: 8,  streak: 18 },
+    alltime: { score: 6800, games: 162, books: 16, streak: 26 },
+  },
+  {
+    id: 'd10', name: 'Liam Davis',
+    avatar: { type: 'bear',     colour: 2, accessory: 5, bg: 0 },
+    weekly:  { score: 240,  games: 6,  books: 1,  streak: 2  },
+    monthly: { score: 920,  games: 24, books: 4,  streak: 5  },
+    alltime: { score: 3100, games: 70, books: 9,  streak: 7  },
+  },
+  {
+    id: 'd11', name: 'Chloe Park',
+    avatar: { type: 'fox',      colour: 3, accessory: 3, bg: 2 },
+    weekly:  { score: 460,  games: 13, books: 4,  streak: 7  },
+    monthly: { score: 1840, games: 48, books: 10, streak: 12 },
+    alltime: { score: 5400, games: 124, books: 19, streak: 17 },
+  },
+  {
+    id: 'd12', name: 'Noah Wilson',
+    avatar: { type: 'robot',    colour: 1, accessory: 1, bg: 4 },
+    weekly:  { score: 300,  games: 8,  books: 2,  streak: 4  },
+    monthly: { score: 1140, games: 30, books: 6,  streak: 8  },
+    alltime: { score: 3700, games: 84, books: 12, streak: 10 },
+  },
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   CURRENT USER
+═══════════════════════════════════════════════════════════════ */
+const _user = JSON.parse(localStorage.getItem('mm_user') || '{}');
+const _prog = JSON.parse(localStorage.getItem('mm_progress') || '{}');
+const _booksRead = _prog.books
+  ? Object.values(_prog.books).filter(b => b.completed).length
+  : 0;
+
+const ME = {
+  id: 'me',
+  name: _user.name || 'You',
+  avatar: _user.avatar || { type: 'bear', colour: 0, accessory: 0, bg: 0 },
+  weekly:  { score: _prog.totalScore || 0, games: _prog.gamesPlayed || 0, books: _booksRead, streak: _prog.streak || 0 },
+  monthly: { score: _prog.totalScore || 0, games: _prog.gamesPlayed || 0, books: _booksRead, streak: _prog.streak || 0 },
+  alltime: { score: _prog.totalScore || 0, games: _prog.gamesPlayed || 0, books: _booksRead, streak: _prog.streak || 0 },
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════════ */
+let period   = 'weekly';
+let category = 'overall';
+
+/* ═══════════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════════ */
+function getMetric(entry) {
+  const p = entry[period];
+  if (category === 'games') return p.games;
+  if (category === 'books') return p.books;
+  return p.score;
+}
+
+function metricLabel() {
+  if (category === 'games') return 'Games';
+  if (category === 'books') return 'Books';
+  return 'Score';
+}
+
+function fmt(n) {
+  if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return String(n);
+}
+
+function rankMedal(r) {
+  if (r === 1) return '🥇';
+  if (r === 2) return '🥈';
+  if (r === 3) return '🥉';
+  return '#' + r;
+}
+
+function streakLabel(s) {
+  if (s >= 14) return '🔥 Blazing!';
+  if (s >= 7)  return '🔥 On fire!';
+  if (s >= 3)  return `${s}d streak`;
+  return s > 0 ? `${s}d` : '—';
+}
+
+function getSorted() {
+  return [...DEMO, ME].sort((a, b) => getMetric(b) - getMetric(a));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER — PODIUM
+═══════════════════════════════════════════════════════════════ */
+function renderPodium(sorted) {
+  const el = document.getElementById('podium');
+  const top3 = sorted.slice(0, 3);
+
+  const configs = [
+    { entry: top3[1], rank: 2, size: 76 },
+    { entry: top3[0], rank: 1, size: 92 },
+    { entry: top3[2], rank: 3, size: 68 },
+  ].filter(c => c.entry);
+
+  const medalBg = { 1: '#F59E0B', 2: '#94A3B8', 3: '#D97706' };
+  const label = metricLabel();
+
+  el.innerHTML = configs.map(({ entry, rank, size }) => {
+    const isMe = entry.id === 'me';
+    const val  = getMetric(entry);
+    return `
+      <div class="podium-place rank-${rank}">
+        <div class="podium-avatar-ring" style="width:${size}px;height:${size}px;position:relative;">
+          ${buildAvatarSVG(entry.avatar, size)}
+          <div class="podium-medal" style="background:${medalBg[rank]};">${rankMedal(rank)}</div>
+        </div>
+        <div class="podium-name">${entry.name}${isMe ? '<span class="you-badge">YOU</span>' : ''}</div>
+        <div class="podium-metric">${fmt(val)}</div>
+        <div class="podium-metric-label">${label}</div>
+        <div class="podium-block">${rank}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER — TABLE
+═══════════════════════════════════════════════════════════════ */
+function renderTable(sorted) {
+  const table     = document.getElementById('lbTable');
+  const myRank    = sorted.findIndex(e => e.id === 'me') + 1;
+  const label     = metricLabel();
+
+  document.getElementById('playerCount').textContent = `${sorted.length} players`;
+
+  // Highlight active column header
+  document.getElementById('colScore').className = category === 'overall' ? 'active-col' : '';
+  document.getElementById('colGames').className = category === 'games'   ? 'active-col' : '';
+  document.getElementById('colBooks').className = (category === 'books'  ? 'active-col col-books' : 'col-books');
+
+  // Build rows; insert divider before #4 if top 3 all exist
+  let html = '';
+  sorted.forEach((entry, i) => {
+    const rank = i + 1;
+    const isMe = entry.id === 'me';
+    const p    = entry[period];
+    const val  = getMetric(entry);
+    const isHot = p.streak >= 7;
+
+    if (rank === 4 && sorted.length > 3) {
+      html += `<div class="lb-divider">Full Rankings</div>`;
+    }
+
+    html += `
+      <div class="lb-row${isMe ? ' me' : ''}" id="${isMe ? 'myRow' : ''}">
+        <div class="lb-rank${rank <= 3 ? ' top3' : ''}">${rankMedal(rank)}</div>
+        <div class="lb-player">
+          <div class="lb-avatar-wrap" style="width:42px;height:42px;box-shadow:0 0 0 2px var(--outline);">
+            ${buildAvatarSVG(entry.avatar, 42)}
+          </div>
+          <div class="lb-player-info">
+            <div class="lb-player-name">
+              ${entry.name}${isMe ? '<span class="you-badge">YOU</span>' : ''}
+            </div>
+            <div class="lb-player-sub">${streakLabel(p.streak)}</div>
+          </div>
+        </div>
+        <div class="lb-score${category === 'overall' ? ' active-col' : ''}">${fmt(val)}</div>
+        <div class="lb-games${category === 'games' ? ' active-col' : ''}">${p.games}</div>
+        <div class="lb-books${category === 'books' ? ' active-col' : ''}">${p.books}</div>
+        <div class="lb-streak${isHot ? ' hot' : ''}">🔥 ${p.streak}</div>
+      </div>`;
+  });
+
+  table.innerHTML = html;
+
+  // Rank pin
+  const pin = document.getElementById('rankPin');
+  if (myRank > 5) {
+    const me = sorted[myRank - 1];
+    document.getElementById('pinAvatar').innerHTML = buildAvatarSVG(me.avatar, 38);
+    document.getElementById('pinRank').textContent = `#${myRank} — ${me.name}`;
+    document.getElementById('pinSub').textContent  = `${fmt(getMetric(me))} ${label.toLowerCase()} this ${period === 'alltime' ? 'time' : period.replace('ly', '')}`;
+    pin.style.display = 'flex';
+  } else {
+    pin.style.display = 'none';
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER — FULL
+═══════════════════════════════════════════════════════════════ */
+function render() {
+  const sorted = getSorted();
+  renderPodium(sorted);
+  renderTable(sorted);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL TO MY ROW
+═══════════════════════════════════════════════════════════════ */
+function scrollToMe() {
+  const row = document.getElementById('myRow');
+  if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FILTER EVENTS
+═══════════════════════════════════════════════════════════════ */
+document.getElementById('periodFilters').addEventListener('click', e => {
+  const btn = e.target.closest('[data-period]');
+  if (!btn) return;
+  period = btn.dataset.period;
+  document.querySelectorAll('[data-period]').forEach(b =>
+    b.classList.toggle('active', b === btn));
+  render();
+});
+
+document.getElementById('catFilters').addEventListener('click', e => {
+  const btn = e.target.closest('[data-cat]');
+  if (!btn) return;
+  category = btn.dataset.cat;
+  document.querySelectorAll('[data-cat]').forEach(b =>
+    b.classList.toggle('active', b === btn));
+  render();
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+function signOut() {
+  localStorage.removeItem('mm_user');
+  location.replace('login.html');
+}
+
+if ((_user.role === 'teacher') || (_user.role === 'parent')) {
+  const t = document.getElementById('navTeacher');
+  if (t) t.style.display = '';
+}
+
+render();
+</script>
+</body>
+</html>

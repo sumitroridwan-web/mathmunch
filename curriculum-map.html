@@ -594,6 +594,7 @@
       <a href="books.html">📚 Books</a>
       <a href="curriculum-map.html" class="active">📋 Curriculum</a>
       <a href="dashboard.html" id="navJourney" style="display:none;">📊 My Journey</a>
+      <a href="leaderboard.html" id="navLeaderboard" style="display:none;">🏆 Leaderboard</a>
       <a href="teacher.html" id="navTeacher" style="display:none;">🏫 Class Dashboard</a>
     </nav>
     <div class="header-actions">
@@ -746,6 +747,8 @@
   if (!user) return;
   const nj = document.getElementById('navJourney');
   if (nj) nj.style.display = '';
+  const nl = document.getElementById('navLeaderboard');
+  if (nl) nl.style.display = '';
   if (user.role === 'teacher') {
     const nt = document.getElementById('navTeacher');
     if (nt) nt.style.display = '';

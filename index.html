@@ -1109,6 +1109,7 @@
       <a href="#books">📚 Books</a>
       <a href="curriculum-map.html">📋 Curriculum</a>
       <a href="dashboard.html" id="navJourney" style="display:none;">📊 My Journey</a>
+      <a href="leaderboard.html" id="navLeaderboard" style="display:none;">🏆 Leaderboard</a>
       <a href="teacher.html" id="navTeacher" style="display:none;">🏫 Class Dashboard</a>
     </nav>
 
@@ -3787,6 +3788,8 @@
     // Show My Journey nav link
     const navLink = document.getElementById('navJourney');
     if (navLink) navLink.style.display = '';
+    const navLb = document.getElementById('navLeaderboard');
+    if (navLb) navLb.style.display = '';
     // Show Class Dashboard link for teachers
     if (user.role === 'teacher') {
       const navTeacher = document.getElementById('navTeacher');
