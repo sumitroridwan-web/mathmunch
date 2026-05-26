@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+  <script src="js/avatar.js"></script>
   <style>
     :root {
       --blue:        #3B82F6;
@@ -134,12 +135,24 @@
       border-radius: 50%;
     }
     .avatar-wrap {
-      width: 80px; height: 80px; flex-shrink: 0;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%; border: 3px solid rgba(255,255,255,0.4);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.5rem;
+      position: relative; flex-shrink: 0;
+      width: 88px; height: 88px;
     }
+    .avatar-wrap svg {
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.5);
+      display: block;
+    }
+    .avatar-edit-btn {
+      position: absolute; bottom: 0; right: 0;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: white; border: 2px solid rgba(255,255,255,0.6);
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; cursor: pointer; color: #3B82F6;
+      transition: transform .15s; line-height: 1;
+    }
+    .avatar-edit-btn:hover { transform: scale(1.15); }
     .welcome-text { flex: 1; position: relative; z-index: 1; }
     .welcome-text h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
     .welcome-text p { opacity: .85; font-size: .95rem; }
@@ -378,6 +391,7 @@
       <a href="teacher.html" id="navTeacher" style="display:none;">🏫 Class Dashboard</a>
     </nav>
     <div class="header-actions">
+      <button class="btn btn-outline" style="padding:8px 14px;font-size:.85rem;" onclick="openAvatarPicker()">✏️ Avatar</button>
       <button class="btn btn-outline" onclick="signOut()">Sign Out</button>
     </div>
   </div>
@@ -388,7 +402,9 @@
 
   <!-- WELCOME BANNER -->
   <div class="welcome-banner" id="welcomeBanner">
-    <div class="avatar-wrap" id="avatarWrap">🧒</div>
+    <div class="avatar-wrap" id="avatarWrap">
+      <button class="avatar-edit-btn" onclick="openAvatarPicker()" title="Customise avatar" aria-label="Edit avatar">✏️</button>
+    </div>
     <div class="welcome-text">
       <h1 id="welcomeHeading">Welcome back!</h1>
       <p id="welcomeSub">Keep going — every game makes you smarter 🚀</p>
@@ -556,8 +572,19 @@
   document.getElementById('welcomeHeading').textContent = 'Welcome back, ' + name.split(' ')[0] + '! 👋';
   document.getElementById('streakNum').textContent = data.streak || 0;
 
-  const avatars = { student: '🧒', teacher: '👩‍🏫', parent: '👨‍👩‍👧', guest: '🎭' };
-  document.getElementById('avatarWrap').textContent = avatars[user.role] || '🧒';
+  // ── AVATAR ──
+  function refreshAvatar() {
+    const cfg = getStoredAvatar();
+    const wrap = document.getElementById('avatarWrap');
+    // Replace any existing SVG (keep the edit button)
+    const existing = wrap.querySelector('svg');
+    if (existing) existing.remove();
+    const svgEl = document.createElement('div');
+    svgEl.innerHTML = buildAvatarSVG(cfg, 88);
+    wrap.insertBefore(svgEl.firstElementChild, wrap.firstChild);
+  }
+  refreshAvatar();
+  initAvatarPicker(refreshAvatar);
 
   const lastActive = data.lastActiveDay;
   if (lastActive) {

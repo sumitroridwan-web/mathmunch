@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+  <script src="js/avatar.js"></script>
   <style>
     :root {
       --blue:        #3B82F6;
@@ -407,6 +408,19 @@
           <div class="field-error" id="confirmPwError">Passwords do not match.</div>
         </div>
 
+        <!-- AVATAR PICKER (inline, compact) -->
+        <div style="margin:16px 0 4px;">
+          <label style="font-size:.85rem;font-weight:700;color:#475569;display:block;margin-bottom:10px;">Choose your avatar</label>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+            <div id="signupAvatarPreview" style="width:64px;height:64px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 3px #BFDBFE;flex-shrink:0;cursor:pointer;" onclick="openAvatarPicker()" title="Click to customise"></div>
+            <div>
+              <div style="font-size:.8rem;color:#64748B;margin-bottom:6px;">Quick picks:</div>
+              <div id="signupQuickPicks" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+            </div>
+            <button type="button" onclick="openAvatarPicker()" style="padding:7px 14px;border-radius:10px;border:2px solid #BFDBFE;background:#EFF6FF;color:#1D4ED8;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Quicksand',sans-serif;">✏️ Customise</button>
+          </div>
+        </div>
+
         <label class="terms">
           <input type="checkbox" id="terms">
           <span>I agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a></span>
@@ -508,7 +522,8 @@
     submitBtn.textContent = 'Create Account →';
 
     const role = document.querySelector('input[name="role"]:checked').value;
-    localStorage.setItem('mm_user', JSON.stringify({name: firstName + ' ' + lastName, email, role}));
+    const avatar = window._signupAvatar || (window.AVATAR_DEFAULTS && window.AVATAR_DEFAULTS[role]) || { type:'bear', colour:0, accessory:0, bg:0 };
+    localStorage.setItem('mm_user', JSON.stringify({name: firstName + ' ' + lastName, email, role, avatar}));
     showToast('Account created! Welcome to MathMunch 🎉', 'ok');
     setTimeout(() => {
       const redir = sessionStorage.getItem('mm_redir');
@@ -525,6 +540,54 @@
     });
   });
   confirmPwInput.addEventListener('input', () => setError(confirmPwInput, document.getElementById('confirmPwError'), false));
+
+  // ── SIGNUP AVATAR ──
+  window._signupAvatar = { type: 'bear', colour: 0, accessory: 0, bg: 0 };
+
+  function updateSignupPreview() {
+    const el = document.getElementById('signupAvatarPreview');
+    if (el) el.innerHTML = buildAvatarSVG(window._signupAvatar, 64);
+  }
+
+  // Quick-pick: 8 preset looks, one per character type
+  const quickPicks = [
+    { type: 'bear',    colour: 0, accessory: 0, bg: 0 },
+    { type: 'cat',     colour: 0, accessory: 0, bg: 4 },
+    { type: 'robot',   colour: 0, accessory: 0, bg: 1 },
+    { type: 'explorer',colour: 0, accessory: 0, bg: 2 },
+    { type: 'alien',   colour: 0, accessory: 0, bg: 2 },
+    { type: 'wizard',  colour: 0, accessory: 4, bg: 1 },
+    { type: 'fox',     colour: 0, accessory: 0, bg: 3 },
+    { type: 'dragon',  colour: 0, accessory: 0, bg: 7 },
+  ];
+
+  const qpContainer = document.getElementById('signupQuickPicks');
+  if (qpContainer) {
+    quickPicks.forEach(pick => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.style.cssText = 'width:40px;height:40px;border-radius:50%;padding:0;border:2px solid transparent;cursor:pointer;overflow:hidden;transition:border-color .15s;';
+      btn.innerHTML = buildAvatarSVG(pick, 40);
+      btn.onclick = () => {
+        window._signupAvatar = { ...pick };
+        updateSignupPreview();
+        qpContainer.querySelectorAll('button').forEach(b => b.style.borderColor = 'transparent');
+        btn.style.borderColor = '#3B82F6';
+      };
+      qpContainer.appendChild(btn);
+    });
+  }
+
+  // Select first quick pick by default
+  if (qpContainer && qpContainer.firstChild) qpContainer.firstChild.style.borderColor = '#3B82F6';
+  updateSignupPreview();
+
+  // Wire avatar picker save back to signup state
+  initAvatarPicker(cfg => {
+    window._signupAvatar = { ...cfg };
+    updateSignupPreview();
+    if (qpContainer) qpContainer.querySelectorAll('button').forEach(b => b.style.borderColor = 'transparent');
+  });
 </script>
 </body>
 </html>
