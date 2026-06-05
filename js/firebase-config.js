@@ -17,10 +17,10 @@
 ───────────────────────────────────────────────────────────── */
 
 export const firebaseConfig = {
-  apiKey:            "PASTE_API_KEY",
-  authDomain:        "PASTE_PROJECT_ID.firebaseapp.com",
-  projectId:         "PASTE_PROJECT_ID",
-  storageBucket:     "PASTE_PROJECT_ID.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId:             "PASTE_APP_ID",
+  apiKey:            "AIzaSyCS60SmCp9pjO5ApPEvdSElgg0yxzc6fcs",
+  authDomain:        "mathmunch-8a25f.firebaseapp.com",
+  projectId:         "mathmunch-8a25f",
+  storageBucket:     "mathmunch-8a25f.firebasestorage.app",
+  messagingSenderId: "581627022951",
+  appId:             "581627022951:web:d10455a2977a77c5b20ec2",
 };
