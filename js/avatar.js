@@ -96,7 +96,7 @@ const AVATAR_TYPES = [
         <circle cx="40" cy="6" r="5.5" fill="${p.a}"/>
         <circle cx="40" cy="6" r="2.5" fill="${p.d}"/>
         <rect x="14" y="20" width="52" height="46" rx="10" fill="${p.m}" stroke="${p.d}" stroke-width="2"/>
-        <rect x="14" y="52" width="52" height="14" rx="0 0 10 10" fill="${p.d}" opacity=".2"/>
+        <rect x="14" y="52" width="52" height="14" rx="10" fill="${p.d}" opacity=".2"/>
         <rect x="19" y="28" width="18" height="14" rx="4" fill="${p.d}"/>
         <rect x="21" y="30" width="14" height="10" rx="3" fill="${p.a}" opacity=".9"/>
         <circle cx="28" cy="35" r="3.5" fill="${p.l}" opacity=".8"/>

@@ -442,6 +442,7 @@
 
 <div class="toast" id="toast"></div>
 
+<script type="module" src="js/firebase-auth.js"></script>
 <script>
   const pwInput = document.getElementById('password');
   const confirmPwInput = document.getElementById('confirmPw');
@@ -516,24 +517,48 @@
 
     if (!valid) return;
 
-    submitBtn.classList.add('loading');
-    submitBtn.textContent = 'Creating account…';
-    await new Promise(r => setTimeout(r, 1400));
-    submitBtn.classList.remove('loading');
-    submitBtn.textContent = 'Create Account →';
+    if (window.mmAuthError) { showToast(window.mmAuthError, 'bad'); return; }
+    if (!window.mmAuth)     { showToast('Sign-up is still loading — please try again in a second.', 'bad'); return; }
 
     const role = document.querySelector('input[name="role"]:checked').value;
     const avatar = window._signupAvatar || (window.AVATAR_DEFAULTS && window.AVATAR_DEFAULTS[role]) || { type:'bear', colour:0, accessory:0, bg:0 };
-    localStorage.setItem('mm_user', JSON.stringify({name: firstName + ' ' + lastName, email, role, avatar}));
-    showToast('Account created! Welcome to MathMunch 🎉', 'ok');
+
+    submitBtn.classList.add('loading');
+    submitBtn.textContent = 'Creating account…';
+    try {
+      await window.mmAuth.signUpEmail({ email, password, name: firstName + ' ' + lastName, role, avatar });
+      submitBtn.textContent = 'Create Account →';
+      showToast('Account created! Welcome to MathMunch 🎉', 'ok');
+      redirectAfterAuth(1600);
+    } catch (err) {
+      submitBtn.classList.remove('loading');
+      submitBtn.textContent = 'Create Account →';
+      showToast(window.mmAuth.friendlyError(err), 'bad');
+    }
+  });
+
+  function redirectAfterAuth(delay = 1600) {
     setTimeout(() => {
       const redir = sessionStorage.getItem('mm_redir');
       sessionStorage.removeItem('mm_redir');
       window.location.href = redir || 'index.html';
-    }, 1800);
-  });
+    }, delay);
+  }
 
-  function handleGoogle(e) { e.preventDefault(); showToast('Google sign-up coming soon!'); }
+  async function handleGoogle(e) {
+    e.preventDefault();
+    if (window.mmAuthError) { showToast(window.mmAuthError, 'bad'); return; }
+    if (!window.mmAuth)     { showToast('Sign-up is still loading — please try again in a second.', 'bad'); return; }
+    const role = document.querySelector('input[name="role"]:checked').value;
+    const avatar = window._signupAvatar || (window.AVATAR_DEFAULTS && window.AVATAR_DEFAULTS[role]) || { type:'bear', colour:0, accessory:0, bg:0 };
+    try {
+      await window.mmAuth.signInGoogle({ role, avatar });
+      showToast('Signed up with Google! Redirecting…', 'ok');
+      redirectAfterAuth(900);
+    } catch (err) {
+      showToast(window.mmAuth.friendlyError(err), 'bad');
+    }
+  }
 
   ['firstName','lastName','email'].forEach(id => {
     document.getElementById(id).addEventListener('input', () => {
