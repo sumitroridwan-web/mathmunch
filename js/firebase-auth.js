@@ -6,7 +6,7 @@
    keeps working unchanged.
 ───────────────────────────────────────────────────────────── */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -31,7 +31,7 @@ if (!isConfigured) {
   console.warn("[MathMunch] " + window.mmAuthError);
   window.dispatchEvent(new Event("mmauth-ready"));
 } else {
-  const app = initializeApp(firebaseConfig);
+  const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
   const auth = getAuth(app);
   auth.useDeviceLanguage();
   const googleProvider = new GoogleAuthProvider();

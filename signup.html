@@ -443,6 +443,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module" src="js/firebase-auth.js"></script>
+<script type="module" src="js/firebase-data.js"></script>
 <script>
   const pwInput = document.getElementById('password');
   const confirmPwInput = document.getElementById('confirmPw');
@@ -527,6 +528,7 @@
     submitBtn.textContent = 'Creating account…';
     try {
       await window.mmAuth.signUpEmail({ email, password, name: firstName + ' ' + lastName, role, avatar });
+      try { await window.mmData?.saveProfile({ name: firstName + ' ' + lastName, role, avatar }); } catch (_) {}
       submitBtn.textContent = 'Create Account →';
       showToast('Account created! Welcome to MathMunch 🎉', 'ok');
       redirectAfterAuth(1600);
@@ -553,6 +555,7 @@
     const avatar = window._signupAvatar || (window.AVATAR_DEFAULTS && window.AVATAR_DEFAULTS[role]) || { type:'bear', colour:0, accessory:0, bg:0 };
     try {
       await window.mmAuth.signInGoogle({ role, avatar });
+      try { await window.mmData?.saveProfile({ role, avatar }); } catch (_) {}
       showToast('Signed up with Google! Redirecting…', 'ok');
       redirectAfterAuth(900);
     } catch (err) {

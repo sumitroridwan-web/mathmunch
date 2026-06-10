@@ -1,0 +1,56 @@
+rules_version = '2';
+
+// ─────────────────────────────────────────────────────────────
+// MathMunch — Cloud Firestore security rules
+// Publish these in: Firebase console → Firestore Database → Rules
+// (or `firebase deploy --only firestore:rules`).
+//
+// IMPORTANT: keep the admin email list below in sync with
+// ADMIN_EMAILS in js/firebase-data.js.
+// ─────────────────────────────────────────────────────────────
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && request.auth.token.email != null
+        && request.auth.token.email.lower() in ['tech@eduversal.org'];
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Only the classId/className fields changed (lets a teacher enrol a student).
+    function onlyClassFieldsChanged() {
+      return isSignedIn()
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['classId', 'className']);
+    }
+
+    match /users/{uid} {
+      // Any signed-in user may read profiles (teachers, leaderboard, admin).
+      allow read:   if isSignedIn();
+      allow create: if isOwner(uid) || isAdmin();
+      allow update: if isOwner(uid) || isAdmin() || onlyClassFieldsChanged();
+      allow delete: if isAdmin();
+    }
+
+    match /classes/{classId} {
+      allow read:   if isSignedIn();
+      allow create: if isSignedIn()
+                       && request.resource.data.teacherUid == request.auth.uid;
+      // The owning teacher (or an admin) may edit/delete. Any signed-in user
+      // may update only the roster arrays (so students can self-enrol by code).
+      allow update: if isAdmin()
+                       || resource.data.teacherUid == request.auth.uid
+                       || request.resource.data.diff(resource.data).affectedKeys()
+                            .hasOnly(['studentUids', 'pendingEmails']);
+      allow delete: if isAdmin() || resource.data.teacherUid == request.auth.uid;
+    }
+  }
+}

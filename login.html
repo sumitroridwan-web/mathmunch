@@ -419,6 +419,7 @@
 
 <script src="js/avatar.js"></script>
 <script type="module" src="js/firebase-auth.js"></script>
+<script type="module" src="js/firebase-data.js"></script>
 <script>
   const form = document.getElementById('loginForm');
   const emailInput = document.getElementById('email');
@@ -466,6 +467,7 @@
     submitBtn.textContent = 'Signing in…';
     try {
       await window.mmAuth.signInEmail({ email, password });
+      try { await window.mmData?.saveProfile(); } catch (_) {}
       submitBtn.textContent = 'Sign In →';
       showToast('Welcome back! Redirecting…', 'ok');
       redirectAfterAuth(1200);
@@ -490,6 +492,7 @@
     if (!window.mmAuth)     { showToast('Sign-in is still loading — please try again in a second.', 'bad'); return; }
     try {
       await window.mmAuth.signInGoogle();
+      try { await window.mmData?.saveProfile(); } catch (_) {}
       showToast('Signed in with Google! Redirecting…', 'ok');
       redirectAfterAuth(900);
     } catch (err) {

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin · Accounts – MathMunch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --blue:#3B82F6;--blue-dark:#1D4ED8;--blue-light:#EFF6FF;--blue-mid:#BFDBFE;
+      --green:#10B981;--green-dark:#059669;--green-light:#ECFDF5;
+      --orange:#F97316;--orange-dark:#C2410C;--orange-light:#FFF7ED;
+      --yellow:#FBBF24;--red:#EF4444;--red-dark:#B91C1C;--red-light:#FEE2E2;
+      --purple:#8B5CF6;--purple-dark:#6D28D9;--purple-light:#F5F3FF;
+      --bg:#F8FAFC;--white:#FFFFFF;--surface:#F1F5F9;
+      --outline:#E2E8F0;--text:#191C1E;--text-mid:#424754;--text-soft:#727785;
+      --radius:24px;--shadow:0 2px 0 rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Lexend',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+    h1,h2,h3,h4,.logo-text{font-family:'Quicksand',system-ui,sans-serif}
+
+    .site-header{background:var(--white);border-bottom:2px solid var(--outline);position:sticky;top:0;z-index:100}
+    .header-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;gap:20px}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Quicksand',sans-serif;font-weight:700;font-size:1.25rem;color:var(--text);flex-shrink:0}
+    .logo-icon{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--orange),#FBBF24);display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 2px 0 var(--orange-dark)}
+    nav{display:flex;gap:4px;flex:1;overflow-x:auto}
+    nav a{padding:8px 14px;border-radius:999px;font-size:.93rem;font-weight:600;color:var(--text-mid);text-decoration:none;transition:background .15s,color .15s;white-space:nowrap}
+    nav a:hover,nav a.active{background:var(--blue-light);color:var(--blue)}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:999px;font-family:'Lexend',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:transform .1s}
+    .btn:active{transform:translateY(1px)}
+    .btn-outline{background:transparent;color:var(--text);border:2px solid var(--outline)}
+    .btn-blue{background:var(--blue);color:#fff;box-shadow:0 3px 0 var(--blue-dark)}
+
+    .main{max-width:1280px;margin:0 auto;padding:36px 32px 80px}
+
+    .admin-banner{background:linear-gradient(135deg,#1E1B4B,#312E81 55%,#4338CA);border-radius:var(--radius);padding:30px 36px;color:#fff;display:flex;align-items:center;gap:24px;margin-bottom:26px;position:relative;overflow:hidden}
+    .admin-banner::after{content:'';position:absolute;right:-30px;top:-30px;width:180px;height:180px;background:rgba(255,255,255,.06);border-radius:50%}
+    .admin-avatar{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+    .admin-text{position:relative;z-index:1}
+    .admin-text h1{font-size:1.55rem;margin-bottom:3px}
+    .admin-text p{opacity:.82;font-size:.9rem}
+
+    .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px}
+    .stat-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:2px solid var(--outline);display:flex;align-items:center;gap:14px}
+    .stat-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+    .si-blue{background:var(--blue-light)}.si-green{background:var(--green-light)}.si-orange{background:var(--orange-light)}.si-purple{background:var(--purple-light)}.si-red{background:var(--red-light)}
+    .stat-val{font-family:'Quicksand',sans-serif;font-size:1.8rem;font-weight:700;line-height:1}
+    .stat-lbl{font-size:.75rem;color:var(--text-soft);margin-top:3px}
+
+    .sc{background:var(--white);border-radius:var(--radius);border:2px solid var(--outline);box-shadow:var(--shadow);overflow:hidden}
+    .sc-head{padding:18px 22px 14px;border-bottom:2px solid var(--outline);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .sc-head h2{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+    .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .role-filter{padding:6px 12px;border-radius:999px;border:2px solid var(--outline);background:#fff;font-family:'Lexend',sans-serif;font-size:.78rem;font-weight:700;color:var(--text-mid);cursor:pointer}
+    .role-filter.active{background:var(--blue-light);border-color:var(--blue-mid);color:var(--blue-dark)}
+    .search{padding:7px 14px;border-radius:999px;border:2px solid var(--outline);font-family:'Lexend',sans-serif;font-size:.8rem;width:180px;outline:none}
+    .search:focus{border-color:var(--blue-mid)}
+
+    table{width:100%;border-collapse:collapse}
+    th{text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-soft);padding:10px 14px;border-bottom:2px solid var(--outline);white-space:nowrap}
+    td{padding:11px 14px;border-bottom:1px solid var(--outline);font-size:.85rem;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:var(--bg)}
+    .u-name{display:flex;align-items:center;gap:10px;font-weight:600}
+    .u-avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--surface);font-size:1.1rem}
+    .u-avatar svg{display:block}
+    .u-email{color:var(--text-soft);font-size:.8rem}
+    .role-select{padding:5px 10px;border-radius:999px;border:2px solid var(--outline);font-family:'Lexend',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;background:#fff}
+    .pill{padding:3px 10px;border-radius:999px;font-size:.72rem;font-weight:700;white-space:nowrap;display:inline-block}
+    .pill-blue{background:var(--blue-light);color:var(--blue-dark)}
+    .pill-green{background:var(--green-light);color:var(--green-dark)}
+    .pill-purple{background:var(--purple-light);color:var(--purple-dark)}
+    .pill-orange{background:var(--orange-light);color:var(--orange-dark)}
+    .pill-grey{background:var(--surface);color:var(--text-soft)}
+    .icon-btn{border:2px solid var(--outline);background:#fff;border-radius:10px;width:32px;height:32px;cursor:pointer;font-size:.9rem;color:var(--text-soft)}
+    .icon-btn:hover{border-color:#FCA5A5;color:var(--red);background:var(--red-light)}
+
+    .notice{border-radius:16px;padding:16px 20px;margin-bottom:22px;font-size:.86rem;display:flex;gap:12px;align-items:flex-start}
+    .notice.warn{background:linear-gradient(90deg,#FFF7ED,#FEF3C7);border:2px solid #FDE68A;color:#92400E}
+    .notice.error{background:var(--red-light);border:2px solid #FCA5A5;color:var(--red-dark)}
+    .notice a{color:inherit;font-weight:700}
+    .empty{padding:48px 20px;text-align:center;color:var(--text-soft)}
+    .gate{max-width:520px;margin:80px auto;text-align:center;background:#fff;border:2px solid var(--outline);border-radius:var(--radius);box-shadow:var(--shadow);padding:46px 36px}
+    .gate .lock{font-size:3rem;margin-bottom:10px}
+    .mini{font-family:'Quicksand',sans-serif;font-weight:700}
+    .spinner{display:inline-block;width:18px;height:18px;border:3px solid var(--blue-mid);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    @media(max-width:1100px){.stats-row{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:700px){.main{padding:20px 16px 60px}.header-inner{padding:0 16px}nav{display:none}.stats-row{grid-template-columns:1fr 1fr}.search{width:130px}}
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🍕</div>
+      <span class="logo-text">MathMunch</span>
+    </a>
+    <nav>
+      <a href="index.html">🏠 Home</a>
+      <a href="books.html">📚 Books</a>
+      <a href="dashboard.html">📊 My Journey</a>
+      <a href="teacher.html">🏫 Class Dashboard</a>
+      <a href="admin.html" class="active">🛠️ Admin</a>
+    </nav>
+    <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
+      <span id="adminChip" style="display:none;align-items:center;gap:6px;background:#EEF2FF;border:1.5px solid #C7D2FE;border-radius:999px;padding:7px 14px;font-size:.88rem;font-weight:600;color:#4338CA;"></span>
+      <button class="btn btn-outline" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+</header>
+
+<main class="main" id="main">
+  <!-- Default content: gate while we verify access -->
+  <div class="gate" id="gate">
+    <div class="lock">🔐</div>
+    <h1 class="mini" style="font-size:1.3rem">Checking access…</h1>
+    <p style="color:var(--text-soft);margin-top:6px"><span class="spinner"></span></p>
+  </div>
+
+  <!-- Admin console (revealed once access is confirmed) -->
+  <div id="console" style="display:none">
+    <div class="admin-banner">
+      <div class="admin-avatar">🛠️</div>
+      <div class="admin-text">
+        <h1>Account Management</h1>
+        <p id="adminSub">Every registered MathMunch account in one place.</p>
+      </div>
+    </div>
+
+    <div id="setupNotice"></div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-icon si-blue">👥</div><div><div class="stat-val" id="cTotal">–</div><div class="stat-lbl">Total Accounts</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-green">🧒</div><div><div class="stat-val" id="cStudent">–</div><div class="stat-lbl">Students</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-purple">👩‍🏫</div><div><div class="stat-val" id="cTeacher">–</div><div class="stat-lbl">Teachers</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-orange">👨‍👩‍👧</div><div><div class="stat-val" id="cParent">–</div><div class="stat-lbl">Parents</div></div></div>
+      <div class="stat-card"><div class="stat-icon si-red">⚡</div><div><div class="stat-val" id="cActive">–</div><div class="stat-lbl">Active (24h)</div></div></div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-head">
+        <h2>📋 Registered Accounts</h2>
+        <div class="toolbar">
+          <button class="role-filter active" data-role="all"     onclick="setFilter('all',this)">All</button>
+          <button class="role-filter"        data-role="student" onclick="setFilter('student',this)">Students</button>
+          <button class="role-filter"        data-role="teacher" onclick="setFilter('teacher',this)">Teachers</button>
+          <button class="role-filter"        data-role="parent"  onclick="setFilter('parent',this)">Parents</button>
+          <input class="search" id="search" type="text" placeholder="Search name or email…" oninput="render()">
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Account</th><th>Role</th><th>Class</th><th>Progress</th><th>Joined</th><th>Last Active</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="rows">
+            <tr><td colspan="7" class="empty"><span class="spinner"></span> Loading accounts…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="js/avatar.js"></script>
+<script type="module" src="js/firebase-data.js"></script>
+<script>
+  // ── State ──
+  let USERS = [];
+  let FILTER = 'all';
+
+  function signOut() {
+    const done = () => { localStorage.removeItem('mm_user'); location.href = 'index.html'; };
+    if (window.mmData && window.mmData.signOut) window.mmData.signOut().then(done, done); else done();
+  }
+
+  function showGate(title, msg) {
+    document.getElementById('console').style.display = 'none';
+    const gate = document.getElementById('gate');
+    gate.style.display = '';
+    gate.innerHTML =
+      '<div class="lock">🔒</div>' +
+      '<h1 class="mini" style="font-size:1.3rem">' + title + '</h1>' +
+      '<p style="color:var(--text-soft);margin:10px 0 22px">' + msg + '</p>' +
+      '<a class="btn btn-blue" href="index.html">← Back to Home</a>';
+  }
+
+  function roleClass(r){return {student:'pill-blue',teacher:'pill-purple',parent:'pill-orange',admin:'pill-green'}[r]||'pill-grey';}
+
+  function fmtDate(ts){
+    if(!ts) return '—';
+    try{ const d = ts.toDate ? ts.toDate() : new Date(ts);
+      return d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}); }
+    catch(_){ return '—'; }
+  }
+  function relTime(ts){
+    if(!ts) return 'Never';
+    let d; try{ d = ts.toDate ? ts.toDate() : new Date(ts);}catch(_){return 'Never';}
+    const mins = Math.floor((Date.now()-d.getTime())/60000);
+    if(mins<1) return 'Just now';
+    if(mins<60) return mins+'m ago';
+    const hrs=Math.floor(mins/60); if(hrs<24) return hrs+'h ago';
+    const days=Math.floor(hrs/24); if(days<30) return days+'d ago';
+    return fmtDate(ts);
+  }
+  function isActive24h(ts){
+    if(!ts) return false;
+    let d; try{ d = ts.toDate ? ts.toDate() : new Date(ts);}catch(_){return false;}
+    return (Date.now()-d.getTime()) < 86400000;
+  }
+
+  function progressSummary(p){
+    if(!p) return {games:0,avg:null};
+    const games = p.games || {};
+    const vals = Object.values(games);
+    const played = p.gamesPlayed || vals.reduce((s,g)=>s+(g.played||0),0);
+    const scored = vals.filter(g=>typeof g.lastScore==='number');
+    const avg = scored.length ? scored.reduce((s,g)=>s+g.lastScore,0)/scored.length : null;
+    return {games:played,avg};
+  }
+
+  function avatarHTML(u){
+    try{
+      if(u.avatar && typeof buildAvatarSVG==='function') return buildAvatarSVG(u.avatar,34);
+    }catch(_){}
+    const e={student:'🧒',teacher:'👩‍🏫',parent:'👨‍👩‍👧',admin:'🛠️'}[u.role]||'🧒';
+    return e;
+  }
+
+  function computeStats(){
+    const by = r => USERS.filter(u=>u.role===r).length;
+    document.getElementById('cTotal').textContent   = USERS.length;
+    document.getElementById('cStudent').textContent = by('student');
+    document.getElementById('cTeacher').textContent = by('teacher');
+    document.getElementById('cParent').textContent  = by('parent');
+    document.getElementById('cActive').textContent  = USERS.filter(u=>isActive24h(u.lastActive)).length;
+  }
+
+  function setFilter(r,btn){
+    FILTER=r;
+    document.querySelectorAll('.role-filter').forEach(b=>b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    render();
+  }
+
+  function render(){
+    const q=(document.getElementById('search').value||'').toLowerCase().trim();
+    const rows=document.getElementById('rows');
+    const list=USERS.filter(u=>{
+      if(FILTER!=='all' && u.role!==FILTER) return false;
+      if(q && !((u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q))) return false;
+      return true;
+    }).sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+
+    if(!list.length){
+      rows.innerHTML='<tr><td colspan="7" class="empty">No accounts match.</td></tr>';
+      return;
+    }
+    rows.innerHTML = list.map(u=>{
+      const s=progressSummary(u.progress);
+      const prog = s.games
+        ? `<strong>${s.games}</strong> games` + (s.avg!==null?` · <span style="color:var(--text-soft)">${s.avg.toFixed(1)}/10 avg</span>`:'')
+        : '<span style="color:var(--text-soft)">No activity</span>';
+      const cls = u.className ? `<span class="pill pill-grey">${esc(u.className)}</span>` : '<span style="color:var(--text-soft)">—</span>';
+      const roles=['student','teacher','parent','admin'];
+      const opts=roles.map(r=>`<option value="${r}"${u.role===r?' selected':''}>${r[0].toUpperCase()+r.slice(1)}</option>`).join('');
+      return `<tr data-uid="${u.uid}">
+        <td><div class="u-name"><div class="u-avatar">${avatarHTML(u)}</div>
+          <div><div>${esc(u.name||'—')}</div><div class="u-email">${esc(u.email||'')}</div></div></div></td>
+        <td><select class="role-select" onchange="changeRole('${u.uid}',this.value,this)">${opts}</select></td>
+        <td>${cls}</td>
+        <td style="font-size:.82rem">${prog}</td>
+        <td style="font-size:.8rem;color:var(--text-soft)">${fmtDate(u.createdAt)}</td>
+        <td style="font-size:.8rem;color:${isActive24h(u.lastActive)?'var(--green-dark)':'var(--text-soft)'}">${relTime(u.lastActive)}</td>
+        <td><button class="icon-btn" title="Remove profile" onclick="removeUser('${u.uid}','${esc(u.name||u.email||'')}')">🗑</button></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+  async function changeRole(uid,role,sel){
+    sel.disabled=true;
+    try{
+      await window.mmData.setUserRole(uid,role);
+      const u=USERS.find(x=>x.uid===uid); if(u) u.role=role;
+      computeStats();
+    }catch(e){ alert('Could not update role: '+(e.message||e)); }
+    finally{ sel.disabled=false; }
+  }
+
+  async function removeUser(uid,label){
+    if(!confirm('Remove the profile for "'+label+'"?\n\nThis deletes their MathMunch profile & progress record. Their sign-in (Firebase Auth) is not removed — they can sign in again to recreate a basic profile.')) return;
+    try{
+      await window.mmData.deleteProfile(uid);
+      USERS=USERS.filter(x=>x.uid!==uid);
+      computeStats(); render();
+    }catch(e){ alert('Could not remove profile: '+(e.message||e)); }
+  }
+
+  function setupNotice(kind,msg){
+    document.getElementById('setupNotice').innerHTML =
+      `<div class="notice ${kind}"><span>${kind==='error'?'⚠️':'💡'}</span><div>${msg}</div></div>`;
+  }
+
+  // ── Boot ──
+  function boot(){
+    if(!window.mmData){ showGate('Setup needed','The data layer failed to load. Check js/firebase-config.js.'); return; }
+    if(!window.mmData.available){
+      showGate('Setup needed', (window.mmData.reason||'Firebase is not configured.') +
+        ' See <a href="FIRESTORE_SETUP.md">FIRESTORE_SETUP.md</a>.');
+      return;
+    }
+    window.mmData.onUser(async (fbUser)=>{
+      const lu = JSON.parse(localStorage.getItem('mm_user')||'{}');
+      const email = (fbUser && fbUser.email) || lu.email || '';
+      if(!email){
+        sessionStorage.setItem('mm_redir', location.href);
+        location.replace('login.html'); return;
+      }
+      if(!window.mmData.isAdmin(email)){
+        showGate('Admins only', 'The account <strong>'+esc(email)+'</strong> doesn\'t have admin access. Ask an administrator to add your email to the allow-list.');
+        return;
+      }
+      // Access granted.
+      document.getElementById('gate').style.display='none';
+      document.getElementById('console').style.display='';
+      const chip=document.getElementById('adminChip');
+      chip.textContent='🛠️ '+(lu.name? lu.name.split(' ')[0] : email);
+      chip.style.display='flex';
+      document.getElementById('adminSub').textContent='Signed in as '+email+' · admin';
+
+      try{
+        USERS = await window.mmData.listUsers();
+        computeStats();
+        render();
+        if(!USERS.length){
+          document.getElementById('rows').innerHTML='<tr><td colspan="7" class="empty">No accounts yet. They\'ll appear here as people sign up.</td></tr>';
+        }
+      }catch(e){
+        const code=e&&e.code;
+        if(code==='permission-denied'){
+          setupNotice('error','Firestore denied the read. Publish <a href="firestore.rules">firestore.rules</a> and make sure <strong>'+esc(email)+'</strong> is in the rules\' admin list.');
+        }else if(code==='unavailable'||code==='failed-precondition'){
+          setupNotice('error','Cloud Firestore isn\'t enabled yet. See <a href="FIRESTORE_SETUP.md">FIRESTORE_SETUP.md</a>.');
+        }else{
+          setupNotice('error','Could not load accounts: '+esc(e.message||String(e)));
+        }
+        document.getElementById('rows').innerHTML='<tr><td colspan="7" class="empty">—</td></tr>';
+      }
+    });
+  }
+
+  if(window.mmData) boot();
+  else window.addEventListener('mmdata-ready', boot, {once:true});
+</script>
+</body>
+</html>

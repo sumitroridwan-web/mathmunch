@@ -6,6 +6,10 @@
 (function () {
   'use strict';
 
+  // Absolute URL of this script — used to locate firebase-data.js no matter
+  // which sub-directory the current game/book page lives in.
+  const SELF_SRC = (document.currentScript && document.currentScript.src) || '';
+
   // ─────────────────────────────────────────────
   // SOUND FX  (Web Audio API — zero external files)
   // ─────────────────────────────────────────────
@@ -72,6 +76,33 @@
 
   function saveP(data) {
     try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(data)); } catch (_) {}
+    cloudSync(data);
+  }
+
+  // ── Cloud progress sync (best-effort) ───────────────────────
+  // Lazily loads the Firestore data layer and pushes progress so teachers
+  // and admins can see it. No-op for guests or before Firebase is set up.
+  let _mmDataPromise = null;
+  let _syncTimer = null;
+
+  function loadDataLayer() {
+    if (_mmDataPromise) return _mmDataPromise;
+    if (!SELF_SRC) return (_mmDataPromise = Promise.resolve(null));
+    let user;
+    try { user = JSON.parse(localStorage.getItem('mm_user') || '{}'); } catch (_) { user = {}; }
+    if (!user || !user.uid || user.isGuest) return (_mmDataPromise = Promise.resolve(null));
+    const url = new URL('./firebase-data.js', SELF_SRC).href;
+    _mmDataPromise = import(url).then(() => window.mmData || null).catch(() => null);
+    return _mmDataPromise;
+  }
+
+  function cloudSync(data) {
+    clearTimeout(_syncTimer);
+    _syncTimer = setTimeout(() => {
+      loadDataLayer().then((d) => {
+        if (d && d.available && typeof d.syncProgress === 'function') d.syncProgress(data);
+      });
+    }, 1200);
   }
 
   function gameId() {
